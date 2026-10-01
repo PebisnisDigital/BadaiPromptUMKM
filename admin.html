@@ -135,6 +135,35 @@ main{padding:16px}.view{display:none}.view.on{display:block}.eyebrow{font-size:1
   </div>
 
   <div class="panel">
+    <div class="eyebrow">PEMBAYARAN</div>
+    <h2 style="margin-top:5px">BuatQRIS Merchant</h2>
+    <div class="muted">Gunakan merchant khusus BADAI PROMPT UMKM. Secret Token dan Signing Secret tidak pernah ditampilkan lagi setelah disimpan.</div>
+    <form id="paymentSettingsForm">
+      <div class="formgrid" style="margin-top:10px">
+        <div class="field"><label>LABEL MERCHANT</label><input id="payMerchantLabel" placeholder="BADAI PROMPT UMKM"></div>
+        <div class="field"><label>ACCOUNT ID</label><input id="payAccountId" autocomplete="off" placeholder="Account ID dari BuatQRIS"></div>
+        <div class="field"><label>SECRET TOKEN</label><input id="paySecretToken" type="password" autocomplete="new-password" placeholder="Isi / ganti Secret Token"></div>
+        <div class="field"><label>SIGNING SECRET WEBHOOK</label><input id="paySigningSecret" type="password" autocomplete="new-password" placeholder="Isi / ganti Signing Secret"></div>
+        <div class="field"><label>METODE QRIS</label><select id="payQrisMethod"><option value="qris_one">QRIS One</option><option value="qris_two">QRIS Two</option><option value="qris_three">QRIS Three</option><option value="qris_four">QRIS Four</option></select></div>
+        <div class="field"><label>BIAYA ADMIN DITANGGUNG</label><select id="payFeeBy"><option value="user">Merchant / saldo</option><option value="buyer">Pembeli</option></select></div>
+        <div class="field full"><label>NAMA QRIS / UMKM (MAKS 15 KARAKTER)</label><input id="payUmkmName" maxlength="15" placeholder="BADAI PROMPT"></div>
+        <div class="field full"><label>CALLBACK URL — COPY KE MERCHANT BUATQRIS</label><input id="payCallbackUrl" readonly value="https://badaipromptumkm2026.vercel.app/api/buatqris-webhook"></div>
+      </div>
+
+      <div class="switch"><div><b>Mode Sandbox</b><div class="muted">Aktifkan saat testing. Matikan kalau sudah siap menerima pembayaran asli.</div></div><input id="payTestMode" type="checkbox" style="width:22px;height:22px"></div>
+      <div class="switch"><div><b>Aktifkan BuatQRIS</b><div class="muted">Kalau dimatikan, checkout QRIS akan ditolak sementara.</div></div><input id="payActive" type="checkbox" style="width:22px;height:22px"></div>
+
+      <div class="row-actions" style="margin-top:12px">
+        <button class="btn pink" id="savePaymentBtn" type="submit">SIMPAN MERCHANT</button>
+        <button class="btn dark" id="testPaymentBtn" type="button">TEST KONEKSI</button>
+        <button class="btn dark" id="copyCallbackBtn" type="button">COPY CALLBACK</button>
+      </div>
+      <div class="msg" id="paymentSettingsMsg"></div>
+      <div class="muted" id="paymentCredentialStatus" style="margin-top:6px"></div>
+    </form>
+  </div>
+
+  <div class="panel">
     <div class="eyebrow">KEAMANAN ADMIN</div>
     <h2 style="margin-top:5px">Login Email + Password</h2>
     <div class="muted">Gunakan tombol ini untuk membuat password pertama atau mengganti password admin. Link reset akan dikirim ke email admin yang sedang login.</div>
@@ -396,7 +425,7 @@ document.querySelectorAll('.nav button').forEach(b=>b.onclick=async()=>{
   if(b.dataset.view==='prompts')await loadPrompts();
   if(b.dataset.view==='orders')await loadOrders();
   if(b.dataset.view==='members')await loadMembers();
-  if(b.dataset.view==='settings'){await loadSettings();await loadCoupons();}
+  if(b.dataset.view==='settings'){await loadSettings();await loadPaymentSettings();await loadCoupons();}
 });
 
 function rankHtml(rows,subKey='niche'){
@@ -659,6 +688,79 @@ deleteCouponBtn.onclick=async()=>{
   if(!cId.value||!confirm('Hapus kupon ini permanen?'))return;
   await api('/coupons/delete',{id:cId.value});
   closeCoupon();await loadCoupons();
+};
+
+async function loadPaymentSettings(){
+  try{
+    const d=await api('/payment/get');
+    const p=d.payment||{};
+    payMerchantLabel.value=p.merchant_label||'BADAI PROMPT UMKM';
+    payAccountId.value=p.account_id||'';
+    payQrisMethod.value=p.qris_method||'qris_two';
+    payFeeBy.value=p.fee_by||'user';
+    payUmkmName.value=p.umkm_name||'';
+    payTestMode.checked=p.test_mode!==false;
+    payActive.checked=p.is_active!==false;
+    payCallbackUrl.value=p.callback_url||'https://badaipromptumkm2026.vercel.app/api/buatqris-webhook';
+    paySecretToken.value='';
+    paySigningSecret.value='';
+    paySecretToken.placeholder=p.has_secret_token?'Secret Token sudah tersimpan — kosongkan jika tidak diganti':'Isi Secret Token BuatQRIS';
+    paySigningSecret.placeholder=p.has_signing_secret?'Signing Secret sudah tersimpan — kosongkan jika tidak diganti':'Isi Signing Secret webhook';
+    paymentCredentialStatus.innerHTML=p.configured
+      ?'<span style="color:#73f6a7">● Merchant terkonfigurasi</span>'+(p.test_mode?' • SANDBOX':' • LIVE')
+      :'<span style="color:#ff7088">● Merchant belum lengkap</span>';
+  }catch(err){
+    msg(paymentSettingsMsg,err.message||'Gagal memuat pengaturan pembayaran.','bad');
+  }
+}
+
+paymentSettingsForm.onsubmit=async e=>{
+  e.preventDefault();
+  const b=savePaymentBtn;
+  b.disabled=true;b.textContent='MENYIMPAN…';msg(paymentSettingsMsg,'Menyimpan merchant BuatQRIS…');
+  try{
+    const d=await api('/payment/save',{
+      merchant_label:payMerchantLabel.value.trim(),
+      account_id:payAccountId.value.trim(),
+      secret_token:paySecretToken.value.trim(),
+      signing_secret:paySigningSecret.value.trim(),
+      qris_method:payQrisMethod.value,
+      fee_by:payFeeBy.value,
+      umkm_name:payUmkmName.value.trim(),
+      test_mode:payTestMode.checked,
+      callback_url:payCallbackUrl.value.trim(),
+      api_url:'https://app.buatqris.site/api',
+      is_active:payActive.checked
+    });
+    msg(paymentSettingsMsg,'Merchant BuatQRIS tersimpan ✓','good');
+    await loadPaymentSettings();
+  }catch(err){
+    msg(paymentSettingsMsg,err.message||'Gagal menyimpan merchant.','bad');
+  }finally{
+    b.disabled=false;b.textContent='SIMPAN MERCHANT';
+  }
+};
+
+testPaymentBtn.onclick=async()=>{
+  const b=testPaymentBtn;
+  b.disabled=true;b.textContent='TESTING…';msg(paymentSettingsMsg,'Membuat transaksi sandbox Rp1.000…');
+  try{
+    const d=await api('/payment/test');
+    msg(paymentSettingsMsg,'Koneksi berhasil ✓ Sandbox transaction: '+(d.transaction_id||'-'),'good');
+  }catch(err){
+    msg(paymentSettingsMsg,err.message||'Test koneksi gagal.','bad');
+  }finally{
+    b.disabled=false;b.textContent='TEST KONEKSI';
+  }
+};
+
+copyCallbackBtn.onclick=async()=>{
+  try{
+    await navigator.clipboard.writeText(payCallbackUrl.value);
+    msg(paymentSettingsMsg,'Callback URL tersalin ✓ Tempel ke Callback URL merchant di BuatQRIS.','good');
+  }catch{
+    msg(paymentSettingsMsg,'Copy gagal. Blok dan salin URL callback secara manual.','bad');
+  }
 };
 
 document.getElementById('sendAdminPasswordResetBtn').onclick=async()=>{
