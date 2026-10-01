@@ -123,6 +123,38 @@ main{padding:16px}.view{display:none}.view.on{display:block}.eyebrow{font-size:1
   </div>
 </div>
 
+<div class="modal" id="memberEditModal">
+  <div class="sheet">
+    <div class="sheet-head">
+      <div><div class="eyebrow">EDIT MEMBER</div><h2 id="memberEditTitle">Data Member</h2></div>
+      <button class="btn dark" onclick="closeMemberEdit()">×</button>
+    </div>
+    <p class="muted">Email login tidak diubah dari sini supaya identitas akun Appwrite tetap aman.</p>
+    <form id="memberEditForm">
+      <input type="hidden" id="eUserId">
+      <div class="formgrid">
+        <div class="field"><label>NAMA MEMBER</label><input id="eName"></div>
+        <div class="field"><label>WHATSAPP</label><input id="eWhatsapp" inputmode="tel"></div>
+        <div class="field full"><label>EMAIL LOGIN</label><input id="eEmail" type="email" disabled></div>
+        <div class="field"><label>STATUS AKSES</label><select id="eStatus"><option value="active">Aktif</option><option value="pending">Pending</option><option value="blocked">Blocked</option></select></div>
+        <div class="field"><label>AKSES SAMPAI (OPSIONAL)</label><input id="eAccessUntil" type="date"></div>
+
+        <div class="field full"><div class="eyebrow" style="margin-top:8px">PROFIL BISNIS</div></div>
+        <div class="field"><label>NAMA BISNIS</label><input id="eBusinessName"></div>
+        <div class="field"><label>KOTA / AREA</label><input id="eCityArea"></div>
+        <div class="field full"><label>PRODUK / LAYANAN</label><input id="eProductService"></div>
+        <div class="field"><label>HARGA</label><input id="ePriceText"></div>
+        <div class="field"><label>WARNA BRAND</label><input id="eBrandColor"></div>
+        <div class="field full"><label>TARGET PEMBELI</label><textarea id="eTargetBuyer" rows="2"></textarea></div>
+        <div class="field full"><label>KEUNGGULAN</label><textarea id="eAdvantage" rows="2"></textarea></div>
+        <div class="field full"><label>ASET TERSEDIA</label><textarea id="eAssets" rows="2"></textarea></div>
+      </div>
+      <button class="btn pink" id="memberEditSubmit" type="submit" style="width:100%;margin-top:12px">SIMPAN PERUBAHAN</button>
+      <div class="msg" id="memberEditMsg"></div>
+    </form>
+  </div>
+</div>
+
 <div class="modal" id="manualModal">
   <div class="sheet">
     <div class="sheet-head"><div><div class="eyebrow">PENDAFTARAN MANUAL</div><h2>Tambah Member</h2></div><button class="btn dark" onclick="closeManual()">×</button></div>
@@ -150,7 +182,7 @@ const {Client,Account,Functions,ID}=Appwrite;
 const client=new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
 const account=new Account(client), functions=new Functions(client);
 const FUNC='activate-member';
-let me=null,promptRows=[],allNiches=new Set(),allGoals=new Set();
+let me=null,promptRows=[],memberRows=[],allNiches=new Set(),allGoals=new Set();
 
 const gate=document.getElementById('gate'),loginMsg=document.getElementById('loginMsg');
 function msg(el,text,type=''){el.textContent=text;el.className='msg '+type}
@@ -249,9 +281,86 @@ async function loadOrders(){
 
 async function loadMembers(){
   const d=await api('/members/list',{status:memberStatus.value,limit:100});
-  memberList.innerHTML=d.rows.length?d.rows.map(m=>'<div class="row"><div class="row-head"><div><h3>'+esc(m.name||m.email)+'</h3><div class="muted">'+esc(m.email||'')+' • '+esc(m.whatsapp||'-')+'</div></div><span class="tag '+(m.status==='active'?'live':m.status==='blocked'?'off':'pend')+'">'+esc(m.status||'pending')+'</span></div><div class="row-actions">'+(m.status==='active'?'<button class="btn danger sm" onclick="setMember(\''+m.user_id+'\',\'blocked\')">BLOKIR</button>':'<button class="btn good sm" onclick="setMember(\''+m.user_id+'\',\'active\')">AKTIFKAN</button>')+'</div></div>').join(''):'<div class="empty">Belum ada member.</div>';
+  memberRows=d.rows||[];
+  memberList.innerHTML=memberRows.length?memberRows.map(m=>{
+    const profileReady=Boolean(m.business_name&&m.product_service&&m.target_buyer&&m.advantage);
+    return '<div class="row"><div class="row-head"><div><h3>'+esc(m.name||m.email)+'</h3><div class="muted">'+esc(m.email||'')+' • '+esc(m.whatsapp||'-')+'</div></div><span class="tag '+(m.status==='active'?'live':m.status==='blocked'?'off':'pend')+'">'+esc(m.status||'pending')+'</span></div><div class="tags">'+(profileReady?'<span class="tag live">PROFIL BISNIS SIAP</span>':'<span class="tag pend">PROFIL BISNIS BELUM LENGKAP</span>')+(m.access_until?'<span class="tag">Akses s/d '+esc(new Date(m.access_until).toLocaleDateString('id-ID'))+'</span>':'<span class="tag">Akses tanpa batas</span>')+'</div><div class="row-actions"><button class="btn dark sm" onclick="openMemberEdit(\''+m.user_id+'\')">EDIT</button>'+(m.status==='active'?'<button class="btn danger sm" onclick="setMember(\''+m.user_id+'\',\'blocked\')">BLOKIR</button>':'<button class="btn good sm" onclick="setMember(\''+m.user_id+'\',\'active\')">AKTIFKAN</button>')+'</div></div>';
+  }).join(''):'<div class="empty">Belum ada member.</div>';
 }
-window.setMember=async(id,status)=>{if(status==='blocked'&&!confirm('Blokir akses member ini?'))return;await api('/members/status',{user_id:id,status});await loadMembers()};
+window.setMember=async(id,status)=>{if(status==='blocked'&&!confirm('Blokir akses member ini?'))return;await api('/members/status',{user_id:id,status});await loadMembers();await loadDashboard()};
+
+function dateInputValue(iso){
+  if(!iso)return '';
+  try{
+    const d=new Date(iso);
+    const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jakarta',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(d);
+    const get=t=>parts.find(p=>p.type===t)?.value||'';
+    return get('year')+'-'+get('month')+'-'+get('day');
+  }catch{return ''}
+}
+
+window.openMemberEdit=async id=>{
+  msg(memberEditMsg,'Memuat data…');
+  memberEditModal.classList.add('show');
+  try{
+    const d=await api('/members/get',{user_id:id});
+    const m=d.row||{};
+    eUserId.value=m.user_id||id;
+    eName.value=m.name||'';
+    eWhatsapp.value=m.whatsapp||'';
+    eEmail.value=m.email||'';
+    eStatus.value=m.status||'pending';
+    eAccessUntil.value=dateInputValue(m.access_until);
+    eBusinessName.value=m.business_name||'';
+    eCityArea.value=m.city_area||'';
+    eProductService.value=m.product_service||'';
+    ePriceText.value=m.price_text||'';
+    eBrandColor.value=m.brand_color||'';
+    eTargetBuyer.value=m.target_buyer||'';
+    eAdvantage.value=m.advantage||'';
+    eAssets.value=m.available_assets||'';
+    memberEditTitle.textContent=m.name||m.email||'Data Member';
+    msg(memberEditMsg,'');
+  }catch(err){
+    msg(memberEditMsg,err.message||'Gagal memuat member.','bad');
+  }
+};
+window.closeMemberEdit=()=>memberEditModal.classList.remove('show');
+memberEditModal.onclick=e=>{if(e.target===memberEditModal)closeMemberEdit()};
+
+memberEditForm.onsubmit=async e=>{
+  e.preventDefault();
+  const b=memberEditSubmit;
+  b.disabled=true;b.textContent='MENYIMPAN…';msg(memberEditMsg,'Menyimpan perubahan…');
+  try{
+    const accessIso=eAccessUntil.value?new Date(eAccessUntil.value+'T23:59:59+07:00').toISOString():'';
+    await api('/members/save',{
+      user_id:eUserId.value,
+      name:eName.value.trim(),
+      whatsapp:eWhatsapp.value.trim(),
+      status:eStatus.value,
+      access_until:accessIso,
+      business_name:eBusinessName.value.trim(),
+      city_area:eCityArea.value.trim(),
+      product_service:eProductService.value.trim(),
+      price_text:ePriceText.value.trim(),
+      target_buyer:eTargetBuyer.value.trim(),
+      advantage:eAdvantage.value.trim(),
+      brand_color:eBrandColor.value.trim(),
+      available_assets:eAssets.value.trim()
+    });
+    msg(memberEditMsg,'Perubahan member tersimpan ✓','good');
+    setTimeout(async()=>{
+      closeMemberEdit();
+      await loadMembers();
+      await loadDashboard();
+    },500);
+  }catch(err){
+    msg(memberEditMsg,err.message||'Gagal menyimpan perubahan.','bad');
+  }finally{
+    b.disabled=false;b.textContent='SIMPAN PERUBAHAN';
+  }
+};
 
 window.openManual=async()=>{
   manualForm.reset();
