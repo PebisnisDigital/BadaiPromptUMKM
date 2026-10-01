@@ -356,6 +356,19 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 .social-proof{bottom:18px!important}
 @media(max-width:560px){.bpu-hero{padding-top:46px}.bpu-proof-strip b{font-size:15px}.bpu-proof-strip span{font-size:6.5px}.bpu-work-grid{grid-template-columns:1fr}.bpu-work-card.big{grid-column:auto}.bpu-work-card .bpu-work-image,.bpu-work-card.big .bpu-work-image{height:230px}.bpu-float-card{min-width:88px;padding:8px}.bpu-float-card b{font-size:14px}.fc-two{right:12px;top:15px}.fc-one{left:12px;bottom:15px}.fc-three{right:12px;bottom:15px}.bpu-price-closing b{font-size:42px}}
 </style>
+
+<style id="bpu-visual-selling-sharpen">
+.bpu-first-impression{background:linear-gradient(180deg,#090909,#070707)}
+.bpu-impression-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:26px}
+.bpu-impression-grid article{min-height:150px;padding:17px;border-radius:18px;background:#101011;border:1px solid #28282b;text-align:left}
+.bpu-impression-grid article>span{display:grid;place-items:center;width:30px;height:30px;border-radius:10px;background:#24121b;color:var(--bpu-pink2);font:900 9px var(--font-sf)}
+.bpu-impression-grid b{display:block;margin:20px 0 6px;font:950 13px var(--font-sf);letter-spacing:.02em}
+.bpu-impression-grid p{margin:0;color:#858589;font-size:9px;line-height:1.5}
+.bpu-impression-punch{margin-top:10px;padding:13px 14px;border:1px dashed #533047;border-radius:14px;background:#0e0b0d;color:#967a88;font-size:9px;font-weight:850;text-align:center}
+.bpu-impression-punch b{color:#fff}
+.bpu-value-list>div>span{font-size:14px}
+@media(max-width:520px){.bpu-impression-grid{grid-template-columns:1fr 1fr}.bpu-impression-grid article{min-height:138px;padding:14px}.bpu-impression-grid b{margin-top:17px;font-size:12px}}
+</style>
 </head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
@@ -379,82 +392,96 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 <main>
 <section id="home" class="bpu-hero">
   <div class="bpu-container">
-    <div class="bpu-badge reveal2">PROMPT SIAP PAKAI • KHUSUS UMKM</div>
-    <h1 class="reveal2">Jangan Mikir Prompt.<br><span>Tinggal Pilih. Salin. Pakai.</span></h1>
-    <p class="bpu-hero-copy reveal2">Kumpulan prompt AI yang sudah dipilah berdasarkan <b>jenis usaha</b> dan <b>kebutuhan jualan</b>. Biar kamu nggak buka ChatGPT lalu bengong mau ngetik apa.</p>
+    <div class="bpu-badge reveal2">VISUAL JUALAN • PROMPT AI • KHUSUS UMKM</div>
+    <h1 class="reveal2">Bikin Produkmu Kelihatan<br><span>Pengen Dibeli.</span></h1>
+    <p class="bpu-hero-copy reveal2">Pakai AI untuk bantu bikin <b>foto produk, desain promo, video, dan materi jualan</b> yang lebih menarik—tanpa harus jago desain atau jago bikin prompt.</p>
 
     <div class="bpu-hero-visual reveal2">
       <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh hasil promosi UMKM menggunakan BADAI Prompt UMKM">
-      <div class="bpu-float-card fc-one"><b>500+</b><span>Prompt Siap Pakai</span></div>
-      <div class="bpu-float-card fc-two"><b>10+</b><span>Jenis Usaha</span></div>
-      <div class="bpu-float-card fc-three"><b>1 Tahun</b><span>Akses + Update</span></div>
+      <div class="bpu-float-card fc-one"><b>FOTO</b><span>Bikin produk lebih menarik</span></div>
+      <div class="bpu-float-card fc-two"><b>DESAIN</b><span>Bikin promo lebih menonjol</span></div>
+      <div class="bpu-float-card fc-three"><b>VIDEO</b><span>Bikin produk terasa hidup</span></div>
     </div>
 
     <div class="bpu-hero-actions reveal2">
       <a class="bpu-cta primary" href="/demo">COBA DEMO GRATIS →</a>
       <button class="bpu-cta secondary" type="button" onclick="openCheckout()">AMBIL AKSES</button>
     </div>
-    <div class="bpu-micro reveal2">Pemula friendly • Tinggal copy-paste • Bisa dipakai di AI yang mendukung</div>
+    <div class="bpu-micro reveal2">Pemula friendly • Tinggal pilih prompt • Pakai untuk usaha sendiri</div>
 
     <div class="bpu-proof-strip reveal2">
+      <div><b>FOTO</b><span>Produk</span></div>
+      <div><b>POSTER</b><span>Promo</span></div>
+      <div><b>VIDEO</b><span>Jualan</span></div>
       <div><b>500+</b><span>Prompt</span></div>
-      <div><b>10+</b><span>Jenis Usaha</span></div>
-      <div><b>7+</b><span>Kebutuhan Jualan</span></div>
-      <div><b>UPDATE</b><span>Selama Akses</span></div>
     </div>
   </div>
 </section>
 
 <section class="bpu-section bpu-problem">
   <div class="bpu-container">
-    <div class="bpu-kicker reveal2">MASALAHNYA BIASANYA BUKAN AI-NYA</div>
-    <h2 class="reveal2">Sudah buka AI.<br><span>Tapi tetap bengong.</span></h2>
-    <p class="bpu-lead reveal2">Mau bikin promo, caption, foto produk, video, atau follow-up. Tapi mentok di satu pertanyaan: <b>“Aku harus ngetik apa?”</b></p>
+    <div class="bpu-kicker reveal2">PRODUKMU MUNGKIN BAGUS</div>
+    <h2 class="reveal2">Yang Kurang Menjual,<br><span>Bisa Jadi Tampilannya.</span></h2>
+    <p class="bpu-lead reveal2">Orang belum bisa mencicipi makananmu dari layar. Belum bisa memegang barangmu. Belum tahu sebagus apa jasamu. <b>Yang mereka lihat pertama kali cuma gambar, video, dan cara kamu menawarkan.</b></p>
 
     <div class="bpu-problem-card reveal2">
-      <div class="bpu-problem-big">?</div>
+      <div class="bpu-problem-big">👀</div>
       <div>
-        <b>Bukan karena kamu nggak bisa pakai AI.</b>
-        <p>Kebanyakan orang cuma belum tahu cara memberi perintah yang spesifik sesuai usaha dan tujuan jualannya.</p>
+        <b>Produk bagus pun gampang dilewati kalau tampilannya biasa.</b>
+        <p>Makanya BADAI Prompt UMKM fokus membantu bagian yang pertama kali dilihat calon pembeli: visual, promo, video, dan kata-kata penawarannya.</p>
       </div>
     </div>
   </div>
 </section>
 
+<section class="bpu-section bpu-first-impression">
+  <div class="bpu-container">
+    <div class="bpu-kicker reveal2">SEBELUM ORANG BELI, ORANG MELIHAT</div>
+    <h2 class="reveal2">Di Layar, Produkmu<br><span>Harus Menjual Duluan.</span></h2>
+    <div class="bpu-impression-grid">
+      <article class="reveal2"><span>01</span><b>GAMBAR</b><p>Apakah produknya langsung terlihat menarik?</p></article>
+      <article class="reveal2"><span>02</span><b>VIDEO</b><p>Apakah orang cukup penasaran untuk berhenti scroll?</p></article>
+      <article class="reveal2"><span>03</span><b>PENAWARAN</b><p>Apakah manfaat dan promonya cepat dimengerti?</p></article>
+      <article class="reveal2"><span>04</span><b>KATA-KATA</b><p>Apakah caption dan CTA mengarahkan orang ke langkah berikutnya?</p></article>
+    </div>
+    <div class="bpu-impression-punch reveal2">BADAI PROMPT UMKM MEMBANTU MENYIAPKAN <b>EMPAT BAGIAN ITU.</b></div>
+  </div>
+</section>
+
 <section class="bpu-section">
   <div class="bpu-container">
-    <div class="bpu-kicker reveal2">CARA PAKAI</div>
-    <h2 class="reveal2">Nggak perlu belajar<br><span>bahasa robot.</span></h2>
+    <div class="bpu-kicker reveal2">BADAI JADI JALAN PINTASNYA</div>
+    <h2 class="reveal2">Kamu Punya Produk.<br><span>AI Bantu Cara Menampilkannya.</span></h2>
     <div class="bpu-step-grid">
-      <article class="bpu-step reveal2"><span>01</span><b>Pilih Usaha</b><p>Kuliner, fashion, beauty, jasa, properti, reseller, dan lainnya.</p></article>
-      <article class="bpu-step reveal2"><span>02</span><b>Pilih Kebutuhan</b><p>Promo, caption, visual, video, WhatsApp, follow-up, atau ide jualan.</p></article>
-      <article class="bpu-step hot reveal2"><span>03</span><b>Salin & Pakai</b><p>Isi data seperlunya, copy prompt, lalu tempel ke AI. Beres.</p></article>
+      <article class="bpu-step reveal2"><span>01</span><b>Pilih Produk / Usaha</b><p>Pilih kategori yang paling dekat dengan dagangan atau jasa yang kamu jual.</p></article>
+      <article class="bpu-step reveal2"><span>02</span><b>Pilih Mau Dibikin Apa</b><p>Foto produk, poster promo, video jualan, caption, katalog, atau materi WhatsApp.</p></article>
+      <article class="bpu-step hot reveal2"><span>03</span><b>Salin Prompt ke AI</b><p>Isi data produk seperlunya, tempel prompt, lalu olah hasilnya jadi materi jualan.</p></article>
     </div>
   </div>
 </section>
 
 <section class="bpu-section bpu-showcase">
   <div class="bpu-container">
-    <div class="bpu-kicker reveal2">CONTOH YANG BISA DIBANTU</div>
-    <h2 class="reveal2">Bukan cuma caption.<br><span>Bantu jualan dari banyak sisi.</span></h2>
-    <p class="bpu-lead reveal2">Prompt-nya dikelompokkan berdasarkan pekerjaan nyata yang sering dikerjakan UMKM.</p>
+    <div class="bpu-kicker reveal2">BIKIN ORANG BERHENTI LIHAT</div>
+    <h2 class="reveal2">Jualanmu Sama.<br><span>Cara Menampilkannya Beda.</span></h2>
+    <p class="bpu-lead reveal2">BADAI membantu kamu menyiapkan materi yang dilihat calon pembeli sebelum mereka memutuskan mau lanjut baca, tanya, atau lewat.</p>
 
     <div class="bpu-work-grid">
       <article class="bpu-work-card big reveal2">
         <div class="bpu-work-image"><img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh prompt promo kuliner"></div>
-        <div class="bpu-work-copy"><small>PROMOSI</small><b>Bikin ide promo yang nggak itu-itu lagi.</b><p>Diskon, bundling, campaign tanggal cantik, launching, sampai promo musiman.</p></div>
+        <div class="bpu-work-copy"><small>POSTER PROMO</small><b>Bikin penawaran lebih cepat terbaca.</b><p>Visual promo, bundling, launching, tanggal cantik, dan campaign musiman dengan fokus produk yang jelas.</p></div>
       </article>
       <article class="bpu-work-card reveal2">
         <div class="bpu-work-image"><img src="/assets/dummy/03-foto-produk.png" alt="Contoh prompt foto produk"></div>
-        <div class="bpu-work-copy"><small>VISUAL</small><b>Foto produk lebih niat.</b><p>Studio, lifestyle, katalog, banner, dan materi marketplace.</p></div>
+        <div class="bpu-work-copy"><small>FOTO PRODUK</small><b>Bikin produk terlihat lebih menarik.</b><p>Konsep studio, lifestyle, katalog, hero marketplace, sampai visual iklan dari foto produk yang kamu punya.</p></div>
       </article>
       <article class="bpu-work-card reveal2">
         <div class="bpu-work-image"><img src="/assets/dummy/04-video-jualan.png" alt="Contoh prompt video jualan"></div>
-        <div class="bpu-work-copy"><small>VIDEO</small><b>Dari ide sampai script.</b><p>Hook, storyboard, script pendek, sampai CTA jualan.</p></div>
+        <div class="bpu-work-copy"><small>VIDEO JUALAN</small><b>Bikin produk terasa lebih hidup.</b><p>Ide adegan, hook, storyboard, script pendek, sampai CTA yang mengarahkan orang ke penawaran.</p></div>
       </article>
       <article class="bpu-work-card big reveal2">
         <div class="bpu-work-image"><img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh prompt follow-up WhatsApp"></div>
-        <div class="bpu-work-copy"><small>WHATSAPP</small><b>Balas calon pembeli tanpa bengong.</b><p>Follow-up, jawab keberatan, broadcast, customer service, dan closing.</p></div>
+        <div class="bpu-work-copy"><small>COPY + WHATSAPP</small><b>Visualnya menarik. Kata-katanya ikut menjual.</b><p>Headline, caption, CTA, broadcast, follow-up, dan jawaban untuk calon pembeli yang masih ragu.</p></div>
       </article>
     </div>
   </div>
@@ -462,8 +489,8 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 
 <section class="bpu-section bpu-business">
   <div class="bpu-container">
-    <div class="bpu-kicker reveal2">PILIH SESUAI USAHAMU</div>
-    <h2 class="reveal2">Prompt yang nyambung<br><span>sama daganganmu.</span></h2>
+    <div class="bpu-kicker reveal2">BUKAN PROMPT GENERIK</div>
+    <h2 class="reveal2">Disesuaikan dengan<br><span>Jenis Daganganmu.</span></h2>
     <div class="bpu-pills reveal2">
       <span>🍜 Kuliner</span><span>👗 Fashion</span><span>💄 Beauty</span><span>🛍️ Reseller</span><span>💼 Jasa</span><span>🏠 Properti</span><span>🎓 Pendidikan</span><span>🚗 Otomotif</span><span>🎁 Hampers</span><span>📦 Retail</span>
     </div>
@@ -473,24 +500,24 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 <section class="bpu-section bpu-value">
   <div class="bpu-container">
     <div class="bpu-value-card reveal2">
-      <div class="bpu-kicker">BUKAN KOLEKSI PROMPT BUAT DIPAJANG</div>
-      <h2>Pakai buat bikin<br><span>aset jualan beneran.</span></h2>
+      <div class="bpu-kicker">BUKAN MENGUBAH PRODUKMU</div>
+      <h2>Kita Ubah Cara Orang<br><span>Melihat Produkmu.</span></h2>
       <div class="bpu-value-list">
-        <div><span>✓</span><p><b>Bikin materi promosi sendiri</b><small>Poster, caption, foto produk, video, dan katalog.</small></p></div>
-        <div><span>✓</span><p><b>Perbanyak variasi konten</b><small>Nggak perlu mulai dari halaman kosong setiap hari.</small></p></div>
-        <div><span>✓</span><p><b>Bantu komunikasi jualan</b><small>Balasan customer, follow-up, penawaran, dan broadcast.</small></p></div>
-        <div><span>✓</span><p><b>Bisa dikembangkan jadi skill jasa</b><small>Hasil prompt bisa dipakai untuk membantu UMKM lain juga.</small></p></div>
+        <div><span>📸</span><p><b>Foto produk yang lebih menggoda</b><small>Konsep visual yang bikin produk tampil lebih niat untuk promosi.</small></p></div>
+        <div><span>🔥</span><p><b>Poster yang lebih mudah menarik perhatian</b><small>Produk, promo, dan penawaran dibuat lebih cepat terbaca.</small></p></div>
+        <div><span>🎬</span><p><b>Video yang bikin produk terasa hidup</b><small>Hook, adegan, script, sampai CTA disiapkan dari kebutuhan jualannya.</small></p></div>
+        <div><span>💬</span><p><b>Copy yang mendukung visualnya</b><small>Headline, caption, broadcast, dan follow-up supaya materi promosinya tidak berhenti di gambar cantik.</small></p></div>
       </div>
-      <div class="bpu-value-punch">PAKAI UNTUK USAHA. <b>ATAU JADIKAN SKILL YANG BISA DIJUAL.</b></div>
+      <div class="bpu-value-punch">PRODUK YANG SAMA. <b>CARA MENAMPILKANNYA SEKARANG LEBIH NIAT.</b></div>
     </div>
   </div>
 </section>
 
 <section class="bpu-section bpu-library">
   <div class="bpu-container">
-    <div class="bpu-kicker reveal2">SUDAH DISIAPKAN</div>
-    <h2 class="reveal2"><span class="bpu-number">500+</span><br>prompt tinggal pakai.</h2>
-    <p class="bpu-lead reveal2">Bukan “nanti akan diisi”. Koleksi prompt-nya sudah tersedia dan dikelompokkan supaya lebih gampang dicari.</p>
+    <div class="bpu-kicker reveal2">MESIN DI BALIK HASILNYA</div>
+    <h2 class="reveal2"><span class="bpu-number">500+</span><br>prompt sudah disiapkan.</h2>
+    <p class="bpu-lead reveal2">Kamu nggak membeli angka “500”. Kamu membeli jalan pintas untuk menemukan perintah AI yang sesuai dengan pekerjaan jualan yang sedang kamu butuhkan.</p>
     <div class="bpu-library-grid reveal2">
       <span>Ide Promo</span><span>Caption</span><span>Foto Produk</span><span>Video Jualan</span><span>WhatsApp</span><span>Closing</span><span>Branding</span><span>Riset</span><span>Penawaran</span><span>Konten</span>
     </div>
@@ -521,9 +548,9 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
         <p>Semua prompt. Semua kategori. Semua fitur member.</p>
       </div>
       <div class="bpu-price-list">
-        <div>✓ <span>500+ prompt siap pakai</span></div>
-        <div>✓ <span>Berbagai jenis usaha UMKM</span></div>
-        <div>✓ <span>Promo, caption, visual, video & WhatsApp</span></div>
+        <div>✓ <span>Prompt foto produk & visual promosi</span></div>
+        <div>✓ <span>Prompt poster, video, caption & WhatsApp</span></div>
+        <div>✓ <span>500+ prompt untuk berbagai jenis UMKM</span></div>
         <div>✓ <span>Favorit + riwayat penggunaan</span></div>
         <div>✓ <span>Update selama masa akses</span></div>
         <div>✓ <span>Member area 1 tahun</span></div>
@@ -557,9 +584,9 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 <section class="bpu-section bpu-final">
   <div class="bpu-container">
     <div class="bpu-final-card reveal2">
-      <small>SUDAH LIHAT ISINYA. SUDAH TAHU CARA KERJANYA.</small>
-      <h2>Sekarang tinggal:<br><span>pakai buat jualan.</span></h2>
-      <p>Nggak perlu hafal rumus prompt. Pilih yang kamu butuhkan, salin, lalu praktikkan ke usaha.</p>
+      <small>PRODUKMU SUDAH ADA. SEKARANG CARA MENAMPILKANNYA.</small>
+      <h2>Bikin Jualanmu<br><span>Kelihatan Lebih Menjual.</span></h2>
+      <p>Pilih kebutuhanmu, pakai prompt-nya, lalu ubah foto, desain, video, dan materi promosi menjadi sesuatu yang lebih siap dipakai jualan.</p>
       <button class="bpu-cta primary" type="button" onclick="openCheckout()">AMBIL AKSES →</button>
     </div>
   </div>
