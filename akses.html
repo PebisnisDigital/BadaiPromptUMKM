@@ -237,10 +237,11 @@ main{padding:16px}.hero{background:linear-gradient(145deg,#121212,#0b0b0b);borde
 
 <script src="https://cdn.jsdelivr.net/npm/appwrite@28.1.0"></script>
 <script>
-const { Client, Account, TablesDB, Query, ID, Permission, Role } = Appwrite;
+const { Client, Account, TablesDB, Query, ID, Permission, Role, Functions } = Appwrite;
 const client = new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
 const account = new Account(client);
 const tables = new TablesDB(client);
+const functions = new Functions(client);
 const DB='badai_prompt_umkm', TABLE='prompts';
 
 const gate=document.getElementById('gate'), loading=document.getElementById('loading'), loginMsg=document.getElementById('loginMsg');
@@ -266,6 +267,30 @@ function normalizeRow(r){const d=r.data||r; return {...d,$id:r.$id||d.$id}}
 function setMsg(t,type=''){loginMsg.textContent=t;loginMsg.className='msg '+type}
 function setLoading(v){loading.classList.toggle('show',!!v)}
 
+async function memberApi(path,body={}){
+  const ex=await functions.createExecution({
+    functionId:'payment-api',
+    body:JSON.stringify(body),
+    async:false,
+    xpath:path,
+    method:'POST',
+    headers:{'content-type':'application/json'}
+  });
+  let data={};try{data=JSON.parse(ex.responseBody||'{}')}catch{}
+  if(Number(ex.responseStatusCode||500)>=400)throw new Error(data.error||'Permintaan member gagal.');
+  return data;
+}
+
+function assertCurrentAccess(){
+  if(!currentProfile)return;
+  if(currentProfile.status!=='active'){
+    throw new Error('Akses member sedang tidak aktif. Hubungi admin jika seharusnya masih aktif.');
+  }
+  if(currentProfile.access_until&&new Date(currentProfile.access_until).getTime()<=Date.now()){
+    throw new Error('Masa akses sudah berakhir. Hubungi admin untuk perpanjangan.');
+  }
+}
+
 async function boot(){
   try{
     currentUser=await account.get();
@@ -273,10 +298,12 @@ async function boot(){
     document.getElementById('userChip').textContent=currentUser.name||currentUser.email;
     await loadFavorites();
     await loadProfile();
+    assertCurrentAccess();
     renderBusinessProfileState();
     await loadPrompts();
   }catch(e){
     gate.classList.remove('hide');
+    setMsg(e?.message||'Akses belum bisa dibuka.','bad');
   }
 }
 
@@ -286,6 +313,7 @@ async function finishLogin(){
   gate.classList.add('hide'); setMsg('');
   await loadFavorites();
   await loadProfile();
+  assertCurrentAccess();
   renderBusinessProfileState();
   await loadPrompts();
 }
@@ -573,12 +601,7 @@ async function saveBusinessProfile(){
   saveBusinessProfileBtn.textContent='MENYIMPAN…';
   businessProfileStatus.textContent='Menyimpan profil bisnis…';
   try{
-    await tables.updateRow({
-      databaseId:DB,
-      tableId:'member_profiles',
-      rowId:currentUser.$id,
-      data
-    });
+    await memberApi('/profile/save',data);
     await loadProfile();
     renderBusinessProfileState();
     businessProfileStatus.innerHTML='<b>Tersimpan ✓</b> Mulai sekarang Prompt Builder akan auto-fill.';
