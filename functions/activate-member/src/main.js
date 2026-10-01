@@ -5,6 +5,9 @@ const ORDERS=process.env.ORDERS_TABLE_ID || 'orders';
 const PROFILES=process.env.PROFILES_TABLE_ID || 'member_profiles';
 const PROMPTS='prompts';
 const SETTINGS='settings';
+const FAVORITES='favorites';
+const HISTORY='prompt_history';
+const EVENTS='prompt_usage_events';
 const TEAM_ID=process.env.PAID_TEAM_ID || 'paid-members';
 
 const unpack=(row)=>({...((row&&row.data)||row||{}),$id:row?.$id||row?.data?.$id,$createdAt:row?.$createdAt,$updatedAt:row?.$updatedAt});
@@ -49,12 +52,88 @@ export default async ({req,res,log,error})=>{
       }
 
       if(route==='/dashboard'){
-        const [promptRows,orderRows,memberRows]=await Promise.all([
+        const [promptRows,orderRows,memberRows,favoriteRows,historyRows,eventRows]=await Promise.all([
           listAll(tables,PROMPTS),
           listAll(tables,ORDERS),
-          listAll(tables,PROFILES)
+          listAll(tables,PROFILES),
+          listAll(tables,FAVORITES),
+          listAll(tables,HISTORY),
+          listAll(tables,EVENTS)
         ]);
+
         const paid=orderRows.filter(x=>x.status==='success');
+        const promptMap=new Map(promptRows.map(p=>[p.$id,p]));
+        const memberMap=new Map(memberRows.map(m=>[m.user_id,m]));
+
+        const usageByPrompt=new Map();
+        const usageByUser=new Map();
+        let totalUses=0;
+        for(const h of historyRows){
+          const count=Math.max(Number(h.use_count)||0,0);
+          totalUses+=count;
+          usageByPrompt.set(h.prompt_id,(usageByPrompt.get(h.prompt_id)||0)+count);
+          usageByUser.set(h.user_id,(usageByUser.get(h.user_id)||0)+count);
+        }
+
+        const favoritesByPrompt=new Map();
+        for(const fav of favoriteRows){
+          favoritesByPrompt.set(fav.prompt_id,(favoritesByPrompt.get(fav.prompt_id)||0)+1);
+        }
+
+        const topUsed=[...usageByPrompt.entries()]
+          .sort((a,b)=>b[1]-a[1])
+          .slice(0,5)
+          .map(([prompt_id,count])=>({
+            prompt_id,
+            count,
+            title:promptMap.get(prompt_id)?.title||prompt_id,
+            niche:promptMap.get(prompt_id)?.niche||''
+          }));
+
+        const topFavorites=[...favoritesByPrompt.entries()]
+          .sort((a,b)=>b[1]-a[1])
+          .slice(0,5)
+          .map(([prompt_id,count])=>({
+            prompt_id,
+            count,
+            title:promptMap.get(prompt_id)?.title||prompt_id,
+            niche:promptMap.get(prompt_id)?.niche||''
+          }));
+
+        const topMembers=[...usageByUser.entries()]
+          .sort((a,b)=>b[1]-a[1])
+          .slice(0,5)
+          .map(([user_id,count])=>({
+            user_id,
+            count,
+            name:memberMap.get(user_id)?.name||memberMap.get(user_id)?.email||user_id,
+            email:memberMap.get(user_id)?.email||''
+          }));
+
+        const dateKey=(date)=>new Intl.DateTimeFormat('en-CA',{
+          timeZone:'Asia/Jakarta',year:'numeric',month:'2-digit',day:'2-digit'
+        }).format(date);
+        const dayLabel=(date)=>new Intl.DateTimeFormat('id-ID',{
+          timeZone:'Asia/Jakarta',weekday:'short',day:'numeric',month:'short'
+        }).format(date);
+
+        const daily=[];
+        for(let i=6;i>=0;i--){
+          const date=new Date(Date.now()-i*86400000);
+          const key=dateKey(date);
+          daily.push({key,label:dayLabel(date),count:0});
+        }
+        const dailyMap=new Map(daily.map(d=>[d.key,d]));
+        for(const ev of eventRows){
+          if(!ev.used_at)continue;
+          const key=dateKey(new Date(ev.used_at));
+          const bucket=dailyMap.get(key);
+          if(bucket)bucket.count+=1;
+        }
+
+        const todayKey=dateKey(new Date());
+        const usesToday=dailyMap.get(todayKey)?.count||0;
+
         return res.json({
           ok:true,
           stats:{
@@ -66,7 +145,17 @@ export default async ({req,res,log,error})=>{
             revenue:paid.reduce((n,x)=>n+Number(x.total_amount||x.amount||0),0),
             pending_orders:orderRows.filter(x=>x.status==='pending').length,
             members:memberRows.filter(x=>x.status==='active').length,
-            blocked:memberRows.filter(x=>x.status==='blocked').length
+            blocked:memberRows.filter(x=>x.status==='blocked').length,
+            total_uses:totalUses,
+            uses_today:usesToday,
+            total_favorites:favoriteRows.length,
+            tracked_events:eventRows.length
+          },
+          insights:{
+            top_used:topUsed,
+            top_favorites:topFavorites,
+            top_members:topMembers,
+            daily_usage:daily
           },
           recent_orders:orderRows
             .sort((a,b)=>String(b.$createdAt||'').localeCompare(String(a.$createdAt||'')))
