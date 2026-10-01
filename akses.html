@@ -86,7 +86,32 @@ main{padding:16px}.hero{background:linear-gradient(145deg,#121212,#0b0b0b);borde
   <button class="active" onclick="window.scrollTo({top:0,behavior:'smooth'})"><b>⌂</b>Beranda</button>
   <button onclick="document.getElementById('search').focus()"><b>⌕</b>Prompt</button>
   <button onclick="showFavorites()"><b>★</b>Favorit</button>
-  <button onclick="window.scrollTo({top:0,behavior:'smooth'})"><b>☻</b>Akun</button>
+  <button onclick="openAccount()"><b>☻</b>Akun</button>
+</div>
+
+<div class="modal" id="accountModal">
+  <div class="sheet">
+    <button class="btn dark close" id="closeAccount">×</button>
+    <div class="eyebrow">AKUN MEMBER</div>
+    <h2 id="accountName">Member BADAI PROMPT UMKM</h2>
+    <div class="sub" id="accountEmail">-</div>
+
+    <div class="stats" style="margin-top:14px">
+      <div class="stat"><b id="accountStatus">-</b><small>Status akses</small></div>
+      <div class="stat"><b id="accountFavCount">0</b><small>Favorit tersimpan</small></div>
+      <div class="stat"><b id="accountAccessUntil">∞</b><small>Masa akses</small></div>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <div class="meta"><span class="tag pinktag">PROFIL</span></div>
+      <h3 style="margin-bottom:8px">Data Member</h3>
+      <p id="accountWhatsapp" style="display:block;-webkit-line-clamp:unset">WhatsApp: -</p>
+      <p style="display:block;-webkit-line-clamp:unset;margin-top:6px">Email login: <span id="accountLoginEmail">-</span></p>
+      <p style="display:block;-webkit-line-clamp:unset;margin-top:6px">Favorit sekarang tersimpan di akun Appwrite dan ikut saat pindah perangkat.</p>
+    </div>
+
+    <button class="btn dark" id="accountLogoutBtn" style="width:100%;margin-top:12px">KELUAR DARI AKUN</button>
+  </div>
 </div>
 
 <div class="modal" id="modal">
@@ -104,7 +129,7 @@ main{padding:16px}.hero{background:linear-gradient(145deg,#121212,#0b0b0b);borde
 
 <script src="https://cdn.jsdelivr.net/npm/appwrite@28.1.0"></script>
 <script>
-const { Client, Account, TablesDB, Query, ID } = Appwrite;
+const { Client, Account, TablesDB, Query, ID, Permission, Role } = Appwrite;
 const client = new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
 const account = new Account(client);
 const tables = new TablesDB(client);
@@ -113,7 +138,7 @@ const DB='badai_prompt_umkm', TABLE='prompts';
 const gate=document.getElementById('gate'), loading=document.getElementById('loading'), loginMsg=document.getElementById('loginMsg');
 const nicheGrid=document.getElementById('nicheGrid'), goalScroll=document.getElementById('goalScroll'), cards=document.getElementById('cards');
 const search=document.getElementById('search'), modal=document.getElementById('modal');
-let all=[], filtered=[], selectedNiche='', selectedGoal='', pageSize=24, shown=24, current=null, currentUser=null, favorites=new Set();
+let all=[], filtered=[], selectedNiche='', selectedGoal='', pageSize=24, shown=24, current=null, currentUser=null, favorites=new Set(), favoriteRows=new Map(), currentProfile=null;
 
 const icons={
  'Kuliner & Minuman':'🍜','Fashion & Hijab':'👗','Beauty & Perawatan':'💄','Jasa Lokal':'🛠️','Pendidikan & Kursus':'🎓',
@@ -130,7 +155,8 @@ async function boot(){
     currentUser=await account.get();
     gate.classList.add('hide');
     document.getElementById('userChip').textContent=currentUser.name||currentUser.email;
-    favorites=new Set(JSON.parse(localStorage.getItem('bpu_fav_'+currentUser.$id)||'[]'));
+    await loadFavorites();
+    await loadProfile();
     await loadPrompts();
   }catch(e){
     gate.classList.remove('hide');
@@ -141,7 +167,8 @@ async function finishLogin(){
   currentUser=await account.get();
   document.getElementById('userChip').textContent=currentUser.name||currentUser.email;
   gate.classList.add('hide'); setMsg('');
-  favorites=new Set(JSON.parse(localStorage.getItem('bpu_fav_'+currentUser.$id)||'[]'));
+  await loadFavorites();
+  await loadProfile();
   await loadPrompts();
 }
 
@@ -187,6 +214,89 @@ document.getElementById('logoutBtn').onclick=async()=>{
   try{await account.deleteSession({sessionId:'current'})}catch(e){}
   location.reload();
 };
+
+async function loadFavorites(){
+  favorites=new Set();
+  favoriteRows=new Map();
+  if(!currentUser)return;
+
+  try{
+    for(let offset=0;offset<500;offset+=100){
+      const res=await tables.listRows({
+        databaseId:DB,
+        tableId:'favorites',
+        queries:[Query.equal('user_id',currentUser.$id),Query.limit(100),Query.offset(offset)]
+      });
+      const rows=res.rows||res.documents||[];
+      rows.forEach(r=>{
+        const d=r.data||r;
+        favorites.add(d.prompt_id);
+        favoriteRows.set(d.prompt_id,r.$id||d.$id);
+      });
+      if(rows.length<100)break;
+    }
+
+    // One-time migration from the previous browser-only favorites.
+    const legacyKey='bpu_fav_'+currentUser.$id;
+    const legacy=JSON.parse(localStorage.getItem(legacyKey)||'[]');
+    for(const promptId of legacy){
+      if(!favorites.has(promptId)){
+        try{await createFavorite(promptId)}catch(e){}
+      }
+    }
+    localStorage.removeItem(legacyKey);
+  }catch(err){
+    console.warn('Favorites sync unavailable',err);
+  }
+}
+
+async function createFavorite(promptId){
+  if(!currentUser||favorites.has(promptId))return;
+  const row=await tables.createRow({
+    databaseId:DB,
+    tableId:'favorites',
+    rowId:ID.unique(),
+    data:{user_id:currentUser.$id,prompt_id:promptId},
+    permissions:[
+      Permission.read(Role.user(currentUser.$id)),
+      Permission.update(Role.user(currentUser.$id)),
+      Permission.delete(Role.user(currentUser.$id))
+    ]
+  });
+  favorites.add(promptId);
+  favoriteRows.set(promptId,row.$id||(row.data||{}).$id);
+}
+
+async function removeFavorite(promptId){
+  const rowId=favoriteRows.get(promptId);
+  if(rowId){
+    await tables.deleteRow({databaseId:DB,tableId:'favorites',rowId});
+  }
+  favorites.delete(promptId);
+  favoriteRows.delete(promptId);
+}
+
+async function loadProfile(){
+  currentProfile=null;
+  if(!currentUser)return;
+  try{
+    const row=await tables.getRow({
+      databaseId:DB,
+      tableId:'member_profiles',
+      rowId:currentUser.$id
+    });
+    currentProfile={...(row.data||row||{}),$id:row.$id||(row.data||{}).$id};
+  }catch(err){
+    currentProfile={
+      user_id:currentUser.$id,
+      name:currentUser.name||'Member BADAI PROMPT UMKM',
+      email:currentUser.email||'',
+      whatsapp:'',
+      status:'active',
+      role:'member'
+    };
+  }
+}
 
 async function loadPrompts(){
   setLoading(true);
@@ -235,7 +345,7 @@ function renderCards(){
   if(!list.length){cards.innerHTML='<div class="empty">Belum ada prompt yang cocok. Coba kata kunci atau filter lain.</div>';moreBtn.style.display='none';return}
   cards.innerHTML=list.map(x=>'<article class="card"><div class="meta"><span class="tag pinktag">'+esc(x.output_type)+'</span><span class="tag">'+esc(x.goal)+'</span></div><h3>'+esc(x.title)+'</h3><p>'+esc(x.prompt_text)+'</p><div class="actions"><button class="btn pink" data-use="'+esc(x.$id)+'">PAKAI</button><button class="btn dark" data-fav="'+esc(x.$id)+'">'+(favorites.has(x.$id)?'★':'☆')+'</button></div></article>').join('');
   cards.querySelectorAll('[data-use]').forEach(b=>b.onclick=()=>openBuilder(b.dataset.use));
-  cards.querySelectorAll('[data-fav]').forEach(b=>b.onclick=()=>{toggleFavorite(b.dataset.fav);renderCards()});
+  cards.querySelectorAll('[data-fav]').forEach(b=>b.onclick=async()=>{b.disabled=true;await toggleFavorite(b.dataset.fav);renderCards()});
   moreBtn.style.display=shown<filtered.length?'block':'none';
 }
 moreBtn.onclick=()=>{shown+=pageSize;renderCards()};
@@ -264,13 +374,44 @@ buildBtn.onclick=()=>{
   output.textContent=s;
 };
 copyBtn.onclick=async()=>{await navigator.clipboard.writeText(output.textContent);copyBtn.textContent='TERSALIN ✓';setTimeout(()=>copyBtn.textContent='SALIN PROMPT',1200)};
-favModalBtn.onclick=()=>{if(!current)return;toggleFavorite(current.$id);favModalBtn.textContent=(favorites.has(current.$id)?'★':'☆')+' FAVORIT';renderCards()};
+favModalBtn.onclick=async()=>{if(!current)return;favModalBtn.disabled=true;await toggleFavorite(current.$id);favModalBtn.textContent=(favorites.has(current.$id)?'★':'☆')+' FAVORIT';favModalBtn.disabled=false;renderCards()};
 
-function toggleFavorite(id){
-  favorites.has(id)?favorites.delete(id):favorites.add(id);
-  if(currentUser)localStorage.setItem('bpu_fav_'+currentUser.$id,JSON.stringify([...favorites]));
+async function toggleFavorite(id){
+  try{
+    if(favorites.has(id))await removeFavorite(id);
+    else await createFavorite(id);
+  }catch(err){
+    alert('Favorit belum bisa disimpan. Coba lagi sebentar.');
+  }
 }
-window.showFavorites=()=>{selectedNiche='';selectedGoal='';search.value='';filtered=all.filter(x=>favorites.has(x.$id));resultCount.textContent=filtered.length+' favorit';shown=pageSize;renderCards();document.querySelector('.sec:nth-of-type(4)')?.scrollIntoView({behavior:'smooth'})};
+window.openAccount=async()=>{
+  if(!currentUser)return;
+  await loadProfile();
+  accountName.textContent=currentProfile?.name||currentUser.name||'Member BADAI PROMPT UMKM';
+  accountEmail.textContent=currentProfile?.email||currentUser.email||'-';
+  accountLoginEmail.textContent=currentUser.email||'-';
+  accountWhatsapp.textContent='WhatsApp: '+(currentProfile?.whatsapp||'-');
+
+  const st=String(currentProfile?.status||'active').toUpperCase();
+  accountStatus.textContent=st;
+  accountStatus.style.color=st==='ACTIVE'?'#73f6a7':'#ff6b81';
+  accountFavCount.textContent=favorites.size;
+
+  if(currentProfile?.access_until){
+    try{accountAccessUntil.textContent=new Date(currentProfile.access_until).toLocaleDateString('id-ID')}catch{accountAccessUntil.textContent='-'}
+  }else{
+    accountAccessUntil.textContent='∞';
+  }
+  accountModal.classList.add('show');
+};
+closeAccount.onclick=()=>accountModal.classList.remove('show');
+accountModal.onclick=e=>{if(e.target===accountModal)accountModal.classList.remove('show')};
+accountLogoutBtn.onclick=async()=>{
+  try{await account.deleteSession({sessionId:'current'})}catch(e){}
+  location.reload();
+};
+
+window.showFavorites=()=>{selectedNiche='';selectedGoal='';search.value='';filtered=all.filter(x=>favorites.has(x.$id));resultCount.textContent=filtered.length+' favorit';shown=pageSize;renderCards();cards.closest('.sec')?.scrollIntoView({behavior:'smooth'})};
 
 completeMagicLogin().then(done=>{if(!done)boot()});
 </script>
