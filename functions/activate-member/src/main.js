@@ -9,6 +9,7 @@ const FAVORITES='favorites';
 const HISTORY='prompt_history';
 const EVENTS='prompt_usage_events';
 const COUPONS='coupons';
+const PAYMENT_SETTINGS='payment_settings';
 const TEAM_ID=process.env.PAID_TEAM_ID || 'paid-members';
 
 const unpack=(row)=>({...((row&&row.data)||row||{}),$id:row?.$id||row?.data?.$id,$createdAt:row?.$createdAt,$updatedAt:row?.$updatedAt});
@@ -465,6 +466,138 @@ export default async ({req,res,log,error})=>{
           await teams.createMembership({teamId:TEAM_ID,roles:['member'],userId});
         }
         return res.json({ok:true,row:unpack(profile)});
+      }
+
+      if(route==='/payment/get'){
+        let row=null;
+        try{
+          row=unpack(await tables.getRow({databaseId:DB,tableId:PAYMENT_SETTINGS,rowId:'buatqris'}));
+        }catch(e){
+          if(Number(e?.code)!==404)throw e;
+        }
+        return res.json({
+          ok:true,
+          payment:{
+            provider:'buatqris',
+            merchant_label:row?.merchant_label||'BADAI PROMPT UMKM',
+            account_id:row?.account_id||'',
+            qris_method:row?.qris_method||'qris_two',
+            fee_by:row?.fee_by||'user',
+            umkm_name:row?.umkm_name||'',
+            test_mode:row?.test_mode!==false,
+            callback_url:row?.callback_url||'https://badaipromptumkm2026.vercel.app/api/buatqris-webhook',
+            api_url:row?.api_url||'https://app.buatqris.site/api',
+            is_active:row?.is_active!==false,
+            has_secret_token:Boolean(row?.secret_token),
+            has_signing_secret:Boolean(row?.signing_secret),
+            configured:Boolean(row?.account_id&&row?.secret_token)
+          }
+        });
+      }
+
+      if(route==='/payment/save'){
+        let existing=null;
+        try{
+          existing=unpack(await tables.getRow({databaseId:DB,tableId:PAYMENT_SETTINGS,rowId:'buatqris'}));
+        }catch(e){
+          if(Number(e?.code)!==404)throw e;
+        }
+
+        const qrisMethod=['qris_one','qris_two','qris_three','qris_four'].includes(q(body.qris_method))
+          ?q(body.qris_method):'qris_two';
+        const feeBy=['user','buyer'].includes(q(body.fee_by))?q(body.fee_by):'user';
+        const umkmName=q(body.umkm_name).slice(0,15);
+        const accountId=q(body.account_id);
+        const secretToken=q(body.secret_token)||existing?.secret_token||null;
+        const signingSecret=q(body.signing_secret)||existing?.signing_secret||null;
+        const callbackUrl=q(body.callback_url)||'https://badaipromptumkm2026.vercel.app/api/buatqris-webhook';
+        const apiUrl=q(body.api_url)||'https://app.buatqris.site/api';
+
+        if(!accountId)return res.json({error:'Account ID BuatQRIS wajib diisi.'},400);
+        if(!secretToken)return res.json({error:'Secret Token BuatQRIS wajib diisi.'},400);
+
+        const data={
+          provider:'buatqris',
+          merchant_label:q(body.merchant_label)||'BADAI PROMPT UMKM',
+          account_id:accountId,
+          secret_token:secretToken,
+          signing_secret:signingSecret,
+          qris_method:qrisMethod,
+          fee_by:feeBy,
+          umkm_name:umkmName||null,
+          test_mode:body.test_mode!==false,
+          callback_url:callbackUrl,
+          api_url:apiUrl,
+          is_active:body.is_active!==false
+        };
+
+        let saved;
+        if(existing){
+          saved=await tables.updateRow({databaseId:DB,tableId:PAYMENT_SETTINGS,rowId:'buatqris',data});
+        }else{
+          saved=await tables.createRow({databaseId:DB,tableId:PAYMENT_SETTINGS,rowId:'buatqris',data});
+        }
+        const row=unpack(saved);
+        return res.json({
+          ok:true,
+          payment:{
+            provider:'buatqris',
+            merchant_label:row.merchant_label,
+            account_id:row.account_id,
+            qris_method:row.qris_method,
+            fee_by:row.fee_by,
+            umkm_name:row.umkm_name||'',
+            test_mode:row.test_mode!==false,
+            callback_url:row.callback_url,
+            api_url:row.api_url,
+            is_active:row.is_active!==false,
+            has_secret_token:Boolean(row.secret_token),
+            has_signing_secret:Boolean(row.signing_secret),
+            configured:Boolean(row.account_id&&row.secret_token)
+          }
+        });
+      }
+
+      if(route==='/payment/test'){
+        let row;
+        try{
+          row=unpack(await tables.getRow({databaseId:DB,tableId:PAYMENT_SETTINGS,rowId:'buatqris'}));
+        }catch(e){
+          return res.json({error:'Simpan pengaturan BuatQRIS dulu.'},400);
+        }
+        if(!row?.account_id||!row?.secret_token)return res.json({error:'Account ID / Secret Token belum lengkap.'},400);
+        if(row.test_mode===false)return res.json({error:'Aktifkan MODE SANDBOX dulu untuk Test Koneksi.'},400);
+
+        const form=new URLSearchParams({
+          action:'api_create_qris',
+          account_id:String(row.account_id),
+          secret_token:String(row.secret_token),
+          amount:'1000',
+          description:'Tes koneksi BADAI PROMPT UMKM',
+          qris_method:String(row.qris_method||'qris_two'),
+          fee_by:String(row.fee_by||'user'),
+          test:'1'
+        });
+        if(row.umkm_name)form.set('umkm_name',String(row.umkm_name).slice(0,15));
+
+        const response=await fetch(row.api_url||'https://app.buatqris.site/api',{
+          method:'POST',
+          headers:{'Content-Type':'application/x-www-form-urlencoded','User-Agent':'BADAI-Prompt-UMKM/1.0'},
+          body:form.toString()
+        });
+        const raw=await response.text();
+        let payload={};try{payload=JSON.parse(raw)}catch{}
+        const data=payload?.data??payload;
+        if(!response.ok||payload?.success===false||!data?.transaction_id){
+          return res.json({error:String(payload?.message||payload?.error||'Koneksi BuatQRIS gagal.')},502);
+        }
+        return res.json({
+          ok:true,
+          message:'Koneksi BuatQRIS berhasil.',
+          transaction_id:String(data.transaction_id),
+          status:String(data.status||'pending'),
+          sandbox:true
+        });
       }
 
       if(route==='/coupons/list'){
