@@ -11,20 +11,20 @@
 button,input,textarea{font:inherit}.app{max-width:720px;margin:auto;min-height:100vh;background:radial-gradient(circle at 85% 0,rgba(255,45,141,.18),transparent 28%),var(--bg);padding-bottom:86px}
 header{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 16px;background:rgba(7,7,7,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .brand{font-weight:1000;letter-spacing:-.4px}.brand b{color:var(--pink)}.brand small{display:block;color:#777;font-size:9px;letter-spacing:.7px;margin-top:2px}
-.header-actions{display:flex;align-items:center;gap:8px}.user-chip{display:none;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;color:#aaa}
+.header-actions{display:flex;align-items:center;gap:8px}.user-chip{display:none;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;color:#aaa}.avatar-btn{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;padding:0;font-size:16px}
 .btn{border:0;border-radius:13px;padding:11px 13px;font-weight:900;cursor:pointer}.pink{background:var(--pink);color:#fff}.dark{background:#1b1b1b;color:#fff;border:1px solid #333}.ghost{background:transparent;color:#aaa;border:1px solid #333}
 main{padding:16px}.hero{background:linear-gradient(145deg,#121212,#0b0b0b);border:1px solid #292929;border-radius:23px;padding:18px;box-shadow:var(--shadow)}
-.eyebrow{font-size:10px;color:var(--pink2);font-weight:900;letter-spacing:1px}.hero h1{font-size:31px;line-height:1;margin:8px 0}.hero p{color:#aaa;line-height:1.55;margin:8px 0 0}
+.eyebrow{font-size:10px;color:var(--pink2);font-weight:900;letter-spacing:1px}.hero h1{font-size:31px;line-height:1;margin:8px 0}.hero p{color:#aaa;line-height:1.55;margin:8px 0 0}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:14px}.step-pill{background:#0a0a0a;border:1px solid #252525;border-radius:12px;padding:9px}.step-pill b{display:block;font-size:11px}.step-pill span{display:block;color:#777;font-size:8px;margin-top:3px}.step-pill.done{border-color:#513046;background:#170e14}.step-pill.done b{color:var(--pink2)}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}.stat{background:#0b0b0b;border:1px solid #252525;border-radius:14px;padding:11px}.stat b{display:block;font-size:18px}.stat small{color:#777;font-size:9px}
-.search{width:100%;background:#0a0a0a;border:1px solid #333;color:#fff;border-radius:14px;padding:14px;margin-top:14px;outline:none}.search:focus{border-color:var(--pink)}
-.sec{margin-top:24px}.sec-head{display:flex;justify-content:space-between;align-items:end;gap:10px}.sec h2{font-size:17px;margin:0 0 10px}.sec small{color:#777}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.chip{background:#111;border:1px solid #2b2b2b;color:#fff;border-radius:14px;padding:12px;text-align:left;cursor:pointer;min-height:52px}.chip.on{border-color:var(--pink);background:#1b1016;box-shadow:inset 0 0 0 1px rgba(255,45,141,.15)}.chip span{display:block;color:#777;font-size:9px;margin-top:3px}
+.search-wrap{margin-top:14px}.search-label{display:block;color:#777;font-size:9px;margin:0 0 6px 2px}.search{width:100%;background:#0a0a0a;border:1px solid #333;color:#fff;border-radius:14px;padding:14px;outline:none}.search:focus{border-color:var(--pink)}
+.choicebar{display:none;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding:11px 12px;border:1px solid #392735;background:#120d11;border-radius:14px}.choicebar.show{display:flex}.choicebar .chosen{font-size:10px;color:#aaa;line-height:1.45}.choicebar .chosen b{color:#fff}.choicebar button{white-space:nowrap}.sec{margin-top:24px;scroll-margin-top:78px}.sec-head{display:flex;justify-content:space-between;align-items:end;gap:10px}.sec-title{display:flex;align-items:center;gap:8px}.num{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:#1b1016;border:1px solid #503044;color:var(--pink2);font-size:11px;font-weight:900}.sec h2{font-size:17px;margin:0}.sec small{color:#777}.section-note{font-size:10px;color:#7f7f7f;line-height:1.45;margin:7px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.chip{background:#111;border:1px solid #2b2b2b;color:#fff;border-radius:14px;padding:12px;text-align:left;cursor:pointer;min-height:58px;transition:.16s ease}.chip:active{transform:scale(.985)}.chip.on{border-color:var(--pink);background:#1b1016;box-shadow:inset 0 0 0 1px rgba(255,45,141,.15)}.chip span{display:block;color:#777;font-size:9px;margin-top:3px}
 .scroll{display:flex;gap:8px;overflow:auto;padding-bottom:3px}.goal{min-width:145px;white-space:nowrap}
-.cards{display:grid;gap:10px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px}.meta{display:flex;gap:6px;flex-wrap:wrap}.tag{font-size:9px;border:1px solid #333;border-radius:999px;padding:5px 7px;color:#aaa}.tag.pinktag{color:var(--pink2);border-color:#503044;background:#1a1016}.card h3{font-size:16px;line-height:1.25;margin:10px 0 7px}.card p{font-size:11px;line-height:1.55;color:#929292;margin:0;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}.actions{display:flex;gap:8px;margin-top:12px}.actions .pink{flex:1}
+.cards{display:grid;gap:10px}.result-intro{display:none;margin-bottom:10px;padding:12px;border:1px solid #2d2d2d;border-radius:14px;background:#0d0d0d;color:#999;font-size:10px;line-height:1.5}.result-intro.show{display:block}.result-intro b{color:#fff}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;position:relative}.card.recommended{border-color:#5a3047;box-shadow:0 12px 35px rgba(255,45,141,.08)}.recommend-badge{position:absolute;right:12px;top:12px;font-size:8px;color:#fff;background:var(--pink);border-radius:999px;padding:4px 6px;font-weight:900}.meta{display:flex;gap:6px;flex-wrap:wrap}.tag{font-size:9px;border:1px solid #333;border-radius:999px;padding:5px 7px;color:#aaa}.tag.pinktag{color:var(--pink2);border-color:#503044;background:#1a1016}.card h3{font-size:16px;line-height:1.25;margin:10px 0 7px}.card p{font-size:11px;line-height:1.55;color:#929292;margin:0;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}.actions{display:flex;gap:8px;margin-top:12px}.actions .pink{flex:1}
 .empty{border:1px dashed #333;border-radius:18px;padding:25px;text-align:center;color:#888}.more{width:100%;margin-top:10px}
 .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,720px);z-index:18;background:rgba(8,8,8,.96);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:9px 8px 10px;backdrop-filter:blur(14px)}.nav button{background:none;border:0;color:#888;font-size:10px}.nav button.active{color:var(--pink2)}.nav b{display:block;font-size:16px;margin-bottom:2px}
-.gate{position:fixed;inset:0;z-index:60;background:radial-gradient(circle at 80% 0,rgba(255,45,141,.24),transparent 30%),#070707;display:flex;align-items:center;justify-content:center;padding:20px}.gate.hide{display:none}.login{width:min(100%,410px);background:#0e0e0e;border:1px solid #2e2e2e;border-radius:24px;padding:20px;box-shadow:var(--shadow)}.login .logo{font-size:22px;font-weight:1000}.login .logo b{color:var(--pink)}.login h1{font-size:25px;margin:18px 0 6px}.login p{color:#999;font-size:12px;line-height:1.55}.field{margin-top:10px}.field label{display:block;font-size:10px;color:#999;margin-bottom:5px}.field input,.field textarea{width:100%;background:#080808;border:1px solid #303030;color:#fff;border-radius:13px;padding:13px;outline:none}.field input:focus,.field textarea:focus{border-color:var(--pink)}.msg{min-height:18px;font-size:10px;margin-top:10px;color:#aaa}.msg.bad{color:var(--danger)}.msg.good{color:var(--green)}.login .btn{width:100%;margin-top:8px}
-.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.8);display:none;align-items:flex-end;justify-content:center}.modal.show{display:flex}.sheet{width:min(100%,720px);max-height:92vh;overflow:auto;background:#101010;border:1px solid #303030;border-radius:24px 24px 0 0;padding:18px}.close{float:right}.sheet h2{font-size:20px;margin:3px 0 4px}.sheet .sub{font-size:10px;color:#888;margin-bottom:14px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.field.full{grid-column:1/-1}.out{white-space:pre-wrap;background:#080808;border:1px solid #292929;border-radius:14px;padding:13px;font:11px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;max-height:300px;overflow:auto;margin-top:12px}.sheet-actions{display:flex;gap:8px;margin-top:10px}.sheet-actions .pink{flex:1}
+.gate{position:fixed;inset:0;z-index:60;background:radial-gradient(circle at 80% 0,rgba(255,45,141,.24),transparent 30%),#070707;display:flex;align-items:center;justify-content:center;padding:20px}.gate.hide{display:none}.login{width:min(100%,410px);background:#0e0e0e;border:1px solid #2e2e2e;border-radius:24px;padding:20px;box-shadow:var(--shadow)}.login .logo{font-size:22px;font-weight:1000}.login .logo b{color:var(--pink)}.login h1{font-size:25px;margin:18px 0 6px}.login p{color:#999;font-size:12px;line-height:1.55}.field{margin-top:10px}.field label{display:block;font-size:10px;color:#999;margin-bottom:5px}.field input,.field textarea{width:100%;background:#080808;border:1px solid #303030;color:#fff;border-radius:13px;padding:13px;outline:none}.field .hint{font-size:9px;color:#6f6f6f;margin-top:5px;line-height:1.4}.field input:focus,.field textarea:focus{border-color:var(--pink)}.msg{min-height:18px;font-size:10px;margin-top:10px;color:#aaa}.msg.bad{color:var(--danger)}.msg.good{color:var(--green)}.login .btn{width:100%;margin-top:8px}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.8);display:none;align-items:flex-end;justify-content:center}.modal.show{display:flex}.sheet{width:min(100%,720px);max-height:92vh;overflow:auto;background:#101010;border:1px solid #303030;border-radius:24px 24px 0 0;padding:18px}.close{float:right}.sheet h2{font-size:20px;margin:3px 0 4px}.sheet .sub{font-size:10px;color:#888;margin-bottom:14px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.field.full{grid-column:1/-1}.builder-guide{background:#0c0c0c;border:1px solid #2b2b2b;border-radius:14px;padding:11px;margin:11px 0;color:#929292;font-size:10px;line-height:1.5}.builder-guide b{color:#fff}.out-label{display:none;margin-top:13px;font-size:10px;color:var(--pink2);font-weight:900;letter-spacing:.5px}.out-label.show{display:block}.out{display:none;white-space:pre-wrap;background:#080808;border:1px solid #292929;border-radius:14px;padding:13px;font:11px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;max-height:300px;overflow:auto;margin-top:7px}.out.show{display:block}.sheet-actions{display:flex;gap:8px;margin-top:10px}.sheet-actions .pink{flex:1}
 .loading{position:fixed;inset:0;z-index:45;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center}.loading.show{display:flex}.loaderbox{background:#111;border:1px solid #333;border-radius:16px;padding:16px 20px;color:#bbb;font-size:12px}
 @media(min-width:600px){.grid{grid-template-columns:repeat(5,1fr)}.user-chip{display:block}.cards{grid-template-columns:1fr 1fr}}
 </style>
@@ -49,35 +49,55 @@ main{padding:16px}.hero{background:linear-gradient(145deg,#121212,#0b0b0b);borde
 <div class="app">
 <header>
   <div class="brand">BADAI <b>PROMPT UMKM</b><small>PROMPT ENGINE UNTUK UMKM INDONESIA</small></div>
-  <div class="header-actions"><span class="user-chip" id="userChip"></span><button class="btn dark" id="logoutBtn">KELUAR</button></div>
+  <div class="header-actions"><span class="user-chip" id="userChip"></span><button class="btn dark avatar-btn" onclick="openAccount()" aria-label="Buka akun">☻</button></div>
 </header>
 <main>
 <section class="hero">
-  <div class="eyebrow">MEMBER AREA • LIVE DATABASE</div>
+  <div class="eyebrow">MESIN PROMPT UMKM</div>
   <h1>Mau jualan apa hari ini?</h1>
-  <p>Pilih bisnis dan kebutuhan. Sistem akan nyaring prompt dari database BADAI PROMPT UMKM, lalu Teh tinggal isi data bisnis dan salin.</p>
-  <input class="search" id="search" placeholder="Cari prompt: sepi order, visual, follow-up, video…">
+  <p>Nggak perlu hafal prompt. Pilih jenis bisnis, pilih masalahnya, lalu isi data singkat. Sistem yang nyiapin prompt-nya.</p>
+
+  <div class="steps">
+    <div class="step-pill" id="step1"><b>1. Bisnis</b><span>Pilih jualannya</span></div>
+    <div class="step-pill" id="step2"><b>2. Kebutuhan</b><span>Pilih masalahnya</span></div>
+    <div class="step-pill" id="step3"><b>3. Pakai</b><span>Isi & salin prompt</span></div>
+  </div>
+
+  <div class="search-wrap">
+    <span class="search-label">ATAU CARI LANGSUNG</span>
+    <input class="search" id="search" placeholder="Contoh: sepi order, WhatsApp, video, promo…">
+  </div>
+
   <div class="stats">
     <div class="stat"><b id="totalStat">0</b><small>Prompt aktif</small></div>
-    <div class="stat"><b id="nicheStat">0</b><small>Niche UMKM</small></div>
+    <div class="stat"><b id="nicheStat">0</b><small>Jenis bisnis</small></div>
     <div class="stat"><b id="goalStat">0</b><small>Kebutuhan</small></div>
   </div>
 </section>
 
-<section class="sec">
-  <div class="sec-head"><h2>1. Kamu jualan apa?</h2><small id="nicheHint">Semua bisnis</small></div>
+<div class="choicebar" id="choiceBar">
+  <div class="chosen" id="choiceText">Belum ada pilihan.</div>
+  <button class="btn ghost" id="resetChoice">RESET</button>
+</div>
+
+<section class="sec" id="nicheSection">
+  <div class="sec-head"><div class="sec-title"><span class="num">1</span><h2>Kamu jualan apa?</h2></div><small id="nicheHint">Pilih satu</small></div>
+  <div class="section-note">Pilih yang paling mirip dengan bisnis kamu. Nanti masih bisa diganti kapan saja.</div>
   <div class="grid" id="nicheGrid"></div>
 </section>
 
-<section class="sec">
-  <div class="sec-head"><h2>2. Lagi butuh apa?</h2><small id="goalHint">Semua kebutuhan</small></div>
+<section class="sec" id="goalSection">
+  <div class="sec-head"><div class="sec-title"><span class="num">2</span><h2>Sekarang lagi butuh apa?</h2></div><small id="goalHint">Pilih satu</small></div>
+  <div class="section-note" id="goalNote">Pilih dulu jenis bisnis di atas supaya rekomendasinya lebih pas.</div>
   <div class="scroll" id="goalScroll"></div>
 </section>
 
-<section class="sec">
-  <div class="sec-head"><h2>3. Prompt yang cocok</h2><small id="resultCount">0 hasil</small></div>
+<section class="sec" id="resultSection">
+  <div class="sec-head"><div class="sec-title"><span class="num">3</span><h2>Pilih prompt yang mau dipakai</h2></div><small id="resultCount">0 hasil</small></div>
+  <div class="section-note">Tidak perlu baca semuanya. Pilih judul yang paling cocok, lalu tekan <b style="color:#fff">PAKAI</b>.</div>
+  <div class="result-intro" id="resultIntro"></div>
   <div class="cards" id="cards"></div>
-  <button class="btn dark more" id="moreBtn" style="display:none">TAMPILKAN LEBIH BANYAK</button>
+  <button class="btn dark more" id="moreBtn" style="display:none">LIHAT PROMPT LAINNYA</button>
 </section>
 </main>
 </div>
@@ -120,8 +140,10 @@ main{padding:16px}.hero{background:linear-gradient(145deg,#121212,#0b0b0b);borde
     <div class="eyebrow">PROMPT BUILDER</div>
     <h2 id="builderTitle">Prompt</h2>
     <div class="sub" id="builderMeta"></div>
+    <div class="builder-guide"><b>Tinggal isi yang kamu tahu.</b><br>Kalau ada kolom yang belum tahu, boleh dikosongkan dulu. Setelah itu tekan tombol pink di bawah.</div>
     <div class="formgrid" id="builderFields"></div>
-    <button class="btn pink" style="width:100%;margin-top:10px" id="buildBtn">BUAT PROMPT PERSONAL</button>
+    <button class="btn pink" style="width:100%;margin-top:10px" id="buildBtn">✨ BUAT PROMPT SAYA</button>
+    <div class="out-label" id="outLabel">PROMPT SIAP DIPAKAI</div>
     <pre class="out" id="output"></pre>
     <div class="sheet-actions"><button class="btn pink" id="copyBtn">SALIN PROMPT</button><button class="btn dark" id="favModalBtn">★ FAVORIT</button></div>
   </div>
@@ -210,10 +232,6 @@ document.getElementById('loginForm').addEventListener('submit',async e=>{
   }
 });
 
-document.getElementById('logoutBtn').onclick=async()=>{
-  try{await account.deleteSession({sessionId:'current'})}catch(e){}
-  location.reload();
-};
 
 async function loadFavorites(){
   favorites=new Set();
@@ -322,28 +340,56 @@ async function loadPrompts(){
   }finally{setLoading(false)}
 }
 
+function updateJourney(){
+  step1.classList.toggle('done',!!selectedNiche);
+  step2.classList.toggle('done',!!selectedGoal);
+  step3.classList.toggle('done',!!current);
+  choiceBar.classList.toggle('show',!!(selectedNiche||selectedGoal));
+  choiceText.innerHTML=(selectedNiche?'<b>'+esc(selectedNiche)+'</b>':'Belum pilih bisnis')+(selectedGoal?' → '+esc(selectedGoal):'');
+  goalNote.textContent=selectedNiche?'Oke. Sekarang pilih kebutuhan paling mendesak hari ini.':'Pilih dulu jenis bisnis di atas supaya rekomendasinya lebih pas.';
+}
+
 function renderFilters(){
   const niches=[...new Set(all.map(x=>x.niche))];
-  nicheGrid.innerHTML=niches.map(n=>'<button class="chip '+(selectedNiche===n?'on':'')+'" data-niche="'+esc(n)+'"><b>'+(icons[n]||'🏪')+' '+esc(n)+'</b><span>'+all.filter(x=>x.niche===n).length+' prompt</span></button>').join('');
-  nicheGrid.querySelectorAll('[data-niche]').forEach(b=>b.onclick=()=>{selectedNiche=selectedNiche===b.dataset.niche?'':b.dataset.niche;selectedGoal='';shown=pageSize;renderFilters();applyFilters()});
+  nicheGrid.innerHTML=niches.map(n=>'<button class="chip '+(selectedNiche===n?'on':'')+'" data-niche="'+esc(n)+'"><b>'+(icons[n]||'🏪')+' '+esc(n)+'</b><span>'+all.filter(x=>x.niche===n).length+' pilihan prompt</span></button>').join('');
+  nicheGrid.querySelectorAll('[data-niche]').forEach(b=>b.onclick=()=>{
+    const next=selectedNiche===b.dataset.niche?'':b.dataset.niche;
+    selectedNiche=next;selectedGoal='';shown=pageSize;current=null;
+    renderFilters();applyFilters();updateJourney();
+    if(next)setTimeout(()=>goalSection.scrollIntoView({behavior:'smooth',block:'start'}),80);
+  });
   const goals=[...new Set(all.filter(x=>!selectedNiche||x.niche===selectedNiche).map(x=>x.goal))];
-  goalScroll.innerHTML=goals.map(g=>'<button class="chip goal '+(selectedGoal===g?'on':'')+'" data-goal="'+esc(g)+'"><b>'+esc(g)+'</b></button>').join('');
-  goalScroll.querySelectorAll('[data-goal]').forEach(b=>b.onclick=()=>{selectedGoal=selectedGoal===b.dataset.goal?'':b.dataset.goal;shown=pageSize;renderFilters();applyFilters()});
-  nicheHint.textContent=selectedNiche||'Semua bisnis'; goalHint.textContent=selectedGoal||'Semua kebutuhan';
+  goalScroll.innerHTML=goals.map(g=>'<button class="chip goal '+(selectedGoal===g?'on':'')+'" data-goal="'+esc(g)+'"><b>'+esc(g)+'</b><span>'+all.filter(x=>(!selectedNiche||x.niche===selectedNiche)&&x.goal===g).length+' pilihan</span></button>').join('');
+  goalScroll.querySelectorAll('[data-goal]').forEach(b=>b.onclick=()=>{
+    const next=selectedGoal===b.dataset.goal?'':b.dataset.goal;
+    selectedGoal=next;shown=pageSize;current=null;
+    renderFilters();applyFilters();updateJourney();
+    if(next)setTimeout(()=>resultSection.scrollIntoView({behavior:'smooth',block:'start'}),80);
+  });
+  nicheHint.textContent=selectedNiche||'Pilih satu'; goalHint.textContent=selectedGoal||'Pilih satu';
+  updateJourney();
 }
 
 function applyFilters(){
   const q=search.value.trim().toLowerCase();
   filtered=all.filter(x=>(!selectedNiche||x.niche===selectedNiche)&&(!selectedGoal||x.goal===selectedGoal)&&(!q||(x.title+' '+x.prompt_text+' '+x.tags).toLowerCase().includes(q)));
   resultCount.textContent=filtered.length+' hasil';
+  if(selectedNiche&&selectedGoal){
+    resultIntro.classList.add('show');
+    resultIntro.innerHTML='Aku menemukan <b>'+filtered.length+' prompt</b> untuk <b>'+esc(selectedNiche)+'</b> dengan kebutuhan <b>'+esc(selectedGoal)+'</b>. Yang paling atas bisa dicoba dulu.';
+  }else{
+    resultIntro.classList.remove('show');
+    resultIntro.textContent='';
+  }
   renderCards();
 }
-search.oninput=()=>{shown=pageSize;applyFilters()};
+search.oninput=()=>{shown=pageSize;applyFilters();if(search.value.trim())resultSection.scrollIntoView({behavior:'smooth',block:'start'})};
+resetChoice.onclick=()=>{selectedNiche='';selectedGoal='';current=null;search.value='';shown=pageSize;renderFilters();applyFilters();nicheSection.scrollIntoView({behavior:'smooth',block:'start'})};
 
 function renderCards(){
   const list=filtered.slice(0,shown);
   if(!list.length){cards.innerHTML='<div class="empty">Belum ada prompt yang cocok. Coba kata kunci atau filter lain.</div>';moreBtn.style.display='none';return}
-  cards.innerHTML=list.map(x=>'<article class="card"><div class="meta"><span class="tag pinktag">'+esc(x.output_type)+'</span><span class="tag">'+esc(x.goal)+'</span></div><h3>'+esc(x.title)+'</h3><p>'+esc(x.prompt_text)+'</p><div class="actions"><button class="btn pink" data-use="'+esc(x.$id)+'">PAKAI</button><button class="btn dark" data-fav="'+esc(x.$id)+'">'+(favorites.has(x.$id)?'★':'☆')+'</button></div></article>').join('');
+  cards.innerHTML=list.map((x,i)=>'<article class="card '+(i===0&&selectedNiche&&selectedGoal?'recommended':'')+'">'+(i===0&&selectedNiche&&selectedGoal?'<span class="recommend-badge">COBA DULU</span>':'')+'<div class="meta"><span class="tag pinktag">'+esc(x.output_type)+'</span><span class="tag">'+esc(x.goal)+'</span></div><h3>'+esc(x.title)+'</h3><p>'+esc(x.prompt_text)+'</p><div class="actions"><button class="btn pink" data-use="'+esc(x.$id)+'">PAKAI</button><button class="btn dark" data-fav="'+esc(x.$id)+'">'+(favorites.has(x.$id)?'★':'☆')+'</button></div></article>').join('');
   cards.querySelectorAll('[data-use]').forEach(b=>b.onclick=()=>openBuilder(b.dataset.use));
   cards.querySelectorAll('[data-fav]').forEach(b=>b.onclick=async()=>{b.disabled=true;await toggleFavorite(b.dataset.fav);renderCards()});
   moreBtn.style.display=shown<filtered.length?'block':'none';
@@ -357,23 +403,61 @@ const labels={
  '[WARNA BRAND]':'Warna brand','[REFERENSI VISUAL OPSIONAL]':'Referensi visual (opsional)','[DURASI]':'Durasi',
  '[WAJAH/PRODUK YANG TERSEDIA]':'Wajah / produk yang tersedia','[NAMA PELANGGAN OPSIONAL]':'Nama pelanggan (opsional)','[RIWAYAT CHAT OPSIONAL]':'Riwayat chat (opsional)'
 };
+const examples={
+ '[NAMA BISNIS]':'Contoh: Dapur Bunda Rina','[KOTA/AREA]':'Contoh: Bandung / area Antapani','[PRODUK/LAYANAN]':'Contoh: risoles mayo isi 5',
+ '[HARGA]':'Contoh: Rp25.000','[TARGET PEMBELI]':'Contoh: ibu-ibu kantor, usia 25–45','[KEUNGGULAN]':'Contoh: dibuat fresh, isi banyak, tanpa pengawet',
+ '[PROMO ATAU KONDISI]':'Contoh: gratis ongkir hari ini / order sedang sepi','[WARNA BRAND]':'Contoh: pink dan hitam',
+ '[REFERENSI VISUAL OPSIONAL]':'Contoh: foto produk di meja kayu, cahaya pagi','[DURASI]':'Contoh: 15 detik',
+ '[WAJAH/PRODUK YANG TERSEDIA]':'Contoh: foto pemilik + foto produk','[NAMA PELANGGAN OPSIONAL]':'Contoh: Bu Sari',
+ '[RIWAYAT CHAT OPSIONAL]':'Tempel chat terakhir dengan calon pembeli kalau ada'
+};
 
 function openBuilder(id){
   current=all.find(x=>x.$id===id); if(!current)return;
-  builderTitle.textContent=current.title; builderMeta.textContent=current.niche+' • '+current.goal+' • '+current.output_type;
+  updateJourney();
+  builderTitle.textContent=current.title;
+  builderMeta.textContent=current.niche+' • '+current.goal+' • '+current.output_type;
   const vars=extractVars(current.variables||current.prompt_text);
-  builderFields.innerHTML=vars.map((v,i)=>'<div class="field '+(v.includes('RIWAYAT')||v.includes('REFERENSI')?'full':'')+'"><label>'+esc(labels[v]||v.replace(/[\[\]]/g,''))+'</label>'+(v.includes('RIWAYAT')?'<textarea rows="4" data-var="'+esc(v)+'"></textarea>':'<input data-var="'+esc(v)+'">')+'</div>').join('');
-  output.textContent=current.prompt_text; favModalBtn.textContent=(favorites.has(id)?'★':'☆')+' FAVORIT'; modal.classList.add('show');
+  builderFields.innerHTML=vars.map(v=>{
+    const full=v.includes('RIWAYAT')||v.includes('REFERENSI');
+    const label=labels[v]||v.replace(/[\[\]]/g,'');
+    const ex=examples[v]||'Isi sesuai kondisi bisnis kamu';
+    const control=v.includes('RIWAYAT')
+      ?'<textarea rows="4" data-var="'+esc(v)+'" placeholder="'+esc(ex)+'"></textarea>'
+      :'<input data-var="'+esc(v)+'" placeholder="'+esc(ex)+'">';
+    return '<div class="field '+(full?'full':'')+'"><label>'+esc(label)+'</label>'+control+'<div class="hint">'+esc(ex)+'</div></div>';
+  }).join('');
+  output.textContent='';
+  output.classList.remove('show');
+  outLabel.classList.remove('show');
+  copyBtn.disabled=true;
+  copyBtn.textContent='SALIN PROMPT';
+  favModalBtn.textContent=(favorites.has(id)?'★':'☆')+' FAVORIT';
+  modal.classList.add('show');
 }
 closeModal.onclick=()=>modal.classList.remove('show');
 modal.onclick=e=>{if(e.target===modal)modal.classList.remove('show')};
 
 buildBtn.onclick=()=>{
-  if(!current)return; let s=current.prompt_text;
-  builderFields.querySelectorAll('[data-var]').forEach(el=>{const v=el.dataset.var,val=el.value.trim()||v;s=s.split(v).join(val)});
+  if(!current)return;
+  let s=current.prompt_text;
+  let filled=0;
+  builderFields.querySelectorAll('[data-var]').forEach(el=>{
+    const v=el.dataset.var,val=el.value.trim();
+    if(val){filled++;s=s.split(v).join(val)}
+  });
+  if(builderFields.querySelectorAll('[data-var]').length && filled===0){
+    alert('Isi minimal satu data bisnis dulu ya, supaya prompt-nya lebih personal.');
+    return;
+  }
   output.textContent=s;
+  output.classList.add('show');
+  outLabel.classList.add('show');
+  copyBtn.disabled=false;
+  step3.classList.add('done');
+  setTimeout(()=>outLabel.scrollIntoView({behavior:'smooth',block:'start'}),80);
 };
-copyBtn.onclick=async()=>{await navigator.clipboard.writeText(output.textContent);copyBtn.textContent='TERSALIN ✓';setTimeout(()=>copyBtn.textContent='SALIN PROMPT',1200)};
+copyBtn.onclick=async()=>{if(!output.textContent)return;await navigator.clipboard.writeText(output.textContent);copyBtn.textContent='TERSALIN ✓';setTimeout(()=>copyBtn.textContent='SALIN PROMPT',1200)};
 favModalBtn.onclick=async()=>{if(!current)return;favModalBtn.disabled=true;await toggleFavorite(current.$id);favModalBtn.textContent=(favorites.has(current.$id)?'★':'☆')+' FAVORIT';favModalBtn.disabled=false;renderCards()};
 
 async function toggleFavorite(id){
