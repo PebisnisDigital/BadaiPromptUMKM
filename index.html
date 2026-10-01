@@ -92,7 +92,7 @@ async function runPayment(path,payload){
     body:JSON.stringify({
       body:JSON.stringify(payload||{}),
       async:false,
-      xpath:path,
+      path:path,
       method:'POST',
       headers:{'content-type':'application/json'}
     })
