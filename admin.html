@@ -22,7 +22,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.eyebrow{font-size:1
 .nav{position:fixed;z-index:35;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,940px);display:grid;grid-template-columns:repeat(5,1fr);background:rgba(9,9,9,.97);border-top:1px solid var(--line);padding:8px 5px 10px;backdrop-filter:blur(14px)}.nav button{background:none;border:0;color:#777;font-size:9px;padding:5px}.nav button b{display:block;font-size:16px;margin-bottom:2px}.nav button.on{color:var(--pink2)}
 .gate{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 80% 0,rgba(255,45,141,.22),transparent 30%),#070707;display:flex;align-items:center;justify-content:center;padding:18px}.gate.hide{display:none}.login{width:min(100%,420px);background:#0e0e0e;border:1px solid #303030;border-radius:24px;padding:20px}.login h1{font-size:26px;margin:16px 0 6px}.login p{color:#999;font-size:12px;line-height:1.55}.field{margin-top:9px}.field label{display:block;color:#999;font-size:9px;font-weight:800;margin-bottom:5px}.field input,.field textarea,.field select{width:100%}.msg{font-size:10px;min-height:18px;color:#999;margin-top:9px}.msg.bad{color:var(--red)}.msg.good{color:var(--green)}
 .modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.82);display:none;align-items:flex-end;justify-content:center}.modal.show{display:flex}.sheet{width:min(100%,720px);max-height:94vh;overflow:auto;background:#101010;border:1px solid #333;border-radius:24px 24px 0 0;padding:17px}.sheet-head{display:flex;justify-content:space-between;gap:10px;align-items:start}.sheet h2{font-size:21px;margin:3px 0}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.full{grid-column:1/-1}.checks{display:flex;gap:14px;flex-wrap:wrap;padding:9px 0;color:#aaa;font-size:11px}.sheet-actions{display:flex;gap:8px;margin-top:12px}.sheet-actions .pink{flex:1}
-.switch{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px;background:#0c0c0c;border:1px solid #292929;border-radius:14px;margin-top:8px}
+.switch{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px;background:#0c0c0c;border:1px solid #292929;border-radius:14px;margin-top:8px}.insight-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}.rank-list{display:grid;gap:7px}.rank-item{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;background:#0d0d0d;border:1px solid #292929;border-radius:13px;padding:10px}.rank-no{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#1d1118;color:var(--pink2);font-size:10px;font-weight:900}.rank-item b{display:block;font-size:11px}.rank-item span{display:block;font-size:8px;color:#7d7d7d;margin-top:3px}.rank-count{font-size:11px;font-weight:900;color:#fff}.chart{display:flex;align-items:end;gap:7px;height:150px;padding:10px 4px 0}.barcol{flex:1;min-width:0;text-align:center}.barwrap{height:108px;display:flex;align-items:end;justify-content:center}.bar{width:100%;max-width:36px;min-height:4px;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,var(--pink),#742047)}.barval{font-size:8px;color:#ddd;margin-bottom:4px}.barlabel{font-size:7px;color:#777;margin-top:6px;line-height:1.2}.insight-note{font-size:9px;color:#777;line-height:1.5;margin-top:8px}@media(min-width:700px){.insight-grid{grid-template-columns:1fr 1fr}.insight-grid .wide{grid-column:1/-1}}
 @media(min-width:650px){.cards{grid-template-columns:repeat(4,1fr)}.list.two{grid-template-columns:1fr 1fr}.formgrid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
@@ -53,10 +53,32 @@ main{padding:16px}.view{display:none}.view.on{display:block}.eyebrow{font-size:1
     <div class="stat"><small>PROMPT AKTIF</small><b id="sPublished">0</b></div>
     <div class="stat"><small>MEMBER AKTIF</small><b id="sMembers">0</b></div>
     <div class="stat"><small>OMZET TERVERIFIKASI</small><b class="pinktext" id="sRevenue">Rp0</b></div>
-    <div class="stat"><small>ORDER LUNAS</small><b id="sPaid">0</b></div>
+    <div class="stat"><small>TOTAL DIPAKAI</small><b id="sUses">0</b></div>
+    <div class="stat"><small>DIPAKAI HARI INI</small><b id="sUsesToday">0</b></div>
+    <div class="stat"><small>TOTAL FAVORIT</small><b id="sFavorites">0</b></div>
     <div class="stat"><small>ORDER PENDING</small><b id="sPending">0</b></div>
   </div>
-  <div class="panel"><h2>Order terbaru</h2><div class="list" id="recentOrders"></div></div>
+
+  <div class="insight-grid">
+    <div class="panel">
+      <h2>🔥 Prompt Paling Sering Dipakai</h2>
+      <div class="rank-list" id="topUsedList"></div>
+    </div>
+    <div class="panel">
+      <h2>★ Prompt Paling Difavoritkan</h2>
+      <div class="rank-list" id="topFavoriteList"></div>
+    </div>
+    <div class="panel">
+      <h2>⚡ Member Paling Aktif</h2>
+      <div class="rank-list" id="topMemberList"></div>
+    </div>
+    <div class="panel">
+      <h2>📈 Aktivitas 7 Hari</h2>
+      <div class="chart" id="usageChart"></div>
+      <div class="insight-note">Grafik harian mulai tercatat akurat sejak fitur insight ini diaktifkan. Ranking kumulatif tetap memakai riwayat lama.</div>
+    </div>
+    <div class="panel wide"><h2>Order terbaru</h2><div class="list" id="recentOrders"></div></div>
+  </div>
 </section>
 
 <section class="view" id="v-prompts">
@@ -249,9 +271,33 @@ document.querySelectorAll('.nav button').forEach(b=>b.onclick=async()=>{
   if(b.dataset.view==='settings')await loadSettings();
 });
 
+function rankHtml(rows,subKey='niche'){
+  if(!rows?.length)return '<div class="empty">Belum ada data pemakaian.</div>';
+  return rows.map((r,i)=>'<div class="rank-item"><div class="rank-no">#'+(i+1)+'</div><div><b>'+esc(r.title||r.name||'-')+'</b><span>'+esc(r[subKey]||r.email||'')+'</span></div><div class="rank-count">'+Number(r.count||0)+'x</div></div>').join('');
+}
+
 async function loadDashboard(){
   const d=await api('/dashboard');
-  sPrompts.textContent=d.stats.prompts;sPublished.textContent=d.stats.published;sMembers.textContent=d.stats.members;sRevenue.textContent=rupiah(d.stats.revenue);sPaid.textContent=d.stats.paid_orders;sPending.textContent=d.stats.pending_orders;
+  sPrompts.textContent=d.stats.prompts;
+  sPublished.textContent=d.stats.published;
+  sMembers.textContent=d.stats.members;
+  sRevenue.textContent=rupiah(d.stats.revenue);
+  sUses.textContent=Number(d.stats.total_uses||0).toLocaleString('id-ID');
+  sUsesToday.textContent=Number(d.stats.uses_today||0).toLocaleString('id-ID');
+  sFavorites.textContent=Number(d.stats.total_favorites||0).toLocaleString('id-ID');
+  sPending.textContent=d.stats.pending_orders;
+
+  topUsedList.innerHTML=rankHtml(d.insights?.top_used||[],'niche');
+  topFavoriteList.innerHTML=rankHtml(d.insights?.top_favorites||[],'niche');
+  topMemberList.innerHTML=rankHtml(d.insights?.top_members||[],'email');
+
+  const daily=d.insights?.daily_usage||[];
+  const max=Math.max(...daily.map(x=>Number(x.count||0)),1);
+  usageChart.innerHTML=daily.map(x=>{
+    const pct=Math.max(4,Math.round((Number(x.count||0)/max)*100));
+    return '<div class="barcol"><div class="barwrap"><div><div class="barval">'+Number(x.count||0)+'</div><div class="bar" style="height:'+pct+'px"></div></div></div><div class="barlabel">'+esc(x.label||'')+'</div></div>';
+  }).join('');
+
   recentOrders.innerHTML=d.recent_orders.length?d.recent_orders.map(o=>'<div class="row"><div class="order-grid"><div><h3>'+esc(o.full_name)+'</h3><div class="muted">'+esc(o.email)+' • '+esc(o.whatsapp||'-')+'</div></div><div><div class="money">'+rupiah(o.total_amount||o.amount)+'</div><div class="status '+esc(o.status)+'">'+esc(o.status)+'</div></div></div></div>').join(''):'<div class="empty">Belum ada order.</div>';
 }
 
