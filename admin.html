@@ -30,13 +30,31 @@ main{padding:16px}.view{display:none}.view.on{display:block}.eyebrow{font-size:1
 <div class="gate" id="gate">
   <div class="login">
     <div class="brand">BADAI <b>PROMPT UMKM</b><small>ADMIN PANEL</small></div>
-    <h1>Masuk sebagai admin.</h1>
-    <p>Halaman ini hanya untuk akun yang masuk team admin. Link login akan dikirim ke email owner.</p>
-    <form id="loginForm">
-      <div class="field"><label>EMAIL ADMIN</label><input id="loginEmail" type="email" required placeholder="email admin"></div>
-      <button class="btn pink" id="loginBtn" type="submit" style="width:100%;margin-top:10px">KIRIM LINK LOGIN</button>
-      <div class="msg" id="loginMsg"></div>
-    </form>
+    <div id="normalLoginPanel">
+      <h1>Masuk sebagai admin.</h1>
+      <p>Gunakan email + password. Link email sekarang hanya jadi cadangan kalau lupa password.</p>
+      <form id="loginForm">
+        <div class="field"><label>EMAIL ADMIN</label><input id="loginEmail" type="email" autocomplete="email" required placeholder="email admin"></div>
+        <div class="field"><label>PASSWORD</label><input id="loginPassword" type="password" autocomplete="current-password" required placeholder="••••••••••"></div>
+        <button class="btn pink" id="loginBtn" type="submit" style="width:100%;margin-top:10px">MASUK ADMIN</button>
+        <div class="msg" id="loginMsg"></div>
+      </form>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+        <button class="btn dark" id="forgotPasswordBtn" type="button">BUAT / LUPA PASSWORD</button>
+        <button class="btn dark" id="magicLoginBtn" type="button">MASUK VIA EMAIL</button>
+      </div>
+    </div>
+
+    <div id="resetPasswordPanel" style="display:none">
+      <h1>Buat password admin.</h1>
+      <p>Buat password baru minimal 10 karakter. Setelah ini login berikutnya cukup email + password.</p>
+      <form id="resetPasswordForm">
+        <div class="field"><label>PASSWORD BARU</label><input id="newPassword" type="password" autocomplete="new-password" minlength="10" required placeholder="Minimal 10 karakter"></div>
+        <div class="field"><label>ULANGI PASSWORD</label><input id="confirmPassword" type="password" autocomplete="new-password" minlength="10" required placeholder="Ulangi password"></div>
+        <button class="btn pink" id="resetPasswordBtn" type="submit" style="width:100%;margin-top:10px">SIMPAN PASSWORD BARU</button>
+        <div class="msg" id="resetPasswordMsg"></div>
+      </form>
+    </div>
   </div>
 </div>
 
@@ -259,6 +277,7 @@ async function api(path,body={}){
 
 async function finishLogin(){
   me=await account.get();
+  localStorage.setItem('bpu_admin_email',me.email||'');
   document.getElementById('adminName').textContent=me.name||me.email;
   try{
     await api('/health');
@@ -272,6 +291,7 @@ async function finishLogin(){
 
 const params=new URLSearchParams(location.search);
 async function completeMagic(){
+  if(params.get('magic')!=='1')return false;
   const userId=params.get('userId'),secret=params.get('secret');
   if(!userId||!secret)return false;
   msg(loginMsg,'Membuka admin…');
@@ -284,11 +304,75 @@ async function completeMagic(){
 }
 
 document.getElementById('loginForm').onsubmit=async e=>{
-  e.preventDefault();const b=document.getElementById('loginBtn');b.disabled=true;b.textContent='MENGIRIM…';
+  e.preventDefault();
+  const b=document.getElementById('loginBtn');
+  b.disabled=true;b.textContent='MEMERIKSA…';msg(loginMsg,'Masuk ke admin…');
   try{
-    await account.createMagicURLToken({userId:ID.unique(),email:loginEmail.value.trim().toLowerCase(),url:'https://badaipromptumkm2026.vercel.app/admin'});
-    msg(loginMsg,'Link admin sudah dikirim ke email. Cek Inbox/Spam.','good');
-  }catch(err){msg(loginMsg,err.message||'Gagal kirim link.','bad')}finally{b.disabled=false;b.textContent='KIRIM LINK LOGIN'}
+    await account.createEmailPasswordSession({
+      email:loginEmail.value.trim().toLowerCase(),
+      password:loginPassword.value
+    });
+    await finishLogin();
+  }catch(err){
+    msg(loginMsg,'Email atau password belum cocok. Kalau belum pernah membuat password, klik BUAT / LUPA PASSWORD.','bad');
+  }finally{
+    b.disabled=false;b.textContent='MASUK ADMIN';
+  }
+};
+
+document.getElementById('forgotPasswordBtn').onclick=async()=>{
+  const email=loginEmail.value.trim().toLowerCase();
+  if(!email){msg(loginMsg,'Isi email admin dulu.','bad');loginEmail.focus();return}
+  try{
+    localStorage.setItem('bpu_admin_email',email);
+    await account.createRecovery({
+      email,
+      url:'https://badaipromptumkm2026.vercel.app/admin?reset=1'
+    });
+    msg(loginMsg,'Link buat/reset password sudah dikirim. Cek Inbox/Spam lalu buka link tersebut.','good');
+  }catch(err){
+    msg(loginMsg,err.message||'Gagal mengirim link reset password.','bad');
+  }
+};
+
+document.getElementById('magicLoginBtn').onclick=async()=>{
+  const email=loginEmail.value.trim().toLowerCase();
+  if(!email){msg(loginMsg,'Isi email admin dulu.','bad');loginEmail.focus();return}
+  try{
+    await account.createMagicURLToken({
+      userId:ID.unique(),
+      email,
+      url:'https://badaipromptumkm2026.vercel.app/admin?magic=1'
+    });
+    msg(loginMsg,'Link login cadangan sudah dikirim ke email.','good');
+  }catch(err){
+    msg(loginMsg,err.message||'Gagal mengirim link login.','bad');
+  }
+};
+
+document.getElementById('resetPasswordForm').onsubmit=async e=>{
+  e.preventDefault();
+  const password=newPassword.value;
+  const confirm=confirmPassword.value;
+  if(password.length<10){msg(resetPasswordMsg,'Password minimal 10 karakter.','bad');return}
+  if(password!==confirm){msg(resetPasswordMsg,'Ulangi password harus sama.','bad');return}
+  const userId=params.get('userId'),secret=params.get('secret');
+  if(!userId||!secret){msg(resetPasswordMsg,'Link reset tidak valid. Kirim ulang dari halaman login.','bad');return}
+  const b=document.getElementById('resetPasswordBtn');
+  b.disabled=true;b.textContent='MENYIMPAN…';
+  try{
+    await account.updateRecovery({userId,secret,password});
+    history.replaceState({},'',location.pathname);
+    document.getElementById('resetPasswordPanel').style.display='none';
+    document.getElementById('normalLoginPanel').style.display='block';
+    loginEmail.value=localStorage.getItem('bpu_admin_email')||loginEmail.value;
+    loginPassword.value='';
+    msg(loginMsg,'Password berhasil dibuat ✓ Sekarang login pakai email + password.','good');
+  }catch(err){
+    msg(resetPasswordMsg,err.message||'Password belum bisa diperbarui. Coba kirim link reset baru.','bad');
+  }finally{
+    b.disabled=false;b.textContent='SIMPAN PASSWORD BARU';
+  }
 };
 document.getElementById('logoutBtn').onclick=async()=>{await account.deleteSession({sessionId:'current'}).catch(()=>{});location.reload()};
 
@@ -549,7 +633,15 @@ async function loadSettings(){
 settingsForm.onsubmit=async e=>{e.preventDefault();msg(settingsMsg,'Menyimpan…');try{await api('/settings/save',{product_name:setName.value.trim(),product_price:String(Number(setPrice.value)||0),registration_open:String(setOpen.checked)});msg(settingsMsg,'Pengaturan tersimpan ✓','good')}catch(err){msg(settingsMsg,err.message,'bad')}};
 
 promptModal.onclick=e=>{if(e.target===promptModal)closePrompt()};
-completeMagic().then(async done=>{if(done)return;try{await finishLogin()}catch(e){gate.classList.remove('hide')}});
+if(params.get('reset')==='1'){
+  document.getElementById('normalLoginPanel').style.display='none';
+  document.getElementById('resetPasswordPanel').style.display='block';
+  gate.classList.remove('hide');
+}else{
+  const savedEmail=localStorage.getItem('bpu_admin_email');
+  if(savedEmail)loginEmail.value=savedEmail;
+  completeMagic().then(async done=>{if(done)return;try{await finishLogin()}catch(e){gate.classList.remove('hide')}});
+}
 </script>
 </body>
 </html>
