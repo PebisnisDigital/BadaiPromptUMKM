@@ -884,6 +884,125 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   .bpu-niche-right .bpu-niche-marquee-track{animation-duration:34s}
 }
 </style>
+
+<style id="bpu-why-badai-style">
+.bpu-why-badai{
+  background:
+    radial-gradient(circle at 50% 0,rgba(255,79,163,.08),transparent 28%),
+    #080808;
+}
+.bpu-why-story{
+  display:grid;
+  grid-template-columns:84px 1fr;
+  gap:18px;
+  align-items:center;
+  margin-top:27px;
+  padding:20px;
+  border-radius:22px;
+  border:1px solid #4a293b;
+  background:linear-gradient(145deg,#140f12,#0d0d0e);
+  text-align:left;
+}
+.bpu-why-story-mark{
+  width:84px;height:84px;
+  display:grid;place-items:center;
+  border-radius:22px;
+  background:#0b0b0c;
+  border:1px solid rgba(255,255,255,.1);
+  color:#fff;
+  font:950 22px var(--font-sf);
+  letter-spacing:-.06em;
+  box-shadow:0 16px 35px rgba(0,0,0,.28);
+}
+.bpu-why-story-mark span{color:var(--bpu-pink)}
+.bpu-why-story small{
+  display:block;color:#b4698f;
+  font:900 7px var(--font-sf);
+  letter-spacing:.14em
+}
+.bpu-why-story b{
+  display:block;margin-top:7px;
+  color:#fff;font:950 18px/1.08 var(--font-sf)
+}
+.bpu-why-story p{
+  margin:8px 0 0;
+  color:#8d8d92;
+  font-size:9px;
+  line-height:1.6
+}
+.bpu-why-story strong{color:#fff}
+.bpu-why-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:10px;
+}
+.bpu-why-grid article{
+  min-height:155px;
+  padding:16px;
+  border-radius:18px;
+  background:#101011;
+  border:1px solid #29292c;
+  text-align:left;
+}
+.bpu-why-grid article>span{
+  display:grid;place-items:center;
+  width:31px;height:31px;
+  border-radius:10px;
+  background:#211019;
+  color:var(--bpu-pink2);
+  font:900 8px var(--font-sf);
+}
+.bpu-why-grid b{
+  display:block;
+  margin:17px 0 6px;
+  color:#fff;
+  font:950 13px/1.15 var(--font-sf);
+}
+.bpu-why-grid p{
+  margin:0;
+  color:#838388;
+  font-size:8.5px;
+  line-height:1.5;
+}
+.bpu-why-punch{
+  margin-top:10px;
+  padding:25px 21px;
+  border-radius:22px;
+  background:linear-gradient(145deg,#ff4fa3,#dc2c83);
+  text-align:center;
+  box-shadow:0 20px 48px rgba(255,79,163,.13);
+}
+.bpu-why-punch small{
+  display:block;
+  color:#ffd9eb;
+  font:900 7px var(--font-sf);
+  letter-spacing:.14em;
+}
+.bpu-why-punch b{
+  display:block;
+  max-width:560px;
+  margin:8px auto 0;
+  color:#fff;
+  font:950 24px/1.07 var(--font-sf);
+  letter-spacing:-.04em;
+}
+.bpu-why-punch p{
+  max-width:540px;
+  margin:9px auto 0;
+  color:#ffe5f0;
+  font-size:9px;
+  line-height:1.55;
+}
+.bpu-why-punch strong{color:#fff}
+@media(max-width:600px){
+  .bpu-why-story{grid-template-columns:62px 1fr;padding:16px}
+  .bpu-why-story-mark{width:62px;height:62px;border-radius:17px;font-size:17px}
+  .bpu-why-grid{grid-template-columns:1fr}
+  .bpu-why-grid article{min-height:0}
+  .bpu-why-punch b{font-size:20px}
+}
+</style>
 </head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
@@ -1159,29 +1278,58 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   </div>
 </section>
 
-<section class="bpu-section bpu-showcase">
+<section class="bpu-section bpu-why-badai">
   <div class="bpu-container">
-    <div class="bpu-kicker reveal2">BIKIN ORANG BERHENTI LIHAT</div>
-    <h2 class="reveal2">Jualanmu Sama.<br><span>Cara Menampilkannya Beda.</span></h2>
-    <p class="bpu-lead reveal2">BADAI membantu kamu menyiapkan materi yang dilihat calon pembeli sebelum mereka memutuskan mau lanjut baca, tanya, atau lewat.</p>
+    <div class="bpu-kicker reveal2">KENAPA BADAI PROMPT UMKM DIBUAT?</div>
+    <h2 class="reveal2">Karena Banyak Produk Bagus<br><span>Kalah Gara-gara Gambarnya.</span></h2>
+    <p class="bpu-lead reveal2">Banyak UMKM sebenarnya punya produk enak, bagus, dan layak dibeli. Masalahnya, saat masuk ke layar HP, produknya sering tampil <b>biasa aja.</b> Foto seadanya. Promonya kurang greget. Akhirnya calon pembeli keburu lewat.</p>
 
-    <div class="bpu-work-grid">
-      <article class="bpu-work-card big reveal2">
-        <div class="bpu-work-image"><img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh prompt promo kuliner"></div>
-        <div class="bpu-work-copy"><small>POSTER PROMO</small><b>Bikin penawaran lebih cepat terbaca.</b><p>Visual promo, bundling, launching, tanggal cantik, dan campaign musiman dengan fokus produk yang jelas.</p></div>
+    <div class="bpu-why-story reveal2">
+      <div class="bpu-why-story-mark">BAD<span>AI</span></div>
+      <div>
+        <small>MAKANYA KAMI BIKIN INI</small>
+        <b>Prompt gambar yang memang dibuat untuk jualan.</b>
+        <p>Bukan prompt asal keren. Bukan gambar cantik doang. Prompt-nya diarahkan untuk bantu UMKM membuat visual yang <strong>lebih menggoda, lebih jelas, lebih dipercaya, dan lebih siap dipakai promosi.</strong></p>
+      </div>
+    </div>
+
+    <div class="bpu-why-grid">
+      <article class="reveal2">
+        <span>01</span>
+        <b>Biar Orang Berhenti Scroll</b>
+        <p>Gambar yang lebih menarik bantu produkmu punya kesempatan dilihat lebih lama.</p>
       </article>
-      <article class="bpu-work-card reveal2">
-        <div class="bpu-work-image"><img src="/assets/dummy/03-foto-produk.png" alt="Contoh prompt foto produk"></div>
-        <div class="bpu-work-copy"><small>FOTO PRODUK</small><b>Bikin produk terlihat lebih menarik.</b><p>Konsep studio, lifestyle, katalog, hero marketplace, sampai visual iklan dari foto produk yang kamu punya.</p></div>
+      <article class="reveal2">
+        <span>02</span>
+        <b>Biar Produk Terasa Lebih Bernilai</b>
+        <p>Produk yang sama bisa terlihat lebih niat, lebih rapi, dan lebih meyakinkan.</p>
       </article>
-      <article class="bpu-work-card reveal2">
-        <div class="bpu-work-image"><img src="/assets/dummy/04-video-jualan.png" alt="Contoh prompt video jualan"></div>
-        <div class="bpu-work-copy"><small>VIDEO JUALAN</small><b>Bikin produk terasa lebih hidup.</b><p>Ide adegan, hook, storyboard, script pendek, sampai CTA yang mengarahkan orang ke penawaran.</p></div>
+      <article class="reveal2">
+        <span>03</span>
+        <b>Biar Promo Lebih Menggoda</b>
+        <p>Diskon, bonus, bundling, dan penawaran dibuat lebih mudah dipahami dari sekali lihat.</p>
       </article>
-      <article class="bpu-work-card big reveal2">
-        <div class="bpu-work-image"><img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh prompt follow-up WhatsApp"></div>
-        <div class="bpu-work-copy"><small>COPY + WHATSAPP</small><b>Visualnya menarik. Kata-katanya ikut menjual.</b><p>Headline, caption, CTA, broadcast, follow-up, dan jawaban untuk calon pembeli yang masih ragu.</p></div>
+      <article class="reveal2">
+        <span>04</span>
+        <b>Biar Calon Pembeli Lebih Yakin</b>
+        <p>Visual yang baik membantu mengurangi kesan “asal jualan” dan memperkuat rasa percaya.</p>
       </article>
+      <article class="reveal2">
+        <span>05</span>
+        <b>Biar Punya Banyak Bahan Jualan</b>
+        <p>Dari satu produk, kamu bisa bikin banyak versi visual untuk marketplace, WhatsApp, sosial media, dan iklan.</p>
+      </article>
+      <article class="reveal2">
+        <span>06</span>
+        <b>Biar Peluang Closing Lebih Besar</b>
+        <p>Bukan jaminan langsung laris, tapi materi jualan yang lebih kuat memberi orang lebih banyak alasan untuk lanjut bertanya dan membeli.</p>
+      </article>
+    </div>
+
+    <div class="bpu-why-punch reveal2">
+      <small>INTINYA SEDERHANA.</small>
+      <b>Kalau produknya sudah bagus, jangan biarkan gambarnya bikin jualan kelihatan biasa.</b>
+      <p>BADAI Prompt UMKM dibuat supaya kamu punya prompt gambar jualan yang siap dipakai untuk membantu produkmu <strong>lebih dilirik, lebih dipercaya, dan lebih berpeluang dibeli.</strong></p>
     </div>
   </div>
 </section>
