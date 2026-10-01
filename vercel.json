@@ -1,0 +1,6 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/akses", "destination": "/akses.html" }
+  ]
+}
