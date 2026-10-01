@@ -517,14 +517,8 @@ async function loadProfile(){
     });
     currentProfile={...(row.data||row||{}),$id:row.$id||(row.data||{}).$id};
   }catch(err){
-    currentProfile={
-      user_id:currentUser.$id,
-      name:currentUser.name||'Member BADAI PROMPT UMKM',
-      email:currentUser.email||'',
-      whatsapp:'',
-      status:'active',
-      role:'member'
-    };
+    currentProfile=null;
+    throw new Error('Profil member belum aktif atau tidak ditemukan. Hubungi admin.');
   }
 }
 
