@@ -130,6 +130,14 @@ main{padding:16px}.view{display:none}.view.on{display:block}.eyebrow{font-size:1
   </div>
 
   <div class="panel">
+    <div class="eyebrow">KEAMANAN ADMIN</div>
+    <h2 style="margin-top:5px">Login Email + Password</h2>
+    <div class="muted">Gunakan tombol ini untuk membuat password pertama atau mengganti password admin. Link reset akan dikirim ke email admin yang sedang login.</div>
+    <button class="btn dark" id="sendAdminPasswordResetBtn" type="button" style="width:100%;margin-top:10px">BUAT / RESET PASSWORD ADMIN</button>
+    <div class="msg" id="adminPasswordMsg"></div>
+  </div>
+
+  <div class="panel">
     <div class="title-row" style="margin-bottom:10px">
       <div><div class="eyebrow">VOUCHER & DISKON</div><h1 style="font-size:20px;margin:4px 0">Kupon</h1><p>Buat kode launching, reseller, promo grup, atau akses gratis terbatas.</p></div>
       <button class="btn pink" onclick="openCoupon()">+ KUPON</button>
@@ -625,6 +633,24 @@ deleteCouponBtn.onclick=async()=>{
   if(!cId.value||!confirm('Hapus kupon ini permanen?'))return;
   await api('/coupons/delete',{id:cId.value});
   closeCoupon();await loadCoupons();
+};
+
+document.getElementById('sendAdminPasswordResetBtn').onclick=async()=>{
+  if(!me?.email){msg(adminPasswordMsg,'Email admin tidak terbaca. Coba login ulang.','bad');return}
+  const b=document.getElementById('sendAdminPasswordResetBtn');
+  b.disabled=true;b.textContent='MENGIRIM…';
+  try{
+    localStorage.setItem('bpu_admin_email',me.email);
+    await account.createRecovery({
+      email:me.email,
+      url:'https://badaipromptumkm2026.vercel.app/admin?reset=1'
+    });
+    msg(adminPasswordMsg,'Link buat/reset password sudah dikirim ke '+me.email+'.','good');
+  }catch(err){
+    msg(adminPasswordMsg,err.message||'Gagal mengirim link reset password.','bad');
+  }finally{
+    b.disabled=false;b.textContent='BUAT / RESET PASSWORD ADMIN';
+  }
 };
 
 async function loadSettings(){
