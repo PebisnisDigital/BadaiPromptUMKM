@@ -3,84 +3,155 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BADAI PROMPT — Prompt Khusus Untuk Usahamu</title>
-<meta name="description" content="Toko prompt AI khusus per niche usaha. Pilih bidangmu, lihat contoh hasilnya, lalu ambil prompt yang memang dibuat untuk kebutuhan jualanmu.">
+<title>BADAI PROMPT — Toko Prompt AI Untuk Berbagai Usaha</title>
+<meta name="description" content="Temukan prompt AI khusus sesuai niche usahamu. Pilih produk, lihat contoh hasil, dan beli prompt sesuai kebutuhan.">
 <style>
-:root{--pink:#ff4fa3;--pink2:#ff8bc6;--bg:#070708;--panel:#101012;--line:#29292d;--muted:#8c8c92;--sf:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",sans-serif;--rob:"Roboto","Segoe UI",Arial,sans-serif}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:#fff;font-family:var(--rob);overflow-x:hidden}a{color:inherit;text-decoration:none}button,input{font:inherit}
-.wrap{max-width:1120px;margin:auto;padding:0 22px}.nav{position:sticky;top:0;z-index:50;background:rgba(7,7,8,.88);backdrop-filter:blur(18px);border-bottom:1px solid #171719}.navin{height:74px;display:flex;align-items:center;justify-content:space-between}.brand{font:950 22px/1 var(--sf);letter-spacing:-.06em}.brand span{color:var(--pink)}.navlinks{display:flex;align-items:center;gap:18px;color:#a8a8ad;font-size:12px;font-weight:800}.navbtn{padding:10px 15px;border-radius:999px;background:var(--pink);color:#fff}
-.hero{padding:92px 0 62px;text-align:center;background:radial-gradient(circle at 50% 0,rgba(255,79,163,.15),transparent 31%)}.eyebrow{color:var(--pink2);font:900 10px var(--sf);letter-spacing:.16em}.hero h1{max-width:900px;margin:18px auto 0;font:950 clamp(54px,8vw,96px)/.88 var(--sf);letter-spacing:-.075em}.hero h1 span{color:var(--pink)}.hero p{max-width:680px;margin:24px auto 0;color:#a6a6ab;font-size:16px;line-height:1.65}.hero p b{color:#fff}.searchbox{max-width:650px;margin:34px auto 0;padding:8px;display:flex;gap:8px;border:1px solid #2c2c30;border-radius:18px;background:#0d0d0f}.searchbox input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:#fff;padding:12px 14px}.searchbox button{border:0;border-radius:12px;padding:0 18px;background:var(--pink);color:#fff;font-weight:900;cursor:pointer}.trust{margin-top:18px;color:#5f5f65;font-size:11px;font-weight:800}
-.section{padding:76px 0;border-top:1px solid #151517}.sectionhead{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:28px}.sectionhead h2{margin:8px 0 0;font:950 clamp(36px,5vw,62px)/.95 var(--sf);letter-spacing:-.055em}.sectionhead h2 span{color:var(--pink)}.sectionhead p{max-width:430px;margin:0;color:#7f7f85;font-size:13px;line-height:1.6}
-.products{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.product{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:26px;background:var(--panel);transition:.28s ease}.product:hover{transform:translateY(-4px);border-color:#5e3048;box-shadow:0 24px 50px rgba(0,0,0,.28)}.thumb{position:relative;aspect-ratio:16/10;overflow:hidden}.thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:.5s ease}.product:hover .thumb img{transform:scale(1.04)}.thumb:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75),transparent 55%)}.badge{position:absolute;z-index:2;top:14px;left:14px;padding:8px 10px;border-radius:999px;background:rgba(0,0,0,.68);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(10px);font:900 8px var(--sf);letter-spacing:.11em}.pcopy{padding:20px}.pcopy small{color:var(--pink2);font:900 8px var(--sf);letter-spacing:.13em}.pcopy h3{margin:8px 0 8px;font:950 30px/1 var(--sf);letter-spacing:-.045em}.pcopy p{margin:0;color:#85858b;font-size:11px;line-height:1.55;min-height:52px}.meta{display:flex;justify-content:space-between;align-items:center;margin-top:18px;padding-top:15px;border-top:1px solid #242428}.price{font:950 17px var(--sf)}.price small{display:block;color:#66666b;font:700 7px var(--rob);letter-spacing:.08em;margin-bottom:2px}.see{display:inline-flex;align-items:center;gap:6px;color:#fff;font-size:10px;font-weight:900}.see span{color:var(--pink)}
-.why{display:grid;grid-template-columns:1.05fr .95fr;gap:16px}.whycopy,.whycards{border:1px solid var(--line);border-radius:26px;background:#0d0d0f}.whycopy{padding:34px}.whycopy h2{margin:10px 0 14px;font:950 46px/.95 var(--sf);letter-spacing:-.055em}.whycopy h2 span{color:var(--pink)}.whycopy p{color:#8b8b91;line-height:1.65;font-size:13px}.whycards{padding:12px;display:grid;gap:8px}.wcard{padding:18px;border-radius:18px;background:#131316}.wcard b{display:block;font:900 14px var(--sf)}.wcard p{margin:6px 0 0;color:#75757b;font-size:11px;line-height:1.5}
-.cta{padding:80px 22px;text-align:center}.ctabox{max-width:900px;margin:auto;padding:50px 24px;border-radius:30px;background:linear-gradient(145deg,#ff4fa3,#d92d80)}.ctabox small{font:900 9px var(--sf);letter-spacing:.15em}.ctabox h2{margin:12px auto 0;max-width:730px;font:950 clamp(38px,6vw,70px)/.92 var(--sf);letter-spacing:-.06em}.ctabox p{max-width:560px;margin:18px auto 0;color:#ffe5f0;line-height:1.6}.ctabox a{display:inline-flex;margin-top:24px;padding:13px 18px;border-radius:999px;background:#09090a;color:#fff;font-weight:950;font-size:11px}
-footer{border-top:1px solid #171719;padding:28px 0 40px;color:#67676d}.foot{display:flex;justify-content:space-between;gap:18px;font-size:10px}.footlinks{display:flex;gap:15px}
-@media(max-width:760px){.navlinks a:not(.navbtn){display:none}.hero{padding-top:70px}.hero h1{font-size:56px}.section{padding:58px 0}.sectionhead{display:block}.sectionhead p{margin-top:14px}.products{grid-template-columns:1fr}.why{grid-template-columns:1fr}.whycopy h2{font-size:38px}.foot{display:block}.footlinks{margin-top:14px;flex-wrap:wrap}.searchbox{margin-left:0;margin-right:0}}
+:root{
+  --pink:#ff4fa3;--pink2:#ff86c4;--ink:#171717;--muted:#6f6f73;
+  --cream:#fffaf6;--paper:#ffffff;--soft:#f7f4f2;--line:#e9e5e2;
+  --sf:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",sans-serif;
+  --rob:"Roboto","Segoe UI",Arial,sans-serif
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--rob);overflow-x:hidden}a{color:inherit;text-decoration:none}button,input{font:inherit}.wrap{max-width:1240px;margin:auto;padding:0 24px}
+
+.topbar{background:#111;color:#fff;text-align:center;padding:8px 16px;font-size:11px;font-weight:850;letter-spacing:.02em}
+.header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.95);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.headrow{min-height:78px;display:grid;grid-template-columns:auto minmax(260px,1fr) auto;gap:20px;align-items:center}
+.logo{font:950 26px/1 var(--sf);letter-spacing:-.07em;white-space:nowrap}.logo span{color:var(--pink)}
+.search{display:flex;align-items:center;border:2px solid #222;border-radius:999px;padding:4px 5px 4px 17px;background:#fff;transition:.2s ease}
+.search:focus-within{border-color:var(--pink);box-shadow:0 0 0 3px rgba(255,79,163,.08)}
+.search input{flex:1;min-width:0;border:0;outline:0;background:transparent;padding:10px 6px;color:#222;font-size:14px}
+.search button{width:42px;height:42px;border:0;border-radius:50%;background:var(--pink);color:#fff;cursor:pointer;font-size:18px}
+.actions{display:flex;align-items:center;gap:10px}.actions a{font-size:12px;font-weight:850;white-space:nowrap}.member{padding:10px 14px;border-radius:999px;background:#111;color:#fff}
+.catnav{border-top:1px solid #f2efed;overflow:auto;scrollbar-width:none}.catnav::-webkit-scrollbar{display:none}.catrow{display:flex;justify-content:center;gap:28px;min-width:max-content;padding:11px 24px}.catrow button{border:0;background:none;color:#4e4e52;font-size:11px;font-weight:800;cursor:pointer;padding:0}.catrow button:hover,.catrow button.on{color:var(--pink)}
+
+.hero{background:linear-gradient(180deg,var(--cream),#fff);padding:58px 0 42px;text-align:center}
+.eyebrow{color:var(--pink);font:900 10px var(--sf);letter-spacing:.16em}.hero h1{max-width:860px;margin:15px auto 0;font:950 clamp(44px,6.8vw,78px)/.92 var(--sf);letter-spacing:-.065em}.hero h1 span{color:var(--pink)}
+.hero p{max-width:660px;margin:18px auto 0;color:#66666b;font-size:15px;line-height:1.65}.hero p b{color:#1b1b1c}
+.popular{margin-top:22px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}.popular button{border:1px solid #ddd7d3;background:#fff;border-radius:999px;padding:9px 12px;font-size:10px;font-weight:850;cursor:pointer}.popular button:hover{border-color:var(--pink);color:var(--pink)}
+
+.categories{padding:42px 0 54px}.section-title{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:22px}.section-title h2{margin:0;font:950 30px/1 var(--sf);letter-spacing:-.045em}.section-title p{margin:0;color:#77777b;font-size:12px}.catgrid{display:grid;grid-template-columns:repeat(8,1fr);gap:18px}
+.catitem{display:block;text-align:center;cursor:pointer}.catpic{aspect-ratio:1;border-radius:50%;overflow:hidden;background:#f2f2f2;border:1px solid #ece8e5;transition:.25s ease}.catpic img{width:100%;height:100%;object-fit:cover;display:block;transition:.35s ease}.catitem:hover .catpic{transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,0,0,.09)}.catitem:hover img{transform:scale(1.04)}.catitem b{display:block;margin-top:10px;font:900 11px var(--sf)}
+
+.shop{padding:52px 0 70px;border-top:1px solid #f0ece9}.shophead{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:20px}.shophead h2{margin:0;font:950 36px/.98 var(--sf);letter-spacing:-.05em}.shophead h2 span{color:var(--pink)}.result{color:#777;font-size:11px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 24px}.filter{border:1px solid #dedad7;background:#fff;border-radius:999px;padding:9px 12px;font-size:10px;font-weight:850;cursor:pointer}.filter.on,.filter:hover{background:#111;color:#fff;border-color:#111}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px 16px}.listing{position:relative;display:block}.photo{position:relative;aspect-ratio:1/1.08;border-radius:14px;overflow:hidden;background:#f2f2f2}.photo img{width:100%;height:100%;object-fit:cover;display:block;transition:.35s ease}.listing:hover .photo img{transform:scale(1.035)}.heart{position:absolute;z-index:3;right:10px;top:10px;width:34px;height:34px;border:0;border-radius:50%;background:rgba(255,255,255,.92);box-shadow:0 2px 8px rgba(0,0,0,.12);font-size:17px;cursor:pointer;color:#333}.heart.on{color:var(--pink)}
+.digital{position:absolute;z-index:2;left:10px;bottom:10px;padding:6px 8px;border-radius:999px;background:rgba(0,0,0,.72);color:#fff;font-size:7px;font-weight:900;letter-spacing:.11em}
+.info{padding:10px 2px 0}.info .shopname{color:#7b7b80;font-size:9px;font-weight:750}.info h3{margin:5px 0 5px;font:850 14px/1.25 var(--sf);letter-spacing:-.01em}.info p{margin:0;color:#7c7c80;font-size:10px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:29px}.price{margin-top:8px;font:950 15px var(--sf)}.price small{font:700 8px var(--rob);color:#777;margin-left:3px}
+.nores{display:none;grid-column:1/-1;padding:40px;text-align:center;background:var(--soft);border-radius:18px;color:#777}
+
+.feature{padding:70px 0;background:#111;color:#fff}.featuregrid{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:center}.feature h2{margin:10px 0 16px;font:950 clamp(40px,5vw,62px)/.94 var(--sf);letter-spacing:-.055em}.feature h2 span{color:var(--pink)}.feature p{color:#aaa;line-height:1.65;font-size:13px}.bullets{display:grid;grid-template-columns:1fr 1fr;gap:8px}.bullet{padding:18px;border-radius:18px;background:#19191b;border:1px solid #29292c}.bullet b{font:900 13px var(--sf)}.bullet p{margin:6px 0 0;color:#848489;font-size:10px;line-height:1.5}
+
+footer{padding:30px 0 46px;border-top:1px solid var(--line);background:#fff}.foot{display:flex;justify-content:space-between;gap:20px;color:#777;font-size:10px}.footlinks{display:flex;gap:16px;flex-wrap:wrap}
+
+@media(max-width:1000px){.catgrid{grid-template-columns:repeat(4,1fr)}.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){
+ .headrow{grid-template-columns:auto auto;gap:12px;min-height:68px}.logo{font-size:22px}.actions a:not(.member){display:none}.search{grid-column:1/-1;grid-row:2;margin-bottom:12px}.header{position:relative}
+ .catrow{justify-content:flex-start}.hero{padding-top:42px}.hero h1{font-size:49px}.categories{padding-top:34px}.catgrid{grid-template-columns:repeat(4,1fr);gap:14px}.catitem b{font-size:9px}
+ .grid{grid-template-columns:repeat(2,1fr);gap:22px 10px}.shophead{display:block}.result{margin-top:8px}.featuregrid{grid-template-columns:1fr}.bullets{grid-template-columns:1fr 1fr}.foot{display:block}.footlinks{margin-top:14px}
+}
+@media(max-width:420px){.wrap{padding:0 16px}.grid{grid-template-columns:repeat(2,1fr)}.info h3{font-size:12px}.info p{font-size:9px}.price{font-size:13px}.catgrid{grid-template-columns:repeat(4,1fr);gap:10px}.bullets{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header class="nav"><div class="wrap navin"><a class="brand" href="/">BADAI <span>PROMPT</span></a><nav class="navlinks"><a href="#produk">Produk</a><a href="#kenapa">Kenapa BADAI</a><a href="/akses">Member Area</a><a class="navbtn" href="#produk">PILIH PROMPT</a></nav></div></header>
+<div class="topbar">PROMPT AI DIGITAL • PILIH SESUAI NICHE • AKSES 1 TAHUN</div>
+
+<header class="header">
+  <div class="wrap headrow">
+    <a class="logo" href="/">BADAI <span>PROMPT</span></a>
+    <div class="search">
+      <input id="searchInput" placeholder="Cari prompt untuk usahamu...">
+      <button id="searchBtn" aria-label="Cari">⌕</button>
+    </div>
+    <div class="actions"><a href="#produk">Semua produk</a><a class="member" href="/akses">Member Area</a></div>
+  </div>
+  <div class="catnav"><div class="catrow" id="topCategories"></div></div>
+</header>
 
 <main>
 <section class="hero">
   <div class="wrap">
-    <div class="eyebrow">TOKO PROMPT AI KHUSUS PER NICHE</div>
-    <h1>PROMPT KHUSUS<br><span>UNTUK USAHAMU.</span></h1>
-    <p>Bukan ribuan prompt campur yang bikin bingung. Di BADAI PROMPT, kamu tinggal pilih bidangmu lalu ambil <b>prompt yang memang dibuat untuk kebutuhan jualan niche itu.</b></p>
-    <div class="searchbox"><input id="productSearch" placeholder="Cari: Umroh, Hijab, Guru, Craft..."><button id="searchBtn">CARI PRODUK</button></div>
-    <div class="trust">PILIH NICHE • LIHAT CONTOH HASIL • BELI SESUAI KEBUTUHAN</div>
+    <div class="eyebrow">BADAI PROMPT MARKET</div>
+    <h1>Cari Prompt Yang Dibuat<br><span>Khusus Untuk Usahamu.</span></h1>
+    <p>Jangan beli prompt campur yang akhirnya nggak kepakai. Pilih niche yang paling dekat dengan usahamu, lihat contoh hasilnya, lalu ambil <b>produk yang memang kamu butuhkan.</b></p>
+    <div class="popular">
+      <button data-q="umroh">🕋 Umroh</button><button data-q="hijab">🧕 Hijab</button><button data-q="craft">🎨 Craft</button><button data-q="guru">👩‍🏫 Guru</button><button data-q="kuliner">🍜 Kuliner</button>
+    </div>
   </div>
 </section>
 
-<section class="section" id="produk">
+<section class="categories">
   <div class="wrap">
-    <div class="sectionhead">
-      <div><div class="eyebrow">PILIH PRODUKMU</div><h2>Satu Niche.<br><span>Satu Senjata Jualan.</span></h2></div>
-      <p>Setiap produk punya prompt, contoh visual, dan pendekatan yang berbeda. Karena jualan umroh tentu beda dengan jualan hijab, craft, atau kelas guru.</p>
-    </div>
-    <div class="products" id="productGrid"></div>
+    <div class="section-title"><h2>Jelajahi berdasarkan niche</h2><p>Pilih yang paling dekat dengan usahamu</p></div>
+    <div class="catgrid" id="categoryGrid"></div>
   </div>
 </section>
 
-<section class="section" id="kenapa">
-  <div class="wrap why">
-    <div class="whycopy">
-      <div class="eyebrow">KENAPA DIPISAH PER NICHE?</div>
-      <h2>Karena Prompt Generik<br><span>Sering Terlalu Umum.</span></h2>
-      <p>Orang yang jual paket umroh butuh bahasa, visual, momen promo, dan calon pembeli yang beda dengan orang yang jual hijab atau craft. Makanya BADAI PROMPT dibuat seperti toko: <b style="color:#fff">ambil yang memang relevan buat usahamu.</b></p>
+<section class="shop" id="produk">
+  <div class="wrap">
+    <div class="shophead">
+      <h2>Prompt pilihan<br><span>untuk jualanmu.</span></h2>
+      <div class="result" id="resultText">10 produk tersedia</div>
     </div>
-    <div class="whycards">
-      <div class="wcard"><b>🎯 Lebih Tepat Sasaran</b><p>Prompt-nya dibuat berdasarkan kebutuhan promosi niche yang spesifik.</p></div>
-      <div class="wcard"><b>🖼️ Contohnya Relevan</b><p>Kamu bisa lihat visual yang memang mirip dengan dunia usahamu.</p></div>
-      <div class="wcard"><b>💳 Bayar Sesuai Kebutuhan</b><p>Nggak harus beli semua. Ambil produk yang memang kamu butuhkan dulu.</p></div>
-      <div class="wcard"><b>🛒 Bisa Tambah Koleksi</b><p>Nanti kalau butuh niche lain, tinggal tambah produk ke akun yang sama.</p></div>
-    </div>
+    <div class="filters" id="filterBar"></div>
+    <div class="grid" id="productGrid"><div class="nores" id="noResult">Produk yang kamu cari belum ada.</div></div>
   </div>
 </section>
 
-<section class="cta"><div class="ctabox"><small>BADAI PROMPT</small><h2>Jangan Cari Prompt.<br>Cari Prompt Untuk Usahamu.</h2><p>Pilih produk yang paling dekat dengan kebutuhanmu. Lihat contoh hasilnya. Kalau cocok, baru ambil aksesnya.</p><a href="#produk">LIHAT SEMUA PRODUK →</a></div></section>
+<section class="feature">
+  <div class="wrap featuregrid">
+    <div>
+      <div class="eyebrow">KENAPA BADAI PROMPT?</div>
+      <h2>Satu Toko.<br><span>Banyak Niche.</span></h2>
+      <p>Karena jualan umroh beda dengan jualan hijab. Guru beda dengan craft. Setiap niche punya kebutuhan visual, bahasa, dan cara promosi sendiri. Maka setiap produk BADAI PROMPT dibuat lebih spesifik.</p>
+    </div>
+    <div class="bullets">
+      <div class="bullet"><b>🎯 Fokus per niche</b><p>Nggak perlu bongkar ratusan prompt yang nggak relevan.</p></div>
+      <div class="bullet"><b>🖼️ Contoh hasil</b><p>Lihat dulu kemungkinan visualnya sebelum beli.</p></div>
+      <div class="bullet"><b>💳 Beli seperlunya</b><p>Ambil satu produk dulu sesuai kebutuhanmu.</p></div>
+      <div class="bullet"><b>🛒 Tambah kapan saja</b><p>Koleksi produk bisa bertambah di akun yang sama.</p></div>
+    </div>
+  </div>
+</section>
 </main>
 
-<footer><div class="wrap foot"><div><b style="color:#fff">BADAI PROMPT</b><br>Prompt khusus untuk berbagai niche usaha.</div><div class="footlinks"><a href="/akses">Member Area</a><a href="/privacy">Privasi</a><a href="/terms">Syarat</a><a href="/refund">Refund</a><a href="/support">Bantuan</a></div></div></footer>
+<footer><div class="wrap foot"><div><b style="color:#111">BADAI PROMPT</b><br>Toko prompt AI untuk berbagai niche usaha.</div><div class="footlinks"><a href="/akses">Member Area</a><a href="/privacy">Privasi</a><a href="/terms">Syarat</a><a href="/refund">Refund</a><a href="/support">Bantuan</a></div></div></footer>
 
 <script>
 const products=[
-{slug:'umroh',icon:'🕋',name:'UMROH',tag:'TRAVEL RELIGI',desc:'Prompt visual paket umroh, promo Ramadan, keberangkatan, hotel, testimonial jamaah, dan konten edukasi.',img:'/assets/dummy/06-ide-promo.png'},
-{slug:'hijab',icon:'🧕',name:'HIJAB',tag:'FASHION MUSLIM',desc:'Prompt foto model hijab, lookbook, katalog, launching warna baru, campaign, dan promo koleksi.',img:'/assets/dummy/05-fashion-umkm.png'},
-{slug:'craft',icon:'🎨',name:'CRAFT',tag:'HANDMADE',desc:'Prompt foto produk handmade, gift set, packaging, katalog, hampers, marketplace, dan campaign.',img:'/assets/dummy/03-foto-produk.png'},
-{slug:'guru',icon:'👩‍🏫',name:'GURU',tag:'EDUKASI',desc:'Prompt worksheet, poster kelas, ilustrasi belajar, bahan ajar, presentasi, dan konten edukasi.',img:'/assets/dummy/02-follow-up-whatsapp.png'},
-{slug:'kuliner',icon:'🍜',name:'KULINER',tag:'FOOD & BEVERAGE',desc:'Prompt foto menu, poster promo, bundling, launching menu, hero marketplace, dan konten jualan.',img:'/assets/dummy/01-promo-kuliner.png'},
-{slug:'beauty',icon:'💄',name:'BEAUTY',tag:'SKINCARE & COSMETIC',desc:'Prompt hero skincare, foto studio, beauty campaign, promo bundle, katalog, dan UGC style.',img:'/assets/dummy/03-foto-produk.png'},
-{slug:'properti',icon:'🏠',name:'PROPERTI',tag:'PROPERTY',desc:'Prompt listing rumah, open house, promo DP, konten area, video tour, dan follow-up visual.',img:'/assets/dummy/06-ide-promo.png'},
-{slug:'otomotif',icon:'🚗',name:'OTOMOTIF',tag:'AUTO',desc:'Prompt visual mobil, motor, bengkel, paket servis, promo cicilan, aksesoris, dan listing.',img:'/assets/dummy/04-video-jualan.png'},
-{slug:'hampers',icon:'🎁',name:'HAMPERS',tag:'GIFT',desc:'Prompt gift set, packaging, seasonal campaign, corporate gift, bundle, dan foto lifestyle.',img:'/assets/dummy/01-promo-kuliner.png'},
-{slug:'retail',icon:'📦',name:'RETAIL',tag:'TOKO & RESELLER',desc:'Prompt hero produk, promo harian, katalog, marketplace, flash sale, produk baru, dan bundling.',img:'/assets/dummy/04-video-jualan.png'}
+{slug:'umroh',icon:'🕋',name:'BADAI PROMPT UMROH',category:'Travel Religi',short:'Umroh',desc:'Prompt paket umroh, promo Ramadan, keberangkatan, hotel, testimonial jamaah, dan konten edukasi.',img:'/assets/dummy/06-ide-promo.png'},
+{slug:'hijab',icon:'🧕',name:'BADAI PROMPT HIJAB',category:'Fashion Muslim',short:'Hijab',desc:'Prompt foto model hijab, lookbook, katalog, launching warna baru, campaign, dan promo koleksi.',img:'/assets/dummy/05-fashion-umkm.png'},
+{slug:'craft',icon:'🎨',name:'BADAI PROMPT CRAFT',category:'Handmade',short:'Craft',desc:'Prompt foto handmade, gift set, packaging, katalog, hampers, marketplace, dan campaign.',img:'/assets/dummy/03-foto-produk.png'},
+{slug:'guru',icon:'👩‍🏫',name:'BADAI PROMPT GURU',category:'Edukasi',short:'Guru',desc:'Prompt worksheet, poster kelas, ilustrasi belajar, bahan ajar, presentasi, dan konten edukasi.',img:'/assets/dummy/02-follow-up-whatsapp.png'},
+{slug:'kuliner',icon:'🍜',name:'BADAI PROMPT KULINER',category:'Food & Beverage',short:'Kuliner',desc:'Prompt foto menu, poster promo, bundling, launching menu, hero marketplace, dan konten jualan.',img:'/assets/dummy/01-promo-kuliner.png'},
+{slug:'beauty',icon:'💄',name:'BADAI PROMPT BEAUTY',category:'Beauty',short:'Beauty',desc:'Prompt hero skincare, foto studio, beauty campaign, promo bundle, katalog, dan UGC style.',img:'/assets/dummy/03-foto-produk.png'},
+{slug:'properti',icon:'🏠',name:'BADAI PROMPT PROPERTI',category:'Properti',short:'Properti',desc:'Prompt listing rumah, open house, promo DP, konten area, video tour, dan follow-up visual.',img:'/assets/dummy/06-ide-promo.png'},
+{slug:'otomotif',icon:'🚗',name:'BADAI PROMPT OTOMOTIF',category:'Otomotif',short:'Otomotif',desc:'Prompt mobil, motor, bengkel, paket servis, promo cicilan, aksesoris, dan listing.',img:'/assets/dummy/04-video-jualan.png'},
+{slug:'hampers',icon:'🎁',name:'BADAI PROMPT HAMPERS',category:'Gift',short:'Hampers',desc:'Prompt gift set, packaging, seasonal campaign, corporate gift, bundle, dan foto lifestyle.',img:'/assets/dummy/01-promo-kuliner.png'},
+{slug:'retail',icon:'📦',name:'BADAI PROMPT RETAIL',category:'Retail',short:'Retail',desc:'Prompt hero produk, promo harian, katalog, marketplace, flash sale, produk baru, dan bundling.',img:'/assets/dummy/04-video-jualan.png'}
 ];
-function render(list){
- const g=document.getElementById('productGrid');
- g.innerHTML=list.map(function(p){return '<a class="product" href="/'+p.slug+'"><div class="thumb"><img src="'+p.img+'" alt="BADAI PROMPT '+p.name+'"><div class="badge">'+p.icon+' '+p.tag+'</div></div><div class="pcopy"><small>BADAI PROMPT</small><h3>'+p.name+'</h3><p>'+p.desc+'</p><div class="meta"><div class="price"><small>AKSES PER NICHE</small>Mulai Rp30.000</div><div class="see">LIHAT PRODUK <span>→</span></div></div></div></a>'}).join('');
+const categoryOrder=['Semua','Umroh','Hijab','Craft','Guru','Kuliner','Beauty','Properti','Otomotif','Hampers','Retail'];
+let active='Semua',query='';
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function card(p){return '<article class="listing"><a href="/'+p.slug+'"><div class="photo"><img src="'+p.img+'" alt="'+esc(p.name)+'"><span class="digital">DIGITAL PROMPT</span></div><div class="info"><div class="shopname">BADAI PROMPT • '+esc(p.category)+'</div><h3>'+esc(p.name)+'</h3><p>'+esc(p.desc)+'</p><div class="price">Mulai Rp30.000 <small>/ niche</small></div></div></a><button class="heart" aria-label="Simpan produk" title="Simpan">♡</button></article>'}
+function filtered(){return products.filter(p=>{const cat=active==='Semua'||p.short===active;const q=!query||(p.name+' '+p.category+' '+p.desc).toLowerCase().includes(query);return cat&&q})}
+function render(){
+ const list=filtered(),grid=document.getElementById('productGrid');grid.innerHTML=list.map(card).join('')+(list.length?'':'<div class="nores" style="display:block">Produk yang kamu cari belum ada.</div>');
+ resultText.textContent=list.length+' produk tersedia';
+ document.querySelectorAll('.filter').forEach(b=>b.classList.toggle('on',b.dataset.cat===active));
+ document.querySelectorAll('.catrow button').forEach(b=>b.classList.toggle('on',b.dataset.cat===active));
+ bindHearts();
 }
-function doSearch(){const q=document.getElementById('productSearch').value.trim().toLowerCase();render(q?products.filter(function(p){return (p.name+' '+p.tag+' '+p.desc).toLowerCase().includes(q)}):products)}
-document.getElementById('searchBtn').onclick=doSearch;document.getElementById('productSearch').addEventListener('input',doSearch);render(products);
+function setCat(cat){active=cat;render();document.getElementById('produk').scrollIntoView({behavior:'smooth',block:'start'})}
+function bindHearts(){document.querySelectorAll('.heart').forEach(btn=>btn.onclick=function(e){e.preventDefault();e.stopPropagation();btn.classList.toggle('on');btn.textContent=btn.classList.contains('on')?'♥':'♡'})}
+topCategories.innerHTML=categoryOrder.map(c=>'<button data-cat="'+c+'">'+c+'</button>').join('');
+filterBar.innerHTML=categoryOrder.slice(0,7).map(c=>'<button class="filter" data-cat="'+c+'">'+c+'</button>').join('')+'<button class="filter" data-cat="Semua">Semua niche</button>';
+topCategories.onclick=e=>{const b=e.target.closest('button');if(b)setCat(b.dataset.cat)};filterBar.onclick=e=>{const b=e.target.closest('button');if(b)setCat(b.dataset.cat)};
+categoryGrid.innerHTML=products.slice(0,8).map(p=>'<a class="catitem" href="#produk" data-cat="'+p.short+'"><div class="catpic"><img src="'+p.img+'" alt="'+p.short+'"></div><b>'+p.icon+' '+p.short+'</b></a>').join('');
+categoryGrid.onclick=e=>{const a=e.target.closest('.catitem');if(a){e.preventDefault();setCat(a.dataset.cat)}};
+function doSearch(){query=searchInput.value.trim().toLowerCase();active='Semua';render();document.getElementById('produk').scrollIntoView({behavior:'smooth',block:'start'})}
+searchBtn.onclick=doSearch;searchInput.addEventListener('keydown',e=>{if(e.key==='Enter')doSearch()});searchInput.addEventListener('input',()=>{query=searchInput.value.trim().toLowerCase();active='Semua';render()});
+document.querySelectorAll('.popular button').forEach(b=>b.onclick=()=>{searchInput.value=b.dataset.q;query=b.dataset.q;active='Semua';render();document.getElementById('produk').scrollIntoView({behavior:'smooth',block:'start'})});
+render();
 </script>
 </body></html>
