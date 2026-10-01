@@ -486,6 +486,151 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   .bpu-core-halo,.bpu-core-cube{animation:none!important}
 }
 </style>
+
+<style id="bpu-problem-deep-style">
+.bpu-sales-symptoms{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:26px;
+}
+.bpu-sales-symptoms article{
+  min-height:145px;
+  padding:16px;
+  border-radius:18px;
+  background:#0f0f10;
+  border:1px solid #27272a;
+  text-align:left;
+}
+.bpu-sales-symptoms article>span{
+  display:grid;
+  place-items:center;
+  width:30px;
+  height:30px;
+  border-radius:10px;
+  background:#211019;
+  color:var(--bpu-pink2);
+  font:900 9px var(--font-sf);
+}
+.bpu-sales-symptoms b{
+  display:block;
+  margin:17px 0 5px;
+  color:#fff;
+  font:900 13px var(--font-sf);
+}
+.bpu-sales-symptoms p{
+  margin:0;
+  color:#828287;
+  font-size:9px;
+  line-height:1.5;
+}
+.bpu-myth-wrap{
+  margin-top:10px;
+  padding:17px;
+  border-radius:18px;
+  border:1px solid #28282b;
+  background:#0c0c0d;
+  text-align:left;
+}
+.bpu-myth-wrap>small{
+  display:block;
+  color:#68686e;
+  font:900 7px var(--font-sf);
+  letter-spacing:.15em;
+}
+.bpu-myth-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:10px;
+}
+.bpu-myth-chips span{
+  padding:8px 10px;
+  border-radius:999px;
+  background:#141414;
+  border:1px solid #2b2b2f;
+  color:#a9a9ad;
+  font-size:8px;
+  font-weight:800;
+}
+.bpu-problem-reveal{
+  display:grid;
+  grid-template-columns:54px 1fr;
+  gap:15px;
+  align-items:start;
+  margin-top:10px;
+  padding:20px;
+  border-radius:20px;
+  border:1px solid #4c293d;
+  background:
+    radial-gradient(circle at 0 0,rgba(255,79,163,.12),transparent 32%),
+    #110d0f;
+  text-align:left;
+}
+.bpu-problem-eye{
+  width:54px;
+  height:54px;
+  display:grid;
+  place-items:center;
+  border-radius:16px;
+  background:#24121b;
+  font-size:25px;
+}
+.bpu-problem-reveal small{
+  display:block;
+  color:#bf6f98;
+  font:900 7px var(--font-sf);
+  letter-spacing:.13em;
+}
+.bpu-problem-reveal b{
+  display:block;
+  margin-top:7px;
+  color:#fff;
+  font:950 17px/1.1 var(--font-sf);
+}
+.bpu-problem-reveal p{
+  margin:8px 0 0;
+  color:#949499;
+  font-size:10px;
+  line-height:1.6;
+}
+.bpu-problem-reveal strong{color:#fff}
+.bpu-problem-punch{
+  margin-top:10px;
+  padding:20px;
+  border-radius:20px;
+  background:linear-gradient(145deg,#ff4fa3,#d92a80);
+  text-align:center;
+  box-shadow:0 18px 44px rgba(255,79,163,.12);
+}
+.bpu-problem-punch span{
+  display:block;
+  color:#ffdcec;
+  font:900 7px var(--font-sf);
+  letter-spacing:.14em;
+}
+.bpu-problem-punch b{
+  display:block;
+  margin-top:7px;
+  color:#fff;
+  font:950 22px/1.05 var(--font-sf);
+  letter-spacing:-.035em;
+}
+.bpu-problem-punch p{
+  max-width:520px;
+  margin:9px auto 0;
+  color:#ffe4f0;
+  font-size:9px;
+  line-height:1.55;
+}
+@media(max-width:600px){
+  .bpu-sales-symptoms{grid-template-columns:1fr}
+  .bpu-sales-symptoms article{min-height:0}
+  .bpu-problem-reveal{grid-template-columns:45px 1fr;padding:16px}
+  .bpu-problem-eye{width:45px;height:45px;border-radius:14px;font-size:21px}
+  .bpu-problem-punch b{font-size:19px}
+}
+</style>
 </head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
@@ -605,16 +750,51 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 
 <section class="bpu-section bpu-problem">
   <div class="bpu-container">
-    <div class="bpu-kicker reveal2">PRODUKMU MUNGKIN BAGUS</div>
-    <h2 class="reveal2">Yang Kurang Menjual,<br><span>Bisa Jadi Tampilannya.</span></h2>
-    <p class="bpu-lead reveal2">Orang belum bisa mencicipi makananmu dari layar. Belum bisa memegang barangmu. Belum tahu sebagus apa jasamu. <b>Yang mereka lihat pertama kali cuma gambar, video, dan cara kamu menawarkan.</b></p>
+    <div class="bpu-kicker reveal2">JUALAN SEPI? OMZET IKUT TURUN?</div>
+    <h2 class="reveal2">Jangan Buru-buru<br><span>Salahkan Pasarnya.</span></h2>
+    <p class="bpu-lead reveal2">Saat order mulai sepi, biasanya yang pertama dicurigai adalah <b>harga, algoritma, saingan, atau daya beli.</b> Bisa saja ada pengaruhnya. Tapi ada satu hal yang sering kelewat: <b>apakah jualanmu cukup menarik untuk dilihat dulu?</b></p>
 
-    <div class="bpu-problem-card reveal2">
-      <div class="bpu-problem-big">👀</div>
-      <div>
-        <b>Produk bagus pun gampang dilewati kalau tampilannya biasa.</b>
-        <p>Makanya BADAI Prompt UMKM fokus membantu bagian yang pertama kali dilihat calon pembeli: visual, promo, video, dan kata-kata penawarannya.</p>
+    <div class="bpu-sales-symptoms reveal2">
+      <article>
+        <span>01</span>
+        <b>Sudah Posting</b>
+        <p>Tapi orang cuma lewat. Like sedikit, chat juga sepi.</p>
+      </article>
+      <article>
+        <span>02</span>
+        <b>Sudah Promo</b>
+        <p>Diskon sudah dikasih, tapi tampilannya masih terasa biasa.</p>
+      </article>
+      <article>
+        <span>03</span>
+        <b>Produknya Bagus</b>
+        <p>Tapi calon pembeli belum sempat merasakan bagusnya dari layar.</p>
+      </article>
+    </div>
+
+    <div class="bpu-myth-wrap reveal2">
+      <small>YANG SERING DISALAHKAN</small>
+      <div class="bpu-myth-chips">
+        <span>“Harga terlalu mahal”</span>
+        <span>“Algoritmanya jelek”</span>
+        <span>“Saingan makin banyak”</span>
+        <span>“Pembeli lagi irit”</span>
       </div>
+    </div>
+
+    <div class="bpu-problem-reveal reveal2">
+      <div class="bpu-problem-eye">👀</div>
+      <div>
+        <small>PADAHAL, SEBELUM ORANG MEMBANDINGKAN HARGA...</small>
+        <b>Mereka harus tertarik untuk berhenti melihat.</b>
+        <p>Di layar, calon pembeli belum bisa mencicipi makananmu, memegang barangmu, atau membuktikan sebagus apa jasamu. Yang mereka nilai pertama kali adalah <strong>gambar, video, desain promo, dan cara kamu menampilkan produk.</strong></p>
+      </div>
+    </div>
+
+    <div class="bpu-problem-punch reveal2">
+      <span>PRODUKNYA BISA JADI SUDAH BAGUS.</span>
+      <b>Yang belum menjual, cara menampilkannya.</b>
+      <p>Makanya BADAI Prompt UMKM membantu kamu bikin visual dan materi promosi yang lebih menarik—supaya produkmu punya kesempatan lebih besar untuk dilirik sebelum dibandingkan.</p>
     </div>
   </div>
 </section>
