@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin — BADAI PROMPT UMKM</title>
+<meta name="theme-color" content="#070707">
+<style>
+:root{--bg:#070707;--s:#0e0e0e;--c:#121212;--c2:#171717;--line:#2a2a2a;--text:#fff;--muted:#919191;--pink:#ff2d8d;--pink2:#ff6fb3;--green:#73f6a7;--red:#ff7088;--yellow:#ffd166}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#000;color:var(--text);font-family:Arial,Helvetica,sans-serif}button,input,textarea,select{font:inherit}
+.app{max-width:940px;margin:auto;min-height:100vh;background:radial-gradient(circle at 90% 0,rgba(255,45,141,.16),transparent 26%),var(--bg);padding-bottom:88px}
+header{position:sticky;top:0;z-index:30;background:rgba(7,7,7,.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{font-weight:1000;letter-spacing:-.5px}.brand b{color:var(--pink)}.brand small{display:block;color:#777;font-size:9px;letter-spacing:.7px;margin-top:2px}
+.head-actions{display:flex;align-items:center;gap:8px}.admin-name{font-size:10px;color:#999;max-width:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn{border:0;border-radius:12px;padding:10px 12px;font-weight:900;cursor:pointer}.pink{background:var(--pink);color:#fff}.dark{background:#191919;color:#fff;border:1px solid #333}.danger{background:#2a1117;color:#ff8da0;border:1px solid #5a2631}.good{background:#102319;color:var(--green);border:1px solid #28543a}.sm{padding:7px 9px;font-size:10px}
+main{padding:16px}.view{display:none}.view.on{display:block}.eyebrow{font-size:10px;color:var(--pink2);font-weight:900;letter-spacing:1px}.title-row{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:14px}.title-row h1{font-size:28px;margin:5px 0}.title-row p{margin:0;color:#888;font-size:11px}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.stat{background:var(--c);border:1px solid var(--line);border-radius:16px;padding:14px}.stat small{color:#777;font-size:9px}.stat b{display:block;font-size:25px;margin-top:4px}.stat .pinktext{color:var(--pink2)}
+.panel{background:var(--c);border:1px solid var(--line);border-radius:18px;padding:14px;margin-top:12px}.panel h2{font-size:16px;margin:0 0 10px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.toolbar input,.toolbar select,.field input,.field textarea,.field select{background:#090909;border:1px solid #323232;color:#fff;border-radius:12px;padding:11px;outline:none}.toolbar input{flex:1;min-width:180px}.toolbar select{min-width:135px}.toolbar input:focus,.toolbar select:focus,.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--pink)}
+.list{display:grid;gap:8px}.row{background:#0d0d0d;border:1px solid #292929;border-radius:14px;padding:12px}.row-head{display:flex;justify-content:space-between;gap:10px}.row h3{font-size:13px;margin:0 0 4px}.muted{color:#818181;font-size:10px;line-height:1.5}.tags{display:flex;gap:5px;flex-wrap:wrap;margin:7px 0}.tag{font-size:8px;color:#aaa;border:1px solid #333;border-radius:999px;padding:4px 6px}.tag.live{color:var(--green);border-color:#28543a}.tag.off{color:#ff8da0;border-color:#5a2631}.tag.pend{color:var(--yellow);border-color:#594d24}.row-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.order-grid{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start}.money{font-weight:900;text-align:right}.status{font-size:9px;font-weight:900;text-transform:uppercase}.status.success{color:var(--green)}.status.pending{color:var(--yellow)}.status.failed,.status.expired{color:var(--red)}
+.empty{text-align:center;padding:28px;border:1px dashed #333;border-radius:15px;color:#777}.loading{opacity:.55;pointer-events:none}
+.nav{position:fixed;z-index:35;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,940px);display:grid;grid-template-columns:repeat(5,1fr);background:rgba(9,9,9,.97);border-top:1px solid var(--line);padding:8px 5px 10px;backdrop-filter:blur(14px)}.nav button{background:none;border:0;color:#777;font-size:9px;padding:5px}.nav button b{display:block;font-size:16px;margin-bottom:2px}.nav button.on{color:var(--pink2)}
+.gate{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 80% 0,rgba(255,45,141,.22),transparent 30%),#070707;display:flex;align-items:center;justify-content:center;padding:18px}.gate.hide{display:none}.login{width:min(100%,420px);background:#0e0e0e;border:1px solid #303030;border-radius:24px;padding:20px}.login h1{font-size:26px;margin:16px 0 6px}.login p{color:#999;font-size:12px;line-height:1.55}.field{margin-top:9px}.field label{display:block;color:#999;font-size:9px;font-weight:800;margin-bottom:5px}.field input,.field textarea,.field select{width:100%}.msg{font-size:10px;min-height:18px;color:#999;margin-top:9px}.msg.bad{color:var(--red)}.msg.good{color:var(--green)}
+.modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.82);display:none;align-items:flex-end;justify-content:center}.modal.show{display:flex}.sheet{width:min(100%,720px);max-height:94vh;overflow:auto;background:#101010;border:1px solid #333;border-radius:24px 24px 0 0;padding:17px}.sheet-head{display:flex;justify-content:space-between;gap:10px;align-items:start}.sheet h2{font-size:21px;margin:3px 0}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.full{grid-column:1/-1}.checks{display:flex;gap:14px;flex-wrap:wrap;padding:9px 0;color:#aaa;font-size:11px}.sheet-actions{display:flex;gap:8px;margin-top:12px}.sheet-actions .pink{flex:1}
+.switch{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px;background:#0c0c0c;border:1px solid #292929;border-radius:14px;margin-top:8px}
+@media(min-width:650px){.cards{grid-template-columns:repeat(4,1fr)}.list.two{grid-template-columns:1fr 1fr}.formgrid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="gate" id="gate">
+  <div class="login">
+    <div class="brand">BADAI <b>PROMPT UMKM</b><small>ADMIN PANEL</small></div>
+    <h1>Masuk sebagai admin.</h1>
+    <p>Halaman ini hanya untuk akun yang masuk team admin. Link login akan dikirim ke email owner.</p>
+    <form id="loginForm">
+      <div class="field"><label>EMAIL ADMIN</label><input id="loginEmail" type="email" required placeholder="email admin"></div>
+      <button class="btn pink" id="loginBtn" type="submit" style="width:100%;margin-top:10px">KIRIM LINK LOGIN</button>
+      <div class="msg" id="loginMsg"></div>
+    </form>
+  </div>
+</div>
+
+<div class="app">
+<header>
+  <div class="brand">BADAI <b>PROMPT UMKM</b><small>ADMIN PANEL</small></div>
+  <div class="head-actions"><span class="admin-name" id="adminName"></span><button class="btn dark sm" id="logoutBtn">KELUAR</button></div>
+</header>
+<main>
+<section class="view on" id="v-dashboard">
+  <div class="title-row"><div><div class="eyebrow">RINGKASAN</div><h1>Dashboard</h1><p>Lihat kondisi produk tanpa buka Appwrite.</p></div><button class="btn dark sm" onclick="loadDashboard()">↻ REFRESH</button></div>
+  <div class="cards">
+    <div class="stat"><small>TOTAL PROMPT</small><b id="sPrompts">0</b></div>
+    <div class="stat"><small>PROMPT AKTIF</small><b id="sPublished">0</b></div>
+    <div class="stat"><small>MEMBER AKTIF</small><b id="sMembers">0</b></div>
+    <div class="stat"><small>OMZET TERVERIFIKASI</small><b class="pinktext" id="sRevenue">Rp0</b></div>
+    <div class="stat"><small>ORDER LUNAS</small><b id="sPaid">0</b></div>
+    <div class="stat"><small>ORDER PENDING</small><b id="sPending">0</b></div>
+  </div>
+  <div class="panel"><h2>Order terbaru</h2><div class="list" id="recentOrders"></div></div>
+</section>
+
+<section class="view" id="v-prompts">
+  <div class="title-row"><div><div class="eyebrow">CONTENT ENGINE</div><h1>Prompt</h1><p>Tambah, edit, publish, featured, atau hapus prompt.</p></div><button class="btn pink" onclick="openPrompt()">+ PROMPT</button></div>
+  <div class="panel">
+    <div class="toolbar"><input id="promptSearch" placeholder="Cari judul prompt…"><select id="promptStatus"><option value="">Semua status</option><option value="published">Published</option><option value="draft">Draft</option></select><button class="btn dark" onclick="loadPrompts()">CARI</button></div>
+    <div class="list two" id="promptList"></div>
+  </div>
+</section>
+
+<section class="view" id="v-orders">
+  <div class="title-row"><div><div class="eyebrow">TRANSAKSI</div><h1>Order</h1><p>Data QRIS dan status pembayaran.</p></div></div>
+  <div class="panel"><div class="toolbar"><select id="orderStatus" onchange="loadOrders()"><option value="">Semua status</option><option>pending</option><option>success</option><option>expired</option><option>failed</option></select></div><div class="list" id="orderList"></div></div>
+</section>
+
+<section class="view" id="v-members">
+  <div class="title-row"><div><div class="eyebrow">AKSES</div><h1>Member</h1><p>Aktifkan atau blokir akses member.</p></div></div>
+  <div class="panel"><div class="toolbar"><select id="memberStatus" onchange="loadMembers()"><option value="">Semua status</option><option value="active">active</option><option value="blocked">blocked</option><option value="pending">pending</option></select></div><div class="list" id="memberList"></div></div>
+</section>
+
+<section class="view" id="v-settings">
+  <div class="title-row"><div><div class="eyebrow">KONFIGURASI</div><h1>Pengaturan</h1><p>Harga dan status penjualan.</p></div></div>
+  <div class="panel">
+    <form id="settingsForm">
+      <div class="field"><label>NAMA PRODUK</label><input id="setName"></div>
+      <div class="field"><label>HARGA (RUPIAH)</label><input id="setPrice" inputmode="numeric"></div>
+      <div class="switch"><div><b>Pendaftaran / Checkout</b><div class="muted">Matikan kalau penjualan sedang ditutup.</div></div><input id="setOpen" type="checkbox" style="width:22px;height:22px"></div>
+      <button class="btn pink" type="submit" style="width:100%;margin-top:12px">SIMPAN PENGATURAN</button>
+      <div class="msg" id="settingsMsg"></div>
+    </form>
+  </div>
+</section>
+</main>
+</div>
+
+<div class="nav">
+  <button class="on" data-view="dashboard"><b>⌂</b>Dashboard</button>
+  <button data-view="prompts"><b>✦</b>Prompt</button>
+  <button data-view="orders"><b>▣</b>Order</button>
+  <button data-view="members"><b>☻</b>Member</button>
+  <button data-view="settings"><b>⚙</b>Setting</button>
+</div>
+
+<div class="modal" id="promptModal">
+  <div class="sheet">
+    <div class="sheet-head"><div><div class="eyebrow">EDITOR PROMPT</div><h2 id="promptModalTitle">Tambah Prompt</h2></div><button class="btn dark" onclick="closePrompt()">×</button></div>
+    <form id="promptForm">
+      <input type="hidden" id="pId">
+      <div class="formgrid">
+        <div class="field"><label>NICHE</label><input id="pNiche" list="nicheList" required><datalist id="nicheList"></datalist></div>
+        <div class="field"><label>KEBUTUHAN / GOAL</label><input id="pGoal" list="goalList" required><datalist id="goalList"></datalist></div>
+        <div class="field"><label>JENIS OUTPUT</label><select id="pType" required><option>Strategi Penawaran</option><option>Copy / Caption</option><option>Prompt Visual / Gambar</option><option>Script Video Pendek</option><option>WhatsApp / DM</option></select></div>
+        <div class="field"><label>URUTAN</label><input id="pSort" type="number" value="0"></div>
+        <div class="field full"><label>JUDUL</label><input id="pTitle" required></div>
+        <div class="field full"><label>PROMPT</label><textarea id="pText" rows="10" required></textarea></div>
+        <div class="field full"><label>VARIABLES</label><textarea id="pVars" rows="3" placeholder="[NAMA BISNIS], [PRODUK/LAYANAN]"></textarea></div>
+        <div class="field full"><label>TAGS</label><input id="pTags" placeholder="promo, jualan, umkm"></div>
+        <div class="field full"><label>PREVIEW URL (OPSIONAL)</label><input id="pPreview" type="url"></div>
+      </div>
+      <div class="checks"><label><input id="pPublished" type="checkbox" checked> Published</label><label><input id="pFeatured" type="checkbox"> Featured</label></div>
+      <div class="sheet-actions"><button class="btn pink" type="submit">SIMPAN PROMPT</button><button class="btn danger" id="deletePromptBtn" type="button" style="display:none">HAPUS</button></div>
+      <div class="msg" id="promptMsg"></div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/appwrite@28.1.0"></script>
+<script>
+const {Client,Account,Functions,ID}=Appwrite;
+const client=new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
+const account=new Account(client), functions=new Functions(client);
+const FUNC='activate-member';
+let me=null,promptRows=[],allNiches=new Set(),allGoals=new Set();
+
+const gate=document.getElementById('gate'),loginMsg=document.getElementById('loginMsg');
+function msg(el,text,type=''){el.textContent=text;el.className='msg '+type}
+function rupiah(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n||0))}
+function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function dt(s){if(!s)return '-';try{return new Date(s).toLocaleString('id-ID',{dateStyle:'medium',timeStyle:'short'})}catch{return s}}
+
+async function api(path,body={}){
+  const ex=await functions.createExecution({
+    functionId:FUNC,
+    body:JSON.stringify(body),
+    async:false,
+    path:'/admin'+path,
+    method:'POST',
+    headers:{'content-type':'application/json'}
+  });
+  let data={};try{data=JSON.parse(ex.responseBody||'{}')}catch{}
+  if(Number(ex.responseStatusCode||500)>=400)throw new Error(data.error||'Admin API gagal.');
+  return data;
+}
+
+async function finishLogin(){
+  me=await account.get();
+  document.getElementById('adminName').textContent=me.name||me.email;
+  try{
+    await api('/health');
+  }catch(e){
+    await account.deleteSession({sessionId:'current'}).catch(()=>{});
+    throw new Error('Akun ini bukan admin BADAI PROMPT UMKM.');
+  }
+  gate.classList.add('hide');
+  await loadDashboard();
+}
+
+const params=new URLSearchParams(location.search);
+async function completeMagic(){
+  const userId=params.get('userId'),secret=params.get('secret');
+  if(!userId||!secret)return false;
+  msg(loginMsg,'Membuka admin…');
+  try{
+    await account.createSession({userId,secret});
+    history.replaceState({},'',location.pathname);
+    await finishLogin();
+    return true;
+  }catch(e){msg(loginMsg,e.message||'Link login sudah tidak berlaku.','bad');return false}
+}
+
+document.getElementById('loginForm').onsubmit=async e=>{
+  e.preventDefault();const b=document.getElementById('loginBtn');b.disabled=true;b.textContent='MENGIRIM…';
+  try{
+    await account.createMagicURLToken({userId:ID.unique(),email:loginEmail.value.trim().toLowerCase(),url:'https://badaipromptumkm2026.vercel.app/admin'});
+    msg(loginMsg,'Link admin sudah dikirim ke email. Cek Inbox/Spam.','good');
+  }catch(err){msg(loginMsg,err.message||'Gagal kirim link.','bad')}finally{b.disabled=false;b.textContent='KIRIM LINK LOGIN'}
+};
+document.getElementById('logoutBtn').onclick=async()=>{await account.deleteSession({sessionId:'current'}).catch(()=>{});location.reload()};
+
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=async()=>{
+  document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));document.getElementById('v-'+b.dataset.view).classList.add('on');
+  if(b.dataset.view==='dashboard')await loadDashboard();
+  if(b.dataset.view==='prompts')await loadPrompts();
+  if(b.dataset.view==='orders')await loadOrders();
+  if(b.dataset.view==='members')await loadMembers();
+  if(b.dataset.view==='settings')await loadSettings();
+});
+
+async function loadDashboard(){
+  const d=await api('/dashboard');
+  sPrompts.textContent=d.stats.prompts;sPublished.textContent=d.stats.published;sMembers.textContent=d.stats.members;sRevenue.textContent=rupiah(d.stats.revenue);sPaid.textContent=d.stats.paid_orders;sPending.textContent=d.stats.pending_orders;
+  recentOrders.innerHTML=d.recent_orders.length?d.recent_orders.map(o=>'<div class="row"><div class="order-grid"><div><h3>'+esc(o.full_name)+'</h3><div class="muted">'+esc(o.email)+' • '+esc(o.whatsapp||'-')+'</div></div><div><div class="money">'+rupiah(o.total_amount||o.amount)+'</div><div class="status '+esc(o.status)+'">'+esc(o.status)+'</div></div></div></div>').join(''):'<div class="empty">Belum ada order.</div>';
+}
+
+async function loadPrompts(){
+  const status=promptStatus.value;
+  const body={search:promptSearch.value.trim(),limit:100};
+  if(status==='published')body.published=true;if(status==='draft')body.published=false;
+  const d=await api('/prompts/list',body);promptRows=d.rows||[];
+  allNiches=new Set(promptRows.map(x=>x.niche));allGoals=new Set(promptRows.map(x=>x.goal));
+  nicheList.innerHTML=[...allNiches].map(x=>'<option value="'+esc(x)+'">').join('');
+  goalList.innerHTML=[...allGoals].map(x=>'<option value="'+esc(x)+'">').join('');
+  promptList.innerHTML=promptRows.length?promptRows.map(p=>'<div class="row"><div class="row-head"><div><h3>'+esc(p.title)+'</h3><div class="muted">'+esc(p.niche)+' • '+esc(p.goal)+'</div></div><span class="tag '+(p.is_published!==false?'live':'off')+'">'+(p.is_published!==false?'LIVE':'DRAFT')+'</span></div><div class="tags"><span class="tag">'+esc(p.output_type)+'</span>'+(p.is_featured?'<span class="tag live">FEATURED</span>':'')+'</div><div class="muted">'+esc(String(p.prompt_text||'').slice(0,180))+(String(p.prompt_text||'').length>180?'…':'')+'</div><div class="row-actions"><button class="btn dark sm" onclick="editPrompt(\''+p.$id+'\')">EDIT</button><button class="btn '+(p.is_published!==false?'danger':'good')+' sm" onclick="togglePrompt(\''+p.$id+'\','+(p.is_published===false)+')">'+(p.is_published!==false?'UNPUBLISH':'PUBLISH')+'</button></div></div>').join(''):'<div class="empty">Prompt tidak ditemukan.</div>';
+}
+promptSearch.onkeydown=e=>{if(e.key==='Enter')loadPrompts()};
+
+window.openPrompt=()=>{promptForm.reset();pId.value='';pSort.value='0';pPublished.checked=true;pFeatured.checked=false;promptModalTitle.textContent='Tambah Prompt';deletePromptBtn.style.display='none';msg(promptMsg,'');promptModal.classList.add('show')};
+window.closePrompt=()=>promptModal.classList.remove('show');
+window.editPrompt=id=>{const p=promptRows.find(x=>x.$id===id);if(!p)return;pId.value=p.$id;pNiche.value=p.niche||'';pGoal.value=p.goal||'';pType.value=p.output_type||'';pSort.value=p.sort_order||0;pTitle.value=p.title||'';pText.value=p.prompt_text||'';pVars.value=p.variables||'';pTags.value=p.tags||'';pPreview.value=p.preview_url||'';pPublished.checked=p.is_published!==false;pFeatured.checked=p.is_featured===true;promptModalTitle.textContent='Edit Prompt';deletePromptBtn.style.display='block';msg(promptMsg,'');promptModal.classList.add('show')};
+window.togglePrompt=async(id,val)=>{await api('/prompts/toggle',{id,is_published:val});await loadPrompts()};
+promptForm.onsubmit=async e=>{e.preventDefault();msg(promptMsg,'Menyimpan…');try{await api('/prompts/save',{id:pId.value,niche:pNiche.value,goal:pGoal.value,output_type:pType.value,sort_order:Number(pSort.value)||0,title:pTitle.value,prompt_text:pText.value,variables:pVars.value,tags:pTags.value,preview_url:pPreview.value,is_published:pPublished.checked,is_featured:pFeatured.checked});msg(promptMsg,'Tersimpan ✓','good');setTimeout(async()=>{closePrompt();await loadPrompts()},500)}catch(err){msg(promptMsg,err.message,'bad')}};
+deletePromptBtn.onclick=async()=>{if(!pId.value||!confirm('Hapus prompt ini permanen?'))return;await api('/prompts/delete',{id:pId.value});closePrompt();await loadPrompts()};
+
+async function loadOrders(){
+  const d=await api('/orders/list',{status:orderStatus.value,limit:100});
+  orderList.innerHTML=d.rows.length?d.rows.map(o=>'<div class="row"><div class="order-grid"><div><h3>'+esc(o.full_name)+'</h3><div class="muted">'+esc(o.email)+'<br>'+esc(o.whatsapp||'-')+'<br>'+dt(o.$createdAt)+'</div></div><div><div class="money">'+rupiah(o.total_amount||o.amount)+'</div><div class="status '+esc(o.status)+'">'+esc(o.status)+'</div></div></div><div class="tags"><span class="tag">'+esc(o.transaction_id||'-')+'</span>'+(o.access_issued?'<span class="tag live">AKSES AKTIF</span>':'')+'</div></div>').join(''):'<div class="empty">Belum ada order.</div>';
+}
+
+async function loadMembers(){
+  const d=await api('/members/list',{status:memberStatus.value,limit:100});
+  memberList.innerHTML=d.rows.length?d.rows.map(m=>'<div class="row"><div class="row-head"><div><h3>'+esc(m.name||m.email)+'</h3><div class="muted">'+esc(m.email||'')+' • '+esc(m.whatsapp||'-')+'</div></div><span class="tag '+(m.status==='active'?'live':m.status==='blocked'?'off':'pend')+'">'+esc(m.status||'pending')+'</span></div><div class="row-actions">'+(m.status==='active'?'<button class="btn danger sm" onclick="setMember(\''+m.user_id+'\',\'blocked\')">BLOKIR</button>':'<button class="btn good sm" onclick="setMember(\''+m.user_id+'\',\'active\')">AKTIFKAN</button>')+'</div></div>').join(''):'<div class="empty">Belum ada member.</div>';
+}
+window.setMember=async(id,status)=>{if(status==='blocked'&&!confirm('Blokir akses member ini?'))return;await api('/members/status',{user_id:id,status});await loadMembers()};
+
+async function loadSettings(){
+  const d=await api('/settings/get');setName.value=d.settings.product_name||'BADAI PROMPT UMKM';setPrice.value=d.settings.product_price||'87000';setOpen.checked=String(d.settings.registration_open||'true')==='true';
+}
+settingsForm.onsubmit=async e=>{e.preventDefault();msg(settingsMsg,'Menyimpan…');try{await api('/settings/save',{product_name:setName.value.trim(),product_price:String(Number(setPrice.value)||0),registration_open:String(setOpen.checked)});msg(settingsMsg,'Pengaturan tersimpan ✓','good')}catch(err){msg(settingsMsg,err.message,'bad')}};
+
+promptModal.onclick=e=>{if(e.target===promptModal)closePrompt()};
+completeMagic().then(async done=>{if(done)return;try{await finishLogin()}catch(e){gate.classList.remove('hide')}});
+</script>
+</body>
+</html>
