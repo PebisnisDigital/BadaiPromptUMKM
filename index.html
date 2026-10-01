@@ -4,7 +4,7 @@
 <style>
 :root{--bg:#070707;--card:#111;--line:#272727;--pink:#ff2d8d;--pink2:#ff6fb3;--text:#fff;--muted:#aaa}
 *{box-sizing:border-box}body{margin:0;background:#000;color:var(--text);font-family:Arial,Helvetica,sans-serif}.page{max-width:720px;margin:auto;min-height:100vh;background:radial-gradient(circle at 80% 0,rgba(255,45,141,.22),transparent 28%),var(--bg)}header{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:rgba(7,7,7,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.brand{font-weight:1000;letter-spacing:-.5px}.brand b{color:var(--pink)}.brand small{display:block;font-size:9px;color:#888;letter-spacing:.8px;margin-top:2px}.btn{display:inline-flex;justify-content:center;align-items:center;text-decoration:none;border:0;border-radius:14px;padding:14px 17px;font-weight:900;cursor:pointer}.pink{background:var(--pink);color:#fff}.dark{background:#171717;color:#fff;border:1px solid #333}section{padding:30px 18px}.eyebrow{font-size:10px;color:var(--pink2);font-weight:900;letter-spacing:1px}.hero h1{font-size:clamp(42px,10vw,72px);line-height:.92;letter-spacing:-3px;margin:12px 0}.hero h1 span{color:var(--pink)}p{color:#bbb;line-height:1.6}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.demo{margin-top:26px;padding:14px;border:1px solid #303030;border-radius:24px;background:#0d0d0d;box-shadow:0 24px 70px rgba(255,45,141,.12)}.screen{padding:16px;border-radius:18px;background:#090909;border:1px solid #222}.chips{display:flex;gap:8px;overflow:auto}.chip{white-space:nowrap;background:#151515;border:1px solid #333;border-radius:12px;padding:10px;font-size:11px}.chip.on{border-color:var(--pink);background:#1a1016}.prompt{margin-top:14px;background:#121212;border:1px solid #2a2a2a;border-radius:16px;padding:14px}.prompt h3{margin:8px 0 5px}.stats,.grid{display:grid;gap:10px}.stats{grid-template-columns:repeat(3,1fr);margin-top:18px}.stats div,.card{background:#101010;border:1px solid var(--line);border-radius:16px;padding:14px}.stats b{display:block;font-size:20px}.stats small,.card small{color:#888}.grid{grid-template-columns:repeat(2,1fr)}h2{font-size:30px;line-height:1;margin:7px 0 12px}.ico{font-size:24px}.card b{display:block;margin-top:8px}.price{border:1px solid #4a2740;border-radius:24px;padding:20px;background:radial-gradient(circle at 90% 0,rgba(255,45,141,.2),transparent 25%),#101010}.amount{font-size:48px;font-weight:1000;margin:8px 0}.list{display:grid;gap:8px;margin:16px 0}.list div:before{content:"✓ ";color:#73f6a7;font-weight:900}.faq details{background:#101010;border:1px solid var(--line);border-radius:14px;padding:14px;margin:8px 0}.faq summary{font-weight:800;cursor:pointer}.footer{text-align:center;color:#777;font-size:10px;padding:30px 18px 90px}.float{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:min(calc(100% - 24px),690px);display:flex;gap:10px;align-items:center;background:rgba(12,12,12,.95);border:1px solid #2b2b2b;border-radius:18px;padding:10px;backdrop-filter:blur(12px)}.float div{flex:1}.float small{color:#888}
-.checkout-modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.86);display:none;align-items:flex-end;justify-content:center;padding-top:30px}.checkout-modal.show{display:flex}.checkout-card{width:min(100%,720px);max-height:94vh;overflow:auto;background:#0e0e0e;border:1px solid #333;border-radius:26px 26px 0 0;padding:19px;box-shadow:0 -24px 80px rgba(255,45,141,.16)}.checkout-top{display:flex;justify-content:space-between;gap:12px;align-items:start}.checkout-top h3{font-size:23px;margin:4px 0}.xbtn{width:38px;height:38px;border-radius:50%;border:1px solid #333;background:#171717;color:#fff;font-size:20px;cursor:pointer}.checkout-form{display:grid;gap:10px;margin-top:15px}.checkout-form label{font-size:10px;color:#888;font-weight:800}.checkout-form input{width:100%;margin-top:5px;background:#080808;border:1px solid #303030;border-radius:13px;color:#fff;padding:13px;outline:none}.checkout-form input:focus{border-color:var(--pink)}.checkout-msg{font-size:11px;line-height:1.5;color:#999;min-height:18px}.checkout-msg.bad{color:#ff7088}.checkout-msg.good{color:#73f6a7}.qrbox{text-align:center;background:#fff;border-radius:18px;padding:14px;margin-top:14px}.qrbox img{display:block;width:min(290px,100%);margin:auto;border-radius:10px}.payinfo{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.payinfo div{background:#111;border:1px solid #292929;border-radius:13px;padding:11px}.payinfo small{display:block;color:#777;font-size:9px}.payinfo b{display:block;margin-top:3px}.statusbox{margin-top:10px;padding:13px;border-radius:14px;background:#111;border:1px solid #2c2c2c;font-size:12px;line-height:1.5}.successbox{display:none;text-align:center;padding:18px 5px}.successbox.show{display:block}.successmark{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;margin:3px auto 12px;background:#12261a;color:#73f6a7;font-size:30px;border:1px solid #285c3a}
+.checkout-modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.86);display:none;align-items:flex-end;justify-content:center;padding-top:30px}.checkout-modal.show{display:flex}.checkout-card{width:min(100%,720px);max-height:94vh;overflow:auto;background:#0e0e0e;border:1px solid #333;border-radius:26px 26px 0 0;padding:19px;box-shadow:0 -24px 80px rgba(255,45,141,.16)}.checkout-top{display:flex;justify-content:space-between;gap:12px;align-items:start}.checkout-top h3{font-size:23px;margin:4px 0}.xbtn{width:38px;height:38px;border-radius:50%;border:1px solid #333;background:#171717;color:#fff;font-size:20px;cursor:pointer}.checkout-form{display:grid;gap:10px;margin-top:15px}.checkout-form label{font-size:10px;color:#888;font-weight:800}.checkout-form input{width:100%;margin-top:5px;background:#080808;border:1px solid #303030;border-radius:13px;color:#fff;padding:13px;outline:none}.checkout-form input:focus{border-color:var(--pink)}.coupon-line{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:5px}.coupon-line input{margin-top:0}.coupon-summary{display:none;background:#101a14;border:1px solid #294b36;border-radius:13px;padding:11px;font-size:10px;line-height:1.55}.coupon-summary.show{display:block}.coupon-summary b{color:#73f6a7}.checkout-msg{font-size:11px;line-height:1.5;color:#999;min-height:18px}.checkout-msg.bad{color:#ff7088}.checkout-msg.good{color:#73f6a7}.qrbox{text-align:center;background:#fff;border-radius:18px;padding:14px;margin-top:14px}.qrbox img{display:block;width:min(290px,100%);margin:auto;border-radius:10px}.payinfo{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.payinfo div{background:#111;border:1px solid #292929;border-radius:13px;padding:11px}.payinfo small{display:block;color:#777;font-size:9px}.payinfo b{display:block;margin-top:3px}.statusbox{margin-top:10px;padding:13px;border-radius:14px;background:#111;border:1px solid #2c2c2c;font-size:12px;line-height:1.5}.successbox{display:none;text-align:center;padding:18px 5px}.successbox.show{display:block}.successmark{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;margin:3px auto 12px;background:#12261a;color:#73f6a7;font-size:30px;border:1px solid #285c3a}
 @media(min-width:600px){.grid{grid-template-columns:repeat(5,1fr)}}
 </style></head>
 <body><div class="page">
@@ -38,6 +38,10 @@
         <label>NAMA LENGKAP<input id="buyerName" required maxlength="128" placeholder="Nama lengkap"></label>
         <label>EMAIL AKSES<input id="buyerEmail" type="email" required placeholder="email@contoh.com"></label>
         <label>WHATSAPP<input id="buyerWa" inputmode="tel" required placeholder="08xxxxxxxxxx"></label>
+        <label>KODE KUPON (OPSIONAL)
+          <div class="coupon-line"><input id="couponCode" maxlength="64" placeholder="Contoh: LAUNCH20"><button class="btn dark" id="applyCouponBtn" type="button">PAKAI</button></div>
+        </label>
+        <div class="coupon-summary" id="couponSummary"></div>
         <button class="btn pink" id="payBtn" type="submit">BUAT QRIS PEMBAYARAN</button>
         <div class="checkout-msg" id="checkoutMsg">Pastikan email benar. Email ini akan menjadi akun member.</div>
       </form>
@@ -65,10 +69,17 @@
 <script>
 const APPWRITE_ENDPOINT='https://sgp.cloud.appwrite.io/v1';
 const APPWRITE_PROJECT='badai-prompt-umkm';
-let checkoutToken='',checkoutEmail='',checkoutExpiry=null,pollTimer=null,countTimer=null;\nlet registrationOpen=true,currentPrice=87000;
+let checkoutToken='',checkoutEmail='',checkoutExpiry=null,pollTimer=null,countTimer=null;
+let registrationOpen=true,currentPrice=87000,appliedCoupon='',quotedTotal=87000;
 
 function rupiah(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n||0))}
-function openCheckout(){if(!registrationOpen){alert('Pendaftaran BADAI PROMPT UMKM sedang ditutup.');return}document.getElementById('checkoutModal').classList.add('show')}
+function openCheckout(){
+  if(!registrationOpen){alert('Pendaftaran BADAI PROMPT UMKM sedang ditutup.');return}
+  document.getElementById('successBox').classList.remove('show');
+  document.getElementById('checkoutFormWrap').style.display='block';
+  document.getElementById('paymentWrap').style.display='none';
+  document.getElementById('checkoutModal').classList.add('show');
+}
 function closeCheckout(){document.getElementById('checkoutModal').classList.remove('show')}
 document.getElementById('checkoutModal').addEventListener('click',e=>{if(e.target.id==='checkoutModal')closeCheckout()});
 
@@ -79,7 +90,7 @@ async function runPayment(path,payload){
     body:JSON.stringify({
       body:JSON.stringify(payload||{}),
       async:false,
-      path,
+      xpath:path,
       method:'POST',
       headers:{'content-type':'application/json'}
     })
@@ -93,6 +104,37 @@ async function runPayment(path,payload){
   return body;
 }
 
+function resetCouponQuote(){
+  appliedCoupon='';
+  quotedTotal=currentPrice;
+  couponSummary.classList.remove('show');
+  couponSummary.innerHTML='';
+  payBtn.textContent='BUAT QRIS PEMBAYARAN';
+}
+couponCode.addEventListener('input',()=>{
+  couponCode.value=couponCode.value.toUpperCase().replace(/\s+/g,'');
+  if(couponCode.value!==appliedCoupon)resetCouponQuote();
+});
+applyCouponBtn.onclick=async()=>{
+  const code=couponCode.value.trim().toUpperCase();
+  if(!code){resetCouponQuote();return}
+  applyCouponBtn.disabled=true;applyCouponBtn.textContent='CEK…';
+  try{
+    const q=await runPayment('/quote',{coupon_code:code});
+    appliedCoupon=q.coupon_code||'';
+    quotedTotal=Number(q.total||0);
+    couponSummary.classList.add('show');
+    couponSummary.innerHTML='Harga awal: '+rupiah(q.base_price)+'<br>Diskon: <b>-'+rupiah(q.discount_amount)+'</b><br>Total setelah kupon: <b>'+rupiah(q.total)+'</b>';
+    payBtn.textContent=q.total===0?'AKTIFKAN AKSES GRATIS':'BUAT QRIS '+rupiah(q.total);
+  }catch(err){
+    resetCouponQuote();
+    couponSummary.classList.add('show');
+    couponSummary.innerHTML='<span style="color:#ff7088">'+String(err.message||'Kupon tidak valid')+'</span>';
+  }finally{
+    applyCouponBtn.disabled=false;applyCouponBtn.textContent='PAKAI';
+  }
+};
+
 document.getElementById('checkoutForm').addEventListener('submit',async e=>{
   e.preventDefault();
   const btn=document.getElementById('payBtn'),msg=document.getElementById('checkoutMsg');
@@ -101,18 +143,29 @@ document.getElementById('checkoutForm').addEventListener('submit',async e=>{
     const data=await runPayment('/create',{
       full_name:document.getElementById('buyerName').value.trim(),
       email:document.getElementById('buyerEmail').value.trim(),
-      whatsapp:document.getElementById('buyerWa').value.trim()
+      whatsapp:document.getElementById('buyerWa').value.trim(),
+      coupon_code:document.getElementById('couponCode').value.trim().toUpperCase()
     });
     checkoutToken=data.public_token;
     checkoutEmail=document.getElementById('buyerEmail').value.trim().toLowerCase();
     checkoutExpiry=data.expires_at?new Date(data.expires_at):new Date(Date.now()+15*60*1000);
-    document.getElementById('qrImage').src=data.qr_url;
-    document.getElementById('payAmount').textContent=rupiah(data.total_amount||data.amount);
     document.getElementById('checkoutFormWrap').style.display='none';
     document.getElementById('paymentWrap').style.display='block';
-    startCountdown();
-    schedulePolling();
-    if(data.status==='success') handlePaid(data);
+    document.getElementById('payAmount').textContent=rupiah(data.total_amount||data.amount||0);
+
+    if(data.status==='success'){
+      document.querySelector('.qrbox').style.display='none';
+      document.getElementById('checkNowBtn').style.display='none';
+      document.getElementById('payCountdown').textContent='PROSES';
+      document.getElementById('payStatus').innerHTML='<b style="color:#73f6a7">Kupon berhasil diterapkan ✓</b><br>Mengaktifkan akun member…';
+      if(data.access_ready){handlePaid(data)}else{setTimeout(checkPayment,1500);pollTimer=setInterval(checkPayment,3000)}
+    }else{
+      document.querySelector('.qrbox').style.display='block';
+      document.getElementById('checkNowBtn').style.display='block';
+      document.getElementById('qrImage').src=data.qr_url;
+      startCountdown();
+      schedulePolling();
+    }
   }catch(err){
     msg.className='checkout-msg bad';msg.textContent=err.message||'Gagal membuat QRIS.';
     btn.disabled=false;btn.textContent='BUAT QRIS PEMBAYARAN';
@@ -169,6 +222,7 @@ async function loadPublicConfig(){
   try{
     const data=await runPayment('/config',{});
     currentPrice=Number(data.price||87000);
+    quotedTotal=currentPrice;
     registrationOpen=data.registration_open!==false;
     document.getElementById('displayPrice').textContent=rupiah(currentPrice);
     document.getElementById('checkoutPriceLabel').textContent=rupiah(currentPrice)+' • akses V1';
