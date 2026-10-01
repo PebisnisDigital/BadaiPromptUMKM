@@ -108,8 +108,8 @@ export default async ({req,res,error})=>{
     }
 
     const limit=Math.max(Number(coupon.usage_limit)||0,0);
-    const used=Math.max(Number(coupon.used_count)||0,0);
-    if(limit>0&&used>=limit)throw Object.assign(new Error('Kuota pemakaian kupon sudah habis.'),{status:400});
+    const claimed=Math.max(Number(coupon.claimed_count)||0,0);
+    if(limit>0&&claimed>=limit)throw Object.assign(new Error('Kuota pemakaian kupon sudah habis.'),{status:400});
 
     const minOrder=Math.max(Number(coupon.min_order)||0,0);
     if(basePrice<minOrder){
@@ -136,16 +136,58 @@ export default async ({req,res,error})=>{
     };
   }
 
+  async function reserveCouponSlot(quote){
+    const coupon=quote?.coupon;
+    if(!coupon?.$id)return false;
+    const limit=Math.max(Number(coupon.usage_limit)||0,0);
+    if(limit<=0)return false;
+    try{
+      await tables.incrementRowColumn({
+        databaseId:DB,
+        tableId:COUPONS,
+        rowId:coupon.$id,
+        column:'claimed_count',
+        value:1,
+        max:limit
+      });
+      return true;
+    }catch(e){
+      throw Object.assign(new Error('Kuota pemakaian kupon sudah habis.'),{status:409});
+    }
+  }
+
+  async function releaseCouponClaim(order){
+    if(!order?.coupon_code||order.coupon_claimed!==true)return;
+    try{
+      const coupon=await getCoupon(order.coupon_code);
+      if(coupon?.$id){
+        await tables.decrementRowColumn({
+          databaseId:DB,
+          tableId:COUPONS,
+          rowId:coupon.$id,
+          column:'claimed_count',
+          value:1,
+          min:0
+        });
+      }
+      await updateOrder(order.$id,{coupon_claimed:false});
+      order.coupon_claimed=false;
+    }catch(e){
+      // Best effort. A later cleanup/check can retry without affecting payment status.
+    }
+  }
+
   async function countCouponUsage(order){
     if(!order?.coupon_code||order.coupon_counted===true||order.status!=='success')return;
     try{
       const coupon=await getCoupon(order.coupon_code);
       if(coupon?.$id){
-        await tables.updateRow({
+        await tables.incrementRowColumn({
           databaseId:DB,
           tableId:COUPONS,
           rowId:coupon.$id,
-          data:{used_count:Math.max(Number(coupon.used_count)||0,0)+1}
+          column:'used_count',
+          value:1
         });
       }
       await updateOrder(order.$id,{coupon_counted:true});
@@ -214,6 +256,8 @@ export default async ({req,res,error})=>{
       throw Object.assign(new Error('Email ini sudah memiliki akses aktif'),{status:409});
     }
 
+    const couponClaimed=await reserveCouponSlot(quote);
+
     if(price===0){
       const publicToken=randomToken(24);
       const now=new Date().toISOString();
@@ -234,6 +278,7 @@ export default async ({req,res,error})=>{
           coupon_code:quote.coupon_code,
           discount_amount:quote.discount_amount,
           coupon_counted:false,
+          coupon_claimed:couponClaimed,
           payment_method:'coupon_free'
         }
       });
@@ -273,16 +318,28 @@ export default async ({req,res,error})=>{
     if(method!=='default')form.set('qris_method',method);
     if(String(process.env.BUATQRIS_TEST_MODE).toLowerCase()==='true')form.set('test','1');
 
-    const qrRes=await fetch('https://api.buatqris.site',{
-      method:'POST',
-      headers:{'Content-Type':'application/x-www-form-urlencoded','User-Agent':'BADAI-Prompt-UMKM/1.0'},
-      body:form.toString()
-    });
-    const raw=await qrRes.text();
-    let payload={};try{payload=JSON.parse(raw)}catch{}
-    const data=payload?.data??payload;
-    if(!qrRes.ok||payload?.success===false||!data?.transaction_id){
-      throw Object.assign(new Error(String(payload?.message||payload?.error||'BuatQris gagal membuat transaksi')),{status:502});
+    let qrRes,raw,payload={},data;
+    try{
+      qrRes=await fetch('https://api.buatqris.site',{
+        method:'POST',
+        headers:{'Content-Type':'application/x-www-form-urlencoded','User-Agent':'BADAI-Prompt-UMKM/1.0'},
+        body:form.toString()
+      });
+      raw=await qrRes.text();
+      try{payload=JSON.parse(raw)}catch{}
+      data=payload?.data??payload;
+      if(!qrRes.ok||payload?.success===false||!data?.transaction_id){
+        throw Object.assign(new Error(String(payload?.message||payload?.error||'BuatQris gagal membuat transaksi')),{status:502});
+      }
+    }catch(e){
+      if(couponClaimed&&quote.coupon?.$id){
+        try{
+          await tables.decrementRowColumn({
+            databaseId:DB,tableId:COUPONS,rowId:quote.coupon.$id,column:'claimed_count',value:1,min:0
+          });
+        }catch{}
+      }
+      throw e;
     }
     const qrUrl=data.qr_url?String(data.qr_url):(data.qris_image?String(data.qris_image):'');
     if(!qrUrl)throw Object.assign(new Error('BuatQris tidak mengembalikan gambar QR'),{status:502});
@@ -312,6 +369,7 @@ export default async ({req,res,error})=>{
         coupon_code:quote.coupon_code,
         discount_amount:quote.discount_amount,
         coupon_counted:false,
+        coupon_claimed:couponClaimed,
         payment_method:'qris'
       }
     });
@@ -343,10 +401,14 @@ export default async ({req,res,error})=>{
       await countCouponUsage(order);
       return {success:true,status:'success',email:order.email,access_ready:Boolean(order.access_issued)};
     }
-    if(['expired','failed'].includes(order.status))return {success:true,status:order.status};
+    if(['expired','failed'].includes(order.status)){
+      await releaseCouponClaim(order);
+      return {success:true,status:order.status};
+    }
 
     if(order.expires_at&&new Date(order.expires_at).getTime()<=Date.now()){
-      await updateOrder(order.$id,{status:'expired'});
+      const expired=rowData(await updateOrder(order.$id,{status:'expired'}));
+      await releaseCouponClaim(expired);
       return {success:true,status:'expired'};
     }
 
@@ -376,6 +438,7 @@ export default async ({req,res,error})=>{
     if(status==='success')patch.paid_at=new Date().toISOString();
     const updated=rowData(await updateOrder(order.$id,patch));
     if(status==='success')await countCouponUsage(updated);
+    if(status==='expired'||status==='failed')await releaseCouponClaim(updated);
     return {success:true,status,email:updated.email,access_ready:Boolean(updated.access_issued)};
   }
 
@@ -400,6 +463,7 @@ export default async ({req,res,error})=>{
     if(status==='success')patch.paid_at=new Date().toISOString();
     const updated=rowData(await updateOrder(order.$id,patch));
     if(status==='success')await countCouponUsage(updated);
+    if(status==='expired'||status==='failed')await releaseCouponClaim(updated);
     return {ok:true};
   }
 
