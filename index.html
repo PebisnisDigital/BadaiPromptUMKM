@@ -374,46 +374,29 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 <style id="bpu-orbit3d-style">
 .bpu-orbit-hero{
   min-height:540px!important;
-  padding:10px!important;
-  overflow:hidden!important;
-  background:
-    radial-gradient(circle at 50% 47%,rgba(255,79,163,.12),transparent 18%),
-    radial-gradient(ellipse at 50% 72%,rgba(255,79,163,.055),transparent 42%),
-    #09090a!important;
+  margin:26px auto 0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  overflow:visible!important;
 }
 .bpu-orbit-hero:after{display:none!important}
 .bpu-orbit-scene{
   position:relative;
   width:100%;
   height:520px;
-  overflow:hidden;
-  border-radius:22px;
+  overflow:visible;
+  border-radius:0;
   perspective:1050px;
   perspective-origin:50% 46%;
   touch-action:pan-y;
   user-select:none;
   cursor:grab;
-  background:
-    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
-  background-size:32px 32px;
+  background:transparent;
 }
 .bpu-orbit-scene.is-dragging{cursor:grabbing}
-.bpu-orbit-floor{
-  position:absolute;
-  z-index:0;
-  left:50%;
-  top:59%;
-  width:680px;
-  height:260px;
-  transform:translate(-50%,-50%) rotateX(72deg);
-  border-radius:50%;
-  border:1px solid rgba(255,79,163,.17);
-  background:
-    repeating-radial-gradient(ellipse at center,rgba(255,79,163,.10) 0 1px,transparent 1px 24px);
-  box-shadow:0 0 80px rgba(255,79,163,.05);
-  opacity:.62;
-}
 
 .bpu-orbit-ring{position:absolute;inset:0;z-index:5;transform-style:preserve-3d}
 .bpu-orbit-card{
@@ -483,47 +466,22 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 .bpu-orbit-copy small{display:block;color:#ff8ec8;font:900 7px var(--font-sf);letter-spacing:.13em}
 .bpu-orbit-copy b{display:block;margin-top:5px;color:#fff;font:950 18px/.98 var(--font-sf);letter-spacing:-.045em}
 .bpu-orbit-copy p{margin:6px 0 0;color:#c2c2c7;font:500 8px/1.45 var(--font-roboto)}
-.bpu-orbit-hint{
-  position:absolute;
-  z-index:190;
-  left:50%;
-  bottom:13px;
-  transform:translateX(-50%);
-  display:flex;
-  align-items:center;
-  gap:8px;
-  white-space:nowrap;
-  padding:6px 9px;
-  border-radius:999px;
-  color:#59595f;
-  background:rgba(0,0,0,.32);
-  font:850 6px var(--font-roboto);
-  letter-spacing:.13em;
-  pointer-events:none;
-}
-.bpu-orbit-hint span{color:#9c587b}
 
 @media(max-width:700px){
-  .bpu-orbit-hero{min-height:470px!important}
-  .bpu-orbit-scene{height:450px;perspective:850px}
-  .bpu-orbit-floor{width:510px;height:210px}
-  .bpu-orbit-card{top:50%;width:168px;height:226px;border-radius:18px}
+  .bpu-orbit-hero{min-height:470px!important;padding:0!important;overflow:visible!important}
+  .bpu-orbit-scene{height:450px;perspective:850px;overflow:visible}  .bpu-orbit-card{top:50%;width:168px;height:226px;border-radius:18px}
   .bpu-orbit-copy{left:12px;right:12px;bottom:11px}
   .bpu-orbit-copy b{font-size:15px}
   .bpu-orbit-copy p{font-size:7px}
 }
 @media(max-width:480px){
-  .bpu-orbit-hero{min-height:400px!important;padding:7px!important}
-  .bpu-orbit-scene{height:385px;perspective:720px}
-  .bpu-orbit-floor{width:390px;height:175px;top:61%}
-  .bpu-orbit-card{top:50%;width:128px;height:176px;border-radius:15px}
+  .bpu-orbit-hero{min-height:400px!important;padding:0!important;overflow:visible!important}
+  .bpu-orbit-scene{height:385px;perspective:720px;overflow:visible}  .bpu-orbit-card{top:50%;width:128px;height:176px;border-radius:15px}
   .bpu-orbit-chip{top:8px;right:8px;padding:5px 7px;font-size:5.5px}
   .bpu-orbit-copy{left:9px;right:9px;bottom:8px}
   .bpu-orbit-copy small{font-size:5.5px}
   .bpu-orbit-copy b{font-size:11px}
-  .bpu-orbit-copy p{display:none}
-  .bpu-orbit-hint{bottom:8px;font-size:5px}
-}
+  .bpu-orbit-copy p{display:none}}
 @media(prefers-reduced-motion:reduce){
   .bpu-core-halo,.bpu-core-cube{animation:none!important}
 }
@@ -557,7 +515,6 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 
     <div class="bpu-hero-visual bpu-orbit-hero reveal2" aria-label="Galeri 3D contoh hasil prompt untuk berbagai jenis UMKM">
       <div class="bpu-orbit-scene" id="bpuOrbitScene">
-        <div class="bpu-orbit-floor" aria-hidden="true"></div>
 
         <div class="bpu-orbit-ring" id="bpuOrbitRing">
           <article class="bpu-orbit-card" data-niche="KULINER">
@@ -630,8 +587,6 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
             <div class="bpu-orbit-copy"><small>PRODUCT + MARKETING</small><b>Bikin Kendaraan Lebih Menonjol.</b><p>Mobil, motor, bengkel, dan aksesoris.</p></div>
           </article>
         </div>
-
-        <div class="bpu-orbit-hint" aria-hidden="true"><span>←</span> GESER UNTUK MEMUTAR <span>→</span></div>
       </div>
     </div>
 
