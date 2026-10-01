@@ -38,6 +38,27 @@ export async function POST(request) {
   return Response.json(payload, { status });
 }
 
-export function GET() {
-  return Response.json({ ok: true, service: 'BuatQRIS webhook relay' });
+export async function GET() {
+  const upstream = await fetch('https://sgp.cloud.appwrite.io/v1/functions/payment-api/executions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Appwrite-Project': 'badai-prompt-umkm'
+    },
+    body: JSON.stringify({
+      body: '',
+      async: false,
+      path: '/health',
+      method: 'GET',
+      headers: { 'content-type': 'application/json' }
+    })
+  });
+  const execution = await upstream.json().catch(() => ({}));
+  let payload = {};
+  try { payload = JSON.parse(execution.responseBody || '{}'); } catch {}
+  return Response.json({
+    ok: upstream.ok && Number(execution.responseStatusCode || 500) === 200,
+    relay: true,
+    paymentApi: payload
+  }, { status: upstream.ok ? 200 : upstream.status });
 }
