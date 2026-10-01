@@ -35,11 +35,10 @@ main{padding:16px}.hero{background:linear-gradient(145deg,#121212,#0b0b0b);borde
     <div class="logo">BADAI <b>PROMPT UMKM</b></div>
     <div class="eyebrow" style="margin-top:5px">MEMBER AREA</div>
     <h1>Masuk ke mesin prompt.</h1>
-    <p>Akun member aktif setelah pembayaran terverifikasi. Gunakan email checkout untuk masuk.</p>
+    <p>Akun member aktif setelah pembayaran terverifikasi. Masukkan email checkout, lalu klik link login yang kami kirim ke email.</p>
     <form id="loginForm">
-      <div class="field"><label>Email</label><input id="loginEmail" type="email" autocomplete="email" required placeholder="email@contoh.com"></div>
-      <div class="field"><label>Password</label><input id="loginPassword" type="password" autocomplete="current-password" required placeholder="••••••••"></div>
-      <button class="btn pink" type="submit">MASUK</button>
+      <div class="field"><label>Email akses</label><input id="loginEmail" type="email" autocomplete="email" required placeholder="email@contoh.com"></div>
+      <button class="btn pink" id="loginBtn" type="submit">KIRIM LINK LOGIN</button>
       <div class="msg" id="loginMsg"></div>
     </form>
   </div>
@@ -105,7 +104,7 @@ main{padding:16px}.hero{background:linear-gradient(145deg,#121212,#0b0b0b);borde
 
 <script src="https://cdn.jsdelivr.net/npm/appwrite@28.1.0"></script>
 <script>
-const { Client, Account, TablesDB, Query } = Appwrite;
+const { Client, Account, TablesDB, Query, ID } = Appwrite;
 const client = new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
 const account = new Account(client);
 const tables = new TablesDB(client);
@@ -138,16 +137,50 @@ async function boot(){
   }
 }
 
-document.getElementById('loginForm').addEventListener('submit',async e=>{
-  e.preventDefault(); setMsg('Sedang masuk…'); 
+async function finishLogin(){
+  currentUser=await account.get();
+  document.getElementById('userChip').textContent=currentUser.name||currentUser.email;
+  gate.classList.add('hide'); setMsg('');
+  favorites=new Set(JSON.parse(localStorage.getItem('bpu_fav_'+currentUser.$id)||'[]'));
+  await loadPrompts();
+}
+
+const loginParams=new URLSearchParams(location.search);
+const emailFromCheckout=loginParams.get('email')||'';
+if(emailFromCheckout) loginEmail.value=emailFromCheckout;
+
+async function completeMagicLogin(){
+  const userId=loginParams.get('userId');
+  const secret=loginParams.get('secret');
+  if(!userId||!secret) return false;
+  setMsg('Membuka akses member…');
   try{
-    await account.createEmailPasswordSession({email:loginEmail.value.trim(),password:loginPassword.value});
-    currentUser=await account.get();
-    document.getElementById('userChip').textContent=currentUser.name||currentUser.email;
-    gate.classList.add('hide'); setMsg('');
-    favorites=new Set(JSON.parse(localStorage.getItem('bpu_fav_'+currentUser.$id)||'[]'));
-    await loadPrompts();
-  }catch(err){setMsg(err.message||'Email atau password tidak cocok.','bad')}
+    await account.createSession({userId,secret});
+    history.replaceState({},'',location.pathname);
+    await finishLogin();
+    return true;
+  }catch(err){
+    setMsg('Link login sudah tidak berlaku. Kirim link baru dari email akses.','bad');
+    return false;
+  }
+}
+
+document.getElementById('loginForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const btn=document.getElementById('loginBtn');
+  btn.disabled=true;btn.textContent='MENGIRIM LINK…';setMsg('Mengirim link login ke email…');
+  try{
+    await account.createMagicURLToken({
+      userId:ID.unique(),
+      email:loginEmail.value.trim().toLowerCase(),
+      url:'https://badaipromptumkm2026.vercel.app/akses'
+    });
+    setMsg('Link login sudah dikirim. Cek Inbox atau Spam, lalu klik link tersebut.','good');
+  }catch(err){
+    setMsg(err.message||'Link login belum bisa dikirim.','bad');
+  }finally{
+    btn.disabled=false;btn.textContent='KIRIM LINK LOGIN';
+  }
 });
 
 document.getElementById('logoutBtn').onclick=async()=>{
@@ -239,7 +272,7 @@ function toggleFavorite(id){
 }
 window.showFavorites=()=>{selectedNiche='';selectedGoal='';search.value='';filtered=all.filter(x=>favorites.has(x.$id));resultCount.textContent=filtered.length+' favorit';shown=pageSize;renderCards();document.querySelector('.sec:nth-of-type(4)')?.scrollIntoView({behavior:'smooth'})};
 
-boot();
+completeMagicLogin().then(done=>{if(!done)boot()});
 </script>
 </body>
 </html>
