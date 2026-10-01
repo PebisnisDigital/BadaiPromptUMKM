@@ -23,32 +23,198 @@
 :root{--font-sf:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",sans-serif;--font-roboto:"Roboto","Segoe UI",Arial,sans-serif}
 body,input,textarea,select{font-family:var(--font-roboto)}
 h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-family:var(--font-sf)}
+
+.copy-hero{padding-top:34px}
+.copy-hero .problem-kicker{display:inline-flex;align-items:center;gap:7px;padding:8px 10px;border:1px solid #3a2831;border-radius:999px;background:#151014;color:#ff9ac9;font-size:10px;font-weight:900;letter-spacing:.4px}
+.copy-hero h1{max-width:650px}
+.copy-hero .lead{font-size:16px;color:#d4d4d4;line-height:1.65;max-width:640px}
+.simple-chain{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:17px 0 0}
+.simple-chain span{border:1px solid #343434;background:#111;border-radius:999px;padding:8px 10px;font-size:10px;font-weight:900}
+.simple-chain i{font-style:normal;color:var(--pink)}
+.benefit-3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0 0}
+.benefit-3 div{border:1px solid #292929;background:#0f0f0f;border-radius:15px;padding:12px}
+.benefit-3 b{display:block;font-size:12px}.benefit-3 small{display:block;color:#898989;font-size:9px;line-height:1.45;margin-top:4px}
+.question-strip{margin:0 18px;padding:18px;border:1px solid #392634;border-radius:20px;background:radial-gradient(circle at 85% 10%,rgba(255,45,141,.16),transparent 30%),#0e0e0e}
+.question-strip b{font-size:19px;line-height:1.15;display:block}.question-strip p{margin:8px 0 0}
+.before-after{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ba{border:1px solid #2b2b2b;border-radius:18px;padding:15px;background:#0f0f0f}
+.ba.before{opacity:.78}.ba.after{border-color:#583047;background:#151016}
+.ba .tag{display:inline-block;font-size:9px;font-weight:900;border-radius:999px;padding:6px 8px;background:#1d1d1d;color:#aaa;margin-bottom:10px}
+.ba.after .tag{background:#311422;color:#ff9ac9}
+.ba h3{margin:0 0 8px;font-size:17px}.ba ul{margin:0;padding-left:17px;color:#aaa;font-size:11px;line-height:1.65}
+.use-cases{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.use-card{padding:15px;border-radius:17px;border:1px solid #2a2a2a;background:#101010}
+.use-card .ico{font-size:24px}.use-card b{display:block;margin:7px 0 4px}.use-card small{color:#8d8d8d;line-height:1.45}
+.steps{display:grid;gap:9px}
+.step{display:grid;grid-template-columns:34px 1fr;gap:11px;align-items:start;padding:14px;border:1px solid #292929;border-radius:16px;background:#101010}
+.step .num{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:#24101a;color:#ff82bd;font-weight:1000}
+.step b{display:block;font-size:13px}.step small{display:block;color:#8e8e8e;line-height:1.5;margin-top:3px}
+.proof-band{margin:8px 18px 0;padding:17px;border:1px solid #294837;background:#0e1711;border-radius:20px}
+.proof-band .proof-num{font-size:38px;font-weight:1000;line-height:1;color:#8affb2}.proof-band p{margin:7px 0 0;font-size:12px}
+.distinct{border:1px solid #302a2e;border-radius:20px;background:#0e0e0e;padding:17px}
+.distinct h3{font-size:23px;line-height:1.05;margin:5px 0 10px}.distinct p{margin:0}
+.fit-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.fit-grid div{border:1px solid #292929;background:#101010;border-radius:15px;padding:12px;font-size:11px;font-weight:800}
+.free-demo{border:1px solid #453044;background:linear-gradient(145deg,#171016,#0e0e0e);border-radius:23px;padding:20px}
+.free-demo h2{margin-top:5px}.free-demo .mini{font-size:10px;color:#898989}
+.choice-close{text-align:center;padding-top:16px}.choice-close h2{max-width:580px;margin:7px auto 12px}.choice-close .actions{justify-content:center}
+.micro-trust{font-size:9px;color:#777;margin-top:9px}
+@media(max-width:520px){
+  .benefit-3{grid-template-columns:1fr}
+  .before-after{grid-template-columns:1fr}
+  .use-cases{grid-template-columns:1fr 1fr}
+}
 </style></head>
 <body><div class="page">
-<header><div class="brand">BADAI <b>PROMPT UMKM</b><small>PROMPT ENGINE UNTUK UMKM INDONESIA</small></div><a class="btn pink" href="#harga">LIHAT HARGA</a></header>
-<section class="hero"><div class="eyebrow">BUKAN PDF. BUKAN KELAS. INI MESIN PROMPT UMKM.</div><h1>TINGGAL PILIH. <span>PROMPT-NYA SIAP.</span></h1><p>Nggak perlu bingung nulis prompt dari nol. Pilih jenis bisnis, pilih kebutuhan jualan hari ini, isi data singkat, lalu pakai hasilnya di AI favoritmu.</p><div class="actions"><a class="btn pink" href="#harga">BAYAR SEIKHLASNYA</a><a class="btn dark" href="/demo">COBA DEMO TANPA LOGIN</a></div>
-<div class="demo"><div class="screen"><b>1. Kamu jualan apa?</b><div class="chips"><span class="chip on">🍜 Kuliner</span><span class="chip">👗 Fashion</span><span class="chip">💄 Beauty</span><span class="chip">🛠️ Jasa</span></div><p><b>2. Lagi butuh apa?</b></p><div class="chips"><span class="chip on">Sepi Order</span><span class="chip">Promo Hari Ini</span><span class="chip">Foto Produk</span></div><div class="prompt"><small>Kuliner • Sepi Order • Strategi</small><h3>Sepi Order Tanpa Banting Harga</h3><p>Prompt untuk mencari ide aktivasi penjualan yang bisa dilakukan hari ini tanpa diskon palsu.</p><a class="btn pink" href="/demo">LIHAT CARA PAKAI</a></div></div></div>
-<div class="stats"><div><b>500+</b><small>Prompt siap pakai</small></div><div><b>10</b><small>Kategori bisnis</small></div><div><b>5</b><small>Jenis output jualan</small></div></div></section>
+<header><div class="brand">BADAI <b>PROMPT UMKM</b><small>PERINTAH AI SIAP PAKAI UNTUK BANTU JUALAN</small></div><a class="btn pink" href="#harga">LIHAT AKSES</a></header>
 
-<section><div class="eyebrow">TEMBAK BANYAK LINI</div><h2>Dibuat buat UMKM, bukan satu jenis jualan.</h2><div class="grid">
-<div class="card"><div class="ico">🍜</div><b>Kuliner</b><small>Warung, snack, catering</small></div><div class="card"><div class="ico">👗</div><b>Fashion</b><small>Hijab, gamis, tas</small></div><div class="card"><div class="ico">💄</div><b>Beauty</b><small>Salon, skincare, nail</small></div><div class="card"><div class="ico">🛠️</div><b>Jasa</b><small>Laundry, servis, printing</small></div><div class="card"><div class="ico">🎓</div><b>Pendidikan</b><small>Bimbel, kursus, sekolah</small></div><div class="card"><div class="ico">🏠</div><b>Properti</b><small>Kos, rumah, kontrakan</small></div><div class="card"><div class="ico">🏍️</div><b>Otomotif</b><small>Bengkel, cuci, rental</small></div><div class="card"><div class="ico">🎁</div><b>Hampers</b><small>Souvenir, florist, gift</small></div><div class="card"><div class="ico">🛒</div><b>Retail</b><small>Toko, sembako, reseller</small></div><div class="card"><div class="ico">🎉</div><b>Event</b><small>WO, dekorasi, foto</small></div>
-</div></section>
+<section class="hero copy-hero">
+  <div class="problem-kicker">PUNYA AI, TAPI BINGUNG MAU NGETIK APA?</div>
+  <h1>JANGAN MIKIR PROMPT. <span>TINGGAL PILIH YANG MAU DIBANTU.</span></h1>
+  <p class="lead">BADAI PROMPT UMKM menyiapkan <b style="color:#fff">perintah siap pakai untuk AI</b> khusus buat kebutuhan jualan. Pilih jenis usaha, pilih masalahnya, isi sedikit data, lalu salin ke ChatGPT, Gemini, atau AI yang kamu pakai.</p>
+  <div class="simple-chain"><span>PILIH USAHA</span><i>→</i><span>PILIH KEBUTUHAN</span><i>→</i><span>SALIN</span><i>→</i><span>TEMPEL KE AI</span></div>
+  <div class="actions"><a class="btn pink" href="/demo">COBA GRATIS</a><a class="btn dark" href="#harga">AMBIL AKSES</a></div>
+  <div class="benefit-3">
+    <div><b>Nggak mulai dari nol</b><small>Sudah ada perintah yang tinggal dipakai.</small></div>
+    <div><b>Nggak perlu jago AI</b><small>Bahasanya dibuat untuk orang jualan, bukan orang teknis.</small></div>
+    <div><b>Lebih cepat praktik</b><small>Dari bingung mau ngetik apa jadi langsung punya bahan kerja.</small></div>
+  </div>
 
-<section><div class="eyebrow">BUKAN CUMA CAPTION</div><h2>Satu library. Banyak kerjaan jualan.</h2><div class="grid">
-<div class="card"><div class="ico">🧠</div><b>Strategi</b><small>Promo, launching, sepi order</small></div><div class="card"><div class="ico">✍️</div><b>Copy</b><small>Caption, hook, storytelling</small></div><div class="card"><div class="ico">📸</div><b>Visual</b><small>Foto produk, poster, katalog</small></div><div class="card"><div class="ico">🎥</div><b>Video</b><small>Hook, shot list, voice over</small></div><div class="card"><div class="ico">💬</div><b>WhatsApp</b><small>Broadcast, follow-up, closing</small></div>
-</div></section>
+  <div class="demo"><div class="screen"><b>Contohnya begini 👇</b><p style="margin:8px 0 5px"><b>1. Kamu jualan apa?</b></p><div class="chips"><span class="chip on">🍜 Kuliner</span><span class="chip">👗 Fashion</span><span class="chip">💄 Beauty</span><span class="chip">🛠️ Jasa</span></div><p><b>2. Lagi butuh bantuan apa?</b></p><div class="chips"><span class="chip on">Jualan Sepi</span><span class="chip">Bikin Promo</span><span class="chip">Foto Produk</span></div><div class="prompt"><small>Kuliner • Jualan Sepi</small><h3>Cari Cara Biar Jualan Lebih Menarik Tanpa Asal Diskon</h3><p>BADAI menyiapkan perintah yang bisa kamu salin ke AI untuk mencari ide jualan yang sesuai dengan kondisi usahamu.</p><a class="btn pink" href="/demo">COBA SENDIRI</a></div></div></div>
+</section>
 
-<section><div class="eyebrow">BUKAN CUMA KUMPULAN PROMPT</div><h2>Dibikin supaya dipakai tiap hari.</h2><div class="grid">
-<div class="card"><div class="ico">🚨</div><b>Mode Darurat</b><small>Butuh jualan sekarang? Ambil 3 prompt paling relevan tanpa muter cari.</small></div>
-<div class="card"><div class="ico">✨</div><b>Prompt Hari Ini</b><small>Satu rekomendasi harian supaya nggak bingung mulai dari mana.</small></div>
-<div class="card"><div class="ico">⚡</div><b>Profil Bisnis Auto-Fill</b><small>Isi data bisnis sekali, Prompt Builder otomatis bantu isi ulang.</small></div>
-<div class="card"><div class="ico">★</div><b>Favorit & Riwayat</b><small>Simpan prompt penting dan buka lagi yang pernah dipakai.</small></div>
-</div></section>
+<div class="question-strip">
+  <b>Pernah buka ChatGPT… lalu malah bengong?</b>
+  <p>Sudah tahu AI bisa bantu jualan. Tapi pas mau dipakai, malah kepikiran: <b style="color:#fff">“Aku harus ngetik apa?”</b> Nah, BADAI dibuat untuk bagian itu.</p>
+</div>
 
-<section id="harga"><div class="eyebrow">BAYAR SEIKHLASNYA</div><h2>Akses 1 tahun. Nominalnya kamu tentukan.</h2><div class="price"><b>BADAI PROMPT UMKM</b><div class="amount">Mulai <span id="displayPrice">Rp30.000</span></div><p>Minimal Rp30.000 untuk akses selama <b style="color:#fff">1 tahun</b>. Mau bayar lebih boleh. Akses dan fitur yang didapat tetap sama.</p><div class="list"><div>500+ prompt siap pakai</div><div>10 kategori bisnis UMKM</div><div>Strategi, copy, visual, video, WhatsApp</div><div>Mode Darurat + Prompt Hari Ini</div><div>Profil Bisnis auto-fill</div><div>Favorit + Riwayat pemakaian</div><div>Update library selama masa akses</div></div><div style="border:1px solid #2d5039;background:#0e1812;border-radius:14px;padding:12px;margin:12px 0;font-size:11px;line-height:1.55"><b style="color:#73f6a7">SEMUA NOMINAL = AKSES YANG SAMA</b><br><span style="color:#aaa">Bayar Rp30.000 tetap dapat akses penuh. Nominal lebih besar adalah dukungan sukarela untuk pengembangan BADAI PROMPT UMKM.</span></div><button class="btn pink" style="width:100%" onclick="openCheckout()">PILIH NOMINAL &amp; BAYAR</button><p style="font-size:10px;color:#777">Prompt membantu mempercepat ide dan eksekusi; hasil penjualan tetap bergantung pada produk, penawaran, distribusi, kondisi pasar, dan eksekusi.</p></div></section>
-<section class="faq"><div class="eyebrow">FAQ</div><h2>Sebelum nanya di WhatsApp 😭</h2><details><summary>Ini kelas AI?</summary><p>Bukan. Ini library prompt dan prompt builder yang langsung dipakai.</p></details><details><summary>Bayarnya benar-benar seikhlasnya?</summary><p>Iya. Minimum Rp30.000 untuk akses 1 tahun. Kamu boleh memilih nominal lebih besar, tetapi akses dan fiturnya tetap sama.</p></details><details><summary>Aksesnya berapa lama?</summary><p>1 tahun sejak pembayaran terverifikasi. Setelah masa akses berakhir, akses perlu diperpanjang untuk periode berikutnya.</p></details><details><summary>Harus pakai ChatGPT berbayar?</summary><p>Tidak. Prompt bisa dipakai pada berbagai AI yang mendukung tugas tersebut.</p></details><details><summary>Prompt menjamin penjualan naik?</summary><p>Tidak. Prompt mempercepat ide dan eksekusi, bukan menjamin hasil bisnis.</p></details><details><summary>Setelah bayar, masuknya bagaimana?</summary><p>Setelah pembayaran terverifikasi, akses aktif otomatis. Buka Member Area, masukkan email checkout, lalu klik link login yang dikirim ke email.</p></details><details><summary>Kalau pindah HP, favorit dan riwayat hilang?</summary><p>Tidak. Favorit, riwayat, dan Profil Bisnis tersimpan di akun member.</p></details></section>
-<div class="footer">BADAI PROMPT UMKM • V1<br>Pembayaran QRIS otomatis • Akses member setelah pembayaran terverifikasi.
-<div class="footer-links"><a href="/demo">Demo</a><a href="/privacy">Privasi</a><a href="/terms">Syarat</a><a href="/refund">Refund</a><a href="/support">Support</a></div></div></div>
+<section>
+  <div class="eyebrow">SEBELUM &amp; SESUDAH</div>
+  <h2>Bukan bikin AI lebih pintar. Bikin kamu lebih gampang menyuruhnya.</h2>
+  <div class="before-after">
+    <div class="ba before"><span class="tag">TANPA BADAI</span><h3>Mulai dari halaman kosong</h3><ul><li>Bingung merangkai perintah</li><li>Coba-coba kalimat sendiri</li><li>Hasil AI sering terlalu umum</li><li>Waktu habis cuma buat mikir mau ngetik apa</li></ul></div>
+    <div class="ba after"><span class="tag">PAKAI BADAI</span><h3>Tinggal pilih lalu praktik</h3><ul><li>Pilih jenis usaha</li><li>Pilih masalah yang sedang dihadapi</li><li>Isi data usaha seperlunya</li><li>Salin perintah dan pakai hasil AI</li></ul></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">YANG DIBANTU BUKAN CUMA CAPTION</div>
+  <h2>Lagi butuh apa buat jualan hari ini?</h2>
+  <p>Daripada cari prompt satu-satu di internet, buka BADAI lalu pilih kebutuhanmu.</p>
+  <div class="use-cases">
+    <div class="use-card"><div class="ico">🧠</div><b>Cari Ide Jualan</b><small>Buat saat jualan sepi atau bingung mau promosi apa.</small></div>
+    <div class="use-card"><div class="ico">✍️</div><b>Bikin Tulisan Jualan</b><small>Caption, judul, cerita, penawaran, dan ide posting.</small></div>
+    <div class="use-card"><div class="ico">📸</div><b>Bikin Foto Produk</b><small>Siapkan perintah untuk membuat atau mengolah visual produk dengan AI.</small></div>
+    <div class="use-card"><div class="ico">🎥</div><b>Bikin Video Jualan</b><small>Cari ide video, pembuka, isi, sampai arahan adegannya.</small></div>
+    <div class="use-card"><div class="ico">💬</div><b>Balas WhatsApp</b><small>Broadcast, follow-up, jawaban keberatan, sampai ajakan beli.</small></div>
+    <div class="use-card"><div class="ico">📣</div><b>Bikin Promo</b><small>Cari cara menawarkan produk tanpa harus asal potong harga.</small></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">CARA PAKAINYA</div>
+  <h2>Kalau bisa pilih menu makanan, harusnya bisa pakai ini.</h2>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div><b>Pilih jenis usaha</b><small>Misalnya kuliner, fashion, jasa, beauty, toko, properti, dan lainnya.</small></div></div>
+    <div class="step"><div class="num">2</div><div><b>Pilih yang lagi dibutuhkan</b><small>Contoh: jualan sepi, bikin promo, foto produk, video, caption, atau WhatsApp.</small></div></div>
+    <div class="step"><div class="num">3</div><div><b>Salin lalu tempel ke AI</b><small>Isi data yang diminta. Setelah itu tinggal gunakan hasilnya sebagai bahan kerja.</small></div></div>
+  </div>
+</section>
+
+<div class="proof-band">
+  <div class="eyebrow" style="color:#8affb2">BUKAN BARU RENCANA</div>
+  <div class="proof-num">500</div>
+  <b>prompt sudah tersedia di sistem.</b>
+  <p>Dibuat untuk berbagai kebutuhan UMKM. Jadi yang kamu beli bukan halaman kosong yang “nanti akan diisi”.</p>
+</div>
+
+<section>
+  <div class="eyebrow">COCOK BUAT USAHA APA?</div>
+  <h2>Bukan khusus toko online.</h2>
+  <div class="fit-grid">
+    <div>🍜 Kuliner &amp; Catering</div><div>👗 Fashion &amp; Hijab</div>
+    <div>💄 Beauty &amp; Salon</div><div>🛠️ Jasa &amp; Servis</div>
+    <div>🎓 Kursus &amp; Pendidikan</div><div>🏠 Properti &amp; Kos</div>
+    <div>🏍️ Otomotif &amp; Rental</div><div>🎁 Hampers &amp; Souvenir</div>
+    <div>🛒 Toko &amp; Reseller</div><div>🎉 Event &amp; Dekorasi</div>
+  </div>
+</section>
+
+<section>
+  <div class="distinct">
+    <div class="eyebrow">BEDANYA DI SINI</div>
+    <h3>Bukan soal punya banyak prompt. Soalnya: <span style="color:var(--pink)">pas butuh, ketemunya cepat.</span></h3>
+    <p>Kumpulan prompt biasa sering bikin kamu tetap harus mencari satu-satu. BADAI disusun berdasarkan <b style="color:#fff">jenis usaha + kebutuhan jualan</b>, supaya kamu nggak perlu hafal istilah teknis atau tahu nama prompt yang harus dicari.</p>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">BIAR NGGAK MUTER-MUTER</div>
+  <h2>Ada bantuan buat yang bahkan bingung mau mulai dari mana.</h2>
+  <div class="grid">
+    <div class="card"><div class="ico">🚨</div><b>Mode Darurat</b><small>Lagi butuh ide jualan sekarang? BADAI bantu pilihkan yang relevan.</small></div>
+    <div class="card"><div class="ico">✨</div><b>Prompt Hari Ini</b><small>Dapat satu rekomendasi supaya ada yang bisa langsung dicoba.</small></div>
+    <div class="card"><div class="ico">⚡</div><b>Data Usaha Tersimpan</b><small>Nama usaha, produk, harga, target pembeli, dan keunggulan bisa dipakai lagi.</small></div>
+    <div class="card"><div class="ico">★</div><b>Favorit &amp; Riwayat</b><small>Yang cocok bisa disimpan dan dibuka lagi tanpa cari dari awal.</small></div>
+  </div>
+</section>
+
+<section>
+  <div class="free-demo">
+    <div class="eyebrow">BELUM YAKIN? JANGAN BELI DULU.</div>
+    <h2>Coba gratis dulu.</h2>
+    <p>Lihat sendiri cara kerjanya. Pilih usaha, pilih kebutuhan, lalu lihat seperti apa perintah yang disiapkan BADAI.</p>
+    <a class="btn pink" href="/demo">COBA DEMO GRATIS</a>
+    <div class="mini">Nggak perlu login untuk mencoba demo.</div>
+  </div>
+</section>
+
+<section id="harga">
+  <div class="eyebrow">KALAU COCOK, BARU AMBIL AKSES</div>
+  <h2>Bayarnya seikhlasnya. Aksesnya tetap sama.</h2>
+  <div class="price">
+    <b>BADAI PROMPT UMKM</b>
+    <div class="amount">Mulai <span id="displayPrice">Rp30.000</span></div>
+    <p>Minimal Rp30.000 untuk akses selama <b style="color:#fff">1 tahun</b>. Bayar Rp30.000 boleh. Mau kasih lebih juga boleh.</p>
+    <div class="list">
+      <div>500 prompt yang sudah tersedia</div>
+      <div>Berbagai jenis usaha UMKM</div>
+      <div>Ide jualan, tulisan, visual, video, dan WhatsApp</div>
+      <div>Mode Darurat + Prompt Hari Ini</div>
+      <div>Data usaha bisa disimpan</div>
+      <div>Favorit + Riwayat pemakaian</div>
+      <div>Update selama masa akses</div>
+    </div>
+    <div style="border:1px solid #2d5039;background:#0e1812;border-radius:14px;padding:12px;margin:12px 0;font-size:11px;line-height:1.55"><b style="color:#73f6a7">BAYAR BERAPA PUN, AKSESNYA SAMA</b><br><span style="color:#aaa">Nominal di atas Rp30.000 adalah dukungan sukarela untuk pengembangan BADAI PROMPT UMKM, bukan untuk membuka fitur tambahan.</span></div>
+    <button class="btn pink" style="width:100%" onclick="openCheckout()">PILIH NOMINAL</button>
+    <p style="font-size:10px;color:#777">BADAI membantu mempercepat ide dan pekerjaan jualan. Hasil penjualan tetap dipengaruhi produk, penawaran, pasar, dan cara kamu menjalankannya.</p>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="eyebrow">MASIH ADA YANG GANJEL?</div>
+  <h2>Pertanyaan yang biasanya muncul sebelum ambil.</h2>
+  <details><summary>Prompt itu apa sih?</summary><p>Prompt adalah perintah yang kita ketik ke AI. Di BADAI, perintahnya sudah disiapkan supaya kamu tidak perlu membuat dari nol.</p></details>
+  <details><summary>Saya baru belajar AI. Bisa?</summary><p>Bisa. BADAI memang dibuat supaya orang yang belum jago menulis prompt tetap bisa mulai memakai AI untuk kebutuhan jualan.</p></details>
+  <details><summary>Ini kelas AI?</summary><p>Bukan. Ini alat bantu berisi perintah AI siap pakai yang langsung digunakan sesuai kebutuhan usaha.</p></details>
+  <details><summary>Harus pakai ChatGPT berbayar?</summary><p>Tidak. Prompt bisa digunakan pada berbagai AI yang mendukung tugas tersebut.</p></details>
+  <details><summary>Bayarnya benar-benar seikhlasnya?</summary><p>Iya. Minimum Rp30.000 untuk akses 1 tahun. Bayar lebih boleh, tetapi semua member mendapat akses yang sama.</p></details>
+  <details><summary>Aksesnya berapa lama?</summary><p>1 tahun sejak pembayaran terverifikasi.</p></details>
+  <details><summary>Apakah dijamin bikin jualan laris?</summary><p>Tidak. BADAI membantu kamu mendapat ide dan mempercepat eksekusi. Hasil bisnis tetap bergantung pada banyak hal seperti produk, harga, pasar, penawaran, dan konsistensi menjalankannya.</p></details>
+  <details><summary>Setelah bayar bagaimana?</summary><p>Pembayaran diperiksa otomatis. Setelah berhasil, akses member diaktifkan dan kamu bisa masuk menggunakan email saat checkout.</p></details>
+</section>
+
+<section class="choice-close">
+  <div class="eyebrow">SEKARANG PILIH YANG PALING NYAMAN</div>
+  <h2>Mau coba dulu, atau langsung punya akses 1 tahun?</h2>
+  <p>Nggak perlu dipaksa. Coba demonya kalau masih penasaran. Kalau sudah ngerti gunanya, pilih nominal seikhlasnya.</p>
+  <div class="actions"><a class="btn dark" href="/demo">COBA GRATIS</a><button class="btn pink" onclick="openCheckout()">AMBIL AKSES</button></div>
+  <div class="micro-trust">Pembayaran QRIS otomatis • Minimal Rp30.000 • Akses 1 tahun</div>
+</section>
+
+<div class="footer">BADAI PROMPT UMKM<br>Alat bantu prompt untuk UMKM • Pembayaran QRIS otomatis.
+<div class="footer-links"><a href="/demo">Demo</a><a href="/privacy">Privasi</a><a href="/terms">Syarat</a><a href="/refund">Refund</a><a href="/support">Support</a></div></div>
+</div>
 <div class="float"><div><b>BADAI PROMPT UMKM</b><small id="floatPrice">Mulai Rp30.000 • 1 tahun</small></div><button class="btn pink" onclick="openCheckout()">BAYAR SEIKHLASNYA</button></div>
 <div class="social-proof" id="socialProof" aria-live="polite">
   <div class="sp-icon">✓</div>
