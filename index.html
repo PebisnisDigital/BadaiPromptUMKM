@@ -766,144 +766,122 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 }
 </style>
 
-<style id="bpu-niche-tabs-style">
-.bpu-niche-tabs{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:7px;
-  margin-top:24px;
-}
-.bpu-niche-tab{
-  appearance:none;
-  border:1px solid #2c2c30;
-  border-radius:999px;
-  background:#101011;
-  color:#bdbdc1;
-  padding:10px 13px;
-  font:850 9px var(--font-roboto);
-  cursor:pointer;
-  transition:.22s ease;
-}
-.bpu-niche-tab:hover{
-  border-color:#5c3047;
-  color:#fff;
-  transform:translateY(-1px);
-}
-.bpu-niche-tab.on{
-  color:#fff;
-  border-color:var(--bpu-pink);
-  background:linear-gradient(145deg,#ff4fa3,#d92d80);
-  box-shadow:0 8px 22px rgba(255,79,163,.14);
-}
-.bpu-niche-showcase{
-  margin-top:18px;
-  padding:14px;
-  border-radius:24px;
-  border:1px solid #29292d;
-  background:#0c0c0d;
-}
-.bpu-niche-showcase-head{
-  display:flex;
-  align-items:end;
-  justify-content:space-between;
-  gap:12px;
-  padding:7px 5px 14px;
-  text-align:left;
-}
-.bpu-niche-showcase-head small{
-  display:block;
-  color:#747479;
-  font:900 6.5px var(--font-sf);
-  letter-spacing:.15em;
-}
-.bpu-niche-showcase-head b{
-  display:block;
-  margin-top:4px;
-  color:#fff;
-  font:950 21px var(--font-sf);
-}
-.bpu-niche-showcase-head>span{
-  flex:0 0 auto;
-  padding:7px 9px;
-  border-radius:999px;
-  background:#211019;
-  color:var(--bpu-pink2);
-  font:900 7px var(--font-sf);
-  letter-spacing:.08em;
-}
-.bpu-niche-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:8px;
-}
-.bpu-niche-card{
-  position:relative;
-  aspect-ratio:1/1.08;
+
+<style id="bpu-niche-marquee-style">
+.bpu-niche-section{
   overflow:hidden;
-  border-radius:18px;
-  border:1px solid #28282c;
-  background:#151516;
-  opacity:0;
-  transform:translateY(8px) scale(.985);
-  animation:bpuNicheIn .38s ease forwards;
+  padding-left:0!important;
+  padding-right:0!important;
 }
-@keyframes bpuNicheIn{
-  to{opacity:1;transform:translateY(0) scale(1)}
+.bpu-niche-section:nth-of-type(even){
+  background:linear-gradient(180deg,#080808,#0a090a);
 }
-.bpu-niche-card img{
+.bpu-niche-copy-wrap{
+  padding-left:20px;
+  padding-right:20px;
+}
+.bpu-niche-marquee{
+  position:relative;
+  width:100%;
+  margin-top:28px;
+  overflow:hidden;
+  padding:10px 0 18px;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 6%,#000 94%,transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0,#000 6%,#000 94%,transparent 100%);
+}
+.bpu-niche-marquee-track{
+  display:flex;
+  width:max-content;
+  will-change:transform;
+}
+.bpu-niche-marquee-group{
+  display:flex;
+  flex:0 0 auto;
+  gap:10px;
+  padding-right:10px;
+}
+.bpu-niche-left .bpu-niche-marquee-track{
+  animation:bpuNicheMoveLeft 42s linear infinite;
+}
+.bpu-niche-right .bpu-niche-marquee-track{
+  animation:bpuNicheMoveRight 42s linear infinite;
+}
+@keyframes bpuNicheMoveLeft{
+  from{transform:translate3d(0,0,0)}
+  to{transform:translate3d(-50%,0,0)}
+}
+@keyframes bpuNicheMoveRight{
+  from{transform:translate3d(-50%,0,0)}
+  to{transform:translate3d(0,0,0)}
+}
+.bpu-niche-slide-card{
+  position:relative;
+  flex:0 0 232px;
+  width:232px;
+  aspect-ratio:4/5;
+  overflow:hidden;
+  border-radius:22px;
+  border:1px solid #2b2b2f;
+  background:#111;
+  box-shadow:0 18px 42px rgba(0,0,0,.28);
+  transform:translateZ(0);
+}
+.bpu-niche-slide-card:nth-child(3n+1){transform:translateY(-5px)}
+.bpu-niche-slide-card:nth-child(3n+2){transform:translateY(5px)}
+.bpu-niche-slide-card img{
   width:100%;
   height:100%;
-  object-fit:cover;
   display:block;
-  transition:transform .45s ease,filter .45s ease;
+  object-fit:cover;
+  transition:transform .55s ease,filter .55s ease;
 }
-.bpu-niche-card:hover img{
+.bpu-niche-slide-card:hover img{
   transform:scale(1.045);
-  filter:saturate(1.06);
+  filter:saturate(1.08);
 }
-.bpu-niche-card:after{
-  content:"";
+.bpu-niche-slide-shade{
   position:absolute;
   inset:0;
-  background:linear-gradient(to top,rgba(0,0,0,.82),transparent 48%);
+  background:
+    linear-gradient(to top,rgba(0,0,0,.91) 0%,rgba(0,0,0,.24) 50%,rgba(0,0,0,.04) 76%),
+    linear-gradient(135deg,rgba(255,79,163,.09),transparent 40%);
   pointer-events:none;
 }
-.bpu-niche-card-copy{
+.bpu-niche-slide-copy{
   position:absolute;
   z-index:2;
-  left:12px;
-  right:12px;
-  bottom:11px;
+  left:15px;
+  right:15px;
+  bottom:14px;
   text-align:left;
 }
-.bpu-niche-card-copy small{
+.bpu-niche-slide-copy small{
   color:#ff8bc6;
   font:900 6.5px var(--font-sf);
   letter-spacing:.12em;
 }
-.bpu-niche-card-copy b{
+.bpu-niche-slide-copy b{
   display:block;
-  margin-top:4px;
+  margin-top:5px;
   color:#fff;
-  font:900 13px/1.06 var(--font-sf);
+  font:950 16px/1.05 var(--font-sf);
+  letter-spacing:-.025em;
 }
-.bpu-niche-card-copy p{
-  margin:4px 0 0;
-  color:#c0c0c4;
+.bpu-niche-slide-copy p{
+  margin:5px 0 0;
+  color:#b4b4b9;
   font-size:7px;
   line-height:1.4;
 }
-@media(max-width:520px){
-  .bpu-niche-tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;scrollbar-width:none}
-  .bpu-niche-tabs::-webkit-scrollbar{display:none}
-  .bpu-niche-tab{flex:0 0 auto}
-  .bpu-niche-showcase{padding:10px}
-  .bpu-niche-grid{gap:6px}
-  .bpu-niche-card{border-radius:15px}
-  .bpu-niche-card-copy{left:9px;right:9px;bottom:8px}
-  .bpu-niche-card-copy b{font-size:11px}
-  .bpu-niche-card-copy p{display:none}
+@media(max-width:600px){
+  .bpu-niche-copy-wrap{padding-left:18px;padding-right:18px}
+  .bpu-niche-marquee{margin-top:22px}
+  .bpu-niche-slide-card{flex-basis:178px;width:178px;border-radius:18px}
+  .bpu-niche-slide-copy{left:11px;right:11px;bottom:10px}
+  .bpu-niche-slide-copy b{font-size:13px}
+  .bpu-niche-slide-copy p{display:none}
+  .bpu-niche-left .bpu-niche-marquee-track,
+  .bpu-niche-right .bpu-niche-marquee-track{animation-duration:34s}
 }
 </style>
 </head>
@@ -1208,34 +1186,1742 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   </div>
 </section>
 
-<section class="bpu-section bpu-business">
-  <div class="bpu-container">
-    <div class="bpu-kicker reveal2">BUKAN PROMPT GENERIK</div>
-    <h2 class="reveal2">Disesuaikan dengan<br><span>Jenis Daganganmu.</span></h2>
-    <p class="bpu-lead reveal2">Klik niche usahamu. Lihat contoh visual yang bisa dibuat dengan prompt yang memang diarahkan untuk kebutuhan jualan niche itu.</p>
-
-    <div class="bpu-niche-tabs reveal2" id="bpuNicheTabs" role="tablist" aria-label="Pilih niche usaha">
-      <button class="bpu-niche-tab on" type="button" data-niche="Kuliner" role="tab" aria-selected="true">🍜 Kuliner</button>
-      <button class="bpu-niche-tab" type="button" data-niche="Fashion" role="tab" aria-selected="false">👗 Fashion</button>
-      <button class="bpu-niche-tab" type="button" data-niche="Beauty" role="tab" aria-selected="false">💄 Beauty</button>
-      <button class="bpu-niche-tab" type="button" data-niche="Reseller" role="tab" aria-selected="false">🛍️ Reseller</button>
-      <button class="bpu-niche-tab" type="button" data-niche="Jasa" role="tab" aria-selected="false">💼 Jasa</button>
-      <button class="bpu-niche-tab" type="button" data-niche="Properti" role="tab" aria-selected="false">🏠 Properti</button>
-      <button class="bpu-niche-tab" type="button" data-niche="Pendidikan" role="tab" aria-selected="false">🎓 Pendidikan</button>
-      <button class="bpu-niche-tab" type="button" data-niche="Otomotif" role="tab" aria-selected="false">🚗 Otomotif</button>
-      <button class="bpu-niche-tab" type="button" data-niche="Hampers" role="tab" aria-selected="false">🎁 Hampers</button>
-      <button class="bpu-niche-tab" type="button" data-niche="Retail" role="tab" aria-selected="false">📦 Retail</button>
-    </div>
-
-    <div class="bpu-niche-showcase reveal2">
-      <div class="bpu-niche-showcase-head">
-        <div>
-          <small>CONTOH HASIL BADAI PROMPT UMKM</small>
-          <b id="bpuNicheTitle">Kuliner</b>
-        </div>
-        <span id="bpuNicheCount">10 CONTOH</span>
+<section class="bpu-section bpu-niche-section bpu-niche-right" data-niche="kuliner">
+  <div class="bpu-container bpu-niche-copy-wrap">
+    <div class="bpu-kicker reveal2">NICHE 01 • KULINER</div>
+    <h2 class="reveal2">Bikin Makanan<br><span>Kelihatan Pengen Dicoba.</span></h2>
+    <p class="bpu-lead reveal2">Contoh visual untuk menu, promo, bundling, launching, dan konten jualan makanan atau minuman.</p>
+  </div>
+  <div class="bpu-niche-marquee reveal2" aria-label="10 contoh visual niche Kuliner">
+    <div class="bpu-niche-marquee-track">
+      <div class="bpu-niche-marquee-group"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Foto Menu untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 01</small>
+        <b>Foto Menu</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
       </div>
-      <div class="bpu-niche-grid" id="bpuNicheGrid" role="tabpanel" aria-live="polite"></div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Poster Promo untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 02</small>
+        <b>Poster Promo</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Hero Marketplace untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 03</small>
+        <b>Hero Marketplace</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Menu Baru untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 04</small>
+        <b>Menu Baru</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Bundle Hemat untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 05</small>
+        <b>Bundle Hemat</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Foto Lifestyle untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 06</small>
+        <b>Foto Lifestyle</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Promo Musiman untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 07</small>
+        <b>Promo Musiman</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Konten Reels untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 08</small>
+        <b>Konten Reels</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Katalog Menu untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 09</small>
+        <b>Katalog Menu</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Iklan Produk untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 10</small>
+        <b>Iklan Produk</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+      <div class="bpu-niche-marquee-group" aria-hidden="true"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Foto Menu untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 01</small>
+        <b>Foto Menu</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Poster Promo untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 02</small>
+        <b>Poster Promo</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Hero Marketplace untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 03</small>
+        <b>Hero Marketplace</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Menu Baru untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 04</small>
+        <b>Menu Baru</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Bundle Hemat untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 05</small>
+        <b>Bundle Hemat</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Foto Lifestyle untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 06</small>
+        <b>Foto Lifestyle</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Promo Musiman untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 07</small>
+        <b>Promo Musiman</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Konten Reels untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 08</small>
+        <b>Konten Reels</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Katalog Menu untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 09</small>
+        <b>Katalog Menu</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Iklan Produk untuk niche Kuliner" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🍜 KULINER • 10</small>
+        <b>Iklan Produk</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+    </div>
+  </div>
+</section>
+
+<section class="bpu-section bpu-niche-section bpu-niche-left" data-niche="fashion">
+  <div class="bpu-container bpu-niche-copy-wrap">
+    <div class="bpu-kicker reveal2">NICHE 02 • FASHION</div>
+    <h2 class="reveal2">Bikin Koleksi<br><span>Kelihatan Lebih Bernilai.</span></h2>
+    <p class="bpu-lead reveal2">Contoh visual untuk outfit, lookbook, katalog, launching koleksi, dan campaign fashion.</p>
+  </div>
+  <div class="bpu-niche-marquee reveal2" aria-label="10 contoh visual niche Fashion">
+    <div class="bpu-niche-marquee-track">
+      <div class="bpu-niche-marquee-group"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Lookbook untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 01</small>
+        <b>Lookbook</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Foto Model untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 02</small>
+        <b>Foto Model</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Launching untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 03</small>
+        <b>Launching</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Katalog Outfit untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 04</small>
+        <b>Katalog Outfit</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Promo Diskon untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 05</small>
+        <b>Promo Diskon</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Hero Marketplace untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 06</small>
+        <b>Hero Marketplace</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Campaign untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 07</small>
+        <b>Campaign</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Detail Produk untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 08</small>
+        <b>Detail Produk</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Konten Reels untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 09</small>
+        <b>Konten Reels</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Poster Promo untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 10</small>
+        <b>Poster Promo</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+      <div class="bpu-niche-marquee-group" aria-hidden="true"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Lookbook untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 01</small>
+        <b>Lookbook</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Foto Model untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 02</small>
+        <b>Foto Model</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Launching untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 03</small>
+        <b>Launching</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Katalog Outfit untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 04</small>
+        <b>Katalog Outfit</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Promo Diskon untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 05</small>
+        <b>Promo Diskon</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Hero Marketplace untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 06</small>
+        <b>Hero Marketplace</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Campaign untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 07</small>
+        <b>Campaign</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Detail Produk untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 08</small>
+        <b>Detail Produk</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Konten Reels untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 09</small>
+        <b>Konten Reels</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Poster Promo untuk niche Fashion" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>👗 FASHION • 10</small>
+        <b>Poster Promo</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+    </div>
+  </div>
+</section>
+
+<section class="bpu-section bpu-niche-section bpu-niche-right" data-niche="beauty">
+  <div class="bpu-container bpu-niche-copy-wrap">
+    <div class="bpu-kicker reveal2">NICHE 03 • BEAUTY</div>
+    <h2 class="reveal2">Bikin Produk Beauty<br><span>Terasa Lebih Premium.</span></h2>
+    <p class="bpu-lead reveal2">Contoh hero shot, studio look, promo skincare, kosmetik, dan campaign beauty.</p>
+  </div>
+  <div class="bpu-niche-marquee reveal2" aria-label="10 contoh visual niche Beauty">
+    <div class="bpu-niche-marquee-track">
+      <div class="bpu-niche-marquee-group"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Hero Skincare untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 01</small>
+        <b>Hero Skincare</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Foto Studio untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 02</small>
+        <b>Foto Studio</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Beauty Campaign untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 03</small>
+        <b>Beauty Campaign</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Promo Bundle untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 04</small>
+        <b>Promo Bundle</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh UGC Style untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 05</small>
+        <b>UGC Style</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Lifestyle Shot untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 06</small>
+        <b>Lifestyle Shot</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Katalog untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 07</small>
+        <b>Katalog</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Produk Baru untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 08</small>
+        <b>Produk Baru</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Konten Edukasi untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 09</small>
+        <b>Konten Edukasi</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Poster Promo untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 10</small>
+        <b>Poster Promo</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+      <div class="bpu-niche-marquee-group" aria-hidden="true"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Hero Skincare untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 01</small>
+        <b>Hero Skincare</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Foto Studio untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 02</small>
+        <b>Foto Studio</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Beauty Campaign untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 03</small>
+        <b>Beauty Campaign</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Promo Bundle untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 04</small>
+        <b>Promo Bundle</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh UGC Style untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 05</small>
+        <b>UGC Style</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Lifestyle Shot untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 06</small>
+        <b>Lifestyle Shot</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Katalog untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 07</small>
+        <b>Katalog</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Produk Baru untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 08</small>
+        <b>Produk Baru</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Konten Edukasi untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 09</small>
+        <b>Konten Edukasi</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Poster Promo untuk niche Beauty" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💄 BEAUTY • 10</small>
+        <b>Poster Promo</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+    </div>
+  </div>
+</section>
+
+<section class="bpu-section bpu-niche-section bpu-niche-left" data-niche="reseller">
+  <div class="bpu-container bpu-niche-copy-wrap">
+    <div class="bpu-kicker reveal2">NICHE 04 • RESELLER</div>
+    <h2 class="reveal2">Bikin Barang Jualan<br><span>Lebih Siap Dipromosikan.</span></h2>
+    <p class="bpu-lead reveal2">Contoh materi visual reseller untuk flash sale, bundling, video, katalog, dan closing offer.</p>
+  </div>
+  <div class="bpu-niche-marquee reveal2" aria-label="10 contoh visual niche Reseller">
+    <div class="bpu-niche-marquee-track">
+      <div class="bpu-niche-marquee-group"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Hero Produk untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 01</small>
+        <b>Hero Produk</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Flash Sale untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 02</small>
+        <b>Flash Sale</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Poster Jualan untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 03</small>
+        <b>Poster Jualan</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Bundle Promo untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 04</small>
+        <b>Bundle Promo</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Video Hook untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 05</small>
+        <b>Video Hook</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Katalog untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 06</small>
+        <b>Katalog</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Konten Harian untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 07</small>
+        <b>Konten Harian</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Broadcast Visual untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 08</small>
+        <b>Broadcast Visual</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Promo Bonus untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 09</small>
+        <b>Promo Bonus</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Closing Offer untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 10</small>
+        <b>Closing Offer</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+      <div class="bpu-niche-marquee-group" aria-hidden="true"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Hero Produk untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 01</small>
+        <b>Hero Produk</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Flash Sale untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 02</small>
+        <b>Flash Sale</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Poster Jualan untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 03</small>
+        <b>Poster Jualan</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Bundle Promo untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 04</small>
+        <b>Bundle Promo</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Video Hook untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 05</small>
+        <b>Video Hook</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Katalog untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 06</small>
+        <b>Katalog</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Konten Harian untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 07</small>
+        <b>Konten Harian</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Broadcast Visual untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 08</small>
+        <b>Broadcast Visual</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Promo Bonus untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 09</small>
+        <b>Promo Bonus</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Closing Offer untuk niche Reseller" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🛍️ RESELLER • 10</small>
+        <b>Closing Offer</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+    </div>
+  </div>
+</section>
+
+<section class="bpu-section bpu-niche-section bpu-niche-right" data-niche="jasa">
+  <div class="bpu-container bpu-niche-copy-wrap">
+    <div class="bpu-kicker reveal2">NICHE 05 • JASA</div>
+    <h2 class="reveal2">Bikin Jasa<br><span>Lebih Gampang Dipercaya.</span></h2>
+    <p class="bpu-lead reveal2">Contoh materi penawaran jasa, edukasi, paket harga, testimoni, dan campaign.</p>
+  </div>
+  <div class="bpu-niche-marquee reveal2" aria-label="10 contoh visual niche Jasa">
+    <div class="bpu-niche-marquee-track">
+      <div class="bpu-niche-marquee-group"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Hero Jasa untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 01</small>
+        <b>Hero Jasa</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Poster Penawaran untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 02</small>
+        <b>Poster Penawaran</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Paket Harga untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 03</small>
+        <b>Paket Harga</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Konten Edukasi untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 04</small>
+        <b>Konten Edukasi</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Testimoni untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 05</small>
+        <b>Testimoni</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Promo Jasa untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 06</small>
+        <b>Promo Jasa</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Lead Magnet untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 07</small>
+        <b>Lead Magnet</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Profil Jasa untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 08</small>
+        <b>Profil Jasa</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Follow-up Visual untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 09</small>
+        <b>Follow-up Visual</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Campaign untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 10</small>
+        <b>Campaign</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+      <div class="bpu-niche-marquee-group" aria-hidden="true"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Hero Jasa untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 01</small>
+        <b>Hero Jasa</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Poster Penawaran untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 02</small>
+        <b>Poster Penawaran</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Paket Harga untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 03</small>
+        <b>Paket Harga</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Konten Edukasi untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 04</small>
+        <b>Konten Edukasi</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Testimoni untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 05</small>
+        <b>Testimoni</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Promo Jasa untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 06</small>
+        <b>Promo Jasa</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Lead Magnet untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 07</small>
+        <b>Lead Magnet</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Profil Jasa untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 08</small>
+        <b>Profil Jasa</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Follow-up Visual untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 09</small>
+        <b>Follow-up Visual</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Campaign untuk niche Jasa" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>💼 JASA • 10</small>
+        <b>Campaign</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+    </div>
+  </div>
+</section>
+
+<section class="bpu-section bpu-niche-section bpu-niche-left" data-niche="properti">
+  <div class="bpu-container bpu-niche-copy-wrap">
+    <div class="bpu-kicker reveal2">NICHE 06 • PROPERTI</div>
+    <h2 class="reveal2">Bikin Listing<br><span>Kelihatan Lebih Meyakinkan.</span></h2>
+    <p class="bpu-lead reveal2">Contoh visual rumah, ruko, kos, open house, promo DP, dan materi listing properti.</p>
+  </div>
+  <div class="bpu-niche-marquee reveal2" aria-label="10 contoh visual niche Properti">
+    <div class="bpu-niche-marquee-track">
+      <div class="bpu-niche-marquee-group"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Hero Listing untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 01</small>
+        <b>Hero Listing</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Poster Rumah untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 02</small>
+        <b>Poster Rumah</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Open House untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 03</small>
+        <b>Open House</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Promo DP untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 04</small>
+        <b>Promo DP</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Listing Premium untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 05</small>
+        <b>Listing Premium</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Unit Baru untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 06</small>
+        <b>Unit Baru</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Konten Area untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 07</small>
+        <b>Konten Area</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Video Tour untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 08</small>
+        <b>Video Tour</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Katalog Properti untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 09</small>
+        <b>Katalog Properti</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Follow-up untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 10</small>
+        <b>Follow-up</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+      <div class="bpu-niche-marquee-group" aria-hidden="true"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Hero Listing untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 01</small>
+        <b>Hero Listing</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Poster Rumah untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 02</small>
+        <b>Poster Rumah</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Open House untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 03</small>
+        <b>Open House</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Promo DP untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 04</small>
+        <b>Promo DP</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Listing Premium untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 05</small>
+        <b>Listing Premium</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Unit Baru untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 06</small>
+        <b>Unit Baru</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Konten Area untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 07</small>
+        <b>Konten Area</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Video Tour untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 08</small>
+        <b>Video Tour</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Katalog Properti untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 09</small>
+        <b>Katalog Properti</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Follow-up untuk niche Properti" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🏠 PROPERTI • 10</small>
+        <b>Follow-up</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+    </div>
+  </div>
+</section>
+
+<section class="bpu-section bpu-niche-section bpu-niche-right" data-niche="pendidikan">
+  <div class="bpu-container bpu-niche-copy-wrap">
+    <div class="bpu-kicker reveal2">NICHE 07 • PENDIDIKAN</div>
+    <h2 class="reveal2">Bikin Kelas<br><span>Kelihatan Lebih Profesional.</span></h2>
+    <p class="bpu-lead reveal2">Contoh promo kursus, webinar, kelas baru, konten edukasi, dan lead magnet.</p>
+  </div>
+  <div class="bpu-niche-marquee reveal2" aria-label="10 contoh visual niche Pendidikan">
+    <div class="bpu-niche-marquee-track">
+      <div class="bpu-niche-marquee-group"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Poster Kelas untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 01</small>
+        <b>Poster Kelas</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Promo Webinar untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 02</small>
+        <b>Promo Webinar</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Kelas Baru untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 03</small>
+        <b>Kelas Baru</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Konten Edukasi untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 04</small>
+        <b>Konten Edukasi</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Testimoni Murid untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 05</small>
+        <b>Testimoni Murid</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Jadwal Kelas untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 06</small>
+        <b>Jadwal Kelas</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Lead Magnet untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 07</small>
+        <b>Lead Magnet</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Hero Course untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 08</small>
+        <b>Hero Course</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Promo Daftar untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 09</small>
+        <b>Promo Daftar</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Campaign untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 10</small>
+        <b>Campaign</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+      <div class="bpu-niche-marquee-group" aria-hidden="true"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Poster Kelas untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 01</small>
+        <b>Poster Kelas</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Promo Webinar untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 02</small>
+        <b>Promo Webinar</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Kelas Baru untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 03</small>
+        <b>Kelas Baru</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Konten Edukasi untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 04</small>
+        <b>Konten Edukasi</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Testimoni Murid untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 05</small>
+        <b>Testimoni Murid</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Jadwal Kelas untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 06</small>
+        <b>Jadwal Kelas</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Lead Magnet untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 07</small>
+        <b>Lead Magnet</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Hero Course untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 08</small>
+        <b>Hero Course</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Promo Daftar untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 09</small>
+        <b>Promo Daftar</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Campaign untuk niche Pendidikan" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎓 PENDIDIKAN • 10</small>
+        <b>Campaign</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+    </div>
+  </div>
+</section>
+
+<section class="bpu-section bpu-niche-section bpu-niche-left" data-niche="otomotif">
+  <div class="bpu-container bpu-niche-copy-wrap">
+    <div class="bpu-kicker reveal2">NICHE 08 • OTOMOTIF</div>
+    <h2 class="reveal2">Bikin Kendaraan<br><span>Lebih Menonjol di Layar.</span></h2>
+    <p class="bpu-lead reveal2">Contoh visual mobil, motor, bengkel, aksesoris, servis, dan promo cicilan.</p>
+  </div>
+  <div class="bpu-niche-marquee reveal2" aria-label="10 contoh visual niche Otomotif">
+    <div class="bpu-niche-marquee-track">
+      <div class="bpu-niche-marquee-group"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Hero Mobil untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 01</small>
+        <b>Hero Mobil</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Poster Motor untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 02</small>
+        <b>Poster Motor</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Promo Bengkel untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 03</small>
+        <b>Promo Bengkel</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Paket Servis untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 04</small>
+        <b>Paket Servis</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Foto Detail untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 05</small>
+        <b>Foto Detail</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Promo Cicilan untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 06</small>
+        <b>Promo Cicilan</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Aksesoris untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 07</small>
+        <b>Aksesoris</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Video Produk untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 08</small>
+        <b>Video Produk</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Listing untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 09</small>
+        <b>Listing</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Campaign untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 10</small>
+        <b>Campaign</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+      <div class="bpu-niche-marquee-group" aria-hidden="true"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Hero Mobil untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 01</small>
+        <b>Hero Mobil</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Poster Motor untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 02</small>
+        <b>Poster Motor</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Promo Bengkel untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 03</small>
+        <b>Promo Bengkel</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Paket Servis untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 04</small>
+        <b>Paket Servis</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Foto Detail untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 05</small>
+        <b>Foto Detail</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Promo Cicilan untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 06</small>
+        <b>Promo Cicilan</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Aksesoris untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 07</small>
+        <b>Aksesoris</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Video Produk untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 08</small>
+        <b>Video Produk</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Listing untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 09</small>
+        <b>Listing</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Campaign untuk niche Otomotif" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🚗 OTOMOTIF • 10</small>
+        <b>Campaign</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+    </div>
+  </div>
+</section>
+
+<section class="bpu-section bpu-niche-section bpu-niche-right" data-niche="hampers">
+  <div class="bpu-container bpu-niche-copy-wrap">
+    <div class="bpu-kicker reveal2">NICHE 09 • HAMPERS</div>
+    <h2 class="reveal2">Bikin Hampers<br><span>Terasa Lebih Spesial.</span></h2>
+    <p class="bpu-lead reveal2">Contoh visual gift set, packaging, seasonal campaign, corporate gift, dan bundle promo.</p>
+  </div>
+  <div class="bpu-niche-marquee reveal2" aria-label="10 contoh visual niche Hampers">
+    <div class="bpu-niche-marquee-track">
+      <div class="bpu-niche-marquee-group"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Hero Hampers untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 01</small>
+        <b>Hero Hampers</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Gift Set untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 02</small>
+        <b>Gift Set</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Packaging untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 03</small>
+        <b>Packaging</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Promo Lebaran untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 04</small>
+        <b>Promo Lebaran</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Seasonal Campaign untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 05</small>
+        <b>Seasonal Campaign</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Bundle untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 06</small>
+        <b>Bundle</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Corporate Gift untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 07</small>
+        <b>Corporate Gift</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Foto Lifestyle untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 08</small>
+        <b>Foto Lifestyle</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Katalog untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 09</small>
+        <b>Katalog</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Poster Promo untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 10</small>
+        <b>Poster Promo</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+      <div class="bpu-niche-marquee-group" aria-hidden="true"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Hero Hampers untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 01</small>
+        <b>Hero Hampers</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Gift Set untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 02</small>
+        <b>Gift Set</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Packaging untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 03</small>
+        <b>Packaging</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Promo Lebaran untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 04</small>
+        <b>Promo Lebaran</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Seasonal Campaign untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 05</small>
+        <b>Seasonal Campaign</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Bundle untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 06</small>
+        <b>Bundle</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Corporate Gift untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 07</small>
+        <b>Corporate Gift</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Foto Lifestyle untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 08</small>
+        <b>Foto Lifestyle</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Katalog untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 09</small>
+        <b>Katalog</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Poster Promo untuk niche Hampers" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>🎁 HAMPERS • 10</small>
+        <b>Poster Promo</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+    </div>
+  </div>
+</section>
+
+<section class="bpu-section bpu-niche-section bpu-niche-left" data-niche="retail">
+  <div class="bpu-container bpu-niche-copy-wrap">
+    <div class="bpu-kicker reveal2">NICHE 10 • RETAIL</div>
+    <h2 class="reveal2">Bikin Produk Retail<br><span>Lebih Cepat Dilirik.</span></h2>
+    <p class="bpu-lead reveal2">Contoh visual promo harian, produk baru, katalog, marketplace, flash sale, dan bundling.</p>
+  </div>
+  <div class="bpu-niche-marquee reveal2" aria-label="10 contoh visual niche Retail">
+    <div class="bpu-niche-marquee-track">
+      <div class="bpu-niche-marquee-group"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Hero Produk untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 01</small>
+        <b>Hero Produk</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Promo Harian untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 02</small>
+        <b>Promo Harian</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Katalog untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 03</small>
+        <b>Katalog</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Diskon untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 04</small>
+        <b>Diskon</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Bundle untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 05</small>
+        <b>Bundle</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Marketplace untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 06</small>
+        <b>Marketplace</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Flash Sale untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 07</small>
+        <b>Flash Sale</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Produk Baru untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 08</small>
+        <b>Produk Baru</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Konten Sosmed untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 09</small>
+        <b>Konten Sosmed</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Poster untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 10</small>
+        <b>Poster</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
+      <div class="bpu-niche-marquee-group" aria-hidden="true"><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Hero Produk untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 01</small>
+        <b>Hero Produk</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Promo Harian untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 02</small>
+        <b>Promo Harian</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Katalog untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 03</small>
+        <b>Katalog</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Diskon untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 04</small>
+        <b>Diskon</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/06-ide-promo.png" alt="Contoh Bundle untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 05</small>
+        <b>Bundle</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh Marketplace untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 06</small>
+        <b>Marketplace</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh Flash Sale untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 07</small>
+        <b>Flash Sale</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/03-foto-produk.png" alt="Contoh Produk Baru untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 08</small>
+        <b>Produk Baru</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/04-video-jualan.png" alt="Contoh Konten Sosmed untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 09</small>
+        <b>Konten Sosmed</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article><article class="bpu-niche-slide-card">
+      <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh Poster untuk niche Retail" loading="lazy">
+      <div class="bpu-niche-slide-shade"></div>
+      <div class="bpu-niche-slide-copy">
+        <small>📦 RETAIL • 10</small>
+        <b>Poster</b>
+        <p>Contoh hasil visual BADAI Prompt UMKM</p>
+      </div>
+    </article></div>
     </div>
   </div>
 </section>
@@ -1825,78 +3511,5 @@ loadSocialProof();
 })();
 </script>
 
-
-<script id="bpu-niche-tabs-script">
-(function(){
-  const tabsWrap=document.getElementById('bpuNicheTabs');
-  const grid=document.getElementById('bpuNicheGrid');
-  const title=document.getElementById('bpuNicheTitle');
-  if(!tabsWrap||!grid||!title)return;
-
-  const assets=[
-    '/assets/dummy/01-promo-kuliner.png',
-    '/assets/dummy/03-foto-produk.png',
-    '/assets/dummy/04-video-jualan.png',
-    '/assets/dummy/05-fashion-umkm.png',
-    '/assets/dummy/06-ide-promo.png',
-    '/assets/dummy/02-follow-up-whatsapp.png'
-  ];
-
-  const labels={
-    Kuliner:['Foto Menu','Poster Promo','Hero Marketplace','Konten Reels','Bundling Menu','Foto Lifestyle','Promo Musiman','Menu Baru','Iklan Produk','Katalog'],
-    Fashion:['Lookbook','Launching Koleksi','Foto Model','Promo Diskon','Katalog Outfit','Hero Marketplace','Campaign','Detail Produk','Konten Reels','Poster Promo'],
-    Beauty:['Hero Skincare','Foto Studio','Before After','Campaign Beauty','Poster Promo','Katalog','UGC Style','Lifestyle Shot','Bundle Promo','Konten Edukasi'],
-    Reseller:['Poster Jualan','Video Hook','Bundling','Hero Produk','Promo Flash Sale','Katalog','Konten Harian','Broadcast Visual','Closing Offer','Campaign'],
-    Jasa:['Poster Penawaran','Profil Jasa','Konten Edukasi','Testimoni','Paket Harga','Promo Jasa','Lead Magnet','Hero Service','Follow-up Visual','Campaign'],
-    Properti:['Hero Listing','Poster Rumah','Open House','Promo DP','Konten Area','Listing Premium','Video Tour','Unit Baru','Katalog Properti','Follow-up'],
-    Pendidikan:['Poster Kelas','Promo Webinar','Kelas Baru','Konten Edukasi','Testimoni Murid','Jadwal Kelas','Lead Magnet','Campaign','Hero Course','Promo Daftar'],
-    Otomotif:['Hero Mobil','Promo Bengkel','Foto Detail','Poster Motor','Paket Servis','Campaign','Aksesoris','Video Produk','Promo Cicilan','Listing'],
-    Hampers:['Hero Hampers','Promo Lebaran','Gift Set','Katalog','Packaging','Seasonal Campaign','Bundle','Foto Lifestyle','Promo Corporate','Poster'],
-    Retail:['Hero Produk','Promo Harian','Katalog','Diskon','Bundle','Marketplace','Flash Sale','Produk Baru','Konten Sosmed','Poster']
-  };
-
-  const descriptions={
-    Kuliner:'Contoh visual jualan makanan/minuman',
-    Fashion:'Contoh visual jualan fashion',
-    Beauty:'Contoh visual produk beauty',
-    Reseller:'Contoh materi jualan reseller',
-    Jasa:'Contoh materi penawaran jasa',
-    Properti:'Contoh materi listing properti',
-    Pendidikan:'Contoh materi promosi edukasi',
-    Otomotif:'Contoh materi jualan otomotif',
-    Hampers:'Contoh visual hampers & gift',
-    Retail:'Contoh materi promosi retail'
-  };
-
-  function render(niche){
-    const items=labels[niche]||labels.Kuliner;
-    title.textContent=niche;
-    grid.innerHTML=items.map((label,i)=>{
-      const img=assets[(i+(Object.keys(labels).indexOf(niche)*2))%assets.length];
-      return '<article class="bpu-niche-card" style="animation-delay:'+(i*.035)+'s">'+
-        '<img src="'+img+'" alt="Contoh '+label+' untuk niche '+niche+'">'+
-        '<div class="bpu-niche-card-copy">'+
-          '<small>CONTOH '+String(i+1).padStart(2,'0')+'</small>'+
-          '<b>'+label+'</b>'+
-          '<p>'+descriptions[niche]+'</p>'+
-        '</div>'+
-      '</article>';
-    }).join('');
-  }
-
-  tabsWrap.addEventListener('click',e=>{
-    const btn=e.target.closest('.bpu-niche-tab');
-    if(!btn)return;
-    tabsWrap.querySelectorAll('.bpu-niche-tab').forEach(tab=>{
-      const on=tab===btn;
-      tab.classList.toggle('on',on);
-      tab.setAttribute('aria-selected',on?'true':'false');
-    });
-    render(btn.dataset.niche);
-  });
-
-  render('Kuliner');
-})();
-</script>
 
 </body></html>
