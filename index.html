@@ -299,6 +299,15 @@ body{margin:0!important;background:var(--ms-bg)!important;color:var(--ms-text)!i
  .ms-demo-inner h2{font-size:48px}.ms-price{min-height:auto}.ms-footer-cta h2{font-size:52px}.ms-footer-bar{flex-direction:column;align-items:flex-start}.ms-loader-count{font-size:76px}.ms-loader-word{font-size:50px}
 }
 @media(prefers-reduced-motion:reduce){.ms-scroll-line i,.ms-footer-marquee div{animation:none!important}.reveal2,.blur-in,.name-reveal{opacity:1!important;filter:none!important;transform:none!important}}
+
+/* Dummy visual assets — replace files in /assets/dummy/ later without changing layout */
+.project-art.art-image{background:#0e0e0e}
+.project-art.art-image img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.8,.2,1),filter .4s ease}
+.ms-project-card:hover .project-art.art-image img{transform:scale(1.055);filter:saturate(1.08) contrast(1.03)}
+.par-card{position:relative;overflow:hidden}
+.par-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.par-card:after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.78),rgba(0,0,0,.04) 62%);z-index:1}
+.par-card b{position:absolute;left:18px;right:18px;bottom:17px;z-index:2;margin:0!important;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.55)}
 </style></head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
@@ -390,22 +399,22 @@ body{margin:0!important;background:var(--ms-bg)!important;color:var(--ms-text)!i
   <div class="ms-bento-grid">
     <article class="ms-project-card span7 p1 reveal2">
       <div class="project-label">KULINER</div>
-      <div class="project-art art-food"><span>🍜</span></div>
+      <div class="project-art art-image"><img src="/assets/dummy/01-promo-kuliner.png" alt="Dummy Promo Kuliner"></div>
       <div class="project-hover"><span>Lihat — <em>Promo Kuliner</em></span></div>
     </article>
     <article class="ms-project-card span5 p2 reveal2">
       <div class="project-label">WHATSAPP</div>
-      <div class="project-art art-wa"><span>💬</span></div>
+      <div class="project-art art-image"><img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Dummy Follow-up WhatsApp"></div>
       <div class="project-hover"><span>Lihat — <em>Follow-up & Closing</em></span></div>
     </article>
     <article class="ms-project-card span5 p3 reveal2">
       <div class="project-label">VISUAL</div>
-      <div class="project-art art-visual"><span>📸</span></div>
+      <div class="project-art art-image"><img src="/assets/dummy/03-foto-produk.png" alt="Dummy Foto Produk"></div>
       <div class="project-hover"><span>Lihat — <em>Foto Produk</em></span></div>
     </article>
     <article class="ms-project-card span7 p4 reveal2">
       <div class="project-label">VIDEO</div>
-      <div class="project-art art-video"><span>🎬</span></div>
+      <div class="project-art art-image"><img src="/assets/dummy/04-video-jualan.png" alt="Dummy Video Jualan"></div>
       <div class="project-hover"><span>Lihat — <em>Video Jualan</em></span></div>
     </article>
   </div>
@@ -439,14 +448,14 @@ body{margin:0!important;background:var(--ms-bg)!important;color:var(--ms-text)!i
   </div>
   <div class="ms-parallax-grid">
     <div class="par-col left">
-      <div class="par-card pc1"><span>💡</span><b>Ide Jualan</b></div>
-      <div class="par-card pc2"><span>✍️</span><b>Caption</b></div>
-      <div class="par-card pc3"><span>📣</span><b>Promo</b></div>
+      <div class="par-card pc1"><img src="/assets/dummy/06-ide-promo.png" alt="Dummy Ide Promo"><b>Ide Jualan</b></div>
+      <div class="par-card pc2"><img src="/assets/dummy/05-fashion-umkm.png" alt="Dummy Fashion UMKM"><b>Fashion</b></div>
+      <div class="par-card pc3"><img src="/assets/dummy/01-promo-kuliner.png" alt="Dummy Promo Kuliner"><b>Promo</b></div>
     </div>
     <div class="par-col right">
-      <div class="par-card pc4"><span>📸</span><b>Visual</b></div>
-      <div class="par-card pc5"><span>🎬</span><b>Video</b></div>
-      <div class="par-card pc6"><span>💬</span><b>WhatsApp</b></div>
+      <div class="par-card pc4"><img src="/assets/dummy/03-foto-produk.png" alt="Dummy Foto Produk"><b>Visual</b></div>
+      <div class="par-card pc5"><img src="/assets/dummy/04-video-jualan.png" alt="Dummy Video Jualan"><b>Video</b></div>
+      <div class="par-card pc6"><img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Dummy Follow-up WhatsApp"><b>WhatsApp</b></div>
     </div>
   </div>
 </section>
