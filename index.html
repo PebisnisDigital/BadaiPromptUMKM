@@ -369,6 +369,169 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 .bpu-value-list>div>span{font-size:14px}
 @media(max-width:520px){.bpu-impression-grid{grid-template-columns:1fr 1fr}.bpu-impression-grid article{min-height:138px;padding:14px}.bpu-impression-grid b{margin-top:17px;font-size:12px}}
 </style>
+
+<style id="bpu-premium-carousel-style">
+.bpu-premium-carousel{
+  padding:10px!important;
+  overflow:hidden!important;
+  min-height:520px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.bpu-premium-carousel:after{display:none!important}
+.bpu-carousel-stage{position:relative;width:100%;height:500px}
+.bpu-carousel-viewport{position:absolute;inset:0;overflow:hidden;border-radius:22px;perspective:1200px}
+.bpu-carousel-card{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:68%;
+  height:430px;
+  opacity:0;
+  pointer-events:none;
+  transform:translate(-50%,-50%) scale(.72);
+  filter:blur(5px) saturate(.72) brightness(.58);
+  transition:
+    transform .8s cubic-bezier(.2,.8,.2,1),
+    opacity .65s ease,
+    filter .8s ease,
+    z-index 0s;
+  z-index:0;
+  will-change:transform,opacity,filter;
+}
+.bpu-carousel-card.is-center{
+  opacity:1;
+  pointer-events:auto;
+  z-index:5;
+  transform:translate(-50%,-50%) translateX(0) scale(1);
+  filter:blur(0) saturate(1.08) brightness(1);
+}
+.bpu-carousel-card.is-left{
+  opacity:.58;
+  z-index:3;
+  transform:translate(-50%,-50%) translateX(-58%) translateY(12px) scale(.79) rotateY(8deg);
+  filter:blur(2px) saturate(.75) brightness(.62);
+}
+.bpu-carousel-card.is-right{
+  opacity:.58;
+  z-index:3;
+  transform:translate(-50%,-50%) translateX(58%) translateY(-12px) scale(.79) rotateY(-8deg);
+  filter:blur(2px) saturate(.75) brightness(.62);
+}
+.bpu-carousel-card.is-far-left{
+  opacity:.16;
+  z-index:1;
+  transform:translate(-50%,-50%) translateX(-103%) translateY(-18px) scale(.62) rotateY(11deg);
+}
+.bpu-carousel-card.is-far-right{
+  opacity:.16;
+  z-index:1;
+  transform:translate(-50%,-50%) translateX(103%) translateY(18px) scale(.62) rotateY(-11deg);
+}
+.bpu-carousel-float{
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  border-radius:25px;
+  border:1px solid rgba(255,255,255,.12);
+  background:#111;
+  box-shadow:0 26px 70px rgba(0,0,0,.52);
+  animation:bpuPremiumFloat 5.8s ease-in-out infinite;
+  transform-origin:center;
+}
+.bpu-carousel-card:nth-child(2n) .bpu-carousel-float{animation-duration:6.4s;animation-delay:-1.1s}
+.bpu-carousel-card:nth-child(3n) .bpu-carousel-float{animation-duration:5.2s;animation-delay:-2.2s}
+.bpu-carousel-card:nth-child(4n) .bpu-carousel-float{animation-duration:6.8s;animation-delay:-.7s}
+@keyframes bpuPremiumFloat{
+  0%,100%{transform:translateY(0) rotate(-.45deg)}
+  25%{transform:translateY(-8px) rotate(.5deg)}
+  50%{transform:translateY(5px) rotate(-.25deg)}
+  75%{transform:translateY(-5px) rotate(.38deg)}
+}
+.bpu-carousel-card img{
+  width:100%!important;
+  height:100%!important;
+  max-height:none!important;
+  min-height:0!important;
+  border-radius:0!important;
+  object-fit:cover!important;
+  display:block!important;
+  transform:scale(1.015);
+  transition:transform 1.15s cubic-bezier(.2,.8,.2,1)!important;
+}
+.bpu-carousel-card.is-center:hover img{transform:scale(1.06)}
+.bpu-carousel-shade{
+  position:absolute;inset:0;
+  background:
+    linear-gradient(to top,rgba(0,0,0,.88) 0%,rgba(0,0,0,.25) 46%,rgba(0,0,0,.06) 72%),
+    linear-gradient(120deg,rgba(255,79,163,.12),transparent 35%);
+}
+.bpu-carousel-chip{
+  position:absolute;z-index:3;top:17px;right:17px;
+  padding:8px 11px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(8,8,9,.69);backdrop-filter:blur(12px);
+  color:#fff;font:900 8px var(--font-sf);letter-spacing:.13em;
+}
+.bpu-carousel-copy{
+  position:absolute;z-index:3;left:22px;right:22px;bottom:21px;text-align:left;
+}
+.bpu-carousel-copy small{
+  display:block;color:#ff86c2;font:900 8px var(--font-sf);letter-spacing:.14em;margin-bottom:7px;
+}
+.bpu-carousel-copy b{
+  display:block;color:#fff;font:950 25px/1.02 var(--font-sf);letter-spacing:-.045em;max-width:90%;
+}
+.bpu-carousel-copy p{
+  margin:8px 0 0;color:#c5c5c9;font:500 10px/1.5 var(--font-roboto);max-width:78%;
+}
+.bpu-carousel-nav{
+  position:absolute;top:50%;z-index:10;transform:translateY(-50%);
+  width:40px;height:40px;border:1px solid rgba(255,255,255,.13);border-radius:50%;
+  background:rgba(9,9,10,.72);backdrop-filter:blur(12px);
+  color:#fff;font:500 27px/1 var(--font-sf);cursor:pointer;
+  transition:.25s ease;
+}
+.bpu-carousel-nav:hover{background:var(--bpu-pink);border-color:var(--bpu-pink);transform:translateY(-50%) scale(1.07)}
+.bpu-carousel-nav.prev{left:13px}.bpu-carousel-nav.next{right:13px}
+.bpu-carousel-dots{
+  position:absolute;left:50%;bottom:6px;z-index:12;transform:translateX(-50%);
+  display:flex;gap:5px;padding:6px 8px;border-radius:999px;background:rgba(0,0,0,.42);backdrop-filter:blur(8px)
+}
+.bpu-carousel-dot{
+  width:5px;height:5px;padding:0;border:0;border-radius:50%;background:#56565b;cursor:pointer;transition:.3s ease
+}
+.bpu-carousel-dot.on{width:18px;border-radius:999px;background:var(--bpu-pink)}
+.bpu-carousel-stage.is-paused .bpu-carousel-float{animation-play-state:paused}
+@media(max-width:700px){
+  .bpu-premium-carousel{min-height:430px;padding:8px!important}
+  .bpu-carousel-stage{height:410px}
+  .bpu-carousel-card{width:77%;height:350px}
+  .bpu-carousel-card.is-left{transform:translate(-50%,-50%) translateX(-58%) translateY(9px) scale(.72) rotateY(7deg)}
+  .bpu-carousel-card.is-right{transform:translate(-50%,-50%) translateX(58%) translateY(-9px) scale(.72) rotateY(-7deg)}
+  .bpu-carousel-card.is-far-left{transform:translate(-50%,-50%) translateX(-98%) scale(.55)}
+  .bpu-carousel-card.is-far-right{transform:translate(-50%,-50%) translateX(98%) scale(.55)}
+  .bpu-carousel-copy b{font-size:21px}
+  .bpu-carousel-copy p{font-size:9px;max-width:92%}
+  .bpu-carousel-nav{width:34px;height:34px;font-size:23px}
+  .bpu-carousel-nav.prev{left:7px}.bpu-carousel-nav.next{right:7px}
+}
+@media(max-width:480px){
+  .bpu-premium-carousel{min-height:385px}
+  .bpu-carousel-stage{height:365px}
+  .bpu-carousel-card{width:80%;height:315px}
+  .bpu-carousel-copy{left:16px;right:16px;bottom:16px}
+  .bpu-carousel-copy b{font-size:19px}
+  .bpu-carousel-chip{top:12px;right:12px;padding:7px 9px;font-size:7px}
+  .bpu-carousel-nav{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .bpu-carousel-float{animation:none!important}
+  .bpu-carousel-card{transition:none!important}
+}
+</style>
 </head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
@@ -396,11 +559,94 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
     <h1 class="reveal2">Bikin Produkmu Kelihatan<br><span>Pengen Dibeli.</span></h1>
     <p class="bpu-hero-copy reveal2">Pakai AI untuk bantu bikin <b>foto produk, desain promo, video, dan materi jualan</b> yang lebih menarik—tanpa harus jago desain atau jago bikin prompt.</p>
 
-    <div class="bpu-hero-visual reveal2">
-      <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh hasil promosi UMKM menggunakan BADAI Prompt UMKM">
-      <div class="bpu-float-card fc-one"><b>FOTO</b><span>Bikin produk lebih menarik</span></div>
-      <div class="bpu-float-card fc-two"><b>DESAIN</b><span>Bikin promo lebih menonjol</span></div>
-      <div class="bpu-float-card fc-three"><b>VIDEO</b><span>Bikin produk terasa hidup</span></div>
+    <div class="bpu-hero-visual bpu-premium-carousel reveal2" aria-label="Contoh hasil prompt untuk berbagai jenis UMKM">
+      <div class="bpu-carousel-stage" id="bpuCarouselStage">
+        <button class="bpu-carousel-nav prev" type="button" id="bpuCarouselPrev" aria-label="Slide sebelumnya">‹</button>
+        <div class="bpu-carousel-viewport">
+          <div class="bpu-carousel-card" data-index="0">
+            <div class="bpu-carousel-float">
+              <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh visual promosi usaha kuliner">
+              <div class="bpu-carousel-shade"></div>
+              <span class="bpu-carousel-chip">KULINER</span>
+              <div class="bpu-carousel-copy"><small>PROMO + FOTO PRODUK</small><b>Bikin Makanan Terlihat Pengen Dicoba.</b><p>Visual menu, promo, dan konten kuliner yang lebih menggoda.</p></div>
+            </div>
+          </div>
+          <div class="bpu-carousel-card" data-index="1">
+            <div class="bpu-carousel-float">
+              <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh visual promosi usaha fashion">
+              <div class="bpu-carousel-shade"></div>
+              <span class="bpu-carousel-chip">FASHION</span>
+              <div class="bpu-carousel-copy"><small>LOOKBOOK + CAMPAIGN</small><b>Bikin Koleksi Terasa Lebih Bernilai.</b><p>Konsep visual outfit, launching, katalog, dan campaign.</p></div>
+            </div>
+          </div>
+          <div class="bpu-carousel-card" data-index="2">
+            <div class="bpu-carousel-float">
+              <img src="/assets/dummy/03-foto-produk.png" alt="Contoh visual promosi produk beauty">
+              <div class="bpu-carousel-shade"></div>
+              <span class="bpu-carousel-chip">BEAUTY</span>
+              <div class="bpu-carousel-copy"><small>PRODUCT SHOT + ADS</small><b>Bikin Produk Terlihat Lebih Premium.</b><p>Skincare, kosmetik, hero shot, dan visual campaign.</p></div>
+            </div>
+          </div>
+          <div class="bpu-carousel-card" data-index="3">
+            <div class="bpu-carousel-float">
+              <img src="/assets/dummy/02-follow-up-whatsapp.png" alt="Contoh materi promosi usaha jasa">
+              <div class="bpu-carousel-shade"></div>
+              <span class="bpu-carousel-chip">JASA</span>
+              <div class="bpu-carousel-copy"><small>OFFER + CONTENT</small><b>Bikin Jasa Lebih Mudah Dipahami.</b><p>Visual penawaran, konten edukasi, dan materi follow-up.</p></div>
+            </div>
+          </div>
+          <div class="bpu-carousel-card" data-index="4">
+            <div class="bpu-carousel-float">
+              <img src="/assets/dummy/06-ide-promo.png" alt="Contoh materi promosi properti">
+              <div class="bpu-carousel-shade"></div>
+              <span class="bpu-carousel-chip">PROPERTI</span>
+              <div class="bpu-carousel-copy"><small>LISTING + PROMO</small><b>Bikin Listing Lebih Meyakinkan.</b><p>Konsep iklan rumah, ruko, kos, dan materi follow-up.</p></div>
+            </div>
+          </div>
+          <div class="bpu-carousel-card" data-index="5">
+            <div class="bpu-carousel-float">
+              <img src="/assets/dummy/04-video-jualan.png" alt="Contoh materi promosi reseller">
+              <div class="bpu-carousel-shade"></div>
+              <span class="bpu-carousel-chip">RESELLER</span>
+              <div class="bpu-carousel-copy"><small>VIDEO + HOOK</small><b>Bikin Produk Siap Dipromosikan Lagi.</b><p>Hook, video jualan, bundling, dan materi closing.</p></div>
+            </div>
+          </div>
+          <div class="bpu-carousel-card" data-index="6">
+            <div class="bpu-carousel-float">
+              <img src="/assets/dummy/01-promo-kuliner.png" alt="Contoh materi promosi hampers">
+              <div class="bpu-carousel-shade"></div>
+              <span class="bpu-carousel-chip">HAMPERS</span>
+              <div class="bpu-carousel-copy"><small>GIFT + CAMPAIGN</small><b>Bikin Paket Hadiah Terasa Spesial.</b><p>Visual hampers, seasonal promo, dan konsep packaging.</p></div>
+            </div>
+          </div>
+          <div class="bpu-carousel-card" data-index="7">
+            <div class="bpu-carousel-float">
+              <img src="/assets/dummy/05-fashion-umkm.png" alt="Contoh materi promosi pendidikan">
+              <div class="bpu-carousel-shade"></div>
+              <span class="bpu-carousel-chip">PENDIDIKAN</span>
+              <div class="bpu-carousel-copy"><small>CLASS + EDUCATION</small><b>Bikin Kelas Terlihat Lebih Profesional.</b><p>Poster kelas, materi promosi, dan konten edukasi.</p></div>
+            </div>
+          </div>
+          <div class="bpu-carousel-card" data-index="8">
+            <div class="bpu-carousel-float">
+              <img src="/assets/dummy/06-ide-promo.png" alt="Contoh materi promosi travel">
+              <div class="bpu-carousel-shade"></div>
+              <span class="bpu-carousel-chip">TRAVEL</span>
+              <div class="bpu-carousel-copy"><small>DESTINATION + OFFER</small><b>Bikin Paket Wisata Terasa Menggoda.</b><p>Visual destinasi, open trip, promo, dan itinerary.</p></div>
+            </div>
+          </div>
+          <div class="bpu-carousel-card" data-index="9">
+            <div class="bpu-carousel-float">
+              <img src="/assets/dummy/04-video-jualan.png" alt="Contoh materi promosi otomotif">
+              <div class="bpu-carousel-shade"></div>
+              <span class="bpu-carousel-chip">OTOMOTIF</span>
+              <div class="bpu-carousel-copy"><small>PRODUCT + MARKETING</small><b>Bikin Kendaraan Lebih Menonjol.</b><p>Konten mobil, motor, bengkel, dan aksesoris.</p></div>
+            </div>
+          </div>
+        </div>
+        <button class="bpu-carousel-nav next" type="button" id="bpuCarouselNext" aria-label="Slide berikutnya">›</button>
+        <div class="bpu-carousel-dots" id="bpuCarouselDots" aria-label="Navigasi slide"></div>
+      </div>
     </div>
 
     <div class="bpu-hero-actions reveal2">
@@ -947,4 +1193,81 @@ loadSocialProof();
 })();
 </script>
 <style>@keyframes roleFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}</style>
+
+<script id="bpu-premium-carousel-script">
+(function(){
+  const stage=document.getElementById('bpuCarouselStage');
+  if(!stage)return;
+  const cards=[...stage.querySelectorAll('.bpu-carousel-card')];
+  const dotsWrap=document.getElementById('bpuCarouselDots');
+  const prev=document.getElementById('bpuCarouselPrev');
+  const next=document.getElementById('bpuCarouselNext');
+  if(!cards.length)return;
+
+  let active=0,timer=null,startX=null;
+  const mod=(n,m)=>((n%m)+m)%m;
+
+  function relative(index){
+    let d=index-active;
+    if(d>cards.length/2)d-=cards.length;
+    if(d<-cards.length/2)d+=cards.length;
+    return d;
+  }
+
+  function render(){
+    cards.forEach((card,i)=>{
+      const d=relative(i);
+      card.classList.remove('is-center','is-left','is-right','is-far-left','is-far-right');
+      card.setAttribute('aria-hidden',d===0?'false':'true');
+      if(d===0)card.classList.add('is-center');
+      else if(d===-1)card.classList.add('is-left');
+      else if(d===1)card.classList.add('is-right');
+      else if(d===-2)card.classList.add('is-far-left');
+      else if(d===2)card.classList.add('is-far-right');
+    });
+    [...dotsWrap.children].forEach((dot,i)=>dot.classList.toggle('on',i===active));
+  }
+
+  function go(index,userAction){
+    active=mod(index,cards.length);
+    render();
+    if(userAction)restart();
+  }
+  function restart(){
+    clearInterval(timer);
+    timer=setInterval(()=>go(active+1,false),2800);
+  }
+
+  cards.forEach((_,i)=>{
+    const dot=document.createElement('button');
+    dot.type='button';
+    dot.className='bpu-carousel-dot';
+    dot.setAttribute('aria-label','Tampilkan slide '+(i+1));
+    dot.addEventListener('click',()=>go(i,true));
+    dotsWrap.appendChild(dot);
+  });
+
+  prev?.addEventListener('click',()=>go(active-1,true));
+  next?.addEventListener('click',()=>go(active+1,true));
+
+  stage.addEventListener('mouseenter',()=>{stage.classList.add('is-paused');clearInterval(timer)});
+  stage.addEventListener('mouseleave',()=>{stage.classList.remove('is-paused');restart()});
+  stage.addEventListener('focusin',()=>clearInterval(timer));
+  stage.addEventListener('focusout',restart);
+
+  stage.addEventListener('pointerdown',e=>{startX=e.clientX});
+  stage.addEventListener('pointerup',e=>{
+    if(startX==null)return;
+    const dx=e.clientX-startX;
+    if(Math.abs(dx)>35)go(active+(dx<0?1:-1),true);
+    startX=null;
+  });
+  stage.addEventListener('pointercancel',()=>{startX=null});
+
+  document.addEventListener('visibilitychange',()=>document.hidden?clearInterval(timer):restart());
+  render();
+  restart();
+})();
+</script>
+
 </body></html>
