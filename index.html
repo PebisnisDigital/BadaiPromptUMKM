@@ -21,15 +21,15 @@
 <div class="card"><div class="ico">🧠</div><b>Strategi</b><small>Promo, launching, sepi order</small></div><div class="card"><div class="ico">✍️</div><b>Copy</b><small>Caption, hook, storytelling</small></div><div class="card"><div class="ico">📸</div><b>Visual</b><small>Foto produk, poster, katalog</small></div><div class="card"><div class="ico">🎥</div><b>Video</b><small>Hook, shot list, voice over</small></div><div class="card"><div class="ico">💬</div><b>WhatsApp</b><small>Broadcast, follow-up, closing</small></div>
 </div></section>
 
-<section id="harga"><div class="eyebrow">AKSES LAUNCHING</div><h2>Masuk sekali. Cari prompt saat butuh.</h2><div class="price"><b>BADAI PROMPT UMKM</b><div class="amount">Rp87.000</div><p>Sekali bayar untuk akses V1.</p><div class="list"><div>500+ prompt awal</div><div>10 kategori bisnis</div><div>Strategi, copy, visual, video, WhatsApp</div><div>Prompt builder & favorit</div><div>Library bisa terus ditambah</div></div><button class="btn pink" style="width:100%" onclick="openCheckout()">AMBIL AKSES</button><p style="font-size:10px;color:#777">Harga dan skema akses masih dapat berubah sebelum launch resmi. Prompt membantu mempercepat ide dan eksekusi; hasil penjualan tetap bergantung pada produk, penawaran, distribusi, dan eksekusi.</p></div></section>
+<section id="harga"><div class="eyebrow">AKSES LAUNCHING</div><h2>Masuk sekali. Cari prompt saat butuh.</h2><div class="price"><b>BADAI PROMPT UMKM</b><div class="amount" id="displayPrice">Rp87.000</div><p>Sekali bayar untuk akses V1.</p><div class="list"><div>500+ prompt awal</div><div>10 kategori bisnis</div><div>Strategi, copy, visual, video, WhatsApp</div><div>Prompt builder & favorit</div><div>Library bisa terus ditambah</div></div><button class="btn pink" style="width:100%" onclick="openCheckout()">AMBIL AKSES</button><p style="font-size:10px;color:#777">Harga dan skema akses masih dapat berubah sebelum launch resmi. Prompt membantu mempercepat ide dan eksekusi; hasil penjualan tetap bergantung pada produk, penawaran, distribusi, dan eksekusi.</p></div></section>
 <section class="faq"><div class="eyebrow">FAQ</div><h2>Sebelum nanya di WhatsApp 😭</h2><details><summary>Ini kelas AI?</summary><p>Bukan. Ini library prompt dan prompt builder yang langsung dipakai.</p></details><details><summary>Harus pakai ChatGPT berbayar?</summary><p>Tidak. Prompt bisa dipakai pada berbagai AI yang mendukung tugas tersebut.</p></details><details><summary>Prompt menjamin penjualan naik?</summary><p>Tidak. Prompt mempercepat ide dan eksekusi, bukan menjamin hasil bisnis.</p></details></section>
 <div class="footer">BADAI PROMPT UMKM • V1<br>Pembayaran QRIS otomatis • Akses member setelah pembayaran terverifikasi.</div></div>
-<div class="float"><div><b>BADAI PROMPT UMKM</b><small>Rp87.000 • akses V1</small></div><button class="btn pink" onclick="openCheckout()">AMBIL AKSES</button></div>
+<div class="float"><div><b>BADAI PROMPT UMKM</b><small id="floatPrice">Rp87.000 • akses V1</small></div><button class="btn pink" onclick="openCheckout()">AMBIL AKSES</button></div>
 
 <div class="checkout-modal" id="checkoutModal">
   <div class="checkout-card">
     <div class="checkout-top">
-      <div><div class="eyebrow">CHECKOUT QRIS</div><h3>BADAI PROMPT UMKM</h3><small style="color:#888">Rp87.000 • akses V1</small></div>
+      <div><div class="eyebrow">CHECKOUT QRIS</div><h3>BADAI PROMPT UMKM</h3><small style="color:#888" id="checkoutPriceLabel">Rp87.000 • akses V1</small></div>
       <button class="xbtn" onclick="closeCheckout()">×</button>
     </div>
 
@@ -65,10 +65,10 @@
 <script>
 const APPWRITE_ENDPOINT='https://sgp.cloud.appwrite.io/v1';
 const APPWRITE_PROJECT='badai-prompt-umkm';
-let checkoutToken='',checkoutEmail='',checkoutExpiry=null,pollTimer=null,countTimer=null;
+let checkoutToken='',checkoutEmail='',checkoutExpiry=null,pollTimer=null,countTimer=null;\nlet registrationOpen=true,currentPrice=87000;
 
 function rupiah(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n||0))}
-function openCheckout(){document.getElementById('checkoutModal').classList.add('show')}
+function openCheckout(){if(!registrationOpen){alert('Pendaftaran BADAI PROMPT UMKM sedang ditutup.');return}document.getElementById('checkoutModal').classList.add('show')}
 function closeCheckout(){document.getElementById('checkoutModal').classList.remove('show')}
 document.getElementById('checkoutModal').addEventListener('click',e=>{if(e.target.id==='checkoutModal')closeCheckout()});
 
@@ -164,5 +164,23 @@ function handlePaid(data){
   document.getElementById('successEmail').textContent=checkoutEmail||data.email||'email pembeli';
   document.getElementById('memberLink').href='/akses?paid=1&email='+encodeURIComponent(checkoutEmail||data.email||'');
 }
+
+async function loadPublicConfig(){
+  try{
+    const data=await runPayment('/config',{});
+    currentPrice=Number(data.price||87000);
+    registrationOpen=data.registration_open!==false;
+    document.getElementById('displayPrice').textContent=rupiah(currentPrice);
+    document.getElementById('checkoutPriceLabel').textContent=rupiah(currentPrice)+' • akses V1';
+    document.getElementById('floatPrice').textContent=rupiah(currentPrice)+' • akses V1';
+    document.querySelectorAll('[onclick="openCheckout()"]').forEach(btn=>{
+      btn.disabled=!registrationOpen;
+      if(!registrationOpen)btn.textContent='PENDAFTARAN DITUTUP';
+    });
+  }catch(err){
+    console.warn('Config fallback aktif');
+  }
+}
+loadPublicConfig();
 </script>
 </body></html>
