@@ -163,7 +163,7 @@ async function api(path,body={}){
     functionId:FUNC,
     body:JSON.stringify(body),
     async:false,
-    path:'/admin'+path,
+    xpath:'/admin'+path,
     method:'POST',
     headers:{'content-type':'application/json'}
   });
