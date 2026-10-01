@@ -4,6 +4,7 @@ import { Client, TablesDB, ID, Query } from 'node-appwrite';
 const DB=process.env.APP_DB_ID || 'badai_prompt_umkm';
 const ORDERS=process.env.ORDERS_TABLE_ID || 'orders';
 const SETTINGS='settings';
+const COUPONS='coupons';
 const FALLBACK_PRICE=Number(process.env.PRODUCT_PRICE || 87000);
 const APP_URL=process.env.APP_URL || 'https://badaipromptumkm2026.vercel.app';
 
@@ -76,19 +77,98 @@ export default async ({req,res,error})=>{
     return tables.updateRow({databaseId:DB,tableId:ORDERS,rowId:id,data});
   }
 
+  async function getCoupon(code){
+    const normalized=q(code).toUpperCase();
+    if(!normalized)return null;
+    const r=await tables.listRows({
+      databaseId:DB,
+      tableId:COUPONS,
+      queries:[Query.equal('code',normalized),Query.limit(1)]
+    });
+    return rowData((r.rows||r.documents||[])[0]);
+  }
+
+  async function quoteCoupon(code,basePrice){
+    const normalized=q(code).toUpperCase();
+    if(!normalized){
+      return {coupon:null,coupon_code:null,base_price:basePrice,discount_amount:0,total:basePrice};
+    }
+
+    const coupon=await getCoupon(normalized);
+    if(!coupon?.$id)throw Object.assign(new Error('Kode kupon tidak ditemukan.'),{status:400});
+    if(coupon.is_active===false)throw Object.assign(new Error('Kupon sedang tidak aktif.'),{status:400});
+
+    const now=Date.now();
+    if(coupon.starts_at&&new Date(coupon.starts_at).getTime()>now){
+      throw Object.assign(new Error('Kupon belum mulai berlaku.'),{status:400});
+    }
+    if(coupon.ends_at&&new Date(coupon.ends_at).getTime()<now){
+      throw Object.assign(new Error('Masa berlaku kupon sudah berakhir.'),{status:400});
+    }
+
+    const limit=Math.max(Number(coupon.usage_limit)||0,0);
+    const used=Math.max(Number(coupon.used_count)||0,0);
+    if(limit>0&&used>=limit)throw Object.assign(new Error('Kuota pemakaian kupon sudah habis.'),{status:400});
+
+    const minOrder=Math.max(Number(coupon.min_order)||0,0);
+    if(basePrice<minOrder){
+      throw Object.assign(new Error('Kupon berlaku untuk minimum belanja '+new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(minOrder)+'.'),{status:400});
+    }
+
+    let discount=0;
+    const value=Math.max(Number(coupon.discount_value)||0,0);
+    if(coupon.discount_type==='percent'){
+      discount=Math.floor(basePrice*Math.min(value,100)/100);
+    }else{
+      discount=Math.min(value,basePrice);
+    }
+    const maxDiscount=Math.max(Number(coupon.max_discount)||0,0);
+    if(maxDiscount>0)discount=Math.min(discount,maxDiscount);
+    discount=Math.max(0,Math.min(discount,basePrice));
+
+    return {
+      coupon,
+      coupon_code:normalized,
+      base_price:basePrice,
+      discount_amount:discount,
+      total:Math.max(0,basePrice-discount)
+    };
+  }
+
+  async function countCouponUsage(order){
+    if(!order?.coupon_code||order.coupon_counted===true||order.status!=='success')return;
+    try{
+      const coupon=await getCoupon(order.coupon_code);
+      if(coupon?.$id){
+        await tables.updateRow({
+          databaseId:DB,
+          tableId:COUPONS,
+          rowId:coupon.$id,
+          data:{used_count:Math.max(Number(coupon.used_count)||0,0)+1}
+        });
+      }
+      await updateOrder(order.$id,{coupon_counted:true});
+      order.coupon_counted=true;
+    }catch(e){
+      // Best effort: payment/access must never fail because usage analytics could not update.
+    }
+  }
+
   async function createPayment(body){
     const cfg=await getConfig();
     if(!cfg.registration_open){
       throw Object.assign(new Error('Pendaftaran BADAI PROMPT UMKM sedang ditutup.'),{status:423});
     }
-    const price=cfg.price;
+    const basePrice=cfg.price;
+    const quote=await quoteCoupon(body.coupon_code,basePrice);
+    const price=quote.total;
     const fullName=q(body.full_name);
     const email=q(body.email).toLowerCase();
     const whatsapp=normalizeWa(body.whatsapp);
     if(!fullName||!email||!whatsapp)throw Object.assign(new Error('Nama, email, dan WhatsApp wajib diisi'),{status:400});
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))throw Object.assign(new Error('Email belum valid'),{status:400});
     if(!/^62\d{8,13}$/.test(whatsapp))throw Object.assign(new Error('Nomor WhatsApp belum valid'),{status:400});
-    if(!Number.isFinite(price)||price<=0)throw new Error('Harga produk belum valid');
+    if(!Number.isFinite(basePrice)||basePrice<=0)throw new Error('Harga produk belum valid');
 
     const paid=await tables.listRows({
       databaseId:DB,tableId:ORDERS,
@@ -96,6 +176,46 @@ export default async ({req,res,error})=>{
     });
     if((paid.rows||paid.documents||[]).length){
       throw Object.assign(new Error('Email ini sudah memiliki akses aktif'),{status:409});
+    }
+
+    if(price===0){
+      const publicToken=randomToken(24);
+      const now=new Date().toISOString();
+      const created=await tables.createRow({
+        databaseId:DB,tableId:ORDERS,rowId:ID.unique(),
+        data:{
+          public_token:publicToken,
+          full_name:fullName,
+          email,
+          whatsapp,
+          amount:0,
+          total_amount:0,
+          amount_uniq:0,
+          admin_fee:0,
+          transaction_id:'FREE-'+Date.now().toString(36).toUpperCase(),
+          status:'success',
+          paid_at:now,
+          coupon_code:quote.coupon_code,
+          discount_amount:quote.discount_amount,
+          coupon_counted:false,
+          payment_method:'coupon_free'
+        }
+      });
+      const order=rowData(created);
+      await countCouponUsage(order);
+      return {
+        success:true,
+        public_token:publicToken,
+        transaction_id:order.transaction_id,
+        amount:0,
+        total_amount:0,
+        base_price:basePrice,
+        discount_amount:quote.discount_amount,
+        coupon_code:quote.coupon_code,
+        status:'success',
+        access_ready:Boolean(order.access_issued),
+        free_order:true
+      };
     }
 
     const callback=process.env.PAYMENT_CALLBACK_URL;
@@ -152,10 +272,15 @@ export default async ({req,res,error})=>{
         payment_url:data.payment_url?String(data.payment_url):null,
         status:['pending','success','expired','failed'].includes(String(data.status))?String(data.status):'pending',
         expires_at:expiresAt,
-        paid_at:String(data.status)==='success'?new Date().toISOString():null
+        paid_at:String(data.status)==='success'?new Date().toISOString():null,
+        coupon_code:quote.coupon_code,
+        discount_amount:quote.discount_amount,
+        coupon_counted:false,
+        payment_method:'qris'
       }
     });
     const order=rowData(created);
+    if(order.status==='success')await countCouponUsage(order);
     return {
       success:true,
       public_token:publicToken,
@@ -164,6 +289,9 @@ export default async ({req,res,error})=>{
       payment_url:order.payment_url,
       amount:order.amount,
       total_amount:order.total_amount,
+      base_price:basePrice,
+      discount_amount:quote.discount_amount,
+      coupon_code:quote.coupon_code,
       status:order.status,
       expires_at:order.expires_at
     };
@@ -176,6 +304,7 @@ export default async ({req,res,error})=>{
     if(!order?.$id)throw Object.assign(new Error('Transaksi tidak ditemukan'),{status:404});
 
     if(order.status==='success'){
+      await countCouponUsage(order);
       return {success:true,status:'success',email:order.email,access_ready:Boolean(order.access_issued)};
     }
     if(['expired','failed'].includes(order.status))return {success:true,status:order.status};
@@ -210,6 +339,7 @@ export default async ({req,res,error})=>{
     const patch={status};
     if(status==='success')patch.paid_at=new Date().toISOString();
     const updated=rowData(await updateOrder(order.$id,patch));
+    if(status==='success')await countCouponUsage(updated);
     return {success:true,status,email:updated.email,access_ready:Boolean(updated.access_issued)};
   }
 
@@ -232,7 +362,8 @@ export default async ({req,res,error})=>{
     else if(eventName==='payment.failed')status='failed';
     const patch={status};
     if(status==='success')patch.paid_at=new Date().toISOString();
-    await updateOrder(order.$id,patch);
+    const updated=rowData(await updateOrder(order.$id,patch));
+    if(status==='success')await countCouponUsage(updated);
     return {ok:true};
   }
 
@@ -253,6 +384,17 @@ export default async ({req,res,error})=>{
     if(path==='/config'){
       const cfg=await getConfig();
       return reply(res,{ok:true,...cfg});
+    }
+    if(path==='/quote'){
+      const cfg=await getConfig();
+      const quote=await quoteCoupon(req.bodyJson?.coupon_code,cfg.price);
+      return reply(res,{
+        ok:true,
+        base_price:quote.base_price,
+        discount_amount:quote.discount_amount,
+        total:quote.total,
+        coupon_code:quote.coupon_code
+      });
     }
     if(path==='/create')return reply(res,await createPayment(req.bodyJson||{}));
     if(path==='/check')return reply(res,await checkPayment(req.bodyJson||{}));
