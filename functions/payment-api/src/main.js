@@ -5,6 +5,7 @@ const DB=process.env.APP_DB_ID || 'badai_prompt_umkm';
 const ORDERS=process.env.ORDERS_TABLE_ID || 'orders';
 const SETTINGS='settings';
 const COUPONS='coupons';
+const PROFILES='member_profiles';
 const FALLBACK_PRICE=Number(process.env.PRODUCT_PRICE || 87000);
 const APP_URL=process.env.APP_URL || 'https://badaipromptumkm2026.vercel.app';
 
@@ -152,6 +153,41 @@ export default async ({req,res,error})=>{
     }catch(e){
       // Best effort: payment/access must never fail because usage analytics could not update.
     }
+  }
+
+  async function saveMemberBusinessProfile(body){
+    const userId=q(req.headers['x-appwrite-user-id']);
+    if(!userId)throw Object.assign(new Error('Sesi member tidak terbaca. Silakan login ulang.'),{status:401});
+
+    const profile=rowData(await tables.getRow({
+      databaseId:DB,
+      tableId:PROFILES,
+      rowId:userId
+    }));
+    if(!profile?.$id)throw Object.assign(new Error('Profil member tidak ditemukan.'),{status:404});
+    if(profile.status!=='active')throw Object.assign(new Error('Akses member tidak aktif.'),{status:403});
+    if(profile.access_until&&new Date(profile.access_until).getTime()<=Date.now()){
+      throw Object.assign(new Error('Masa akses sudah berakhir. Hubungi admin untuk perpanjangan.'),{status:403});
+    }
+
+    const data={
+      business_name:q(body.business_name)||null,
+      city_area:q(body.city_area)||null,
+      product_service:q(body.product_service)||null,
+      price_text:q(body.price_text)||null,
+      target_buyer:q(body.target_buyer)||null,
+      advantage:q(body.advantage)||null,
+      brand_color:q(body.brand_color)||null,
+      available_assets:q(body.available_assets)||null
+    };
+
+    const updated=await tables.updateRow({
+      databaseId:DB,
+      tableId:PROFILES,
+      rowId:userId,
+      data
+    });
+    return {ok:true,profile:rowData(updated)};
   }
 
   async function createPayment(body){
@@ -385,6 +421,7 @@ export default async ({req,res,error})=>{
       const cfg=await getConfig();
       return reply(res,{ok:true,...cfg});
     }
+    if(path==='/profile/save')return reply(res,await saveMemberBusinessProfile(req.bodyJson||{}));
     if(path==='/quote'){
       const cfg=await getConfig();
       const quote=await quoteCoupon(req.bodyJson?.coupon_code,cfg.price);
