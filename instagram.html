@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BADAI PROMPT UMKM — Instagram Seller Edition</title><meta name="theme-color" content="#070707">
+<style>
+:root{--bg:#070707;--card:#111;--line:#272727;--pink:#ff2d8d;--pink2:#ff6fb3;--text:#fff;--muted:#aaa}
+*{box-sizing:border-box}body{margin:0;background:#000;color:var(--text);font-family:Arial,Helvetica,sans-serif}.page{max-width:720px;margin:auto;min-height:100vh;background:radial-gradient(circle at 80% 0,rgba(255,45,141,.22),transparent 28%),var(--bg)}header{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:rgba(7,7,7,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.brand{font-weight:1000;letter-spacing:-.5px}.brand b{color:var(--pink)}.brand small{display:block;font-size:9px;color:#888;letter-spacing:.8px;margin-top:2px}.btn{display:inline-flex;justify-content:center;align-items:center;text-decoration:none;border:0;border-radius:14px;padding:14px 17px;font-weight:900;cursor:pointer}.pink{background:var(--pink);color:#fff}.dark{background:#171717;color:#fff;border:1px solid #333}section{padding:30px 18px}.eyebrow{font-size:10px;color:var(--pink2);font-weight:900;letter-spacing:1px}.hero h1{font-size:clamp(42px,10vw,72px);line-height:.92;letter-spacing:-3px;margin:12px 0}.hero h1 span{color:var(--pink)}p{color:#bbb;line-height:1.6}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.demo{margin-top:26px;padding:14px;border:1px solid #303030;border-radius:24px;background:#0d0d0d;box-shadow:0 24px 70px rgba(255,45,141,.12)}.screen{padding:16px;border-radius:18px;background:#090909;border:1px solid #222}.chips{display:flex;gap:8px;overflow:auto}.chip{white-space:nowrap;background:#151515;border:1px solid #333;border-radius:12px;padding:10px;font-size:11px}.chip.on{border-color:var(--pink);background:#1a1016}.prompt{margin-top:14px;background:#121212;border:1px solid #2a2a2a;border-radius:16px;padding:14px}.prompt h3{margin:8px 0 5px}.stats,.grid{display:grid;gap:10px}.stats{grid-template-columns:repeat(3,1fr);margin-top:18px}.stats div,.card{background:#101010;border:1px solid var(--line);border-radius:16px;padding:14px}.stats b{display:block;font-size:20px}.stats small,.card small{color:#888}.grid{grid-template-columns:repeat(2,1fr)}h2{font-size:30px;line-height:1;margin:7px 0 12px}.ico{font-size:24px}.card b{display:block;margin-top:8px}.price{border:1px solid #4a2740;border-radius:24px;padding:20px;background:radial-gradient(circle at 90% 0,rgba(255,45,141,.2),transparent 25%),#101010}.amount{font-size:48px;font-weight:1000;margin:8px 0}.list{display:grid;gap:8px;margin:16px 0}.list div:before{content:"✓ ";color:#73f6a7;font-weight:900}.faq details{background:#101010;border:1px solid var(--line);border-radius:14px;padding:14px;margin:8px 0}.faq summary{font-weight:800;cursor:pointer}.footer{text-align:center;color:#777;font-size:10px;padding:30px 18px 90px}.float{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:min(calc(100% - 24px),690px);display:flex;gap:10px;align-items:center;background:rgba(12,12,12,.95);border:1px solid #2b2b2b;border-radius:18px;padding:10px;backdrop-filter:blur(12px)}.float div{flex:1}.float small{color:#888}
+.checkout-modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.86);display:none;align-items:flex-end;justify-content:center;padding-top:30px}.checkout-modal.show{display:flex}.checkout-card{width:min(100%,720px);max-height:94vh;overflow:auto;background:#0e0e0e;border:1px solid #333;border-radius:26px 26px 0 0;padding:19px;box-shadow:0 -24px 80px rgba(255,45,141,.16)}.checkout-top{display:flex;justify-content:space-between;gap:12px;align-items:start}.checkout-top h3{font-size:23px;margin:4px 0}.xbtn{width:38px;height:38px;border-radius:50%;border:1px solid #333;background:#171717;color:#fff;font-size:20px;cursor:pointer}.checkout-form{display:grid;gap:10px;margin-top:15px}.checkout-form label{font-size:10px;color:#888;font-weight:800}.checkout-form input{width:100%;margin-top:5px;background:#080808;border:1px solid #303030;border-radius:13px;color:#fff;padding:13px;outline:none}.checkout-form input:focus{border-color:var(--pink)}.coupon-line{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:5px}.coupon-line input{margin-top:0}.coupon-summary{display:none;background:#101a14;border:1px solid #294b36;border-radius:13px;padding:11px;font-size:10px;line-height:1.55}.coupon-summary.show{display:block}.coupon-summary b{color:#73f6a7}.checkout-msg{font-size:11px;line-height:1.5;color:#999;min-height:18px}.checkout-msg.bad{color:#ff7088}.checkout-msg.good{color:#73f6a7}.qrbox{text-align:center;background:#fff;border-radius:18px;padding:14px;margin-top:14px}.qrbox img{display:block;width:min(290px,100%);margin:auto;border-radius:10px}.payinfo{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.payinfo div{background:#111;border:1px solid #292929;border-radius:13px;padding:11px}.payinfo small{display:block;color:#777;font-size:9px}.payinfo b{display:block;margin-top:3px}.statusbox{margin-top:10px;padding:13px;border-radius:14px;background:#111;border:1px solid #2c2c2c;font-size:12px;line-height:1.5}.successbox{display:none;text-align:center;padding:18px 5px}.successbox.show{display:block}.social-proof{position:fixed;left:50%;bottom:92px;z-index:55;width:min(calc(100% - 28px),420px);transform:translate(-50%,18px);opacity:0;pointer-events:none;transition:.28s ease;background:rgba(14,14,14,.97);border:1px solid #3a2b33;border-radius:16px;padding:11px 12px;display:flex;gap:10px;align-items:center;box-shadow:0 18px 55px rgba(0,0,0,.42),0 8px 35px rgba(255,45,141,.12);backdrop-filter:blur(12px)}.social-proof.show{opacity:1;transform:translate(-50%,0)}.sp-icon{width:36px;height:36px;border-radius:50%;flex:0 0 36px;display:grid;place-items:center;background:#1a1016;border:1px solid #593148;color:#ff6fb3;font-weight:1000}.sp-copy{min-width:0;flex:1}.sp-copy b{display:block;font-size:11px}.sp-copy span{display:block;color:#8d8d8d;font-size:9px;margin-top:3px;line-height:1.35}.sp-live{font-size:8px;color:#73f6a7;font-weight:900;white-space:nowrap}.legal-check{display:flex;gap:8px;align-items:flex-start;font-size:9px;color:#888;line-height:1.45}.legal-check input{width:auto;margin:2px 0 0}.legal-check a{color:#ff6fb3}.footer-links{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:10px}.footer-links a{color:#999;text-decoration:none}.successmark{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;margin:3px auto 12px;background:#12261a;color:#73f6a7;font-size:30px;border:1px solid #285c3a}
+@media(min-width:600px){.grid{grid-template-columns:repeat(5,1fr)}}
+
+/* Instagram-first preview */
+body{padding-bottom:78px}.page{background:
+radial-gradient(circle at 88% 2%,rgba(255,45,141,.22),transparent 24%),
+radial-gradient(circle at 5% 22%,rgba(119,61,255,.10),transparent 20%),#060606}
+header{padding:11px 14px}.brand{font-size:14px}.brand small{font-size:8px}
+header .btn{padding:10px 12px;border-radius:12px;font-size:10px}
+section{padding:42px 16px}.eyebrow{font-size:10px;letter-spacing:1.5px}
+h2{font-size:clamp(30px,8vw,44px);letter-spacing:-1.4px;line-height:.98}
+.ig-hero{padding-top:30px}.ig-hero h1{font-size:clamp(44px,12vw,78px);line-height:.88;letter-spacing:-3.4px;margin:14px 0 18px}
+.ig-hero h1 span{color:var(--pink)}.ig-hero .lead{font-size:15px;line-height:1.6;max-width:620px}
+.ig-pill{display:inline-flex;align-items:center;gap:7px;border:1px solid #3b2a34;background:#130d11;border-radius:999px;padding:8px 10px;font-size:9px;color:#d9b4c8;font-weight:900}
+.ig-dot{width:7px;height:7px;border-radius:50%;background:var(--pink);box-shadow:0 0 16px var(--pink)}
+.ig-actions{display:grid;grid-template-columns:1.15fr .85fr;gap:8px;margin-top:18px}
+.ig-actions .btn{width:100%;padding:15px 10px;font-size:11px}
+.ig-stage{position:relative;margin-top:26px;padding:14px 0 8px;overflow:hidden}
+.ig-rail{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 4px 10px;scrollbar-width:none}.ig-rail::-webkit-scrollbar{display:none}
+.ig-post{scroll-snap-align:center;flex:0 0 min(74vw,280px);aspect-ratio:4/5;border-radius:24px;overflow:hidden;position:relative;border:1px solid #343434;background:#111;box-shadow:0 22px 70px rgba(0,0,0,.45)}
+.ig-post .postbar{position:absolute;left:12px;right:12px;top:12px;display:flex;justify-content:space-between;align-items:center;z-index:2;font-size:8px;font-weight:900;letter-spacing:.6px}
+.avatar{width:23px;height:23px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 2px var(--pink);display:inline-grid;place-items:center;background:#111;font-size:8px}
+.postcontent{height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:56px 18px 18px}
+.postcontent h3{font-size:30px;line-height:.92;letter-spacing:-1.4px;margin:0 0 10px}.postcontent p{font-size:11px;margin:0;color:inherit;opacity:.88}
+.post-a{background:linear-gradient(150deg,#ff2d8d 0%,#8f174e 48%,#170810 100%)}.post-a .badge{background:#fff;color:#111}
+.post-b{background:linear-gradient(155deg,#f3eee8 0%,#d5c8bd 55%,#4b3830 100%);color:#18130f}.post-b .postbar{color:#18130f}.post-b p{color:#2a211c}
+.post-c{background:radial-gradient(circle at 70% 22%,rgba(255,45,141,.72),transparent 28%),linear-gradient(160deg,#151515,#000);color:#fff}
+.mini-badge{display:inline-block;width:max-content;border-radius:999px;padding:6px 8px;font-size:8px;font-weight:1000;margin-bottom:10px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.28)}
+.bridge{border:1px solid #34252d;background:linear-gradient(140deg,#100b0e,#0a0a0a);border-radius:24px;padding:18px;box-shadow:0 18px 55px rgba(255,45,141,.08)}
+.bridge h3{font-size:26px;line-height:1;margin:5px 0 9px;letter-spacing:-.8px}.bridge p{font-size:13px;margin:0}
+.free-prompt{margin-top:14px;border-radius:18px;padding:14px;background:#f4f0ed;color:#171311;position:relative;overflow:hidden}.free-prompt:before{content:"PROMPT GRATIS";position:absolute;right:-24px;top:16px;transform:rotate(14deg);background:#ff2d8d;color:#fff;font-size:8px;font-weight:1000;padding:6px 28px}
+.free-prompt small{color:#6f625c;font-weight:800}.free-prompt b{display:block;margin:8px 0;font-size:14px}.free-prompt p{color:#514740;font-size:11px;line-height:1.55}
+.flow{display:grid;gap:10px;margin-top:16px}.flow-step{display:grid;grid-template-columns:38px 1fr;gap:11px;align-items:start;padding:14px;border:1px solid #292929;background:#0e0e0e;border-radius:16px}.flow-no{width:38px;height:38px;border-radius:13px;background:#1b1016;color:var(--pink2);display:grid;place-items:center;font-weight:1000}.flow-step b{font-size:13px}.flow-step p{margin:5px 0 0;font-size:11px;color:#888}
+.showcase-head{display:flex;justify-content:space-between;align-items:end;gap:12px}.showcase-head p{font-size:11px;margin:0;max-width:220px;text-align:right}
+.visual-card{flex:0 0 min(68vw,250px);aspect-ratio:4/5;border-radius:22px;padding:16px;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:space-between;border:1px solid #333;overflow:hidden;position:relative}
+.visual-card:after{content:"";position:absolute;width:130px;height:130px;border-radius:50%;filter:blur(2px);opacity:.22;right:-38px;top:-38px;background:currentColor}
+.visual-card b{font-size:24px;line-height:.95;letter-spacing:-.8px;position:relative;z-index:2}.visual-card small{font-size:9px;position:relative;z-index:2}.v1{background:#ff2d8d;color:#fff}.v2{background:#f5f0ec;color:#17110e}.v3{background:#101010;color:#fff}.v4{background:#24162a;color:#ffc1df}.v5{background:#efe8db;color:#2b2018}.v6{background:#151515;color:#ff6fb3}
+.result-band{margin-top:16px;border-radius:22px;padding:18px;background:linear-gradient(135deg,#171717,#0b0b0b);border:1px solid #303030}.result-band .line{height:1px;background:#2c2c2c;margin:14px 0}.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.result-grid div{padding:12px;background:#0b0b0b;border:1px solid #252525;border-radius:14px}.result-grid b{display:block;font-size:12px}.result-grid span{font-size:9px;color:#777}
+.phone-wrap{display:grid;grid-template-columns:1fr;gap:14px;margin-top:18px}.phone{border:1px solid #343434;border-radius:32px;padding:9px;background:#050505;box-shadow:0 25px 70px rgba(0,0,0,.5);max-width:340px;margin:auto}.phone-screen{border-radius:25px;overflow:hidden;background:#0d0d0d;padding:14px;min-height:450px}.phone-top{display:flex;justify-content:space-between;font-size:9px;color:#aaa}.phone-title{font-size:23px;font-weight:1000;line-height:.95;margin:24px 0 12px}.emergency{border-radius:16px;padding:13px;background:linear-gradient(135deg,#2a0d19,#130a0f);border:1px solid #5b243d}.emergency b{font-size:12px}.prompt-row{padding:11px;border:1px solid #2b2b2b;background:#111;border-radius:13px;margin-top:8px}.prompt-row b{font-size:11px}.prompt-row span{font-size:8px;color:#777;display:block;margin-top:3px}
+.feature-list{display:grid;gap:9px}.feature-list .feature{padding:13px 14px;border-radius:15px;border:1px solid #2b2b2b;background:#0e0e0e}.feature b{display:block;font-size:12px}.feature span{font-size:10px;color:#888;display:block;margin-top:4px;line-height:1.45}
+.niche-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.niche-chips span{border:1px solid #343434;background:#101010;border-radius:999px;padding:9px 11px;font-size:10px}
+.ig-price{background:linear-gradient(145deg,#160c11,#0c0c0c)!important}.ig-price .amount{font-size:52px}.launch-note{font-size:11px;color:#aaa}.launch-note b{color:#ff6fb3}
+.float{bottom:9px;padding:8px 9px;border-radius:15px}.float b{font-size:10px}.float small{font-size:8px}.float .btn{padding:11px 12px;font-size:9px;border-radius:11px}
+.social-proof{bottom:78px}
+@media(min-width:650px){.ig-actions{display:flex}.ig-actions .btn{width:auto}.ig-rail{overflow:visible}.ig-post{flex:1;min-width:0}.phone-wrap{grid-template-columns:1fr 1fr;align-items:center}.flow{grid-template-columns:repeat(3,1fr)}.flow-step{grid-template-columns:1fr}.showcase-head p{text-align:left}.visual-card{flex-basis:210px}}
+</style></head>
+<body><div class="page">
+<header><div class="brand">BADAI <b>PROMPT UMKM</b><small>FOR INSTAGRAM SELLERS</small></div><a class="btn dark" href="#contoh">LIHAT CONTOH</a></header>
+
+<section class="ig-hero">
+  <div class="ig-pill"><span class="ig-dot"></span> BUAT YANG JUALAN LEWAT INSTAGRAM</div>
+  <h1>BIKIN KONTEN YANG <span>ENAK DILIHAT.</span> JUALAN YANG LEBIH SIAP CLOSING.</h1>
+  <p class="lead">Nggak perlu mulai dari halaman kosong tiap mau posting. Pilih bisnis, pilih kebutuhan, lalu ambil prompt yang bantu kamu bikin carousel, caption, visual produk, Reels, sampai follow-up calon pembeli.</p>
+  <div class="ig-actions"><a class="btn pink" href="#contoh">LIHAT YANG BISA DIBIKIN</a><a class="btn dark" href="#harga">LIHAT AKSES</a></div>
+
+  <div class="ig-stage">
+    <div class="ig-rail">
+      <article class="ig-post post-a">
+        <div class="postbar"><span><span class="avatar">B</span> brand.snack</span><span>•••</span></div>
+        <div class="postcontent"><span class="mini-badge">CAROUSEL JUALAN</span><h3>JANGAN CUMA<br>DISIMPAN.<br><u>COBAIN.</u></h3><p>Hook → alasan beli → CTA. Dibantu prompt yang sudah diarahkan buat jualan.</p></div>
+      </article>
+      <article class="ig-post post-b">
+        <div class="postbar"><span><span class="avatar">H</span> hijab.daily</span><span>•••</span></div>
+        <div class="postcontent"><span class="mini-badge">EDUKASI + SOFT SELL</span><h3>3 WARNA HIJAB YANG BIKIN OUTFIT AMAN</h3><p>Konten tetap cantik, tapi produknya tetap punya alasan untuk dibeli.</p></div>
+      </article>
+      <article class="ig-post post-c">
+        <div class="postbar"><span><span class="avatar">S</span> skincare.local</span><span>•••</span></div>
+        <div class="postcontent"><span class="mini-badge">REELS HOOK</span><h3>KENAPA SERUMMU CUMA DIPAKAI 2 HARI?</h3><p>Hook pendek untuk bikin orang berhenti scroll sebelum masuk ke penawaran.</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="bridge">
+    <div class="eyebrow">DATANG DARI KOMEN “MAU”?</div>
+    <h3>Kalau 1 prompt gratis tadi aja bikin lebih gampang mulai…</h3>
+    <p>Di BADAI PROMPT UMKM, kamu nggak cuma dapat satu prompt. Kamu punya mesin yang bantu milih prompt sesuai bisnis dan kebutuhan jualanmu.</p>
+    <div class="free-prompt">
+      <small>CONTOH PROMPT GRATIS</small>
+      <b>“Buat carousel Instagram 5 slide untuk produk [PRODUK]…”</b>
+      <p>Gunakan hook yang memancing rasa penasaran, jelaskan masalah pembeli, masukkan manfaat produk secara natural, lalu tutup dengan CTA yang tidak maksa.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contoh">
+  <div class="showcase-head"><div><div class="eyebrow">HASILNYA BUKAN CUMA TEKS</div><h2>Yang bisa kamu bikin buat Instagram.</h2></div><p>Geser. Ini contoh format konten yang bisa dibantu dari prompt.</p></div>
+  <div class="ig-rail" style="margin-top:18px">
+    <div class="visual-card v1"><small>01 • CAROUSEL PROMO</small><b>HOOK YANG BIKIN ORANG BERHENTI SCROLL</b><small>4:5 feed</small></div>
+    <div class="visual-card v2"><small>02 • EDUKASI</small><b>KONTEN YANG NGASIH ALASAN BUAT BELI</b><small>soft selling</small></div>
+    <div class="visual-card v3"><small>03 • PRODUCT VISUAL</small><b>ARAH FOTO PRODUK YANG LEBIH NIAT</b><small>prompt visual</small></div>
+    <div class="visual-card v4"><small>04 • REELS</small><b>HOOK + SHOT LIST + VOICE OVER</b><small>video pendek</small></div>
+    <div class="visual-card v5"><small>05 • CAPTION</small><b>NGOMONG JUALAN TANPA TERASA MAKSA</b><small>caption & storytelling</small></div>
+    <div class="visual-card v6"><small>06 • FOLLOW-UP</small><b>DM YANG LANJUTIN MINAT KE CLOSING</b><small>WhatsApp / DM</small></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">BUKAN PROMPT RANDOM</div><h2>Dari ide → konten → jualan.</h2>
+  <div class="flow">
+    <div class="flow-step"><div class="flow-no">1</div><div><b>Pilih kondisi bisnis</b><p>Sepi order, mau promo, mau bikin carousel, Reels, broadcast, atau follow-up.</p></div></div>
+    <div class="flow-step"><div class="flow-no">2</div><div><b>Isi data singkat</b><p>Produk, harga, target pembeli, keunggulan, dan kondisi promonya.</p></div></div>
+    <div class="flow-step"><div class="flow-no">3</div><div><b>Prompt siap dipakai</b><p>Salin ke AI favoritmu, lalu sesuaikan hasil dengan produk dan gaya brand.</p></div></div>
+  </div>
+  <div class="result-band">
+    <div class="eyebrow">YANG BERUBAH</div>
+    <div class="result-grid">
+      <div><b>Sebelum</b><span>“Bikin caption jualan dong.”</span></div>
+      <div><b>Sesudah</b><span>Prompt punya konteks produk, target, angle, tone, dan CTA.</span></div>
+      <div><b>Sebelum</b><span>Bingung slide carousel isi apa.</span></div>
+      <div><b>Sesudah</b><span>Hook → masalah → solusi → offer → CTA lebih terstruktur.</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">SAAT BUTUH IDE SEKARANG</div><h2>Nggak perlu muter cari prompt.</h2>
+  <div class="phone-wrap">
+    <div class="phone"><div class="phone-screen">
+      <div class="phone-top"><b>BADAI PROMPT UMKM</b><span>● LIVE</span></div>
+      <div class="phone-title">Lagi butuh apa hari ini?</div>
+      <div class="emergency"><b>🚨 MODE DARURAT</b><p style="font-size:10px;margin:5px 0 0">Pilih kondisi. Ambil 3 prompt yang paling relevan.</p></div>
+      <div class="prompt-row"><b>Sepi Order Tanpa Banting Harga</b><span>Strategi Penawaran</span></div>
+      <div class="prompt-row"><b>Carousel Promo Hari Ini</b><span>Copy / Caption</span></div>
+      <div class="prompt-row"><b>Follow-up Calon Pembeli</b><span>WhatsApp / DM</span></div>
+    </div></div>
+    <div class="feature-list">
+      <div class="feature"><b>✨ Prompt Hari Ini</b><span>Biar nggak bingung mulai dari mana.</span></div>
+      <div class="feature"><b>⚡ Profil Bisnis Auto-Fill</b><span>Isi data bisnis sekali, builder bantu isi ulang.</span></div>
+      <div class="feature"><b>★ Favorit & Riwayat</b><span>Simpan prompt yang cocok dan buka lagi kapan pun.</span></div>
+      <div class="feature"><b>500+ Prompt Siap Pakai</b><span>Untuk visual, caption, video, strategi, WhatsApp, dan follow-up.</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">BUKAN CUMA SATU NICHE</div><h2>Kalau jualanmu ada di Instagram, kemungkinan ada promptnya.</h2>
+  <div class="niche-chips"><span>🍜 Kuliner</span><span>👗 Fashion</span><span>💄 Beauty</span><span>🛠️ Jasa</span><span>🎓 Pendidikan</span><span>🏠 Properti</span><span>🏍️ Otomotif</span><span>🎁 Hampers</span><span>🛒 Retail</span><span>🎉 Event</span></div>
+</section>
+
+<section id="harga"><div class="eyebrow">AKSES LAUNCHING</div><h2>Kalau tiap posting harus mikir dari nol, ini shortcut-nya.</h2><div class="price ig-price"><b>BADAI PROMPT UMKM</b><div class="amount" id="displayPrice">Rp87.000</div><p>Sekali bayar untuk akses V1. Pakai saat butuh ide konten atau jualan.</p><div class="list"><div>500+ prompt siap pakai</div><div>10 kategori bisnis UMKM</div><div>Strategi, copy, visual, video, WhatsApp</div><div>Mode Darurat + Prompt Hari Ini</div><div>Profil Bisnis auto-fill</div><div>Favorit + Riwayat pemakaian</div><div>Update library V1</div></div><div style="border:1px solid #5a3047;background:#170e14;border-radius:14px;padding:12px;margin:12px 0"><b style="color:#ff6fb3">🎟️ KHUSUS LAUNCHING INSTAGRAM: LAUNCH10</b><br><span class="launch-note">Diskon 10% untuk 100 penggunaan pertama. <b id="igLaunchPrice"></b></span></div><button class="btn pink" style="width:100%" onclick="openCheckout()">AMBIL AKSES INSTAGRAM</button><p style="font-size:10px;color:#777">Prompt membantu mempercepat ide dan eksekusi; hasil penjualan tetap bergantung pada produk, penawaran, distribusi, kondisi pasar, dan eksekusi.</p></div></section>
+<section class="faq"><div class="eyebrow">FAQ</div><h2>Sebelum nanya di WhatsApp 😭</h2><details><summary>Ini kelas AI?</summary><p>Bukan. Ini library prompt dan prompt builder yang langsung dipakai.</p></details><details><summary>Harus pakai ChatGPT berbayar?</summary><p>Tidak. Prompt bisa dipakai pada berbagai AI yang mendukung tugas tersebut.</p></details><details><summary>Prompt menjamin penjualan naik?</summary><p>Tidak. Prompt mempercepat ide dan eksekusi, bukan menjamin hasil bisnis.</p></details><details><summary>Setelah bayar, masuknya bagaimana?</summary><p>Setelah pembayaran terverifikasi, akses aktif otomatis. Buka Member Area, masukkan email checkout, lalu klik link login yang dikirim ke email.</p></details><details><summary>Kalau pindah HP, favorit dan riwayat hilang?</summary><p>Tidak. Favorit, riwayat, dan Profil Bisnis tersimpan di akun member.</p></details></section>
+<div class="footer">BADAI PROMPT UMKM • V1<br>Pembayaran QRIS otomatis • Akses member setelah pembayaran terverifikasi.
+<div class="footer-links"><a href="/demo">Demo</a><a href="/privacy">Privasi</a><a href="/terms">Syarat</a><a href="/refund">Refund</a><a href="/support">Support</a></div></div></div>
+<div class="float"><div><b>BADAI PROMPT UMKM</b><small id="floatPrice">Rp87.000 • akses V1</small></div><button class="btn pink" onclick="openCheckout()">AMBIL AKSES</button></div>
+<div class="social-proof" id="socialProof" aria-live="polite">
+  <div class="sp-icon">✓</div>
+  <div class="sp-copy"><b id="spName">Member baru bergabung</b><span id="spMeta">BADAI PROMPT UMKM</span></div>
+  <div class="sp-live">● LIVE</div>
+</div>
+
+<div class="checkout-modal" id="checkoutModal">
+  <div class="checkout-card">
+    <div class="checkout-top">
+      <div><div class="eyebrow">CHECKOUT QRIS</div><h3>BADAI PROMPT UMKM</h3><small style="color:#888" id="checkoutPriceLabel">Rp87.000 • akses V1</small></div>
+      <button class="xbtn" onclick="closeCheckout()">×</button>
+    </div>
+
+    <div id="checkoutFormWrap">
+      <form class="checkout-form" id="checkoutForm">
+        <label>NAMA LENGKAP<input id="buyerName" required maxlength="128" placeholder="Nama lengkap"></label>
+        <label>EMAIL AKSES<input id="buyerEmail" type="email" required placeholder="email@contoh.com"></label>
+        <label>WHATSAPP<input id="buyerWa" inputmode="tel" required placeholder="08xxxxxxxxxx"></label>
+        <label>KODE KUPON (OPSIONAL)
+          <div class="coupon-line"><input id="couponCode" maxlength="64" value="LAUNCH10" placeholder="Kode promo"><button class="btn dark" id="applyCouponBtn" type="button">CEK</button></div>
+        </label>
+        <div class="coupon-summary" id="couponSummary"></div>
+        <label class="legal-check"><input id="agreeTerms" type="checkbox" required><span>Saya setuju dengan <a href="/terms" target="_blank">Syarat & Ketentuan</a>, <a href="/privacy" target="_blank">Kebijakan Privasi</a>, dan memahami <a href="/refund" target="_blank">Kebijakan Refund</a>.</span></label>
+        <button class="btn pink" id="payBtn" type="submit">BUAT QRIS PEMBAYARAN</button>
+        <div class="checkout-msg" id="checkoutMsg">Pastikan email benar. Email ini akan menjadi akun member.</div>
+      </form>
+    </div>
+
+    <div id="paymentWrap" style="display:none">
+      <div class="qrbox"><img id="qrImage" alt="QRIS pembayaran"></div>
+      <div class="payinfo">
+        <div><small>TOTAL BAYAR</small><b id="payAmount">-</b></div>
+        <div><small>BATAS WAKTU</small><b id="payCountdown">-</b></div>
+      </div>
+      <div class="statusbox" id="payStatus">Menunggu pembayaran QRIS…</div>
+      <button class="btn dark" id="checkNowBtn" style="width:100%;margin-top:10px">CEK PEMBAYARAN SEKARANG</button>
+    </div>
+
+    <div class="successbox" id="successBox">
+      <div class="successmark">✓</div>
+      <h3 style="margin:0 0 8px">Pembayaran berhasil</h3>
+      <p style="margin:0 0 10px">Akses BADAI PROMPT UMKM sudah diaktifkan untuk email <b id="successEmail" style="color:#fff"></b>.</p>
+      <div style="text-align:left;background:#101010;border:1px solid #292929;border-radius:14px;padding:12px;margin:0 0 14px;font-size:11px;line-height:1.7;color:#aaa">
+        <b style="color:#fff">Langkah berikutnya:</b><br>
+        1. Klik <b style="color:#fff">MASUK MEMBER AREA</b><br>
+        2. Pastikan email checkout sudah terisi benar<br>
+        3. Klik <b style="color:#fff">KIRIM LINK LOGIN</b>, lalu buka link dari email
+      </div>
+      <a class="btn pink" id="memberLink" href="/akses" style="width:100%">MASUK MEMBER AREA</a>
+      <a class="btn dark" href="/support" style="width:100%;margin-top:8px">BUTUH BANTUAN?</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const APPWRITE_ENDPOINT='https://sgp.cloud.appwrite.io/v1';
+const APPWRITE_PROJECT='badai-prompt-umkm';
+let checkoutToken='',checkoutEmail='',checkoutExpiry=null,pollTimer=null,countTimer=null;
+let registrationOpen=true,currentPrice=87000,appliedCoupon='',quotedTotal=87000,socialProofTimer=null,socialProofHideTimer=null;
+
+function rupiah(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n||0))}
+function openCheckout(){
+  hideSocialProof();
+  if(!registrationOpen){alert('Pendaftaran BADAI PROMPT UMKM sedang ditutup.');return}
+  document.getElementById('successBox').classList.remove('show');
+  document.getElementById('checkoutFormWrap').style.display='block';
+  document.getElementById('paymentWrap').style.display='none';
+  document.getElementById('checkoutModal').classList.add('show');
+}
+function closeCheckout(){document.getElementById('checkoutModal').classList.remove('show')}
+document.getElementById('checkoutModal').addEventListener('click',e=>{if(e.target.id==='checkoutModal')closeCheckout()});
+
+async function runPayment(path,payload){
+  const r=await fetch(APPWRITE_ENDPOINT+'/functions/payment-api/executions',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','X-Appwrite-Project':APPWRITE_PROJECT},
+    body:JSON.stringify({
+      body:JSON.stringify(payload||{}),
+      async:false,
+      path:path,
+      method:'POST',
+      headers:{'content-type':'application/json'}
+    })
+  });
+  const ex=await r.json().catch(()=>({}));
+  let body={};
+  try{body=JSON.parse(ex.responseBody||'{}')}catch{}
+  if(!r.ok || Number(ex.responseStatusCode||200)>=400){
+    throw new Error(body.error||ex.message||'Transaksi belum bisa diproses.');
+  }
+  return body;
+}
+
+function resetCouponQuote(){
+  appliedCoupon='';
+  quotedTotal=currentPrice;
+  couponSummary.classList.remove('show');
+  couponSummary.innerHTML='';
+  payBtn.textContent='BUAT QRIS PEMBAYARAN';
+}
+couponCode.addEventListener('input',()=>{
+  couponCode.value=couponCode.value.toUpperCase().replace(/\s+/g,'');
+  if(couponCode.value!==appliedCoupon)resetCouponQuote();
+});
+applyCouponBtn.onclick=async()=>{
+  const code=couponCode.value.trim().toUpperCase();
+  if(!code){resetCouponQuote();return}
+  applyCouponBtn.disabled=true;applyCouponBtn.textContent='CEK…';
+  try{
+    const q=await runPayment('/quote',{coupon_code:code});
+    appliedCoupon=q.coupon_code||'';
+    quotedTotal=Number(q.total||0);
+    couponSummary.classList.add('show');
+    couponSummary.innerHTML='Harga awal: '+rupiah(q.base_price)+'<br>Diskon: <b>-'+rupiah(q.discount_amount)+'</b><br>Total setelah kupon: <b>'+rupiah(q.total)+'</b>';
+    payBtn.textContent=q.total===0?'AKTIFKAN AKSES GRATIS':'BUAT QRIS '+rupiah(q.total);
+  }catch(err){
+    resetCouponQuote();
+    couponSummary.classList.add('show');
+    couponSummary.innerHTML='<span style="color:#ff7088">'+String(err.message||'Kupon tidak valid')+'</span>';
+  }finally{
+    applyCouponBtn.disabled=false;applyCouponBtn.textContent='PAKAI';
+  }
+};
+
+document.getElementById('checkoutForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const btn=document.getElementById('payBtn'),msg=document.getElementById('checkoutMsg');
+  btn.disabled=true;btn.textContent='MEMBUAT QRIS…';msg.className='checkout-msg';msg.textContent='Menghubungkan pembayaran…';
+  try{
+    const data=await runPayment('/create',{
+      full_name:document.getElementById('buyerName').value.trim(),
+      email:document.getElementById('buyerEmail').value.trim(),
+      whatsapp:document.getElementById('buyerWa').value.trim(),
+      coupon_code:document.getElementById('couponCode').value.trim().toUpperCase()
+    });
+    checkoutToken=data.public_token;
+    checkoutEmail=document.getElementById('buyerEmail').value.trim().toLowerCase();
+    checkoutExpiry=data.expires_at?new Date(data.expires_at):new Date(Date.now()+15*60*1000);
+    document.getElementById('checkoutFormWrap').style.display='none';
+    document.getElementById('paymentWrap').style.display='block';
+    document.getElementById('payAmount').textContent=rupiah(data.total_amount||data.amount||0);
+
+    if(data.status==='success'){
+      document.querySelector('.qrbox').style.display='none';
+      document.getElementById('checkNowBtn').style.display='none';
+      document.getElementById('payCountdown').textContent='PROSES';
+      document.getElementById('payStatus').innerHTML='<b style="color:#73f6a7">Kupon berhasil diterapkan ✓</b><br>Mengaktifkan akun member…';
+      if(data.access_ready){handlePaid(data)}else{setTimeout(checkPayment,1500);pollTimer=setInterval(checkPayment,3000)}
+    }else{
+      document.querySelector('.qrbox').style.display='block';
+      document.getElementById('checkNowBtn').style.display='block';
+      document.getElementById('qrImage').src=data.qr_url;
+      startCountdown();
+      schedulePolling();
+    }
+  }catch(err){
+    msg.className='checkout-msg bad';msg.textContent=err.message||'Gagal membuat QRIS.';
+    btn.disabled=false;btn.textContent='BUAT QRIS PEMBAYARAN';
+  }
+});
+
+function startCountdown(){
+  clearInterval(countTimer);
+  const tick=()=>{
+    const ms=checkoutExpiry?checkoutExpiry.getTime()-Date.now():0;
+    if(ms<=0){document.getElementById('payCountdown').textContent='BERAKHIR';clearInterval(countTimer);return}
+    const m=Math.floor(ms/60000),s=Math.floor((ms%60000)/1000);
+    document.getElementById('payCountdown').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  };
+  tick();countTimer=setInterval(tick,1000);
+}
+
+async function checkPayment(){
+  if(!checkoutToken)return;
+  const status=document.getElementById('payStatus');
+  status.textContent='Mengecek pembayaran…';
+  try{
+    const data=await runPayment('/check',{public_token:checkoutToken});
+    if(data.status==='success'){
+      if(data.access_ready){handlePaid(data);return}
+      status.innerHTML='<b style="color:#73f6a7">Pembayaran diterima ✓</b><br>Mengaktifkan akun member…';
+      setTimeout(checkPayment,3000);
+      return;
+    }
+    if(data.status==='expired'){status.innerHTML='<b style="color:#ff7088">QRIS sudah kedaluwarsa.</b><br>Tutup checkout lalu buat transaksi baru.';clearInterval(pollTimer);return}
+    if(data.status==='failed'){status.innerHTML='<b style="color:#ff7088">Pembayaran gagal.</b><br>Silakan buat transaksi baru.';clearInterval(pollTimer);return}
+    status.textContent='Belum ada pembayaran. QRIS akan dicek otomatis.';
+  }catch(err){
+    status.textContent='Pengecekan tertunda. Sistem akan mencoba lagi otomatis.';
+  }
+}
+
+function schedulePolling(){
+  clearInterval(pollTimer);
+  setTimeout(checkPayment,5000);
+  pollTimer=setInterval(checkPayment,20000);
+}
+document.getElementById('checkNowBtn').onclick=checkPayment;
+
+function handlePaid(data){
+  clearInterval(pollTimer);clearInterval(countTimer);
+  document.getElementById('paymentWrap').style.display='none';
+  document.getElementById('successBox').classList.add('show');
+  document.getElementById('successEmail').textContent=checkoutEmail||data.email||'email pembeli';
+  document.getElementById('memberLink').href='/akses?paid=1&email='+encodeURIComponent(checkoutEmail||data.email||'');
+}
+
+function relativeTime(iso){
+  if(!iso)return 'baru saja';
+  const t=new Date(iso).getTime();
+  if(!Number.isFinite(t))return 'baru saja';
+  const sec=Math.max(0,Math.floor((Date.now()-t)/1000));
+  if(sec<60)return 'baru saja';
+  const min=Math.floor(sec/60);
+  if(min<60)return min+' menit lalu';
+  const hr=Math.floor(min/60);
+  if(hr<24)return hr+' jam lalu';
+  const day=Math.floor(hr/24);
+  return day+' hari lalu';
+}
+
+function hideSocialProof(){
+  clearTimeout(socialProofHideTimer);
+  socialProof.classList.remove('show');
+}
+
+function showSocialProof(item){
+  if(!item)return;
+  spName.textContent=(item.display_name||'Member')+' baru bergabung';
+  spMeta.textContent=relativeTime(item.paid_at)+' • BADAI PROMPT UMKM';
+  socialProof.classList.add('show');
+  clearTimeout(socialProofHideTimer);
+  socialProofHideTimer=setTimeout(hideSocialProof,5600);
+}
+
+async function loadSocialProof(){
+  try{
+    const data=await runPayment('/social-proof',{});
+    if(!data.enabled||!Array.isArray(data.items)||!data.items.length)return;
+    const items=data.items.slice(0,8);
+    const interval=Math.min(60,Math.max(10,Number(data.interval_seconds||18)))*1000;
+    let index=0;
+    const shown=new Set();
+    const next=()=>{
+      if(index>=items.length)return;
+      const item=items[index++];
+      const key=(item.display_name||'')+'|'+(item.paid_at||'');
+      if(shown.has(key)){setTimeout(next,300);return}
+      shown.add(key);
+      showSocialProof(item);
+      if(index<items.length)socialProofTimer=setTimeout(next,interval);
+    };
+    socialProofTimer=setTimeout(next,7000);
+  }catch(err){
+    console.warn('Social proof unavailable');
+  }
+}
+
+async function loadPublicConfig(){
+  try{
+    const data=await runPayment('/config',{});
+    currentPrice=Number(data.price||87000);
+    quotedTotal=currentPrice;
+    registrationOpen=data.registration_open!==false;
+    document.getElementById('displayPrice').textContent=rupiah(currentPrice);
+    document.getElementById('checkoutPriceLabel').textContent=rupiah(currentPrice)+' • akses V1';
+    document.getElementById('floatPrice').textContent=rupiah(currentPrice)+' • akses V1';
+    const launchPrice=document.getElementById('igLaunchPrice');
+    if(launchPrice)launchPrice.textContent='Harga setelah diskon: '+rupiah(Math.floor(currentPrice*0.9))+'.';
+    document.querySelectorAll('[onclick="openCheckout()"]').forEach(btn=>{
+      btn.disabled=!registrationOpen;
+      if(!registrationOpen)btn.textContent='PENDAFTARAN DITUTUP';
+    });
+  }catch(err){
+    console.warn('Config fallback aktif');
+  }
+}
+loadPublicConfig();
+loadSocialProof();
+</script>
+</body></html>
