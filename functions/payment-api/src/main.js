@@ -68,20 +68,20 @@ export default async ({req,res,error})=>{
     }catch(e){
       if(Number(e?.code)!==404)throw e;
     }
-    const accountId=q(row?.account_id||process.env.BUATQRIS_ACCOUNT_ID);
-    const secretToken=q(row?.secret_token||process.env.BUATQRIS_SECRET_TOKEN);
+    const accountId=q(row?.account_id);
+    const secretToken=q(row?.secret_token);
     return {
       account_id:accountId,
       secret_token:secretToken,
-      signing_secret:q(row?.signing_secret||process.env.BUATQRIS_SIGNING_SECRET),
-      qris_method:q(row?.qris_method||process.env.BUATQRIS_QRIS_METHOD)||'qris_two',
-      fee_by:q(row?.fee_by||process.env.BUATQRIS_FEE_BY)||'user',
-      umkm_name:q(row?.umkm_name||process.env.BUATQRIS_UMKM_NAME),
-      test_mode:row?row.test_mode!==false:String(process.env.BUATQRIS_TEST_MODE).toLowerCase()==='true',
-      callback_url:q(row?.callback_url||process.env.PAYMENT_CALLBACK_URL)||'https://badaipromptumkm2026.vercel.app/api/buatqris-webhook',
-      api_url:q(row?.api_url||process.env.BUATQRIS_API_URL)||'https://app.buatqris.site/api',
-      is_active:row?row.is_active!==false:true,
-      configured:Boolean(accountId&&secretToken)
+      signing_secret:q(row?.signing_secret),
+      qris_method:q(row?.qris_method)||'qris_two',
+      fee_by:q(row?.fee_by)||'user',
+      umkm_name:q(row?.umkm_name),
+      test_mode:row?row.test_mode!==false:true,
+      callback_url:q(row?.callback_url)||'https://badaipromptumkm2026.vercel.app/api/buatqris-webhook',
+      api_url:q(row?.api_url)||'https://app.buatqris.site/api',
+      is_active:row?row.is_active!==false:false,
+      configured:Boolean(row&&accountId&&secretToken)
     };
   }
 
