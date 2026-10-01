@@ -110,6 +110,14 @@ main{padding:16px}.view{display:none}.view.on{display:block}.eyebrow{font-size:1
       <div class="msg" id="settingsMsg"></div>
     </form>
   </div>
+
+  <div class="panel">
+    <div class="title-row" style="margin-bottom:10px">
+      <div><div class="eyebrow">VOUCHER & DISKON</div><h1 style="font-size:20px;margin:4px 0">Kupon</h1><p>Buat kode launching, reseller, promo grup, atau akses gratis terbatas.</p></div>
+      <button class="btn pink" onclick="openCoupon()">+ KUPON</button>
+    </div>
+    <div class="list two" id="couponList"></div>
+  </div>
 </section>
 </main>
 </div>
@@ -141,6 +149,29 @@ main{padding:16px}.view{display:none}.view.on{display:block}.eyebrow{font-size:1
       <div class="checks"><label><input id="pPublished" type="checkbox" checked> Published</label><label><input id="pFeatured" type="checkbox"> Featured</label></div>
       <div class="sheet-actions"><button class="btn pink" type="submit">SIMPAN PROMPT</button><button class="btn danger" id="deletePromptBtn" type="button" style="display:none">HAPUS</button></div>
       <div class="msg" id="promptMsg"></div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="couponModal">
+  <div class="sheet">
+    <div class="sheet-head"><div><div class="eyebrow">VOUCHER & DISKON</div><h2 id="couponModalTitle">Tambah Kupon</h2></div><button class="btn dark" onclick="closeCoupon()">×</button></div>
+    <form id="couponForm">
+      <input type="hidden" id="cId">
+      <div class="formgrid">
+        <div class="field"><label>KODE KUPON</label><input id="cCode" required placeholder="LAUNCH87"></div>
+        <div class="field"><label>JENIS DISKON</label><select id="cType"><option value="percent">Persen (%)</option><option value="fixed">Potongan Rupiah</option></select></div>
+        <div class="field"><label>NILAI DISKON</label><input id="cValue" type="number" min="1" required placeholder="20"></div>
+        <div class="field"><label>MAKSIMAL POTONGAN</label><input id="cMax" type="number" min="0" value="0"><div class="muted">0 = tanpa batas</div></div>
+        <div class="field"><label>MINIMUM BELANJA</label><input id="cMin" type="number" min="0" value="0"></div>
+        <div class="field"><label>LIMIT PEMAKAIAN</label><input id="cLimit" type="number" min="0" value="0"><div class="muted">0 = tidak dibatasi</div></div>
+        <div class="field"><label>MULAI BERLAKU</label><input id="cStart" type="datetime-local"></div>
+        <div class="field"><label>BERAKHIR</label><input id="cEnd" type="datetime-local"></div>
+        <div class="field full"><label>CATATAN ADMIN</label><textarea id="cNotes" rows="3" placeholder="Contoh: Launching grup WA batch Oktober"></textarea></div>
+      </div>
+      <div class="checks"><label><input id="cActive" type="checkbox" checked> Kupon aktif</label></div>
+      <div class="sheet-actions"><button class="btn pink" type="submit">SIMPAN KUPON</button><button class="btn danger" id="deleteCouponBtn" type="button" style="display:none">HAPUS</button></div>
+      <div class="msg" id="couponMsg"></div>
     </form>
   </div>
 </div>
@@ -204,7 +235,7 @@ const {Client,Account,Functions,ID}=Appwrite;
 const client=new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
 const account=new Account(client), functions=new Functions(client);
 const FUNC='activate-member';
-let me=null,promptRows=[],memberRows=[],allNiches=new Set(),allGoals=new Set();
+let me=null,promptRows=[],memberRows=[],couponRows=[],allNiches=new Set(),allGoals=new Set();
 
 const gate=document.getElementById('gate'),loginMsg=document.getElementById('loginMsg');
 function msg(el,text,type=''){el.textContent=text;el.className='msg '+type}
@@ -268,7 +299,7 @@ document.querySelectorAll('.nav button').forEach(b=>b.onclick=async()=>{
   if(b.dataset.view==='prompts')await loadPrompts();
   if(b.dataset.view==='orders')await loadOrders();
   if(b.dataset.view==='members')await loadMembers();
-  if(b.dataset.view==='settings')await loadSettings();
+  if(b.dataset.view==='settings'){await loadSettings();await loadCoupons();}
 });
 
 function rankHtml(rows,subKey='niche'){
@@ -451,6 +482,66 @@ manualForm.onsubmit=async e=>{
 };
 
 manualModal.onclick=e=>{if(e.target===manualModal)closeManual()};
+
+function couponValueText(c){
+  if(c.discount_type==='percent'){
+    const cap=Number(c.max_discount||0)>0?' • maks '+rupiah(c.max_discount):'';
+    return Number(c.discount_value||0)+'%'+cap;
+  }
+  return rupiah(c.discount_value||0);
+}
+function localDateTimeValue(iso){
+  if(!iso)return '';
+  const d=new Date(iso);
+  if(Number.isNaN(d.getTime()))return '';
+  const pad=n=>String(n).padStart(2,'0');
+  return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes());
+}
+async function loadCoupons(){
+  const d=await api('/coupons/list');
+  couponRows=d.rows||[];
+  couponList.innerHTML=couponRows.length?couponRows.map(c=>{
+    const limit=Number(c.usage_limit||0)>0?Number(c.used_count||0)+' / '+Number(c.usage_limit):Number(c.used_count||0)+' / ∞';
+    let period='Selalu berlaku';
+    if(c.starts_at||c.ends_at)period=(c.starts_at?dt(c.starts_at):'Sekarang')+' → '+(c.ends_at?dt(c.ends_at):'tanpa batas');
+    return '<div class="row"><div class="row-head"><div><h3>'+esc(c.code)+'</h3><div class="muted">'+esc(couponValueText(c))+'</div></div><span class="tag '+(c.is_active?'live':'off')+'">'+(c.is_active?'AKTIF':'NONAKTIF')+'</span></div><div class="tags"><span class="tag">Dipakai '+esc(limit)+'</span><span class="tag">Min '+rupiah(c.min_order||0)+'</span></div><div class="muted">'+esc(period)+(c.notes?'<br>'+esc(c.notes):'')+'</div><div class="row-actions"><button class="btn dark sm" onclick="editCoupon(\''+c.$id+'\')">EDIT</button><button class="btn '+(c.is_active?'danger':'good')+' sm" onclick="toggleCoupon(\''+c.$id+'\','+(!c.is_active)+')">'+(c.is_active?'NONAKTIFKAN':'AKTIFKAN')+'</button></div></div>';
+  }).join(''):'<div class="empty">Belum ada kupon.</div>';
+}
+window.openCoupon=()=>{
+  couponForm.reset();cId.value='';cType.value='percent';cMax.value='0';cMin.value='0';cLimit.value='0';cActive.checked=true;couponModalTitle.textContent='Tambah Kupon';deleteCouponBtn.style.display='none';msg(couponMsg,'');couponModal.classList.add('show');
+};
+window.closeCoupon=()=>couponModal.classList.remove('show');
+couponModal.onclick=e=>{if(e.target===couponModal)closeCoupon()};
+window.editCoupon=id=>{
+  const c=couponRows.find(x=>x.$id===id);if(!c)return;
+  cId.value=c.$id;cCode.value=c.code||'';cType.value=c.discount_type||'percent';cValue.value=c.discount_value||0;cMax.value=c.max_discount||0;cMin.value=c.min_order||0;cLimit.value=c.usage_limit||0;cStart.value=localDateTimeValue(c.starts_at);cEnd.value=localDateTimeValue(c.ends_at);cNotes.value=c.notes||'';cActive.checked=c.is_active!==false;couponModalTitle.textContent='Edit Kupon '+c.code;deleteCouponBtn.style.display='block';msg(couponMsg,'');couponModal.classList.add('show');
+};
+window.toggleCoupon=async(id,is_active)=>{await api('/coupons/toggle',{id,is_active});await loadCoupons()};
+couponForm.onsubmit=async e=>{
+  e.preventDefault();msg(couponMsg,'Menyimpan…');
+  try{
+    await api('/coupons/save',{
+      id:cId.value,
+      code:cCode.value.trim(),
+      discount_type:cType.value,
+      discount_value:Number(cValue.value)||0,
+      max_discount:Number(cMax.value)||0,
+      min_order:Number(cMin.value)||0,
+      usage_limit:Number(cLimit.value)||0,
+      starts_at:cStart.value?new Date(cStart.value).toISOString():'',
+      ends_at:cEnd.value?new Date(cEnd.value).toISOString():'',
+      notes:cNotes.value.trim(),
+      is_active:cActive.checked
+    });
+    msg(couponMsg,'Kupon tersimpan ✓','good');
+    setTimeout(async()=>{closeCoupon();await loadCoupons()},450);
+  }catch(err){msg(couponMsg,err.message||'Gagal menyimpan kupon.','bad')}
+};
+deleteCouponBtn.onclick=async()=>{
+  if(!cId.value||!confirm('Hapus kupon ini permanen?'))return;
+  await api('/coupons/delete',{id:cId.value});
+  closeCoupon();await loadCoupons();
+};
 
 async function loadSettings(){
   const d=await api('/settings/get');setName.value=d.settings.product_name||'BADAI PROMPT UMKM';setPrice.value=d.settings.product_price||'87000';setOpen.checked=String(d.settings.registration_open||'true')==='true';
