@@ -73,7 +73,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.eyebrow{font-size:1
 </section>
 
 <section class="view" id="v-members">
-  <div class="title-row"><div><div class="eyebrow">AKSES</div><h1>Member</h1><p>Aktifkan atau blokir akses member.</p></div></div>
+  <div class="title-row"><div><div class="eyebrow">AKSES</div><h1>Member</h1><p>Aktifkan, blokir, atau daftarkan pembeli manual.</p></div><button class="btn pink" onclick="openManual()">+ DAFTAR MANUAL</button></div>
   <div class="panel"><div class="toolbar"><select id="memberStatus" onchange="loadMembers()"><option value="">Semua status</option><option value="active">active</option><option value="blocked">blocked</option><option value="pending">pending</option></select></div><div class="list" id="memberList"></div></div>
 </section>
 
@@ -119,6 +119,27 @@ main{padding:16px}.view{display:none}.view.on{display:block}.eyebrow{font-size:1
       <div class="checks"><label><input id="pPublished" type="checkbox" checked> Published</label><label><input id="pFeatured" type="checkbox"> Featured</label></div>
       <div class="sheet-actions"><button class="btn pink" type="submit">SIMPAN PROMPT</button><button class="btn danger" id="deletePromptBtn" type="button" style="display:none">HAPUS</button></div>
       <div class="msg" id="promptMsg"></div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="manualModal">
+  <div class="sheet">
+    <div class="sheet-head"><div><div class="eyebrow">PENDAFTARAN MANUAL</div><h2>Tambah Member</h2></div><button class="btn dark" onclick="closeManual()">×</button></div>
+    <p class="muted">Untuk pembeli transfer manual, QRIS bermasalah, akses gratis, atau input dari admin.</p>
+    <form id="manualForm">
+      <div class="formgrid">
+        <div class="field"><label>NAMA LENGKAP</label><input id="mName" required></div>
+        <div class="field"><label>WHATSAPP</label><input id="mWa" inputmode="tel" required placeholder="08xxxxxxxxxx"></div>
+        <div class="field full"><label>EMAIL AKSES</label><input id="mEmail" type="email" required></div>
+        <div class="field"><label>NOMINAL PEMBAYARAN</label><input id="mAmount" inputmode="numeric" value="87000"></div>
+        <div class="field"><label>METODE PEMBAYARAN</label><select id="mMethod"><option value="transfer_bank">Transfer Bank</option><option value="qris_manual">QRIS Manual</option><option value="cash">Cash</option><option value="gratis">Gratis</option><option value="lainnya">Lainnya</option></select></div>
+        <div class="field"><label>STATUS PEMBAYARAN</label><select id="mPayment"><option value="success">Lunas</option><option value="pending">Belum Lunas / Pending</option></select></div>
+        <div class="field"><label>STATUS AKSES</label><select id="mAccess"><option value="active">Aktifkan Sekarang</option><option value="pending">Pending Dulu</option></select></div>
+        <div class="field full"><label>CATATAN (OPSIONAL)</label><textarea id="mNotes" rows="3" placeholder="Contoh: transfer BCA, bonus member lama, dll."></textarea></div>
+      </div>
+      <button class="btn pink" id="manualSubmit" type="submit" style="width:100%;margin-top:12px">SIMPAN & PROSES MEMBER</button>
+      <div class="msg" id="manualMsg"></div>
     </form>
   </div>
 </div>
@@ -223,7 +244,7 @@ deletePromptBtn.onclick=async()=>{if(!pId.value||!confirm('Hapus prompt ini perm
 
 async function loadOrders(){
   const d=await api('/orders/list',{status:orderStatus.value,limit:100});
-  orderList.innerHTML=d.rows.length?d.rows.map(o=>'<div class="row"><div class="order-grid"><div><h3>'+esc(o.full_name)+'</h3><div class="muted">'+esc(o.email)+'<br>'+esc(o.whatsapp||'-')+'<br>'+dt(o.$createdAt)+'</div></div><div><div class="money">'+rupiah(o.total_amount||o.amount)+'</div><div class="status '+esc(o.status)+'">'+esc(o.status)+'</div></div></div><div class="tags"><span class="tag">'+esc(o.transaction_id||'-')+'</span>'+(o.access_issued?'<span class="tag live">AKSES AKTIF</span>':'')+'</div></div>').join(''):'<div class="empty">Belum ada order.</div>';
+  orderList.innerHTML=d.rows.length?d.rows.map(o=>'<div class="row"><div class="order-grid"><div><h3>'+esc(o.full_name)+'</h3><div class="muted">'+esc(o.email)+'<br>'+esc(o.whatsapp||'-')+'<br>'+dt(o.$createdAt)+'</div></div><div><div class="money">'+rupiah(o.total_amount||o.amount)+'</div><div class="status '+esc(o.status)+'">'+esc(o.status)+'</div></div></div><div class="tags"><span class="tag">'+esc(o.transaction_id||'-')+'</span><span class="tag">'+esc(o.payment_method||'qris')+'</span>'+(o.access_issued?'<span class="tag live">AKSES AKTIF</span>':'')+'</div>'+(o.notes?'<div class="muted">Catatan: '+esc(o.notes)+'</div>':'')+'</div>').join(''):'<div class="empty">Belum ada order.</div>';
 }
 
 async function loadMembers(){
@@ -231,6 +252,50 @@ async function loadMembers(){
   memberList.innerHTML=d.rows.length?d.rows.map(m=>'<div class="row"><div class="row-head"><div><h3>'+esc(m.name||m.email)+'</h3><div class="muted">'+esc(m.email||'')+' • '+esc(m.whatsapp||'-')+'</div></div><span class="tag '+(m.status==='active'?'live':m.status==='blocked'?'off':'pend')+'">'+esc(m.status||'pending')+'</span></div><div class="row-actions">'+(m.status==='active'?'<button class="btn danger sm" onclick="setMember(\''+m.user_id+'\',\'blocked\')">BLOKIR</button>':'<button class="btn good sm" onclick="setMember(\''+m.user_id+'\',\'active\')">AKTIFKAN</button>')+'</div></div>').join(''):'<div class="empty">Belum ada member.</div>';
 }
 window.setMember=async(id,status)=>{if(status==='blocked'&&!confirm('Blokir akses member ini?'))return;await api('/members/status',{user_id:id,status});await loadMembers()};
+
+window.openManual=async()=>{
+  manualForm.reset();
+  mPayment.value='success';
+  mAccess.value='active';
+  mMethod.value='transfer_bank';
+  msg(manualMsg,'');
+  try{
+    const d=await api('/settings/get');
+    mAmount.value=d.settings.product_price||'87000';
+  }catch{mAmount.value='87000'}
+  manualModal.classList.add('show');
+};
+window.closeManual=()=>manualModal.classList.remove('show');
+
+manualForm.onsubmit=async e=>{
+  e.preventDefault();
+  const b=document.getElementById('manualSubmit');
+  b.disabled=true;b.textContent='MEMPROSES…';msg(manualMsg,'Membuat akun dan mencatat transaksi…');
+  try{
+    const d=await api('/members/manual-create',{
+      name:mName.value.trim(),
+      email:mEmail.value.trim(),
+      whatsapp:mWa.value.trim(),
+      amount:Number(mAmount.value)||0,
+      payment_method:mMethod.value,
+      payment_status:mPayment.value,
+      access_status:mAccess.value,
+      notes:mNotes.value.trim()
+    });
+    msg(manualMsg,(d.access_status==='active'?'Member aktif ✓':'Member tersimpan sebagai pending ✓')+' — '+(d.payment_status==='success'?'pembayaran lunas':'pembayaran pending'),'good');
+    setTimeout(async()=>{
+      closeManual();
+      await loadMembers();
+      await loadDashboard();
+    },700);
+  }catch(err){
+    msg(manualMsg,err.message||'Gagal mendaftarkan member.','bad');
+  }finally{
+    b.disabled=false;b.textContent='SIMPAN & PROSES MEMBER';
+  }
+};
+
+manualModal.onclick=e=>{if(e.target===manualModal)closeManual()};
 
 async function loadSettings(){
   const d=await api('/settings/get');setName.value=d.settings.product_name||'BADAI PROMPT UMKM';setPrice.value=d.settings.product_price||'87000';setOpen.checked=String(d.settings.registration_open||'true')==='true';
