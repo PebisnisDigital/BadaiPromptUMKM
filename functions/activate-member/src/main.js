@@ -8,6 +8,7 @@ const SETTINGS='settings';
 const FAVORITES='favorites';
 const HISTORY='prompt_history';
 const EVENTS='prompt_usage_events';
+const COUPONS='coupons';
 const TEAM_ID=process.env.PAID_TEAM_ID || 'paid-members';
 
 const unpack=(row)=>({...((row&&row.data)||row||{}),$id:row?.$id||row?.data?.$id,$createdAt:row?.$createdAt,$updatedAt:row?.$updatedAt});
@@ -432,6 +433,84 @@ export default async ({req,res,log,error})=>{
           await teams.createMembership({teamId:TEAM_ID,roles:['member'],userId});
         }
         return res.json({ok:true,row:unpack(profile)});
+      }
+
+      if(route==='/coupons/list'){
+        const rows=await listAll(tables,COUPONS,[Query.orderDesc('$createdAt')]);
+        return res.json({ok:true,rows});
+      }
+
+      if(route==='/coupons/save'){
+        const id=q(body.id);
+        const code=q(body.code).toUpperCase().replace(/\s+/g,'');
+        const discountType=body.discount_type==='fixed'?'fixed':'percent';
+        const discountValue=Math.max(Number(body.discount_value)||0,0);
+        const minOrder=Math.max(Number(body.min_order)||0,0);
+        const maxDiscount=Math.max(Number(body.max_discount)||0,0);
+        const usageLimit=Math.max(Number(body.usage_limit)||0,0);
+        const isActive=body.is_active!==false;
+
+        if(!code||!/^[A-Z0-9_-]{2,64}$/.test(code)){
+          return res.json({error:'Kode kupon hanya boleh huruf, angka, garis bawah, atau strip.'},400);
+        }
+        if(discountValue<=0)return res.json({error:'Nilai diskon harus lebih dari 0.'},400);
+        if(discountType==='percent'&&discountValue>100){
+          return res.json({error:'Diskon persen maksimal 100%.'},400);
+        }
+
+        const toIso=(value)=>{
+          if(!q(value))return null;
+          const d=new Date(q(value));
+          if(Number.isNaN(d.getTime()))throw new Error('Tanggal kupon tidak valid.');
+          return d.toISOString();
+        };
+
+        const data={
+          code,
+          discount_type:discountType,
+          discount_value:discountValue,
+          is_active:isActive,
+          min_order:minOrder,
+          max_discount:maxDiscount,
+          usage_limit:usageLimit,
+          starts_at:toIso(body.starts_at),
+          ends_at:toIso(body.ends_at),
+          notes:q(body.notes)||null
+        };
+
+        if(data.starts_at&&data.ends_at&&new Date(data.ends_at)<=new Date(data.starts_at)){
+          return res.json({error:'Tanggal berakhir harus setelah tanggal mulai.'},400);
+        }
+
+        try{
+          let row;
+          if(id){
+            row=await tables.updateRow({databaseId:DB,tableId:COUPONS,rowId:id,data});
+          }else{
+            row=await tables.createRow({databaseId:DB,tableId:COUPONS,rowId:ID.unique(),data:{...data,used_count:0}});
+          }
+          return res.json({ok:true,row:unpack(row)});
+        }catch(e){
+          if(Number(e?.code)===409)return res.json({error:'Kode kupon sudah dipakai. Gunakan kode lain.'},409);
+          throw e;
+        }
+      }
+
+      if(route==='/coupons/toggle'){
+        const id=q(body.id);
+        if(!id)return res.json({error:'id wajib'},400);
+        const row=await tables.updateRow({
+          databaseId:DB,tableId:COUPONS,rowId:id,
+          data:{is_active:body.is_active===true}
+        });
+        return res.json({ok:true,row:unpack(row)});
+      }
+
+      if(route==='/coupons/delete'){
+        const id=q(body.id);
+        if(!id)return res.json({error:'id wajib'},400);
+        await tables.deleteRow({databaseId:DB,tableId:COUPONS,rowId:id});
+        return res.json({ok:true});
       }
 
       if(route==='/settings/get'){
