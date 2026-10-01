@@ -765,6 +765,147 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   .bpu-solution-punch b{font-size:21px}
 }
 </style>
+
+<style id="bpu-niche-tabs-style">
+.bpu-niche-tabs{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:7px;
+  margin-top:24px;
+}
+.bpu-niche-tab{
+  appearance:none;
+  border:1px solid #2c2c30;
+  border-radius:999px;
+  background:#101011;
+  color:#bdbdc1;
+  padding:10px 13px;
+  font:850 9px var(--font-roboto);
+  cursor:pointer;
+  transition:.22s ease;
+}
+.bpu-niche-tab:hover{
+  border-color:#5c3047;
+  color:#fff;
+  transform:translateY(-1px);
+}
+.bpu-niche-tab.on{
+  color:#fff;
+  border-color:var(--bpu-pink);
+  background:linear-gradient(145deg,#ff4fa3,#d92d80);
+  box-shadow:0 8px 22px rgba(255,79,163,.14);
+}
+.bpu-niche-showcase{
+  margin-top:18px;
+  padding:14px;
+  border-radius:24px;
+  border:1px solid #29292d;
+  background:#0c0c0d;
+}
+.bpu-niche-showcase-head{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:12px;
+  padding:7px 5px 14px;
+  text-align:left;
+}
+.bpu-niche-showcase-head small{
+  display:block;
+  color:#747479;
+  font:900 6.5px var(--font-sf);
+  letter-spacing:.15em;
+}
+.bpu-niche-showcase-head b{
+  display:block;
+  margin-top:4px;
+  color:#fff;
+  font:950 21px var(--font-sf);
+}
+.bpu-niche-showcase-head>span{
+  flex:0 0 auto;
+  padding:7px 9px;
+  border-radius:999px;
+  background:#211019;
+  color:var(--bpu-pink2);
+  font:900 7px var(--font-sf);
+  letter-spacing:.08em;
+}
+.bpu-niche-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+.bpu-niche-card{
+  position:relative;
+  aspect-ratio:1/1.08;
+  overflow:hidden;
+  border-radius:18px;
+  border:1px solid #28282c;
+  background:#151516;
+  opacity:0;
+  transform:translateY(8px) scale(.985);
+  animation:bpuNicheIn .38s ease forwards;
+}
+@keyframes bpuNicheIn{
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+.bpu-niche-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .45s ease,filter .45s ease;
+}
+.bpu-niche-card:hover img{
+  transform:scale(1.045);
+  filter:saturate(1.06);
+}
+.bpu-niche-card:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.82),transparent 48%);
+  pointer-events:none;
+}
+.bpu-niche-card-copy{
+  position:absolute;
+  z-index:2;
+  left:12px;
+  right:12px;
+  bottom:11px;
+  text-align:left;
+}
+.bpu-niche-card-copy small{
+  color:#ff8bc6;
+  font:900 6.5px var(--font-sf);
+  letter-spacing:.12em;
+}
+.bpu-niche-card-copy b{
+  display:block;
+  margin-top:4px;
+  color:#fff;
+  font:900 13px/1.06 var(--font-sf);
+}
+.bpu-niche-card-copy p{
+  margin:4px 0 0;
+  color:#c0c0c4;
+  font-size:7px;
+  line-height:1.4;
+}
+@media(max-width:520px){
+  .bpu-niche-tabs{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;scrollbar-width:none}
+  .bpu-niche-tabs::-webkit-scrollbar{display:none}
+  .bpu-niche-tab{flex:0 0 auto}
+  .bpu-niche-showcase{padding:10px}
+  .bpu-niche-grid{gap:6px}
+  .bpu-niche-card{border-radius:15px}
+  .bpu-niche-card-copy{left:9px;right:9px;bottom:8px}
+  .bpu-niche-card-copy b{font-size:11px}
+  .bpu-niche-card-copy p{display:none}
+}
+</style>
 </head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
@@ -1071,8 +1212,30 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   <div class="bpu-container">
     <div class="bpu-kicker reveal2">BUKAN PROMPT GENERIK</div>
     <h2 class="reveal2">Disesuaikan dengan<br><span>Jenis Daganganmu.</span></h2>
-    <div class="bpu-pills reveal2">
-      <span>🍜 Kuliner</span><span>👗 Fashion</span><span>💄 Beauty</span><span>🛍️ Reseller</span><span>💼 Jasa</span><span>🏠 Properti</span><span>🎓 Pendidikan</span><span>🚗 Otomotif</span><span>🎁 Hampers</span><span>📦 Retail</span>
+    <p class="bpu-lead reveal2">Klik niche usahamu. Lihat contoh visual yang bisa dibuat dengan prompt yang memang diarahkan untuk kebutuhan jualan niche itu.</p>
+
+    <div class="bpu-niche-tabs reveal2" id="bpuNicheTabs" role="tablist" aria-label="Pilih niche usaha">
+      <button class="bpu-niche-tab on" type="button" data-niche="Kuliner" role="tab" aria-selected="true">🍜 Kuliner</button>
+      <button class="bpu-niche-tab" type="button" data-niche="Fashion" role="tab" aria-selected="false">👗 Fashion</button>
+      <button class="bpu-niche-tab" type="button" data-niche="Beauty" role="tab" aria-selected="false">💄 Beauty</button>
+      <button class="bpu-niche-tab" type="button" data-niche="Reseller" role="tab" aria-selected="false">🛍️ Reseller</button>
+      <button class="bpu-niche-tab" type="button" data-niche="Jasa" role="tab" aria-selected="false">💼 Jasa</button>
+      <button class="bpu-niche-tab" type="button" data-niche="Properti" role="tab" aria-selected="false">🏠 Properti</button>
+      <button class="bpu-niche-tab" type="button" data-niche="Pendidikan" role="tab" aria-selected="false">🎓 Pendidikan</button>
+      <button class="bpu-niche-tab" type="button" data-niche="Otomotif" role="tab" aria-selected="false">🚗 Otomotif</button>
+      <button class="bpu-niche-tab" type="button" data-niche="Hampers" role="tab" aria-selected="false">🎁 Hampers</button>
+      <button class="bpu-niche-tab" type="button" data-niche="Retail" role="tab" aria-selected="false">📦 Retail</button>
+    </div>
+
+    <div class="bpu-niche-showcase reveal2">
+      <div class="bpu-niche-showcase-head">
+        <div>
+          <small>CONTOH HASIL BADAI PROMPT UMKM</small>
+          <b id="bpuNicheTitle">Kuliner</b>
+        </div>
+        <span id="bpuNicheCount">10 CONTOH</span>
+      </div>
+      <div class="bpu-niche-grid" id="bpuNicheGrid" role="tabpanel" aria-live="polite"></div>
     </div>
   </div>
 </section>
@@ -1659,6 +1822,80 @@ loadSocialProof();
 
   render();
   requestAnimationFrame(frame);
+})();
+</script>
+
+
+<script id="bpu-niche-tabs-script">
+(function(){
+  const tabsWrap=document.getElementById('bpuNicheTabs');
+  const grid=document.getElementById('bpuNicheGrid');
+  const title=document.getElementById('bpuNicheTitle');
+  if(!tabsWrap||!grid||!title)return;
+
+  const assets=[
+    '/assets/dummy/01-promo-kuliner.png',
+    '/assets/dummy/03-foto-produk.png',
+    '/assets/dummy/04-video-jualan.png',
+    '/assets/dummy/05-fashion-umkm.png',
+    '/assets/dummy/06-ide-promo.png',
+    '/assets/dummy/02-follow-up-whatsapp.png'
+  ];
+
+  const labels={
+    Kuliner:['Foto Menu','Poster Promo','Hero Marketplace','Konten Reels','Bundling Menu','Foto Lifestyle','Promo Musiman','Menu Baru','Iklan Produk','Katalog'],
+    Fashion:['Lookbook','Launching Koleksi','Foto Model','Promo Diskon','Katalog Outfit','Hero Marketplace','Campaign','Detail Produk','Konten Reels','Poster Promo'],
+    Beauty:['Hero Skincare','Foto Studio','Before After','Campaign Beauty','Poster Promo','Katalog','UGC Style','Lifestyle Shot','Bundle Promo','Konten Edukasi'],
+    Reseller:['Poster Jualan','Video Hook','Bundling','Hero Produk','Promo Flash Sale','Katalog','Konten Harian','Broadcast Visual','Closing Offer','Campaign'],
+    Jasa:['Poster Penawaran','Profil Jasa','Konten Edukasi','Testimoni','Paket Harga','Promo Jasa','Lead Magnet','Hero Service','Follow-up Visual','Campaign'],
+    Properti:['Hero Listing','Poster Rumah','Open House','Promo DP','Konten Area','Listing Premium','Video Tour','Unit Baru','Katalog Properti','Follow-up'],
+    Pendidikan:['Poster Kelas','Promo Webinar','Kelas Baru','Konten Edukasi','Testimoni Murid','Jadwal Kelas','Lead Magnet','Campaign','Hero Course','Promo Daftar'],
+    Otomotif:['Hero Mobil','Promo Bengkel','Foto Detail','Poster Motor','Paket Servis','Campaign','Aksesoris','Video Produk','Promo Cicilan','Listing'],
+    Hampers:['Hero Hampers','Promo Lebaran','Gift Set','Katalog','Packaging','Seasonal Campaign','Bundle','Foto Lifestyle','Promo Corporate','Poster'],
+    Retail:['Hero Produk','Promo Harian','Katalog','Diskon','Bundle','Marketplace','Flash Sale','Produk Baru','Konten Sosmed','Poster']
+  };
+
+  const descriptions={
+    Kuliner:'Contoh visual jualan makanan/minuman',
+    Fashion:'Contoh visual jualan fashion',
+    Beauty:'Contoh visual produk beauty',
+    Reseller:'Contoh materi jualan reseller',
+    Jasa:'Contoh materi penawaran jasa',
+    Properti:'Contoh materi listing properti',
+    Pendidikan:'Contoh materi promosi edukasi',
+    Otomotif:'Contoh materi jualan otomotif',
+    Hampers:'Contoh visual hampers & gift',
+    Retail:'Contoh materi promosi retail'
+  };
+
+  function render(niche){
+    const items=labels[niche]||labels.Kuliner;
+    title.textContent=niche;
+    grid.innerHTML=items.map((label,i)=>{
+      const img=assets[(i+(Object.keys(labels).indexOf(niche)*2))%assets.length];
+      return '<article class="bpu-niche-card" style="animation-delay:'+(i*.035)+'s">'+
+        '<img src="'+img+'" alt="Contoh '+label+' untuk niche '+niche+'">'+
+        '<div class="bpu-niche-card-copy">'+
+          '<small>CONTOH '+String(i+1).padStart(2,'0')+'</small>'+
+          '<b>'+label+'</b>'+
+          '<p>'+descriptions[niche]+'</p>'+
+        '</div>'+
+      '</article>';
+    }).join('');
+  }
+
+  tabsWrap.addEventListener('click',e=>{
+    const btn=e.target.closest('.bpu-niche-tab');
+    if(!btn)return;
+    tabsWrap.querySelectorAll('.bpu-niche-tab').forEach(tab=>{
+      const on=tab===btn;
+      tab.classList.toggle('on',on);
+      tab.setAttribute('aria-selected',on?'true':'false');
+    });
+    render(btn.dataset.niche);
+  });
+
+  render('Kuliner');
 })();
 </script>
 
