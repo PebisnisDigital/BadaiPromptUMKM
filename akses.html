@@ -15,7 +15,7 @@ header{position:sticky;top:0;z-index:20;display:flex;justify-content:space-betwe
 .btn{border:0;border-radius:13px;padding:11px 13px;font-weight:900;cursor:pointer}.pink{background:var(--pink);color:#fff}.dark{background:#1b1b1b;color:#fff;border:1px solid #333}.ghost{background:transparent;color:#aaa;border:1px solid #333}
 main{padding:16px}.hero{background:linear-gradient(145deg,#121212,#0b0b0b);border:1px solid #292929;border-radius:23px;padding:18px;box-shadow:var(--shadow)}
 .eyebrow{font-size:10px;color:var(--pink2);font-weight:900;letter-spacing:1px}.hero h1{font-size:31px;line-height:1;margin:8px 0}.hero p{color:#aaa;line-height:1.55;margin:8px 0 0}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:14px}.step-pill{background:#0a0a0a;border:1px solid #252525;border-radius:12px;padding:9px}.step-pill b{display:block;font-size:11px}.step-pill span{display:block;color:#777;font-size:8px;margin-top:3px}.step-pill.done{border-color:#513046;background:#170e14}.step-pill.done b{color:var(--pink2)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}.stat{background:#0b0b0b;border:1px solid #252525;border-radius:14px;padding:11px}.stat b{display:block;font-size:18px}.stat small{color:#777;font-size:9px}
+.emergency{margin-top:14px;border:1px solid #5a2038;background:linear-gradient(135deg,#1d0c14,#10090d);border-radius:17px;padding:13px;position:relative;overflow:hidden}.emergency:after{content:'!';position:absolute;right:8px;top:-18px;font-size:88px;font-weight:1000;color:rgba(255,45,141,.08)}.emergency-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.emergency h3{font-size:14px;margin:0}.emergency p{font-size:9px;margin:4px 0 0;color:#9a8490}.emergency .btn{position:relative;z-index:1;white-space:nowrap}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}.stat{background:#0b0b0b;border:1px solid #252525;border-radius:14px;padding:11px}.stat b{display:block;font-size:18px}.stat small{color:#777;font-size:9px}
 .search-wrap{margin-top:14px}.search-label{display:block;color:#777;font-size:9px;margin:0 0 6px 2px}.search{width:100%;background:#0a0a0a;border:1px solid #333;color:#fff;border-radius:14px;padding:14px;outline:none}.search:focus{border-color:var(--pink)}
 .choicebar{display:none;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding:11px 12px;border:1px solid #392735;background:#120d11;border-radius:14px}.choicebar.show{display:flex}.choicebar .chosen{font-size:10px;color:#aaa;line-height:1.45}.choicebar .chosen b{color:#fff}.choicebar button{white-space:nowrap}.sec{margin-top:24px;scroll-margin-top:78px}.sec-head{display:flex;justify-content:space-between;align-items:end;gap:10px}.sec-title{display:flex;align-items:center;gap:8px}.num{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:#1b1016;border:1px solid #503044;color:var(--pink2);font-size:11px;font-weight:900}.sec h2{font-size:17px;margin:0}.sec small{color:#777}.section-note{font-size:10px;color:#7f7f7f;line-height:1.45;margin:7px 0 10px}
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.chip{background:#111;border:1px solid #2b2b2b;color:#fff;border-radius:14px;padding:12px;text-align:left;cursor:pointer;min-height:58px;transition:.16s ease}.chip:active{transform:scale(.985)}.chip.on{border-color:var(--pink);background:#1b1016;box-shadow:inset 0 0 0 1px rgba(255,45,141,.15)}.chip span{display:block;color:#777;font-size:9px;margin-top:3px}
@@ -24,7 +24,7 @@ main{padding:16px}.hero{background:linear-gradient(145deg,#121212,#0b0b0b);borde
 .empty{border:1px dashed #333;border-radius:18px;padding:25px;text-align:center;color:#888}.more{width:100%;margin-top:10px}
 .nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,720px);z-index:18;background:rgba(8,8,8,.96);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:9px 8px 10px;backdrop-filter:blur(14px)}.nav button{background:none;border:0;color:#888;font-size:10px}.nav button.active{color:var(--pink2)}.nav b{display:block;font-size:16px;margin-bottom:2px}
 .gate{position:fixed;inset:0;z-index:60;background:radial-gradient(circle at 80% 0,rgba(255,45,141,.24),transparent 30%),#070707;display:flex;align-items:center;justify-content:center;padding:20px}.gate.hide{display:none}.login{width:min(100%,410px);background:#0e0e0e;border:1px solid #2e2e2e;border-radius:24px;padding:20px;box-shadow:var(--shadow)}.login .logo{font-size:22px;font-weight:1000}.login .logo b{color:var(--pink)}.login h1{font-size:25px;margin:18px 0 6px}.login p{color:#999;font-size:12px;line-height:1.55}.field{margin-top:10px}.field label{display:block;font-size:10px;color:#999;margin-bottom:5px}.field input,.field textarea{width:100%;background:#080808;border:1px solid #303030;color:#fff;border-radius:13px;padding:13px;outline:none}.field .hint{font-size:9px;color:#6f6f6f;margin-top:5px;line-height:1.4}.field input:focus,.field textarea:focus{border-color:var(--pink)}.msg{min-height:18px;font-size:10px;margin-top:10px;color:#aaa}.msg.bad{color:var(--danger)}.msg.good{color:var(--green)}.login .btn{width:100%;margin-top:8px}
-.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.8);display:none;align-items:flex-end;justify-content:center}.modal.show{display:flex}.sheet{width:min(100%,720px);max-height:92vh;overflow:auto;background:#101010;border:1px solid #303030;border-radius:24px 24px 0 0;padding:18px}.close{float:right}.sheet h2{font-size:20px;margin:3px 0 4px}.sheet .sub{font-size:10px;color:#888;margin-bottom:14px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.field.full{grid-column:1/-1}.builder-guide{background:#0c0c0c;border:1px solid #2b2b2b;border-radius:14px;padding:11px;margin:11px 0;color:#929292;font-size:10px;line-height:1.5}.builder-guide b{color:#fff}.out-label{display:none;margin-top:13px;font-size:10px;color:var(--pink2);font-weight:900;letter-spacing:.5px}.out-label.show{display:block}.out{display:none;white-space:pre-wrap;background:#080808;border:1px solid #292929;border-radius:14px;padding:13px;font:11px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;max-height:300px;overflow:auto;margin-top:7px}.out.show{display:block}.sheet-actions{display:flex;gap:8px;margin-top:10px}.sheet-actions .pink{flex:1}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.8);display:none;align-items:flex-end;justify-content:center}.emergency-sheet{background:linear-gradient(180deg,#160c12,#101010)}.emergency-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.emergency-option{background:#111;border:1px solid #3b2831;border-radius:14px;color:#fff;padding:12px;text-align:left;cursor:pointer;min-height:75px}.emergency-option b{display:block;font-size:12px}.emergency-option span{display:block;font-size:9px;color:#8d8d8d;margin-top:5px;line-height:1.35}.emergency-option.on{border-color:var(--pink);background:#1a0e14}.emergency-business{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.emergency-business button{background:#0d0d0d;border:1px solid #303030;color:#fff;border-radius:12px;padding:9px;text-align:left;font-size:10px}.emergency-business button.on{border-color:var(--pink);background:#1b1016}.emergency-results{display:grid;gap:8px;margin-top:12px}.emergency-result{background:#0b0b0b;border:1px solid #3b2a32;border-radius:14px;padding:12px}.emergency-result h3{font-size:13px;margin:6px 0}.emergency-result p{font-size:9px;color:#8c8c8c;line-height:1.45;margin:0}.rank{font-size:8px;font-weight:900;color:var(--pink2)}.modal.show{display:flex}.sheet{width:min(100%,720px);max-height:92vh;overflow:auto;background:#101010;border:1px solid #303030;border-radius:24px 24px 0 0;padding:18px}.close{float:right}.sheet h2{font-size:20px;margin:3px 0 4px}.sheet .sub{font-size:10px;color:#888;margin-bottom:14px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.field.full{grid-column:1/-1}.builder-guide{background:#0c0c0c;border:1px solid #2b2b2b;border-radius:14px;padding:11px;margin:11px 0;color:#929292;font-size:10px;line-height:1.5}.builder-guide b{color:#fff}.out-label{display:none;margin-top:13px;font-size:10px;color:var(--pink2);font-weight:900;letter-spacing:.5px}.out-label.show{display:block}.out{display:none;white-space:pre-wrap;background:#080808;border:1px solid #292929;border-radius:14px;padding:13px;font:11px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;max-height:300px;overflow:auto;margin-top:7px}.out.show{display:block}.sheet-actions{display:flex;gap:8px;margin-top:10px}.sheet-actions .pink{flex:1}
 .loading{position:fixed;inset:0;z-index:45;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center}.loading.show{display:flex}.loaderbox{background:#111;border:1px solid #333;border-radius:16px;padding:16px 20px;color:#bbb;font-size:12px}
 @media(min-width:600px){.grid{grid-template-columns:repeat(5,1fr)}.user-chip{display:block}.cards{grid-template-columns:1fr 1fr}}
 </style>
@@ -61,6 +61,13 @@ main{padding:16px}.hero{background:linear-gradient(145deg,#121212,#0b0b0b);borde
     <div class="step-pill" id="step1"><b>1. Bisnis</b><span>Pilih jualannya</span></div>
     <div class="step-pill" id="step2"><b>2. Kebutuhan</b><span>Pilih masalahnya</span></div>
     <div class="step-pill" id="step3"><b>3. Pakai</b><span>Isi & salin prompt</span></div>
+  </div>
+
+  <div class="emergency">
+    <div class="emergency-head">
+      <div><h3>🚨 MODE DARURAT</h3><p>Butuh ide jualan cepat? Ambil 3 prompt paling relevan.</p></div>
+      <button class="btn pink" onclick="openEmergency()">BUTUH JUALAN SEKARANG</button>
+    </div>
   </div>
 
   <div class="search-wrap">
@@ -107,6 +114,31 @@ main{padding:16px}.hero{background:linear-gradient(145deg,#121212,#0b0b0b);borde
   <button onclick="document.getElementById('search').focus()"><b>⌕</b>Prompt</button>
   <button onclick="showFavorites()"><b>★</b>Favorit</button>
   <button onclick="openAccount()"><b>☻</b>Akun</button>
+</div>
+
+<div class="modal" id="emergencyModal">
+  <div class="sheet emergency-sheet">
+    <button class="btn dark close" id="closeEmergency">×</button>
+    <div class="eyebrow">🚨 MODE DARURAT</div>
+    <h2>Butuh jualan sekarang?</h2>
+    <div class="sub">Pilih bisnis dan kondisi paling mendesak. Aku kasih 3 prompt yang bisa langsung dipakai.</div>
+
+    <div id="emergencyBusinessStep">
+      <div class="builder-guide"><b>1. Bisnis kamu apa?</b><br>Kalau tadi sudah memilih bisnis, pilihan itu otomatis dipakai.</div>
+      <div class="emergency-business" id="emergencyBusiness"></div>
+    </div>
+
+    <div id="emergencyProblemStep">
+      <div class="builder-guide"><b>2. Lagi kejadian apa?</b><br>Pilih yang paling dekat dengan kondisi hari ini.</div>
+      <div class="emergency-options" id="emergencyOptions"></div>
+    </div>
+
+    <div id="emergencyResultWrap" style="display:none">
+      <div class="builder-guide"><b>3 prompt tercepat buat dicoba.</b><br>Nggak perlu buka semuanya. Mulai dari nomor 1.</div>
+      <div class="emergency-results" id="emergencyResults"></div>
+      <button class="btn ghost" style="width:100%;margin-top:10px" onclick="resetEmergency()">GANTI KONDISI</button>
+    </div>
+  </div>
 </div>
 
 <div class="modal" id="accountModal">
@@ -160,12 +192,20 @@ const DB='badai_prompt_umkm', TABLE='prompts';
 const gate=document.getElementById('gate'), loading=document.getElementById('loading'), loginMsg=document.getElementById('loginMsg');
 const nicheGrid=document.getElementById('nicheGrid'), goalScroll=document.getElementById('goalScroll'), cards=document.getElementById('cards');
 const search=document.getElementById('search'), modal=document.getElementById('modal');
-let all=[], filtered=[], selectedNiche='', selectedGoal='', pageSize=24, shown=24, current=null, currentUser=null, favorites=new Set(), favoriteRows=new Map(), currentProfile=null;
+let all=[], filtered=[], selectedNiche='', selectedGoal='', pageSize=24, shown=24, current=null, currentUser=null, favorites=new Set(), favoriteRows=new Map(), currentProfile=null, emergencyNiche='', emergencyMode='';
 
 const icons={
  'Kuliner & Minuman':'🍜','Fashion & Hijab':'👗','Beauty & Perawatan':'💄','Jasa Lokal':'🛠️','Pendidikan & Kursus':'🎓',
  'Properti & Hunian':'🏠','Otomotif & Kendaraan':'🏍️','Kerajinan, Hampers & Souvenir':'🎁','Retail Harian & Toko':'🛒','Event, Wedding & Kreatif':'🎉'
 };
+const emergencyModes=[
+  {id:'sepi',icon:'📉',title:'Sepi Order',desc:'Hari ini order seret dan butuh gerakan cepat.',goals:['Sepi Order','Promo Hari Ini'],types:['Strategi Penawaran','WhatsApp / DM','Copy / Caption']},
+  {id:'uang',icon:'💸',title:'Butuh Penjualan Hari Ini',desc:'Butuh penawaran yang cepat dipakai hari ini.',goals:['Promo Hari Ini','Sepi Order','Bundling & Upsell'],types:['Strategi Penawaran','WhatsApp / DM','Copy / Caption']},
+  {id:'broadcast',icon:'📲',title:'Mau Broadcast WA',desc:'Mau kirim penawaran ke kontak WhatsApp.',goals:['Broadcast WhatsApp','Promo Hari Ini'],types:['WhatsApp / DM','Strategi Penawaran','Copy / Caption']},
+  {id:'followup',icon:'💬',title:'Calon Pembeli Belum Closing',desc:'Sudah tanya-tanya tapi belum transfer.',goals:['Follow-up Calon Pembeli','Bundling & Upsell'],types:['WhatsApp / DM','Strategi Penawaran','Copy / Caption']},
+  {id:'repeat',icon:'🔁',title:'Cari Repeat Order',desc:'Ajak pembeli lama beli lagi tanpa maksa.',goals:['Repeat Order & Testimoni','Bundling & Upsell'],types:['WhatsApp / DM','Strategi Penawaran','Copy / Caption']},
+  {id:'konten',icon:'🎥',title:'Butuh Konten Jualan Cepat',desc:'Mau posting sekarang tapi bingung bikin konten.',goals:['Video Jualan','Caption & Storytelling','Foto Produk / Visual'],types:['Script Video Pendek','Copy / Caption','Prompt Visual / Gambar']}
+];
 
 function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function normalizeRow(r){const d=r.data||r; return {...d,$id:r.$id||d.$id}}
@@ -232,6 +272,94 @@ document.getElementById('loginForm').addEventListener('submit',async e=>{
   }
 });
 
+
+function emergencyScore(p,mode){
+  let score=0;
+  const gi=mode.goals.indexOf(p.goal);
+  if(gi>=0)score+=100-(gi*15);
+  const ti=mode.types.indexOf(p.output_type);
+  if(ti>=0)score+=35-(ti*6);
+  if(p.is_featured)score+=8;
+  if(emergencyNiche&&p.niche===emergencyNiche)score+=50;
+  return score;
+}
+
+window.openEmergency=()=>{
+  emergencyNiche=selectedNiche||'';
+  emergencyMode='';
+  emergencyResultWrap.style.display='none';
+  emergencyBusinessStep.style.display='block';
+  emergencyProblemStep.style.display='block';
+
+  const niches=[...new Set(all.map(x=>x.niche))];
+  emergencyBusiness.innerHTML=niches.map(n=>'<button class="'+(emergencyNiche===n?'on':'')+'" data-em-niche="'+esc(n)+'">'+(icons[n]||'🏪')+' '+esc(n)+'</button>').join('');
+  emergencyBusiness.querySelectorAll('[data-em-niche]').forEach(b=>b.onclick=()=>{
+    emergencyNiche=b.dataset.emNiche;
+    emergencyBusiness.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+  });
+
+  emergencyOptions.innerHTML=emergencyModes.map(m=>'<button class="emergency-option" data-em-mode="'+m.id+'"><b>'+m.icon+' '+esc(m.title)+'</b><span>'+esc(m.desc)+'</span></button>').join('');
+  emergencyOptions.querySelectorAll('[data-em-mode]').forEach(b=>b.onclick=()=>{
+    emergencyMode=b.dataset.emMode;
+    emergencyOptions.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+    runEmergency();
+  });
+  emergencyModal.classList.add('show');
+};
+
+function runEmergency(){
+  if(!emergencyNiche){
+    alert('Pilih jenis bisnis dulu ya, biar prompt daruratnya tepat sasaran.');
+    return;
+  }
+  const mode=emergencyModes.find(m=>m.id===emergencyMode);
+  if(!mode)return;
+
+  const candidates=all
+    .filter(p=>p.niche===emergencyNiche && mode.goals.includes(p.goal))
+    .map(p=>({...p,_score:emergencyScore(p,mode)}))
+    .sort((a,b)=>b._score-a._score || Number(a.sort_order||0)-Number(b.sort_order||0));
+
+  const picked=[];
+  const usedTypes=new Set();
+  for(const p of candidates){
+    if(picked.length>=3)break;
+    if(!usedTypes.has(p.output_type)){picked.push(p);usedTypes.add(p.output_type)}
+  }
+  for(const p of candidates){
+    if(picked.length>=3)break;
+    if(!picked.some(x=>x.$id===p.$id))picked.push(p);
+  }
+
+  emergencyBusinessStep.style.display='none';
+  emergencyProblemStep.style.display='none';
+  emergencyResultWrap.style.display='block';
+
+  if(!picked.length){
+    emergencyResults.innerHTML='<div class="empty">Belum ketemu prompt yang pas untuk kondisi ini. Coba kondisi darurat lain.</div>';
+    return;
+  }
+
+  emergencyResults.innerHTML=picked.map((p,i)=>'<article class="emergency-result"><div class="rank">REKOMENDASI #'+(i+1)+'</div><div class="meta" style="margin-top:5px"><span class="tag pinktag">'+esc(p.output_type)+'</span><span class="tag">'+esc(p.goal)+'</span></div><h3>'+esc(p.title)+'</h3><p>'+esc(String(p.prompt_text||'').slice(0,170))+(String(p.prompt_text||'').length>170?'…':'')+'</p><button class="btn pink" style="width:100%;margin-top:10px" data-em-use="'+esc(p.$id)+'">'+(i===0?'PAKAI INI SEKARANG':'PAKAI PROMPT INI')+'</button></article>').join('');
+  emergencyResults.querySelectorAll('[data-em-use]').forEach(b=>b.onclick=()=>{
+    emergencyModal.classList.remove('show');
+    selectedNiche=emergencyNiche;
+    const p=all.find(x=>x.$id===b.dataset.emUse);
+    if(p)selectedGoal=p.goal;
+    renderFilters();applyFilters();
+    openBuilder(b.dataset.emUse);
+  });
+}
+
+window.resetEmergency=()=>{
+  emergencyMode='';
+  emergencyResultWrap.style.display='none';
+  emergencyBusinessStep.style.display='block';
+  emergencyProblemStep.style.display='block';
+  emergencyOptions.querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+};
+closeEmergency.onclick=()=>emergencyModal.classList.remove('show');
+emergencyModal.onclick=e=>{if(e.target===emergencyModal)emergencyModal.classList.remove('show')};
 
 async function loadFavorites(){
   favorites=new Set();
