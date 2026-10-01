@@ -544,7 +544,8 @@ export default async ({req,res,log,error})=>{
 
     // Event worker: activate paid member when an order becomes successful.
     const order=unpack(body);
-    if(!order.$id||order.status!=='success'||order.access_issued===true||(order.payment_method&&order.payment_method!=='qris')){
+    const autoAccessMethods=['qris','coupon_free'];
+    if(!order.$id||order.status!=='success'||order.access_issued===true||(order.payment_method&&!autoAccessMethods.includes(order.payment_method))){
       return res.json({ok:true,skipped:true});
     }
 
