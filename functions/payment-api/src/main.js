@@ -1,17 +1,15 @@
 import crypto from 'node:crypto';
-import { Client, TablesDB, Users, Teams, ID, Query, Permission, Role } from 'node-appwrite';
+import { Client, TablesDB, ID, Query } from 'node-appwrite';
 
 const DB = process.env.APP_DB_ID || 'badai_prompt_umkm';
 const ORDERS = process.env.ORDERS_TABLE_ID || 'orders';
-const PROFILES = process.env.PROFILES_TABLE_ID || 'member_profiles';
-const TEAM_ID = process.env.PAID_TEAM_ID || 'paid-members';
 const PRICE = Number(process.env.PRODUCT_PRICE || 87000);
 const APP_URL = process.env.APP_URL || 'https://badaipromptumkm2026.vercel.app';
 
 function corsHeaders(extra={}) {
   return {
     'Access-Control-Allow-Origin': APP_URL,
-    'Access-Control-Allow-Headers': 'content-type,x-appwrite-user-jwt',
+    'Access-Control-Allow-Headers': 'content-type',
     'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
     'Cache-Control': 'no-store',
     ...extra
@@ -41,7 +39,7 @@ function rowData(row) {
 }
 function q(v){ return String(v ?? '').trim(); }
 
-export default async ({ req, res, log, error }) => {
+export default async ({ req, res, error }) => {
   if (req.method === 'OPTIONS') return res.text('ok', 200, corsHeaders());
 
   const key = req.headers['x-appwrite-key'];
@@ -51,8 +49,6 @@ export default async ({ req, res, log, error }) => {
 
   const client = new Client().setEndpoint(endpoint).setProject(project).setKey(key);
   const tables = new TablesDB(client);
-  const users = new Users(client);
-  const teams = new Teams(client);
 
   async function getOrderByToken(token) {
     const r=await tables.listRows({
@@ -70,68 +66,6 @@ export default async ({ req, res, log, error }) => {
   }
   async function updateOrder(id,data) {
     return tables.updateRow({databaseId:DB,tableId:ORDERS,rowId:id,data});
-  }
-  async function findUser(email) {
-    const r=await users.list({queries:[Query.equal('email',email),Query.limit(1)]});
-    return (r.users||[])[0] || null;
-  }
-  async function ensureAccess(order, issueToken=true) {
-    const email=q(order.email).toLowerCase();
-    let user=await findUser(email);
-    if(!user){
-      const password='Bpu-'+randomToken(12)+'A9!';
-      user=await users.create({
-        userId:ID.unique(),
-        email,
-        password,
-        name:q(order.full_name).slice(0,128)
-      });
-    }
-
-    try{
-      await teams.createMembership({
-        teamId:TEAM_ID,
-        roles:['member'],
-        userId:user.$id
-      });
-    }catch(e){
-      if(Number(e?.code)!==409) throw e;
-    }
-
-    const profileData={
-      user_id:user.$id,
-      name:q(order.full_name),
-      email,
-      whatsapp:q(order.whatsapp),
-      status:'active',
-      role:'member'
-    };
-    try{
-      await tables.createRow({
-        databaseId:DB,
-        tableId:PROFILES,
-        rowId:user.$id,
-        data:profileData,
-        permissions:[
-          Permission.read(Role.user(user.$id)),
-          Permission.update(Role.user(user.$id))
-        ]
-      });
-    }catch(e){
-      if(Number(e?.code)===409){
-        await tables.updateRow({
-          databaseId:DB,tableId:PROFILES,rowId:user.$id,data:profileData
-        });
-      } else throw e;
-    }
-
-    if(order.$id && (!order.access_issued || order.user_id!==user.$id)){
-      await updateOrder(order.$id,{user_id:user.$id,access_issued:true});
-    }
-
-    if(!issueToken) return {user_id:user.$id};
-    const token=await users.createToken({userId:user.$id,length:32,expire:900});
-    return {user_id:user.$id,session_secret:token.secret};
   }
 
   async function createPayment(body) {
@@ -207,7 +141,6 @@ export default async ({ req, res, log, error }) => {
       }
     });
     const order=rowData(created);
-    if(order.status==='success') await ensureAccess(order,false);
     return {
       success:true,
       public_token:publicToken,
@@ -228,8 +161,7 @@ export default async ({ req, res, log, error }) => {
     if(!order?.$id) throw Object.assign(new Error('Transaksi tidak ditemukan'),{status:404});
 
     if(order.status==='success'){
-      const access=await ensureAccess(order,true);
-      return {success:true,status:'success',...access};
+      return {success:true,status:'success',email:order.email,access_ready:Boolean(order.access_issued)};
     }
     if(['expired','failed'].includes(order.status)) return {success:true,status:order.status};
 
@@ -263,11 +195,7 @@ export default async ({ req, res, log, error }) => {
     const patch={status};
     if(status==='success') patch.paid_at=new Date().toISOString();
     const updated=rowData(await updateOrder(order.$id,patch));
-    if(status==='success'){
-      const access=await ensureAccess(updated,true);
-      return {success:true,status:'success',...access};
-    }
-    return {success:true,status};
+    return {success:true,status,email:updated.email,access_ready:Boolean(updated.access_issued)};
   }
 
   async function webhook() {
@@ -289,8 +217,7 @@ export default async ({ req, res, log, error }) => {
     else if(eventName==='payment.failed') status='failed';
     const patch={status};
     if(status==='success') patch.paid_at=new Date().toISOString();
-    const updated=rowData(await updateOrder(order.$id,patch));
-    if(status==='success') await ensureAccess(updated,false);
+    await updateOrder(order.$id,patch);
     return {ok:true};
   }
 
@@ -305,7 +232,6 @@ export default async ({ req, res, log, error }) => {
       });
     }
     if(req.method!=='POST') return reply(res,{error:'Method not allowed'},405);
-
     if(path==='/create') return reply(res,await createPayment(req.bodyJson||{}));
     if(path==='/check') return reply(res,await checkPayment(req.bodyJson||{}));
     if(path==='/webhook') return reply(res,await webhook());
