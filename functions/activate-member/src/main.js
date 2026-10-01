@@ -15,6 +15,13 @@ const TEAM_ID=process.env.PAID_TEAM_ID || 'paid-members';
 const unpack=(row)=>({...((row&&row.data)||row||{}),$id:row?.$id||row?.data?.$id,$createdAt:row?.$createdAt,$updatedAt:row?.$updatedAt});
 const q=(v)=>String(v??'').trim();
 const slugify=(s='')=>String(s).toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,220);
+const oneYearFrom=(value)=>{
+  const d=value?new Date(value):new Date();
+  const base=Number.isNaN(d.getTime())?new Date():d;
+  const out=new Date(base.getTime());
+  out.setUTCFullYear(out.getUTCFullYear()+1);
+  return out.toISOString();
+};
 
 async function listAll(tables,tableId,baseQueries=[]){
   const rows=[];
@@ -686,7 +693,7 @@ export default async ({req,res,log,error})=>{
       }
 
       if(route==='/settings/save'){
-        const allowed=['product_price','registration_open','product_name','social_proof_enabled','social_proof_interval_seconds'];
+        const allowed=['product_price','minimum_price','registration_open','product_name','social_proof_enabled','social_proof_interval_seconds'];
         for(const key of allowed){
           if(body[key]===undefined)continue;
           const value=String(body[key]);
@@ -744,7 +751,8 @@ export default async ({req,res,log,error})=>{
       email,
       whatsapp:String(order.whatsapp||''),
       status:'active',
-      role:'member'
+      role:'member',
+      access_until:oneYearFrom(order.paid_at||order.$updatedAt||new Date().toISOString())
     };
 
     try{
