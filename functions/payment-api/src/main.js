@@ -57,7 +57,9 @@ export default async ({req,res,error})=>{
     return {
       product_name:q(map.product_name)||'BADAI PROMPT UMKM',
       price:Number.isFinite(parsed)&&parsed>0?parsed:FALLBACK_PRICE,
-      registration_open:String(map.registration_open??'true')==='true'
+      registration_open:String(map.registration_open??'true')==='true',
+      social_proof_enabled:String(map.social_proof_enabled??'true')==='true',
+      social_proof_interval_seconds:Math.min(60,Math.max(10,Number(map.social_proof_interval_seconds||18)))
     };
   }
 
@@ -220,6 +222,48 @@ export default async ({req,res,error})=>{
     }catch(e){
       // Best effort: payment/access must never fail because usage analytics could not update.
     }
+  }
+
+  function maskBuyerName(name=''){
+    const words=String(name).trim().split(/\s+/).filter(Boolean);
+    if(!words.length)return 'Member';
+    const honorifics=new Set(['kak','teh','bu','ibu','pak','bapak','mbak','mba','mas','bunda']);
+    if(words.length>1&&honorifics.has(words[0].toLowerCase())){
+      const n=words[1];
+      return words[0]+' '+n.charAt(0).toUpperCase()+'***';
+    }
+    const n=words[0];
+    return n.charAt(0).toUpperCase()+'***';
+  }
+
+  async function getSocialProof(){
+    const cfg=await getConfig();
+    if(!cfg.social_proof_enabled){
+      return {ok:true,enabled:false,interval_seconds:cfg.social_proof_interval_seconds,items:[]};
+    }
+    const r=await tables.listRows({
+      databaseId:DB,
+      tableId:ORDERS,
+      queries:[
+        Query.equal('status','success'),
+        Query.orderDesc('$updatedAt'),
+        Query.limit(20)
+      ]
+    });
+    const items=(r.rows||r.documents||[])
+      .map(rowData)
+      .filter(o=>o.access_issued===true&&['qris','coupon_free'].includes(String(o.payment_method||'')))
+      .slice(0,8)
+      .map(o=>({
+        display_name:maskBuyerName(o.full_name),
+        paid_at:o.paid_at||o.$updatedAt||null
+      }));
+    return {
+      ok:true,
+      enabled:true,
+      interval_seconds:cfg.social_proof_interval_seconds,
+      items
+    };
   }
 
   async function saveMemberBusinessProfile(body){
@@ -512,6 +556,7 @@ export default async ({req,res,error})=>{
       const payment=await getPaymentSettings();
       return reply(res,{ok:true,...cfg,payment_configured:payment.configured,payment_active:payment.is_active,test_mode:payment.test_mode});
     }
+    if(path==='/social-proof')return reply(res,await getSocialProof());
     if(path==='/profile/save')return reply(res,await saveMemberBusinessProfile(req.bodyJson||{}));
     if(path==='/quote'){
       const cfg=await getConfig();
