@@ -312,7 +312,7 @@ export default async ({req,res,log,error})=>{
 
     // Event worker: activate paid member when an order becomes successful.
     const order=unpack(body);
-    if(!order.$id||order.status!=='success'||order.access_issued===true){
+    if(!order.$id||order.status!=='success'||order.access_issued===true||(order.payment_method&&order.payment_method!=='qris')){
       return res.json({ok:true,skipped:true});
     }
 
