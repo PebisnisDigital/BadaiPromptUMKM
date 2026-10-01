@@ -258,6 +258,70 @@ export default async ({req,res,log,error})=>{
         return res.json({ok:true,total:r.total||0,rows:(r.rows||r.documents||[]).map(unpack)});
       }
 
+      if(route==='/members/get'){
+        const userId=q(body.user_id);
+        if(!userId)return res.json({error:'user_id wajib'},400);
+        const profile=await tables.getRow({
+          databaseId:DB,
+          tableId:PROFILES,
+          rowId:userId
+        });
+        return res.json({ok:true,row:unpack(profile)});
+      }
+
+      if(route==='/members/save'){
+        const userId=q(body.user_id);
+        if(!userId)return res.json({error:'user_id wajib'},400);
+
+        const status=['pending','active','blocked'].includes(q(body.status))?q(body.status):'pending';
+        let whatsapp=q(body.whatsapp).replace(/\D/g,'');
+        if(whatsapp.startsWith('0'))whatsapp='62'+whatsapp.slice(1);
+
+        let accessUntil=null;
+        if(q(body.access_until)){
+          const d=new Date(q(body.access_until));
+          if(Number.isNaN(d.getTime()))return res.json({error:'Tanggal masa akses tidak valid.'},400);
+          accessUntil=d.toISOString();
+        }
+
+        const data={
+          name:q(body.name)||null,
+          whatsapp:whatsapp||null,
+          status,
+          access_until:accessUntil,
+          business_name:q(body.business_name)||null,
+          city_area:q(body.city_area)||null,
+          product_service:q(body.product_service)||null,
+          price_text:q(body.price_text)||null,
+          target_buyer:q(body.target_buyer)||null,
+          advantage:q(body.advantage)||null,
+          brand_color:q(body.brand_color)||null,
+          available_assets:q(body.available_assets)||null
+        };
+
+        const profile=await tables.updateRow({
+          databaseId:DB,
+          tableId:PROFILES,
+          rowId:userId,
+          data
+        });
+
+        const memberships=await teams.listMemberships({
+          teamId:TEAM_ID,
+          queries:[Query.equal('userId',userId),Query.limit(10)]
+        });
+        const current=(memberships.memberships||[])[0]||null;
+
+        if(status==='active'&&!current){
+          await teams.createMembership({teamId:TEAM_ID,roles:['member'],userId});
+        }
+        if(status!=='active'&&current){
+          await teams.deleteMembership({teamId:TEAM_ID,membershipId:current.$id});
+        }
+
+        return res.json({ok:true,row:unpack(profile)});
+      }
+
       if(route==='/members/status'){
         const userId=q(body.user_id);
         const status=q(body.status);
