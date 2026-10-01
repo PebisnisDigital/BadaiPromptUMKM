@@ -631,6 +631,59 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   .bpu-problem-punch b{font-size:19px}
 }
 </style>
+
+<style id="bpu-problem-question-style">
+.bpu-problem-questions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:26px;
+}
+.bpu-problem-questions article{
+  display:grid;
+  grid-template-columns:38px 1fr;
+  gap:12px;
+  align-items:start;
+  padding:16px;
+  border-radius:18px;
+  border:1px solid #2a2a2d;
+  background:#101011;
+  text-align:left;
+}
+.bpu-problem-questions article.wide{grid-column:1/-1}
+.bpu-qmark{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:#211019;
+  color:var(--bpu-pink);
+  font:950 18px var(--font-sf);
+}
+.bpu-problem-questions b{
+  display:block;
+  color:#fff;
+  font:950 14px/1.15 var(--font-sf);
+  letter-spacing:-.02em;
+}
+.bpu-problem-questions p{
+  margin:8px 0 0;
+  color:#8b8b90;
+  font-size:9px;
+  line-height:1.55;
+}
+.bpu-problem-questions p>span{
+  color:#ff4f6f;
+  font-weight:950;
+  margin-right:5px;
+}
+.bpu-problem-questions strong{color:#fff}
+@media(max-width:600px){
+  .bpu-problem-questions{grid-template-columns:1fr}
+  .bpu-problem-questions article.wide{grid-column:auto}
+}
+</style>
 </head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
@@ -754,21 +807,45 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
     <h2 class="reveal2">Jangan Buru-buru<br><span>Salahkan Pasarnya.</span></h2>
     <p class="bpu-lead reveal2">Saat order mulai sepi, biasanya yang pertama dicurigai adalah <b>harga, algoritma, saingan, atau daya beli.</b> Bisa saja ada pengaruhnya. Tapi ada satu hal yang sering kelewat: <b>apakah jualanmu cukup menarik untuk dilihat dulu?</b></p>
 
-    <div class="bpu-sales-symptoms reveal2">
+    <div class="bpu-problem-questions reveal2">
       <article>
-        <span>01</span>
-        <b>Sudah Posting</b>
-        <p>Tapi orang cuma lewat. Like sedikit, chat juga sepi.</p>
+        <div class="bpu-qmark">?</div>
+        <div>
+          <b>Jualan Tapi Gak Ada Yang Beli?</b>
+          <p><span>✕</span> Bisa jadi kamu belum bisa bikin <strong>kata-kata penawaran</strong> yang bikin orang pengen ambil tindakan.</p>
+        </div>
       </article>
+
       <article>
-        <span>02</span>
-        <b>Sudah Promo</b>
-        <p>Diskon sudah dikasih, tapi tampilannya masih terasa biasa.</p>
+        <div class="bpu-qmark">?</div>
+        <div>
+          <b>Sudah Posting Tapi Tetap Sepi?</b>
+          <p><span>✕</span> Bisa jadi <strong>gambar dan visual jualanmu</strong> belum cukup menarik untuk bikin orang berhenti scroll.</p>
+        </div>
       </article>
+
       <article>
-        <span>03</span>
-        <b>Produknya Bagus</b>
-        <p>Tapi calon pembeli belum sempat merasakan bagusnya dari layar.</p>
+        <div class="bpu-qmark">?</div>
+        <div>
+          <b>Sudah Kasih Diskon Tapi Gak Laku?</b>
+          <p><span>✕</span> Bisa jadi promonya ada, tapi <strong>cara menampilkannya masih terasa biasa</strong> dan nilainya belum kelihatan.</p>
+        </div>
+      </article>
+
+      <article>
+        <div class="bpu-qmark">?</div>
+        <div>
+          <b>Produk Bagus Tapi Kalah Sama Kompetitor?</b>
+          <p><span>✕</span> Bisa jadi produk mereka terlihat <strong>lebih meyakinkan, lebih rapi, dan lebih bernilai</strong> dari layar.</p>
+        </div>
+      </article>
+
+      <article class="wide">
+        <div class="bpu-qmark">?</div>
+        <div>
+          <b>Banyak Yang Lihat, Tapi Gak Ada Yang Chat?</b>
+          <p><span>✕</span> Bisa jadi orang belum paham <strong>kenapa harus beli, apa manfaatnya, dan harus klik apa setelah melihat promomu.</strong></p>
+        </div>
       </article>
     </div>
 
