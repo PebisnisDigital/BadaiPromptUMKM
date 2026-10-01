@@ -373,7 +373,7 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 
 <style id="bpu-orbit3d-style">
 .bpu-orbit-hero{
-  min-height:590px!important;
+  min-height:540px!important;
   padding:10px!important;
   overflow:hidden!important;
   background:
@@ -385,7 +385,7 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 .bpu-orbit-scene{
   position:relative;
   width:100%;
-  height:570px;
+  height:520px;
   overflow:hidden;
   border-radius:22px;
   perspective:1050px;
@@ -414,65 +414,14 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   box-shadow:0 0 80px rgba(255,79,163,.05);
   opacity:.62;
 }
-.bpu-orbit-core{
-  position:absolute;
-  z-index:150;
-  left:50%;
-  top:48%;
-  width:150px;
-  height:150px;
-  transform:translate(-50%,-50%);
-  display:grid;
-  place-items:center;
-  pointer-events:none;
-  transform-style:preserve-3d;
-}
-.bpu-core-halo{
-  position:absolute;
-  inset:-36px;
-  border-radius:50%;
-  background:radial-gradient(circle,rgba(255,79,163,.20),rgba(255,79,163,.04) 38%,transparent 68%);
-  filter:blur(8px);
-  animation:bpuCorePulse 3.2s ease-in-out infinite;
-}
-@keyframes bpuCorePulse{50%{transform:scale(1.14);opacity:.62}}
-.bpu-core-cube{
-  width:132px;
-  height:132px;
-  border-radius:23px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-  background:
-    linear-gradient(145deg,rgba(255,79,163,.18),rgba(255,79,163,.025) 38%),
-    #0c0c0e;
-  border:1px solid rgba(255,255,255,.14);
-  box-shadow:
-    0 28px 55px rgba(0,0,0,.52),
-    0 0 45px rgba(255,79,163,.14),
-    inset 0 1px 0 rgba(255,255,255,.06);
-  transform:rotateX(-4deg) rotateY(8deg);
-  animation:bpuCoreRock 7s ease-in-out infinite;
-  backdrop-filter:blur(12px);
-}
-@keyframes bpuCoreRock{
-  0%,100%{transform:rotateX(-4deg) rotateY(8deg) translateY(0)}
-  50%{transform:rotateX(4deg) rotateY(-8deg) translateY(-5px)}
-}
-.bpu-core-cube .core-top{font:950 15px var(--font-sf);letter-spacing:-.04em}
-.bpu-core-cube .core-top span{color:var(--bpu-pink)}
-.bpu-core-cube>b{font:950 23px/.84 var(--font-sf);letter-spacing:-.07em;margin-top:6px}
-.bpu-core-cube>small{margin-top:9px;color:#77777d;font:800 6px var(--font-roboto);letter-spacing:.12em}
 
 .bpu-orbit-ring{position:absolute;inset:0;z-index:5;transform-style:preserve-3d}
 .bpu-orbit-card{
   position:absolute;
   left:50%;
-  top:48%;
-  width:202px;
-  height:270px;
+  top:50%;
+  width:214px;
+  height:282px;
   margin:0;
   overflow:hidden;
   border-radius:21px;
@@ -555,29 +504,19 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 .bpu-orbit-hint span{color:#9c587b}
 
 @media(max-width:700px){
-  .bpu-orbit-hero{min-height:510px!important}
-  .bpu-orbit-scene{height:490px;perspective:850px}
+  .bpu-orbit-hero{min-height:470px!important}
+  .bpu-orbit-scene{height:450px;perspective:850px}
   .bpu-orbit-floor{width:510px;height:210px}
-  .bpu-orbit-core{width:116px;height:116px}
-  .bpu-core-cube{width:104px;height:104px;border-radius:19px}
-  .bpu-core-cube .core-top{font-size:12px}
-  .bpu-core-cube>b{font-size:18px}
-  .bpu-core-cube>small{font-size:5px}
-  .bpu-orbit-card{width:157px;height:216px;border-radius:18px}
+  .bpu-orbit-card{top:50%;width:168px;height:226px;border-radius:18px}
   .bpu-orbit-copy{left:12px;right:12px;bottom:11px}
   .bpu-orbit-copy b{font-size:15px}
   .bpu-orbit-copy p{font-size:7px}
 }
 @media(max-width:480px){
-  .bpu-orbit-hero{min-height:430px!important;padding:7px!important}
-  .bpu-orbit-scene{height:414px;perspective:720px}
+  .bpu-orbit-hero{min-height:400px!important;padding:7px!important}
+  .bpu-orbit-scene{height:385px;perspective:720px}
   .bpu-orbit-floor{width:390px;height:175px;top:61%}
-  .bpu-orbit-core{top:48%;width:92px;height:92px}
-  .bpu-core-cube{width:82px;height:82px;border-radius:16px}
-  .bpu-core-cube .core-top{font-size:10px}
-  .bpu-core-cube>b{font-size:14px}
-  .bpu-core-cube>small{display:none}
-  .bpu-orbit-card{top:48%;width:118px;height:166px;border-radius:15px}
+  .bpu-orbit-card{top:50%;width:128px;height:176px;border-radius:15px}
   .bpu-orbit-chip{top:8px;right:8px;padding:5px 7px;font-size:5.5px}
   .bpu-orbit-copy{left:9px;right:9px;bottom:8px}
   .bpu-orbit-copy small{font-size:5.5px}
@@ -619,15 +558,6 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
     <div class="bpu-hero-visual bpu-orbit-hero reveal2" aria-label="Galeri 3D contoh hasil prompt untuk berbagai jenis UMKM">
       <div class="bpu-orbit-scene" id="bpuOrbitScene">
         <div class="bpu-orbit-floor" aria-hidden="true"></div>
-
-        <div class="bpu-orbit-core" aria-hidden="true">
-          <div class="bpu-core-halo"></div>
-          <div class="bpu-core-cube">
-            <span class="core-top">BAD<span>AI</span></span>
-            <b>PROMPT<br>UMKM</b>
-            <small>VISUAL • PROMO • JUALAN</small>
-          </div>
-        </div>
 
         <div class="bpu-orbit-ring" id="bpuOrbitRing">
           <article class="bpu-orbit-card" data-niche="KULINER">
@@ -1272,9 +1202,9 @@ loadSocialProof();
 
   function dims(){
     const w=scene.clientWidth;
-    if(w<=480)return {rx:156,ry:34,depth:235};
-    if(w<=700)return {rx:205,ry:47,depth:315};
-    return {rx:275,ry:58,depth:430};
+    if(w<=480)return {rx:132,ry:28,depth:205};
+    if(w<=700)return {rx:176,ry:38,depth:270};
+    return {rx:232,ry:46,depth:355};
   }
 
   function normalizePi(v){
@@ -1295,12 +1225,12 @@ loadSocialProof();
       const depth01=(z+1)/2;
 
       // Front cards dominate; back cards stay visible enough to sell the orbit.
-      const scale=.56+(depth01*.50);
-      const opacity=.16+(depth01*.84);
-      const blur=(1-depth01)*4.2;
+      const scale=.50+(depth01*.60);
+      const opacity=.13+(depth01*.87);
+      const blur=(1-depth01)*4.8;
       const brightness=.42+(depth01*.70);
       const saturation=.55+(depth01*.55);
-      const tilt=Math.sin(a)*-4;
+      const tilt=Math.sin(a)*-3.2;
       const bob=Math.sin((performance.now()/760)+(i*1.7))*3.8*(.45+depth01*.55);
       const zPx=(z*d.depth);
 
