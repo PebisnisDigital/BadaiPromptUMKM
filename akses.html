@@ -676,6 +676,20 @@ function renderHistory(){
 async function markPromptUsed(promptId){
   if(!currentUser||!promptId)return;
   const now=new Date().toISOString();
+
+  // Event log for accurate daily analytics. Best-effort so it never blocks the member.
+  try{
+    await tables.createRow({
+      databaseId:DB,
+      tableId:'prompt_usage_events',
+      rowId:ID.unique(),
+      data:{user_id:currentUser.$id,prompt_id:promptId,used_at:now},
+      permissions:[Permission.read(Role.user(currentUser.$id))]
+    });
+  }catch(eventErr){
+    console.warn('Could not record usage event',eventErr);
+  }
+
   let existing=historyMap.get(promptId);
   try{
     if(existing){
