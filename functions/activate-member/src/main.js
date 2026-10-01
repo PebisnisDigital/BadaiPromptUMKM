@@ -686,7 +686,7 @@ export default async ({req,res,log,error})=>{
       }
 
       if(route==='/settings/save'){
-        const allowed=['product_price','registration_open','product_name'];
+        const allowed=['product_price','registration_open','product_name','social_proof_enabled','social_proof_interval_seconds'];
         for(const key of allowed){
           if(body[key]===undefined)continue;
           const value=String(body[key]);
