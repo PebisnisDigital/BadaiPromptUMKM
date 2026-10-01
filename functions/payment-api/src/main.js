@@ -6,6 +6,7 @@ const ORDERS=process.env.ORDERS_TABLE_ID || 'orders';
 const SETTINGS='settings';
 const COUPONS='coupons';
 const PROFILES='member_profiles';
+const PAYMENT_SETTINGS='payment_settings';
 const FALLBACK_PRICE=Number(process.env.PRODUCT_PRICE || 87000);
 const APP_URL=process.env.APP_URL || 'https://badaipromptumkm2026.vercel.app';
 
@@ -57,6 +58,30 @@ export default async ({req,res,error})=>{
       product_name:q(map.product_name)||'BADAI PROMPT UMKM',
       price:Number.isFinite(parsed)&&parsed>0?parsed:FALLBACK_PRICE,
       registration_open:String(map.registration_open??'true')==='true'
+    };
+  }
+
+  async function getPaymentSettings(){
+    let row=null;
+    try{
+      row=rowData(await tables.getRow({databaseId:DB,tableId:PAYMENT_SETTINGS,rowId:'buatqris'}));
+    }catch(e){
+      if(Number(e?.code)!==404)throw e;
+    }
+    const accountId=q(row?.account_id||process.env.BUATQRIS_ACCOUNT_ID);
+    const secretToken=q(row?.secret_token||process.env.BUATQRIS_SECRET_TOKEN);
+    return {
+      account_id:accountId,
+      secret_token:secretToken,
+      signing_secret:q(row?.signing_secret||process.env.BUATQRIS_SIGNING_SECRET),
+      qris_method:q(row?.qris_method||process.env.BUATQRIS_QRIS_METHOD)||'qris_two',
+      fee_by:q(row?.fee_by||process.env.BUATQRIS_FEE_BY)||'user',
+      umkm_name:q(row?.umkm_name||process.env.BUATQRIS_UMKM_NAME),
+      test_mode:row?row.test_mode!==false:String(process.env.BUATQRIS_TEST_MODE).toLowerCase()==='true',
+      callback_url:q(row?.callback_url||process.env.PAYMENT_CALLBACK_URL)||'https://badaipromptumkm2026.vercel.app/api/buatqris-webhook',
+      api_url:q(row?.api_url||process.env.BUATQRIS_API_URL)||'https://app.buatqris.site/api',
+      is_active:row?row.is_active!==false:true,
+      configured:Boolean(accountId&&secretToken)
     };
   }
 
@@ -299,28 +324,26 @@ export default async ({req,res,error})=>{
       };
     }
 
-    const callback=process.env.PAYMENT_CALLBACK_URL;
-    if(!callback)throw new Error('Payment callback belum dikonfigurasi');
+    const payCfg=await getPaymentSettings();
+    if(!payCfg.configured)throw Object.assign(new Error('Merchant BuatQRIS belum dikonfigurasi di Admin → Pengaturan.'),{status:503});
+    if(!payCfg.is_active)throw Object.assign(new Error('Pembayaran BuatQRIS sedang dinonaktifkan oleh admin.'),{status:503});
 
     const form=new URLSearchParams({
       action:'api_create_qris',
-      account_id:process.env.BUATQRIS_ACCOUNT_ID||'',
-      secret_token:process.env.BUATQRIS_SECRET_TOKEN||'',
+      account_id:payCfg.account_id,
+      secret_token:payCfg.secret_token,
       amount:String(price),
       description:(cfg.product_name+' - '+email).slice(0,100),
-      fee_by:process.env.BUATQRIS_FEE_BY||'buyer',
-      callback_url:callback,
-      app_name:cfg.product_name,
-      app_version:'1.0',
-      app_url:APP_URL
+      fee_by:payCfg.fee_by,
+      callback_url:payCfg.callback_url
     });
-    const method=process.env.BUATQRIS_QRIS_METHOD||'default';
-    if(method!=='default')form.set('qris_method',method);
-    if(String(process.env.BUATQRIS_TEST_MODE).toLowerCase()==='true')form.set('test','1');
+    form.set('qris_method',payCfg.qris_method||'qris_two');
+    if(payCfg.umkm_name)form.set('umkm_name',payCfg.umkm_name.slice(0,15));
+    if(payCfg.test_mode)form.set('test','1');
 
     let qrRes,raw,payload={},data;
     try{
-      qrRes=await fetch('https://api.buatqris.site',{
+      qrRes=await fetch(payCfg.api_url,{
         method:'POST',
         headers:{'Content-Type':'application/x-www-form-urlencoded','User-Agent':'BADAI-Prompt-UMKM/1.0'},
         body:form.toString()
@@ -412,13 +435,15 @@ export default async ({req,res,error})=>{
       return {success:true,status:'expired'};
     }
 
+    const payCfg=await getPaymentSettings();
+    if(!payCfg.configured)throw Object.assign(new Error('Merchant BuatQRIS belum dikonfigurasi.'),{status:503});
     const form=new URLSearchParams({
       action:'api_check_status',
-      account_id:process.env.BUATQRIS_ACCOUNT_ID||'',
-      secret_token:process.env.BUATQRIS_SECRET_TOKEN||'',
+      account_id:payCfg.account_id,
+      secret_token:payCfg.secret_token,
       transaction_id:String(order.transaction_id)
     });
-    const qrRes=await fetch('https://api.buatqris.site',{
+    const qrRes=await fetch(payCfg.api_url,{
       method:'POST',
       headers:{'Content-Type':'application/x-www-form-urlencoded','User-Agent':'BADAI-Prompt-UMKM/1.0'},
       body:form.toString()
@@ -443,7 +468,8 @@ export default async ({req,res,error})=>{
   }
 
   async function webhook(){
-    const secret=process.env.BUATQRIS_SIGNING_SECRET||'';
+    const payCfg=await getPaymentSettings();
+    const secret=payCfg.signing_secret||'';
     const raw=req.bodyText??req.body??'';
     const given=req.headers['x-buatqris-signature']||req.headers['X-BuatQris-Signature']||'';
     const expected=hmac(secret,String(raw));
@@ -477,13 +503,14 @@ export default async ({req,res,error})=>{
         product_name:cfg.product_name,
         price:cfg.price,
         registration_open:cfg.registration_open,
-        configured:Boolean(process.env.BUATQRIS_ACCOUNT_ID&&process.env.BUATQRIS_SECRET_TOKEN)
+        payment_configured:(await getPaymentSettings()).configured
       });
     }
     if(req.method!=='POST')return reply(res,{error:'Method not allowed'},405);
     if(path==='/config'){
       const cfg=await getConfig();
-      return reply(res,{ok:true,...cfg});
+      const payment=await getPaymentSettings();
+      return reply(res,{ok:true,...cfg,payment_configured:payment.configured,payment_active:payment.is_active,test_mode:payment.test_mode});
     }
     if(path==='/profile/save')return reply(res,await saveMemberBusinessProfile(req.bodyJson||{}));
     if(path==='/quote'){
