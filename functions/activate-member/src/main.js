@@ -30,6 +30,33 @@ async function listAll(tables,tableId,baseQueries=[]){
   return rows;
 }
 
+async function expireMemberAccess(tables,teams){
+  const now=Date.now();
+  const active=await listAll(tables,PROFILES,[Query.equal('status','active')]);
+  let expired=0;
+  for(const profile of active){
+    if(!profile.access_until)continue;
+    const until=new Date(profile.access_until).getTime();
+    if(!Number.isFinite(until)||until>now)continue;
+
+    const memberships=await teams.listMemberships({
+      teamId:TEAM_ID,
+      queries:[Query.equal('userId',profile.user_id),Query.limit(10)]
+    });
+    for(const membership of (memberships.memberships||[])){
+      await teams.deleteMembership({teamId:TEAM_ID,membershipId:membership.$id});
+    }
+    await tables.updateRow({
+      databaseId:DB,
+      tableId:PROFILES,
+      rowId:profile.user_id,
+      data:{status:'blocked'}
+    });
+    expired++;
+  }
+  return expired;
+}
+
 export default async ({req,res,log,error})=>{
   try{
     const client=new Client()
@@ -42,6 +69,12 @@ export default async ({req,res,log,error})=>{
     const teams=new Teams(client);
     const path=req.path||'/';
     const body=req.bodyJson||{};
+
+    // Scheduled execution: expire time-limited access without adding another Function.
+    if(path==='/' && !body?.$id){
+      const expired=await expireMemberAccess(tables,teams);
+      return res.json({ok:true,expired});
+    }
 
     // HTTP admin routes. Client execution is restricted to team:admin-users
     // at the Appwrite Function permission layer.
@@ -277,8 +310,7 @@ export default async ({req,res,log,error})=>{
             rowId:user.$id,
             data:profileData,
             permissions:[
-              Permission.read(Role.user(user.$id)),
-              Permission.update(Role.user(user.$id))
+              Permission.read(Role.user(user.$id))
             ]
           });
         }catch(e){
@@ -589,8 +621,7 @@ export default async ({req,res,log,error})=>{
         rowId:user.$id,
         data:profile,
         permissions:[
-          Permission.read(Role.user(user.$id)),
-          Permission.update(Role.user(user.$id))
+          Permission.read(Role.user(user.$id))
         ]
       });
     }catch(e){
