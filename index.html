@@ -359,15 +359,57 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 
 <style id="bpu-visual-selling-sharpen">
 .bpu-first-impression{background:linear-gradient(180deg,#090909,#070707)}
-.bpu-impression-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:26px}
-.bpu-impression-grid article{min-height:150px;padding:17px;border-radius:18px;background:#101011;border:1px solid #28282b;text-align:left}
-.bpu-impression-grid article>span{display:grid;place-items:center;width:30px;height:30px;border-radius:10px;background:#24121b;color:var(--bpu-pink2);font:900 9px var(--font-sf)}
-.bpu-impression-grid b{display:block;margin:20px 0 6px;font:950 13px var(--font-sf);letter-spacing:.02em}
-.bpu-impression-grid p{margin:0;color:#858589;font-size:9px;line-height:1.5}
-.bpu-impression-punch{margin-top:10px;padding:13px 14px;border:1px dashed #533047;border-radius:14px;background:#0e0b0d;color:#967a88;font-size:9px;font-weight:850;text-align:center}
-.bpu-impression-punch b{color:#fff}
+.bpu-data-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:27px}
+.bpu-data-grid article{
+  min-height:185px;padding:19px;border-radius:20px;
+  background:radial-gradient(circle at 100% 0,rgba(255,79,163,.08),transparent 38%),#101011;
+  border:1px solid #2a2a2d;text-align:left
+}
+.bpu-data-number{
+  color:var(--bpu-pink);font:950 52px/.85 var(--font-sf);letter-spacing:-.075em
+}
+.bpu-data-number span{font-size:.48em;margin-left:2px}
+.bpu-data-grid article>b{
+  display:block;margin-top:20px;color:#fff;font:950 12px var(--font-sf);letter-spacing:.04em
+}
+.bpu-data-grid article>p{
+  margin:7px 0 0;color:#858589;font-size:9px;line-height:1.55
+}
+.bpu-data-grid strong{color:#d8d8dc}
+.bpu-data-agitation{
+  margin-top:10px;padding:25px 21px;border-radius:21px;
+  background:#100b0e;border:1px solid #4d293d;text-align:left;
+  box-shadow:inset 0 0 45px rgba(255,79,163,.035)
+}
+.bpu-data-agitation small{
+  display:block;color:#a96486;font:900 7px var(--font-sf);letter-spacing:.13em
+}
+.bpu-data-agitation>b{
+  display:block;margin-top:10px;color:#d7d7da;font:800 15px/1.25 var(--font-sf)
+}
+.bpu-data-agitation>strong{
+  display:block;margin-top:9px;color:#fff;font:950 25px/1.05 var(--font-sf);
+  letter-spacing:-.045em
+}
+.bpu-data-solution{
+  margin-top:9px;padding:16px 18px;border-radius:16px;
+  background:var(--bpu-pink);color:#ffe3f1;text-align:center;
+  font-size:10px;font-weight:850;line-height:1.5
+}
+.bpu-data-solution b{color:#fff}
+.bpu-data-source{
+  max-width:570px;margin:12px auto 0;color:#55555b;text-align:center;
+  font-size:6.5px;line-height:1.5
+}
 .bpu-value-list>div>span{font-size:14px}
-@media(max-width:520px){.bpu-impression-grid{grid-template-columns:1fr 1fr}.bpu-impression-grid article{min-height:138px;padding:14px}.bpu-impression-grid b{margin-top:17px;font-size:12px}}
+@media(max-width:520px){
+  .bpu-data-grid{grid-template-columns:1fr 1fr}
+  .bpu-data-grid article{min-height:165px;padding:15px}
+  .bpu-data-number{font-size:43px}
+  .bpu-data-grid article>b{font-size:10px}
+  .bpu-data-agitation{padding:20px 16px}
+  .bpu-data-agitation>strong{font-size:21px}
+}
 </style>
 
 
@@ -788,15 +830,47 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 
 <section class="bpu-section bpu-first-impression">
   <div class="bpu-container">
-    <div class="bpu-kicker reveal2">SEBELUM ORANG BELI, ORANG MELIHAT</div>
-    <h2 class="reveal2">Di Layar, Produkmu<br><span>Harus Menjual Duluan.</span></h2>
-    <div class="bpu-impression-grid">
-      <article class="reveal2"><span>01</span><b>GAMBAR</b><p>Apakah produknya langsung terlihat menarik?</p></article>
-      <article class="reveal2"><span>02</span><b>VIDEO</b><p>Apakah orang cukup penasaran untuk berhenti scroll?</p></article>
-      <article class="reveal2"><span>03</span><b>PENAWARAN</b><p>Apakah manfaat dan promonya cepat dimengerti?</p></article>
-      <article class="reveal2"><span>04</span><b>KATA-KATA</b><p>Apakah caption dan CTA mengarahkan orang ke langkah berikutnya?</p></article>
+    <div class="bpu-kicker reveal2">DATA KONSUMEN ONLINE BILANG BEGINI</div>
+    <h2 class="reveal2">Orang Bisa Skip Jualanmu<br><span>Sebelum Lihat Harganya.</span></h2>
+    <p class="bpu-lead reveal2">Di layar, pembeli belum bisa pegang produkmu. Belum bisa nyobain. Belum tahu sebagus apa kualitasnya. <b>Yang mereka nilai duluan ya tampilan dan informasi produknya.</b></p>
+
+    <div class="bpu-data-grid">
+      <article class="reveal2">
+        <div class="bpu-data-number">55<span>%</span></div>
+        <b>TAK JADI BELI</b>
+        <p>karena <strong>product content yang buruk</strong> pada pengalaman belanja online.</p>
+      </article>
+
+      <article class="reveal2">
+        <div class="bpu-data-number">73<span>%</span></div>
+        <b>BUTUH 3+ GAMBAR</b>
+        <p>saat melihat dan mempertimbangkan produk yang dijual online.</p>
+      </article>
+
+      <article class="reveal2">
+        <div class="bpu-data-number">40<span>%</span></div>
+        <b>MENGANDALKAN GAMBAR</b>
+        <p>sebagai salah satu elemen yang membantu mereka <strong>memutuskan beli.</strong></p>
+      </article>
+
+      <article class="reveal2">
+        <div class="bpu-data-number">39<span>%</span></div>
+        <b>PERNAH RETUR</b>
+        <p>karena produk yang diterima <strong>tidak sesuai dengan gambar.</strong></p>
+      </article>
     </div>
-    <div class="bpu-impression-punch reveal2">BADAI PROMPT UMKM MEMBANTU MENYIAPKAN <b>EMPAT BAGIAN ITU.</b></div>
+
+    <div class="bpu-data-agitation reveal2">
+      <small>JADI, MASALAHNYA BISA TERJADI SEBELUM ORANG SEMPAT TANYA HARGA.</small>
+      <b>Kalau fotonya biasa, tampilannya gak meyakinkan, dan promosinya gak bikin berhenti...</b>
+      <strong>orang keburu lewat sebelum tahu produkmu sebagus apa.</strong>
+    </div>
+
+    <div class="bpu-data-solution reveal2">
+      BADAI Prompt UMKM bantu bikin produk yang sudah bagus, <b>kelihatan bagus juga di layar.</b>
+    </div>
+
+    <p class="bpu-data-source reveal2">Sumber: Salsify Consumer Research 2018, 2021 & 2023. Data berasal dari survei konsumen online internasional dan bukan khusus Indonesia.</p>
   </div>
 </section>
 
