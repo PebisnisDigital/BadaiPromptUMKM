@@ -1260,9 +1260,10 @@ loadSocialProof();
   const cards=[...ring.querySelectorAll('.bpu-orbit-card')];
   if(!cards.length)return;
 
-  const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Orbit utama selalu autoplay. Kecepatan default ≈ 1 putaran / 12,5 detik.
+  const AUTO_SPEED=0.00050;
   let angle=0;
-  let velocity=reduced?0:0.00026;
+  let velocity=AUTO_SPEED;
   let dragging=false;
   let lastX=0;
   let lastT=0;
@@ -1321,15 +1322,21 @@ loadSocialProof();
     const dt=Math.min(40,now-lastFrame);
     lastFrame=now;
 
-    if(!reduced){
-      if(!dragging){
-        angle+=velocity*dt;
-        // Setelah drag dilepas, momentum sebentar lalu kembali ke auto-loop stabil.
-        if(Math.abs(dragVelocity)>.00001){
-          angle+=dragVelocity*dt;
-          dragVelocity*=Math.pow(.90,dt/16.67);
-        }
-        velocity+=(0.00026-velocity)*.03;
+    if(!dragging){
+      // Autoplay selalu aktif agar kartu benar-benar berjalan sendiri.
+      angle+=velocity*dt;
+
+      // Setelah drag dilepas, momentum sebentar lalu kembali ke auto-loop stabil.
+      if(Math.abs(dragVelocity)>.00001){
+        angle+=dragVelocity*dt;
+        dragVelocity*=Math.pow(.88,dt/16.67);
+      }
+
+      velocity+=(AUTO_SPEED-velocity)*.045;
+
+      // Jaga anglenya tetap kecil supaya looping stabil dalam jangka panjang.
+      if(Math.abs(angle)>Math.PI*2000){
+        angle=angle%(Math.PI*2);
       }
     }
 
@@ -1359,6 +1366,7 @@ loadSocialProof();
   function pointerUp(e){
     if(!dragging)return;
     dragging=false;
+    if(Math.abs(velocity)<AUTO_SPEED*.5) velocity=AUTO_SPEED;
     scene.classList.remove('is-dragging');
     try{scene.releasePointerCapture(e.pointerId)}catch(_){}
   }
