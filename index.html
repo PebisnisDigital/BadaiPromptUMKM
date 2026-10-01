@@ -5,6 +5,19 @@
 :root{--bg:#070707;--card:#111;--line:#272727;--pink:#ff2d8d;--pink2:#ff6fb3;--text:#fff;--muted:#aaa}
 *{box-sizing:border-box}body{margin:0;background:#000;color:var(--text);font-family:"Roboto","Segoe UI",Arial,sans-serif}.page{max-width:720px;margin:auto;min-height:100vh;background:radial-gradient(circle at 80% 0,rgba(255,45,141,.22),transparent 28%),var(--bg)}header{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:rgba(7,7,7,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.brand{font-weight:1000;letter-spacing:-.5px}.brand b{color:var(--pink)}.brand small{display:block;font-size:9px;color:#888;letter-spacing:.8px;margin-top:2px}.btn{display:inline-flex;justify-content:center;align-items:center;text-decoration:none;border:0;border-radius:14px;padding:14px 17px;font-weight:900;cursor:pointer}.pink{background:var(--pink);color:#fff}.dark{background:#171717;color:#fff;border:1px solid #333}section{padding:30px 18px}.eyebrow{font-size:10px;color:var(--pink2);font-weight:900;letter-spacing:1px}.hero h1{font-size:clamp(42px,10vw,72px);line-height:.92;letter-spacing:-3px;margin:12px 0}.hero h1 span{color:var(--pink)}p{color:#bbb;line-height:1.6}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.demo{margin-top:26px;padding:14px;border:1px solid #303030;border-radius:24px;background:#0d0d0d;box-shadow:0 24px 70px rgba(255,45,141,.12)}.screen{padding:16px;border-radius:18px;background:#090909;border:1px solid #222}.chips{display:flex;gap:8px;overflow:auto}.chip{white-space:nowrap;background:#151515;border:1px solid #333;border-radius:12px;padding:10px;font-size:11px}.chip.on{border-color:var(--pink);background:#1a1016}.prompt{margin-top:14px;background:#121212;border:1px solid #2a2a2a;border-radius:16px;padding:14px}.prompt h3{margin:8px 0 5px}.stats,.grid{display:grid;gap:10px}.stats{grid-template-columns:repeat(3,1fr);margin-top:18px}.stats div,.card{background:#101010;border:1px solid var(--line);border-radius:16px;padding:14px}.stats b{display:block;font-size:20px}.stats small,.card small{color:#888}.grid{grid-template-columns:repeat(2,1fr)}h2{font-size:30px;line-height:1;margin:7px 0 12px}.ico{font-size:24px}.card b{display:block;margin-top:8px}.price{border:1px solid #4a2740;border-radius:24px;padding:20px;background:radial-gradient(circle at 90% 0,rgba(255,45,141,.2),transparent 25%),#101010}.amount{font-size:48px;font-weight:1000;margin:8px 0}.list{display:grid;gap:8px;margin:16px 0}.list div:before{content:"✓ ";color:#73f6a7;font-weight:900}.faq details{background:#101010;border:1px solid var(--line);border-radius:14px;padding:14px;margin:8px 0}.faq summary{font-weight:800;cursor:pointer}.footer{text-align:center;color:#777;font-size:10px;padding:30px 18px 90px}.float{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:min(calc(100% - 24px),690px);display:flex;gap:10px;align-items:center;background:rgba(12,12,12,.95);border:1px solid #2b2b2b;border-radius:18px;padding:10px;backdrop-filter:blur(12px)}.float div{flex:1}.float small{color:#888}
 .checkout-modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.86);display:none;align-items:flex-end;justify-content:center;padding-top:30px}.checkout-modal.show{display:flex}.checkout-card{width:min(100%,720px);max-height:94vh;overflow:auto;background:#0e0e0e;border:1px solid #333;border-radius:26px 26px 0 0;padding:19px;box-shadow:0 -24px 80px rgba(255,45,141,.16)}.checkout-top{display:flex;justify-content:space-between;gap:12px;align-items:start}.checkout-top h3{font-size:23px;margin:4px 0}.xbtn{width:38px;height:38px;border-radius:50%;border:1px solid #333;background:#171717;color:#fff;font-size:20px;cursor:pointer}.checkout-form{display:grid;gap:10px;margin-top:15px}.checkout-form label{font-size:10px;color:#888;font-weight:800}.checkout-form input{width:100%;margin-top:5px;background:#080808;border:1px solid #303030;border-radius:13px;color:#fff;padding:13px;outline:none}.checkout-form input:focus{border-color:var(--pink)}.coupon-line{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:5px}.coupon-line input{margin-top:0}.coupon-summary{display:none;background:#101a14;border:1px solid #294b36;border-radius:13px;padding:11px;font-size:10px;line-height:1.55}.coupon-summary.show{display:block}.coupon-summary b{color:#73f6a7}.checkout-msg{font-size:11px;line-height:1.5;color:#999;min-height:18px}.checkout-msg.bad{color:#ff7088}.checkout-msg.good{color:#73f6a7}.qrbox{text-align:center;background:#fff;border-radius:18px;padding:14px;margin-top:14px}.qrbox img{display:block;width:min(290px,100%);margin:auto;border-radius:10px}.payinfo{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.payinfo div{background:#111;border:1px solid #292929;border-radius:13px;padding:11px}.payinfo small{display:block;color:#777;font-size:9px}.payinfo b{display:block;margin-top:3px}.statusbox{margin-top:10px;padding:13px;border-radius:14px;background:#111;border:1px solid #2c2c2c;font-size:12px;line-height:1.5}.successbox{display:none;text-align:center;padding:18px 5px}.successbox.show{display:block}.social-proof{position:fixed;left:50%;bottom:92px;z-index:55;width:min(calc(100% - 28px),420px);transform:translate(-50%,18px);opacity:0;pointer-events:none;transition:.28s ease;background:rgba(14,14,14,.97);border:1px solid #3a2b33;border-radius:16px;padding:11px 12px;display:flex;gap:10px;align-items:center;box-shadow:0 18px 55px rgba(0,0,0,.42),0 8px 35px rgba(255,45,141,.12);backdrop-filter:blur(12px)}.social-proof.show{opacity:1;transform:translate(-50%,0)}.sp-icon{width:36px;height:36px;border-radius:50%;flex:0 0 36px;display:grid;place-items:center;background:#1a1016;border:1px solid #593148;color:#ff6fb3;font-weight:1000}.sp-copy{min-width:0;flex:1}.sp-copy b{display:block;font-size:11px}.sp-copy span{display:block;color:#8d8d8d;font-size:9px;margin-top:3px;line-height:1.35}.sp-live{font-size:8px;color:#73f6a7;font-weight:900;white-space:nowrap}.legal-check{display:flex;gap:8px;align-items:flex-start;font-size:9px;color:#888;line-height:1.45}.legal-check input{width:auto;margin:2px 0 0}.legal-check a{color:#ff6fb3}.footer-links{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:10px}.footer-links a{color:#999;text-decoration:none}.successmark{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;margin:3px auto 12px;background:#12261a;color:#73f6a7;font-size:30px;border:1px solid #285c3a}
+.pay-what-you-want{margin:14px 0;padding:14px;border:1px solid #4b2b3b;border-radius:17px;background:linear-gradient(145deg,#171016,#0d0d0d)}
+.pay-what-you-want-title{font-size:10px;color:#ff8dc2;font-weight:900;letter-spacing:.7px;margin-bottom:9px}
+.amount-options{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.amount-option{min-height:46px;border:1px solid #333;border-radius:12px;background:#141414;color:#fff;font-weight:900;cursor:pointer}
+.amount-option.on{border-color:var(--pink);background:#25101a;box-shadow:inset 0 0 0 1px rgba(255,45,141,.18)}
+.custom-amount-wrap{margin-top:9px}
+.custom-amount-wrap label{display:block;font-size:9px;color:#888;font-weight:800}
+.custom-amount-wrap input{margin-top:5px!important}
+.amount-selected{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-top:9px;padding-top:9px;border-top:1px solid #292929;font-size:10px;color:#999}
+.amount-selected b{color:#fff;font-size:14px}
+.same-access-note{margin-top:8px;color:#8d8d8d;font-size:9px;line-height:1.45}
+.same-access-note strong{color:#73f6a7}
+@media(max-width:420px){.amount-options{grid-template-columns:1fr 1fr 1fr}.amount-option{font-size:11px;padding:8px 4px}}
 @media(min-width:600px){.grid{grid-template-columns:repeat(5,1fr)}}
 
 :root{--font-sf:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",sans-serif;--font-roboto:"Roboto","Segoe UI",Arial,sans-serif}
@@ -32,11 +45,11 @@ h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-fami
 <div class="card"><div class="ico">★</div><b>Favorit & Riwayat</b><small>Simpan prompt penting dan buka lagi yang pernah dipakai.</small></div>
 </div></section>
 
-<section id="harga"><div class="eyebrow">AKSES LAUNCHING</div><h2>Masuk sekali. Pakai kapan dibutuhkan.</h2><div class="price"><b>BADAI PROMPT UMKM</b><div class="amount" id="displayPrice">Rp87.000</div><p>Sekali bayar untuk akses V1.</p><div class="list"><div>500+ prompt siap pakai</div><div>10 kategori bisnis UMKM</div><div>Strategi, copy, visual, video, WhatsApp</div><div>Mode Darurat + Prompt Hari Ini</div><div>Profil Bisnis auto-fill</div><div>Favorit + Riwayat pemakaian</div><div>Update library V1</div></div><div style="border:1px solid #5a3047;background:#170e14;border-radius:14px;padding:12px;margin:12px 0;font-size:11px"><b style="color:#ff6fb3">🎟️ KODE LAUNCHING: LAUNCH10</b><br><span style="color:#aaa">Diskon 10% untuk 100 penggunaan pertama.</span></div><button class="btn pink" style="width:100%" onclick="openCheckout()">AMBIL AKSES LAUNCHING</button><p style="font-size:10px;color:#777">Prompt membantu mempercepat ide dan eksekusi; hasil penjualan tetap bergantung pada produk, penawaran, distribusi, kondisi pasar, dan eksekusi.</p></div></section>
-<section class="faq"><div class="eyebrow">FAQ</div><h2>Sebelum nanya di WhatsApp 😭</h2><details><summary>Ini kelas AI?</summary><p>Bukan. Ini library prompt dan prompt builder yang langsung dipakai.</p></details><details><summary>Harus pakai ChatGPT berbayar?</summary><p>Tidak. Prompt bisa dipakai pada berbagai AI yang mendukung tugas tersebut.</p></details><details><summary>Prompt menjamin penjualan naik?</summary><p>Tidak. Prompt mempercepat ide dan eksekusi, bukan menjamin hasil bisnis.</p></details><details><summary>Setelah bayar, masuknya bagaimana?</summary><p>Setelah pembayaran terverifikasi, akses aktif otomatis. Buka Member Area, masukkan email checkout, lalu klik link login yang dikirim ke email.</p></details><details><summary>Kalau pindah HP, favorit dan riwayat hilang?</summary><p>Tidak. Favorit, riwayat, dan Profil Bisnis tersimpan di akun member.</p></details></section>
+<section id="harga"><div class="eyebrow">BAYAR SEIKHLASNYA</div><h2>Akses 1 tahun. Nominalnya kamu tentukan.</h2><div class="price"><b>BADAI PROMPT UMKM</b><div class="amount">Mulai <span id="displayPrice">Rp30.000</span></div><p>Minimal Rp30.000 untuk akses selama <b style="color:#fff">1 tahun</b>. Mau bayar lebih boleh. Akses dan fitur yang didapat tetap sama.</p><div class="list"><div>500+ prompt siap pakai</div><div>10 kategori bisnis UMKM</div><div>Strategi, copy, visual, video, WhatsApp</div><div>Mode Darurat + Prompt Hari Ini</div><div>Profil Bisnis auto-fill</div><div>Favorit + Riwayat pemakaian</div><div>Update library selama masa akses</div></div><div style="border:1px solid #2d5039;background:#0e1812;border-radius:14px;padding:12px;margin:12px 0;font-size:11px;line-height:1.55"><b style="color:#73f6a7">SEMUA NOMINAL = AKSES YANG SAMA</b><br><span style="color:#aaa">Bayar Rp30.000 tetap dapat akses penuh. Nominal lebih besar adalah dukungan sukarela untuk pengembangan BADAI PROMPT UMKM.</span></div><button class="btn pink" style="width:100%" onclick="openCheckout()">PILIH NOMINAL &amp; BAYAR</button><p style="font-size:10px;color:#777">Prompt membantu mempercepat ide dan eksekusi; hasil penjualan tetap bergantung pada produk, penawaran, distribusi, kondisi pasar, dan eksekusi.</p></div></section>
+<section class="faq"><div class="eyebrow">FAQ</div><h2>Sebelum nanya di WhatsApp 😭</h2><details><summary>Ini kelas AI?</summary><p>Bukan. Ini library prompt dan prompt builder yang langsung dipakai.</p></details><details><summary>Bayarnya benar-benar seikhlasnya?</summary><p>Iya. Minimum Rp30.000 untuk akses 1 tahun. Kamu boleh memilih nominal lebih besar, tetapi akses dan fiturnya tetap sama.</p></details><details><summary>Aksesnya berapa lama?</summary><p>1 tahun sejak pembayaran terverifikasi. Setelah masa akses berakhir, akses perlu diperpanjang untuk periode berikutnya.</p></details><details><summary>Harus pakai ChatGPT berbayar?</summary><p>Tidak. Prompt bisa dipakai pada berbagai AI yang mendukung tugas tersebut.</p></details><details><summary>Prompt menjamin penjualan naik?</summary><p>Tidak. Prompt mempercepat ide dan eksekusi, bukan menjamin hasil bisnis.</p></details><details><summary>Setelah bayar, masuknya bagaimana?</summary><p>Setelah pembayaran terverifikasi, akses aktif otomatis. Buka Member Area, masukkan email checkout, lalu klik link login yang dikirim ke email.</p></details><details><summary>Kalau pindah HP, favorit dan riwayat hilang?</summary><p>Tidak. Favorit, riwayat, dan Profil Bisnis tersimpan di akun member.</p></details></section>
 <div class="footer">BADAI PROMPT UMKM • V1<br>Pembayaran QRIS otomatis • Akses member setelah pembayaran terverifikasi.
 <div class="footer-links"><a href="/demo">Demo</a><a href="/privacy">Privasi</a><a href="/terms">Syarat</a><a href="/refund">Refund</a><a href="/support">Support</a></div></div></div>
-<div class="float"><div><b>BADAI PROMPT UMKM</b><small id="floatPrice">Rp87.000 • akses V1</small></div><button class="btn pink" onclick="openCheckout()">AMBIL AKSES LAUNCHING</button></div>
+<div class="float"><div><b>BADAI PROMPT UMKM</b><small id="floatPrice">Mulai Rp30.000 • 1 tahun</small></div><button class="btn pink" onclick="openCheckout()">BAYAR SEIKHLASNYA</button></div>
 <div class="social-proof" id="socialProof" aria-live="polite">
   <div class="sp-icon">✓</div>
   <div class="sp-copy"><b id="spName">Member baru bergabung</b><span id="spMeta">BADAI PROMPT UMKM</span></div>
@@ -46,22 +59,33 @@ h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-fami
 <div class="checkout-modal" id="checkoutModal">
   <div class="checkout-card">
     <div class="checkout-top">
-      <div><div class="eyebrow">CHECKOUT QRIS</div><h3>BADAI PROMPT UMKM</h3><small style="color:#888" id="checkoutPriceLabel">Rp87.000 • akses V1</small></div>
+      <div><div class="eyebrow">CHECKOUT QRIS</div><h3>BADAI PROMPT UMKM</h3><small style="color:#888" id="checkoutPriceLabel">Bayar seikhlasnya • minimal Rp30.000 / tahun</small></div>
       <button class="xbtn" onclick="closeCheckout()">×</button>
     </div>
 
     <div id="checkoutFormWrap">
       <form class="checkout-form" id="checkoutForm">
+        <div class="pay-what-you-want">
+          <div class="pay-what-you-want-title">PILIH NOMINAL SEIKHLASNYA</div>
+          <div class="amount-options" id="amountOptions">
+            <button class="amount-option" type="button" data-amount="30000">Rp30K</button>
+            <button class="amount-option on" type="button" data-amount="50000">Rp50K</button>
+            <button class="amount-option" type="button" data-amount="100000">Rp100K</button>
+          </div>
+          <div class="custom-amount-wrap">
+            <label>NOMINAL LAIN (MINIMAL <span id="minimumAmountText">Rp30.000</span>)
+              <input id="customAmount" inputmode="numeric" type="number" min="30000" step="1000" placeholder="Contoh: 75000">
+            </label>
+          </div>
+          <div class="amount-selected"><span>Nominal pilihanmu</span><b id="selectedAmountLabel">Rp50.000</b></div>
+          <div class="same-access-note"><strong>Aksesnya tetap sama.</strong> Bayar lebih bukan untuk membuka fitur tambahan, tapi dukungan sukarela untuk pengembangan produk.</div>
+        </div>
         <label>NAMA LENGKAP<input id="buyerName" required maxlength="128" placeholder="Nama lengkap"></label>
         <label>EMAIL AKSES<input id="buyerEmail" type="email" required placeholder="email@contoh.com"></label>
         <label>WHATSAPP<input id="buyerWa" inputmode="tel" required placeholder="08xxxxxxxxxx"></label>
-        <label>KODE KUPON (OPSIONAL)
-          <div class="coupon-line"><input id="couponCode" maxlength="64" placeholder="Contoh: LAUNCH20"><button class="btn dark" id="applyCouponBtn" type="button">PAKAI</button></div>
-        </label>
-        <div class="coupon-summary" id="couponSummary"></div>
-        <label class="legal-check"><input id="agreeTerms" type="checkbox" required><span>Saya setuju dengan <a href="/terms" target="_blank">Syarat & Ketentuan</a>, <a href="/privacy" target="_blank">Kebijakan Privasi</a>, dan memahami <a href="/refund" target="_blank">Kebijakan Refund</a>.</span></label>
-        <button class="btn pink" id="payBtn" type="submit">BUAT QRIS PEMBAYARAN</button>
-        <div class="checkout-msg" id="checkoutMsg">Pastikan email benar. Email ini akan menjadi akun member.</div>
+        <label class="legal-check"><input id="agreeTerms" type="checkbox" required><span>Saya setuju dengan <a href="/terms" target="_blank">Syarat &amp; Ketentuan</a>, <a href="/privacy" target="_blank">Kebijakan Privasi</a>, dan memahami <a href="/refund" target="_blank">Kebijakan Refund</a>.</span></label>
+        <button class="btn pink" id="payBtn" type="submit">BUAT QRIS Rp50.000</button>
+        <div class="checkout-msg" id="checkoutMsg">Pastikan email benar. Email ini akan menjadi akun member selama 1 tahun.</div>
       </form>
     </div>
 
@@ -78,7 +102,7 @@ h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-fami
     <div class="successbox" id="successBox">
       <div class="successmark">✓</div>
       <h3 style="margin:0 0 8px">Pembayaran berhasil</h3>
-      <p style="margin:0 0 10px">Akses BADAI PROMPT UMKM sudah diaktifkan untuk email <b id="successEmail" style="color:#fff"></b>.</p>
+      <p style="margin:0 0 10px">Akses BADAI PROMPT UMKM selama <b style="color:#fff">1 tahun</b> sudah diaktifkan untuk email <b id="successEmail" style="color:#fff"></b>.</p>
       <div style="text-align:left;background:#101010;border:1px solid #292929;border-radius:14px;padding:12px;margin:0 0 14px;font-size:11px;line-height:1.7;color:#aaa">
         <b style="color:#fff">Langkah berikutnya:</b><br>
         1. Klik <b style="color:#fff">MASUK MEMBER AREA</b><br>
@@ -95,9 +119,45 @@ h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-fami
 const APPWRITE_ENDPOINT='https://sgp.cloud.appwrite.io/v1';
 const APPWRITE_PROJECT='badai-prompt-umkm';
 let checkoutToken='',checkoutEmail='',checkoutExpiry=null,pollTimer=null,countTimer=null;
-let registrationOpen=true,currentPrice=87000,appliedCoupon='',quotedTotal=87000,socialProofTimer=null,socialProofHideTimer=null;
+let registrationOpen=true,minimumPrice=30000,selectedAmount=50000,socialProofTimer=null,socialProofHideTimer=null;
 
 function rupiah(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n||0))}
+function normalizeAmount(v){
+  const n=Math.floor(Number(v));
+  return Number.isFinite(n)?n:0;
+}
+function setAmount(value,custom=false){
+  let amount=normalizeAmount(value);
+  if(amount<minimumPrice)amount=minimumPrice;
+  selectedAmount=amount;
+  document.querySelectorAll('.amount-option').forEach(btn=>btn.classList.toggle('on',!custom&&Number(btn.dataset.amount)===amount));
+  selectedAmountLabel.textContent=rupiah(amount);
+  payBtn.textContent='BUAT QRIS '+rupiah(amount);
+}
+document.querySelectorAll('.amount-option').forEach(btn=>btn.addEventListener('click',()=>{
+  customAmount.value='';
+  setAmount(btn.dataset.amount,false);
+}));
+customAmount.addEventListener('input',()=>{
+  const raw=normalizeAmount(customAmount.value);
+  document.querySelectorAll('.amount-option').forEach(btn=>btn.classList.remove('on'));
+  if(raw>0){
+    selectedAmount=raw;
+    selectedAmountLabel.textContent=rupiah(raw);
+    payBtn.textContent='BUAT QRIS '+rupiah(raw);
+  }else{
+    selectedAmount=minimumPrice;
+    selectedAmountLabel.textContent=rupiah(minimumPrice);
+    payBtn.textContent='BUAT QRIS '+rupiah(minimumPrice);
+  }
+});
+customAmount.addEventListener('blur',()=>{
+  if(customAmount.value&&normalizeAmount(customAmount.value)<minimumPrice){
+    customAmount.value=String(minimumPrice);
+    setAmount(minimumPrice,true);
+  }
+});
+
 function openCheckout(){
   hideSocialProof();
   if(!registrationOpen){alert('Pendaftaran BADAI PROMPT UMKM sedang ditutup.');return}
@@ -130,71 +190,37 @@ async function runPayment(path,payload){
   return body;
 }
 
-function resetCouponQuote(){
-  appliedCoupon='';
-  quotedTotal=currentPrice;
-  couponSummary.classList.remove('show');
-  couponSummary.innerHTML='';
-  payBtn.textContent='BUAT QRIS PEMBAYARAN';
-}
-couponCode.addEventListener('input',()=>{
-  couponCode.value=couponCode.value.toUpperCase().replace(/\s+/g,'');
-  if(couponCode.value!==appliedCoupon)resetCouponQuote();
-});
-applyCouponBtn.onclick=async()=>{
-  const code=couponCode.value.trim().toUpperCase();
-  if(!code){resetCouponQuote();return}
-  applyCouponBtn.disabled=true;applyCouponBtn.textContent='CEK…';
-  try{
-    const q=await runPayment('/quote',{coupon_code:code});
-    appliedCoupon=q.coupon_code||'';
-    quotedTotal=Number(q.total||0);
-    couponSummary.classList.add('show');
-    couponSummary.innerHTML='Harga awal: '+rupiah(q.base_price)+'<br>Diskon: <b>-'+rupiah(q.discount_amount)+'</b><br>Total setelah kupon: <b>'+rupiah(q.total)+'</b>';
-    payBtn.textContent=q.total===0?'AKTIFKAN AKSES GRATIS':'BUAT QRIS '+rupiah(q.total);
-  }catch(err){
-    resetCouponQuote();
-    couponSummary.classList.add('show');
-    couponSummary.innerHTML='<span style="color:#ff7088">'+String(err.message||'Kupon tidak valid')+'</span>';
-  }finally{
-    applyCouponBtn.disabled=false;applyCouponBtn.textContent='PAKAI';
-  }
-};
-
 document.getElementById('checkoutForm').addEventListener('submit',async e=>{
   e.preventDefault();
   const btn=document.getElementById('payBtn'),msg=document.getElementById('checkoutMsg');
+  const amount=normalizeAmount(selectedAmount);
+  if(amount<minimumPrice){
+    msg.className='checkout-msg bad';
+    msg.textContent='Nominal minimal '+rupiah(minimumPrice)+' untuk akses 1 tahun.';
+    return;
+  }
   btn.disabled=true;btn.textContent='MEMBUAT QRIS…';msg.className='checkout-msg';msg.textContent='Menghubungkan pembayaran…';
   try{
     const data=await runPayment('/create',{
       full_name:document.getElementById('buyerName').value.trim(),
       email:document.getElementById('buyerEmail').value.trim(),
       whatsapp:document.getElementById('buyerWa').value.trim(),
-      coupon_code:document.getElementById('couponCode').value.trim().toUpperCase()
+      amount:amount
     });
     checkoutToken=data.public_token;
     checkoutEmail=document.getElementById('buyerEmail').value.trim().toLowerCase();
     checkoutExpiry=data.expires_at?new Date(data.expires_at):new Date(Date.now()+15*60*1000);
     document.getElementById('checkoutFormWrap').style.display='none';
     document.getElementById('paymentWrap').style.display='block';
-    document.getElementById('payAmount').textContent=rupiah(data.total_amount||data.amount||0);
-
-    if(data.status==='success'){
-      document.querySelector('.qrbox').style.display='none';
-      document.getElementById('checkNowBtn').style.display='none';
-      document.getElementById('payCountdown').textContent='PROSES';
-      document.getElementById('payStatus').innerHTML='<b style="color:#73f6a7">Kupon berhasil diterapkan ✓</b><br>Mengaktifkan akun member…';
-      if(data.access_ready){handlePaid(data)}else{setTimeout(checkPayment,1500);pollTimer=setInterval(checkPayment,3000)}
-    }else{
-      document.querySelector('.qrbox').style.display='block';
-      document.getElementById('checkNowBtn').style.display='block';
-      document.getElementById('qrImage').src=data.qr_url;
-      startCountdown();
-      schedulePolling();
-    }
+    document.getElementById('payAmount').textContent=rupiah(data.total_amount||data.amount||amount);
+    document.querySelector('.qrbox').style.display='block';
+    document.getElementById('checkNowBtn').style.display='block';
+    document.getElementById('qrImage').src=data.qr_url;
+    startCountdown();
+    schedulePolling();
   }catch(err){
     msg.className='checkout-msg bad';msg.textContent=err.message||'Gagal membuat QRIS.';
-    btn.disabled=false;btn.textContent='BUAT QRIS PEMBAYARAN';
+    btn.disabled=false;btn.textContent='BUAT QRIS '+rupiah(amount);
   }
 });
 
@@ -217,7 +243,7 @@ async function checkPayment(){
     const data=await runPayment('/check',{public_token:checkoutToken});
     if(data.status==='success'){
       if(data.access_ready){handlePaid(data);return}
-      status.innerHTML='<b style="color:#73f6a7">Pembayaran diterima ✓</b><br>Mengaktifkan akun member…';
+      status.innerHTML='<b style="color:#73f6a7">Pembayaran diterima ✓</b><br>Mengaktifkan akses 1 tahun…';
       setTimeout(checkPayment,3000);
       return;
     }
@@ -228,7 +254,6 @@ async function checkPayment(){
     status.textContent='Pengecekan tertunda. Sistem akan mencoba lagi otomatis.';
   }
 }
-
 function schedulePolling(){
   clearInterval(pollTimer);
   setTimeout(checkPayment,5000);
@@ -254,15 +279,12 @@ function relativeTime(iso){
   if(min<60)return min+' menit lalu';
   const hr=Math.floor(min/60);
   if(hr<24)return hr+' jam lalu';
-  const day=Math.floor(hr/24);
-  return day+' hari lalu';
+  return Math.floor(hr/24)+' hari lalu';
 }
-
 function hideSocialProof(){
   clearTimeout(socialProofHideTimer);
   socialProof.classList.remove('show');
 }
-
 function showSocialProof(item){
   if(!item)return;
   spName.textContent=(item.display_name||'Member')+' baru bergabung';
@@ -271,7 +293,6 @@ function showSocialProof(item){
   clearTimeout(socialProofHideTimer);
   socialProofHideTimer=setTimeout(hideSocialProof,5600);
 }
-
 async function loadSocialProof(){
   try{
     const data=await runPayment('/social-proof',{});
@@ -279,37 +300,35 @@ async function loadSocialProof(){
     const items=data.items.slice(0,8);
     const interval=Math.min(60,Math.max(10,Number(data.interval_seconds||18)))*1000;
     let index=0;
-    const shown=new Set();
     const next=()=>{
       if(index>=items.length)return;
-      const item=items[index++];
-      const key=(item.display_name||'')+'|'+(item.paid_at||'');
-      if(shown.has(key)){setTimeout(next,300);return}
-      shown.add(key);
-      showSocialProof(item);
+      showSocialProof(items[index++]);
       if(index<items.length)socialProofTimer=setTimeout(next,interval);
     };
     socialProofTimer=setTimeout(next,7000);
-  }catch(err){
-    console.warn('Social proof unavailable');
-  }
+  }catch(err){console.warn('Social proof unavailable')}
 }
 
 async function loadPublicConfig(){
   try{
     const data=await runPayment('/config',{});
-    currentPrice=Number(data.price||87000);
-    quotedTotal=currentPrice;
+    minimumPrice=Math.max(30000,Number(data.minimum_price||30000));
     registrationOpen=data.registration_open!==false;
-    document.getElementById('displayPrice').textContent=rupiah(currentPrice);
-    document.getElementById('checkoutPriceLabel').textContent=rupiah(currentPrice)+' • akses V1';
-    document.getElementById('floatPrice').textContent=rupiah(currentPrice)+' • akses V1';
+    document.getElementById('displayPrice').textContent=rupiah(minimumPrice);
+    document.getElementById('minimumAmountText').textContent=rupiah(minimumPrice);
+    document.getElementById('customAmount').min=String(minimumPrice);
+    document.getElementById('checkoutPriceLabel').textContent='Bayar seikhlasnya • minimal '+rupiah(minimumPrice)+' / tahun';
+    document.getElementById('floatPrice').textContent='Mulai '+rupiah(minimumPrice)+' • 1 tahun';
+    const defaultAmount=Math.max(minimumPrice,50000);
+    const matching=[...document.querySelectorAll('.amount-option')].find(btn=>Number(btn.dataset.amount)===defaultAmount);
+    setAmount(defaultAmount,!matching);
     document.querySelectorAll('[onclick="openCheckout()"]').forEach(btn=>{
       btn.disabled=!registrationOpen;
       if(!registrationOpen)btn.textContent='PENDAFTARAN DITUTUP';
     });
   }catch(err){
     console.warn('Config fallback aktif');
+    setAmount(50000,false);
   }
 }
 loadPublicConfig();
