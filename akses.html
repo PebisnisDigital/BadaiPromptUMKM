@@ -21,8 +21,7 @@ main{padding:16px}.hero{background:linear-gradient(145deg,#121212,#0b0b0b);borde
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.chip{background:#111;border:1px solid #2b2b2b;color:#fff;border-radius:14px;padding:12px;text-align:left;cursor:pointer;min-height:58px;transition:.16s ease}.chip:active{transform:scale(.985)}.chip.on{border-color:var(--pink);background:#1b1016;box-shadow:inset 0 0 0 1px rgba(255,45,141,.15)}.chip span{display:block;color:#777;font-size:9px;margin-top:3px}
 .scroll{display:flex;gap:8px;overflow:auto;padding-bottom:3px}.goal{min-width:145px;white-space:nowrap}
 .cards{display:grid;gap:10px}.result-intro{display:none;margin-bottom:10px;padding:12px;border:1px solid #2d2d2d;border-radius:14px;background:#0d0d0d;color:#999;font-size:10px;line-height:1.5}.result-intro.show{display:block}.result-intro b{color:#fff}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;position:relative}.card.recommended{border-color:#5a3047;box-shadow:0 12px 35px rgba(255,45,141,.08)}.recommend-badge{position:absolute;right:12px;top:12px;font-size:8px;color:#fff;background:var(--pink);border-radius:999px;padding:4px 6px;font-weight:900}.meta{display:flex;gap:6px;flex-wrap:wrap}.tag{font-size:9px;border:1px solid #333;border-radius:999px;padding:5px 7px;color:#aaa}.tag.pinktag{color:var(--pink2);border-color:#503044;background:#1a1016}.card h3{font-size:16px;line-height:1.25;margin:10px 0 7px}.card p{font-size:11px;line-height:1.55;color:#929292;margin:0;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}.actions{display:flex;gap:8px;margin-top:12px}.actions .pink{flex:1}
-.empty{border:1px dashed #333;border-radius:18px;padding:25px;text-align:center;color:#888}.more{width:100%;margin-top:10px}
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,720px);z-index:18;background:rgba(8,8,8,.96);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:9px 8px 10px;backdrop-filter:blur(14px)}.nav button{background:none;border:0;color:#888;font-size:10px}.nav button.active{color:var(--pink2)}.nav b{display:block;font-size:16px;margin-bottom:2px}
+.empty{border:1px dashed #333;border-radius:18px;padding:25px;text-align:center;color:#888}.more{width:100%;margin-top:10px}.history-wrap{margin-top:18px;scroll-margin-top:78px}.history-list{display:grid;gap:8px}.history-item{background:#0f0f0f;border:1px solid #292929;border-radius:15px;padding:12px}.history-top{display:flex;justify-content:space-between;gap:10px}.history-item h3{font-size:13px;margin:7px 0 5px}.history-item p{font-size:9px;color:#858585;margin:0;line-height:1.45}.history-time{font-size:8px;color:#777;white-space:nowrap}.history-actions{display:flex;gap:7px;margin-top:9px}.history-actions .pink{flex:1}.history-count{font-size:8px;color:var(--pink2);font-weight:900}.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,720px);z-index:18;background:rgba(8,8,8,.96);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:9px 8px 10px;backdrop-filter:blur(14px)}.nav button{background:none;border:0;color:#888;font-size:10px}.nav button.active{color:var(--pink2)}.nav b{display:block;font-size:16px;margin-bottom:2px}
 .gate{position:fixed;inset:0;z-index:60;background:radial-gradient(circle at 80% 0,rgba(255,45,141,.24),transparent 30%),#070707;display:flex;align-items:center;justify-content:center;padding:20px}.gate.hide{display:none}.login{width:min(100%,410px);background:#0e0e0e;border:1px solid #2e2e2e;border-radius:24px;padding:20px;box-shadow:var(--shadow)}.login .logo{font-size:22px;font-weight:1000}.login .logo b{color:var(--pink)}.login h1{font-size:25px;margin:18px 0 6px}.login p{color:#999;font-size:12px;line-height:1.55}.field{margin-top:10px}.field label{display:block;font-size:10px;color:#999;margin-bottom:5px}.field input,.field textarea{width:100%;background:#080808;border:1px solid #303030;color:#fff;border-radius:13px;padding:13px;outline:none}.field .hint{font-size:9px;color:#6f6f6f;margin-top:5px;line-height:1.4}.field input:focus,.field textarea:focus{border-color:var(--pink)}.msg{min-height:18px;font-size:10px;margin-top:10px;color:#aaa}.msg.bad{color:var(--danger)}.msg.good{color:var(--green)}.login .btn{width:100%;margin-top:8px}
 .modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.8);display:none;align-items:flex-end;justify-content:center}.emergency-sheet{background:linear-gradient(180deg,#160c12,#101010)}.emergency-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.emergency-option{background:#111;border:1px solid #3b2831;border-radius:14px;color:#fff;padding:12px;text-align:left;cursor:pointer;min-height:75px}.emergency-option b{display:block;font-size:12px}.emergency-option span{display:block;font-size:9px;color:#8d8d8d;margin-top:5px;line-height:1.35}.emergency-option.on{border-color:var(--pink);background:#1a0e14}.emergency-business{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.emergency-business button{background:#0d0d0d;border:1px solid #303030;color:#fff;border-radius:12px;padding:9px;text-align:left;font-size:10px}.emergency-business button.on{border-color:var(--pink);background:#1b1016}.emergency-results{display:grid;gap:8px;margin-top:12px}.emergency-result{background:#0b0b0b;border:1px solid #3b2a32;border-radius:14px;padding:12px}.emergency-result h3{font-size:13px;margin:6px 0}.emergency-result p{font-size:9px;color:#8c8c8c;line-height:1.45;margin:0}.rank{font-size:8px;font-weight:900;color:var(--pink2)}.modal.show{display:flex}.sheet{width:min(100%,720px);max-height:92vh;overflow:auto;background:#101010;border:1px solid #303030;border-radius:24px 24px 0 0;padding:18px}.close{float:right}.sheet h2{font-size:20px;margin:3px 0 4px}.sheet .sub{font-size:10px;color:#888;margin-bottom:14px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.field.full{grid-column:1/-1}.builder-guide{background:#0c0c0c;border:1px solid #2b2b2b;border-radius:14px;padding:11px;margin:11px 0;color:#929292;font-size:10px;line-height:1.5}.builder-guide b{color:#fff}.out-label{display:none;margin-top:13px;font-size:10px;color:var(--pink2);font-weight:900;letter-spacing:.5px}.out-label.show{display:block}.out{display:none;white-space:pre-wrap;background:#080808;border:1px solid #292929;border-radius:14px;padding:13px;font:11px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;max-height:300px;overflow:auto;margin-top:7px}.out.show{display:block}.sheet-actions{display:flex;gap:8px;margin-top:10px}.sheet-actions .pink{flex:1}
 .loading{position:fixed;inset:0;z-index:45;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center}.loading.show{display:flex}.loaderbox{background:#111;border:1px solid #333;border-radius:16px;padding:16px 20px;color:#bbb;font-size:12px}
@@ -99,6 +98,17 @@ main{padding:16px}.hero{background:linear-gradient(145deg,#121212,#0b0b0b);borde
   <div class="section-note" style="margin:9px 0 0">Pilihan berganti otomatis setiap hari. Prompt Featured dari admin mendapat prioritas lebih tinggi.</div>
 </section>
 
+<section class="history-wrap" id="historySection">
+  <div class="sec-head">
+    <div class="sec-title"><span class="num">↻</span><h2>Terakhir Dipakai</h2></div>
+    <small id="historyCount">0 prompt</small>
+  </div>
+  <div class="section-note">Prompt yang pernah dibuka akan muncul di sini dan ikut akun saat pindah perangkat.</div>
+  <div class="history-list" id="historyList">
+    <div class="empty">Belum ada riwayat. Coba pakai satu prompt dulu.</div>
+  </div>
+</section>
+
 <div class="choicebar" id="choiceBar">
   <div class="chosen" id="choiceText">Belum ada pilihan.</div>
   <button class="btn ghost" id="resetChoice">RESET</button>
@@ -129,6 +139,7 @@ main{padding:16px}.hero{background:linear-gradient(145deg,#121212,#0b0b0b);borde
 <div class="nav">
   <button class="active" onclick="window.scrollTo({top:0,behavior:'smooth'})"><b>⌂</b>Beranda</button>
   <button onclick="document.getElementById('search').focus()"><b>⌕</b>Prompt</button>
+  <button onclick="showHistory()"><b>↻</b>Riwayat</button>
   <button onclick="showFavorites()"><b>★</b>Favorit</button>
   <button onclick="openAccount()"><b>☻</b>Akun</button>
 </div>
@@ -209,7 +220,7 @@ const DB='badai_prompt_umkm', TABLE='prompts';
 const gate=document.getElementById('gate'), loading=document.getElementById('loading'), loginMsg=document.getElementById('loginMsg');
 const nicheGrid=document.getElementById('nicheGrid'), goalScroll=document.getElementById('goalScroll'), cards=document.getElementById('cards');
 const search=document.getElementById('search'), modal=document.getElementById('modal');
-let all=[], filtered=[], selectedNiche='', selectedGoal='', pageSize=24, shown=24, current=null, currentUser=null, favorites=new Set(), favoriteRows=new Map(), currentProfile=null, emergencyNiche='', emergencyMode='', dailyPrompt=null;
+let all=[], filtered=[], selectedNiche='', selectedGoal='', pageSize=24, shown=24, current=null, currentUser=null, favorites=new Set(), favoriteRows=new Map(), currentProfile=null, emergencyNiche='', emergencyMode='', dailyPrompt=null, historyRows=[], historyMap=new Map();
 
 const icons={
  'Kuliner & Minuman':'🍜','Fashion & Hijab':'👗','Beauty & Perawatan':'💄','Jasa Lokal':'🛠️','Pendidikan & Kursus':'🎓',
@@ -479,12 +490,123 @@ async function loadPrompts(){
     document.getElementById('nicheStat').textContent=new Set(all.map(x=>x.niche)).size;
     document.getElementById('goalStat').textContent=new Set(all.map(x=>x.goal)).size;
     renderPromptToday();
+    await loadHistory();
     renderFilters(); applyFilters();
   }catch(err){
     all=[]; cards.innerHTML='<div class="empty"><b>Akses belum aktif.</b><br><br>Akun berhasil login, tetapi belum masuk daftar member aktif BADAI PROMPT UMKM.<br><br>Hubungi admin setelah pembayaran diverifikasi.</div>';
     document.getElementById('resultCount').textContent='akses terkunci';
   }finally{setLoading(false)}
 }
+
+async function loadHistory(){
+  historyRows=[];
+  historyMap=new Map();
+  if(!currentUser){renderHistory();return}
+  try{
+    const res=await tables.listRows({
+      databaseId:DB,
+      tableId:'prompt_history',
+      queries:[
+        Query.equal('user_id',currentUser.$id),
+        Query.orderDesc('last_used_at'),
+        Query.limit(50)
+      ]
+    });
+    historyRows=(res.rows||res.documents||[]).map(normalizeRow);
+    historyRows.forEach(r=>historyMap.set(r.prompt_id,r));
+  }catch(err){
+    console.warn('History sync unavailable',err);
+  }
+  renderHistory();
+}
+
+function historyTime(iso){
+  if(!iso)return '-';
+  const d=new Date(iso),now=new Date(),diff=Math.max(0,now-d);
+  const min=Math.floor(diff/60000);
+  if(min<1)return 'Baru saja';
+  if(min<60)return min+' menit lalu';
+  const hr=Math.floor(min/60);
+  if(hr<24)return hr+' jam lalu';
+  const day=Math.floor(hr/24);
+  if(day<7)return day+' hari lalu';
+  return new Intl.DateTimeFormat('id-ID',{day:'numeric',month:'short',year:'numeric'}).format(d);
+}
+
+function renderHistory(){
+  if(!document.getElementById('historyList'))return;
+  const rows=historyRows.filter(h=>all.some(p=>p.$id===h.prompt_id)).slice(0,8);
+  historyCount.textContent=historyRows.length+' prompt';
+  if(!rows.length){
+    historyList.innerHTML='<div class="empty">Belum ada riwayat. Coba pakai satu prompt dulu.</div>';
+    return;
+  }
+  historyList.innerHTML=rows.map(h=>{
+    const p=all.find(x=>x.$id===h.prompt_id);
+    if(!p)return '';
+    return '<article class="history-item"><div class="history-top"><div class="meta"><span class="tag pinktag">'+esc(p.output_type)+'</span><span class="tag">'+esc(p.goal)+'</span></div><span class="history-time">'+esc(historyTime(h.last_used_at))+'</span></div><h3>'+esc(p.title)+'</h3><p>'+esc(p.niche)+' • terakhir dibuka '+esc(historyTime(h.last_used_at))+'</p><div class="history-actions"><button class="btn pink" data-history-use="'+esc(p.$id)+'">PAKAI LAGI</button><span class="history-count">Dipakai '+Number(h.use_count||1)+'x</span></div></article>';
+  }).join('');
+  historyList.querySelectorAll('[data-history-use]').forEach(b=>b.onclick=()=>openBuilder(b.dataset.historyUse));
+}
+
+async function markPromptUsed(promptId){
+  if(!currentUser||!promptId)return;
+  const now=new Date().toISOString();
+  let existing=historyMap.get(promptId);
+  try{
+    if(existing){
+      const updated=await tables.updateRow({
+        databaseId:DB,
+        tableId:'prompt_history',
+        rowId:existing.$id,
+        data:{last_used_at:now,use_count:Number(existing.use_count||1)+1}
+      });
+      const row=normalizeRow(updated);
+      historyMap.set(promptId,row);
+    }else{
+      const created=await tables.createRow({
+        databaseId:DB,
+        tableId:'prompt_history',
+        rowId:ID.unique(),
+        data:{user_id:currentUser.$id,prompt_id:promptId,last_used_at:now,use_count:1},
+        permissions:[
+          Permission.read(Role.user(currentUser.$id)),
+          Permission.update(Role.user(currentUser.$id)),
+          Permission.delete(Role.user(currentUser.$id))
+        ]
+      });
+      const row=normalizeRow(created);
+      historyMap.set(promptId,row);
+    }
+    historyRows=[...historyMap.values()].sort((a,b)=>String(b.last_used_at||'').localeCompare(String(a.last_used_at||'')));
+    renderHistory();
+  }catch(err){
+    if(Number(err?.code)===409){
+      await loadHistory();
+      existing=historyMap.get(promptId);
+      if(existing){
+        try{
+          const updated=await tables.updateRow({
+            databaseId:DB,
+            tableId:'prompt_history',
+            rowId:existing.$id,
+            data:{last_used_at:now,use_count:Number(existing.use_count||1)+1}
+          });
+          historyMap.set(promptId,normalizeRow(updated));
+          historyRows=[...historyMap.values()].sort((a,b)=>String(b.last_used_at||'').localeCompare(String(a.last_used_at||'')));
+          renderHistory();
+        }catch(e){}
+      }
+    }else{
+      console.warn('Could not record history',err);
+    }
+  }
+}
+
+window.showHistory=async()=>{
+  await loadHistory();
+  historySection.scrollIntoView({behavior:'smooth',block:'start'});
+};
 
 function jakartaDateParts(){
   const parts=new Intl.DateTimeFormat('en-US',{
@@ -614,6 +736,7 @@ const examples={
 
 function openBuilder(id){
   current=all.find(x=>x.$id===id); if(!current)return;
+  markPromptUsed(id);
   updateJourney();
   builderTitle.textContent=current.title;
   builderMeta.textContent=current.niche+' • '+current.goal+' • '+current.output_type;
