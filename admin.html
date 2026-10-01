@@ -129,6 +129,8 @@ main{padding:16px}.view{display:none}.view.on{display:block}.eyebrow{font-size:1
       <div class="field"><label>NAMA PRODUK</label><input id="setName"></div>
       <div class="field"><label>HARGA (RUPIAH)</label><input id="setPrice" inputmode="numeric"></div>
       <div class="switch"><div><b>Pendaftaran / Checkout</b><div class="muted">Matikan kalau penjualan sedang ditutup.</div></div><input id="setOpen" type="checkbox" style="width:22px;height:22px"></div>
+      <div class="switch"><div><b>Social Proof Pembelian</b><div class="muted">Tampilkan notifikasi member baru dari order success asli di LP.</div></div><input id="setSocialProof" type="checkbox" style="width:22px;height:22px"></div>
+      <div class="field"><label>INTERVAL SOCIAL PROOF (DETIK)</label><input id="setSocialProofInterval" type="number" min="10" max="60" value="18"><div class="muted">Disarankan 15–25 detik supaya tidak mengganggu.</div></div>
       <button class="btn pink" type="submit" style="width:100%;margin-top:12px">SIMPAN PENGATURAN</button>
       <div class="msg" id="settingsMsg"></div>
     </form>
@@ -782,9 +784,26 @@ document.getElementById('sendAdminPasswordResetBtn').onclick=async()=>{
 };
 
 async function loadSettings(){
-  const d=await api('/settings/get');setName.value=d.settings.product_name||'BADAI PROMPT UMKM';setPrice.value=d.settings.product_price||'87000';setOpen.checked=String(d.settings.registration_open||'true')==='true';
+  const d=await api('/settings/get');
+  setName.value=d.settings.product_name||'BADAI PROMPT UMKM';
+  setPrice.value=d.settings.product_price||'87000';
+  setOpen.checked=String(d.settings.registration_open||'true')==='true';
+  setSocialProof.checked=String(d.settings.social_proof_enabled||'true')==='true';
+  setSocialProofInterval.value=Math.min(60,Math.max(10,Number(d.settings.social_proof_interval_seconds||18)));
 }
-settingsForm.onsubmit=async e=>{e.preventDefault();msg(settingsMsg,'Menyimpan…');try{await api('/settings/save',{product_name:setName.value.trim(),product_price:String(Number(setPrice.value)||0),registration_open:String(setOpen.checked)});msg(settingsMsg,'Pengaturan tersimpan ✓','good')}catch(err){msg(settingsMsg,err.message,'bad')}};
+settingsForm.onsubmit=async e=>{
+  e.preventDefault();msg(settingsMsg,'Menyimpan…');
+  try{
+    await api('/settings/save',{
+      product_name:setName.value.trim(),
+      product_price:String(Number(setPrice.value)||0),
+      registration_open:String(setOpen.checked),
+      social_proof_enabled:String(setSocialProof.checked),
+      social_proof_interval_seconds:String(Math.min(60,Math.max(10,Number(setSocialProofInterval.value)||18)))
+    });
+    msg(settingsMsg,'Pengaturan tersimpan ✓','good');
+  }catch(err){msg(settingsMsg,err.message,'bad')}
+};
 
 promptModal.onclick=e=>{if(e.target===promptModal)closePrompt()};
 if(params.get('reset')==='1'){
