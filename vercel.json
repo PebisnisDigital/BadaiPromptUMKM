@@ -2,6 +2,16 @@
   "cleanUrls": true,
   "rewrites": [
     { "source": "/akses", "destination": "/akses.html" },
-    { "source": "/instagram", "destination": "/instagram.html" }
+    { "source": "/instagram", "destination": "/instagram.html" },
+    { "source": "/umroh", "destination": "/product.html?slug=umroh" },
+    { "source": "/hijab", "destination": "/product.html?slug=hijab" },
+    { "source": "/craft", "destination": "/product.html?slug=craft" },
+    { "source": "/guru", "destination": "/product.html?slug=guru" },
+    { "source": "/kuliner", "destination": "/product.html?slug=kuliner" },
+    { "source": "/beauty", "destination": "/product.html?slug=beauty" },
+    { "source": "/properti", "destination": "/product.html?slug=properti" },
+    { "source": "/otomotif", "destination": "/product.html?slug=otomotif" },
+    { "source": "/hampers", "destination": "/product.html?slug=hampers" },
+    { "source": "/retail", "destination": "/product.html?slug=retail" }
   ]
 }
