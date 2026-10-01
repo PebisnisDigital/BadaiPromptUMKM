@@ -143,6 +143,111 @@ export default async ({req,res,log,error})=>{
         return res.json({ok:true,total:r.total||0,rows:(r.rows||r.documents||[]).map(unpack)});
       }
 
+      if(route==='/members/manual-create'){
+        const name=q(body.name);
+        const email=q(body.email).toLowerCase();
+        let whatsapp=q(body.whatsapp).replace(/\D/g,'');
+        if(whatsapp.startsWith('0')) whatsapp='62'+whatsapp.slice(1);
+        const accessStatus=body.access_status==='active'?'active':'pending';
+        const paymentStatus=body.payment_status==='success'?'success':'pending';
+        const paymentMethod=q(body.payment_method)||'manual';
+        const notes=q(body.notes)||null;
+        const amount=Math.max(Number(body.amount)||0,0);
+
+        if(!name||!email||!whatsapp){
+          return res.json({error:'Nama, email, dan WhatsApp wajib diisi.'},400);
+        }
+        if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+          return res.json({error:'Email belum valid.'},400);
+        }
+
+        const found=await users.list({queries:[Query.equal('email',email),Query.limit(1)]});
+        let user=(found.users||[])[0]||null;
+        if(!user){
+          user=await users.create({
+            userId:ID.unique(),
+            email,
+            name:name.slice(0,128)
+          });
+        }
+
+        const profileData={
+          user_id:user.$id,
+          name,
+          email,
+          whatsapp,
+          status:accessStatus,
+          role:'member'
+        };
+
+        try{
+          await tables.createRow({
+            databaseId:DB,
+            tableId:PROFILES,
+            rowId:user.$id,
+            data:profileData,
+            permissions:[
+              Permission.read(Role.user(user.$id)),
+              Permission.update(Role.user(user.$id))
+            ]
+          });
+        }catch(e){
+          if(Number(e?.code)===409){
+            await tables.updateRow({
+              databaseId:DB,
+              tableId:PROFILES,
+              rowId:user.$id,
+              data:profileData
+            });
+          }else throw e;
+        }
+
+        const memberships=await teams.listMemberships({
+          teamId:TEAM_ID,
+          queries:[Query.equal('userId',user.$id),Query.limit(10)]
+        });
+        const current=(memberships.memberships||[])[0]||null;
+
+        if(accessStatus==='active'&&!current){
+          await teams.createMembership({teamId:TEAM_ID,roles:['member'],userId:user.$id});
+        }
+        if(accessStatus!=='active'&&current){
+          await teams.deleteMembership({teamId:TEAM_ID,membershipId:current.$id});
+        }
+
+        const stamp=Date.now().toString(36).toUpperCase();
+        const order=await tables.createRow({
+          databaseId:DB,
+          tableId:ORDERS,
+          rowId:ID.unique(),
+          data:{
+            public_token:'MANUAL-'+ID.unique(),
+            full_name:name,
+            email,
+            whatsapp,
+            amount,
+            total_amount:amount,
+            amount_uniq:0,
+            admin_fee:0,
+            transaction_id:'MANUAL-'+stamp,
+            status:paymentStatus,
+            paid_at:paymentStatus==='success'?new Date().toISOString():null,
+            user_id:user.$id,
+            access_issued:accessStatus==='active',
+            payment_method:paymentMethod,
+            notes
+          }
+        });
+
+        return res.json({
+          ok:true,
+          user_id:user.$id,
+          access_status:accessStatus,
+          payment_status:paymentStatus,
+          order:unpack(order)
+        });
+      }
+
       if(route==='/members/list'){
         const queries=[
           Query.limit(Math.min(Number(body.limit)||100,100)),
