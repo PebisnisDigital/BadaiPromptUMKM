@@ -18,7 +18,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.eyebrow{font-size:1
 .panel{background:var(--c);border:1px solid var(--line);border-radius:18px;padding:14px;margin-top:12px}.panel h2{font-size:16px;margin:0 0 10px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.toolbar input,.toolbar select,.field input,.field textarea,.field select{background:#090909;border:1px solid #323232;color:#fff;border-radius:12px;padding:11px;outline:none}.toolbar input{flex:1;min-width:180px}.toolbar select{min-width:135px}.toolbar input:focus,.toolbar select:focus,.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--pink)}
 .list{display:grid;gap:8px}.row{background:#0d0d0d;border:1px solid #292929;border-radius:14px;padding:12px}.row-head{display:flex;justify-content:space-between;gap:10px}.row h3{font-size:13px;margin:0 0 4px}.muted{color:#818181;font-size:10px;line-height:1.5}.tags{display:flex;gap:5px;flex-wrap:wrap;margin:7px 0}.tag{font-size:8px;color:#aaa;border:1px solid #333;border-radius:999px;padding:4px 6px}.tag.live{color:var(--green);border-color:#28543a}.tag.off{color:#ff8da0;border-color:#5a2631}.tag.pend{color:var(--yellow);border-color:#594d24}.row-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
 .order-grid{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start}.money{font-weight:900;text-align:right}.status{font-size:9px;font-weight:900;text-transform:uppercase}.status.success{color:var(--green)}.status.pending{color:var(--yellow)}.status.failed,.status.expired{color:var(--red)}
-.empty{text-align:center;padding:28px;border:1px dashed #333;border-radius:15px;color:#777}.loading{opacity:.55;pointer-events:none}
+.empty{text-align:center;padding:28px;border:1px dashed #333;border-radius:15px;color:#777}.loading{opacity:.55;pointer-events:none}.pager{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid #242424}.pager-info{font-size:9px;color:#888;text-align:center;flex:1}.pager button:disabled{opacity:.35;cursor:not-allowed}
 .nav{position:fixed;z-index:35;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,940px);display:grid;grid-template-columns:repeat(5,1fr);background:rgba(9,9,9,.97);border-top:1px solid var(--line);padding:8px 5px 10px;backdrop-filter:blur(14px)}.nav button{background:none;border:0;color:#777;font-size:9px;padding:5px}.nav button b{display:block;font-size:16px;margin-bottom:2px}.nav button.on{color:var(--pink2)}
 .gate{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 80% 0,rgba(255,45,141,.22),transparent 30%),#070707;display:flex;align-items:center;justify-content:center;padding:18px}.gate.hide{display:none}.login{width:min(100%,420px);background:#0e0e0e;border:1px solid #303030;border-radius:24px;padding:20px}.login h1{font-size:26px;margin:16px 0 6px}.login p{color:#999;font-size:12px;line-height:1.55}.field{margin-top:9px}.field label{display:block;color:#999;font-size:9px;font-weight:800;margin-bottom:5px}.field input,.field textarea,.field select{width:100%}.msg{font-size:10px;min-height:18px;color:#999;margin-top:9px}.msg.bad{color:var(--red)}.msg.good{color:var(--green)}
 .modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.82);display:none;align-items:flex-end;justify-content:center}.modal.show{display:flex}.sheet{width:min(100%,720px);max-height:94vh;overflow:auto;background:#101010;border:1px solid #333;border-radius:24px 24px 0 0;padding:17px}.sheet-head{display:flex;justify-content:space-between;gap:10px;align-items:start}.sheet h2{font-size:21px;margin:3px 0}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.full{grid-column:1/-1}.checks{display:flex;gap:14px;flex-wrap:wrap;padding:9px 0;color:#aaa;font-size:11px}.sheet-actions{display:flex;gap:8px;margin-top:12px}.sheet-actions .pink{flex:1}
@@ -102,8 +102,13 @@ main{padding:16px}.view{display:none}.view.on{display:block}.eyebrow{font-size:1
 <section class="view" id="v-prompts">
   <div class="title-row"><div><div class="eyebrow">CONTENT ENGINE</div><h1>Prompt</h1><p>Tambah, edit, publish, featured, atau hapus prompt.</p></div><button class="btn pink" onclick="openPrompt()">+ PROMPT</button></div>
   <div class="panel">
-    <div class="toolbar"><input id="promptSearch" placeholder="Cari judul prompt…"><select id="promptStatus"><option value="">Semua status</option><option value="published">Published</option><option value="draft">Draft</option></select><button class="btn dark" onclick="loadPrompts()">CARI</button></div>
+    <div class="toolbar"><input id="promptSearch" placeholder="Cari judul prompt…"><select id="promptStatus"><option value="">Semua status</option><option value="published">Published</option><option value="draft">Draft</option></select><button class="btn dark" onclick="searchPrompts()">CARI</button></div>
     <div class="list two" id="promptList"></div>
+    <div class="pager">
+      <button class="btn dark sm" id="promptPrevBtn" onclick="prevPromptPage()">← SEBELUMNYA</button>
+      <div class="pager-info" id="promptPageInfo">0 prompt</div>
+      <button class="btn dark sm" id="promptNextBtn" onclick="nextPromptPage()">BERIKUTNYA →</button>
+    </div>
   </div>
 </section>
 
@@ -261,7 +266,7 @@ const {Client,Account,Functions,ID}=Appwrite;
 const client=new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
 const account=new Account(client), functions=new Functions(client);
 const FUNC='activate-member';
-let me=null,promptRows=[],memberRows=[],couponRows=[],allNiches=new Set(),allGoals=new Set();
+let me=null,promptRows=[],memberRows=[],couponRows=[],allNiches=new Set(),allGoals=new Set(),promptPage=0,promptPageSize=50,promptTotal=0;
 
 const gate=document.getElementById('gate'),loginMsg=document.getElementById('loginMsg');
 function msg(el,text,type=''){el.textContent=text;el.className='msg '+type}
@@ -426,15 +431,36 @@ async function loadDashboard(){
 
 async function loadPrompts(){
   const status=promptStatus.value;
-  const body={search:promptSearch.value.trim(),limit:100};
-  if(status==='published')body.published=true;if(status==='draft')body.published=false;
-  const d=await api('/prompts/list',body);promptRows=d.rows||[];
-  allNiches=new Set(promptRows.map(x=>x.niche));allGoals=new Set(promptRows.map(x=>x.goal));
+  const body={
+    search:promptSearch.value.trim(),
+    limit:promptPageSize,
+    offset:promptPage*promptPageSize
+  };
+  if(status==='published')body.published=true;
+  if(status==='draft')body.published=false;
+
+  const d=await api('/prompts/list',body);
+  promptRows=d.rows||[];
+  promptTotal=Number(d.total||0);
+
+  allNiches=new Set(promptRows.map(x=>x.niche));
+  allGoals=new Set(promptRows.map(x=>x.goal));
   nicheList.innerHTML=[...allNiches].map(x=>'<option value="'+esc(x)+'">').join('');
   goalList.innerHTML=[...allGoals].map(x=>'<option value="'+esc(x)+'">').join('');
+
   promptList.innerHTML=promptRows.length?promptRows.map(p=>'<div class="row"><div class="row-head"><div><h3>'+esc(p.title)+'</h3><div class="muted">'+esc(p.niche)+' • '+esc(p.goal)+'</div></div><span class="tag '+(p.is_published!==false?'live':'off')+'">'+(p.is_published!==false?'LIVE':'DRAFT')+'</span></div><div class="tags"><span class="tag">'+esc(p.output_type)+'</span>'+(p.is_featured?'<span class="tag live">FEATURED</span>':'')+'</div><div class="muted">'+esc(String(p.prompt_text||'').slice(0,180))+(String(p.prompt_text||'').length>180?'…':'')+'</div><div class="row-actions"><button class="btn dark sm" onclick="editPrompt(\''+p.$id+'\')">EDIT</button><button class="btn '+(p.is_published!==false?'danger':'good')+' sm" onclick="togglePrompt(\''+p.$id+'\','+(p.is_published===false)+')">'+(p.is_published!==false?'UNPUBLISH':'PUBLISH')+'</button></div></div>').join(''):'<div class="empty">Prompt tidak ditemukan.</div>';
+
+  const start=promptTotal?promptPage*promptPageSize+1:0;
+  const end=Math.min((promptPage+1)*promptPageSize,promptTotal);
+  promptPageInfo.textContent=start+'–'+end+' dari '+promptTotal+' prompt • Halaman '+(promptPage+1)+' / '+Math.max(1,Math.ceil(promptTotal/promptPageSize));
+  promptPrevBtn.disabled=promptPage<=0;
+  promptNextBtn.disabled=end>=promptTotal;
 }
-promptSearch.onkeydown=e=>{if(e.key==='Enter')loadPrompts()};
+window.searchPrompts=async()=>{promptPage=0;await loadPrompts()};
+window.prevPromptPage=async()=>{if(promptPage<=0)return;promptPage--;await loadPrompts();document.getElementById('v-prompts').scrollIntoView({behavior:'smooth',block:'start'})};
+window.nextPromptPage=async()=>{if((promptPage+1)*promptPageSize>=promptTotal)return;promptPage++;await loadPrompts();document.getElementById('v-prompts').scrollIntoView({behavior:'smooth',block:'start'})};
+promptSearch.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();searchPrompts()}};
+promptStatus.onchange=searchPrompts;
 
 window.openPrompt=()=>{promptForm.reset();pId.value='';pSort.value='0';pPublished.checked=true;pFeatured.checked=false;promptModalTitle.textContent='Tambah Prompt';deletePromptBtn.style.display='none';msg(promptMsg,'');promptModal.classList.add('show')};
 window.closePrompt=()=>promptModal.classList.remove('show');
