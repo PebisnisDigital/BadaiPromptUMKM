@@ -189,242 +189,293 @@ h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-fami
 @media(prefers-reduced-motion:reduce){
   .hero3d-card,.platform-core,.platform-ring,.hero3d-glow,.hero3d-ring,.hero3d-primary{animation:none!important}
 }
+
+/* ===== BADAI EDITORIAL / VIKTOR-INSPIRED SYSTEM ===== */
+@font-face{font-family:'PP Neue Montreal';src:url('https://assets.website-files.com/6009ec8cda7f305645c9d91b/60176f9bb43e36419997ecfe_PPNeueMontreal-Book.otf') format('opentype');font-weight:400;font-display:swap}
+@font-face{font-family:'PP Neue Montreal';src:url('https://assets.website-files.com/6009ec8cda7f305645c9d91b/60176f9b39c5673e51a86f5a_PPNeueMontreal-Medium.otf') format('opentype');font-weight:500;font-display:swap}
+:root{--ink:#111216;--muted:#5e6268;--paper:#fff;--paper2:#f5f5f3;--pink:#ff2d8d;--soft:#f7edf2}
+html{scroll-behavior:smooth}
+body{background:#fff!important;color:var(--ink)!important;font-family:'PP Neue Montreal','Helvetica Neue',Arial,sans-serif!important}
+.page.badai-editorial{max-width:none!important;width:100%;background:#fff!important;color:var(--ink);overflow:hidden}
+.vo-header{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:16px 24px;background:rgba(255,255,255,.88);backdrop-filter:blur(18px);border-bottom:1px solid rgba(17,18,22,.08)}
+.vo-brand{font-size:16px;font-weight:500;color:var(--ink);text-decoration:none}.vo-brand em{font-style:normal;color:var(--pink)}
+.vo-top-cta{color:var(--ink);text-decoration:none;font-size:13px}
+.vo-narrow{max-width:440px;margin:auto;padding:0 24px}
+.vo-hero{padding:52px 0 68px;text-align:center;background:#fff}
+.vo-logo{font-family:Georgia,'Times New Roman',serif;font-size:38px;line-height:1;font-weight:700;letter-spacing:-1.8px;color:var(--ink);margin-bottom:16px}
+.vo-mono{font:600 11px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.06em;color:#333;margin-bottom:10px}
+.vo-hero h1,.vo-heading{font-size:44px;line-height:1.04;letter-spacing:-2.1px;font-weight:400;color:var(--ink);margin:0}
+.vo-hero h1 span,.vo-heading span,.vo-closing h2 span{font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;color:var(--pink)}
+.vo-copy{display:flex;flex-direction:column;gap:18px;margin-top:24px;font-size:15px;line-height:1.65;color:#26282d}.vo-copy p{margin:0}
+.vo-hero-actions{display:flex;justify-content:center;gap:12px;margin-top:24px;flex-wrap:wrap}
+.vo-btn{appearance:none;border:0;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 25px;border-radius:999px;font:500 14px/1 'PP Neue Montreal',Arial;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease}
+.vo-btn:hover{transform:translateY(-2px)}
+.vo-btn-dark{background:#111216;color:#fff;box-shadow:0 1px 2px rgba(0,0,0,.1),0 4px 4px rgba(0,0,0,.09),0 9px 15px rgba(0,0,0,.08),inset 0 2px 7px rgba(255,255,255,.26)}
+.vo-btn-light{background:#fff;color:#111216;box-shadow:0 0 0 .5px rgba(0,0,0,.08),0 4px 26px rgba(0,0,0,.10)}
+.vo-btn-white{background:#fff;color:#111216;box-shadow:inset 0 1px 6px rgba(255,255,255,.6),0 5px 22px rgba(0,0,0,.16)}
+.vo-flow{display:flex;justify-content:center;align-items:center;gap:7px;flex-wrap:wrap;margin:24px auto 0;color:#707277;font-size:9px;text-transform:uppercase;letter-spacing:.04em}.vo-flow i{font-style:normal;color:var(--pink)}
+.vo-section,.vo-pricing,.vo-projects{max-width:1200px;margin:auto;padding:76px 24px}
+.vo-center{text-align:center;max-width:720px}
+.vo-kicker{display:inline-block;font:600 10px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.09em;color:#6a6d72;margin-bottom:12px}
+.vo-lead{max-width:640px;margin:18px auto 0;color:#555960;font-size:16px;line-height:1.65}
+.vo-big-question{max-width:720px;margin:28px auto 0;padding:28px;border-radius:32px;background:var(--paper2);font-family:Georgia,'Times New Roman',serif;font-size:34px;font-style:italic;color:var(--ink);box-shadow:0 10px 40px rgba(0,0,0,.05)}
+.vo-section-head{max-width:780px;margin-bottom:30px}
+.vo-two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.vo-card{border-radius:40px;padding:38px 36px;min-height:310px;display:flex;flex-direction:column;justify-content:flex-end;box-shadow:0 5px 22px rgba(0,0,0,.07)}
+.vo-card small{font:600 10px ui-monospace,monospace;letter-spacing:.08em}.vo-card h3{font-size:28px;letter-spacing:-1px;margin:14px 0 10px}.vo-card p{font-size:15px;line-height:1.65;margin:0}
+.vo-card-dark{background:#111216;color:#f8f8f6}.vo-card-dark p{color:#d8d9dc}.vo-card-light{background:#fff;color:#111216}
+.vo-marquee-section{padding:70px 0 76px}.vo-marquee-title{padding:0 24px;max-width:1200px;margin:0 auto 26px}
+.vo-marquee{overflow:hidden;width:100%}.vo-marquee-track{display:flex;width:max-content;animation:voMarquee 30s linear infinite}
+.work-tile{width:340px;height:420px;margin:0 10px;border-radius:24px;padding:26px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+.work-tile span{position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);font-size:100px;filter:drop-shadow(0 16px 20px rgba(0,0,0,.18))}
+.work-tile b{font-size:24px;letter-spacing:-.6px}.work-tile small{margin-top:5px;font-size:12px}
+.work-tile.food{background:#f3b58d}.work-tile.fashion{background:#e9c5d4}.work-tile.beauty{background:#f5d2de}.work-tile.wa{background:#bde3cf}.work-tile.video{background:#cad8f6}.work-tile.product{background:#f1d58e}.work-tile.service{background:#d3d0cb}.work-tile.idea{background:#f7e7ab}
+@keyframes voMarquee{to{transform:translateX(-50%)}}
+.vo-quote{max-width:760px}.vo-quote-mark{font-family:Georgia,serif;font-size:70px;line-height:.7;margin-bottom:14px}.vo-sign{margin-top:22px;color:#686b70;font-style:italic}
+.vo-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:34px}.vo-steps div{padding:18px;border-radius:22px;background:#f6f6f3}.vo-steps b{display:block;font:600 10px ui-monospace,monospace;color:var(--pink);margin-bottom:10px}.vo-steps span{font-size:13px}
+.vo-proof{padding:50px 24px}.vo-proof-inner{max-width:780px;margin:auto;background:#111216;color:#fff;border-radius:44px;padding:52px;box-shadow:0 20px 50px rgba(0,0,0,.15)}.vo-proof-number{font-family:Georgia,serif;font-size:120px;line-height:.9;color:var(--pink);letter-spacing:-7px;margin-top:12px}.vo-proof h2{font-size:30px;margin:10px 0}.vo-proof p{max-width:560px;color:#cfd0d3;line-height:1.6}.vo-text-link{display:inline-block;margin-top:16px;color:#fff}
+.vo-logo-cloud{display:flex;flex-wrap:wrap;gap:10px}.vo-logo-cloud span{padding:14px 18px;border-radius:999px;background:#f5f5f3;font-size:15px}
+.vo-projects{display:flex;flex-direction:column;gap:72px}.vo-project{display:grid;gap:20px}.vo-project-copy{margin-left:70px;max-width:480px}.vo-project-copy h3{font-family:Georgia,serif;font-size:34px;margin:0 0 6px}.vo-project-copy p{color:#60636a;line-height:1.6}
+.vo-project-art{height:520px;border-radius:26px;display:grid;place-items:center;overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,.10)}.project-a{background:#f0c6d7}.project-b{background:#d7def5}.project-c{background:#cde9dc}
+.mock-phone{width:290px;padding:26px;border-radius:32px;background:#111216;color:#fff;box-shadow:0 30px 50px rgba(0,0,0,.22);transform:rotate(-5deg)}.mock-phone small{font:600 9px ui-monospace,monospace;color:#ff88bf}.mock-phone b{display:block;font-size:22px;line-height:1.2;margin:13px 0 20px}.mock-phone button{border:0;border-radius:999px;background:var(--pink);color:#fff;padding:10px 15px}
+.content-stack{display:grid;gap:14px;transform:rotate(4deg)}.content-stack div{width:310px;padding:30px;border-radius:24px;background:#fff;font-size:22px;box-shadow:0 14px 30px rgba(0,0,0,.12)}
+.chat-stack{width:min(88%,420px);display:grid;gap:12px}.chat-stack p{max-width:78%;padding:16px 18px;background:#fff;border-radius:20px 20px 20px 4px;box-shadow:0 8px 20px rgba(0,0,0,.08)}.chat-stack .out{justify-self:end;background:#111216;color:#fff;border-radius:20px 20px 4px 20px}
+.vo-feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.vo-feature{padding:30px;border-radius:32px;background:#f5f5f3;min-height:220px}.vo-feature>b{font-size:30px}.vo-feature h3{font-size:22px;margin:24px 0 8px}.vo-feature p{color:#64676d;line-height:1.55}
+.vo-partner{max-width:1240px;margin:30px auto 70px;min-height:510px;border-radius:44px;background:#f5f5f3;position:relative;overflow:hidden;display:grid;place-items:center;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.06)}.vo-partner-inner{position:relative;z-index:3}.vo-partner h2{font-family:Georgia,serif;font-size:76px;letter-spacing:-3px;margin:4px 0 12px}.vo-partner p{color:#62656a;margin-bottom:24px}.cursor-card{position:absolute;padding:13px 16px;border-radius:16px;background:#fff;box-shadow:0 12px 28px rgba(0,0,0,.11);font-size:13px;animation:cardFloat 5s ease-in-out infinite}.c1{left:10%;top:18%;transform:rotate(-8deg)}.c2{right:11%;top:20%;transform:rotate(8deg);animation-delay:.7s}.c3{left:16%;bottom:16%;transform:rotate(5deg);animation-delay:1.2s}.c4{right:16%;bottom:17%;transform:rotate(-5deg);animation-delay:1.8s}@keyframes cardFloat{50%{translate:0 -14px}}
+.vo-price-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:920px;margin-left:auto}.vo-price-card{border-radius:42px;padding:40px;min-height:560px;display:flex;flex-direction:column}.vo-price-card.dark{background:#111216;color:#fff}.vo-price-card.light{background:#fff;color:#111216;box-shadow:0 5px 25px rgba(0,0,0,.08)}.vo-price-label{font:600 10px ui-monospace,monospace;letter-spacing:.08em;opacity:.7}.vo-price-card h3{font-size:28px;margin:20px 0 6px}.vo-price-card>p{opacity:.7;line-height:1.5}.vo-price-amount{margin:28px 0}.vo-price-amount b{display:block;font-size:34px}.vo-price-amount small{opacity:.6}.vo-price-card ul{list-style:none;padding:0;margin:0 0 28px;display:grid;gap:11px;flex:1}.vo-price-card li:before{content:'✓';margin-right:9px;color:var(--pink)}.vo-fineprint{max-width:720px;margin:20px 0 0 auto;color:#72757a;font-size:12px;line-height:1.6}
+.vo-faq{max-width:860px}.vo-faq details{border-top:1px solid #ddd;padding:22px 0}.vo-faq details:last-child{border-bottom:1px solid #ddd}.vo-faq summary{cursor:pointer;font-size:18px;font-weight:500}.vo-faq details p{color:#62656a;line-height:1.6;max-width:680px}
+.vo-closing{padding:110px 24px 130px;text-align:center}.vo-closing-inner{max-width:780px;margin:auto}.vo-closing h2{font-size:58px;line-height:1.02;letter-spacing:-2.8px;font-weight:400;margin:0}
+.vo-footer{max-width:1200px;margin:auto;padding:60px 24px 25px;display:flex;justify-content:space-between;gap:30px;border-top:1px solid #e4e4e1}.vo-footer p{color:#74777c}.vo-footer-links{display:flex;gap:18px;flex-wrap:wrap}.vo-footer a{color:#111216;text-decoration:none}.vo-copyright{max-width:1200px;margin:auto;padding:18px 24px 100px;display:flex;justify-content:space-between;color:#777;font-size:12px}
+.reveal{opacity:0;transform:translateY(28px)}.reveal.is-in{animation:voFade .8s ease-out var(--d,0s) forwards}@keyframes voFade{to{opacity:1;transform:none}}
+/* reuse the real checkout bar as the floating bottom nav */
+.float{left:50%!important;right:auto!important;bottom:18px!important;transform:translateX(-50%)!important;width:min(94%,540px)!important;border-radius:999px!important;background:rgba(255,255,255,.94)!important;color:#111216!important;border:1px solid rgba(0,0,0,.06)!important;box-shadow:0 6px 30px rgba(0,0,0,.14)!important;backdrop-filter:blur(18px)!important;padding:8px 9px 8px 18px!important}.float small{color:#777!important}.float .btn{border-radius:999px!important;background:#111216!important;color:#fff!important}
+.social-proof{background:#111216!important;color:#fff!important;border-color:#111216!important}
+@media(max-width:720px){
+ .vo-header{padding:13px 16px}.vo-brand{font-size:14px}.vo-top-cta{font-size:11px}
+ .vo-hero{padding-top:42px}.vo-logo{font-size:34px}.vo-hero h1,.vo-heading{font-size:34px;letter-spacing:-1.5px}.vo-narrow{padding:0 20px}
+ .vo-section,.vo-pricing,.vo-projects{padding:58px 18px}.vo-two,.vo-price-grid,.vo-feature-grid{grid-template-columns:1fr}
+ .vo-card{min-height:250px;padding:28px}.work-tile{width:270px;height:360px;margin:0 7px}.vo-marquee-track{animation-duration:10s}
+ .vo-steps{grid-template-columns:1fr}.vo-proof{padding:25px 16px}.vo-proof-inner{padding:34px 25px;border-radius:32px}.vo-proof-number{font-size:90px}
+ .vo-projects{gap:48px}.vo-project-copy{margin-left:20px}.vo-project-art{height:390px}.content-stack div{width:250px;padding:24px}
+ .vo-partner{margin:20px 14px 55px;min-height:430px;border-radius:32px}.vo-partner h2{font-size:52px}.cursor-card{font-size:10px;padding:9px 11px}
+ .vo-price-grid{margin-left:0}.vo-price-card{min-height:auto;padding:30px;border-radius:32px}.vo-closing{padding:80px 18px 120px}.vo-closing h2{font-size:42px}
+ .vo-footer{flex-direction:column}.vo-copyright{padding-bottom:110px}
+}
+@media(prefers-reduced-motion:reduce){.vo-marquee-track,.cursor-card{animation:none!important}.reveal{opacity:1!important;transform:none!important}}
 </style></head>
-<body><div class="page">
-<!--
-========================================================
-BADAI PROMPT UMKM — LANDING PAGE SECTION MAP
-01 = HERO
-02 = PROBLEM / RELATABLE PAIN
-03 = BEFORE vs AFTER
-04 = KEBUTUHAN JUALAN / USE CASES
-05 = CARA PAKAI
-06 = PROOF 500 PROMPT
-07 = COCOK UNTUK USAHA APA
-08 = PEMBEDA / POSITIONING
-09 = FITUR PENDUKUNG
-10 = DEMO GRATIS
-11 = HARGA / OFFER
-12 = FAQ
-13 = FINAL CLOSING
-========================================================
+<body><div class="page badai-editorial">
+<!-- BADAI PROMPT UMKM — EDITABLE SECTION MAP
+01 HERO
+02 PROBLEM
+03 BEFORE AFTER
+04 INFINITE MARQUEE
+05 BRAND STATEMENT
+06 PROOF 500
+07 JENIS USAHA
+08 SHOWCASE
+09 FITUR
+10 DEMO
+11 HARGA
+12 FAQ
+13 CLOSING
 -->
-<header><div class="brand">BADAI <b>PROMPT UMKM</b><small>PERINTAH AI SIAP PAKAI UNTUK BANTU JUALAN</small></div><a class="btn pink" href="#harga">LIHAT AKSES</a></header>
+<header class="vo-header">
+  <a class="vo-brand" href="#section-01-hero">BADAI <em>PROMPT UMKM</em></a>
+  <a class="vo-top-cta" href="#harga">Lihat akses ↗</a>
+</header>
 
 <!-- ===== SECTION 01: HERO ===== -->
-<section id="section-01-hero" class="hero3d" data-section="01-hero">
-  <div class="hero3d-glow hero3d-glow-a"></div>
-  <div class="hero3d-glow hero3d-glow-b"></div>
-  <div class="hero3d-ring hero3d-ring-a"></div>
-  <div class="hero3d-ring hero3d-ring-b"></div>
-
-  <div class="hero3d-card card-food">
-    <div class="demo-art demo-food"><div class="demo-icon">🍗</div><strong>AYAM GEPREK</strong><small>Promo Kuliner</small><span>PEDAS BIKIN NAGIH!</span></div>
-  </div>
-  <div class="hero3d-card card-fashion">
-    <div class="demo-art demo-fashion"><div class="demo-icon">🧕</div><strong>HIJAB DAILY</strong><small>Konten Fashion</small><span>NYAMAN • STYLISH</span></div>
-  </div>
-  <div class="hero3d-card card-beauty">
-    <div class="demo-art demo-beauty"><div class="demo-icon">🧴</div><strong>SKINCARE LOKAL</strong><small>Visual Beauty</small><span>KULIT SEHAT</span></div>
-  </div>
-  <div class="hero3d-card card-product">
-    <div class="demo-art demo-product"><div class="demo-icon">🍌</div><strong>KERIPIK PISANG</strong><small>Desain Produk</small><span>MANIS • GURIH</span></div>
-  </div>
-  <div class="hero3d-card card-wa">
-    <div class="demo-art demo-wa"><div class="demo-icon">💬</div><strong>PROMO WHATSAPP</strong><small>Caption & Broadcast</small><span>TINGGAL SALIN</span></div>
-  </div>
-
-  <div class="hero3d-content">
-    <div class="hero3d-badge">BADAI PROMPT UMKM</div>
-    <div class="hero3d-kicker">PUNYA AI, TAPI BINGUNG MAU NGETIK APA?</div>
-    <h1>JANGAN MIKIR PROMPT.<span>TINGGAL PILIH YANG MAU DIBANTU.</span></h1>
-    <p>Perintah AI siap pakai untuk bantu jualan UMKM. Pilih usaha, pilih kebutuhan, salin, lalu tempel ke AI.</p>
-
-    <div class="hero3d-flow">
-      <span>🏪 PILIH USAHA</span><i>→</i>
-      <span>📋 PILIH KEBUTUHAN</span><i>→</i>
-      <span>📄 SALIN</span><i>→</i>
-      <span>✨ TEMPEL KE AI</span>
+<section id="section-01-hero" class="vo-hero" data-section="01-hero">
+  <div class="vo-narrow">
+    <div class="vo-logo reveal" style="--d:.1s">BADAI Prompt UMKM</div>
+    <div class="vo-mono reveal" style="--d:.2s">AI UNTUK ORANG JUALAN • BUKAN UNTUK ORANG TEKNIS</div>
+    <h1 class="reveal" style="--d:.3s">Punya AI,<br><span>tapi bingung</span> mau ngetik apa?</h1>
+    <div class="vo-copy reveal" style="--d:.4s">
+      <p>BADAI menyiapkan <b>perintah AI siap pakai</b> untuk bantu jualan. Kamu tidak perlu jago bikin prompt.</p>
+      <p>Pilih jenis usaha. Pilih yang sedang dibutuhkan. Salin. Tempel ke ChatGPT, Gemini, atau AI yang kamu pakai.</p>
+      <p><b>Sederhananya: dari bingung → jadi tahu mau menyuruh AI apa.</b></p>
     </div>
-
-    <div class="hero3d-actions">
-      <a class="btn pink hero3d-primary" href="/demo">COBA GRATIS</a>
-      <a class="btn dark hero3d-secondary" href="#harga">AMBIL AKSES</a>
+    <div class="vo-hero-actions reveal" style="--d:.5s">
+      <a class="vo-btn vo-btn-dark" href="/demo">Coba gratis</a>
+      <button class="vo-btn vo-btn-light" onclick="openCheckout()">Ambil akses</button>
     </div>
-
-    <div class="hero3d-mini">
-      <span>⚡ Siap dipakai</span>
-      <span>👥 Cocok untuk UMKM</span>
-      <span>🧠 Nggak perlu jago prompt</span>
-    </div>
-  </div>
-
-  <div class="hero3d-platform" aria-hidden="true">
-    <div class="platform-ring"></div>
-    <div class="platform-core">AI</div>
-    <div class="platform-chip chip-a">IDE KONTEN</div>
-    <div class="platform-chip chip-b">COPYWRITING</div>
-    <div class="platform-chip chip-c">DESAIN VISUAL</div>
-    <div class="platform-chip chip-d">PROMO</div>
+    <div class="vo-flow reveal" style="--d:.6s"><span>Pilih usaha</span><i>→</i><span>Pilih kebutuhan</span><i>→</i><span>Salin</span><i>→</i><span>Tempel ke AI</span></div>
   </div>
 </section>
 <!-- ===== END SECTION 01 ===== -->
 
-<!-- ===== SECTION 02: PROBLEM / RELATABLE PAIN ===== -->
-<section id="section-02-problem" class="question-strip" data-section="02-problem">
-  <b>Pernah buka ChatGPT… lalu malah bengong?</b>
-  <p>Sudah tahu AI bisa bantu jualan. Tapi pas mau dipakai, malah kepikiran: <b style="color:#fff">“Aku harus ngetik apa?”</b> Nah, BADAI dibuat untuk bagian itu.</p>
+<!-- ===== SECTION 02: PROBLEM ===== -->
+<section id="section-02-problem" class="vo-section vo-center" data-section="02-problem">
+  <div class="vo-kicker reveal">MASALAHNYA SERING BUKAN AI-NYA</div>
+  <h2 class="vo-heading reveal" style="--d:.1s">Sudah buka ChatGPT.<br><span>Lalu malah bengong.</span></h2>
+  <p class="vo-lead reveal" style="--d:.2s">Mau bikin promo, caption, foto produk, video, atau balas calon pembeli. Tapi ujung-ujungnya tetap mentok di satu hal:</p>
+  <div class="vo-big-question reveal" style="--d:.3s">“Aku harus ngetik apa?”</div>
+  <p class="vo-lead reveal" style="--d:.4s">BADAI PROMPT UMKM dibuat untuk menjawab bagian itu.</p>
 </section>
 <!-- ===== END SECTION 02 ===== -->
 
-<!-- ===== SECTION 03: BEFORE vs AFTER ===== -->
-<section id="section-03-before-after" data-section="03-before-after">
-  <div class="eyebrow">SEBELUM &amp; SESUDAH</div>
-  <h2>Bukan bikin AI lebih pintar. Bikin kamu lebih gampang menyuruhnya.</h2>
-  <div class="before-after">
-    <div class="ba before"><span class="tag">TANPA BADAI</span><h3>Mulai dari halaman kosong</h3><ul><li>Bingung merangkai perintah</li><li>Coba-coba kalimat sendiri</li><li>Hasil AI sering terlalu umum</li><li>Waktu habis cuma buat mikir mau ngetik apa</li></ul></div>
-    <div class="ba after"><span class="tag">PAKAI BADAI</span><h3>Tinggal pilih lalu praktik</h3><ul><li>Pilih jenis usaha</li><li>Pilih masalah yang sedang dihadapi</li><li>Isi data usaha seperlunya</li><li>Salin perintah dan pakai hasil AI</li></ul></div>
+<!-- ===== SECTION 03: BEFORE AFTER ===== -->
+<section id="section-03-before-after" class="vo-section" data-section="03-before-after">
+  <div class="vo-section-head reveal"><span class="vo-kicker">SEBELUM & SESUDAH</span><h2 class="vo-heading">Dari halaman kosong<br>jadi tinggal <span>pilih dan pakai.</span></h2></div>
+  <div class="vo-two">
+    <article class="vo-card vo-card-dark reveal" style="--d:.1s"><small>TANPA BADAI</small><h3>Mulai dari nol terus</h3><p>Bingung merangkai perintah. Coba-coba sendiri. Hasil AI terlalu umum. Waktu habis cuma buat mencari kata yang pas.</p></article>
+    <article class="vo-card vo-card-light reveal" style="--d:.2s"><small>PAKAI BADAI</small><h3>Tinggal pilih kebutuhan</h3><p>Pilih usaha, pilih masalah, isi data seperlunya, lalu salin perintah yang sudah disiapkan.</p></article>
   </div>
 </section>
 <!-- ===== END SECTION 03 ===== -->
 
-<!-- ===== SECTION 04: KEBUTUHAN JUALAN / USE CASES ===== -->
-<section id="section-04-kebutuhan-jualan" data-section="04-kebutuhan-jualan">
-  <div class="eyebrow">YANG DIBANTU BUKAN CUMA CAPTION</div>
-  <h2>Lagi butuh apa buat jualan hari ini?</h2>
-  <p>Daripada cari prompt satu-satu di internet, buka BADAI lalu pilih kebutuhanmu.</p>
-  <div class="use-cases">
-    <div class="use-card"><div class="ico">🧠</div><b>Cari Ide Jualan</b><small>Buat saat jualan sepi atau bingung mau promosi apa.</small></div>
-    <div class="use-card"><div class="ico">✍️</div><b>Bikin Tulisan Jualan</b><small>Caption, judul, cerita, penawaran, dan ide posting.</small></div>
-    <div class="use-card"><div class="ico">📸</div><b>Bikin Foto Produk</b><small>Siapkan perintah untuk membuat atau mengolah visual produk dengan AI.</small></div>
-    <div class="use-card"><div class="ico">🎥</div><b>Bikin Video Jualan</b><small>Cari ide video, pembuka, isi, sampai arahan adegannya.</small></div>
-    <div class="use-card"><div class="ico">💬</div><b>Balas WhatsApp</b><small>Broadcast, follow-up, jawaban keberatan, sampai ajakan beli.</small></div>
-    <div class="use-card"><div class="ico">📣</div><b>Bikin Promo</b><small>Cari cara menawarkan produk tanpa harus asal potong harga.</small></div>
+<!-- ===== SECTION 04: INFINITE MARQUEE ===== -->
+<section id="section-04-kebutuhan-jualan" class="vo-marquee-section" data-section="04-kebutuhan-jualan">
+  <div class="vo-marquee-title reveal"><span class="vo-kicker">CONTOH YANG BISA DIBANTU</span><h2 class="vo-heading">Bukan cuma caption.</h2></div>
+  <div class="vo-marquee" aria-label="Contoh kebutuhan UMKM">
+    <div class="vo-marquee-track">
+      <div class="work-tile food"><b>Promo Kuliner</b><span>🍜</span><small>Ide promo • Caption • Visual</small></div>
+      <div class="work-tile fashion"><b>Fashion & Hijab</b><span>🧕</span><small>Konten • Penawaran • Foto</small></div>
+      <div class="work-tile beauty"><b>Beauty</b><span>🧴</span><small>Visual • Edukasi • Promo</small></div>
+      <div class="work-tile wa"><b>WhatsApp</b><span>💬</span><small>Broadcast • Follow-up • Closing</small></div>
+      <div class="work-tile video"><b>Video Jualan</b><span>🎬</span><small>Hook • Ide • Script</small></div>
+      <div class="work-tile product"><b>Foto Produk</b><span>📦</span><small>Konsep • Prompt • Arahan visual</small></div>
+      <div class="work-tile service"><b>Jasa</b><span>🛠️</span><small>Penawaran • Konten • Follow-up</small></div>
+      <div class="work-tile idea"><b>Ide Jualan</b><span>💡</span><small>Saat sepi • Saat bingung • Saat mentok</small></div>
+      <div class="work-tile food"><b>Promo Kuliner</b><span>🍜</span><small>Ide promo • Caption • Visual</small></div>
+      <div class="work-tile fashion"><b>Fashion & Hijab</b><span>🧕</span><small>Konten • Penawaran • Foto</small></div>
+      <div class="work-tile beauty"><b>Beauty</b><span>🧴</span><small>Visual • Edukasi • Promo</small></div>
+      <div class="work-tile wa"><b>WhatsApp</b><span>💬</span><small>Broadcast • Follow-up • Closing</small></div>
+      <div class="work-tile video"><b>Video Jualan</b><span>🎬</span><small>Hook • Ide • Script</small></div>
+      <div class="work-tile product"><b>Foto Produk</b><span>📦</span><small>Konsep • Prompt • Arahan visual</small></div>
+      <div class="work-tile service"><b>Jasa</b><span>🛠️</span><small>Penawaran • Konten • Follow-up</small></div>
+      <div class="work-tile idea"><b>Ide Jualan</b><span>💡</span><small>Saat sepi • Saat bingung • Saat mentok</small></div>
+    </div>
   </div>
 </section>
 <!-- ===== END SECTION 04 ===== -->
 
-<!-- ===== SECTION 05: CARA PAKAI ===== -->
-<section id="section-05-cara-pakai" data-section="05-cara-pakai">
-  <div class="eyebrow">CARA PAKAINYA</div>
-  <h2>Kalau bisa pilih menu makanan, harusnya bisa pakai ini.</h2>
-  <div class="steps">
-    <div class="step"><div class="num">1</div><div><b>Pilih jenis usaha</b><small>Misalnya kuliner, fashion, jasa, beauty, toko, properti, dan lainnya.</small></div></div>
-    <div class="step"><div class="num">2</div><div><b>Pilih yang lagi dibutuhkan</b><small>Contoh: jualan sepi, bikin promo, foto produk, video, caption, atau WhatsApp.</small></div></div>
-    <div class="step"><div class="num">3</div><div><b>Salin lalu tempel ke AI</b><small>Isi data yang diminta. Setelah itu tinggal gunakan hasilnya sebagai bahan kerja.</small></div></div>
+<!-- ===== SECTION 05: BRAND STATEMENT ===== -->
+<section id="section-05-cara-pakai" class="vo-section vo-quote" data-section="05-cara-pakai">
+  <div class="vo-quote-mark reveal">“</div>
+  <h2 class="vo-heading reveal" style="--d:.1s">Yang dibutuhkan orang awam bukan belajar istilah prompt dulu. <span>Yang dibutuhkan: bisa langsung pakai.</span></h2>
+  <p class="vo-sign reveal" style="--d:.2s">Itu cara BADAI PROMPT UMKM dirancang.</p>
+  <div class="vo-steps reveal" style="--d:.3s">
+    <div><b>01</b><span>Pilih usahamu</span></div>
+    <div><b>02</b><span>Pilih kebutuhanmu</span></div>
+    <div><b>03</b><span>Salin & tempel ke AI</span></div>
   </div>
 </section>
 <!-- ===== END SECTION 05 ===== -->
 
-<!-- ===== SECTION 06: PROOF 500 PROMPT ===== -->
-<section id="section-06-proof-500" class="proof-band" data-section="06-proof-500">
-  <div class="eyebrow" style="color:#8affb2">BUKAN BARU RENCANA</div>
-  <div class="proof-num">500</div>
-  <b>prompt sudah tersedia di sistem.</b>
-  <p>Dibuat untuk berbagai kebutuhan UMKM. Jadi yang kamu beli bukan halaman kosong yang “nanti akan diisi”.</p>
+<!-- ===== SECTION 06: PROOF 500 ===== -->
+<section id="section-06-proof-500" class="vo-proof" data-section="06-proof-500">
+  <div class="vo-proof-inner reveal">
+    <span class="vo-kicker">BUKAN JANJI “NANTI DIISI”</span>
+    <div class="vo-proof-number">500</div>
+    <h2>prompt sudah ada di sistem.</h2>
+    <p>Jadi kamu masuk bukan ke halaman kosong. Prompt sudah disusun untuk berbagai jenis usaha dan kebutuhan jualan.</p>
+    <a class="vo-text-link" href="/demo">Lihat cara kerjanya ↗</a>
+  </div>
 </section>
 <!-- ===== END SECTION 06 ===== -->
 
-<!-- ===== SECTION 07: COCOK UNTUK USAHA APA ===== -->
-<section id="section-07-jenis-usaha" data-section="07-jenis-usaha">
-  <div class="eyebrow">COCOK BUAT USAHA APA?</div>
-  <h2>Bukan khusus toko online.</h2>
-  <div class="fit-grid">
-    <div>🍜 Kuliner &amp; Catering</div><div>👗 Fashion &amp; Hijab</div>
-    <div>💄 Beauty &amp; Salon</div><div>🛠️ Jasa &amp; Servis</div>
-    <div>🎓 Kursus &amp; Pendidikan</div><div>🏠 Properti &amp; Kos</div>
-    <div>🏍️ Otomotif &amp; Rental</div><div>🎁 Hampers &amp; Souvenir</div>
-    <div>🛒 Toko &amp; Reseller</div><div>🎉 Event &amp; Dekorasi</div>
+<!-- ===== SECTION 07: JENIS USAHA ===== -->
+<section id="section-07-jenis-usaha" class="vo-section" data-section="07-jenis-usaha">
+  <div class="vo-section-head reveal"><span class="vo-kicker">COCOK BUAT SIAPA?</span><h2 class="vo-heading">Kalau kamu punya usaha,<br><span>kemungkinan besar ada gunanya.</span></h2></div>
+  <div class="vo-logo-cloud reveal" style="--d:.15s">
+    <span>Kuliner</span><span>Fashion</span><span>Beauty</span><span>Jasa</span><span>Pendidikan</span><span>Properti</span><span>Otomotif</span><span>Hampers</span><span>Reseller</span><span>Event</span>
   </div>
 </section>
 <!-- ===== END SECTION 07 ===== -->
 
-<!-- ===== SECTION 08: PEMBEDA / POSITIONING ===== -->
-<section id="section-08-pembeda" data-section="08-pembeda">
-  <div class="distinct">
-    <div class="eyebrow">BEDANYA DI SINI</div>
-    <h3>Bukan soal punya banyak prompt. Soalnya: <span style="color:var(--pink)">pas butuh, ketemunya cepat.</span></h3>
-    <p>Kumpulan prompt biasa sering bikin kamu tetap harus mencari satu-satu. BADAI disusun berdasarkan <b style="color:#fff">jenis usaha + kebutuhan jualan</b>, supaya kamu nggak perlu hafal istilah teknis atau tahu nama prompt yang harus dicari.</p>
-  </div>
+<!-- ===== SECTION 08: SHOWCASE ===== -->
+<section id="section-08-pembeda" class="vo-projects" data-section="08-pembeda">
+  <div class="vo-section-head reveal"><span class="vo-kicker">BEDANYA DI SINI</span><h2 class="vo-heading">Bukan sekadar punya banyak prompt.<br><span>Pas butuh, ketemunya cepat.</span></h2></div>
+
+  <article class="vo-project reveal">
+    <div class="vo-project-copy"><h3>Jualan lagi sepi</h3><p>Pilih kondisi usahamu, lalu BADAI bantu menemukan perintah yang bisa dipakai untuk mencari ide promo atau penawaran.</p></div>
+    <div class="vo-project-art project-a"><div class="mock-phone"><small>KULINER • JUALAN SEPI</small><b>Cari cara bikin dagangan lebih menarik tanpa asal diskon.</b><button>Salin prompt</button></div></div>
+  </article>
+
+  <article class="vo-project reveal">
+    <div class="vo-project-copy"><h3>Mau bikin konten</h3><p>Nggak perlu tahu nama tekniknya. Pilih saja “caption”, “video”, atau “foto produk”.</p></div>
+    <div class="vo-project-art project-b"><div class="content-stack"><div>🎬 VIDEO JUALAN</div><div>📸 FOTO PRODUK</div><div>✍️ CAPTION</div></div></div>
+  </article>
+
+  <article class="vo-project reveal">
+    <div class="vo-project-copy"><h3>Mau jualan lewat WhatsApp</h3><p>Ada prompt untuk broadcast, follow-up, balas keberatan, sampai ajakan membeli.</p></div>
+    <div class="vo-project-art project-c"><div class="chat-stack"><p>Halo Kak 👋 ada promo spesial...</p><p class="out">Boleh info detailnya?</p><p>Siap Kak, ini detailnya...</p></div></div>
+  </article>
 </section>
 <!-- ===== END SECTION 08 ===== -->
 
-<!-- ===== SECTION 09: FITUR PENDUKUNG ===== -->
-<section id="section-09-fitur" data-section="09-fitur">
-  <div class="eyebrow">BIAR NGGAK MUTER-MUTER</div>
-  <h2>Ada bantuan buat yang bahkan bingung mau mulai dari mana.</h2>
-  <div class="grid">
-    <div class="card"><div class="ico">🚨</div><b>Mode Darurat</b><small>Lagi butuh ide jualan sekarang? BADAI bantu pilihkan yang relevan.</small></div>
-    <div class="card"><div class="ico">✨</div><b>Prompt Hari Ini</b><small>Dapat satu rekomendasi supaya ada yang bisa langsung dicoba.</small></div>
-    <div class="card"><div class="ico">⚡</div><b>Data Usaha Tersimpan</b><small>Nama usaha, produk, harga, target pembeli, dan keunggulan bisa dipakai lagi.</small></div>
-    <div class="card"><div class="ico">★</div><b>Favorit &amp; Riwayat</b><small>Yang cocok bisa disimpan dan dibuka lagi tanpa cari dari awal.</small></div>
+<!-- ===== SECTION 09: FITUR ===== -->
+<section id="section-09-fitur" class="vo-section" data-section="09-fitur">
+  <div class="vo-section-head reveal"><span class="vo-kicker">BIAR NGGAK MUTER-MUTER</span><h2 class="vo-heading">Dibikin supaya <span>gampang dipakai lagi.</span></h2></div>
+  <div class="vo-feature-grid">
+    <article class="vo-feature reveal"><b>🚨</b><h3>Mode Darurat</h3><p>Kalau lagi bingung mau mulai dari mana, pilih masalahnya dulu.</p></article>
+    <article class="vo-feature reveal" style="--d:.08s"><b>✨</b><h3>Prompt Hari Ini</h3><p>Dapat satu rekomendasi yang bisa langsung dicoba.</p></article>
+    <article class="vo-feature reveal" style="--d:.16s"><b>⚡</b><h3>Data Usaha Tersimpan</h3><p>Nggak perlu isi nama usaha, produk, harga, dan target dari nol terus.</p></article>
+    <article class="vo-feature reveal" style="--d:.24s"><b>★</b><h3>Favorit & Riwayat</h3><p>Yang pernah cocok bisa disimpan dan dibuka lagi.</p></article>
   </div>
 </section>
 <!-- ===== END SECTION 09 ===== -->
 
-<!-- ===== SECTION 10: DEMO GRATIS ===== -->
-<section id="section-10-demo-gratis" data-section="10-demo-gratis">
-  <div class="free-demo">
-    <div class="eyebrow">BELUM YAKIN? JANGAN BELI DULU.</div>
-    <h2>Coba gratis dulu.</h2>
-    <p>Lihat sendiri cara kerjanya. Pilih usaha, pilih kebutuhan, lalu lihat seperti apa perintah yang disiapkan BADAI.</p>
-    <a class="btn pink" href="/demo">COBA DEMO GRATIS</a>
-    <div class="mini">Nggak perlu login untuk mencoba demo.</div>
+<!-- ===== SECTION 10: DEMO ===== -->
+<section id="section-10-demo-gratis" class="vo-partner" data-section="10-demo-gratis">
+  <div class="cursor-card c1">🍜 Promo</div><div class="cursor-card c2">💬 WA</div><div class="cursor-card c3">🎬 Video</div><div class="cursor-card c4">📸 Visual</div>
+  <div class="vo-partner-inner reveal">
+    <span class="vo-kicker">BELUM YAKIN?</span>
+    <h2>Coba dulu.</h2>
+    <p>Nggak perlu bayar untuk memahami cara kerjanya.</p>
+    <a class="vo-btn vo-btn-dark" href="/demo">Coba demo gratis</a>
   </div>
 </section>
 <!-- ===== END SECTION 10 ===== -->
 
-<!-- ===== SECTION 11: HARGA / OFFER ===== -->
-<section id="harga" data-section="11-harga">
-  <div class="eyebrow">KALAU COCOK, BARU AMBIL AKSES</div>
-  <h2>Bayarnya seikhlasnya. Aksesnya tetap sama.</h2>
-  <div class="price">
-    <b>BADAI PROMPT UMKM</b>
-    <div class="amount">Mulai <span id="displayPrice">Rp30.000</span></div>
-    <p>Minimal Rp30.000 untuk akses selama <b style="color:#fff">1 tahun</b>. Bayar Rp30.000 boleh. Mau kasih lebih juga boleh.</p>
-    <div class="list">
-      <div>500 prompt yang sudah tersedia</div>
-      <div>Berbagai jenis usaha UMKM</div>
-      <div>Ide jualan, tulisan, visual, video, dan WhatsApp</div>
-      <div>Mode Darurat + Prompt Hari Ini</div>
-      <div>Data usaha bisa disimpan</div>
-      <div>Favorit + Riwayat pemakaian</div>
-      <div>Update selama masa akses</div>
-    </div>
-    <div style="border:1px solid #2d5039;background:#0e1812;border-radius:14px;padding:12px;margin:12px 0;font-size:11px;line-height:1.55"><b style="color:#73f6a7">BAYAR BERAPA PUN, AKSESNYA SAMA</b><br><span style="color:#aaa">Nominal di atas Rp30.000 adalah dukungan sukarela untuk pengembangan BADAI PROMPT UMKM, bukan untuk membuka fitur tambahan.</span></div>
-    <button class="btn pink" style="width:100%" onclick="openCheckout()">PILIH NOMINAL</button>
-    <p style="font-size:10px;color:#777">BADAI membantu mempercepat ide dan pekerjaan jualan. Hasil penjualan tetap dipengaruhi produk, penawaran, pasar, dan cara kamu menjalankannya.</p>
+<!-- ===== SECTION 11: HARGA ===== -->
+<section id="harga" class="vo-pricing" data-section="11-harga">
+  <div class="vo-section-head reveal"><span class="vo-kicker">KALAU COCOK, BARU AMBIL</span><h2 class="vo-heading">Pilih yang paling <span>nyaman.</span></h2></div>
+  <div class="vo-price-grid">
+    <article class="vo-price-card dark reveal">
+      <span class="vo-price-label">AKSES 1 TAHUN</span><h3>Bayar Seikhlasnya</h3><p>Semua member mendapat akses yang sama.</p>
+      <div class="vo-price-amount"><b id="displayPrice">Rp30.000</b><small>minimum</small></div>
+      <ul><li>500 prompt siap pakai</li><li>Berbagai jenis usaha UMKM</li><li>Ide, caption, visual, video & WhatsApp</li><li>Mode Darurat + Prompt Hari Ini</li><li>Favorit + riwayat</li><li>Update selama masa akses</li></ul>
+      <button class="vo-btn vo-btn-white" onclick="openCheckout()">Pilih nominal</button>
+    </article>
+    <article class="vo-price-card light reveal" style="--d:.12s">
+      <span class="vo-price-label">MAU LIHAT DULU?</span><h3>Coba Gratis</h3><p>Lihat alurnya sebelum memutuskan ambil akses.</p>
+      <div class="vo-price-amount"><b>Rp0</b><small>untuk demo</small></div>
+      <ul><li>Nggak perlu login</li><li>Lihat cara pilih usaha</li><li>Lihat cara pilih kebutuhan</li><li>Pahami cara kerja BADAI</li></ul>
+      <a class="vo-btn vo-btn-light" href="/demo">Buka demo</a>
+    </article>
   </div>
+  <p class="vo-fineprint reveal">Bayar Rp30.000 tetap dapat akses penuh. Nominal lebih besar adalah dukungan sukarela untuk pengembangan BADAI PROMPT UMKM.</p>
 </section>
 <!-- ===== END SECTION 11 ===== -->
 
 <!-- ===== SECTION 12: FAQ ===== -->
-<section id="section-12-faq" class="faq" data-section="12-faq">
-  <div class="eyebrow">MASIH ADA YANG GANJEL?</div>
-  <h2>Pertanyaan yang biasanya muncul sebelum ambil.</h2>
-  <details><summary>Prompt itu apa sih?</summary><p>Prompt adalah perintah yang kita ketik ke AI. Di BADAI, perintahnya sudah disiapkan supaya kamu tidak perlu membuat dari nol.</p></details>
-  <details><summary>Saya baru belajar AI. Bisa?</summary><p>Bisa. BADAI memang dibuat supaya orang yang belum jago menulis prompt tetap bisa mulai memakai AI untuk kebutuhan jualan.</p></details>
-  <details><summary>Ini kelas AI?</summary><p>Bukan. Ini alat bantu berisi perintah AI siap pakai yang langsung digunakan sesuai kebutuhan usaha.</p></details>
-  <details><summary>Harus pakai ChatGPT berbayar?</summary><p>Tidak. Prompt bisa digunakan pada berbagai AI yang mendukung tugas tersebut.</p></details>
-  <details><summary>Bayarnya benar-benar seikhlasnya?</summary><p>Iya. Minimum Rp30.000 untuk akses 1 tahun. Bayar lebih boleh, tetapi semua member mendapat akses yang sama.</p></details>
-  <details><summary>Aksesnya berapa lama?</summary><p>1 tahun sejak pembayaran terverifikasi.</p></details>
-  <details><summary>Apakah dijamin bikin jualan laris?</summary><p>Tidak. BADAI membantu kamu mendapat ide dan mempercepat eksekusi. Hasil bisnis tetap bergantung pada banyak hal seperti produk, harga, pasar, penawaran, dan konsistensi menjalankannya.</p></details>
-  <details><summary>Setelah bayar bagaimana?</summary><p>Pembayaran diperiksa otomatis. Setelah berhasil, akses member diaktifkan dan kamu bisa masuk menggunakan email saat checkout.</p></details>
+<section id="section-12-faq" class="vo-section vo-faq" data-section="12-faq">
+  <div class="vo-section-head reveal"><span class="vo-kicker">MASIH ADA YANG GANJEL?</span><h2 class="vo-heading">Pertanyaan sebelum <span>ambil akses.</span></h2></div>
+  <details class="reveal"><summary>Prompt itu apa sih?</summary><p>Prompt adalah perintah yang kita ketik ke AI. Di BADAI, perintahnya sudah disiapkan supaya kamu tidak perlu membuat dari nol.</p></details>
+  <details class="reveal"><summary>Saya baru belajar AI. Bisa?</summary><p>Bisa. BADAI memang dibuat supaya orang yang belum jago menulis prompt tetap bisa mulai.</p></details>
+  <details class="reveal"><summary>Harus pakai ChatGPT berbayar?</summary><p>Tidak. Gunakan AI yang mendukung tugas yang ingin kamu kerjakan.</p></details>
+  <details class="reveal"><summary>Bayarnya benar-benar seikhlasnya?</summary><p>Iya. Minimum Rp30.000 untuk akses 1 tahun. Bayar lebih boleh, aksesnya tetap sama.</p></details>
+  <details class="reveal"><summary>Apakah dijamin bikin jualan laris?</summary><p>Tidak. BADAI membantu ide dan eksekusi. Hasil bisnis tetap dipengaruhi produk, harga, pasar, penawaran, dan cara menjalankannya.</p></details>
 </section>
 <!-- ===== END SECTION 12 ===== -->
 
-<!-- ===== SECTION 13: FINAL CLOSING ===== -->
-<section id="section-13-closing" class="choice-close" data-section="13-closing">
-  <div class="eyebrow">SEKARANG PILIH YANG PALING NYAMAN</div>
-  <h2>Mau coba dulu, atau langsung punya akses 1 tahun?</h2>
-  <p>Nggak perlu dipaksa. Coba demonya kalau masih penasaran. Kalau sudah ngerti gunanya, pilih nominal seikhlasnya.</p>
-  <div class="actions"><a class="btn dark" href="/demo">COBA GRATIS</a><button class="btn pink" onclick="openCheckout()">AMBIL AKSES</button></div>
-  <div class="micro-trust">Pembayaran QRIS otomatis • Minimal Rp30.000 • Akses 1 tahun</div>
+<!-- ===== SECTION 13: CLOSING ===== -->
+<section id="section-13-closing" class="vo-closing" data-section="13-closing">
+  <div class="vo-closing-inner reveal">
+    <span class="vo-kicker">TINGGAL PILIH</span>
+    <h2>Masih penasaran?<br><span>Coba gratis.</span><br>Sudah ngerti gunanya?<br><span>Ambil akses.</span></h2>
+    <div class="vo-hero-actions"><a class="vo-btn vo-btn-light" href="/demo">Coba gratis</a><button class="vo-btn vo-btn-dark" onclick="openCheckout()">Ambil akses</button></div>
+  </div>
 </section>
 <!-- ===== END SECTION 13 ===== -->
 
-<div class="footer">BADAI PROMPT UMKM<br>Alat bantu prompt untuk UMKM • Pembayaran QRIS otomatis.
-<div class="footer-links"><a href="/demo">Demo</a><a href="/privacy">Privasi</a><a href="/terms">Syarat</a><a href="/refund">Refund</a><a href="/support">Support</a></div></div>
+<footer class="vo-footer">
+  <div><b>BADAI PROMPT UMKM</b><p>Perintah AI siap pakai untuk bantu jualan.</p></div>
+  <div class="vo-footer-links"><a href="/demo">Demo</a><a href="/privacy">Privasi</a><a href="/terms">Syarat</a><a href="/refund">Refund</a><a href="/support">Support</a></div>
+</footer>
+<div class="vo-copyright"><span>PEBISNIS.DIGITAL</span><span>Indonesia</span></div>
 </div>
 <div class="float"><div><b>BADAI PROMPT UMKM</b><small id="floatPrice">Mulai Rp30.000 • 1 tahun</small></div><button class="btn pink" onclick="openCheckout()">BAYAR SEIKHLASNYA</button></div>
 <div class="social-proof" id="socialProof" aria-live="polite">
@@ -710,5 +761,18 @@ async function loadPublicConfig(){
 }
 loadPublicConfig();
 loadSocialProof();
+</script>
+
+<script>
+(function(){
+  const els=[...document.querySelectorAll('.reveal')];
+  if(!('IntersectionObserver' in window)){els.forEach(el=>el.classList.add('is-in'));return;}
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){entry.target.classList.add('is-in');io.unobserve(entry.target);}
+    });
+  },{threshold:.1});
+  els.forEach(el=>io.observe(el));
+})();
 </script>
 </body></html>
