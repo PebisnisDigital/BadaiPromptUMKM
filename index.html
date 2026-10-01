@@ -655,6 +655,116 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   .bpu-problem-questions article.wide{grid-column:auto}
 }
 </style>
+
+<style id="bpu-solution-style">
+.bpu-solution{
+  background:
+    radial-gradient(circle at 50% 0,rgba(255,79,163,.07),transparent 28%),
+    #080808;
+}
+.bpu-solution-bridge{
+  display:grid;
+  grid-template-columns:72px 1fr;
+  gap:16px;
+  align-items:center;
+  margin-top:26px;
+  padding:19px;
+  border-radius:20px;
+  border:1px solid #4b293c;
+  background:linear-gradient(145deg,#130e11,#0d0d0e);
+  text-align:left;
+}
+.bpu-ai-mark{
+  width:72px;height:72px;border-radius:20px;
+  display:grid;place-items:center;
+  background:var(--bpu-pink);
+  color:#fff;
+  font:950 25px var(--font-sf);
+  box-shadow:0 14px 30px rgba(255,79,163,.16);
+}
+.bpu-solution-bridge small{
+  display:block;color:#ad6488;
+  font:900 7px var(--font-sf);
+  letter-spacing:.13em
+}
+.bpu-solution-bridge b{
+  display:block;margin-top:6px;
+  color:#fff;font:950 17px/1.1 var(--font-sf)
+}
+.bpu-solution-bridge p{
+  margin:7px 0 0;color:#8b8b90;
+  font-size:9px;line-height:1.55
+}
+.bpu-benefit-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:10px;
+}
+.bpu-benefit-grid article{
+  min-height:156px;
+  padding:16px;
+  border-radius:18px;
+  background:#101011;
+  border:1px solid #29292c;
+  text-align:left;
+}
+.bpu-benefit-grid article>span{
+  display:grid;place-items:center;
+  width:31px;height:31px;
+  border-radius:10px;
+  background:#211019;
+  color:var(--bpu-pink2);
+  font:900 8px var(--font-sf);
+}
+.bpu-benefit-grid b{
+  display:block;
+  margin:17px 0 6px;
+  color:#fff;
+  font:950 13px/1.15 var(--font-sf);
+}
+.bpu-benefit-grid p{
+  margin:0;
+  color:#838388;
+  font-size:8.5px;
+  line-height:1.5;
+}
+.bpu-solution-punch{
+  margin-top:10px;
+  padding:24px 20px;
+  border-radius:22px;
+  background:linear-gradient(145deg,#ff4fa3,#dc2c83);
+  text-align:center;
+  box-shadow:0 20px 50px rgba(255,79,163,.13);
+}
+.bpu-solution-punch small{
+  display:block;
+  color:#ffd9eb;
+  font:900 7px var(--font-sf);
+  letter-spacing:.13em;
+}
+.bpu-solution-punch b{
+  display:block;
+  margin-top:8px;
+  color:#fff;
+  font:950 25px/1.05 var(--font-sf);
+  letter-spacing:-.04em;
+}
+.bpu-solution-punch p{
+  max-width:520px;
+  margin:8px auto 0;
+  color:#ffe4f0;
+  font-size:9px;
+  line-height:1.55;
+}
+@media(max-width:600px){
+  .bpu-solution-bridge{grid-template-columns:58px 1fr;padding:16px}
+  .bpu-ai-mark{width:58px;height:58px;border-radius:17px;font-size:21px}
+  .bpu-benefit-grid{grid-template-columns:1fr}
+  .bpu-benefit-grid article{min-height:0}
+  .bpu-solution-punch b{font-size:21px}
+}
+</style>
 </head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
@@ -874,14 +984,58 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   </div>
 </section>
 
-<section class="bpu-section">
+<section class="bpu-section bpu-solution">
   <div class="bpu-container">
-    <div class="bpu-kicker reveal2">BADAI JADI JALAN PINTASNYA</div>
-    <h2 class="reveal2">Kamu Punya Produk.<br><span>AI Bantu Cara Menampilkannya.</span></h2>
-    <div class="bpu-step-grid">
-      <article class="bpu-step reveal2"><span>01</span><b>Pilih Produk / Usaha</b><p>Pilih kategori yang paling dekat dengan dagangan atau jasa yang kamu jual.</p></article>
-      <article class="bpu-step reveal2"><span>02</span><b>Pilih Mau Dibikin Apa</b><p>Foto produk, poster promo, video jualan, caption, katalog, atau materi WhatsApp.</p></article>
-      <article class="bpu-step hot reveal2"><span>03</span><b>Salin Prompt ke AI</b><p>Isi data produk seperlunya, tempel prompt, lalu olah hasilnya jadi materi jualan.</p></article>
+    <div class="bpu-kicker reveal2">NAH, INI SOLUSINYA</div>
+    <h2 class="reveal2">Bikin Gambar Produk<br><span>Yang Ikut Menjual.</span></h2>
+    <p class="bpu-lead reveal2">Bukan sekadar “foto yang bagus”. Produkmu perlu tampil dengan gambar yang bikin orang <b>berhenti, paham, percaya, lalu tertarik lanjut.</b> Dan sekarang, banyak bagian itu bisa dibantu AI—asal kamu kasih <b>prompt yang tepat.</b></p>
+
+    <div class="bpu-solution-bridge reveal2">
+      <div class="bpu-ai-mark">AI</div>
+      <div>
+        <small>AI BUKAN SULAP. PROMPT-NYA YANG NGARAHIN.</small>
+        <b>Dari foto biasa → jadi visual jualan yang lebih niat.</b>
+        <p>Prompt yang tepat bisa mengarahkan AI untuk bikin konsep studio, lifestyle, poster promo, katalog, hero marketplace, sampai visual campaign sesuai produkmu.</p>
+      </div>
+    </div>
+
+    <div class="bpu-benefit-grid">
+      <article class="reveal2">
+        <span>01</span>
+        <b>Lebih Gampang Bikin Orang Berhenti</b>
+        <p>Visual yang kuat kasih alasan buat calon pembeli berhenti scroll dan lihat lebih lama.</p>
+      </article>
+      <article class="reveal2">
+        <span>02</span>
+        <b>Produk Terasa Lebih Bernilai</b>
+        <p>Produk yang sama bisa terlihat lebih niat, lebih rapi, dan lebih layak dipercaya.</p>
+      </article>
+      <article class="reveal2">
+        <span>03</span>
+        <b>Promo Lebih Cepat Dipahami</b>
+        <p>Diskon, bundling, bonus, dan penawaran jadi lebih jelas dari sekali lihat.</p>
+      </article>
+      <article class="reveal2">
+        <span>04</span>
+        <b>Lebih Enak Dipakai Buat Iklan</b>
+        <p>Punya materi visual yang lebih siap dipakai untuk konten, marketplace, WhatsApp, dan campaign.</p>
+      </article>
+      <article class="reveal2">
+        <span>05</span>
+        <b>Bikin Brand Terlihat Lebih Serius</b>
+        <p>Tampilan yang konsisten membantu usaha kecil terasa lebih profesional di mata calon pembeli.</p>
+      </article>
+      <article class="reveal2">
+        <span>06</span>
+        <b>Peluang Closing Jadi Lebih Besar</b>
+        <p>Bukan jaminan laris, tapi visual yang lebih menarik membantu orang masuk lebih jauh ke proses pembelian.</p>
+      </article>
+    </div>
+
+    <div class="bpu-solution-punch reveal2">
+      <small>JADI, BUKAN CUMA PRODUKNYA YANG HARUS BAGUS.</small>
+      <b>Gambarnya juga harus bantu jualan.</b>
+      <p>Dan BADAI Prompt UMKM menyiapkan prompt-nya supaya kamu nggak perlu mulai dari nol.</p>
     </div>
   </div>
 </section>
