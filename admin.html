@@ -36,16 +36,13 @@ h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-fami
     <div class="brand">BADAI <b>PROMPT UMKM</b><small>ADMIN PANEL</small></div>
     <div id="normalLoginPanel">
       <h1>Masuk sebagai admin.</h1>
-      <p>Gunakan email + password. Link email sekarang hanya jadi cadangan kalau lupa password.</p>
+      <p>Gunakan email + password untuk masuk ke admin.</p>
       <form id="loginForm">
         <div class="field"><label>EMAIL ADMIN</label><input id="loginEmail" type="email" autocomplete="email" required placeholder="email admin"></div>
         <div class="field"><label>PASSWORD</label><input id="loginPassword" type="password" autocomplete="current-password" required placeholder="••••••••••"></div>
         <button class="btn pink" id="loginBtn" type="submit" style="width:100%;margin-top:10px">MASUK ADMIN</button>
         <div class="msg" id="loginMsg"></div>
       </form>
-      <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px">
-        <button class="btn dark" id="forgotPasswordBtn" type="button">BUAT / LUPA PASSWORD</button>
-      </div>
     </div>
 
     <div id="resetPasswordPanel" style="display:none">
@@ -361,24 +358,9 @@ document.getElementById('loginForm').onsubmit=async e=>{
     });
     await finishLogin();
   }catch(err){
-    msg(loginMsg,'Email atau password belum cocok. Kalau belum pernah membuat password, klik BUAT / LUPA PASSWORD.','bad');
+    msg(loginMsg,'Email atau password belum cocok.','bad');
   }finally{
     b.disabled=false;b.textContent='MASUK ADMIN';
-  }
-};
-
-document.getElementById('forgotPasswordBtn').onclick=async()=>{
-  const email=loginEmail.value.trim().toLowerCase();
-  if(!email){msg(loginMsg,'Isi email admin dulu.','bad');loginEmail.focus();return}
-  try{
-    localStorage.setItem('bpu_admin_email',email);
-    await account.createRecovery({
-      email,
-      url:'https://badaiprompt.vercel.app/admin?reset=1'
-    });
-    msg(loginMsg,'Link buat/reset password sudah dikirim. Cek Inbox/Spam lalu buka link tersebut.','good');
-  }catch(err){
-    msg(loginMsg,err.message||'Gagal mengirim link reset password.','bad');
   }
 };
 
