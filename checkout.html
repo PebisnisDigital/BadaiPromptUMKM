@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BADAI PROMPT — Checkout Produk</title>
+<meta name="description" content="Beli BADAI PROMPT sesuai niche usahamu.">
+<style>
+:root{--pink:#ff4fa3;--pink2:#ff8bc6;--bg:#f5f5f5;--paper:#fff;--ink:#171717;--muted:#737378;--line:#e6e6e8;--soft:#fff5fa;--sf:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",sans-serif;--rob:"Roboto","Segoe UI",Arial,sans-serif}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--rob)}a{color:inherit;text-decoration:none}button,input{font:inherit}.wrap{max-width:1180px;margin:auto;padding:0 22px}
+.top{background:#111;color:#fff}.topin{height:58px;display:flex;align-items:center;justify-content:space-between}.logo{font:950 21px var(--sf);letter-spacing:-.06em}.logo span{color:var(--pink)}.back{font-size:10px;font-weight:900;color:#bbb}
+.crumb{padding:18px 0;color:#888;font-size:10px}.crumb b{color:#333}
+.productbox{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;padding:26px;background:#fff;border:1px solid #ececee;border-radius:18px;box-shadow:0 6px 22px rgba(0,0,0,.04)}
+.gallery-main{aspect-ratio:1/1;overflow:hidden;border-radius:14px;background:#eee}.gallery-main img{width:100%;height:100%;object-fit:cover;display:block}.thumbrow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:8px}.thumb{aspect-ratio:1;border:1px solid #e5e5e7;border-radius:9px;overflow:hidden;background:#f2f2f2;cursor:pointer}.thumb.on{border:2px solid var(--pink)}.thumb img{width:100%;height:100%;object-fit:cover}
+.badge{display:inline-flex;padding:6px 9px;border-radius:4px;background:var(--pink);color:#fff;font-size:8px;font-weight:950;letter-spacing:.08em}.detail h1{margin:10px 0 8px;font:950 30px/1.05 var(--sf);letter-spacing:-.04em}.ratingrow{display:flex;gap:12px;align-items:center;color:#666;font-size:10px}.stars{color:#ff9d00;letter-spacing:1px}.pricebox{margin-top:18px;padding:18px;background:var(--soft);border-radius:12px}.pricebox small{display:block;color:#888;font-size:8px;font-weight:800}.price{margin-top:3px;color:var(--pink);font:950 30px var(--sf);letter-spacing:-.04em}.access{margin-top:14px;display:grid;gap:8px}.access div{display:flex;gap:9px;align-items:flex-start;color:#555;font-size:10px;line-height:1.45}.access span{color:var(--pink);font-weight:950}
+.option{margin-top:18px}.option label{display:block;font-size:9px;font-weight:900;color:#666;margin-bottom:8px}.amounts{display:flex;gap:8px;flex-wrap:wrap}.amounts button{border:1px solid #dedee0;background:#fff;border-radius:8px;padding:10px 14px;font-size:10px;font-weight:900;cursor:pointer}.amounts button.on{border-color:var(--pink);color:var(--pink);background:#fff7fb}.custom{margin-top:8px}.custom input{width:100%;padding:11px;border:1px solid #dddde0;border-radius:8px;outline:0}.custom input:focus{border-color:var(--pink)}
+.buyrow{display:flex;gap:9px;margin-top:18px}.btn{flex:1;border:0;border-radius:8px;padding:14px 16px;font-size:11px;font-weight:950;cursor:pointer}.outline{background:#fff;border:1px solid var(--pink);color:var(--pink)}.pink{background:var(--pink);color:#fff}
+.guarantee{margin-top:14px;padding-top:12px;border-top:1px solid #eee;color:#777;font-size:9px;line-height:1.55}
+.section{margin-top:18px;background:#fff;border:1px solid #ececee;border-radius:16px;padding:24px}.section h2{margin:0 0 16px;font:950 21px var(--sf);letter-spacing:-.03em}.desc{color:#626267;font-size:11px;line-height:1.75}.desc b{color:#111}.specs{display:grid;grid-template-columns:180px 1fr;gap:10px 18px;color:#68686d;font-size:10px}.specs b{color:#222}
+.samples{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.sample{aspect-ratio:4/5;border-radius:10px;overflow:hidden;background:#eee;position:relative}.sample img{width:100%;height:100%;object-fit:cover}.sample span{position:absolute;left:7px;bottom:7px;padding:5px 7px;border-radius:999px;background:rgba(0,0,0,.72);color:#fff;font-size:6px;font-weight:900}
+.reviewhead{display:flex;align-items:center;gap:20px;padding:18px;background:#fff7fb;border:1px solid #ffd7ea;border-radius:12px}.score{color:var(--pink);font:950 32px var(--sf)}.score small{font-size:12px}.reviewhead p{margin:3px 0 0;color:#777;font-size:9px}.reviewfilters{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.reviewfilters span{padding:7px 10px;border:1px solid #dedee0;border-radius:6px;color:#666;font-size:8px}.review-empty{margin-top:18px;padding:28px;text-align:center;border:1px dashed #d7d7da;border-radius:12px;color:#777}.review-empty b{display:block;color:#333;font-size:12px;margin-bottom:6px}.review-empty p{margin:0;font-size:9px;line-height:1.5}
+.checkoutpanel{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.58);align-items:center;justify-content:center;padding:16px}.checkoutpanel.show{display:flex}.checkoutcard{width:min(520px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:16px;padding:22px}.ctop{display:flex;justify-content:space-between;gap:12px;align-items:start}.ctop h3{margin:4px 0;font:950 22px var(--sf)}.x{width:34px;height:34px;border:1px solid #ddd;border-radius:50%;background:#fff;cursor:pointer}.form{display:grid;gap:10px;margin-top:16px}.form label{font-size:8px;font-weight:900;color:#777}.form input{width:100%;margin-top:5px;padding:11px;border:1px solid #ddd;border-radius:8px}.check{display:flex!important;gap:7px}.check input{width:auto!important;margin:2px 0 0!important}.check span{font-size:8px;line-height:1.45}.msg{font-size:8px;color:#777;line-height:1.5}.msg.bad{color:#d33}.qr{text-align:center}.qr img{width:230px;max-width:72%;background:#fff;padding:8px;border:1px solid #ddd;border-radius:12px}.payinfo{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.payinfo div{padding:12px;border-radius:9px;background:#f7f7f8}.payinfo small{display:block;color:#777;font-size:7px}.payinfo b{display:block;margin-top:3px}.status{margin-top:10px;padding:11px;background:#f7f7f8;border-radius:8px;color:#666;font-size:9px}.success{display:none;text-align:center}.success.show{display:block}
+.mobilebuy{display:none}
+footer{padding:28px 0 45px;color:#777;font-size:9px}
+@media(max-width:760px){.productbox{grid-template-columns:1fr;padding:14px;gap:18px}.detail h1{font-size:25px}.samples{grid-template-columns:repeat(2,1fr)}.specs{grid-template-columns:120px 1fr}.buyrow{display:none}.mobilebuy{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:55;background:#fff;border-top:1px solid #ddd;padding:8px 12px;gap:8px}.mobilebuy button{flex:1;border:0;border-radius:7px;padding:13px 10px;font-size:10px;font-weight:950}.mobilebuy .cart{background:#fff;border:1px solid var(--pink);color:var(--pink)}.mobilebuy .buy{background:var(--pink);color:#fff}body{padding-bottom:64px}.thumbrow{grid-template-columns:repeat(5,1fr)}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap topin"><a class="logo" href="/">BADAI <span>PROMPT</span></a><a class="back" href="/">← KEMBALI KE TOKO</a></div></header>
+<div class="wrap">
+  <div class="crumb"><a href="/">BADAI PROMPT</a> / <b id="crumbName">Produk</b></div>
+  <section class="productbox">
+    <div>
+      <div class="gallery-main"><img id="mainImage" alt=""></div>
+      <div class="thumbrow" id="thumbRow"></div>
+    </div>
+    <div class="detail">
+      <span class="badge" id="categoryBadge">DIGITAL PRODUCT</span>
+      <h1 id="productName"></h1>
+      <div class="ratingrow"><span class="stars">★★★★★</span><span>Belum ada rating terverifikasi</span></div>
+      <div class="pricebox"><small>HARGA AKSES</small><div class="price" id="displayPrice">Mulai Rp30.000</div></div>
+      <div class="access">
+        <div><span>✓</span><div><b>Prompt khusus niche</b><br>Bukan kumpulan prompt campur.</div></div>
+        <div><span>✓</span><div><b>Akses 1 tahun</b><br>Buka dari member area BADAI PROMPT.</div></div>
+        <div><span>✓</span><div><b>Update selama masa akses</b><br>Konten dapat bertambah sesuai pengembangan produk.</div></div>
+      </div>
+      <div class="option">
+        <label>PILIH NOMINAL</label>
+        <div class="amounts"><button data-amount="30000">Rp30K</button><button class="on" data-amount="50000">Rp50K</button><button data-amount="100000">Rp100K</button></div>
+        <div class="custom"><input id="customAmount" type="number" min="30000" step="1000" placeholder="Nominal lain"></div>
+      </div>
+      <div class="buyrow"><button class="btn outline" onclick="scrollDetails()">LIHAT ISINYA</button><button class="btn pink" onclick="openCheckout()">BELI SEKARANG</button></div>
+      <div class="guarantee">🔒 Pembayaran QRIS • Akses dikirim ke email • Checkout diproses oleh sistem BADAI PROMPT</div>
+    </div>
+  </section>
+
+  <section class="section" id="detailSection">
+    <h2>Deskripsi Produk</h2>
+    <div class="desc" id="description"></div>
+    <div class="specs" style="margin-top:18px">
+      <span>Produk</span><b id="specProduct"></b>
+      <span>Format</span><b>Digital Prompt Library</b>
+      <span>Masa akses</span><b>1 tahun</b>
+      <span>Cocok untuk</span><b id="specFor"></b>
+      <span>Akses</span><b>Member Area BADAI PROMPT</b>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Contoh Yang Bisa Dibikin</h2>
+    <div class="samples" id="sampleGrid"></div>
+  </section>
+
+  <section class="section">
+    <h2>Ulasan Produk</h2>
+    <div class="reviewhead">
+      <div><div class="score">—<small>/5</small></div><p>Belum ada skor produk terverifikasi</p></div>
+      <div class="reviewfilters"><span>Semua</span><span>Dengan Foto</span><span>Pembeli Terverifikasi</span></div>
+    </div>
+    <div class="review-empty">
+      <b>Belum ada ulasan tertulis terverifikasi untuk produk ini.</b>
+      <p>Bagian ini sudah disiapkan. Nanti ulasan asli dari pembeli akan tampil di sini setelah sistem review disambungkan ke member area/admin.</p>
+    </div>
+  </section>
+</div>
+
+<div class="mobilebuy"><button class="cart" onclick="scrollDetails()">LIHAT ISI</button><button class="buy" onclick="openCheckout()">BELI SEKARANG</button></div>
+
+<div class="checkoutpanel" id="checkoutPanel"><div class="checkoutcard">
+  <div class="ctop"><div><small style="color:var(--pink);font-weight:900">CHECKOUT QRIS</small><h3 id="checkoutTitle">BADAI PROMPT</h3><div class="msg" id="checkoutSub">Akses 1 tahun</div></div><button class="x" onclick="closeCheckout()">×</button></div>
+  <div id="checkoutFormWrap">
+    <form class="form" id="checkoutForm">
+      <label>NAMA LENGKAP<input id="buyerName" required></label>
+      <label>EMAIL AKSES<input id="buyerEmail" type="email" required></label>
+      <label>WHATSAPP<input id="buyerWa" required placeholder="08xxxxxxxxxx"></label>
+      <label class="check"><input id="agreeTerms" type="checkbox" required><span>Saya setuju dengan <a href="/terms" target="_blank">Syarat</a>, <a href="/privacy" target="_blank">Privasi</a>, dan <a href="/refund" target="_blank">Refund</a>.</span></label>
+      <button class="btn pink" id="payBtn" type="submit">BUAT QRIS Rp50.000</button>
+      <div class="msg" id="checkoutMsg">Pembelian untuk produk yang tertera di atas.</div>
+    </form>
+  </div>
+  <div id="paymentWrap" style="display:none"><div class="qr"><img id="qrImage" alt="QRIS"></div><div class="payinfo"><div><small>TOTAL</small><b id="payAmount">-</b></div><div><small>BATAS WAKTU</small><b id="payCountdown">-</b></div></div><div class="status" id="payStatus">Menunggu pembayaran…</div><button class="btn outline" id="checkNowBtn" style="width:100%;margin-top:10px">CEK PEMBAYARAN</button></div>
+  <div class="success" id="successBox"><div style="font-size:38px;color:var(--pink)">✓</div><h3>Pembayaran berhasil</h3><p class="msg">Akses diterima untuk <b id="successEmail"></b>.</p><a class="btn pink" id="memberLink" href="/akses" style="display:block;margin-top:12px">MASUK MEMBER AREA</a></div>
+</div></div>
+
+<footer><div class="wrap">BADAI PROMPT • Produk digital khusus berbagai niche usaha.</div></footer>
+
+<script>
+const configs={
+umroh:{name:'BADAI PROMPT UMROH',cat:'TRAVEL RELIGI',for:'Travel umroh, agen, marketing jamaah',desc:'Prompt AI khusus untuk membantu bisnis umroh membuat visual paket, promo Ramadan, keberangkatan, hotel, testimonial jamaah, dan konten edukasi yang lebih menarik.',img:'/assets/dummy/06-ide-promo.png',samples:['Paket Umroh','Promo Ramadan','Keberangkatan','Hotel & Pesawat','Testimoni Jamaah','Umroh Keluarga','Countdown','Early Bird','Konten Edukasi','Poster Seminar']},
+hijab:{name:'BADAI PROMPT HIJAB',cat:'FASHION MUSLIM',for:'Brand hijab, reseller, butik muslim',desc:'Prompt AI khusus hijab untuk foto model, lookbook, katalog, launching warna baru, campaign, promo bundling, dan konten jualan.',img:'/assets/dummy/05-fashion-umkm.png',samples:['Lookbook','Foto Model','Warna Baru','Launching','Katalog','Bundle Hijab','Promo Ramadan','Lifestyle','Marketplace','Campaign']},
+craft:{name:'BADAI PROMPT CRAFT',cat:'HANDMADE',for:'Crafter, handmade seller, gift maker',desc:'Prompt AI khusus craft untuk foto produk handmade, gift set, packaging, katalog, marketplace, hampers, dan campaign musiman.',img:'/assets/dummy/03-foto-produk.png',samples:['Hero Craft','Gift Set','Packaging','Foto Detail','Katalog','Marketplace','Seasonal Gift','Corporate Gift','Lifestyle','Campaign']},
+guru:{name:'BADAI PROMPT GURU',cat:'EDUKASI',for:'Guru, tutor, pengajar, pembuat bahan ajar',desc:'Prompt AI khusus guru untuk worksheet, poster kelas, ilustrasi belajar, bahan ajar, presentasi, dan konten edukasi.',img:'/assets/dummy/02-follow-up-whatsapp.png',samples:['Worksheet','Poster Kelas','Ilustrasi','Flashcard','Presentasi','Infografik','Quiz Visual','Materi Anak','Konten Edukasi','Cover Modul']},
+kuliner:{name:'BADAI PROMPT KULINER',cat:'FOOD & BEVERAGE',for:'Warung, cafe, bakery, katering, seller makanan',desc:'Prompt AI khusus kuliner untuk foto menu, poster promo, bundling, launching menu, hero marketplace, dan konten jualan.',img:'/assets/dummy/01-promo-kuliner.png',samples:['Foto Menu','Poster Promo','Bundling','Menu Baru','Marketplace','Makan Siang','Konten Reels','Katalog Menu','Promo Musiman','Iklan Produk']},
+beauty:{name:'BADAI PROMPT BEAUTY',cat:'BEAUTY',for:'Skincare, kosmetik, beauty seller',desc:'Prompt AI khusus beauty untuk hero skincare, studio look, campaign, promo bundle, katalog, dan konten edukasi.',img:'/assets/dummy/03-foto-produk.png',samples:['Hero Skincare','Studio Shot','Texture','Campaign','Bundle','Katalog','UGC Style','Lifestyle','Ingredients','Poster Promo']},
+properti:{name:'BADAI PROMPT PROPERTI',cat:'PROPERTY',for:'Agen properti, developer, marketer rumah',desc:'Prompt AI khusus properti untuk listing rumah, open house, promo DP, konten area, video tour, dan follow-up visual.',img:'/assets/dummy/06-ide-promo.png',samples:['Hero Listing','Poster Rumah','Open House','Promo DP','Area Highlight','Unit Baru','Video Tour','Katalog','Investment','Follow-up']},
+otomotif:{name:'BADAI PROMPT OTOMOTIF',cat:'OTOMOTIF',for:'Dealer, bengkel, reseller aksesoris',desc:'Prompt AI khusus otomotif untuk mobil, motor, bengkel, paket servis, promo cicilan, aksesoris, dan listing.',img:'/assets/dummy/04-video-jualan.png',samples:['Hero Mobil','Poster Motor','Promo Bengkel','Paket Servis','Foto Detail','Promo Cicilan','Aksesoris','Listing','Video Produk','Campaign']},
+hampers:{name:'BADAI PROMPT HAMPERS',cat:'GIFT',for:'Seller hampers, gift box, corporate gift',desc:'Prompt AI khusus hampers untuk gift set, packaging, seasonal campaign, corporate gift, bundle, dan foto lifestyle.',img:'/assets/dummy/01-promo-kuliner.png',samples:['Hero Hampers','Gift Set','Packaging','Lebaran','Natal','Corporate Gift','Bundle','Lifestyle','Katalog','Poster Promo']},
+retail:{name:'BADAI PROMPT RETAIL',cat:'RETAIL',for:'Toko, reseller, seller marketplace',desc:'Prompt AI khusus retail untuk hero produk, promo harian, katalog, marketplace, flash sale, produk baru, dan bundling.',img:'/assets/dummy/04-video-jualan.png',samples:['Hero Produk','Promo Harian','Katalog','Diskon','Bundle','Marketplace','Flash Sale','Produk Baru','Konten Sosmed','Poster']}
+};
+const slug=(new URLSearchParams(location.search).get('slug')||location.pathname.split('/').filter(Boolean)[0]||'umroh').toLowerCase(),p=configs[slug]||configs.umroh;
+const imgs=['/assets/dummy/01-promo-kuliner.png','/assets/dummy/03-foto-produk.png','/assets/dummy/04-video-jualan.png','/assets/dummy/05-fashion-umkm.png','/assets/dummy/06-ide-promo.png','/assets/dummy/02-follow-up-whatsapp.png'];
+document.title=p.name+' — BADAI PROMPT';crumbName.textContent=p.name;productName.textContent=p.name;categoryBadge.textContent=p.cat;description.innerHTML='<b>'+p.name+'</b> adalah produk digital berisi prompt yang difokuskan untuk kebutuhan niche ini. '+p.desc+' Kamu tidak perlu membeli kumpulan prompt umum yang isinya banyak tapi tidak relevan.';specProduct.textContent=p.name;specFor.textContent=p.for;checkoutTitle.textContent=p.name;mainImage.src=p.img;mainImage.alt=p.name;
+thumbRow.innerHTML=[p.img,...imgs.slice(0,4)].map((x,i)=>'<div class="thumb '+(i===0?'on':'')+'" data-img="'+x+'"><img src="'+x+'"></div>').join('');
+thumbRow.onclick=e=>{const t=e.target.closest('.thumb');if(!t)return;document.querySelectorAll('.thumb').forEach(x=>x.classList.remove('on'));t.classList.add('on');mainImage.src=t.dataset.img};
+sampleGrid.innerHTML=p.samples.map((s,i)=>'<div class="sample"><img src="'+imgs[i%imgs.length]+'"><span>'+s+'</span></div>').join('');
+function scrollDetails(){detailSection.scrollIntoView({behavior:'smooth'})}
+
+const ENDPOINT='https://sgp.cloud.appwrite.io/v1',PROJECT='badai-prompt-umkm';
+let minimumPrice=30000,selectedAmount=50000,registrationOpen=true,checkoutToken='',checkoutEmail='',checkoutExpiry=null,pollTimer=null,countTimer=null;
+function rupiah(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n||0))}
+function setAmount(v,custom=false){selectedAmount=Math.max(minimumPrice,Math.floor(Number(v)||minimumPrice));document.querySelectorAll('.amounts button').forEach(b=>b.classList.toggle('on',!custom&&Number(b.dataset.amount)===selectedAmount));payBtn.textContent='BUAT QRIS '+rupiah(selectedAmount)}
+document.querySelectorAll('.amounts button').forEach(b=>b.onclick=()=>{customAmount.value='';setAmount(b.dataset.amount,false)});
+customAmount.oninput=()=>{document.querySelectorAll('.amounts button').forEach(b=>b.classList.remove('on'));selectedAmount=Math.max(minimumPrice,Math.floor(Number(customAmount.value)||minimumPrice));payBtn.textContent='BUAT QRIS '+rupiah(selectedAmount)};
+function openCheckout(){if(!registrationOpen){alert('Pendaftaran sedang ditutup.');return}successBox.classList.remove('show');checkoutFormWrap.style.display='block';paymentWrap.style.display='none';checkoutPanel.classList.add('show')}
+function closeCheckout(){checkoutPanel.classList.remove('show')}checkoutPanel.onclick=e=>{if(e.target===checkoutPanel)closeCheckout()};
+async function run(path,payload){const r=await fetch(ENDPOINT+'/functions/payment-api/executions',{method:'POST',headers:{'Content-Type':'application/json','X-Appwrite-Project':PROJECT},body:JSON.stringify({body:JSON.stringify(payload||{}),async:false,path,method:'POST',headers:{'content-type':'application/json'}})});const ex=await r.json().catch(()=>({}));let body={};try{body=JSON.parse(ex.responseBody||'{}')}catch{}if(!r.ok||Number(ex.responseStatusCode||200)>=400)throw new Error(body.error||ex.message||'Transaksi belum bisa diproses.');return body}
+checkoutForm.onsubmit=async e=>{e.preventDefault();payBtn.disabled=true;payBtn.textContent='MEMBUAT QRIS…';checkoutMsg.className='msg';checkoutMsg.textContent='Menghubungkan pembayaran…';try{const d=await run('/create',{full_name:buyerName.value.trim(),email:buyerEmail.value.trim(),whatsapp:buyerWa.value.trim(),amount:selectedAmount,product_id:'badai-prompt-'+slug,product_name:p.name,product_slug:slug});checkoutToken=d.public_token;checkoutEmail=buyerEmail.value.trim().toLowerCase();checkoutExpiry=d.expires_at?new Date(d.expires_at):new Date(Date.now()+15*60*1000);checkoutFormWrap.style.display='none';paymentWrap.style.display='block';payAmount.textContent=rupiah(d.total_amount||d.amount||selectedAmount);qrImage.src=d.qr_url;startCountdown();schedulePolling()}catch(err){checkoutMsg.className='msg bad';checkoutMsg.textContent=err.message||'Gagal membuat QRIS.';payBtn.disabled=false;payBtn.textContent='BUAT QRIS '+rupiah(selectedAmount)}};
+function startCountdown(){clearInterval(countTimer);const tick=()=>{const ms=checkoutExpiry?checkoutExpiry.getTime()-Date.now():0;if(ms<=0){payCountdown.textContent='BERAKHIR';clearInterval(countTimer);return}const m=Math.floor(ms/60000),s=Math.floor((ms%60000)/1000);payCountdown.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')};tick();countTimer=setInterval(tick,1000)}
+async function checkPayment(){if(!checkoutToken)return;payStatus.textContent='Mengecek pembayaran…';try{const d=await run('/check',{public_token:checkoutToken});if(d.status==='success'&&d.access_ready){clearInterval(pollTimer);clearInterval(countTimer);paymentWrap.style.display='none';successBox.classList.add('show');successEmail.textContent=checkoutEmail||d.email||'email pembeli';memberLink.href='/akses?paid=1&email='+encodeURIComponent(checkoutEmail||d.email||'')+'&product='+encodeURIComponent(slug);return}if(d.status==='expired'){payStatus.textContent='QRIS sudah kedaluwarsa.';clearInterval(pollTimer);return}payStatus.textContent=d.status==='success'?'Pembayaran diterima. Mengaktifkan akses…':'Belum ada pembayaran. Akan dicek otomatis.'}catch{payStatus.textContent='Pengecekan tertunda. Sistem akan mencoba lagi.'}}
+function schedulePolling(){clearInterval(pollTimer);setTimeout(checkPayment,5000);pollTimer=setInterval(checkPayment,20000)}checkNowBtn.onclick=checkPayment;
+(async()=>{try{const d=await run('/config',{});minimumPrice=Math.max(30000,Number(d.minimum_price||30000));registrationOpen=d.registration_open!==false;displayPrice.textContent='Mulai '+rupiah(minimumPrice);customAmount.min=String(minimumPrice);checkoutSub.textContent='Akses 1 tahun • minimal '+rupiah(minimumPrice);setAmount(Math.max(minimumPrice,50000),false)}catch{setAmount(50000,false)}})();
+</script>
+</body></html>
