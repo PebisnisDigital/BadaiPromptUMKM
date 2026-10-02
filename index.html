@@ -2147,19 +2147,109 @@ body,
 .bpu-answer-price{
   display:block;
   margin:0;
-  font-size:44px !important;
   font-weight:950;
-  line-height:.92;
-  letter-spacing:-.055em;
   text-align:center;
+  letter-spacing:-.055em;
+}
+.bpu-price-card-choice.value-high .bpu-answer-price{
+  font-size:56px !important;
+  line-height:.84;
+}
+.bpu-price-card-choice.value-mid .bpu-answer-price{
+  font-size:44px !important;
+  line-height:.9;
+}
+.bpu-price-card-choice.value-low .bpu-answer-price{
+  font-size:34px !important;
+  line-height:.95;
 }
 .bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice{
   height:96px;
 }
+.bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice.value-high{
+  height:112px;
+  overflow:visible !important;
+}
+.bpu-price-card-choice.value-high::after{
+  content:"";
+  position:absolute;
+  inset:-5px;
+  border:2px solid rgba(255,255,255,.72);
+  border-radius:22px;
+  pointer-events:none;
+  animation:bpuTopPickPulse 1.6s ease-in-out infinite;
+}
+.bpu-top-pick-badge{
+  position:absolute;
+  top:-47px;
+  left:50%;
+  transform:translateX(-50%);
+  white-space:nowrap;
+  padding:5px 9px;
+  border-radius:999px;
+  background:#09090b;
+  color:#ff4fa3;
+  border:1px solid rgba(255,79,163,.7);
+  box-shadow:0 8px 20px rgba(255,47,146,.28);
+  font:950 7px var(--font-sf);
+  letter-spacing:.06em;
+  z-index:12;
+  pointer-events:none;
+}
+.bpu-three-fingers{
+  position:absolute;
+  top:-26px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  z-index:11;
+  pointer-events:none;
+}
+.bpu-three-fingers span{
+  display:inline-block;
+  font-size:20px;
+  line-height:1;
+  filter:drop-shadow(0 0 5px rgba(255,47,146,.95)) drop-shadow(0 0 10px rgba(255,47,146,.55));
+  animation:bpuFingerBounce 1s ease-in-out infinite;
+}
+.bpu-three-fingers span:nth-child(2){animation-delay:.14s}
+.bpu-three-fingers span:nth-child(3){animation-delay:.28s}
+
+@keyframes bpuFingerBounce{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(7px) scale(1.08)}
+}
+@keyframes bpuTopPickPulse{
+  0%,100%{opacity:.35;transform:scale(1)}
+  50%{opacity:1;transform:scale(1.035)}
+}
+
 @media(max-width:720px){
   .bpu-answer-letter{font-size:14px !important}
-  .bpu-answer-price{font-size:34px !important}
+  .bpu-price-card-choice.value-high .bpu-answer-price{
+    font-size:44px !important;
+    line-height:.84;
+  }
+  .bpu-price-card-choice.value-mid .bpu-answer-price{
+    font-size:35px !important;
+    line-height:.9;
+  }
+  .bpu-price-card-choice.value-low .bpu-answer-price{
+    font-size:27px !important;
+    line-height:.95;
+  }
   .bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice{height:82px}
+  .bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice.value-high{height:96px}
+  .bpu-top-pick-badge{
+    top:-42px;
+    font-size:6px;
+    padding:4px 7px;
+  }
+  .bpu-three-fingers{top:-24px}
+  .bpu-three-fingers span{font-size:17px}
 }
 </style>
 
@@ -4310,6 +4400,8 @@ body,
 
     <div class="bpu-value-price-options bpu-compact-prices reveal2" id="bpuPriceChoices">
       <button class="bpu-price-card-choice value-high spotlight" type="button" onclick="openCheckout(199000)">
+        <span class="bpu-top-pick-badge">PALING DIREKOMENDASIKAN</span>
+        <span class="bpu-three-fingers" aria-hidden="true"><span>👇</span><span>👇</span><span>👇</span></span>
         <b class="bpu-choice-stack"><span class="bpu-answer-letter">A</span><span class="bpu-answer-price">199k</span></b>
       </button>
 
