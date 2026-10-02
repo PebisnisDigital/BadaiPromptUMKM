@@ -1832,6 +1832,110 @@ body,
   .bpu-solution-punchline b{font-size:21px}
 }
 </style>
+
+<style id="bpu-data-infografis-style">
+.bpu-data-infografis{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  padding:72px 0 68px;
+  background:
+    radial-gradient(circle at 50% 18%,rgba(255,58,151,.14),transparent 36%),
+    linear-gradient(180deg,#070708 0%,#0d080b 100%);
+}
+.bpu-data-infografis:before{
+  content:"";
+  position:absolute;inset:0;z-index:-3;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:34px 34px;
+  mask-image:linear-gradient(to bottom,transparent,#000 18%,#000 80%,transparent);
+}
+.bpu-data-bg{position:absolute;inset:0;z-index:-2;display:flex;align-items:flex-end;justify-content:space-around;opacity:.2;pointer-events:none}
+.bpu-data-bg span{width:7%;background:linear-gradient(180deg,rgba(255,63,155,.34),rgba(255,63,155,.03));border:1px solid rgba(255,63,155,.16);animation:bpuBarFloat 4.8s ease-in-out infinite}
+.bpu-data-bg span:nth-child(1){height:31%;animation-delay:-.5s}.bpu-data-bg span:nth-child(2){height:49%;animation-delay:-1.1s}.bpu-data-bg span:nth-child(3){height:38%;animation-delay:-2s}.bpu-data-bg span:nth-child(4){height:61%;animation-delay:-2.8s}.bpu-data-bg span:nth-child(5){height:72%;animation-delay:-3.6s}.bpu-data-bg span:nth-child(6){height:88%;animation-delay:-4.2s}
+@keyframes bpuBarFloat{0%,100%{transform:scaleY(.94);opacity:.6}50%{transform:scaleY(1.04);opacity:1}}
+.bpu-data-head{text-align:center;max-width:800px;margin:0 auto}
+.bpu-data-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 15px;border:1px solid #ff429d;border-radius:999px;color:#ff69b1;background:rgba(255,63,155,.07);font:900 10px/1 var(--font-sf);letter-spacing:.14em;box-shadow:0 0 28px rgba(255,63,155,.13)}
+.bpu-data-pill span{font-size:15px}
+.bpu-data-head h2{margin:16px 0 0;color:#fff;font:950 clamp(34px,6vw,62px)/.96 var(--font-sf);letter-spacing:-.055em}
+.bpu-data-head h2 span{color:var(--bpu-pink2)}
+.bpu-data-head p{margin:14px auto 0;color:#aaaab0;font:500 14px/1.55 var(--font-roboto)}
+.bpu-data-stage{position:relative;max-width:1080px;margin:34px auto 0;padding-top:40px}
+.bpu-growth-line{position:absolute;left:-4%;right:-4%;top:-16px;width:108%;height:210px;overflow:visible;pointer-events:none;opacity:.78}
+.bpu-growth-path{fill:none;stroke-linecap:round}
+.bpu-growth-path.ghost{stroke:rgba(255,63,155,.13);stroke-width:9}
+.bpu-growth-path.live{stroke:url(#bpuPinkLine);stroke-width:3;stroke-dasharray:1500;stroke-dashoffset:1500;filter:drop-shadow(0 0 8px #ff3f9b);animation:bpuDrawGrowth 3.2s cubic-bezier(.2,.7,.2,1) infinite alternate}
+.bpu-growth-line circle{fill:#ff4ca4;filter:drop-shadow(0 0 7px #ff3f9b);animation:bpuNodePulse 1.8s ease-in-out infinite alternate}
+@keyframes bpuDrawGrowth{to{stroke-dashoffset:0}}
+@keyframes bpuNodePulse{to{r:9;opacity:.45}}
+.bpu-data-grid{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,1.4fr) minmax(0,1fr);gap:12px;align-items:stretch}
+.bpu-stat-card,.bpu-visual-compare{position:relative;border:1px solid rgba(255,71,163,.42);border-radius:22px;background:linear-gradient(145deg,rgba(18,18,21,.95),rgba(8,8,10,.94));box-shadow:0 18px 45px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.03);overflow:hidden}
+.bpu-stat-card{padding:22px 18px;min-height:218px}
+.bpu-stat-card:before{content:"";position:absolute;width:120px;height:120px;border-radius:50%;right:-45px;top:-38px;border:22px solid rgba(255,63,155,.045)}
+.bpu-stat-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;border:1px solid rgba(255,63,155,.5);color:#ff5faa;background:#180c12;font:900 20px/1 var(--font-sf)}
+.bpu-stat-card strong{display:block;margin-top:14px;color:#ff55a8;font:950 clamp(34px,4vw,52px)/.92 var(--font-sf);letter-spacing:-.055em}
+.bpu-stat-card p{margin:12px 0 0;color:#b8b8be;font:500 12px/1.48 var(--font-roboto)}
+.bpu-stat-card p b{color:#fff;font-weight:800}
+.bpu-stat-card small{display:block;margin-top:12px;color:#6f6f76;font:600 9px/1.3 var(--font-roboto)}
+.bpu-stat-meter{position:absolute;left:18px;right:18px;bottom:15px;height:4px;border-radius:9px;background:#25252a;overflow:hidden}
+.bpu-stat-meter i{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#ff3f9b,#ff83c2);box-shadow:0 0 12px #ff3f9b}
+.bpu-data-infografis.is-visible .bpu-stat-meter i{animation:bpuMeter 1.4s .25s cubic-bezier(.2,.75,.25,1) forwards}
+@keyframes bpuMeter{to{width:var(--meter)}}
+.bpu-visual-compare{grid-row:span 2;padding:20px 16px;display:flex;flex-direction:column;justify-content:center}
+.bpu-compare-label{text-align:center;color:#85858b;font:900 10px/1 var(--font-sf);letter-spacing:.06em}
+.bpu-compare-label span{margin:0 7px;color:#ff53a6}.bpu-compare-label b{color:#fff}
+.bpu-compare-cards{display:grid;grid-template-columns:1fr 34px 1fr;gap:6px;align-items:center;margin-top:18px}
+.bpu-compare-shot{position:relative;border-radius:16px;overflow:hidden;border:1px solid #333;background:#111;transform:translateZ(0)}
+.bpu-compare-shot>span{position:absolute;top:8px;left:8px;z-index:2;padding:5px 8px;border-radius:999px;background:rgba(0,0,0,.68);color:#fff;font:800 8px/1 var(--font-sf)}
+.bpu-compare-shot img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform .6s ease,filter .6s ease}
+.bpu-compare-shot.plain img{filter:grayscale(.7) saturate(.45) brightness(.72);transform:scale(.96)}
+.bpu-compare-shot.selling{border-color:#ff4ea6;box-shadow:0 0 0 1px rgba(255,78,166,.25),0 0 32px rgba(255,63,155,.18)}
+.bpu-compare-shot.selling>span{background:#ff3f9b}
+.bpu-compare-shot.selling img{filter:saturate(1.2) contrast(1.06) brightness(1.05)}
+.bpu-data-infografis.is-visible .bpu-compare-shot.selling img{animation:bpuSellImage 3.8s ease-in-out infinite}
+@keyframes bpuSellImage{0%,100%{transform:scale(1)}50%{transform:scale(1.055)}}
+.bpu-compare-arrow{position:relative;z-index:3;color:#ff56aa;text-align:center;font:950 30px/1 var(--font-sf);filter:drop-shadow(0 0 8px #ff3f9b);animation:bpuArrowNudge 1s ease-in-out infinite alternate}
+@keyframes bpuArrowNudge{to{transform:translateX(5px)}}
+.bpu-data-flow{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:17px}
+.bpu-data-flow div{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 6px;border-radius:12px;border:1px solid #29292e;background:#121214;color:#fff;font:800 9px/1.15 var(--font-sf);text-align:center}
+.bpu-data-flow div span{color:#ff5daa}.bpu-data-flow>i{color:#ff4fa5;font-style:normal}
+.bpu-stat-bottom{grid-column:1}.bpu-stat-360{grid-column:3}
+.bpu-stat-360 strong{font-size:48px}
+.bpu-orbit-mini{position:absolute;right:12px;bottom:12px;width:62px;height:62px;border:1px dashed rgba(255,75,164,.25);border-radius:50%;animation:bpuOrbitSpin 7s linear infinite}
+.bpu-orbit-mini i{position:absolute;width:6px;height:6px;border-radius:50%;background:#ff4fa5;box-shadow:0 0 9px #ff4fa5}
+.bpu-orbit-mini i:nth-child(1){top:2px;left:28px}.bpu-orbit-mini i:nth-child(2){right:5px;bottom:12px}.bpu-orbit-mini i:nth-child(3){left:4px;bottom:13px}
+@keyframes bpuOrbitSpin{to{transform:rotate(360deg)}}
+.bpu-data-conclusion{max-width:850px;margin:18px auto 0;padding:16px 20px;border:1px solid rgba(255,65,158,.55);border-radius:18px;background:linear-gradient(90deg,rgba(255,63,155,.08),rgba(255,63,155,.02));display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 0 34px rgba(255,63,155,.08)}
+.bpu-data-conclusion>span{font-size:21px}.bpu-data-conclusion p{margin:0;color:#fff;font:800 13px/1.3 var(--font-sf)}.bpu-data-conclusion b{padding:7px 10px;border-radius:10px;background:#ff4fa5;color:#210811;font:950 13px/1 var(--font-sf)}
+.bpu-data-sources{margin:12px auto 0;text-align:center;color:#55555c;font:500 8.5px/1.5 var(--font-roboto)}
+.bpu-data-sources a{color:#686870;text-decoration:none}.bpu-data-sources a:hover{color:#aaa}.bpu-data-sources span{margin:0 5px}
+@media(max-width:760px){
+  .bpu-data-infografis{padding:54px 0 52px}
+  .bpu-data-head h2{font-size:37px}
+  .bpu-data-head p{font-size:12.5px}
+  .bpu-data-stage{padding-top:28px;margin-top:25px}
+  .bpu-growth-line{height:130px;top:-10px}
+  .bpu-data-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .bpu-visual-compare{grid-column:1/-1;grid-row:auto;order:-1;padding:16px 12px}
+  .bpu-stat-card{min-height:196px;padding:16px 14px}
+  .bpu-stat-card strong{font-size:38px}
+  .bpu-stat-card p{font-size:11px}
+  .bpu-stat-meter{left:14px;right:14px;bottom:12px}
+  .bpu-stat-bottom,.bpu-stat-360{grid-column:auto}
+  .bpu-compare-cards{grid-template-columns:1fr 27px 1fr}
+  .bpu-compare-arrow{font-size:24px}
+  .bpu-data-flow{gap:4px}
+  .bpu-data-flow div{font-size:8px;padding:8px 4px;gap:3px}
+  .bpu-data-flow>i{font-size:10px}
+  .bpu-data-conclusion{padding:14px 12px;display:grid;grid-template-columns:auto 1fr;gap:5px 8px;text-align:left}
+  .bpu-data-conclusion>span{grid-row:1/3}
+  .bpu-data-conclusion p{font-size:11px}
+  .bpu-data-conclusion b{font-size:11px;justify-self:start}
+  .bpu-data-sources{font-size:7.5px}
+}
+</style>
 </head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
@@ -3758,6 +3862,105 @@ body,
   </div>
 </section>
 
+
+<section class="bpu-section bpu-data-infografis" id="data-infografis" aria-label="Data pengaruh visual terhadap keputusan pembelian">
+  <div class="bpu-data-bg" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="bpu-container">
+    <div class="bpu-data-head reveal2">
+      <div class="bpu-data-pill"><span>▥</span> DATA INFOGRAFIS</div>
+      <h2>Visual yang bagus ikut<br><span>mendorong penjualan.</span></h2>
+      <p>Di dunia online, calon pembeli sering menilai produk lewat visual lebih dulu.</p>
+    </div>
+
+    <div class="bpu-data-stage reveal2">
+      <svg class="bpu-growth-line" viewBox="0 0 1000 230" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="bpuPinkLine" x1="0" x2="1">
+            <stop offset="0%" stop-color="#ff3f9b"/>
+            <stop offset="100%" stop-color="#ff78bd"/>
+          </linearGradient>
+        </defs>
+        <path class="bpu-growth-path ghost" d="M0 195 C90 185 125 145 205 162 S320 125 390 138 S500 90 575 112 S690 88 755 72 S860 72 1000 15"/>
+        <path class="bpu-growth-path live" d="M0 195 C90 185 125 145 205 162 S320 125 390 138 S500 90 575 112 S690 88 755 72 S860 72 1000 15"/>
+        <circle cx="205" cy="162" r="6"/><circle cx="390" cy="138" r="6"/><circle cx="575" cy="112" r="6"/><circle cx="755" cy="72" r="6"/>
+      </svg>
+
+      <div class="bpu-data-grid">
+        <article class="bpu-stat-card">
+          <div class="bpu-stat-icon">▧</div>
+          <strong><span class="bpu-counter" data-target="56">0</span>%</strong>
+          <p>aksi pertama pengguna di halaman produk adalah <b>mengecek gambar.</b></p>
+          <small>Baymard Institute</small>
+          <div class="bpu-stat-meter"><i style="--meter:56%"></i></div>
+        </article>
+
+        <div class="bpu-visual-compare">
+          <div class="bpu-compare-label">VISUAL BIASA <span>→</span> <b>VISUAL MENJUAL</b></div>
+          <div class="bpu-compare-cards">
+            <div class="bpu-compare-shot plain">
+              <span>Visual Biasa</span>
+              <img src="/assets/dummy/03-foto-produk.png" alt="Contoh visual produk biasa" loading="lazy">
+            </div>
+            <div class="bpu-compare-arrow" aria-hidden="true">→</div>
+            <div class="bpu-compare-shot selling">
+              <span>Visual Menjual</span>
+              <img src="/assets/dummy/03-foto-produk.png" alt="Contoh visual produk yang lebih menarik" loading="lazy">
+            </div>
+          </div>
+          <div class="bpu-data-flow">
+            <div><span>◉</span><b>Lebih Dilirik</b></div>
+            <i>→</i>
+            <div><span>✓</span><b>Lebih Yakin</b></div>
+            <i>→</i>
+            <div><span>🛒</span><b>Peluang Order Naik</b></div>
+          </div>
+        </div>
+
+        <article class="bpu-stat-card">
+          <div class="bpu-stat-icon">◫</div>
+          <strong><span class="bpu-counter" data-target="67">0</span>%</strong>
+          <p>halaman produk belum menampilkan <b>visual sosial dari pembeli.</b></p>
+          <small>Baymard Institute</small>
+          <div class="bpu-stat-meter"><i style="--meter:67%"></i></div>
+        </article>
+
+        <article class="bpu-stat-card bpu-stat-bottom">
+          <div class="bpu-stat-icon">⌕</div>
+          <strong><span class="bpu-counter" data-target="25">0</span>%</strong>
+          <p>situs e-commerce belum punya gambar/zoom produk yang <b>cukup detail.</b></p>
+          <small>Baymard Institute</small>
+          <div class="bpu-stat-meter"><i style="--meter:25%"></i></div>
+        </article>
+
+        <article class="bpu-stat-card bpu-stat-bottom bpu-stat-360">
+          <div class="bpu-stat-icon">◇</div>
+          <strong>360°</strong>
+          <p>gambar produk interaktif menghasilkan <b>niat beli lebih tinggi</b> dibanding gambar statis dalam eksperimen.</p>
+          <small>Journal of Retailing & Consumer Services</small>
+          <div class="bpu-orbit-mini" aria-hidden="true"><i></i><i></i><i></i></div>
+        </article>
+      </div>
+    </div>
+
+    <div class="bpu-data-conclusion reveal2">
+      <span>💡</span>
+      <p>Masalahnya sering bukan produknya.</p>
+      <b>Cara menampilkannya.</b>
+    </div>
+
+    <div class="bpu-data-sources reveal2">
+      <a href="https://baymard.com/research-articles/ensure-sufficient-image-resolution-and-zoom" target="_blank" rel="noopener">Baymard: Product Images & Zoom</a>
+      <span>•</span>
+      <a href="https://baymard.com/research-articles/integrate-social-media-visuals-on-product-page" target="_blank" rel="noopener">Baymard: Social Visuals</a>
+      <span>•</span>
+      <a href="https://doi.org/10.1016/j.jretconser.2020.102062" target="_blank" rel="noopener">Kim, Baek & Yoon (2020)</a>
+    </div>
+  </div>
+</section>
+
 <section id="harga" class="bpu-section bpu-pricing bpu-value-pricing">
   <div class="bpu-container">
     <div class="bpu-pricing-mega-card reveal2">
@@ -4336,4 +4539,35 @@ loadSocialProof();
 })();
 </script>
 <!-- deploy-trigger: latest-production -->
+
+<script id="bpu-data-infografis-script">
+(function(){
+  const section=document.getElementById('data-infografis');
+  if(!section) return;
+  let played=false;
+  const runCounters=()=>{
+    if(played) return;
+    played=true;
+    section.classList.add('is-visible');
+    section.querySelectorAll('.bpu-counter').forEach(el=>{
+      const target=Number(el.dataset.target||0);
+      const duration=1200;
+      const start=performance.now();
+      const tick=(now)=>{
+        const p=Math.min(1,(now-start)/duration);
+        const eased=1-Math.pow(1-p,3);
+        el.textContent=Math.round(target*eased);
+        if(p<1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  };
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{if(e.isIntersecting){runCounters();io.disconnect();}});
+    },{threshold:.22});
+    io.observe(section);
+  }else{runCounters();}
+})();
+</script>
 </body></html>
