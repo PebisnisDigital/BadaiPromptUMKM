@@ -2123,13 +2123,43 @@ body,
   font-weight:950;
   letter-spacing:-.03em;
 }
+.bpu-choice-stack{
+  width:100%;
+  display:flex !important;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  margin:0 !important;
+  text-align:center;
+  line-height:1 !important;
+}
 .bpu-answer-letter{
-  display:inline-block;
-  margin-right:4px;
-  font-size:.48em;
+  display:block;
+  margin:0;
+  font-size:16px !important;
+  font-weight:850;
+  line-height:1;
+  letter-spacing:.02em;
+  vertical-align:initial;
+  text-align:center;
+}
+.bpu-answer-price{
+  display:block;
+  margin:0;
+  font-size:44px !important;
   font-weight:950;
-  letter-spacing:0;
-  vertical-align:.2em;
+  line-height:.92;
+  letter-spacing:-.055em;
+  text-align:center;
+}
+.bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice{
+  height:96px;
+}
+@media(max-width:720px){
+  .bpu-answer-letter{font-size:14px !important}
+  .bpu-answer-price{font-size:34px !important}
+  .bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice{height:82px}
 }
 </style>
 
@@ -4280,15 +4310,15 @@ body,
 
     <div class="bpu-value-price-options bpu-compact-prices reveal2" id="bpuPriceChoices">
       <button class="bpu-price-card-choice value-high spotlight" type="button" onclick="openCheckout(199000)">
-        <b><span class="bpu-answer-letter">A.</span> <span class="bpu-rp">Rp</span>199<span class="bpu-k">k</span></b>
+        <b class="bpu-choice-stack"><span class="bpu-answer-letter">A</span><span class="bpu-answer-price">199k</span></b>
       </button>
 
       <button class="bpu-price-card-choice value-mid" type="button" onclick="openCheckout(159000)">
-        <b><span class="bpu-answer-letter">B.</span> <span class="bpu-rp">Rp</span>159<span class="bpu-k">k</span></b>
+        <b class="bpu-choice-stack"><span class="bpu-answer-letter">B</span><span class="bpu-answer-price">159k</span></b>
       </button>
 
       <button class="bpu-price-card-choice value-low" type="button" onclick="openCheckout(59000)">
-        <b><span class="bpu-answer-letter">C.</span> <span class="bpu-rp">Rp</span>59<span class="bpu-k">k</span></b>
+        <b class="bpu-choice-stack"><span class="bpu-answer-letter">C</span><span class="bpu-answer-price">59k</span></b>
       </button>
     </div>
 
