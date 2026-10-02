@@ -4699,16 +4699,55 @@ body,
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/appwrite@28.1.0"></script>
 <script>
 const APPWRITE_ENDPOINT='https://sgp.cloud.appwrite.io/v1';
 const APPWRITE_PROJECT='badai-prompt-umkm';
-let checkoutToken='',checkoutEmail='',checkoutExpiry=null,pollTimer=null,countTimer=null;
+let checkoutToken='',checkoutEmail='',checkoutPassword='',checkoutExpiry=null,pollTimer=null,countTimer=null;
+const memberAuthClient=new Appwrite.Client().setEndpoint(APPWRITE_ENDPOINT).setProject(APPWRITE_PROJECT);
+const memberAuthAccount=new Appwrite.Account(memberAuthClient);
 let registrationOpen=true,minimumPrice=30000,officialPrice=100000,selectedAmount=100000,socialProofTimer=null,socialProofHideTimer=null;
 
 function rupiah(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n||0))}
 function normalizeAmount(v){
   const n=Math.floor(Number(v));
   return Number.isFinite(n)?n:0;
+}
+function generateMemberPassword(){
+  const bytes=new Uint8Array(8);
+  crypto.getRandomValues(bytes);
+  const alphabet='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
+  let out='';
+  for(const b of bytes)out+=alphabet[b%alphabet.length];
+  return 'Badai#'+out+'9A';
+}
+async function prepareMemberAccount(name,email){
+  const normalized=String(email||'').trim().toLowerCase();
+  const savedEmail=sessionStorage.getItem('bpu_checkout_email')||'';
+  const savedPassword=sessionStorage.getItem('bpu_checkout_password')||'';
+
+  if(savedEmail===normalized&&savedPassword){
+    checkoutPassword=savedPassword;
+    return;
+  }
+
+  const password=generateMemberPassword();
+  try{
+    await memberAuthAccount.create({
+      userId:Appwrite.ID.unique(),
+      email:normalized,
+      password,
+      name:String(name||'Member BADAI PROMPT UMKM').trim().slice(0,128)
+    });
+    checkoutPassword=password;
+    sessionStorage.setItem('bpu_checkout_email',normalized);
+    sessionStorage.setItem('bpu_checkout_password',password);
+  }catch(err){
+    if(Number(err?.code)===409){
+      throw new Error('Email ini sudah pernah terdaftar. Gunakan data login sebelumnya atau hubungi Admin 081237523636.');
+    }
+    throw err;
+  }
 }
 function setAmount(value){
   let amount=normalizeAmount(value);
@@ -4766,9 +4805,13 @@ document.getElementById('checkoutForm').addEventListener('submit',async e=>{
   }
   btn.disabled=true;btn.textContent='MEMBUAT QRIS…';msg.className='checkout-msg';msg.textContent='Menghubungkan pembayaran…';
   try{
+    const buyerName=document.getElementById('buyerName').value.trim();
+    const buyerEmail=document.getElementById('buyerEmail').value.trim().toLowerCase();
+    await prepareMemberAccount(buyerName,buyerEmail);
+
     const data=await runPayment('/create',{
-      full_name:document.getElementById('buyerName').value.trim(),
-      email:document.getElementById('buyerEmail').value.trim(),
+      full_name:buyerName,
+      email:buyerEmail,
       whatsapp:document.getElementById('buyerWa').value.trim(),
       amount:amount
     });
@@ -4831,8 +4874,8 @@ function handlePaid(data){
   document.getElementById('paymentWrap').style.display='none';
   document.getElementById('successBox').classList.add('show');
 
-  const email=checkoutEmail||data.email||'';
-  const password=String(data.login_password||'');
+  const email=checkoutEmail||data.email||sessionStorage.getItem('bpu_checkout_email')||'';
+  const password=checkoutPassword||sessionStorage.getItem('bpu_checkout_password')||'';
   document.getElementById('successEmail').textContent=email||'-';
   document.getElementById('successPassword').textContent=password||'-';
   document.getElementById('successPassword').dataset.password=password;
