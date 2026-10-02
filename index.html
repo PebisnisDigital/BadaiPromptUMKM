@@ -1016,6 +1016,85 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 .bpu-value-effect>div b{padding:8px 10px;border-radius:999px;background:#181416;color:#fff;font:850 9px var(--font-sf)}
 .bpu-value-effect>div i{color:var(--bpu-pink);font-style:normal;font-weight:950}
 .bpu-value-effect>p{margin:11px 0 0;color:#75757a;font-size:8.5px;line-height:1.55}
+.bpu-value-table-wrap{
+  margin-top:18px;
+  overflow:hidden;
+  border:1px solid #303034;
+  border-radius:22px;
+  background:linear-gradient(180deg,#111113,#0d0d0f);
+}
+.bpu-value-table-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:18px 18px 15px;
+  border-bottom:1px solid #29292d;
+  text-align:left;
+}
+.bpu-value-table-head small{
+  display:block;
+  color:#a56b88;
+  font:900 6.5px var(--font-sf);
+  letter-spacing:.14em;
+}
+.bpu-value-table-head b{
+  display:block;
+  margin-top:5px;
+  color:#fff;
+  font:950 18px/1.1 var(--font-sf);
+  letter-spacing:-.025em;
+}
+.bpu-value-table-head>span{
+  flex:0 0 auto;
+  padding:7px 10px;
+  border-radius:999px;
+  background:#211019;
+  color:var(--bpu-pink2);
+  font:900 6.5px var(--font-sf);
+  letter-spacing:.09em;
+}
+.bpu-value-table{display:grid}
+.bpu-value-row{
+  display:grid;
+  grid-template-columns:30px minmax(0,1fr) 145px;
+  gap:12px;
+  align-items:center;
+  padding:14px 18px;
+  border-bottom:1px solid #202023;
+  text-align:left;
+}
+.bpu-value-row:last-child{border-bottom:0}
+.bpu-check{
+  width:28px;height:28px;
+  display:grid;place-items:center;
+  border-radius:50%;
+  background:var(--bpu-pink);
+  color:#fff;
+  font:950 11px var(--font-sf);
+  box-shadow:0 8px 18px rgba(255,79,163,.18);
+}
+.bpu-value-row b{
+  display:block;
+  color:#fff;
+  font:900 11px/1.15 var(--font-sf);
+}
+.bpu-value-row p{
+  margin:4px 0 0;
+  color:#7f7f85;
+  font-size:8px;
+  line-height:1.45;
+}
+.bpu-value-row em{
+  justify-self:end;
+  padding:7px 9px;
+  border-radius:999px;
+  background:#171719;
+  color:#aaaab0;
+  font:800 7px var(--font-roboto);
+  font-style:normal;
+  white-space:nowrap;
+}
 .bpu-price-question{margin-top:18px;text-align:center;padding:23px 18px 16px}
 .bpu-price-question>small{color:#9f687f;font:900 7px var(--font-sf);letter-spacing:.13em}
 .bpu-price-question>b{display:block;max-width:560px;margin:8px auto 0;color:#fff;font:950 25px/1.05 var(--font-sf);letter-spacing:-.04em}
@@ -1162,7 +1241,19 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   .bpu-value-price-options{grid-template-columns:1fr;gap:12px}
   .bpu-price-card-choice{min-height:175px}
   .bpu-price-card-choice.spotlight{transform:translateY(-3px) scale(1.01)}
-  .bpu-value-compare{grid-template-columns:1fr}
+  .bpu-value-table-head{align-items:flex-start}
+  .bpu-value-table-head b{font-size:16px}
+  .bpu-value-row{
+    grid-template-columns:28px minmax(0,1fr);
+    gap:10px;
+    padding:13px 14px;
+  }
+  .bpu-value-row em{
+    grid-column:2;
+    justify-self:start;
+    margin-top:2px;
+  }
+    .bpu-value-compare{grid-template-columns:1fr}
   .bpu-value-compare article{min-height:0}
   .bpu-price-question>b{font-size:21px}
   .bpu-price-card-choice.value-high .bpu-choice-copy b{font-size:39px}
@@ -3316,6 +3407,59 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
         <b>Peluang chat & order lebih besar</b>
       </div>
       <p>Bukan jaminan langsung laris. Tapi materi jualan yang lebih kuat memberi produkmu kesempatan lebih besar untuk diperhatikan dan dipertimbangkan.</p>
+    </div>
+
+    <div class="bpu-value-table-wrap reveal2">
+      <div class="bpu-value-table-head">
+        <div>
+          <small>VALUE ADDED BADAI PROMPT UMKM</small>
+          <b>Yang Kamu Dapat Selama 1 Tahun</b>
+        </div>
+        <span>✓ AKSES PENUH</span>
+      </div>
+
+      <div class="bpu-value-table">
+        <div class="bpu-value-row">
+          <span class="bpu-check">✓</span>
+          <div><b>500+ Prompt Siap Pakai</b><p>Nggak perlu mulai dari halaman kosong atau mikir susunan prompt dari nol.</p></div>
+          <em>Lebih cepat praktik</em>
+        </div>
+        <div class="bpu-value-row">
+          <span class="bpu-check">✓</span>
+          <div><b>Prompt Gambar Eye-Catching</b><p>Diarahkan untuk bikin visual produk lebih menarik perhatian saat orang scroll.</p></div>
+          <em>Lebih mudah dilirik</em>
+        </div>
+        <div class="bpu-value-row">
+          <span class="bpu-check">✓</span>
+          <div><b>Prompt Yang Dibuat Untuk Jualan</b><p>Fokus pada produk, promo, benefit, penawaran, dan materi yang dipakai untuk jualan.</p></div>
+          <em>Materi jualan lebih kuat</em>
+        </div>
+        <div class="bpu-value-row">
+          <span class="bpu-check">✓</span>
+          <div><b>Prompt Sesuai Berbagai Jenis Usaha</b><p>Kuliner, fashion, beauty, jasa, properti, reseller, hampers, retail, dan lainnya.</p></div>
+          <em>Lebih relevan</em>
+        </div>
+        <div class="bpu-value-row">
+          <span class="bpu-check">✓</span>
+          <div><b>Prompt Untuk Banyak Kebutuhan Promosi</b><p>Foto produk, poster promo, katalog, campaign, marketplace, konten, sampai materi penawaran.</p></div>
+          <em>Stok bahan jualan bertambah</em>
+        </div>
+        <div class="bpu-value-row">
+          <span class="bpu-check">✓</span>
+          <div><b>Contoh Hasil Visual</b><p>Bisa melihat arah hasil yang ingin dibuat sebelum mulai menggunakan prompt.</p></div>
+          <em>Lebih gampang meniru</em>
+        </div>
+        <div class="bpu-value-row">
+          <span class="bpu-check">✓</span>
+          <div><b>Update Prompt Terbaru</b><p>Koleksi dapat terus bertambah mengikuti kebutuhan jualan dan perkembangan AI selama masa akses.</p></div>
+          <em>Nggak cepat basi</em>
+        </div>
+        <div class="bpu-value-row">
+          <span class="bpu-check">✓</span>
+          <div><b>Akses Selama 1 Tahun</b><p>Buka kembali prompt kapan pun selama masa akses masih aktif.</p></div>
+          <em>Bisa dipakai berulang</em>
+        </div>
+      </div>
     </div>
 
     <div class="bpu-price-question reveal2">
