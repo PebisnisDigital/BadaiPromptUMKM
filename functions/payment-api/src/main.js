@@ -578,8 +578,8 @@ export default async ({req,res,error})=>{
         service:'BADAI PROMPT UMKM payment-api',
         product_name:cfg.product_name,
         price:cfg.price,
-        fixed_price:basePrice,
         price_mode:cfg.price_mode,
+        product_prices:PRODUCT_PRICES,
         registration_open:cfg.registration_open,
         payment_configured:(await getPaymentSettings()).configured
       });
