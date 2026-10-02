@@ -336,33 +336,54 @@ async function finishLogin(){
 }
 
 const loginParams=new URLSearchParams(location.search);
-const emailFromCheckout=loginParams.get('email')||'';
-if(emailFromCheckout) loginEmail.value=emailFromCheckout;
-
+const emailInput=document.getElementById('loginEmail');
+const passwordInput=document.getElementById('loginPassword');
 const loginPasswordToggle=document.getElementById('loginPasswordToggle');
+const emailFromCheckout=loginParams.get('email')||'';
+if(emailFromCheckout) emailInput.value=emailFromCheckout;
+
 loginPasswordToggle.onclick=()=>{
-  const show=loginPassword.type==='password';
-  loginPassword.type=show?'text':'password';
+  const show=passwordInput.type==='password';
+  passwordInput.type=show?'text':'password';
   loginPasswordToggle.textContent=show?'🙈':'👁';
   loginPasswordToggle.setAttribute('aria-label',show?'Sembunyikan password':'Lihat password');
-  loginPassword.focus({preventScroll:true});
+  passwordInput.focus({preventScroll:true});
 };
 
 document.getElementById('loginForm').addEventListener('submit',async e=>{
   e.preventDefault();
   const btn=document.getElementById('loginBtn');
-  btn.disabled=true;btn.textContent='MEMERIKSA…';setMsg('Membuka member area…');
+  const email=emailInput.value.trim().toLowerCase();
+  const password=passwordInput.value;
+
+  btn.disabled=true;
+  btn.textContent='MEMERIKSA…';
+  setMsg('Memeriksa akun member…');
+
   try{
-    await account.createEmailPasswordSession({
-      email:loginEmail.value.trim().toLowerCase(),
-      password:loginPassword.value
-    });
+    await account.createEmailPasswordSession({email,password});
     history.replaceState({},'',location.pathname);
     await finishLogin();
   }catch(err){
-    setMsg('Email atau password belum cocok. Cek lagi data login dari halaman pembayaran.','bad');
+    console.error('Member login error',err);
+
+    if(Number(err?.code)===429){
+      setMsg('Terlalu banyak percobaan login. Tunggu sebentar lalu coba lagi.','bad');
+    }else if(Number(err?.code)===409){
+      try{
+        await finishLogin();
+      }catch(inner){
+        setMsg(inner?.message||'Akun sudah login, tapi akses member belum bisa dibuka.','bad');
+      }
+    }else if(Number(err?.code)===401){
+      setMsg('Email atau password belum cocok. Pastikan memakai data login terbaru.','bad');
+    }else{
+      const detail=String(err?.message||err?.type||'Login belum bisa diproses.');
+      setMsg(detail,'bad');
+    }
   }finally{
-    btn.disabled=false;btn.textContent='MASUK MEMBER AREA';
+    btn.disabled=false;
+    btn.textContent='MASUK MEMBER AREA';
   }
 });
 
