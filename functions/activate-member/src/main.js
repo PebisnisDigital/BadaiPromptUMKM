@@ -274,6 +274,137 @@ export default async ({req,res,log,error})=>{
         return res.json({ok:true,total:r.total||0,rows:(r.rows||r.documents||[]).map(unpack)});
       }
 
+      if(route==='/sales/save'){
+        const orderId=q(body.order_id);
+        if(!orderId)return res.json({error:'order_id wajib'},400);
+
+        const order=unpack(await tables.getRow({databaseId:DB,tableId:ORDERS,rowId:orderId}));
+        const userId=q(body.user_id)||q(order.user_id);
+        const name=q(body.name)||q(order.full_name);
+        const email=q(body.email).toLowerCase()||q(order.email).toLowerCase();
+        let whatsapp=q(body.whatsapp).replace(/\D/g,'');
+        if(whatsapp.startsWith('0'))whatsapp='62'+whatsapp.slice(1);
+        if(!whatsapp)whatsapp=q(order.whatsapp);
+
+        if(!name||!email)return res.json({error:'Nama dan email wajib diisi.'},400);
+        if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return res.json({error:'Email belum valid.'},400);
+
+        const paymentStatus=['success','pending','expired','failed'].includes(q(body.payment_status))
+          ?q(body.payment_status):q(order.status)||'pending';
+        const accessStatus=['active','pending','blocked'].includes(q(body.access_status))
+          ?q(body.access_status):'pending';
+        const amount=Math.max(Number(body.amount??order.total_amount??order.amount)||0,0);
+        const paymentMethod=q(body.payment_method)||q(order.payment_method)||'manual';
+        const notes=q(body.notes)||null;
+
+        let accessUntil=null;
+        if(q(body.access_until)){
+          const d=new Date(q(body.access_until));
+          if(Number.isNaN(d.getTime()))return res.json({error:'Tanggal masa akses tidak valid.'},400);
+          accessUntil=d.toISOString();
+        }
+
+        if(userId){
+          try{await users.updateName({userId,name:name.slice(0,128)});}catch{}
+          if(email&&email!==q(order.email).toLowerCase()){
+            await users.updateEmail({userId,email});
+          }
+
+          const profileData={
+            name,
+            email,
+            whatsapp:whatsapp||null,
+            status:accessStatus,
+            access_until:accessUntil,
+            business_name:q(body.business_name)||null,
+            city_area:q(body.city_area)||null,
+            product_service:q(body.product_service)||null,
+            price_text:q(body.price_text)||null,
+            target_buyer:q(body.target_buyer)||null,
+            advantage:q(body.advantage)||null,
+            brand_color:q(body.brand_color)||null,
+            available_assets:q(body.available_assets)||null
+          };
+
+          try{
+            await tables.updateRow({databaseId:DB,tableId:PROFILES,rowId:userId,data:profileData});
+          }catch(e){
+            if(Number(e?.code)===404){
+              await tables.createRow({
+                databaseId:DB,
+                tableId:PROFILES,
+                rowId:userId,
+                data:{user_id:userId,role:'member',...profileData},
+                permissions:[Permission.read(Role.user(userId))]
+              });
+            }else throw e;
+          }
+
+          const memberships=await teams.listMemberships({
+            teamId:TEAM_ID,
+            queries:[Query.equal('userId',userId),Query.limit(10)]
+          });
+          const current=(memberships.memberships||[])[0]||null;
+          if(accessStatus==='active'&&!current){
+            await teams.createMembership({teamId:TEAM_ID,roles:['member'],userId});
+          }
+          if(accessStatus!=='active'&&current){
+            await teams.deleteMembership({teamId:TEAM_ID,membershipId:current.$id});
+          }
+        }
+
+        const savedOrder=await tables.updateRow({
+          databaseId:DB,
+          tableId:ORDERS,
+          rowId:orderId,
+          data:{
+            full_name:name,
+            email,
+            whatsapp:whatsapp||null,
+            amount,
+            total_amount:amount,
+            status:paymentStatus,
+            paid_at:paymentStatus==='success'?(order.paid_at||new Date().toISOString()):null,
+            user_id:userId||null,
+            access_issued:Boolean(userId&&accessStatus==='active'),
+            payment_method:paymentMethod,
+            notes
+          }
+        });
+
+        return res.json({ok:true,order:unpack(savedOrder),user_id:userId||null});
+      }
+
+      if(route==='/sales/delete'){
+        const orderId=q(body.order_id);
+        const userId=q(body.user_id);
+        if(!orderId&&!userId)return res.json({error:'Data yang akan dihapus tidak ditemukan.'},400);
+
+        if(userId){
+          const allOrders=await listAll(tables,ORDERS);
+          const linked=allOrders.filter(x=>q(x.user_id)===userId);
+          for(const item of linked){
+            try{await tables.deleteRow({databaseId:DB,tableId:ORDERS,rowId:item.$id});}catch(e){if(Number(e?.code)!==404)throw e}
+          }
+
+          try{await tables.deleteRow({databaseId:DB,tableId:PROFILES,rowId:userId});}catch(e){if(Number(e?.code)!==404)throw e}
+
+          const memberships=await teams.listMemberships({
+            teamId:TEAM_ID,
+            queries:[Query.equal('userId',userId),Query.limit(100)]
+          });
+          for(const membership of (memberships.memberships||[])){
+            await teams.deleteMembership({teamId:TEAM_ID,membershipId:membership.$id});
+          }
+
+          try{await users.delete({userId});}catch(e){if(Number(e?.code)!==404)throw e}
+          return res.json({ok:true,deleted:'member_and_orders'});
+        }
+
+        await tables.deleteRow({databaseId:DB,tableId:ORDERS,rowId:orderId});
+        return res.json({ok:true,deleted:'order'});
+      }
+
       if(route==='/members/manual-create'){
         const name=q(body.name);
         const email=q(body.email).toLowerCase();
