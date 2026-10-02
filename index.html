@@ -336,6 +336,115 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 .bpu-float-card b{display:block;font-family:var(--font-sf);font-size:18px;color:#fff}.bpu-float-card span{display:block;margin-top:2px;color:#8f8f93;font-size:7px;font-weight:800}.fc-one{left:18px;bottom:20px}.fc-two{right:18px;top:22px}.fc-three{right:18px;bottom:20px}
 .bpu-hero-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:24px}.bpu-cta{min-height:48px;border:0;border-radius:14px;padding:0 18px;font-family:var(--font-sf);font-size:10px;font-weight:950;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.bpu-cta.primary{background:var(--bpu-pink);color:#fff;box-shadow:0 12px 30px rgba(255,79,163,.19)}.bpu-cta.secondary{background:#151515;color:#fff;border:1px solid #303033}.bpu-cta.light{background:#fff;color:#0a0a0a}
 .bpu-micro{margin-top:11px;color:#747478;font-size:8px;font-weight:800}
+.bpu-hero-authority{
+  width:100%;
+  margin:21px auto 0;
+  text-align:center;
+}
+.bpu-hero-authority-head small{
+  display:block;
+  color:var(--bpu-pink2);
+  font-family:var(--font-sf);
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:.16em;
+}
+.bpu-hero-authority-head p{
+  margin:5px auto 11px;
+  color:#8f8f93;
+  font-size:9px;
+  line-height:1.45;
+  font-weight:700;
+}
+.bpu-brand-marquee{
+  position:relative;
+  width:100%;
+  overflow:hidden;
+  padding:4px 0 6px;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 7%,#000 93%,transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0,#000 7%,#000 93%,transparent 100%);
+}
+.bpu-brand-track{
+  display:flex;
+  width:max-content;
+  animation:bpuBrandLoop 30s linear infinite;
+  will-change:transform;
+}
+.bpu-brand-group{
+  display:flex;
+  flex-shrink:0;
+  align-items:center;
+  gap:10px;
+  padding-right:10px;
+}
+.bpu-brand-logo{
+  min-width:142px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:0 11px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.11);
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.035));
+  box-shadow:0 10px 24px rgba(0,0,0,.17);
+  backdrop-filter:blur(9px);
+  -webkit-backdrop-filter:blur(9px);
+}
+.bpu-brand-logo span{
+  width:27px;
+  height:27px;
+  flex:0 0 27px;
+  display:grid;
+  place-items:center;
+  border-radius:9px;
+  background:linear-gradient(145deg,#ff73b9,#ff2f92);
+  color:#09090b;
+  font-family:var(--font-sf);
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:-.02em;
+  box-shadow:0 5px 14px rgba(255,47,146,.2);
+}
+.bpu-brand-logo b{
+  color:#dedee1;
+  font-family:var(--font-sf);
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.035em;
+  white-space:nowrap;
+}
+.bpu-brand-marquee:hover .bpu-brand-track{animation-play-state:paused}
+.bpu-brand-demo-note{
+  display:block;
+  margin-top:2px;
+  color:#55555b;
+  font-size:6px;
+  font-weight:700;
+  letter-spacing:.05em;
+}
+@keyframes bpuBrandLoop{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+@media(max-width:720px){
+  .bpu-hero-authority{margin-top:17px}
+  .bpu-hero-authority-head small{font-size:7px}
+  .bpu-hero-authority-head p{font-size:8px;margin-bottom:9px}
+  .bpu-brand-track{animation-duration:23s}
+  .bpu-brand-group{gap:7px;padding-right:7px}
+  .bpu-brand-logo{
+    min-width:118px;
+    height:42px;
+    gap:7px;
+    padding:0 9px;
+    border-radius:12px;
+  }
+  .bpu-brand-logo span{
+    width:23px;height:23px;flex-basis:23px;border-radius:8px;font-size:7px
+  }
+  .bpu-brand-logo b{font-size:7px}
+}
 .bpu-proof-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:28px;border:1px solid #27272a;border-radius:18px;overflow:hidden;background:#27272a}
 .bpu-proof-strip>div{padding:14px 8px;background:#0d0d0e}.bpu-proof-strip b{display:block;font-family:var(--font-sf);font-size:17px;color:#fff}.bpu-proof-strip span{display:block;color:#777;font-size:7px;margin-top:3px;font-weight:800}
 .bpu-section{padding:70px 0;border-top:1px solid rgba(255,255,255,.035)}
@@ -2411,6 +2520,44 @@ body,
 
     <div class="bpu-hero-actions reveal2">
       <button class="bpu-cta primary" type="button" onclick="openCheckout()">AMBIL SEMUA PROMPT →</button>
+    </div>
+
+    <div class="bpu-hero-authority reveal2" aria-label="Contoh berbagai jenis brand dan UMKM">
+      <div class="bpu-hero-authority-head">
+        <small>UNTUK BERBAGAI BRAND & UMKM</small>
+        <p>Contoh kategori brand yang bisa pakai BADAI PROMPT.</p>
+      </div>
+
+      <div class="bpu-brand-marquee">
+        <div class="bpu-brand-track">
+          <div class="bpu-brand-group">
+            <div class="bpu-brand-logo"><span>KK</span><b>KOPI KITA</b></div>
+            <div class="bpu-brand-logo"><span>DN</span><b>DAPUR NUSA</b></div>
+            <div class="bpu-brand-logo"><span>LB</span><b>LUMI BEAUTY</b></div>
+            <div class="bpu-brand-logo"><span>SF</span><b>SORA FASHION</b></div>
+            <div class="bpu-brand-logo"><span>RR</span><b>ROTI RUMAH</b></div>
+            <div class="bpu-brand-logo"><span>BT</span><b>BUMI TRAVEL</b></div>
+            <div class="bpu-brand-logo"><span>KP</span><b>KLIK PRINT</b></div>
+            <div class="bpu-brand-logo"><span>NS</span><b>NARA STUDIO</b></div>
+            <div class="bpu-brand-logo"><span>RB</span><b>RASA BOX</b></div>
+            <div class="bpu-brand-logo"><span>KJ</span><b>KARYA JASA</b></div>
+          </div>
+
+          <div class="bpu-brand-group" aria-hidden="true">
+            <div class="bpu-brand-logo"><span>KK</span><b>KOPI KITA</b></div>
+            <div class="bpu-brand-logo"><span>DN</span><b>DAPUR NUSA</b></div>
+            <div class="bpu-brand-logo"><span>LB</span><b>LUMI BEAUTY</b></div>
+            <div class="bpu-brand-logo"><span>SF</span><b>SORA FASHION</b></div>
+            <div class="bpu-brand-logo"><span>RR</span><b>ROTI RUMAH</b></div>
+            <div class="bpu-brand-logo"><span>BT</span><b>BUMI TRAVEL</b></div>
+            <div class="bpu-brand-logo"><span>KP</span><b>KLIK PRINT</b></div>
+            <div class="bpu-brand-logo"><span>NS</span><b>NARA STUDIO</b></div>
+            <div class="bpu-brand-logo"><span>RB</span><b>RASA BOX</b></div>
+            <div class="bpu-brand-logo"><span>KJ</span><b>KARYA JASA</b></div>
+          </div>
+        </div>
+      </div>
+      <small class="bpu-brand-demo-note">Logo di atas adalah contoh/dummy.</small>
     </div>
 
   </div>
