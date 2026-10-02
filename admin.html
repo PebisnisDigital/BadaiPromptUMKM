@@ -345,6 +345,65 @@ main{padding:24px 20px 32px}
   .nav{width:calc(100% - 16px);bottom:8px;border-radius:22px}
 }
 
+.sales-summary{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px;
+  margin-bottom:12px;
+}
+.sales-stat{
+  min-height:86px;
+  padding:12px;
+  border:1px solid var(--admin-border);
+  border-radius:18px;
+  background:#fff;
+  box-shadow:var(--admin-shadow);
+}
+.sales-stat small{
+  display:block;
+  color:#818188;
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.04em;
+}
+.sales-stat b{
+  display:block;
+  margin-top:7px;
+  color:#161619;
+  font-family:var(--font-sf);
+  font-size:18px;
+  line-height:1;
+  letter-spacing:-.04em;
+}
+.sales-stat:first-child b{color:var(--admin-pink)}
+.sales-row{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:10px;
+  align-items:start;
+}
+.sales-main h3{margin:0 0 4px;font-size:13px}
+.sales-meta{color:#7b7b82;font-size:9px;line-height:1.55}
+.sales-side{text-align:right}
+.sales-side .money{font-size:13px}
+.sales-actions{
+  display:flex;
+  gap:6px;
+  justify-content:flex-end;
+  margin-top:9px;
+}
+.sales-actions .btn{min-height:32px;padding:6px 10px}
+.sales-access{
+  display:inline-flex;
+  margin-top:4px;
+}
+@media(max-width:520px){
+  .sales-summary{grid-template-columns:1fr 1fr}
+  .sales-stat:first-child{grid-column:1/-1}
+  .sales-stat{min-height:76px}
+  .sales-stat b{font-size:17px}
+}
+
 /* FINAL COMPACT SHELL — desktop follows mobile layout */
 html{background:#050505}
 body{
