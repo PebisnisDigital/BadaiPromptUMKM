@@ -1367,6 +1367,87 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
     border-radius:17px;
   }
 }
+
+.bpu-price-prompt{
+  position:relative;
+  z-index:2;
+  max-width:620px;
+  margin:22px auto 10px;
+  text-align:center;
+}
+.bpu-price-prompt small{
+  display:block;
+  color:#5e1739;
+  font:950 7px var(--font-sf);
+  letter-spacing:.14em;
+}
+.bpu-price-prompt b{
+  display:block;
+  margin-top:7px;
+  color:#111114;
+  font:950 24px/1.08 var(--font-sf);
+  letter-spacing:-.04em;
+}
+.bpu-price-prompt p{
+  margin:7px 0 0;
+  color:#6d294b;
+  font-size:9px;
+  line-height:1.45;
+}
+.bpu-compact-prices{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  max-width:600px;
+  margin:16px auto 0;
+}
+.bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice{
+  min-height:0;
+  height:82px;
+  padding:0 14px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  border-radius:18px;
+}
+.bpu-compact-prices .bpu-price-card-choice>b{
+  display:block;
+  margin:0;
+  font-family:var(--font-sf);
+  font-weight:950;
+  line-height:1;
+  letter-spacing:-.055em;
+}
+.bpu-compact-prices .value-high>b{font-size:42px}
+.bpu-compact-prices .value-mid>b{font-size:34px}
+.bpu-compact-prices .value-low>b{font-size:27px}
+.bpu-compact-prices .bpu-price-card-choice.spotlight{
+  transform:translateY(-4px) scale(1.025);
+}
+.bpu-compact-prices .bpu-price-card-choice.spotlight::before{
+  content:"";
+  display:none;
+}
+.bpu-compact-prices .bpu-price-card-choice>b .bpu-rp,
+.bpu-compact-prices .bpu-price-card-choice>b .bpu-k{
+  font-size:.42em;
+  vertical-align:.34em;
+}
+@media(max-width:720px){
+  .bpu-price-prompt{margin-top:18px}
+  .bpu-price-prompt b{font-size:20px}
+  .bpu-compact-prices{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:7px;
+  }
+  .bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice{
+    height:66px;
+    padding:0 7px;
+    border-radius:14px;
+  }
+  .bpu-compact-prices .value-high>b{font-size:31px}
+  .bpu-compact-prices .value-mid>b{font-size:27px}
+  .bpu-compact-prices .value-low>b{font-size:22px}
+}
 </style></head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
@@ -3524,35 +3605,23 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
     </div>
 
 
-    <div class="bpu-value-price-options reveal2" id="bpuPriceChoices">
+    <div class="bpu-price-prompt reveal2">
+      <small>SETELAH LIHAT SEMUA VALUE-NYA...</small>
+      <b>Menurut kamu, berapa harga yang cocok untuk semua ini?</b>
+      <p>Pilih salah satu. Semua pilihan mendapat akses yang sama selama 1 tahun.</p>
+    </div>
+
+    <div class="bpu-value-price-options bpu-compact-prices reveal2" id="bpuPriceChoices">
       <button class="bpu-price-card-choice value-high spotlight" type="button" onclick="openCheckout(199000)">
-        <span class="bpu-choice-letter">A</span>
-        <span class="bpu-choice-copy">
-          <small>PILIH SESUAI NILAI YANG KAMU RASA</small>
-          <b><span class="bpu-rp">Rp</span>199<span class="bpu-k">k</span></b>
-          <em>Semua pilihan mendapat akses yang sama selama 1 tahun.</em>
-        </span>
-        <span class="bpu-choice-cta">PILIH HARGA INI →</span>
+        <b><span class="bpu-rp">Rp</span>199<span class="bpu-k">k</span></b>
       </button>
 
       <button class="bpu-price-card-choice value-mid" type="button" onclick="openCheckout(159000)">
-        <span class="bpu-choice-letter">B</span>
-        <span class="bpu-choice-copy">
-          <small>PILIH SESUAI NILAI YANG KAMU RASA</small>
-          <b><span class="bpu-rp">Rp</span>159<span class="bpu-k">k</span></b>
-          <em>Semua pilihan mendapat akses yang sama selama 1 tahun.</em>
-        </span>
-        <span class="bpu-choice-cta">PILIH HARGA INI →</span>
+        <b><span class="bpu-rp">Rp</span>159<span class="bpu-k">k</span></b>
       </button>
 
       <button class="bpu-price-card-choice value-low" type="button" onclick="openCheckout(50000)">
-        <span class="bpu-choice-letter">C</span>
-        <span class="bpu-choice-copy">
-          <small>PILIH SESUAI NILAI YANG KAMU RASA</small>
-          <b><span class="bpu-rp">Rp</span>50<span class="bpu-k">k</span></b>
-          <em>Semua pilihan mendapat akses yang sama selama 1 tahun.</em>
-        </span>
-        <span class="bpu-choice-cta">PILIH HARGA INI →</span>
+        <b><span class="bpu-rp">Rp</span>50<span class="bpu-k">k</span></b>
       </button>
     </div>
 
