@@ -80,6 +80,209 @@ h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-fami
   .access-field input{min-height:52px;font-size:15px}
   .access-login-btn{min-height:54px;font-size:14px}
 }
+
+/* BERANDA GALERI PROMPT */
+.legacy-filter-ui{display:none !important}
+.prompt-gallery-wrap{
+  margin:14px 0;
+  padding:16px 0 4px;
+}
+.gallery-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
+}
+.gallery-head h2{
+  margin:3px 0 4px;
+  color:#fff;
+  font-size:22px;
+  letter-spacing:-.035em;
+}
+.gallery-head p{
+  margin:0;
+  max-width:440px;
+  color:#7f7f86;
+  font-size:9px;
+  line-height:1.5;
+}
+.gallery-head>span{
+  flex:0 0 auto;
+  color:#9a9aa1;
+  font-size:9px;
+  font-weight:800;
+}
+.prompt-gallery{
+  display:grid;
+  gap:20px;
+}
+.niche-shelf{
+  min-width:0;
+}
+.niche-shelf-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:9px;
+}
+.niche-shelf-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+}
+.niche-shelf-icon{
+  width:32px;
+  height:32px;
+  flex:0 0 32px;
+  display:grid;
+  place-items:center;
+  border-radius:11px;
+  background:#151519;
+  border:1px solid #29292e;
+  font-size:16px;
+}
+.niche-shelf-title h3{
+  margin:0;
+  color:#f6f6f7;
+  font-size:13px;
+  line-height:1.15;
+}
+.niche-shelf-title small{
+  display:block;
+  margin-top:2px;
+  color:#6e6e75;
+  font-size:8px;
+}
+.niche-shelf-count{
+  color:var(--pink2);
+  font-size:8px;
+  font-weight:900;
+  white-space:nowrap;
+}
+.niche-gallery-row{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  padding:1px 2px 8px;
+  scroll-snap-type:x proximity;
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+}
+.niche-gallery-row::-webkit-scrollbar{display:none}
+.prompt-gallery-card{
+  position:relative;
+  flex:0 0 178px;
+  overflow:hidden;
+  scroll-snap-align:start;
+  border:1px solid #29292d;
+  border-radius:17px;
+  background:#101012;
+  box-shadow:0 8px 24px rgba(0,0,0,.16);
+}
+.prompt-gallery-photo{
+  position:relative;
+  width:100%;
+  aspect-ratio:4/3;
+  overflow:hidden;
+  background:linear-gradient(145deg,#21131b,#101012);
+}
+.prompt-gallery-photo img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  filter:saturate(.9) contrast(1.02);
+  transition:transform .28s ease;
+}
+.prompt-gallery-card:hover .prompt-gallery-photo img{transform:scale(1.035)}
+.prompt-gallery-photo:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,transparent 45%,rgba(8,8,10,.82) 100%);
+  pointer-events:none;
+}
+.prompt-gallery-type{
+  position:absolute;
+  left:8px;
+  bottom:8px;
+  z-index:2;
+  max-width:calc(100% - 16px);
+  padding:5px 7px;
+  border-radius:999px;
+  background:rgba(5,5,7,.82);
+  border:1px solid rgba(255,255,255,.14);
+  color:#fff;
+  font-size:7px;
+  font-weight:900;
+  line-height:1;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  backdrop-filter:blur(8px);
+}
+.prompt-gallery-body{
+  padding:10px;
+}
+.prompt-gallery-body h4{
+  margin:0;
+  min-height:31px;
+  color:#f7f7f8;
+  font-size:11px;
+  line-height:1.35;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  overflow:hidden;
+}
+.prompt-gallery-goal{
+  margin-top:5px;
+  color:#7b7b82;
+  font-size:8px;
+  line-height:1.35;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.prompt-gallery-actions{
+  display:grid;
+  grid-template-columns:1fr 34px;
+  gap:6px;
+  margin-top:9px;
+}
+.prompt-gallery-actions .btn{
+  min-height:34px;
+  padding:7px 9px;
+  border-radius:10px;
+  font-size:8px;
+}
+.prompt-gallery-actions .gallery-fav{
+  padding:0;
+  font-size:13px;
+}
+.gallery-empty{
+  padding:24px 14px;
+  border:1px dashed #303035;
+  border-radius:16px;
+  text-align:center;
+  color:#7f7f86;
+  font-size:10px;
+}
+@media(min-width:600px){
+  .prompt-gallery-card{flex-basis:190px}
+  .prompt-gallery-wrap{padding-top:18px}
+}
+@media(max-width:520px){
+  .gallery-head{align-items:flex-start}
+  .gallery-head h2{font-size:20px}
+  .gallery-head p{font-size:8px}
+  .prompt-gallery{gap:18px}
+  .prompt-gallery-card{flex-basis:162px}
+  .prompt-gallery-body{padding:9px}
+}
 </style>
 </head>
 <body>
