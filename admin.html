@@ -681,20 +681,27 @@ main{
 <div class="modal" id="memberEditModal">
   <div class="sheet">
     <div class="sheet-head">
-      <div><div class="eyebrow">EDIT MEMBER</div><h2 id="memberEditTitle">Data Member</h2></div>
+      <div><div class="eyebrow">EDIT PENJUALAN</div><h2 id="memberEditTitle">Data Order & Member</h2></div>
       <button class="btn dark" onclick="closeMemberEdit()">×</button>
     </div>
-    <p class="muted">Email login tidak diubah dari sini supaya identitas akun Appwrite tetap aman.</p>
+    <p class="muted">Edit transaksi dan akses member sekaligus. Perubahan akun login ikut disinkronkan bila member sudah aktif.</p>
     <form id="memberEditForm">
+      <input type="hidden" id="eOrderId">
       <input type="hidden" id="eUserId">
       <div class="formgrid">
-        <div class="field"><label>NAMA MEMBER</label><input id="eName"></div>
+        <div class="field"><label>NAMA MEMBER</label><input id="eName" required></div>
         <div class="field"><label>WHATSAPP</label><input id="eWhatsapp" inputmode="tel"></div>
-        <div class="field full"><label>EMAIL LOGIN</label><input id="eEmail" type="email" disabled></div>
-        <div class="field"><label>STATUS AKSES</label><select id="eStatus"><option value="active">Aktif</option><option value="pending">Pending</option><option value="blocked">Blocked</option></select></div>
-        <div class="field"><label>AKSES SAMPAI (OPSIONAL)</label><input id="eAccessUntil" type="date"></div>
+        <div class="field full"><label>EMAIL LOGIN</label><input id="eEmail" type="email" required></div>
 
-        <div class="field full"><div class="eyebrow" style="margin-top:8px">PROFIL BISNIS</div></div>
+        <div class="field full"><div class="eyebrow" style="margin-top:8px">DATA ORDER</div></div>
+        <div class="field"><label>NOMINAL PEMBAYARAN</label><input id="eAmount" inputmode="numeric" type="number" min="0" step="1000"></div>
+        <div class="field"><label>STATUS PEMBAYARAN</label><select id="ePaymentStatus"><option value="success">Lunas</option><option value="pending">Pending</option><option value="failed">Gagal</option><option value="expired">Expired</option></select></div>
+        <div class="field"><label>METODE PEMBAYARAN</label><select id="ePaymentMethod"><option value="qris">QRIS</option><option value="transfer_bank">Transfer Bank</option><option value="qris_manual">QRIS Manual</option><option value="cash">Cash</option><option value="gratis">Gratis</option><option value="manual">Manual</option><option value="lainnya">Lainnya</option></select></div>
+        <div class="field"><label>STATUS AKSES</label><select id="eStatus"><option value="active">Aktif</option><option value="pending">Pending</option><option value="blocked">Blocked</option></select></div>
+        <div class="field full"><label>AKSES SAMPAI (OPSIONAL)</label><input id="eAccessUntil" type="date"></div>
+        <div class="field full"><label>CATATAN ORDER</label><textarea id="eOrderNotes" rows="2"></textarea></div>
+
+        <div class="field full"><div class="eyebrow" style="margin-top:8px">PROFIL BISNIS MEMBER</div></div>
         <div class="field"><label>NAMA BISNIS</label><input id="eBusinessName"></div>
         <div class="field"><label>KOTA / AREA</label><input id="eCityArea"></div>
         <div class="field full"><label>PRODUK / LAYANAN</label><input id="eProductService"></div>
@@ -704,7 +711,10 @@ main{
         <div class="field full"><label>KEUNGGULAN</label><textarea id="eAdvantage" rows="2"></textarea></div>
         <div class="field full"><label>ASET TERSEDIA</label><textarea id="eAssets" rows="2"></textarea></div>
       </div>
-      <button class="btn pink" id="memberEditSubmit" type="submit" style="width:100%;margin-top:12px">SIMPAN PERUBAHAN</button>
+      <div class="sheet-actions">
+        <button class="btn pink" id="memberEditSubmit" type="submit">SIMPAN PERUBAHAN</button>
+        <button class="btn danger" id="deleteSalesBtn" type="button">HAPUS DATA</button>
+      </div>
       <div class="msg" id="memberEditMsg"></div>
     </form>
   </div>
