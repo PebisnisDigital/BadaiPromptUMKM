@@ -1668,6 +1668,72 @@ body,
 .bpu-orbit-copy{padding-bottom:14px!important}
 .bpu-orbit-copy b{margin:0!important}
 </style>
+
+<style id="bpu-rapid-problem-style">
+.bpu-rapid-problem{
+  padding-top:54px;
+  padding-bottom:58px;
+  background:
+    radial-gradient(circle at 50% 0,rgba(255,79,163,.09),transparent 34%),
+    #080808;
+}
+.bpu-rapid-problem h2{
+  max-width:650px;
+  margin:10px auto 0;
+  text-align:center;
+  color:#fff;
+  font:950 clamp(30px,5vw,54px)/.98 var(--font-sf);
+  letter-spacing:-.055em;
+}
+.bpu-rapid-problem h2 span{color:var(--bpu-pink2)}
+.bpu-rapid-problem .bpu-kicker{text-align:center}
+.bpu-problem-bullets{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+  max-width:760px;
+  margin:28px auto 0;
+}
+.bpu-problem-bullets>div{
+  padding:14px 15px;
+  border-radius:15px;
+  border:1px solid #252529;
+  background:#111113;
+  color:#a8a8ae;
+  font:600 13px/1.45 var(--font-roboto);
+}
+.bpu-problem-bullets>div b{
+  color:#fff;
+  font-family:var(--font-sf);
+  font-weight:900;
+}
+.bpu-problem-bullets>div::first-letter{color:#ff4fa3}
+.bpu-problem-hit{
+  max-width:620px;
+  margin:25px auto 0;
+  padding:19px 18px;
+  text-align:center;
+  border-radius:18px;
+  background:linear-gradient(135deg,#211019,#100d0f);
+  border:1px solid #5c2944;
+  color:#c7c7cc;
+  font:700 15px/1.45 var(--font-roboto);
+}
+.bpu-problem-hit b{
+  display:inline-block;
+  margin-top:2px;
+  color:#fff;
+  font:950 24px/1 var(--font-sf);
+  letter-spacing:-.04em;
+}
+@media(max-width:640px){
+  .bpu-rapid-problem{padding-top:42px;padding-bottom:44px}
+  .bpu-problem-bullets{grid-template-columns:1fr;gap:8px;margin-top:22px}
+  .bpu-problem-bullets>div{padding:13px 14px;font-size:13px}
+  .bpu-problem-hit{font-size:14px}
+  .bpu-problem-hit b{font-size:22px}
+}
+</style>
 </head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
@@ -1776,6 +1842,31 @@ body,
       <button class="bpu-cta primary" type="button" onclick="openCheckout()">AMBIL SEMUA PROMPT →</button>
     </div>
 
+  </div>
+</section>
+
+<section class="bpu-section bpu-rapid-problem" aria-label="Masalah visual jualan UMKM">
+  <div class="bpu-container">
+    <div class="bpu-kicker reveal2">PROBLEM</div>
+    <h2 class="reveal2">Produknya Bagus.<br><span>Tapi Kok Belum Bikin Kepengen?</span></h2>
+
+    <div class="bpu-problem-bullets reveal2">
+      <div>✕ <b>Produknya bagus.</b> Visualnya biasa.</div>
+      <div>✕ <b>Udah posting.</b> Tetap lewat.</div>
+      <div>✕ <b>Diskon ada.</b> Tetap nggak dilirik.</div>
+      <div>✕ <b>Foto ada.</b> Tapi belum bikin ngiler.</div>
+      <div>✕ <b>Konten jalan.</b> Closing seret.</div>
+      <div>✕ <b>Produknya sama.</b> Punya orang lain kelihatan lebih mahal.</div>
+      <div>✕ <b>Mau bikin visual bagus.</b> Bingung mulai dari mana.</div>
+      <div>✕ <b>Pakai AI.</b> Hasilnya belum sesuai bayangan.</div>
+      <div>✕ <b>Sudah coba prompt.</b> Hasilnya masih random.</div>
+      <div>✕ <b>Pengen jualan lebih niat.</b> Waktunya nggak ada.</div>
+    </div>
+
+    <div class="bpu-problem-hit reveal2">
+      Masalahnya sering bukan produknya.<br>
+      <b>Cara nunjukinnya.</b>
+    </div>
   </div>
 </section>
 
