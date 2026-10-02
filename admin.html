@@ -153,7 +153,7 @@ h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-fami
         <div class="field"><label>METODE QRIS</label><select id="payQrisMethod"><option value="qris_one">QRIS One</option><option value="qris_two">QRIS Two</option><option value="qris_three">QRIS Three</option><option value="qris_four">QRIS Four</option></select></div>
         <div class="field"><label>BIAYA ADMIN DITANGGUNG</label><select id="payFeeBy"><option value="user">Merchant / saldo</option><option value="buyer">Pembeli</option></select></div>
         <div class="field full"><label>NAMA QRIS / UMKM (MAKS 15 KARAKTER)</label><input id="payUmkmName" maxlength="15" placeholder="BADAI PROMPT"></div>
-        <div class="field full"><label>CALLBACK URL — COPY KE MERCHANT BUATQRIS</label><input id="payCallbackUrl" readonly value="https://badaipromptumkm2026.vercel.app/api/buatqris-webhook"></div>
+        <div class="field full"><label>CALLBACK URL — COPY KE MERCHANT BUATQRIS</label><input id="payCallbackUrl" readonly value="https://badaiprompt.vercel.app/api/buatqris-webhook"></div>
       </div>
 
       <div class="switch"><div><b>Mode Sandbox</b><div class="muted">Aktifkan saat testing. Matikan kalau sudah siap menerima pembayaran asli.</div></div><input id="payTestMode" type="checkbox" style="width:22px;height:22px"></div>
@@ -375,7 +375,7 @@ document.getElementById('forgotPasswordBtn').onclick=async()=>{
     localStorage.setItem('bpu_admin_email',email);
     await account.createRecovery({
       email,
-      url:'https://badaipromptumkm2026.vercel.app/admin?reset=1'
+      url:'https://badaiprompt.vercel.app/admin?reset=1'
     });
     msg(loginMsg,'Link buat/reset password sudah dikirim. Cek Inbox/Spam lalu buka link tersebut.','good');
   }catch(err){
@@ -390,7 +390,7 @@ document.getElementById('magicLoginBtn').onclick=async()=>{
     await account.createMagicURLToken({
       userId:ID.unique(),
       email,
-      url:'https://badaipromptumkm2026.vercel.app/admin?magic=1'
+      url:'https://badaiprompt.vercel.app/admin?magic=1'
     });
     msg(loginMsg,'Link login cadangan sudah dikirim ke email.','good');
   }catch(err){
@@ -707,7 +707,7 @@ async function loadPaymentSettings(){
     payUmkmName.value=p.umkm_name||'';
     payTestMode.checked=p.test_mode!==false;
     payActive.checked=p.is_active!==false;
-    payCallbackUrl.value=p.callback_url||'https://badaipromptumkm2026.vercel.app/api/buatqris-webhook';
+    payCallbackUrl.value=p.callback_url||'https://badaiprompt.vercel.app/api/buatqris-webhook';
     paySecretToken.value='';
     paySigningSecret.value='';
     paySecretToken.placeholder=p.has_secret_token?'Secret Token sudah tersimpan — kosongkan jika tidak diganti':'Isi Secret Token BuatQRIS';
@@ -777,7 +777,7 @@ document.getElementById('sendAdminPasswordResetBtn').onclick=async()=>{
     localStorage.setItem('bpu_admin_email',me.email);
     await account.createRecovery({
       email:me.email,
-      url:'https://badaipromptumkm2026.vercel.app/admin?reset=1'
+      url:'https://badaiprompt.vercel.app/admin?reset=1'
     });
     msg(adminPasswordMsg,'Link buat/reset password sudah dikirim ke '+me.email+'.','good');
   }catch(err){
