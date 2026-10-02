@@ -1408,6 +1408,36 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   place-items:center;
   text-align:center;
   border-radius:18px;
+  cursor:pointer;
+  transition:
+    background .22s ease,
+    border-color .22s ease,
+    box-shadow .22s ease,
+    transform .22s ease,
+    color .22s ease;
+}
+.bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice:hover,
+.bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice:focus-visible{
+  background:linear-gradient(180deg,#ff5cab 0%,#ff2f92 100%) !important;
+  border-color:#ffd1e6 !important;
+  box-shadow:
+    0 14px 34px rgba(255,47,146,.34),
+    0 0 0 2px rgba(255,255,255,.30);
+  transform:translateY(-4px) scale(1.025);
+  outline:none;
+}
+.bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice:hover>b,
+.bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice:focus-visible>b,
+.bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice:hover .bpu-rp,
+.bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice:hover .bpu-k,
+.bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice:focus-visible .bpu-rp,
+.bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice:focus-visible .bpu-k{
+  color:#fff !important;
+  opacity:1;
+}
+.bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice:active{
+  transform:translateY(-1px) scale(.98);
+  box-shadow:0 8px 18px rgba(255,47,146,.25);
 }
 .bpu-compact-prices .bpu-price-card-choice>b{
   display:block;
