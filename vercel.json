@@ -3,15 +3,15 @@
   "rewrites": [
     { "source": "/akses", "destination": "/akses.html" },
     { "source": "/instagram", "destination": "/instagram.html" },
-    { "source": "/umroh", "destination": "/product.html?slug=umroh" },
-    { "source": "/hijab", "destination": "/product.html?slug=hijab" },
-    { "source": "/craft", "destination": "/product.html?slug=craft" },
-    { "source": "/guru", "destination": "/product.html?slug=guru" },
-    { "source": "/kuliner", "destination": "/product.html?slug=kuliner" },
-    { "source": "/beauty", "destination": "/product.html?slug=beauty" },
-    { "source": "/properti", "destination": "/product.html?slug=properti" },
-    { "source": "/otomotif", "destination": "/product.html?slug=otomotif" },
-    { "source": "/hampers", "destination": "/product.html?slug=hampers" },
-    { "source": "/retail", "destination": "/product.html?slug=retail" }
+    { "source": "/umroh", "destination": "/checkout.html?slug=umroh" },
+    { "source": "/hijab", "destination": "/checkout.html?slug=hijab" },
+    { "source": "/craft", "destination": "/checkout.html?slug=craft" },
+    { "source": "/guru", "destination": "/checkout.html?slug=guru" },
+    { "source": "/kuliner", "destination": "/checkout.html?slug=kuliner" },
+    { "source": "/beauty", "destination": "/checkout.html?slug=beauty" },
+    { "source": "/properti", "destination": "/checkout.html?slug=properti" },
+    { "source": "/otomotif", "destination": "/checkout.html?slug=otomotif" },
+    { "source": "/hampers", "destination": "/checkout.html?slug=hampers" },
+    { "source": "/retail", "destination": "/checkout.html?slug=retail" }
   ]
 }
