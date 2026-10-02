@@ -2089,6 +2089,30 @@ body,
   .bpu-proof-close p,.bpu-proof-close b{font-size:10.5px}
 }
 </style>
+
+<style id="bpu-pricing-title-style">
+.bpu-pricing-title{
+  margin:0 auto 22px;
+  text-align:center;
+  color:#fff;
+  font:950 clamp(30px,5vw,50px)/.95 var(--font-sf);
+  letter-spacing:-.055em;
+  text-transform:uppercase;
+}
+.bpu-pricing-title::after{
+  content:"";
+  display:block;
+  width:64px;
+  height:3px;
+  margin:13px auto 0;
+  border-radius:999px;
+  background:linear-gradient(90deg,#ff3f9b,#ff7abd);
+  box-shadow:0 0 20px rgba(255,63,155,.35);
+}
+@media(max-width:720px){
+  .bpu-pricing-title{font-size:32px;margin-bottom:18px}
+}
+</style>
 </head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
@@ -4177,6 +4201,7 @@ body,
 
 <section id="harga" class="bpu-section bpu-pricing bpu-value-pricing">
   <div class="bpu-container">
+    <div class="bpu-pricing-title reveal2">PILIH HARGANYA BERAPA ?</div>
     <div class="bpu-pricing-mega-card reveal2">
       <div class="bpu-value-table-wrap">
       <div class="bpu-value-table-head">
