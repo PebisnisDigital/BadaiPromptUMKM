@@ -10,7 +10,7 @@ const PAYMENT_SETTINGS='payment_settings';
 const FALLBACK_PRICE=Number(process.env.PRODUCT_PRICE || 87000);
 const FALLBACK_MINIMUM_PRICE=Number(process.env.MINIMUM_PRICE || 30000);
 const MAX_PAY_WHAT_YOU_WANT=5000000;
-const APP_URL=process.env.APP_URL || 'https://badaiprompt.vercel.app';
+const APP_URL='https://badaiprompt.vercel.app';
 
 function corsHeaders(extra={}){
   return {
