@@ -492,7 +492,7 @@ export default async ({req,res,log,error})=>{
             fee_by:row?.fee_by||'user',
             umkm_name:row?.umkm_name||'',
             test_mode:row?.test_mode!==false,
-            callback_url:row?.callback_url||'https://badaipromptumkm2026.vercel.app/api/buatqris-webhook',
+            callback_url:row?.callback_url||'https://badaiprompt.vercel.app/api/buatqris-webhook',
             api_url:row?.api_url||'https://app.buatqris.site/api',
             is_active:row?.is_active!==false,
             has_secret_token:Boolean(row?.secret_token),
@@ -517,7 +517,7 @@ export default async ({req,res,log,error})=>{
         const accountId=q(body.account_id);
         const secretToken=q(body.secret_token)||existing?.secret_token||null;
         const signingSecret=q(body.signing_secret)||existing?.signing_secret||null;
-        const callbackUrl=q(body.callback_url)||'https://badaipromptumkm2026.vercel.app/api/buatqris-webhook';
+        const callbackUrl=q(body.callback_url)||'https://badaiprompt.vercel.app/api/buatqris-webhook';
         const apiUrl=q(body.api_url)||'https://app.buatqris.site/api';
 
         if(!accountId)return res.json({error:'Account ID BuatQRIS wajib diisi.'},400);
