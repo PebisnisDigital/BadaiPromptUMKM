@@ -1051,32 +1051,41 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   background:linear-gradient(180deg,#151216,#101011);
   box-shadow:0 18px 42px rgba(0,0,0,.28);
 }
-.bpu-price-card-choice.featured{
-  min-height:238px;
-  transform:translateY(-8px) scale(1.035);
+.bpu-price-card-choice.spotlight{
+  transform:translateY(-7px) scale(1.025);
   border:1.5px solid var(--bpu-pink);
   background:
-    radial-gradient(circle at 50% 0,rgba(255,79,163,.24),transparent 42%),
+    radial-gradient(circle at 50% 0,rgba(255,79,163,.25),transparent 42%),
     linear-gradient(180deg,#211019,#110d10);
-  box-shadow:0 24px 56px rgba(255,79,163,.2),0 0 0 1px rgba(255,79,163,.08) inset;
+  box-shadow:0 24px 56px rgba(255,79,163,.22),0 0 0 1px rgba(255,79,163,.08) inset;
 }
-.bpu-price-card-choice.featured:hover{
-  transform:translateY(-12px) scale(1.055);
-  box-shadow:0 28px 68px rgba(255,79,163,.28);
-}
-.bpu-choice-badge{
-  position:absolute;
-  top:-12px;
-  left:50%;
-  transform:translateX(-50%);
-  padding:7px 12px;
-  border-radius:999px;
-  white-space:nowrap;
+.bpu-price-card-choice.spotlight .bpu-choice-letter{
   background:var(--bpu-pink);
   color:#fff;
-  font:950 7px var(--font-sf);
+}
+.bpu-price-card-choice.spotlight .bpu-choice-copy b{
+  color:var(--bpu-pink2);
+}
+.bpu-price-card-choice.spotlight .bpu-choice-copy em{
+  color:#c59aad;
+}
+.bpu-price-card-choice.spotlight .bpu-choice-cta{
+  color:#fff;
+  border-color:#5b2b45;
+}
+.bpu-price-card-choice.spotlight::before{
+  content:"SOROTAN";
+  position:absolute;
+  top:-11px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:6px 11px;
+  border-radius:999px;
+  background:var(--bpu-pink);
+  color:#fff;
+  font:950 6.5px var(--font-sf);
   letter-spacing:.12em;
-  box-shadow:0 10px 26px rgba(255,79,163,.3);
+  box-shadow:0 10px 24px rgba(255,79,163,.28);
 }
 .bpu-choice-letter{
   width:38px;height:38px;
@@ -1085,10 +1094,6 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   background:#211019;
   color:var(--bpu-pink2);
   font:950 12px var(--font-sf);
-}
-.featured .bpu-choice-letter{
-  background:var(--bpu-pink);
-  color:#fff;
 }
 .bpu-choice-copy{display:block;margin-top:18px}
 .bpu-choice-copy small{
@@ -1103,10 +1108,6 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   font:950 31px/1 var(--font-sf);
   letter-spacing:-.055em;
 }
-.featured .bpu-choice-copy b{
-  color:var(--bpu-pink2);
-  font-size:37px;
-}
 .bpu-choice-copy em{
   display:block;
   min-height:36px;
@@ -1115,7 +1116,6 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   font:500 8.5px/1.45 var(--font-roboto);
   font-style:normal;
 }
-.featured .bpu-choice-copy em{color:#c59aad}
 .bpu-choice-cta{
   display:block;
   width:100%;
@@ -1126,27 +1126,16 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   font:900 7.5px var(--font-sf);
   letter-spacing:.08em;
 }
-.featured .bpu-choice-cta{
-  color:#fff;
-  border-color:#5b2b45;
-}
 .bpu-locked-choice .amount-selected{margin-top:2px;padding-top:9px}
 
 @media(max-width:720px){
   .bpu-value-price-options{grid-template-columns:1fr;gap:12px}
   .bpu-price-card-choice{min-height:175px}
-  .bpu-price-card-choice.featured{
-    order:-1;
-    min-height:190px;
-    transform:none;
-    margin-top:8px;
-  }
-  .bpu-price-card-choice.featured:hover{transform:translateY(-4px)}
+  .bpu-price-card-choice.spotlight{transform:translateY(-3px) scale(1.01)}
   .bpu-value-compare{grid-template-columns:1fr}
   .bpu-value-compare article{min-height:0}
   .bpu-price-question>b{font-size:21px}
   .bpu-choice-copy b{font-size:28px}
-  .featured .bpu-choice-copy b{font-size:34px}
 }
 </style></head>
 <body>
@@ -3303,36 +3292,35 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
       <p>Pilih berdasarkan value yang kamu rasakan. Semua pilihan mendapat akses yang sama.</p>
     </div>
 
-    <div class="bpu-value-price-options reveal2">
-      <button class="bpu-price-card-choice" type="button" onclick="openCheckout(199000)">
+    <div class="bpu-value-price-options reveal2" id="bpuPriceChoices">
+      <button class="bpu-price-card-choice spotlight" type="button" onclick="openCheckout(199000)">
         <span class="bpu-choice-letter">A</span>
         <span class="bpu-choice-copy">
-          <small>VALUE PREMIUM</small>
+          <small>PILIH SESUAI NILAI YANG KAMU RASA</small>
           <b>Rp199.000</b>
-          <em>Kalau menurutmu manfaatnya layak dihargai lebih.</em>
+          <em>Semua pilihan mendapat akses yang sama selama 1 tahun.</em>
         </span>
-        <span class="bpu-choice-cta">PILIH INI →</span>
+        <span class="bpu-choice-cta">PILIH HARGA INI →</span>
       </button>
 
-      <button class="bpu-price-card-choice featured" type="button" onclick="openCheckout(50000)">
-        <span class="bpu-choice-badge">PILIHAN HEMAT</span>
+      <button class="bpu-price-card-choice" type="button" onclick="openCheckout(50000)">
         <span class="bpu-choice-letter">B</span>
         <span class="bpu-choice-copy">
-          <small>MULAI DARI SINI</small>
+          <small>PILIH SESUAI NILAI YANG KAMU RASA</small>
           <b>Rp50.000</b>
-          <em>Akses sama. Harga paling ringan untuk mulai.</em>
+          <em>Semua pilihan mendapat akses yang sama selama 1 tahun.</em>
         </span>
-        <span class="bpu-choice-cta">AMBIL AKSES →</span>
+        <span class="bpu-choice-cta">PILIH HARGA INI →</span>
       </button>
 
       <button class="bpu-price-card-choice" type="button" onclick="openCheckout(159000)">
         <span class="bpu-choice-letter">C</span>
         <span class="bpu-choice-copy">
-          <small>SANGAT WORTH IT</small>
+          <small>PILIH SESUAI NILAI YANG KAMU RASA</small>
           <b>Rp159.000</b>
-          <em>Kalau menurutmu prompt ini bisa banyak membantu jualanmu.</em>
+          <em>Semua pilihan mendapat akses yang sama selama 1 tahun.</em>
         </span>
-        <span class="bpu-choice-cta">PILIH INI →</span>
+        <span class="bpu-choice-cta">PILIH HARGA INI →</span>
       </button>
     </div>
 
@@ -3825,4 +3813,40 @@ loadSocialProof();
 </script>
 
 
+<script id="bpu-price-spotlight-script">
+(function(){
+  const wrap=document.getElementById('bpuPriceChoices');
+  if(!wrap)return;
+  const cards=[...wrap.querySelectorAll('.bpu-price-card-choice')];
+  if(cards.length<2)return;
+
+  let index=0, timer=null, paused=false;
+
+  function show(i){
+    index=(i+cards.length)%cards.length;
+    cards.forEach((card,n)=>card.classList.toggle('spotlight',n===index));
+  }
+  function start(){
+    clearInterval(timer);
+    timer=setInterval(()=>{
+      if(!paused)show(index+1);
+    },2400);
+  }
+
+  cards.forEach((card,i)=>{
+    card.addEventListener('mouseenter',()=>{paused=true;show(i)});
+    card.addEventListener('mouseleave',()=>{paused=false});
+    card.addEventListener('focus',()=>{paused=true;show(i)});
+    card.addEventListener('blur',()=>{paused=false});
+  });
+
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden)clearInterval(timer);
+    else start();
+  });
+
+  show(0);
+  start();
+})();
+</script>
 </body></html>
