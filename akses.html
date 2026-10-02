@@ -148,10 +148,10 @@ h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-fami
 <main>
 <section class="hero">
   <div class="eyebrow">MESIN PROMPT UMKM</div>
-  <h1>Mau jualan apa hari ini?</h1>
-  <p>Nggak perlu hafal prompt. Pilih jenis bisnis, pilih masalahnya, lalu isi data singkat. Sistem yang nyiapin prompt-nya.</p>
+  <h1>Pilih prompt. Langsung pakai.</h1>
+  <p>Semua prompt sudah dikelompokkan berdasarkan jenis usaha. Tinggal cari niche kamu, pilih kartu, lalu tekan <b style="color:#fff">PAKAI</b>.</p>
 
-  <div class="steps">
+  <div class="steps legacy-filter-ui">
     <div class="step-pill" id="step1"><b>1. Bisnis</b><span>Pilih jualannya</span></div>
     <div class="step-pill" id="step2"><b>2. Kebutuhan</b><span>Pilih masalahnya</span></div>
     <div class="step-pill" id="step3"><b>3. Pakai</b><span>Isi & salin prompt</span></div>
@@ -165,7 +165,7 @@ h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-fami
   </div>
 
   <div class="search-wrap">
-    <span class="search-label">ATAU CARI LANGSUNG</span>
+    <span class="search-label">CARI PROMPT</span>
     <input class="search" id="search" placeholder="Contoh: sepi order, WhatsApp, video, promo…">
   </div>
 
@@ -173,6 +173,20 @@ h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-fami
     <div class="stat"><b id="totalStat">0</b><small>Prompt aktif</small></div>
     <div class="stat"><b id="nicheStat">0</b><small>Jenis bisnis</small></div>
     <div class="stat"><b id="goalStat">0</b><small>Kebutuhan</small></div>
+  </div>
+</section>
+
+<section class="prompt-gallery-wrap" id="promptGallerySection">
+  <div class="gallery-head">
+    <div>
+      <div class="eyebrow">GALERI PROMPT</div>
+      <h2>Semua Prompt</h2>
+      <p>Pilih berdasarkan jenis usaha. Geser ke samping untuk melihat semua prompt di setiap niche.</p>
+    </div>
+    <span id="galleryCount">0 prompt</span>
+  </div>
+  <div class="prompt-gallery" id="promptGallery">
+    <div class="empty">Memuat galeri prompt…</div>
   </div>
 </section>
 
@@ -212,24 +226,24 @@ h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-fami
   </div>
 </section>
 
-<div class="choicebar" id="choiceBar">
+<div class="choicebar legacy-filter-ui" id="choiceBar">
   <div class="chosen" id="choiceText">Belum ada pilihan.</div>
   <button class="btn ghost" id="resetChoice">RESET</button>
 </div>
 
-<section class="sec" id="nicheSection">
+<section class="sec legacy-filter-ui" id="nicheSection">
   <div class="sec-head"><div class="sec-title"><span class="num">1</span><h2>Kamu jualan apa?</h2></div><small id="nicheHint">Pilih satu</small></div>
   <div class="section-note">Pilih yang paling mirip dengan bisnis kamu. Nanti masih bisa diganti kapan saja.</div>
   <div class="grid" id="nicheGrid"></div>
 </section>
 
-<section class="sec" id="goalSection">
+<section class="sec legacy-filter-ui" id="goalSection">
   <div class="sec-head"><div class="sec-title"><span class="num">2</span><h2>Sekarang lagi butuh apa?</h2></div><small id="goalHint">Pilih satu</small></div>
   <div class="section-note" id="goalNote">Pilih dulu jenis bisnis di atas supaya rekomendasinya lebih pas.</div>
   <div class="scroll" id="goalScroll"></div>
 </section>
 
-<section class="sec" id="resultSection">
+<section class="sec legacy-filter-ui" id="resultSection">
   <div class="sec-head"><div class="sec-title"><span class="num">3</span><h2>Pilih prompt yang mau dipakai</h2></div><small id="resultCount">0 hasil</small></div>
   <div class="section-note">Tidak perlu baca semuanya. Pilih judul yang paling cocok, lalu tekan <b style="color:#fff">PAKAI</b>.</div>
   <div class="result-intro" id="resultIntro"></div>
