@@ -9,18 +9,6 @@ const PROFILES='member_profiles';
 const PAYMENT_SETTINGS='payment_settings';
 const FALLBACK_PRICE=Number(process.env.PRODUCT_PRICE || 87000);
 const FALLBACK_MINIMUM_PRICE=Number(process.env.MINIMUM_PRICE || 30000);
-const PRODUCT_PRICES={
-  umroh:30000,
-  hijab:30000,
-  craft:30000,
-  guru:30000,
-  kuliner:30000,
-  beauty:30000,
-  properti:30000,
-  otomotif:30000,
-  hampers:30000,
-  retail:30000
-};
 const MAX_PAY_WHAT_YOU_WANT=5000000;
 const APP_URL=process.env.APP_URL || 'https://badaiprompt.vercel.app';
 
@@ -48,15 +36,6 @@ function safeEqual(a='',b=''){
 function hmac(secret,body){return 'sha256='+crypto.createHmac('sha256',secret).update(body).digest('hex');}
 function rowData(row){return {...(row?.data||row||{}),$id:row?.$id||row?.data?.$id};}
 function q(v){return String(v??'').trim();}
-function normalizeProductSlug(value=''){
-  return q(value).toLowerCase().replace(/^badai-prompt-/,'');
-}
-function getFixedProductPrice(value=''){
-  const slug=normalizeProductSlug(value);
-  const price=PRODUCT_PRICES[slug];
-  if(!price)throw Object.assign(new Error('Produk BADAI PROMPT belum valid.'),{status:400});
-  return {slug,price};
-}
 
 export default async ({req,res,error})=>{
   if(req.method==='OPTIONS')return res.text('ok',200,corsHeaders());
@@ -82,7 +61,7 @@ export default async ({req,res,error})=>{
       product_name:q(map.product_name)||'BADAI PROMPT UMKM',
       price:Number.isFinite(parsed)&&parsed>0?parsed:FALLBACK_PRICE,
       minimum_price:Number.isFinite(parsedMinimum)&&parsedMinimum>0?Math.floor(parsedMinimum):FALLBACK_MINIMUM_PRICE,
-      price_mode:'fixed_per_product',
+      price_mode:'pay_what_you_want',
       registration_open:String(map.registration_open??'true')==='true',
       social_proof_enabled:String(map.social_proof_enabled??'true')==='true',
       social_proof_interval_seconds:Math.min(60,Math.max(10,Number(map.social_proof_interval_seconds||18)))
@@ -332,9 +311,17 @@ export default async ({req,res,error})=>{
     if(!cfg.registration_open){
       throw Object.assign(new Error('Pendaftaran BADAI PROMPT UMKM sedang ditutup.'),{status:423});
     }
-    const product=getFixedProductPrice(body.product_slug||body.product_id);
-    const requestedAmount=product.price;
-    const basePrice=product.price;
+    const requestedAmount=Math.floor(Number(body.amount));
+    if(!Number.isFinite(requestedAmount)){
+      throw Object.assign(new Error('Pilih nominal pembayaran dulu.'),{status:400});
+    }
+    if(requestedAmount<cfg.minimum_price){
+      throw Object.assign(new Error('Nominal minimal adalah '+new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(cfg.minimum_price)+' untuk akses 1 tahun.'),{status:400});
+    }
+    if(requestedAmount>MAX_PAY_WHAT_YOU_WANT){
+      throw Object.assign(new Error('Nominal terlalu besar. Maksimal '+new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(MAX_PAY_WHAT_YOU_WANT)+'.'),{status:400});
+    }
+    const basePrice=requestedAmount;
     const quote=await quoteCoupon(body.coupon_code,basePrice);
     const price=quote.total;
     const fullName=q(body.full_name);
@@ -388,8 +375,8 @@ export default async ({req,res,error})=>{
         amount:0,
         total_amount:0,
         base_price:basePrice,
-        fixed_price:basePrice,
-        selected_amount:basePrice,
+        minimum_price:cfg.minimum_price,
+        selected_amount:requestedAmount,
         discount_amount:quote.discount_amount,
         coupon_code:quote.coupon_code,
         status:'success',
@@ -407,7 +394,7 @@ export default async ({req,res,error})=>{
       account_id:payCfg.account_id,
       secret_token:payCfg.secret_token,
       amount:String(price),
-      description:('BADAI PROMPT '+product.slug.toUpperCase()+' - '+email).slice(0,100),
+      description:(cfg.product_name+' - '+email).slice(0,100),
       fee_by:payCfg.fee_by,
       callback_url:payCfg.callback_url
     });
@@ -481,8 +468,8 @@ export default async ({req,res,error})=>{
       amount:order.amount,
       total_amount:order.total_amount,
       base_price:basePrice,
-      fixed_price:basePrice,
-      selected_amount:basePrice,
+      minimum_price:cfg.minimum_price,
+      selected_amount:requestedAmount,
       discount_amount:quote.discount_amount,
       coupon_code:quote.coupon_code,
       status:order.status,
@@ -578,8 +565,8 @@ export default async ({req,res,error})=>{
         service:'BADAI PROMPT UMKM payment-api',
         product_name:cfg.product_name,
         price:cfg.price,
+        minimum_price:cfg.minimum_price,
         price_mode:cfg.price_mode,
-        product_prices:PRODUCT_PRICES,
         registration_open:cfg.registration_open,
         payment_configured:(await getPaymentSettings()).configured
       });
@@ -593,16 +580,20 @@ export default async ({req,res,error})=>{
     if(path==='/social-proof')return reply(res,await getSocialProof());
     if(path==='/profile/save')return reply(res,await saveMemberBusinessProfile(req.bodyJson||{}));
     if(path==='/quote'){
-      const product=getFixedProductPrice(req.bodyJson?.product_slug||req.bodyJson?.product_id);
-      const quote=await quoteCoupon(req.bodyJson?.coupon_code,product.price);
+      const cfg=await getConfig();
+      const supplied=Number(req.bodyJson?.amount);
+      const basePrice=Number.isFinite(supplied)&&supplied>0?Math.floor(supplied):cfg.price;
+      if(basePrice<cfg.minimum_price){
+        return reply(res,{error:'Nominal minimal adalah '+new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(cfg.minimum_price)+'.'},400);
+      }
+      const quote=await quoteCoupon(req.bodyJson?.coupon_code,basePrice);
       return reply(res,{
         ok:true,
-        product_slug:product.slug,
         base_price:quote.base_price,
-        fixed_price:product.price,
         discount_amount:quote.discount_amount,
         total:quote.total,
-        coupon_code:quote.coupon_code
+        coupon_code:quote.coupon_code,
+        minimum_price:cfg.minimum_price
       });
     }
     if(path==='/create')return reply(res,await createPayment(req.bodyJson||{}));
