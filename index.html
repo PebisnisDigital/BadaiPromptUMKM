@@ -1107,6 +1107,19 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   margin-top:5px;
   font:950 31px/1 var(--font-sf);
   letter-spacing:-.055em;
+  transition:color .22s ease,transform .22s ease;
+}
+.bpu-price-card-choice.value-high .bpu-choice-copy b{
+  font-size:43px;
+  letter-spacing:-.07em;
+}
+.bpu-price-card-choice.value-mid .bpu-choice-copy b{
+  font-size:35px;
+  letter-spacing:-.06em;
+}
+.bpu-price-card-choice.value-low .bpu-choice-copy b{
+  font-size:28px;
+  letter-spacing:-.045em;
 }
 .bpu-choice-copy em{
   display:block;
@@ -1135,7 +1148,9 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   .bpu-value-compare{grid-template-columns:1fr}
   .bpu-value-compare article{min-height:0}
   .bpu-price-question>b{font-size:21px}
-  .bpu-choice-copy b{font-size:28px}
+  .bpu-price-card-choice.value-high .bpu-choice-copy b{font-size:39px}
+  .bpu-price-card-choice.value-mid .bpu-choice-copy b{font-size:33px}
+  .bpu-price-card-choice.value-low .bpu-choice-copy b{font-size:27px}
 }
 </style></head>
 <body>
@@ -3293,7 +3308,7 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
     </div>
 
     <div class="bpu-value-price-options reveal2" id="bpuPriceChoices">
-      <button class="bpu-price-card-choice spotlight" type="button" onclick="openCheckout(199000)">
+      <button class="bpu-price-card-choice value-high spotlight" type="button" onclick="openCheckout(199000)">
         <span class="bpu-choice-letter">A</span>
         <span class="bpu-choice-copy">
           <small>PILIH SESUAI NILAI YANG KAMU RASA</small>
@@ -3303,7 +3318,7 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
         <span class="bpu-choice-cta">PILIH HARGA INI →</span>
       </button>
 
-      <button class="bpu-price-card-choice" type="button" onclick="openCheckout(50000)">
+      <button class="bpu-price-card-choice value-low" type="button" onclick="openCheckout(50000)">
         <span class="bpu-choice-letter">B</span>
         <span class="bpu-choice-copy">
           <small>PILIH SESUAI NILAI YANG KAMU RASA</small>
@@ -3313,7 +3328,7 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
         <span class="bpu-choice-cta">PILIH HARGA INI →</span>
       </button>
 
-      <button class="bpu-price-card-choice" type="button" onclick="openCheckout(159000)">
+      <button class="bpu-price-card-choice value-mid" type="button" onclick="openCheckout(159000)">
         <span class="bpu-choice-letter">C</span>
         <span class="bpu-choice-copy">
           <small>PILIH SESUAI NILAI YANG KAMU RASA</small>
