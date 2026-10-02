@@ -1003,7 +1003,39 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   .bpu-why-punch b{font-size:20px}
 }
 </style>
-</head>
+<style id="bpu-value-pricing-style">
+.bpu-value-pricing{background:radial-gradient(circle at 50% 0,rgba(255,79,163,.075),transparent 28%),#080808}
+.bpu-value-compare{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:26px}
+.bpu-value-compare article{min-height:150px;padding:17px;border-radius:18px;background:#101011;border:1px solid #29292c;text-align:left}
+.bpu-value-compare article>span{font-size:22px}
+.bpu-value-compare article>b{display:block;margin-top:14px;color:#fff;font:950 13px/1.15 var(--font-sf)}
+.bpu-value-compare article>p{margin:6px 0 0;color:#828287;font-size:8.5px;line-height:1.55}
+.bpu-value-effect{margin-top:9px;padding:19px;border-radius:19px;background:#110d0f;border:1px solid #4a293b;text-align:left}
+.bpu-value-effect>small{display:block;color:#ad6689;font:900 7px var(--font-sf);letter-spacing:.13em}
+.bpu-value-effect>div{display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin-top:10px}
+.bpu-value-effect>div b{padding:8px 10px;border-radius:999px;background:#181416;color:#fff;font:850 9px var(--font-sf)}
+.bpu-value-effect>div i{color:var(--bpu-pink);font-style:normal;font-weight:950}
+.bpu-value-effect>p{margin:11px 0 0;color:#75757a;font-size:8.5px;line-height:1.55}
+.bpu-price-question{margin-top:18px;text-align:center;padding:23px 18px 16px}
+.bpu-price-question>small{color:#9f687f;font:900 7px var(--font-sf);letter-spacing:.13em}
+.bpu-price-question>b{display:block;max-width:560px;margin:8px auto 0;color:#fff;font:950 25px/1.05 var(--font-sf);letter-spacing:-.04em}
+.bpu-price-question>p{margin:8px auto 0;color:#77777c;font-size:9px}
+.bpu-value-price-options{display:grid;gap:8px;margin-top:5px}
+.bpu-value-price-options button{width:100%;display:grid;grid-template-columns:38px 1fr auto;gap:12px;align-items:center;text-align:left;padding:14px;border-radius:16px;border:1px solid #303034;background:#101011;color:#fff;cursor:pointer;transition:.2s ease}
+.bpu-value-price-options button:hover{transform:translateY(-2px);border-color:#70405a;background:#141113}
+.bpu-value-price-options button.official{border-color:var(--bpu-pink);background:linear-gradient(145deg,#24121b,#160e12);box-shadow:0 12px 30px rgba(255,79,163,.1)}
+.bpu-choice-letter{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:#211019;color:var(--bpu-pink2);font:950 12px var(--font-sf)}
+.bpu-choice-copy small{display:block;color:#77777c;font:850 6.5px var(--font-sf);letter-spacing:.11em}
+.bpu-choice-copy b{display:block;margin-top:3px;font:950 24px/1 var(--font-sf);letter-spacing:-.04em}
+.bpu-choice-arrow{color:var(--bpu-pink);font-size:20px;font-weight:950}
+.bpu-locked-choice .amount-selected{margin-top:2px;padding-top:9px}
+@media(max-width:560px){
+  .bpu-value-compare{grid-template-columns:1fr}
+  .bpu-value-compare article{min-height:0}
+  .bpu-price-question>b{font-size:21px}
+  .bpu-choice-copy b{font-size:21px}
+}
+</style></head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
   <div class="ms-loader-top">BADAI PROMPT UMKM</div>
@@ -3112,34 +3144,73 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   </div>
 </section>
 
-<section id="harga" class="bpu-section bpu-pricing">
+<section id="harga" class="bpu-section bpu-pricing bpu-value-pricing">
   <div class="bpu-container">
-    <div class="bpu-kicker reveal2">AKSES BADAI PROMPT UMKM</div>
-    <h2 class="reveal2">Akses Semua Prompt.<br><span>Cuma Rp100.000 / Tahun.</span></h2>
-    <p class="bpu-lead reveal2">Sekali bayar untuk akses BADAI PROMPT UMKM selama 1 tahun. Semua prompt, semua kategori, dan update selama masa akses.</p>
+    <div class="bpu-kicker reveal2">SEKARANG, COBA KAMU NILAI SENDIRI</div>
+    <h2 class="reveal2">Kalau Semua Ini Bisa Bantu Jualanmu...<br><span>Menurutmu Nilainya Berapa?</span></h2>
+    <p class="bpu-lead reveal2">Sebelum lihat harganya, bandingkan dulu apa yang kamu dapat—dan efek yang kita kejar dari setiap prompt di BADAI PROMPT UMKM.</p>
 
-    <article class="bpu-price-card reveal2">
-      <div class="bpu-price-top">
-        <span>AKSES 1 TAHUN</span>
-        <b>BADAI PROMPT UMKM</b>
-        <p>Semua prompt. Semua kategori. Semua fitur member.</p>
+    <div class="bpu-value-compare">
+      <article class="reveal2">
+        <span>👀</span>
+        <b>Prompt Gambar Eye-Catching</b>
+        <p>Bantu bikin visual produk lebih menarik supaya calon pembeli punya alasan untuk berhenti scroll.</p>
+      </article>
+      <article class="reveal2">
+        <span>🛒</span>
+        <b>Prompt Yang Dibuat Buat Jualan</b>
+        <p>Bukan cuma bikin gambar cantik. Prompt diarahkan untuk menonjolkan produk, promo, manfaat, dan penawaran.</p>
+      </article>
+      <article class="reveal2">
+        <span>🎯</span>
+        <b>Cocok Untuk Berbagai Jenis Usaha</b>
+        <p>Kuliner, fashion, beauty, jasa, properti, reseller, dan kebutuhan UMKM lainnya.</p>
+      </article>
+      <article class="reveal2">
+        <span>⚡</span>
+        <b>Update Prompt Terbaru</b>
+        <p>Selama masa akses, koleksi dapat terus berkembang mengikuti kebutuhan jualan dan perkembangan AI.</p>
+      </article>
+    </div>
+
+    <div class="bpu-value-effect reveal2">
+      <small>EFEK YANG KITA KEJAR</small>
+      <div>
+        <b>Visual lebih menarik</b><i>→</i>
+        <b>Produk lebih dilirik</b><i>→</i>
+        <b>Promo lebih mudah dipahami</b><i>→</i>
+        <b>Peluang chat & order lebih besar</b>
       </div>
-      <div class="bpu-price-list">
-        <div>✓ <span>Prompt foto produk & visual promosi</span></div>
-        <div>✓ <span>Prompt poster, video, caption & WhatsApp</span></div>
-        <div>✓ <span>500+ prompt untuk berbagai jenis UMKM</span></div>
-        <div>✓ <span>Favorit + riwayat penggunaan</span></div>
-        <div>✓ <span>Update selama masa akses</span></div>
-        <div>✓ <span>Member area 1 tahun</span></div>
-      </div>
-      <div class="bpu-price-closing">
-        <small>HARGA AKSES</small>
-        <div><b id="displayPrice">Rp100.000</b><span>/ tahun</span></div>
-        <p>Sekali bayar. Akses penuh selama 1 tahun.</p>
-      </div>
-      <button class="bpu-price-btn" type="button" onclick="openCheckout()">AMBIL AKSES Rp100.000 →</button>
-      <div class="bpu-price-trust"><span>⚡ QRIS</span><span>✓ Verifikasi Otomatis</span><span>🔒 Akses Aman</span></div>
-    </article>
+      <p>Bukan jaminan langsung laris. Tapi materi jualan yang lebih kuat memberi produkmu kesempatan lebih besar untuk diperhatikan dan dipertimbangkan.</p>
+    </div>
+
+    <div class="bpu-price-question reveal2">
+      <small>NAH, DENGAN SEMUA YANG KAMU DAPAT...</small>
+      <b>Kira-kira berapa harga yang pantas untuk BADAI PROMPT UMKM selama 1 tahun?</b>
+      <p>Pilih berdasarkan value yang kamu rasakan. Semua pilihan mendapat akses yang sama.</p>
+    </div>
+
+    <div class="bpu-value-price-options reveal2">
+      <button type="button" onclick="openCheckout(199000)">
+        <span class="bpu-choice-letter">A</span>
+        <span class="bpu-choice-copy"><small>MENURUTMU VALUE-NYA</small><b>Rp199.000</b></span>
+        <span class="bpu-choice-arrow">→</span>
+      </button>
+
+      <button type="button" onclick="openCheckout(159000)">
+        <span class="bpu-choice-letter">B</span>
+        <span class="bpu-choice-copy"><small>MENURUTMU VALUE-NYA</small><b>Rp159.000</b></span>
+        <span class="bpu-choice-arrow">→</span>
+      </button>
+
+      <button class="official" type="button" onclick="openCheckout(100000)">
+        <span class="bpu-choice-letter">C</span>
+        <span class="bpu-choice-copy"><small>HARGA RESMI</small><b id="displayPrice">Rp100.000</b></span>
+        <span class="bpu-choice-arrow">→</span>
+      </button>
+    </div>
+
+    <div class="bpu-price-trust reveal2"><span>⚡ QRIS</span><span>✓ Akses 1 Tahun</span><span>🔒 Verifikasi Otomatis</span></div>
   </div>
 </section>
 
@@ -3151,7 +3222,7 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
       <details class="reveal2"><summary>Prompt itu apa?</summary><p>Prompt adalah perintah yang diberikan ke AI. Di BADAI Prompt UMKM, perintahnya sudah disiapkan sesuai kebutuhan usaha supaya kamu tidak perlu menyusun dari nol.</p></details>
       <details class="reveal2"><summary>Saya baru belajar AI. Bisa pakai?</summary><p>Bisa. Produk ini memang dibuat supaya pemula cukup memilih kebutuhan, mengisi bagian yang diperlukan, lalu menyalin prompt ke AI.</p></details>
       <details class="reveal2"><summary>Harus pakai ChatGPT berbayar?</summary><p>Tidak. Kamu bisa menggunakan AI yang mendukung jenis tugas yang ingin dikerjakan. Fitur dan hasil tiap platform bisa berbeda.</p></details>
-      <details class="reveal2"><summary>Berapa harga BADAI PROMPT UMKM?</summary><p>Rp100.000 untuk akses 1 tahun. Di checkout tersedia pilihan nominal pembayaran jika ingin memberi dukungan lebih atau menyesuaikan kemampuan, tetapi akses yang didapat tetap sama.</p></details>
+      <details class="reveal2"><summary>Berapa harga BADAI PROMPT UMKM?</summary><p>Harga resminya Rp100.000 untuk akses 1 tahun. Di section harga kamu juga bisa memilih nominal value Rp159.000 atau Rp199.000 jika menurutmu manfaatnya pantas dihargai lebih. Semua pilihan mendapat akses yang sama.</p></details>
       <details class="reveal2"><summary>Apakah dijamin bikin jualan laris?</summary><p>Tidak. BADAI membantu mempercepat ide dan eksekusi. Hasil bisnis tetap dipengaruhi produk, harga, pasar, penawaran, dan cara penerapannya.</p></details>
       <details class="reveal2"><summary>Boleh dipakai untuk usaha saya sendiri?</summary><p>Justru itu tujuan utamanya. Prompt disusun untuk membantu pekerjaan promosi dan komunikasi jualan di usaha sendiri.</p></details>
     </div>
@@ -3193,20 +3264,10 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 
     <div id="checkoutFormWrap">
       <form class="checkout-form" id="checkoutForm">
-        <div class="pay-what-you-want">
-          <div class="pay-what-you-want-title">PILIH NOMINAL PEMBAYARAN</div>
-          <div class="amount-options" id="amountOptions">
-            <button class="amount-option" type="button" data-amount="30000">Rp30K</button>
-            <button class="amount-option" type="button" data-amount="50000">Rp50K</button>
-            <button class="amount-option on" type="button" data-amount="100000">Rp100K</button>
-          </div>
-          <div class="custom-amount-wrap">
-            <label>NOMINAL LAIN (MINIMAL <span id="minimumAmountText">Rp30.000</span>)
-              <input id="customAmount" inputmode="numeric" type="number" min="30000" step="1000" placeholder="Contoh: 75000">
-            </label>
-          </div>
-          <div class="amount-selected"><span>Nominal pilihanmu</span><b id="selectedAmountLabel">Rp100.000</b></div>
-          <div class="same-access-note"><strong>Aksesnya tetap sama.</strong> Bayar lebih bukan untuk membuka fitur tambahan, tapi dukungan sukarela untuk pengembangan produk.</div>
+        <div class="pay-what-you-want bpu-locked-choice">
+          <div class="pay-what-you-want-title">HARGA YANG KAMU PILIH</div>
+          <div class="amount-selected"><span>BADAI PROMPT UMKM • 1 TAHUN</span><b id="selectedAmountLabel">Rp100.000</b></div>
+          <div class="same-access-note"><strong>Nominal sudah dipilih dari halaman sebelumnya.</strong> Semua pilihan mendapat akses BADAI PROMPT UMKM yang sama selama 1 tahun.</div>
         </div>
         <label>NAMA LENGKAP<input id="buyerName" required maxlength="128" placeholder="Nama lengkap"></label>
         <label>EMAIL AKSES<input id="buyerEmail" type="email" required placeholder="email@contoh.com"></label>
@@ -3254,41 +3315,22 @@ function normalizeAmount(v){
   const n=Math.floor(Number(v));
   return Number.isFinite(n)?n:0;
 }
-function setAmount(value,custom=false){
+function setAmount(value){
   let amount=normalizeAmount(value);
   if(amount<minimumPrice)amount=minimumPrice;
   selectedAmount=amount;
-  document.querySelectorAll('.amount-option').forEach(btn=>btn.classList.toggle('on',!custom&&Number(btn.dataset.amount)===amount));
-  selectedAmountLabel.textContent=rupiah(amount);
-  payBtn.textContent='BUAT QRIS '+rupiah(amount);
+  const selectedLabel=document.getElementById('selectedAmountLabel');
+  if(selectedLabel)selectedLabel.textContent=rupiah(amount);
+  const priceLabel=document.getElementById('checkoutPriceLabel');
+  if(priceLabel)priceLabel.textContent='Pilihan kamu '+rupiah(amount)+' • akses 1 tahun';
+  const payButton=document.getElementById('payBtn');
+  if(payButton)payButton.textContent='BUAT QRIS '+rupiah(amount);
 }
-document.querySelectorAll('.amount-option').forEach(btn=>btn.addEventListener('click',()=>{
-  customAmount.value='';
-  setAmount(btn.dataset.amount,false);
-}));
-customAmount.addEventListener('input',()=>{
-  const raw=normalizeAmount(customAmount.value);
-  document.querySelectorAll('.amount-option').forEach(btn=>btn.classList.remove('on'));
-  if(raw>0){
-    selectedAmount=raw;
-    selectedAmountLabel.textContent=rupiah(raw);
-    payBtn.textContent='BUAT QRIS '+rupiah(raw);
-  }else{
-    selectedAmount=minimumPrice;
-    selectedAmountLabel.textContent=rupiah(minimumPrice);
-    payBtn.textContent='BUAT QRIS '+rupiah(minimumPrice);
-  }
-});
-customAmount.addEventListener('blur',()=>{
-  if(customAmount.value&&normalizeAmount(customAmount.value)<minimumPrice){
-    customAmount.value=String(minimumPrice);
-    setAmount(minimumPrice,true);
-  }
-});
 
-function openCheckout(){
+function openCheckout(amount=officialPrice){
   hideSocialProof();
   if(!registrationOpen){alert('Pendaftaran BADAI PROMPT UMKM sedang ditutup.');return}
+  setAmount(amount||officialPrice);
   document.getElementById('successBox').classList.remove('show');
   document.getElementById('checkoutFormWrap').style.display='block';
   document.getElementById('paymentWrap').style.display='none';
@@ -3443,15 +3485,10 @@ async function loadPublicConfig(){
     minimumPrice=Math.max(30000,Number(data.minimum_price||30000));
     officialPrice=Math.max(minimumPrice,Number(data.price||100000));
     registrationOpen=data.registration_open!==false;
-    document.getElementById('displayPrice').textContent=rupiah(officialPrice);
-    const priceBtn=document.querySelector('.bpu-price-btn');if(priceBtn)priceBtn.textContent='AMBIL AKSES '+rupiah(officialPrice)+' →';
-    document.getElementById('minimumAmountText').textContent=rupiah(minimumPrice);
-    document.getElementById('customAmount').min=String(minimumPrice);
-    document.getElementById('checkoutPriceLabel').textContent='Harga resmi '+rupiah(officialPrice)+' / tahun';
+    const display=document.getElementById('displayPrice');if(display)display.textContent=rupiah(officialPrice);
+    const priceLabel=document.getElementById('checkoutPriceLabel');if(priceLabel)priceLabel.textContent='Harga resmi '+rupiah(officialPrice)+' / tahun';
     const fp=document.getElementById('floatPrice');if(fp)fp.textContent=rupiah(officialPrice)+' • 1 tahun';
-    const defaultAmount=officialPrice;
-    const matching=[...document.querySelectorAll('.amount-option')].find(btn=>Number(btn.dataset.amount)===defaultAmount);
-    setAmount(defaultAmount,!matching);
+    setAmount(officialPrice);
     document.querySelectorAll('[onclick="openCheckout()"]').forEach(btn=>{
       btn.disabled=!registrationOpen;
       if(!registrationOpen)btn.textContent='PENDAFTARAN DITUTUP';
