@@ -1121,6 +1121,23 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   font-size:28px;
   letter-spacing:-.045em;
 }
+.bpu-choice-copy b .bpu-rp{
+  display:inline-block;
+  margin-right:2px;
+  font-size:.42em;
+  font-weight:900;
+  letter-spacing:0;
+  vertical-align:.34em;
+  opacity:.72;
+}
+.bpu-choice-copy b .bpu-k{
+  display:inline-block;
+  margin-left:2px;
+  font-size:.42em;
+  font-weight:950;
+  letter-spacing:0;
+  vertical-align:.34em;
+}
 .bpu-choice-copy em{
   display:block;
   min-height:36px;
@@ -3312,27 +3329,27 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
         <span class="bpu-choice-letter">A</span>
         <span class="bpu-choice-copy">
           <small>PILIH SESUAI NILAI YANG KAMU RASA</small>
-          <b>Rp199.000</b>
-          <em>Semua pilihan mendapat akses yang sama selama 1 tahun.</em>
-        </span>
-        <span class="bpu-choice-cta">PILIH HARGA INI →</span>
-      </button>
-
-      <button class="bpu-price-card-choice value-low" type="button" onclick="openCheckout(50000)">
-        <span class="bpu-choice-letter">B</span>
-        <span class="bpu-choice-copy">
-          <small>PILIH SESUAI NILAI YANG KAMU RASA</small>
-          <b>Rp50.000</b>
+          <b><span class="bpu-rp">Rp</span>199<span class="bpu-k">k</span></b>
           <em>Semua pilihan mendapat akses yang sama selama 1 tahun.</em>
         </span>
         <span class="bpu-choice-cta">PILIH HARGA INI →</span>
       </button>
 
       <button class="bpu-price-card-choice value-mid" type="button" onclick="openCheckout(159000)">
+        <span class="bpu-choice-letter">B</span>
+        <span class="bpu-choice-copy">
+          <small>PILIH SESUAI NILAI YANG KAMU RASA</small>
+          <b><span class="bpu-rp">Rp</span>159<span class="bpu-k">k</span></b>
+          <em>Semua pilihan mendapat akses yang sama selama 1 tahun.</em>
+        </span>
+        <span class="bpu-choice-cta">PILIH HARGA INI →</span>
+      </button>
+
+      <button class="bpu-price-card-choice value-low" type="button" onclick="openCheckout(50000)">
         <span class="bpu-choice-letter">C</span>
         <span class="bpu-choice-copy">
           <small>PILIH SESUAI NILAI YANG KAMU RASA</small>
-          <b>Rp159.000</b>
+          <b><span class="bpu-rp">Rp</span>50<span class="bpu-k">k</span></b>
           <em>Semua pilihan mendapat akses yang sama selama 1 tahun.</em>
         </span>
         <span class="bpu-choice-cta">PILIH HARGA INI →</span>
