@@ -1515,7 +1515,169 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
     padding:0 12px 14px;
   }
 }
-</style></head>
+</style>
+<style id="bpu-readability-2026">
+/* Readability pass — audience-first typography */
+:root{
+  --font-sf:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  --font-roboto:"Roboto","Segoe UI",Arial,sans-serif;
+}
+body,
+.bpu-shell,
+.bpu-shell p,
+.bpu-shell small,
+.bpu-shell em,
+.bpu-shell span,
+.checkout-modal,
+.checkout-modal p,
+.checkout-modal label,
+.checkout-modal small{
+  font-family:var(--font-roboto);
+}
+.bpu-shell h1,.bpu-shell h2,.bpu-shell h3,
+.bpu-shell b,.bpu-shell strong,
+.bpu-shell button,.bpu-shell .bpu-kicker,
+.bpu-shell .bpu-badge,.bpu-shell .bpu-nav-btn,
+.checkout-modal h1,.checkout-modal h2,.checkout-modal h3,
+.checkout-modal b,.checkout-modal strong,.checkout-modal button{
+  font-family:var(--font-sf);
+}
+
+/* LP microcopy: no more tiny 6–9px reading */
+.bpu-brand small{font-size:10px;line-height:1.35}
+.bpu-nav-btn{font-size:11px}
+.bpu-badge{font-size:11px;line-height:1.35}
+.bpu-float-card span{font-size:10px;line-height:1.4}
+.bpu-micro{font-size:11px;line-height:1.5;color:#9a9a9f}
+.bpu-proof-strip span{font-size:10px;line-height:1.4;color:#96969b}
+.bpu-work-copy small{font-size:10px;line-height:1.35}
+.bpu-work-copy p{font-size:12px;line-height:1.6;color:#a0a0a5}
+.bpu-pills span{font-size:11px;line-height:1.35}
+.bpu-value-list small{font-size:11px;line-height:1.55;color:#9b9ba0}
+.bpu-value-punch{font-size:11px;line-height:1.55}
+.bpu-library-grid span{font-size:11px;line-height:1.35}
+.bpu-data-grid article>p{font-size:12px;line-height:1.65;color:#9b9ba0}
+.bpu-data-source{font-size:9.5px;line-height:1.55;color:#77777c}
+.bpu-data-solution{font-size:12px;line-height:1.55}
+.bpu-sales-symptoms p,
+.bpu-problem-punch p,
+.bpu-problem-questions p,
+.bpu-solution-bridge p,
+.bpu-benefit-grid p,
+.bpu-solution-punch p,
+.bpu-why-story p,
+.bpu-why-grid p,
+.bpu-why-punch p{
+  font-size:12px;
+  line-height:1.65;
+  color:#a0a0a5;
+}
+.bpu-problem-punch p,
+.bpu-solution-punch p,
+.bpu-why-punch p{color:#fff1f7}
+.bpu-niche-slide-copy p{font-size:10.5px;line-height:1.55}
+.bpu-orbit-copy p{font-size:10px;line-height:1.45}
+
+/* Value + price card readability */
+.bpu-value-table-head small{
+  font-family:var(--font-sf);
+  font-size:10px;
+  line-height:1.35;
+  letter-spacing:.10em;
+}
+.bpu-value-table-head b{font-size:21px;line-height:1.2}
+.bpu-value-table-head>span{
+  font-family:var(--font-sf);
+  font-size:9.5px;
+  line-height:1.3;
+}
+.bpu-value-row b{
+  font-family:var(--font-sf);
+  font-size:13.5px;
+  line-height:1.3;
+}
+.bpu-value-row p{
+  font-family:var(--font-roboto);
+  font-size:11.5px;
+  line-height:1.55;
+  color:#66666d;
+}
+.bpu-value-row em{
+  font-family:var(--roboto, var(--font-roboto));
+  font-size:9.5px;
+  line-height:1.3;
+  padding:8px 10px;
+}
+.bpu-check{font-size:13px}
+.bpu-price-prompt small{
+  font-family:var(--font-sf);
+  font-size:10px;
+  line-height:1.35;
+  letter-spacing:.10em;
+}
+.bpu-price-prompt b{font-size:27px;line-height:1.15}
+.bpu-price-prompt p{
+  font-family:var(--font-roboto);
+  font-size:11.5px;
+  line-height:1.55;
+}
+.bpu-price-trust{
+  font-family:var(--font-sf);
+  font-size:10px;
+  line-height:1.35;
+}
+
+/* Checkout readability */
+.checkout-form label{font-size:12px;line-height:1.45;color:#b0b0b5}
+.checkout-form input{font-size:14px}
+.checkout-msg{font-size:12px;line-height:1.55}
+.payinfo small{font-size:11px;line-height:1.45;color:#9b9ba0}
+.sp-copy b{font-size:12.5px;line-height:1.35}
+.sp-copy span{font-size:11px;line-height:1.45;color:#aaaab0}
+.sp-live{font-size:10px}
+.legal-check{font-size:11px;line-height:1.55;color:#aaaab0}
+.pay-what-you-want-title{font-size:12px}
+.amount-selected{font-size:12px}
+.same-access-note{font-size:11.5px;line-height:1.55}
+
+/* Footer still secondary, but readable */
+.bpu-footer-links a{font-size:10.5px}
+.bpu-footer p{font-size:10px;line-height:1.6;color:#77777d}
+
+@media(max-width:560px){
+  .bpu-brand small{font-size:9.5px}
+  .bpu-nav-btn{font-size:10.5px}
+  .bpu-badge{font-size:10.5px}
+  .bpu-micro{font-size:11px}
+  .bpu-proof-strip span{font-size:9.5px}
+  .bpu-work-copy p,
+  .bpu-sales-symptoms p,
+  .bpu-problem-punch p,
+  .bpu-problem-questions p,
+  .bpu-solution-bridge p,
+  .bpu-benefit-grid p,
+  .bpu-solution-punch p,
+  .bpu-why-story p,
+  .bpu-why-grid p,
+  .bpu-why-punch p{
+    font-size:11.5px;
+    line-height:1.65;
+  }
+  .bpu-value-table-head small{font-size:9.5px}
+  .bpu-value-table-head b{font-size:19px}
+  .bpu-value-table-head>span{font-size:9px}
+  .bpu-value-row b{font-size:13px}
+  .bpu-value-row p{font-size:11px;line-height:1.55}
+  .bpu-value-row em{font-size:9.5px}
+  .bpu-price-prompt small{font-size:9.5px}
+  .bpu-price-prompt b{font-size:22px;line-height:1.18}
+  .bpu-price-prompt p{font-size:11px}
+  .bpu-price-trust{font-size:9.5px}
+  .checkout-form label{font-size:12px}
+  .legal-check,.same-access-note{font-size:11px}
+}
+</style>
+</head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
   <div class="ms-loader-top">BADAI PROMPT UMKM</div>
