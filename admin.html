@@ -20,7 +20,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.eyebrow{font-size:1
 .order-grid{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start}.money{font-weight:900;text-align:right}.status{font-size:9px;font-weight:900;text-transform:uppercase}.status.success{color:var(--green)}.status.pending{color:var(--yellow)}.status.failed,.status.expired{color:var(--red)}
 .empty{text-align:center;padding:28px;border:1px dashed #333;border-radius:15px;color:#777}.loading{opacity:.55;pointer-events:none}.pager{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid #242424}.pager-info{font-size:9px;color:#888;text-align:center;flex:1}.pager button:disabled{opacity:.35;cursor:not-allowed}
 .nav{position:fixed;z-index:35;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,940px);display:grid;grid-template-columns:repeat(5,1fr);background:rgba(9,9,9,.97);border-top:1px solid var(--line);padding:8px 5px 10px;backdrop-filter:blur(14px)}.nav button{background:none;border:0;color:#777;font-size:9px;padding:5px}.nav button b{display:block;font-size:16px;margin-bottom:2px}.nav button.on{color:var(--pink2)}
-.gate{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 80% 0,rgba(255,45,141,.22),transparent 30%),#070707;display:flex;align-items:center;justify-content:center;padding:18px}.gate.hide{display:none}.login{width:min(100%,420px);background:#0e0e0e;border:1px solid #303030;border-radius:24px;padding:20px}.login h1{font-size:26px;margin:16px 0 6px}.login p{color:#999;font-size:12px;line-height:1.55}.field{margin-top:9px}.field label{display:block;color:#999;font-size:9px;font-weight:800;margin-bottom:5px}.field input,.field textarea,.field select{width:100%}.msg{font-size:10px;min-height:18px;color:#999;margin-top:9px}.msg.bad{color:var(--red)}.msg.good{color:var(--green)}
+.gate{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 80% 0,rgba(255,45,141,.22),transparent 30%),#070707;display:flex;align-items:center;justify-content:center;padding:18px}.gate.hide{display:none}.login{width:min(100%,420px);background:#0e0e0e;border:1px solid #303030;border-radius:24px;padding:20px}.login h1{font-size:26px;margin:16px 0 6px}.login p{color:#999;font-size:12px;line-height:1.55}.field{margin-top:9px}.field label{display:block;color:#999;font-size:9px;font-weight:800;margin-bottom:5px}.field input,.field textarea,.field select{width:100%}.password-wrap{position:relative}.password-wrap input{padding-right:48px}.password-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:34px;height:34px;border:0;border-radius:9px;background:transparent;color:#ff2f92;display:grid;place-items:center;cursor:pointer;font-size:18px;line-height:1;transition:background .18s ease,transform .18s ease}.password-toggle:hover,.password-toggle:focus-visible{background:rgba(255,47,146,.12);outline:none}.password-toggle:active{transform:translateY(-50%) scale(.92)}.msg{font-size:10px;min-height:18px;color:#999;margin-top:9px}.msg.bad{color:var(--red)}.msg.good{color:var(--green)}
 .modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.82);display:none;align-items:flex-end;justify-content:center}.modal.show{display:flex}.sheet{width:min(100%,720px);max-height:94vh;overflow:auto;background:#101010;border:1px solid #333;border-radius:24px 24px 0 0;padding:17px}.sheet-head{display:flex;justify-content:space-between;gap:10px;align-items:start}.sheet h2{font-size:21px;margin:3px 0}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.full{grid-column:1/-1}.checks{display:flex;gap:14px;flex-wrap:wrap;padding:9px 0;color:#aaa;font-size:11px}.sheet-actions{display:flex;gap:8px;margin-top:12px}.sheet-actions .pink{flex:1}
 .switch{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px;background:#0c0c0c;border:1px solid #292929;border-radius:14px;margin-top:8px}.insight-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}.rank-list{display:grid;gap:7px}.rank-item{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;background:#0d0d0d;border:1px solid #292929;border-radius:13px;padding:10px}.rank-no{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#1d1118;color:var(--pink2);font-size:10px;font-weight:900}.rank-item b{display:block;font-size:11px}.rank-item span{display:block;font-size:8px;color:#7d7d7d;margin-top:3px}.rank-count{font-size:11px;font-weight:900;color:#fff}.chart{display:flex;align-items:end;gap:7px;height:150px;padding:10px 4px 0}.barcol{flex:1;min-width:0;text-align:center}.barwrap{height:108px;display:flex;align-items:end;justify-content:center}.bar{width:100%;max-width:36px;min-height:4px;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,var(--pink),#742047)}.barval{font-size:8px;color:#ddd;margin-bottom:4px}.barlabel{font-size:7px;color:#777;margin-top:6px;line-height:1.2}.insight-note{font-size:9px;color:#777;line-height:1.5;margin-top:8px}@media(min-width:700px){.insight-grid{grid-template-columns:1fr 1fr}.insight-grid .wide{grid-column:1/-1}}
 @media(min-width:650px){.cards{grid-template-columns:repeat(4,1fr)}.list.two{grid-template-columns:1fr 1fr}.formgrid{grid-template-columns:repeat(2,1fr)}}
@@ -39,7 +39,7 @@ h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-fami
       <p>Gunakan email + password untuk masuk ke admin.</p>
       <form id="loginForm">
         <div class="field"><label>EMAIL ADMIN</label><input id="loginEmail" type="email" autocomplete="email" required placeholder="email admin"></div>
-        <div class="field"><label>PASSWORD</label><input id="loginPassword" type="password" autocomplete="current-password" required placeholder="••••••••••"></div>
+        <div class="field"><label>PASSWORD</label><div class="password-wrap"><input id="loginPassword" type="password" autocomplete="current-password" required placeholder="••••••••••"><button class="password-toggle" id="loginPasswordToggle" type="button" aria-label="Lihat password" aria-pressed="false"><span id="loginPasswordEye" aria-hidden="true">👁</span></button></div></div>
         <button class="btn pink" id="loginBtn" type="submit" style="width:100%;margin-top:10px">MASUK ADMIN</button>
         <div class="msg" id="loginMsg"></div>
       </form>
@@ -345,6 +345,19 @@ async function completeMagic(){
     await finishLogin();
     return true;
   }catch(e){msg(loginMsg,e.message||'Link login sudah tidak berlaku.','bad');return false}
+}
+
+const loginPasswordToggle=document.getElementById('loginPasswordToggle');
+const loginPasswordEye=document.getElementById('loginPasswordEye');
+if(loginPasswordToggle){
+  loginPasswordToggle.onclick=()=>{
+    const show=loginPassword.type==='password';
+    loginPassword.type=show?'text':'password';
+    loginPasswordToggle.setAttribute('aria-pressed',show?'true':'false');
+    loginPasswordToggle.setAttribute('aria-label',show?'Sembunyikan password':'Lihat password');
+    loginPasswordEye.textContent=show?'🙈':'👁';
+    loginPassword.focus({preventScroll:true});
+  };
 }
 
 document.getElementById('loginForm').onsubmit=async e=>{
