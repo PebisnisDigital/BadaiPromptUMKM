@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import { Client, TablesDB, ID, Query } from 'node-appwrite';
+import { Client, TablesDB, Users, Teams, ID, Query, Permission, Role } from 'node-appwrite';
 
 const DB=process.env.APP_DB_ID || 'badai_prompt_umkm';
 const ORDERS=process.env.ORDERS_TABLE_ID || 'orders';
@@ -7,6 +7,7 @@ const SETTINGS='settings';
 const COUPONS='coupons';
 const PROFILES='member_profiles';
 const PAYMENT_SETTINGS='payment_settings';
+const TEAM_ID=process.env.PAID_TEAM_ID || 'paid-members';
 const FALLBACK_PRICE=Number(process.env.PRODUCT_PRICE || 100000);
 const FALLBACK_MINIMUM_PRICE=Number(process.env.MINIMUM_PRICE || 30000);
 const MAX_PAY_WHAT_YOU_WANT=5000000;
@@ -36,6 +37,20 @@ function safeEqual(a='',b=''){
 function hmac(secret,body){return 'sha256='+crypto.createHmac('sha256',secret).update(body).digest('hex');}
 function rowData(row){return {...(row?.data||row||{}),$id:row?.$id||row?.data?.$id};}
 function q(v){return String(v??'').trim();}
+function oneYearFrom(value){
+  const d=value?new Date(value):new Date();
+  const base=Number.isNaN(d.getTime())?new Date():d;
+  const out=new Date(base.getTime());
+  out.setUTCFullYear(out.getUTCFullYear()+1);
+  return out.toISOString();
+}
+function loginPasswordFor(order){
+  const secret=String(process.env.MEMBER_LOGIN_SECRET||'');
+  if(!secret)throw Object.assign(new Error('Member login secret belum dikonfigurasi.'),{status:503});
+  const seed=String(order.public_token||order.transaction_id||order.$id||'');
+  const digest=crypto.createHmac('sha256',secret).update(seed).digest('hex');
+  return 'Badai#'+digest.slice(0,10)+'A9';
+}
 
 export default async ({req,res,error})=>{
   if(req.method==='OPTIONS')return res.text('ok',200,corsHeaders());
@@ -47,6 +62,8 @@ export default async ({req,res,error})=>{
 
   const client=new Client().setEndpoint(endpoint).setProject(project).setKey(key);
   const tables=new TablesDB(client);
+  const users=new Users(client);
+  const teams=new Teams(client);
 
   async function getConfig(){
     const r=await tables.listRows({databaseId:DB,tableId:SETTINGS,queries:[Query.limit(20)]});
@@ -477,6 +494,71 @@ export default async ({req,res,error})=>{
     };
   }
 
+  async function provisionMemberLogin(order){
+    const email=q(order.email).toLowerCase();
+    if(!email)throw Object.assign(new Error('Email order kosong.'),{status:400});
+    const password=loginPasswordFor(order);
+
+    const found=await users.list({queries:[Query.equal('email',email),Query.limit(1)]});
+    let user=(found.users||[])[0]||null;
+
+    if(!user){
+      user=await users.create({
+        userId:ID.unique(),
+        email,
+        password,
+        name:q(order.full_name||'Member BADAI PROMPT UMKM').slice(0,128)
+      });
+    }else{
+      await users.updatePassword({userId:user.$id,password});
+      if(q(order.full_name)){
+        try{await users.updateName({userId:user.$id,name:q(order.full_name).slice(0,128)});}catch{}
+      }
+    }
+
+    try{
+      await teams.createMembership({teamId:TEAM_ID,roles:['member'],userId:user.$id});
+    }catch(e){
+      if(Number(e?.code)!==409)throw e;
+    }
+
+    const profile={
+      user_id:user.$id,
+      name:q(order.full_name),
+      email,
+      whatsapp:q(order.whatsapp),
+      status:'active',
+      role:'member',
+      access_until:oneYearFrom(order.paid_at||order.$updatedAt||new Date().toISOString())
+    };
+
+    try{
+      await tables.createRow({
+        databaseId:DB,
+        tableId:PROFILES,
+        rowId:user.$id,
+        data:profile,
+        permissions:[Permission.read(Role.user(user.$id))]
+      });
+    }catch(e){
+      if(Number(e?.code)===409){
+        await tables.updateRow({databaseId:DB,tableId:PROFILES,rowId:user.$id,data:profile});
+      }else throw e;
+    }
+
+    if(order.user_id!==user.$id||order.access_issued!==true){
+      order=rowData(await updateOrder(order.$id,{user_id:user.$id,access_issued:true}));
+    }
+
+    return {
+      email,
+      login_password:password,
+      user_id:user.$id,
+      access_ready:true,
+      access_until:profile.access_until
+    };
+  }
+
   async function checkPayment(body){
     const token=q(body.public_token);
     if(!token)throw Object.assign(new Error('public_token wajib diisi'),{status:400});
@@ -485,7 +567,8 @@ export default async ({req,res,error})=>{
 
     if(order.status==='success'){
       await countCouponUsage(order);
-      return {success:true,status:'success',email:order.email,access_ready:Boolean(order.access_issued)};
+      const login=await provisionMemberLogin(order);
+      return {success:true,status:'success',...login};
     }
     if(['expired','failed'].includes(order.status)){
       await releaseCouponClaim(order);
@@ -525,7 +608,11 @@ export default async ({req,res,error})=>{
     const patch={status};
     if(status==='success')patch.paid_at=new Date().toISOString();
     const updated=rowData(await updateOrder(order.$id,patch));
-    if(status==='success')await countCouponUsage(updated);
+    if(status==='success'){
+      await countCouponUsage(updated);
+      const login=await provisionMemberLogin(updated);
+      return {success:true,status:'success',...login};
+    }
     if(status==='expired'||status==='failed')await releaseCouponClaim(updated);
     return {success:true,status,email:updated.email,access_ready:Boolean(updated.access_issued)};
   }
