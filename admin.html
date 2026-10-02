@@ -43,9 +43,8 @@ h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-fami
         <button class="btn pink" id="loginBtn" type="submit" style="width:100%;margin-top:10px">MASUK ADMIN</button>
         <div class="msg" id="loginMsg"></div>
       </form>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+      <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px">
         <button class="btn dark" id="forgotPasswordBtn" type="button">BUAT / LUPA PASSWORD</button>
-        <button class="btn dark" id="magicLoginBtn" type="button">MASUK VIA EMAIL</button>
       </div>
     </div>
 
@@ -380,21 +379,6 @@ document.getElementById('forgotPasswordBtn').onclick=async()=>{
     msg(loginMsg,'Link buat/reset password sudah dikirim. Cek Inbox/Spam lalu buka link tersebut.','good');
   }catch(err){
     msg(loginMsg,err.message||'Gagal mengirim link reset password.','bad');
-  }
-};
-
-document.getElementById('magicLoginBtn').onclick=async()=>{
-  const email=loginEmail.value.trim().toLowerCase();
-  if(!email){msg(loginMsg,'Isi email admin dulu.','bad');loginEmail.focus();return}
-  try{
-    await account.createMagicURLToken({
-      userId:ID.unique(),
-      email,
-      url:'https://badaiprompt.vercel.app/admin?magic=1'
-    });
-    msg(loginMsg,'Link login cadangan sudah dikirim ke email.','good');
-  }catch(err){
-    msg(loginMsg,err.message||'Gagal mengirim link login.','bad');
   }
 };
 
