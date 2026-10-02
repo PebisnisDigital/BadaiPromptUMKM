@@ -2014,12 +2014,13 @@ body,
   display:flex;align-items:center;gap:9px;padding-right:9px;
 }
 .bpu-proof-row.to-left .bpu-proof-track{
-  animation:bpuProofLeft var(--proof-speed) linear infinite;
+  animation:bpuProofLeft var(--proof-speed) linear infinite !important;
+  animation-play-state:running !important;
 }
 .bpu-proof-row.to-right .bpu-proof-track{
-  animation:bpuProofRight var(--proof-speed) linear infinite;
+  animation:bpuProofRight var(--proof-speed) linear infinite !important;
+  animation-play-state:running !important;
 }
-.bpu-proof-row:hover .bpu-proof-track{animation-play-state:paused}
 @keyframes bpuProofLeft{
   from{transform:translate3d(0,0,0)}
   to{transform:translate3d(-50%,0,0)}
@@ -2081,14 +2082,11 @@ body,
   .bpu-proof-row:nth-child(2) .bpu-proof-card{width:140px;padding:5px;border-radius:15px}
   .bpu-proof-card img,
   .bpu-proof-row:nth-child(2) .bpu-proof-card img{height:190px;border-radius:11px}
-  .bpu-proof-row.to-left .bpu-proof-track{animation-duration:27s}
-  .bpu-proof-row.to-right .bpu-proof-track{animation-duration:30s}
-  .bpu-proof-row:nth-child(3) .bpu-proof-track{animation-duration:33s}
+  .bpu-proof-row:nth-child(1) .bpu-proof-track{animation-duration:16s!important}
+  .bpu-proof-row:nth-child(2) .bpu-proof-track{animation-duration:18s!important}
+  .bpu-proof-row:nth-child(3) .bpu-proof-track{animation-duration:20s!important}
   .bpu-proof-close{margin-top:23px;gap:7px;flex-wrap:wrap;padding:12px 8px}
   .bpu-proof-close p,.bpu-proof-close b{font-size:10.5px}
-}
-@media(prefers-reduced-motion:reduce){
-  .bpu-proof-track{animation-play-state:paused!important}
 }
 </style>
 </head>
@@ -4133,7 +4131,7 @@ body,
 
   <div class="bpu-proof-wall reveal2">
     
-  <div class="bpu-proof-row to-right" style="--proof-speed:28s">
+  <div class="bpu-proof-row to-right" style="--proof-speed:20s">
     <div class="bpu-proof-track">
       <div class="bpu-proof-group">
         <figure class="bpu-proof-card"><img src="https://i.ibb.co.com/5W93zMtN/01-Heni.webp" alt="Testimoni WhatsApp member BADAI - Heni" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/wrLQMRx6/02-Arin.webp" alt="Testimoni WhatsApp member BADAI - Arin" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/Cphh48tg/03-Testimoni-03.webp" alt="Testimoni WhatsApp member BADAI - Testimoni 03" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/m5DFCCMh/04-Member-Badai-04.webp" alt="Testimoni WhatsApp member BADAI - Member BADAI 04" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/Jj6gp2QJ/05-Testimoni-Pink.webp" alt="Testimoni WhatsApp member BADAI - Testimoni 05" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/xtwsR3yv/06-Testimoni-BW.webp" alt="Testimoni WhatsApp member BADAI - Testimoni 06" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/twfDBDJb/07-Testimoni-07.webp" alt="Testimoni WhatsApp member BADAI - Testimoni 07" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/MDrrztcv/08-Testimoni-08.webp" alt="Testimoni WhatsApp member BADAI - Testimoni 08" loading="lazy" decoding="async"></figure>
@@ -4144,7 +4142,7 @@ body,
     </div>
   </div>
     
-  <div class="bpu-proof-row to-left" style="--proof-speed:31s">
+  <div class="bpu-proof-row to-left" style="--proof-speed:22s">
     <div class="bpu-proof-track">
       <div class="bpu-proof-group">
         <figure class="bpu-proof-card"><img src="https://i.ibb.co.com/G3rmLhDn/09-Aliyyah.webp" alt="Testimoni WhatsApp member BADAI - Aliyyah" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/1G9JxB8q/10-Eko.webp" alt="Testimoni WhatsApp member BADAI - Eko" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/v6YHz551/11-Dian.webp" alt="Testimoni WhatsApp member BADAI - Dian" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/DDKxhCBr/12-Testimoni-12.webp" alt="Testimoni WhatsApp member BADAI - Testimoni 12" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/kgkH0j4M/13-Member-BADAI-13.webp" alt="Testimoni WhatsApp member BADAI - Member BADAI 13" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/QjJJDfvr/14-Maria.webp" alt="Testimoni WhatsApp member BADAI - Maria" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/wNpCrt81/15-Rosma.webp" alt="Testimoni WhatsApp member BADAI - Rosma" loading="lazy" decoding="async"></figure>
@@ -4155,7 +4153,7 @@ body,
     </div>
   </div>
     
-  <div class="bpu-proof-row to-right" style="--proof-speed:34s">
+  <div class="bpu-proof-row to-right" style="--proof-speed:24s">
     <div class="bpu-proof-track">
       <div class="bpu-proof-group">
         <figure class="bpu-proof-card"><img src="https://i.ibb.co.com/KzjLmrbb/16-Ay.webp" alt="Testimoni WhatsApp member BADAI - Ay" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/hRR0TRV2/17-Testimoni-17.webp" alt="Testimoni WhatsApp member BADAI - Testimoni 17" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/HpKbx9H5/18-Testimoni-18.webp" alt="Testimoni WhatsApp member BADAI - Testimoni 18" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/M5tcp0tF/19-Mukromah.webp" alt="Testimoni WhatsApp member BADAI - Mukromah" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/bgv70Rzp/20-Nurul.webp" alt="Testimoni WhatsApp member BADAI - Nurul" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/twX9tV0k/21-Salim.webp" alt="Testimoni WhatsApp member BADAI - Salim" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/vv3t0XxB/22-Testimoni-22.webp" alt="Testimoni WhatsApp member BADAI - Testimoni 22" loading="lazy" decoding="async"></figure>
