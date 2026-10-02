@@ -30,6 +30,11 @@ main{padding:16px}.hero{background:linear-gradient(145deg,#121212,#0b0b0b);borde
 :root{--font-sf:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",sans-serif;--font-roboto:"Roboto","Segoe UI",Arial,sans-serif}
 body,input,textarea,select{font-family:var(--font-roboto)}
 h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-family:var(--font-sf)}
+.member-password-wrap{position:relative}
+.member-password-wrap input{padding-right:48px}
+.member-password-toggle{position:absolute;right:7px;top:50%;transform:translateY(-50%);width:34px;height:34px;border:1px solid #333;border-radius:9px;background:#151515;color:#fff;display:grid;place-items:center;cursor:pointer}
+.member-help{margin-top:10px;text-align:center;color:#777;font-size:9px;line-height:1.5}
+.member-help b{color:#fff}
 </style>
 </head>
 <body>
@@ -38,11 +43,19 @@ h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-fami
     <div class="logo">BADAI <b>PROMPT UMKM</b></div>
     <div class="eyebrow" style="margin-top:5px">MEMBER AREA</div>
     <h1>Masuk ke mesin prompt.</h1>
-    <p>Akun member aktif setelah pembayaran terverifikasi. Masukkan email checkout, lalu klik link login yang kami kirim ke email.</p>
+    <p>Gunakan email dan password yang tampil setelah pembayaran berhasil.</p>
     <form id="loginForm">
       <div class="field"><label>Email akses</label><input id="loginEmail" type="email" autocomplete="email" required placeholder="email@contoh.com"></div>
-      <button class="btn pink" id="loginBtn" type="submit">KIRIM LINK LOGIN</button>
+      <div class="field">
+        <label>Password</label>
+        <div class="member-password-wrap">
+          <input id="loginPassword" type="password" autocomplete="current-password" required placeholder="Masukkan password">
+          <button id="loginPasswordToggle" class="member-password-toggle" type="button" aria-label="Lihat password">👁</button>
+        </div>
+      </div>
+      <button class="btn pink" id="loginBtn" type="submit">MASUK MEMBER AREA</button>
       <div class="msg" id="loginMsg"></div>
+      <div class="member-help">Lupa data login? Hubungi Admin <b>081237523636</b></div>
     </form>
   </div>
 </div>
@@ -326,40 +339,32 @@ const loginParams=new URLSearchParams(location.search);
 const emailFromCheckout=loginParams.get('email')||'';
 if(emailFromCheckout) loginEmail.value=emailFromCheckout;
 
-async function completeMagicLogin(){
-  const userId=loginParams.get('userId');
-  const secret=loginParams.get('secret');
-  if(!userId||!secret) return false;
-  setMsg('Membuka akses member…');
-  try{
-    await account.createSession({userId,secret});
-    history.replaceState({},'',location.pathname);
-    await finishLogin();
-    return true;
-  }catch(err){
-    setMsg('Link login sudah tidak berlaku. Kirim link baru dari email akses.','bad');
-    return false;
-  }
-}
+const loginPasswordToggle=document.getElementById('loginPasswordToggle');
+loginPasswordToggle.onclick=()=>{
+  const show=loginPassword.type==='password';
+  loginPassword.type=show?'text':'password';
+  loginPasswordToggle.textContent=show?'🙈':'👁';
+  loginPasswordToggle.setAttribute('aria-label',show?'Sembunyikan password':'Lihat password');
+  loginPassword.focus({preventScroll:true});
+};
 
 document.getElementById('loginForm').addEventListener('submit',async e=>{
   e.preventDefault();
   const btn=document.getElementById('loginBtn');
-  btn.disabled=true;btn.textContent='MENGIRIM LINK…';setMsg('Mengirim link login ke email…');
+  btn.disabled=true;btn.textContent='MEMERIKSA…';setMsg('Membuka member area…');
   try{
-    await account.createMagicURLToken({
-      userId:ID.unique(),
+    await account.createEmailPasswordSession({
       email:loginEmail.value.trim().toLowerCase(),
-      url:'https://badaiprompt.vercel.app/akses'
+      password:loginPassword.value
     });
-    setMsg('Link login sudah dikirim. Cek Inbox atau Spam, lalu klik link tersebut.','good');
+    history.replaceState({},'',location.pathname);
+    await finishLogin();
   }catch(err){
-    setMsg(err.message||'Link login belum bisa dikirim.','bad');
+    setMsg('Email atau password belum cocok. Cek lagi data login dari halaman pembayaran.','bad');
   }finally{
-    btn.disabled=false;btn.textContent='KIRIM LINK LOGIN';
+    btn.disabled=false;btn.textContent='MASUK MEMBER AREA';
   }
-});
-
+};
 
 function emergencyScore(p,mode){
   let score=0;
@@ -987,7 +992,7 @@ accountLogoutBtn.onclick=async()=>{
 
 window.showFavorites=()=>{selectedNiche='';selectedGoal='';search.value='';filtered=all.filter(x=>favorites.has(x.$id));resultCount.textContent=filtered.length+' favorit';shown=pageSize;renderCards();cards.closest('.sec')?.scrollIntoView({behavior:'smooth'})};
 
-completeMagicLogin().then(done=>{if(!done)boot()});
+boot();
 </script>
 </body>
 </html>
