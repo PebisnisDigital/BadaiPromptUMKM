@@ -1936,6 +1936,161 @@ body,
   .bpu-data-sources{font-size:7.5px}
 }
 </style>
+
+<style id="bpu-social-proof-premium-style">
+.bpu-social-proof-premium{
+  position:relative;
+  overflow:hidden;
+  padding:76px 0 72px;
+  background:
+    radial-gradient(circle at 50% 8%,rgba(255,55,150,.15),transparent 30%),
+    linear-gradient(180deg,#080809 0%,#0d090c 55%,#080809 100%);
+}
+.bpu-social-proof-premium:before,
+.bpu-social-proof-premium:after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  border-radius:50%;
+  filter:blur(90px);
+  pointer-events:none;
+}
+.bpu-social-proof-premium:before{
+  width:280px;height:280px;left:-120px;top:18%;
+  background:rgba(255,49,146,.10);
+}
+.bpu-social-proof-premium:after{
+  width:340px;height:340px;right:-160px;bottom:10%;
+  background:rgba(255,49,146,.08);
+}
+.bpu-proof-aura{
+  position:absolute;left:50%;top:112px;z-index:0;
+  width:min(720px,92vw);height:1px;transform:translateX(-50%);
+  background:linear-gradient(90deg,transparent,#ff4fa5,transparent);
+  box-shadow:0 0 34px 8px rgba(255,79,165,.18);
+}
+.bpu-proof-head{position:relative;z-index:2;text-align:center;max-width:780px}
+.bpu-proof-eyebrow{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  color:#ff72b8;font:900 10px/1 var(--font-sf);letter-spacing:.18em;
+}
+.bpu-proof-eyebrow span{
+  width:34px;height:1px;background:linear-gradient(90deg,transparent,#ff4fa5);
+}
+.bpu-proof-eyebrow span:last-child{background:linear-gradient(90deg,#ff4fa5,transparent)}
+.bpu-proof-head h2{
+  margin:16px 0 0;color:#fff;
+  font:950 clamp(38px,7vw,70px)/.9 var(--font-sf);
+  letter-spacing:-.065em;
+}
+.bpu-proof-head h2 em{
+  display:inline-block;color:#ff52a8;font-style:normal;
+  text-shadow:0 0 32px rgba(255,67,157,.18);
+}
+.bpu-proof-head p{
+  margin:16px 0 0;color:#b7b7bd;
+  font:500 13.5px/1.5 var(--font-roboto);
+}
+.bpu-proof-trustline{
+  margin-top:11px;display:flex;justify-content:center;align-items:center;gap:9px;
+  color:#68686e;font:900 8.5px/1 var(--font-sf);letter-spacing:.14em;
+}
+.bpu-proof-trustline i{color:#ff4fa5;font-style:normal}
+.bpu-proof-wall{
+  position:relative;z-index:2;
+  margin-top:35px;
+  display:grid;gap:13px;
+}
+.bpu-proof-row{
+  width:100%;
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);
+}
+.bpu-proof-track{
+  display:flex;width:max-content;will-change:transform;
+}
+.bpu-proof-group{
+  display:flex;align-items:center;gap:13px;padding-right:13px;
+}
+.bpu-proof-row.to-left .bpu-proof-track{
+  animation:bpuProofLeft var(--proof-speed) linear infinite;
+}
+.bpu-proof-row.to-right .bpu-proof-track{
+  animation:bpuProofRight var(--proof-speed) linear infinite;
+}
+.bpu-proof-row:hover .bpu-proof-track{animation-play-state:paused}
+@keyframes bpuProofLeft{
+  from{transform:translate3d(0,0,0)}
+  to{transform:translate3d(-50%,0,0)}
+}
+@keyframes bpuProofRight{
+  from{transform:translate3d(-50%,0,0)}
+  to{transform:translate3d(0,0,0)}
+}
+.bpu-proof-card{
+  position:relative;flex:0 0 auto;
+  width:220px;margin:0;padding:7px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:20px;
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.012));
+  box-shadow:
+    0 14px 36px rgba(0,0,0,.30),
+    inset 0 1px rgba(255,255,255,.05);
+  transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease;
+}
+.bpu-proof-card:before{
+  content:"";position:absolute;inset:-1px;border-radius:inherit;z-index:-1;
+  background:linear-gradient(145deg,rgba(255,82,168,.3),transparent 36%,transparent 68%,rgba(255,82,168,.12));
+  opacity:.35;
+}
+.bpu-proof-card:hover{
+  z-index:5;
+  transform:translateY(-5px) scale(1.025);
+  border-color:rgba(255,83,169,.48);
+  box-shadow:0 22px 48px rgba(0,0,0,.38),0 0 28px rgba(255,67,157,.12);
+}
+.bpu-proof-card img{
+  display:block;width:100%;height:286px;
+  object-fit:cover;object-position:top;
+  border-radius:14px;
+  background:#111;
+}
+.bpu-proof-row:nth-child(2) .bpu-proof-card{width:232px}
+.bpu-proof-row:nth-child(2) .bpu-proof-card img{height:298px}
+.bpu-proof-close{
+  position:relative;z-index:2;
+  max-width:620px;margin:30px auto 0;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:14px 18px;
+  border-top:1px solid rgba(255,255,255,.07);
+  border-bottom:1px solid rgba(255,255,255,.07);
+  color:#88888f;text-align:center;
+}
+.bpu-proof-close>span{color:#ff4fa5;font-size:12px}
+.bpu-proof-close p{margin:0;font:600 11.5px/1.3 var(--font-roboto)}
+.bpu-proof-close b{color:#fff;font:900 12px/1.3 var(--font-sf)}
+@media(max-width:720px){
+  .bpu-social-proof-premium{padding:56px 0 55px}
+  .bpu-proof-head h2{font-size:39px}
+  .bpu-proof-head p{font-size:12.5px}
+  .bpu-proof-wall{margin-top:27px;gap:9px}
+  .bpu-proof-group{gap:9px;padding-right:9px}
+  .bpu-proof-card,
+  .bpu-proof-row:nth-child(2) .bpu-proof-card{width:158px;padding:5px;border-radius:15px}
+  .bpu-proof-card img,
+  .bpu-proof-row:nth-child(2) .bpu-proof-card img{height:214px;border-radius:11px}
+  .bpu-proof-row.to-left .bpu-proof-track{animation-duration:27s}
+  .bpu-proof-row.to-right .bpu-proof-track{animation-duration:30s}
+  .bpu-proof-row:nth-child(3) .bpu-proof-track{animation-duration:33s}
+  .bpu-proof-close{margin-top:23px;gap:7px;flex-wrap:wrap;padding:12px 8px}
+  .bpu-proof-close p,.bpu-proof-close b{font-size:10.5px}
+}
+@media(prefers-reduced-motion:reduce){
+  .bpu-proof-track{animation-play-state:paused!important}
+}
+</style>
 </head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
@@ -3962,6 +4117,65 @@ body,
 
 
 
+
+
+<section class="bpu-section bpu-social-proof-premium" id="social-proof" aria-label="Testimoni WhatsApp member BADAI">
+  <div class="bpu-proof-aura" aria-hidden="true"></div>
+
+  <div class="bpu-container bpu-proof-head reveal2">
+    <div class="bpu-proof-eyebrow"><span></span> SOCIAL PROOF <span></span></div>
+    <h2>BUKAN KATANYA.<br><em>INI BUKTINYA.</em></h2>
+    <p>Respon asli dari member BADAI.</p>
+    <div class="bpu-proof-trustline">
+      <span>REAL CHAT</span><i>•</i><span>REAL MEMBER</span><i>•</i><span>BADAI</span>
+    </div>
+  </div>
+
+  <div class="bpu-proof-wall reveal2">
+    
+  <div class="bpu-proof-row to-left" style="--proof-speed:34s">
+    <div class="bpu-proof-track">
+      <div class="bpu-proof-group">
+        <figure class="bpu-proof-card"><img src="https://i.ibb.co.com/5W93zMtN/01-Heni.webp" alt="Testimoni WhatsApp member BADAI - Heni" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/wrLQMRx6/02-Arin.webp" alt="Testimoni WhatsApp member BADAI - Arin" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/Cphh48tg/03-Testimoni-03.webp" alt="Testimoni WhatsApp member BADAI - Testimoni 03" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/m5DFCCMh/04-Member-Badai-04.webp" alt="Testimoni WhatsApp member BADAI - Member BADAI 04" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/Jj6gp2QJ/05-Testimoni-Pink.webp" alt="Testimoni WhatsApp member BADAI - Testimoni 05" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/xtwsR3yv/06-Testimoni-BW.webp" alt="Testimoni WhatsApp member BADAI - Testimoni 06" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/twfDBDJb/07-Testimoni-07.webp" alt="Testimoni WhatsApp member BADAI - Testimoni 07" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/MDrrztcv/08-Testimoni-08.webp" alt="Testimoni WhatsApp member BADAI - Testimoni 08" loading="lazy" decoding="async"></figure>
+      </div>
+      <div class="bpu-proof-group" aria-hidden="true">
+        <figure class="bpu-proof-card"><img src="https://i.ibb.co.com/5W93zMtN/01-Heni.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/wrLQMRx6/02-Arin.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/Cphh48tg/03-Testimoni-03.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/m5DFCCMh/04-Member-Badai-04.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/Jj6gp2QJ/05-Testimoni-Pink.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/xtwsR3yv/06-Testimoni-BW.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/twfDBDJb/07-Testimoni-07.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/MDrrztcv/08-Testimoni-08.webp" alt="" loading="lazy" decoding="async"></figure>
+      </div>
+    </div>
+  </div>
+    
+  <div class="bpu-proof-row to-right" style="--proof-speed:38s">
+    <div class="bpu-proof-track">
+      <div class="bpu-proof-group">
+        <figure class="bpu-proof-card"><img src="https://i.ibb.co.com/G3rmLhDn/09-Aliyyah.webp" alt="Testimoni WhatsApp member BADAI - Aliyyah" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/1G9JxB8q/10-Eko.webp" alt="Testimoni WhatsApp member BADAI - Eko" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/v6YHz551/11-Dian.webp" alt="Testimoni WhatsApp member BADAI - Dian" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/DDKxhCBr/12-Testimoni-12.webp" alt="Testimoni WhatsApp member BADAI - Testimoni 12" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/kgkH0j4M/13-Member-BADAI-13.webp" alt="Testimoni WhatsApp member BADAI - Member BADAI 13" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/QjJJDfvr/14-Maria.webp" alt="Testimoni WhatsApp member BADAI - Maria" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/wNpCrt81/15-Rosma.webp" alt="Testimoni WhatsApp member BADAI - Rosma" loading="lazy" decoding="async"></figure>
+      </div>
+      <div class="bpu-proof-group" aria-hidden="true">
+        <figure class="bpu-proof-card"><img src="https://i.ibb.co.com/G3rmLhDn/09-Aliyyah.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/1G9JxB8q/10-Eko.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/v6YHz551/11-Dian.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/DDKxhCBr/12-Testimoni-12.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/kgkH0j4M/13-Member-BADAI-13.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/QjJJDfvr/14-Maria.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/wNpCrt81/15-Rosma.webp" alt="" loading="lazy" decoding="async"></figure>
+      </div>
+    </div>
+  </div>
+    
+  <div class="bpu-proof-row to-left" style="--proof-speed:41s">
+    <div class="bpu-proof-track">
+      <div class="bpu-proof-group">
+        <figure class="bpu-proof-card"><img src="https://i.ibb.co.com/KzjLmrbb/16-Ay.webp" alt="Testimoni WhatsApp member BADAI - Ay" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/hRR0TRV2/17-Testimoni-17.webp" alt="Testimoni WhatsApp member BADAI - Testimoni 17" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/HpKbx9H5/18-Testimoni-18.webp" alt="Testimoni WhatsApp member BADAI - Testimoni 18" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/M5tcp0tF/19-Mukromah.webp" alt="Testimoni WhatsApp member BADAI - Mukromah" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/bgv70Rzp/20-Nurul.webp" alt="Testimoni WhatsApp member BADAI - Nurul" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/twX9tV0k/21-Salim.webp" alt="Testimoni WhatsApp member BADAI - Salim" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/vv3t0XxB/22-Testimoni-22.webp" alt="Testimoni WhatsApp member BADAI - Testimoni 22" loading="lazy" decoding="async"></figure>
+      </div>
+      <div class="bpu-proof-group" aria-hidden="true">
+        <figure class="bpu-proof-card"><img src="https://i.ibb.co.com/KzjLmrbb/16-Ay.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/hRR0TRV2/17-Testimoni-17.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/HpKbx9H5/18-Testimoni-18.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/M5tcp0tF/19-Mukromah.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/bgv70Rzp/20-Nurul.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/twX9tV0k/21-Salim.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bpu-proof-card"><img src="https://i.ibb.co.com/vv3t0XxB/22-Testimoni-22.webp" alt="" loading="lazy" decoding="async"></figure>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="bpu-container">
+    <div class="bpu-proof-close reveal2">
+      <span>✦</span>
+      <p>Nggak perlu percaya kata kami.</p>
+      <b>Lihat sendiri kata mereka.</b>
+      <span>✦</span>
+    </div>
+  </div>
+</section>
 
 <section id="harga" class="bpu-section bpu-pricing bpu-value-pricing">
   <div class="bpu-container">
