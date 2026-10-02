@@ -806,7 +806,7 @@ const {Client,Account,Functions,ID}=Appwrite;
 const client=new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
 const account=new Account(client), functions=new Functions(client);
 const FUNC='activate-member';
-let me=null,promptRows=[],memberRows=[],couponRows=[],allNiches=new Set(),allGoals=new Set(),promptPage=0,promptPageSize=50,promptTotal=0;
+let me=null,promptRows=[],memberRows=[],orderRows=[],salesRows=[],couponRows=[],allNiches=new Set(),allGoals=new Set(),promptPage=0,promptPageSize=50,promptTotal=0;
 
 const gate=document.getElementById('gate'),loginMsg=document.getElementById('loginMsg');
 function msg(el,text,type=''){el.textContent=text;el.className='msg '+type}
@@ -993,19 +993,70 @@ promptForm.onsubmit=async e=>{e.preventDefault();msg(promptMsg,'Menyimpan…');t
 deletePromptBtn.onclick=async()=>{if(!pId.value||!confirm('Hapus prompt ini permanen?'))return;await api('/prompts/delete',{id:pId.value});closePrompt();await loadPrompts()};
 
 async function loadOrders(){
-  const d=await api('/orders/list',{status:orderStatus.value,limit:100});
-  orderList.innerHTML=d.rows.length?d.rows.map(o=>'<div class="row"><div class="order-grid"><div><h3>'+esc(o.full_name)+'</h3><div class="muted">'+esc(o.email)+'<br>'+esc(o.whatsapp||'-')+'<br>'+dt(o.$createdAt)+'</div></div><div><div class="money">'+rupiah(o.total_amount||o.amount)+'</div><div class="status '+esc(o.status)+'">'+esc(o.status)+'</div></div></div><div class="tags"><span class="tag">'+esc(o.transaction_id||'-')+'</span><span class="tag">'+esc(o.payment_method||'qris')+'</span>'+(o.access_issued?'<span class="tag live">AKSES AKTIF</span>':'')+'</div>'+(o.notes?'<div class="muted">Catatan: '+esc(o.notes)+'</div>':'')+'</div>').join(''):'<div class="empty">Belum ada order.</div>';
+  orderList.innerHTML='<div class="empty">Memuat data penjualan…</div>';
+  try{
+    const [od,md]=await Promise.all([
+      api('/orders/list',{limit:100}),
+      api('/members/list',{limit:100})
+    ]);
+    orderRows=od.rows||[];
+    memberRows=md.rows||[];
+
+    const byUser=new Map(memberRows.filter(x=>x.user_id).map(x=>[x.user_id,x]));
+    const byEmail=new Map(memberRows.filter(x=>x.email).map(x=>[String(x.email).toLowerCase(),x]));
+
+    salesRows=orderRows.map(order=>{
+      const member=(order.user_id&&byUser.get(order.user_id))||byEmail.get(String(order.email||'').toLowerCase())||null;
+      return {order,member};
+    });
+
+    const revenue=orderRows.filter(x=>x.status==='success').reduce((sum,x)=>sum+Number(x.total_amount||x.amount||0),0);
+    salesRevenue.textContent=rupiah(revenue);
+    salesActive.textContent=memberRows.filter(x=>x.status==='active').length.toLocaleString('id-ID');
+    salesPending.textContent=orderRows.filter(x=>x.status==='pending').length.toLocaleString('id-ID');
+    renderSales();
+  }catch(err){
+    orderList.innerHTML='<div class="empty">'+esc(err.message||'Gagal memuat data penjualan.')+'</div>';
+  }
 }
 
-async function loadMembers(){
-  const d=await api('/members/list',{status:memberStatus.value,limit:100});
-  memberRows=d.rows||[];
-  memberList.innerHTML=memberRows.length?memberRows.map(m=>{
-    const profileReady=Boolean(m.business_name&&m.product_service&&m.target_buyer&&m.advantage);
-    return '<div class="row"><div class="row-head"><div><h3>'+esc(m.name||m.email)+'</h3><div class="muted">'+esc(m.email||'')+' • '+esc(m.whatsapp||'-')+'</div></div><span class="tag '+(m.status==='active'?'live':m.status==='blocked'?'off':'pend')+'">'+esc(m.status||'pending')+'</span></div><div class="tags">'+(profileReady?'<span class="tag live">PROFIL BISNIS SIAP</span>':'<span class="tag pend">PROFIL BISNIS BELUM LENGKAP</span>')+(m.access_until?'<span class="tag">Akses s/d '+esc(new Date(m.access_until).toLocaleDateString('id-ID'))+'</span>':'<span class="tag">Akses tanpa batas</span>')+'</div><div class="row-actions"><button class="btn dark sm" onclick="openMemberEdit(\''+m.user_id+'\')">EDIT</button>'+(m.status==='active'?'<button class="btn danger sm" onclick="setMember(\''+m.user_id+'\',\'blocked\')">BLOKIR</button>':'<button class="btn good sm" onclick="setMember(\''+m.user_id+'\',\'active\')">AKTIFKAN</button>')+'</div></div>';
-  }).join(''):'<div class="empty">Belum ada member.</div>';
-}
-window.setMember=async(id,status)=>{if(status==='blocked'&&!confirm('Blokir akses member ini?'))return;await api('/members/status',{user_id:id,status});await loadMembers();await loadDashboard()};
+window.renderSales=()=>{
+  const query=String(salesSearch?.value||'').trim().toLowerCase();
+  const filter=String(orderStatus?.value||'');
+
+  let rows=salesRows.filter(({order,member})=>{
+    const hay=[order.full_name,order.email,order.whatsapp,order.transaction_id,member?.name,member?.email,member?.whatsapp]
+      .filter(Boolean).join(' ').toLowerCase();
+    if(query&&!hay.includes(query))return false;
+
+    if(filter==='active')return member?.status==='active';
+    if(filter==='pending_access')return !member||member.status==='pending';
+    if(filter==='blocked')return member?.status==='blocked';
+    if(['success','pending','failed','expired'].includes(filter))return order.status===filter;
+    return true;
+  });
+
+  orderList.innerHTML=rows.length?rows.map(({order:o,member:m},idx)=>{
+    const memberStatus=m?.status||'pending';
+    const accessClass=memberStatus==='active'?'live':memberStatus==='blocked'?'off':'pend';
+    const accessLabel=memberStatus==='active'?'AKTIF':memberStatus==='blocked'?'BLOKIR':'PENDING';
+    const paymentClass=o.status==='success'?'live':o.status==='pending'?'pend':'off';
+    const paymentLabel=o.status==='success'?'LUNAS':String(o.status||'pending').toUpperCase();
+    const phone=m?.whatsapp||o.whatsapp||'-';
+    const email=m?.email||o.email||'-';
+    const name=m?.name||o.full_name||email;
+    const accessUntil=m?.access_until?' • s/d '+new Date(m.access_until).toLocaleDateString('id-ID'):'';
+    return '<div class="row">'+
+      '<div class="sales-row">'+
+        '<div class="sales-main"><h3>'+esc(name)+'</h3><div class="sales-meta">'+esc(email)+'<br>'+esc(phone)+'<br>'+dt(o.$createdAt)+'</div></div>'+
+        '<div class="sales-side"><div class="money">'+rupiah(o.total_amount||o.amount)+'</div><span class="tag '+paymentClass+'">'+esc(paymentLabel)+'</span></div>'+
+      '</div>'+
+      '<div class="tags"><span class="tag '+accessClass+'">AKSES '+accessLabel+esc(accessUntil)+'</span><span class="tag">'+esc(o.payment_method||'qris')+'</span><span class="tag">'+esc(o.transaction_id||'-')+'</span></div>'+
+      (o.notes?'<div class="muted">Catatan: '+esc(o.notes)+'</div>':'')+
+      '<div class="sales-actions"><button class="btn dark sm" onclick="openMemberEdit(\''+o.$id+'\')">✎ EDIT</button><button class="btn danger sm" onclick="deleteSales(\''+o.$id+'\')">⌫ HAPUS</button></div>'+
+    '</div>';
+  }).join(''):'<div class="empty">Data tidak ditemukan.</div>';
+};
 
 function dateInputValue(iso){
   if(!iso)return '';
@@ -1017,47 +1068,64 @@ function dateInputValue(iso){
   }catch{return ''}
 }
 
-window.openMemberEdit=async id=>{
-  msg(memberEditMsg,'Memuat data…');
+window.openMemberEdit=async orderId=>{
+  const entry=salesRows.find(x=>x.order.$id===orderId);
+  if(!entry)return;
+  const o=entry.order||{};
+  let m=entry.member||{};
   memberEditModal.classList.add('show');
+  msg(memberEditMsg,'');
   try{
-    const d=await api('/members/get',{user_id:id});
-    const m=d.row||{};
-    eUserId.value=m.user_id||id;
-    eName.value=m.name||'';
-    eWhatsapp.value=m.whatsapp||'';
-    eEmail.value=m.email||'';
-    eStatus.value=m.status||'pending';
-    eAccessUntil.value=dateInputValue(m.access_until);
-    eBusinessName.value=m.business_name||'';
-    eCityArea.value=m.city_area||'';
-    eProductService.value=m.product_service||'';
-    ePriceText.value=m.price_text||'';
-    eBrandColor.value=m.brand_color||'';
-    eTargetBuyer.value=m.target_buyer||'';
-    eAdvantage.value=m.advantage||'';
-    eAssets.value=m.available_assets||'';
-    memberEditTitle.textContent=m.name||m.email||'Data Member';
-    msg(memberEditMsg,'');
-  }catch(err){
-    msg(memberEditMsg,err.message||'Gagal memuat member.','bad');
-  }
+    if(o.user_id){
+      const d=await api('/members/get',{user_id:o.user_id});
+      m=d.row||m||{};
+    }
+  }catch{}
+
+  eOrderId.value=o.$id||orderId;
+  eUserId.value=m.user_id||o.user_id||'';
+  eName.value=m.name||o.full_name||'';
+  eWhatsapp.value=m.whatsapp||o.whatsapp||'';
+  eEmail.value=m.email||o.email||'';
+  eAmount.value=Number(o.total_amount||o.amount||0);
+  ePaymentStatus.value=o.status||'pending';
+  ePaymentMethod.value=o.payment_method||'qris';
+  if(![...ePaymentMethod.options].some(x=>x.value===ePaymentMethod.value))ePaymentMethod.value='lainnya';
+  eStatus.value=m.status||(o.access_issued?'active':'pending');
+  eAccessUntil.value=dateInputValue(m.access_until);
+  eOrderNotes.value=o.notes||'';
+  eBusinessName.value=m.business_name||'';
+  eCityArea.value=m.city_area||'';
+  eProductService.value=m.product_service||'';
+  ePriceText.value=m.price_text||'';
+  eBrandColor.value=m.brand_color||'';
+  eTargetBuyer.value=m.target_buyer||'';
+  eAdvantage.value=m.advantage||'';
+  eAssets.value=m.available_assets||'';
+  memberEditTitle.textContent=m.name||o.full_name||o.email||'Data Order & Member';
 };
+
 window.closeMemberEdit=()=>memberEditModal.classList.remove('show');
 memberEditModal.onclick=e=>{if(e.target===memberEditModal)closeMemberEdit()};
 
 memberEditForm.onsubmit=async e=>{
   e.preventDefault();
   const b=memberEditSubmit;
-  b.disabled=true;b.textContent='MENYIMPAN…';msg(memberEditMsg,'Menyimpan perubahan…');
+  b.disabled=true;b.textContent='MENYIMPAN…';msg(memberEditMsg,'Menyimpan transaksi dan member…');
   try{
     const accessIso=eAccessUntil.value?new Date(eAccessUntil.value+'T23:59:59+07:00').toISOString():'';
-    await api('/members/save',{
+    await api('/sales/save',{
+      order_id:eOrderId.value,
       user_id:eUserId.value,
       name:eName.value.trim(),
+      email:eEmail.value.trim(),
       whatsapp:eWhatsapp.value.trim(),
-      status:eStatus.value,
+      amount:Number(eAmount.value)||0,
+      payment_status:ePaymentStatus.value,
+      payment_method:ePaymentMethod.value,
+      access_status:eStatus.value,
       access_until:accessIso,
+      notes:eOrderNotes.value.trim(),
       business_name:eBusinessName.value.trim(),
       city_area:eCityArea.value.trim(),
       product_service:eProductService.value.trim(),
@@ -1067,18 +1135,37 @@ memberEditForm.onsubmit=async e=>{
       brand_color:eBrandColor.value.trim(),
       available_assets:eAssets.value.trim()
     });
-    msg(memberEditMsg,'Perubahan member tersimpan ✓','good');
+    msg(memberEditMsg,'Order dan member berhasil diperbarui ✓','good');
     setTimeout(async()=>{
       closeMemberEdit();
-      await loadMembers();
+      await loadOrders();
       await loadDashboard();
-    },500);
+    },450);
   }catch(err){
     msg(memberEditMsg,err.message||'Gagal menyimpan perubahan.','bad');
   }finally{
     b.disabled=false;b.textContent='SIMPAN PERUBAHAN';
   }
 };
+
+window.deleteSales=async orderId=>{
+  const entry=salesRows.find(x=>x.order.$id===orderId);
+  if(!entry)return;
+  const name=entry.member?.name||entry.order.full_name||entry.order.email||'data ini';
+  const hasMember=Boolean(entry.member?.user_id||entry.order.user_id);
+  const warning=hasMember
+    ?'Hapus '+name+' beserta akun member dan semua order yang terhubung? Data ini tidak bisa dikembalikan.'
+    :'Hapus order '+name+' secara permanen?';
+  if(!confirm(warning))return;
+  try{
+    await api('/sales/delete',{order_id:orderId,user_id:entry.member?.user_id||entry.order.user_id||''});
+    await loadOrders();
+    await loadDashboard();
+  }catch(err){
+    alert(err.message||'Gagal menghapus data.');
+  }
+};
+deleteSalesBtn.onclick=()=>deleteSales(eOrderId.value);
 
 window.openManual=async()=>{
   manualForm.reset();
@@ -1112,7 +1199,7 @@ manualForm.onsubmit=async e=>{
     msg(manualMsg,(d.access_status==='active'?'Member aktif ✓':'Member tersimpan sebagai pending ✓')+' — '+(d.payment_status==='success'?'pembayaran lunas':'pembayaran pending'),'good');
     setTimeout(async()=>{
       closeManual();
-      await loadMembers();
+      await loadOrders();
       await loadDashboard();
     },700);
   }catch(err){
