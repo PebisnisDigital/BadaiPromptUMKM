@@ -1448,6 +1448,33 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   .bpu-compact-prices .value-mid>b{font-size:27px}
   .bpu-compact-prices .value-low>b{font-size:22px}
 }
+
+.bpu-pricing-mega-card .bpu-value-table-wrap .bpu-price-prompt{
+  margin:0;
+  padding:24px 18px 8px;
+  border-top:1px solid rgba(22,22,24,.09);
+}
+.bpu-pricing-mega-card .bpu-value-table-wrap .bpu-price-prompt small{
+  color:#c3256d;
+}
+.bpu-pricing-mega-card .bpu-value-table-wrap .bpu-price-prompt b{
+  color:#111114;
+}
+.bpu-pricing-mega-card .bpu-value-table-wrap .bpu-price-prompt p{
+  color:#68686e;
+}
+.bpu-pricing-mega-card .bpu-value-table-wrap .bpu-compact-prices{
+  margin:10px auto 0;
+  padding:0 18px 20px;
+}
+@media(max-width:720px){
+  .bpu-pricing-mega-card .bpu-value-table-wrap .bpu-price-prompt{
+    padding:20px 14px 7px;
+  }
+  .bpu-pricing-mega-card .bpu-value-table-wrap .bpu-compact-prices{
+    padding:0 12px 14px;
+  }
+}
 </style></head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
@@ -3602,8 +3629,6 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
           <em>Bisa dipakai berulang</em>
         </div>
       </div>
-    </div>
-
 
     <div class="bpu-price-prompt reveal2">
       <small>SETELAH LIHAT SEMUA VALUE-NYA...</small>
@@ -3623,6 +3648,7 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
       <button class="bpu-price-card-choice value-low" type="button" onclick="openCheckout(50000)">
         <b><span class="bpu-rp">Rp</span>50<span class="bpu-k">k</span></b>
       </button>
+    </div>
     </div>
 
       <div class="bpu-price-trust"><span>⚡ QRIS</span><span>✓ Akses 1 Tahun</span><span>🔒 Verifikasi Otomatis</span></div>
