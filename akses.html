@@ -457,7 +457,7 @@ h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-fami
 </div>
 
 <div class="nav">
-  <button class="active" onclick="window.scrollTo({top:0,behavior:'smooth'})"><b>⌂</b>Beranda</button>
+  <button class="active" onclick="showAllPrompts()"><b>⌂</b>Beranda</button>
   <button onclick="document.getElementById('search').focus()"><b>⌕</b>Prompt</button>
   <button onclick="showHistory()"><b>↻</b>Riwayat</button>
   <button onclick="showFavorites()"><b>★</b>Favorit</button>
@@ -559,11 +559,24 @@ const DB='badai_prompt_umkm', TABLE='prompts';
 const gate=document.getElementById('gate'), loading=document.getElementById('loading'), loginMsg=document.getElementById('loginMsg');
 const nicheGrid=document.getElementById('nicheGrid'), goalScroll=document.getElementById('goalScroll'), cards=document.getElementById('cards');
 const search=document.getElementById('search'), modal=document.getElementById('modal');
-let all=[], filtered=[], selectedNiche='', selectedGoal='', pageSize=24, shown=24, current=null, currentUser=null, favorites=new Set(), favoriteRows=new Map(), currentProfile=null, emergencyNiche='', emergencyMode='', dailyPrompt=null, historyRows=[], historyMap=new Map();
+const promptGallery=document.getElementById('promptGallery'), galleryCount=document.getElementById('galleryCount'), promptGallerySection=document.getElementById('promptGallerySection');
+let all=[], filtered=[], selectedNiche='', selectedGoal='', pageSize=24, shown=24, current=null, currentUser=null, favorites=new Set(), favoriteRows=new Map(), currentProfile=null, emergencyNiche='', emergencyMode='', dailyPrompt=null, historyRows=[], historyMap=new Map(), galleryMode='all';
 
 const icons={
  'Kuliner & Minuman':'🍜','Fashion & Hijab':'👗','Beauty & Perawatan':'💄','Jasa Lokal':'🛠️','Pendidikan & Kursus':'🎓',
  'Properti & Hunian':'🏠','Otomotif & Kendaraan':'🏍️','Kerajinan, Hampers & Souvenir':'🎁','Retail Harian & Toko':'🛒','Event, Wedding & Kreatif':'🎉'
+};
+const nicheImages={
+ 'Kuliner & Minuman':'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=700&q=75',
+ 'Fashion & Hijab':'https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=700&q=75',
+ 'Beauty & Perawatan':'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=700&q=75',
+ 'Jasa Lokal':'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=700&q=75',
+ 'Pendidikan & Kursus':'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=700&q=75',
+ 'Properti & Hunian':'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=700&q=75',
+ 'Otomotif & Kendaraan':'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=700&q=75',
+ 'Kerajinan, Hampers & Souvenir':'https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=700&q=75',
+ 'Retail Harian & Toko':'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=700&q=75',
+ 'Event, Wedding & Kreatif':'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=700&q=75'
 };
 const emergencyModes=[
   {id:'sepi',icon:'📉',title:'Sepi Order',desc:'Hari ini order seret dan butuh gerakan cepat.',goals:['Sepi Order','Promo Hari Ini'],types:['Strategi Penawaran','WhatsApp / DM','Copy / Caption']},
@@ -957,6 +970,7 @@ async function loadPrompts(){
     document.getElementById('goalStat').textContent=new Set(all.map(x=>x.goal)).size;
     renderPromptToday();
     await loadHistory();
+    renderPromptGallery();
     renderFilters(); applyFilters();
   }catch(err){
     all=[]; cards.innerHTML='<div class="empty"><b>Akses belum aktif.</b><br><br>Akun berhasil login, tetapi belum masuk daftar member aktif BADAI PROMPT UMKM.<br><br>Hubungi admin setelah pembayaran diverifikasi.</div>';
@@ -1185,8 +1199,77 @@ function applyFilters(){
   }
   renderCards();
 }
-search.oninput=()=>{shown=pageSize;applyFilters();if(search.value.trim())resultSection.scrollIntoView({behavior:'smooth',block:'start'})};
+search.oninput=()=>{
+  galleryMode='all';
+  shown=pageSize;
+  renderPromptGallery();
+  applyFilters();
+  if(search.value.trim())promptGallerySection.scrollIntoView({behavior:'smooth',block:'start'});
+};
 resetChoice.onclick=()=>{selectedNiche='';selectedGoal='';current=null;search.value='';shown=pageSize;renderFilters();applyFilters();nicheSection.scrollIntoView({behavior:'smooth',block:'start'})};
+
+function galleryImageFor(x){
+  return x.preview_url||nicheImages[x.niche]||'';
+}
+function galleryCardTitle(x){
+  return x.goal||x.title||'Prompt';
+}
+function renderPromptGallery(){
+  if(!promptGallery)return;
+  const q=String(search?.value||'').trim().toLowerCase();
+  let rows=all.filter(x=>{
+    if(galleryMode==='favorites'&&!favorites.has(x.$id))return false;
+    if(!q)return true;
+    return [x.niche,x.goal,x.output_type,x.title,x.tags].filter(Boolean).join(' ').toLowerCase().includes(q);
+  });
+
+  galleryCount.textContent=(galleryMode==='favorites'?'★ ':'')+rows.length+' prompt';
+
+  if(!rows.length){
+    promptGallery.innerHTML='<div class="gallery-empty">'+(galleryMode==='favorites'?'Belum ada prompt favorit. Tekan ☆ pada prompt yang ingin disimpan.':'Prompt tidak ditemukan. Coba kata kunci lain.')+'</div>';
+    return;
+  }
+
+  const nicheOrder=[...new Set(all.map(x=>x.niche))];
+  const groups=nicheOrder
+    .map(niche=>({niche,items:rows.filter(x=>x.niche===niche)}))
+    .filter(g=>g.items.length);
+
+  promptGallery.innerHTML=groups.map(g=>{
+    const icon=icons[g.niche]||'✦';
+    const cardsHtml=g.items.map(x=>{
+      const image=galleryImageFor(x);
+      return '<article class="prompt-gallery-card">'+
+        '<div class="prompt-gallery-photo">'+
+          (image?'<img src="'+esc(image)+'" alt="'+esc(g.niche)+'" loading="lazy" decoding="async">':'')+
+          '<span class="prompt-gallery-type">'+esc(x.output_type||'Prompt')+'</span>'+
+        '</div>'+
+        '<div class="prompt-gallery-body">'+
+          '<h4>'+esc(galleryCardTitle(x))+'</h4>'+
+          '<div class="prompt-gallery-goal">'+esc(x.title||x.goal||'')+'</div>'+
+          '<div class="prompt-gallery-actions">'+
+            '<button class="btn pink" data-gallery-use="'+esc(x.$id)+'">PAKAI</button>'+
+            '<button class="btn dark gallery-fav" data-gallery-fav="'+esc(x.$id)+'" aria-label="Favorit">'+(favorites.has(x.$id)?'★':'☆')+'</button>'+
+          '</div>'+
+        '</div>'+
+      '</article>';
+    }).join('');
+    return '<section class="niche-shelf">'+
+      '<div class="niche-shelf-head">'+
+        '<div class="niche-shelf-title"><span class="niche-shelf-icon">'+icon+'</span><div><h3>'+esc(g.niche)+'</h3><small>'+g.items.length+' prompt tersedia</small></div></div>'+
+        '<span class="niche-shelf-count">GESER →</span>'+
+      '</div>'+
+      '<div class="niche-gallery-row">'+cardsHtml+'</div>'+
+    '</section>';
+  }).join('');
+
+  promptGallery.querySelectorAll('[data-gallery-use]').forEach(b=>b.onclick=()=>openBuilder(b.dataset.galleryUse));
+  promptGallery.querySelectorAll('[data-gallery-fav]').forEach(b=>b.onclick=async()=>{
+    b.disabled=true;
+    await toggleFavorite(b.dataset.galleryFav);
+    renderPromptGallery();
+  });
+}
 
 function renderCards(){
   const list=filtered.slice(0,shown);
@@ -1306,7 +1389,18 @@ accountLogoutBtn.onclick=async()=>{
   location.reload();
 };
 
-window.showFavorites=()=>{selectedNiche='';selectedGoal='';search.value='';filtered=all.filter(x=>favorites.has(x.$id));resultCount.textContent=filtered.length+' favorit';shown=pageSize;renderCards();cards.closest('.sec')?.scrollIntoView({behavior:'smooth'})};
+window.showFavorites=()=>{
+  galleryMode='favorites';
+  search.value='';
+  renderPromptGallery();
+  promptGallerySection.scrollIntoView({behavior:'smooth',block:'start'});
+};
+window.showAllPrompts=()=>{
+  galleryMode='all';
+  search.value='';
+  renderPromptGallery();
+  window.scrollTo({top:0,behavior:'smooth'});
+};
 
 boot();
 </script>
