@@ -350,7 +350,7 @@ document.getElementById('loginForm').addEventListener('submit',async e=>{
     await account.createMagicURLToken({
       userId:ID.unique(),
       email:loginEmail.value.trim().toLowerCase(),
-      url:'https://badaipromptumkm2026.vercel.app/akses'
+      url:'https://badaiprompt.vercel.app/akses'
     });
     setMsg('Link login sudah dikirim. Cek Inbox atau Spam, lalu klik link tersebut.','good');
   }catch(err){
