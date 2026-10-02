@@ -133,7 +133,7 @@ const products=[
 const categoryOrder=['Semua','Umroh','Hijab','Craft','Guru','Kuliner','Beauty','Properti','Otomotif','Hampers','Retail'];
 let active='Semua',query='';
 function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-function card(p){return '<article class="listing"><a href="/'+p.slug+'"><div class="photo"><img src="'+p.img+'" alt="'+esc(p.name)+'"><span class="digital">DIGITAL PROMPT</span></div><div class="info"><div class="shopname">BADAI PROMPT • '+esc(p.category)+'</div><h3>'+esc(p.name)+'</h3><p>'+esc(p.desc)+'</p><div class="price">Mulai Rp30.000 <small>/ niche</small></div></div></a><button class="heart" aria-label="Simpan produk" title="Simpan">♡</button></article>'}
+function card(p){return '<article class="listing"><a href="/'+p.slug+'"><div class="photo"><img src="'+p.img+'" alt="'+esc(p.name)+'"><span class="digital">DIGITAL PROMPT</span></div><div class="info"><div class="shopname">BADAI PROMPT • '+esc(p.category)+'</div><h3>'+esc(p.name)+'</h3><p>'+esc(p.desc)+'</p><div class="price">Rp30.000 <small>/ niche</small></div></div></a><button class="heart" aria-label="Simpan produk" title="Simpan">♡</button></article>'}
 function filtered(){return products.filter(p=>{const cat=active==='Semua'||p.short===active;const q=!query||(p.name+' '+p.category+' '+p.desc).toLowerCase().includes(query);return cat&&q})}
 function render(){
  const list=filtered(),grid=document.getElementById('productGrid');grid.innerHTML=list.map(card).join('')+(list.length?'':'<div class="nores" style="display:block">Produk yang kamu cari belum ada.</div>');
