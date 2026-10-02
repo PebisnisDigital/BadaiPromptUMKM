@@ -2,16 +2,6 @@
   "cleanUrls": true,
   "rewrites": [
     { "source": "/akses", "destination": "/akses.html" },
-    { "source": "/instagram", "destination": "/instagram.html" },
-    { "source": "/umroh", "destination": "/checkout?slug=umroh" },
-    { "source": "/hijab", "destination": "/checkout?slug=hijab" },
-    { "source": "/craft", "destination": "/checkout?slug=craft" },
-    { "source": "/guru", "destination": "/checkout?slug=guru" },
-    { "source": "/kuliner", "destination": "/checkout?slug=kuliner" },
-    { "source": "/beauty", "destination": "/checkout?slug=beauty" },
-    { "source": "/properti", "destination": "/checkout?slug=properti" },
-    { "source": "/otomotif", "destination": "/checkout?slug=otomotif" },
-    { "source": "/hampers", "destination": "/checkout?slug=hampers" },
-    { "source": "/retail", "destination": "/checkout?slug=retail" }
+    { "source": "/instagram", "destination": "/instagram.html" }
   ]
 }
