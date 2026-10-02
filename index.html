@@ -1260,6 +1260,113 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   .bpu-price-card-choice.value-mid .bpu-choice-copy b{font-size:33px}
   .bpu-price-card-choice.value-low .bpu-choice-copy b{font-size:27px}
 }
+
+.bpu-pricing-mega-card{
+  position:relative;
+  overflow:hidden;
+  padding:18px;
+  border-radius:30px;
+  background:
+    radial-gradient(circle at 88% 8%,rgba(255,255,255,.62),transparent 24%),
+    radial-gradient(circle at 10% 100%,rgba(255,255,255,.28),transparent 30%),
+    linear-gradient(145deg,#ff3f9b 0%,#ff6bb3 48%,#ffc5df 100%);
+  border:1px solid rgba(255,255,255,.68);
+  box-shadow:0 34px 90px rgba(255,63,155,.24),0 1px 0 rgba(255,255,255,.65) inset;
+}
+.bpu-pricing-mega-card::after{
+  content:"";
+  position:absolute;
+  width:220px;height:220px;
+  right:-80px;bottom:-100px;
+  border-radius:50%;
+  background:rgba(255,255,255,.18);
+  filter:blur(2px);
+  pointer-events:none;
+}
+.bpu-pricing-mega-card .bpu-value-table-wrap{
+  position:relative;
+  z-index:1;
+  margin-top:0;
+  border:0;
+  border-radius:20px;
+  background:rgba(255,255,255,.94);
+  box-shadow:0 14px 40px rgba(72,0,37,.10);
+}
+.bpu-pricing-mega-card .bpu-value-table-head{
+  border-bottom:1px solid rgba(22,22,24,.12);
+}
+.bpu-pricing-mega-card .bpu-value-table-head small{
+  color:#cb216f;
+}
+.bpu-pricing-mega-card .bpu-value-table-head b,
+.bpu-pricing-mega-card .bpu-value-row b{
+  color:#111114;
+}
+.bpu-pricing-mega-card .bpu-value-table-head>span{
+  background:#111114;
+  color:#fff;
+}
+.bpu-pricing-mega-card .bpu-value-row{
+  border-bottom:1px solid rgba(22,22,24,.09);
+}
+.bpu-pricing-mega-card .bpu-value-row p{
+  color:#67676d;
+}
+.bpu-pricing-mega-card .bpu-value-row em{
+  background:#f3f3f5;
+  color:#55555b;
+}
+.bpu-pricing-mega-card .bpu-check{
+  background:#ff3f9b;
+  box-shadow:none;
+}
+.bpu-pricing-mega-card .bpu-value-price-options{
+  position:relative;
+  z-index:2;
+  margin-top:18px;
+}
+.bpu-pricing-mega-card .bpu-price-card-choice{
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(12,12,14,.92);
+  box-shadow:0 12px 32px rgba(72,0,37,.12);
+}
+.bpu-pricing-mega-card .bpu-price-card-choice:hover{
+  border-color:#fff;
+  background:#111114;
+}
+.bpu-pricing-mega-card .bpu-price-card-choice.spotlight{
+  border:2px solid #fff;
+  background:
+    radial-gradient(circle at 50% 0,rgba(255,79,163,.34),transparent 42%),
+    linear-gradient(180deg,#25101b,#111114);
+  box-shadow:0 22px 54px rgba(80,0,42,.24),0 0 0 2px rgba(255,255,255,.15) inset;
+}
+.bpu-pricing-mega-card .bpu-price-card-choice.spotlight::before{
+  background:#111114;
+  color:#fff;
+  box-shadow:0 8px 20px rgba(0,0,0,.18);
+}
+.bpu-pricing-mega-card .bpu-price-trust{
+  position:relative;
+  z-index:2;
+  margin-top:14px;
+  color:#28121e;
+  font-weight:900;
+}
+.bpu-pricing-mega-card .bpu-price-trust span{
+  background:rgba(255,255,255,.62);
+  border-radius:999px;
+  padding:6px 9px;
+}
+@media(max-width:720px){
+  .bpu-pricing-mega-card{
+    padding:12px;
+    border-radius:24px;
+  }
+  .bpu-pricing-mega-card .bpu-value-table-wrap{
+    border-radius:17px;
+  }
+}
 </style></head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
@@ -3362,7 +3469,8 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 
 <section id="harga" class="bpu-section bpu-pricing bpu-value-pricing">
   <div class="bpu-container">
-    <div class="bpu-value-table-wrap reveal2">
+    <div class="bpu-pricing-mega-card reveal2">
+      <div class="bpu-value-table-wrap">
       <div class="bpu-value-table-head">
         <div>
           <small>VALUE ADDED BADAI PROMPT UMKM</small>
@@ -3448,7 +3556,8 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
       </button>
     </div>
 
-    <div class="bpu-price-trust reveal2"><span>⚡ QRIS</span><span>✓ Akses 1 Tahun</span><span>🔒 Verifikasi Otomatis</span></div>
+      <div class="bpu-price-trust"><span>⚡ QRIS</span><span>✓ Akses 1 Tahun</span><span>🔒 Verifikasi Otomatis</span></div>
+    </div>
   </div>
 </section>
 
