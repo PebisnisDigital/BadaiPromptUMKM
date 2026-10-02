@@ -4,7 +4,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><style>
 :root{--bg:#070707;--card:#111;--line:#272727;--pink:#ff2d8d;--pink2:#ff6fb3;--text:#fff;--muted:#aaa}
 *{box-sizing:border-box}body{margin:0;background:#000;color:var(--text);font-family:"Roboto","Segoe UI",Arial,sans-serif}.page{max-width:720px;margin:auto;min-height:100vh;background:radial-gradient(circle at 80% 0,rgba(255,45,141,.22),transparent 28%),var(--bg)}header{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:rgba(7,7,7,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.brand{font-weight:1000;letter-spacing:-.5px}.brand b{color:var(--pink)}.brand small{display:block;font-size:9px;color:#888;letter-spacing:.8px;margin-top:2px}.btn{display:inline-flex;justify-content:center;align-items:center;text-decoration:none;border:0;border-radius:14px;padding:14px 17px;font-weight:900;cursor:pointer}.pink{background:var(--pink);color:#fff}.dark{background:#171717;color:#fff;border:1px solid #333}section{padding:30px 18px}.eyebrow{font-size:10px;color:var(--pink2);font-weight:900;letter-spacing:1px}.hero h1{font-size:clamp(42px,10vw,72px);line-height:.92;letter-spacing:-3px;margin:12px 0}.hero h1 span{color:var(--pink)}p{color:#bbb;line-height:1.6}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.demo{margin-top:26px;padding:14px;border:1px solid #303030;border-radius:24px;background:#0d0d0d;box-shadow:0 24px 70px rgba(255,45,141,.12)}.screen{padding:16px;border-radius:18px;background:#090909;border:1px solid #222}.chips{display:flex;gap:8px;overflow:auto}.chip{white-space:nowrap;background:#151515;border:1px solid #333;border-radius:12px;padding:10px;font-size:11px}.chip.on{border-color:var(--pink);background:#1a1016}.prompt{margin-top:14px;background:#121212;border:1px solid #2a2a2a;border-radius:16px;padding:14px}.prompt h3{margin:8px 0 5px}.stats,.grid{display:grid;gap:10px}.stats{grid-template-columns:repeat(3,1fr);margin-top:18px}.stats div,.card{background:#101010;border:1px solid var(--line);border-radius:16px;padding:14px}.stats b{display:block;font-size:20px}.stats small,.card small{color:#888}.grid{grid-template-columns:repeat(2,1fr)}h2{font-size:30px;line-height:1;margin:7px 0 12px}.ico{font-size:24px}.card b{display:block;margin-top:8px}.price{border:1px solid #4a2740;border-radius:24px;padding:20px;background:radial-gradient(circle at 90% 0,rgba(255,45,141,.2),transparent 25%),#101010}.amount{font-size:48px;font-weight:1000;margin:8px 0}.list{display:grid;gap:8px;margin:16px 0}.list div:before{content:"✓ ";color:#73f6a7;font-weight:900}.faq details{background:#101010;border:1px solid var(--line);border-radius:14px;padding:14px;margin:8px 0}.faq summary{font-weight:800;cursor:pointer}.footer{text-align:center;color:#777;font-size:10px;padding:30px 18px 90px}
-.checkout-modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.86);display:none;align-items:flex-end;justify-content:center;padding-top:30px}.checkout-modal.show{display:flex}.checkout-card{width:min(100%,720px);max-height:94vh;overflow:auto;background:#0e0e0e;border:1px solid #333;border-radius:26px 26px 0 0;padding:19px;box-shadow:0 -24px 80px rgba(255,45,141,.16)}.checkout-top{display:flex;justify-content:space-between;gap:12px;align-items:start}.checkout-top h3{font-size:23px;margin:4px 0}.xbtn{width:38px;height:38px;border-radius:50%;border:1px solid #333;background:#171717;color:#fff;font-size:20px;cursor:pointer}.checkout-form{display:grid;gap:10px;margin-top:15px}.checkout-form label{font-size:10px;color:#888;font-weight:800}.checkout-form input{width:100%;margin-top:5px;background:#080808;border:1px solid #303030;border-radius:13px;color:#fff;padding:13px;outline:none}.checkout-form input:focus{border-color:var(--pink)}.coupon-line{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:5px}.coupon-line input{margin-top:0}.coupon-summary{display:none;background:#101a14;border:1px solid #294b36;border-radius:13px;padding:11px;font-size:10px;line-height:1.55}.coupon-summary.show{display:block}.coupon-summary b{color:#73f6a7}.checkout-msg{font-size:11px;line-height:1.5;color:#999;min-height:18px}.checkout-msg.bad{color:#ff7088}.checkout-msg.good{color:#73f6a7}.qrbox{text-align:center;background:#fff;border-radius:18px;padding:14px;margin-top:14px}.qrbox img{display:block;width:min(290px,100%);margin:auto;border-radius:10px}.payinfo{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.payinfo div{background:#111;border:1px solid #292929;border-radius:13px;padding:11px}.payinfo small{display:block;color:#777;font-size:9px}.payinfo b{display:block;margin-top:3px}.statusbox{margin-top:10px;padding:13px;border-radius:14px;background:#111;border:1px solid #2c2c2c;font-size:12px;line-height:1.5}.successbox{display:none;text-align:center;padding:18px 5px}.successbox.show{display:block}.social-proof{position:fixed;left:50%;bottom:18px;z-index:55;width:min(calc(100% - 28px),420px);transform:translate(-50%,18px);opacity:0;pointer-events:none;transition:.28s ease;background:rgba(14,14,14,.97);border:1px solid #3a2b33;border-radius:16px;padding:11px 12px;display:flex;gap:10px;align-items:center;box-shadow:0 18px 55px rgba(0,0,0,.42),0 8px 35px rgba(255,45,141,.12);backdrop-filter:blur(12px)}.social-proof.show{opacity:1;transform:translate(-50%,0)}.sp-icon{width:36px;height:36px;border-radius:50%;flex:0 0 36px;display:grid;place-items:center;background:#1a1016;border:1px solid #593148;color:#ff6fb3;font-weight:1000}.sp-copy{min-width:0;flex:1}.sp-copy b{display:block;font-size:11px}.sp-copy span{display:block;color:#8d8d8d;font-size:9px;margin-top:3px;line-height:1.35}.sp-live{font-size:8px;color:#73f6a7;font-weight:900;white-space:nowrap}.legal-check{display:flex;gap:8px;align-items:flex-start;font-size:9px;color:#888;line-height:1.45}.legal-check input{width:auto;margin:2px 0 0}.legal-check a{color:#ff6fb3}.footer-links{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:10px}.footer-links a{color:#999;text-decoration:none}.successmark{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;margin:3px auto 12px;background:#12261a;color:#73f6a7;font-size:30px;border:1px solid #285c3a}
+.checkout-modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.86);display:none;align-items:flex-end;justify-content:center;padding-top:30px}.checkout-modal.show{display:flex}.checkout-card{width:min(100%,720px);max-height:94vh;overflow:auto;background:#0e0e0e;border:1px solid #333;border-radius:26px 26px 0 0;padding:19px;box-shadow:0 -24px 80px rgba(255,45,141,.16)}.checkout-top{display:flex;justify-content:space-between;gap:12px;align-items:start}.checkout-top h3{font-size:23px;margin:4px 0}.xbtn{width:38px;height:38px;border-radius:50%;border:1px solid #333;background:#171717;color:#fff;font-size:20px;cursor:pointer}.checkout-form{display:grid;gap:10px;margin-top:15px}.checkout-form label{font-size:10px;color:#888;font-weight:800}.checkout-form input{width:100%;margin-top:5px;background:#080808;border:1px solid #303030;border-radius:13px;color:#fff;padding:13px;outline:none}.checkout-form input:focus{border-color:var(--pink)}.coupon-line{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:5px}.coupon-line input{margin-top:0}.coupon-summary{display:none;background:#101a14;border:1px solid #294b36;border-radius:13px;padding:11px;font-size:10px;line-height:1.55}.coupon-summary.show{display:block}.coupon-summary b{color:#73f6a7}.checkout-msg{font-size:11px;line-height:1.5;color:#999;min-height:18px}.checkout-msg.bad{color:#ff7088}.checkout-msg.good{color:#73f6a7}.qrbox{text-align:center;background:#fff;border-radius:18px;padding:14px;margin-top:14px}.qrbox img{display:block;width:min(290px,100%);margin:auto;border-radius:10px}.payinfo{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.payinfo div{background:#111;border:1px solid #292929;border-radius:13px;padding:11px}.payinfo small{display:block;color:#777;font-size:9px}.payinfo b{display:block;margin-top:3px}.statusbox{margin-top:10px;padding:13px;border-radius:14px;background:#111;border:1px solid #2c2c2c;font-size:12px;line-height:1.5}.successbox{display:none;text-align:center;padding:18px 5px}.successbox.show{display:block}
+.login-credential-card{display:grid;gap:8px;text-align:left;background:#101010;border:1px solid #2d2d2d;border-radius:16px;padding:12px;margin:0 0 10px}
+.login-credential-row{padding:9px 10px;border-radius:12px;background:#080808;border:1px solid #242424}
+.login-credential-row small{display:block;color:#777;font-size:8px;font-weight:900;letter-spacing:.08em;margin-bottom:4px}
+.login-credential-row b{display:block;color:#fff;font-size:13px;word-break:break-all}
+.login-password-line{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.login-password-line b{font-size:16px;letter-spacing:.02em}
+.credential-eye{width:34px;height:30px;border:1px solid #333;border-radius:9px;background:#151515;color:#fff;cursor:pointer}
+.credential-admin{font-size:10px;color:#999;line-height:1.5}.credential-admin b{color:#fff}.social-proof{position:fixed;left:50%;bottom:18px;z-index:55;width:min(calc(100% - 28px),420px);transform:translate(-50%,18px);opacity:0;pointer-events:none;transition:.28s ease;background:rgba(14,14,14,.97);border:1px solid #3a2b33;border-radius:16px;padding:11px 12px;display:flex;gap:10px;align-items:center;box-shadow:0 18px 55px rgba(0,0,0,.42),0 8px 35px rgba(255,45,141,.12);backdrop-filter:blur(12px)}.social-proof.show{opacity:1;transform:translate(-50%,0)}.sp-icon{width:36px;height:36px;border-radius:50%;flex:0 0 36px;display:grid;place-items:center;background:#1a1016;border:1px solid #593148;color:#ff6fb3;font-weight:1000}.sp-copy{min-width:0;flex:1}.sp-copy b{display:block;font-size:11px}.sp-copy span{display:block;color:#8d8d8d;font-size:9px;margin-top:3px;line-height:1.35}.sp-live{font-size:8px;color:#73f6a7;font-weight:900;white-space:nowrap}.legal-check{display:flex;gap:8px;align-items:flex-start;font-size:9px;color:#888;line-height:1.45}.legal-check input{width:auto;margin:2px 0 0}.legal-check a{color:#ff6fb3}.footer-links{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:10px}.footer-links a{color:#999;text-decoration:none}.successmark{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;margin:3px auto 12px;background:#12261a;color:#73f6a7;font-size:30px;border:1px solid #285c3a}
 .pay-what-you-want{margin:14px 0;padding:14px;border:1px solid #4b2b3b;border-radius:17px;background:linear-gradient(145deg,#171016,#0d0d0d)}
 .pay-what-you-want-title{font-size:10px;color:#ff8dc2;font-weight:900;letter-spacing:.7px;margin-bottom:9px}
 .amount-options{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
@@ -4668,15 +4676,25 @@ body,
     <div class="successbox" id="successBox">
       <div class="successmark">✓</div>
       <h3 style="margin:0 0 8px">Pembayaran berhasil</h3>
-      <p style="margin:0 0 10px">Akses BADAI PROMPT UMKM selama <b style="color:#fff">1 tahun</b> sudah diaktifkan untuk email <b id="successEmail" style="color:#fff"></b>.</p>
-      <div style="text-align:left;background:#101010;border:1px solid #292929;border-radius:14px;padding:12px;margin:0 0 14px;font-size:11px;line-height:1.7;color:#aaa">
-        <b style="color:#fff">Langkah berikutnya:</b><br>
-        1. Klik <b style="color:#fff">MASUK MEMBER AREA</b><br>
-        2. Pastikan email checkout sudah terisi benar<br>
-        3. Klik <b style="color:#fff">KIRIM LINK LOGIN</b>, lalu buka link dari email
+      <p style="margin:0 0 12px">Akses BADAI PROMPT UMKM selama <b style="color:#fff">1 tahun</b> sudah aktif. Simpan data login ini.</p>
+
+      <div class="login-credential-card">
+        <div class="login-credential-row">
+          <small>EMAIL LOGIN</small>
+          <b id="successEmail">-</b>
+        </div>
+        <div class="login-credential-row">
+          <small>PASSWORD</small>
+          <div class="login-password-line">
+            <b id="successPassword">-</b>
+            <button class="credential-eye" id="successPasswordToggle" type="button" aria-label="Sembunyikan password">👁</button>
+          </div>
+        </div>
       </div>
-      <a class="btn pink" id="memberLink" href="/akses" style="width:100%">MASUK MEMBER AREA</a>
-      <a class="btn dark" href="/support" style="width:100%;margin-top:8px">BUTUH BANTUAN?</a>
+
+      <button class="btn dark" id="copyCredentialBtn" type="button" style="width:100%;margin-bottom:8px">SALIN DATA LOGIN</button>
+      <div class="credential-admin">Butuh bantuan? Admin: <b>081237523636</b></div>
+      <a class="btn pink" id="memberLink" href="/akses" style="width:100%;margin-top:10px">MASUK MEMBER AREA</a>
     </div>
   </div>
 </div>
@@ -4812,9 +4830,38 @@ function handlePaid(data){
   clearInterval(pollTimer);clearInterval(countTimer);
   document.getElementById('paymentWrap').style.display='none';
   document.getElementById('successBox').classList.add('show');
-  document.getElementById('successEmail').textContent=checkoutEmail||data.email||'email pembeli';
-  document.getElementById('memberLink').href='/akses?paid=1&email='+encodeURIComponent(checkoutEmail||data.email||'');
+
+  const email=checkoutEmail||data.email||'';
+  const password=String(data.login_password||'');
+  document.getElementById('successEmail').textContent=email||'-';
+  document.getElementById('successPassword').textContent=password||'-';
+  document.getElementById('successPassword').dataset.password=password;
+  document.getElementById('successPassword').dataset.visible='1';
+  document.getElementById('successPasswordToggle').textContent='👁';
+  document.getElementById('memberLink').href='/akses?paid=1&email='+encodeURIComponent(email);
 }
+
+document.getElementById('successPasswordToggle').onclick=()=>{
+  const el=document.getElementById('successPassword');
+  const visible=el.dataset.visible==='1';
+  el.dataset.visible=visible?'0':'1';
+  el.textContent=visible?'••••••••••••••':(el.dataset.password||'-');
+  document.getElementById('successPasswordToggle').textContent=visible?'🙈':'👁';
+};
+
+document.getElementById('copyCredentialBtn').onclick=async()=>{
+  const email=document.getElementById('successEmail').textContent.trim();
+  const password=document.getElementById('successPassword').dataset.password||'';
+  const text='BADAI PROMPT UMKM\n\nEmail: '+email+'\nPassword: '+password+'\n\nMember Area: '+location.origin+'/akses\nAdmin: 081237523636';
+  try{
+    await navigator.clipboard.writeText(text);
+    const b=document.getElementById('copyCredentialBtn');
+    const old=b.textContent;b.textContent='TERSALIN ✓';
+    setTimeout(()=>b.textContent=old,1400);
+  }catch{
+    alert(text);
+  }
+};
 
 function relativeTime(iso){
   if(!iso)return 'baru saja';
