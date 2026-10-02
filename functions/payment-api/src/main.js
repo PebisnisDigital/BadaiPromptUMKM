@@ -22,7 +22,7 @@ const PRODUCT_PRICES={
   retail:30000
 };
 const MAX_PAY_WHAT_YOU_WANT=5000000;
-const APP_URL=process.env.APP_URL || 'https://badaipromptumkm2026.vercel.app';
+const APP_URL=process.env.APP_URL || 'https://badaiprompt.vercel.app';
 
 function corsHeaders(extra={}){
   return {
@@ -106,7 +106,7 @@ export default async ({req,res,error})=>{
       fee_by:q(row?.fee_by)||'user',
       umkm_name:q(row?.umkm_name),
       test_mode:row?row.test_mode!==false:true,
-      callback_url:q(row?.callback_url)||'https://badaipromptumkm2026.vercel.app/api/buatqris-webhook',
+      callback_url:q(row?.callback_url)||'https://badaiprompt.vercel.app/api/buatqris-webhook',
       api_url:q(row?.api_url)||'https://app.buatqris.site/api',
       is_active:row?row.is_active!==false:false,
       configured:Boolean(row&&accountId&&secretToken)
