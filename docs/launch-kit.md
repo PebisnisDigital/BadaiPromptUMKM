@@ -6,8 +6,8 @@
 - Diskon: 10%
 - Batas penggunaan: 100 penggunaan pertama
 - Produk: BADAI PROMPT UMKM
-- Demo: https://badaipromptumkm2026.vercel.app/demo
-- Checkout: https://badaipromptumkm2026.vercel.app/
+- Demo: https://badaiprompt.vercel.app/demo
+- Checkout: https://badaiprompt.vercel.app/
 
 ## Broadcast Utama WhatsApp
 🔥 *UMKM GAK PERLU JAGO BIKIN PROMPT*
@@ -40,10 +40,10 @@ Pakai kode:
 buat diskon 10% selama kuotanya masih ada.
 
 Coba demo dulu:
-https://badaipromptumkm2026.vercel.app/demo
+https://badaiprompt.vercel.app/demo
 
 Kalau cocok, ambil akses:
-https://badaipromptumkm2026.vercel.app/
+https://badaiprompt.vercel.app/
 
 ## Teaser / Status WA
 *BINGUNG MAU PROMOSIIN JUALAN GIMANA?*
@@ -58,7 +58,7 @@ Prompt jadi.
 500+ prompt buat UMKM.
 
 Mau lihat demonya?
-https://badaipromptumkm2026.vercel.app/demo
+https://badaiprompt.vercel.app/demo
 
 ## Follow-up 1
 Tadi sudah lihat *BADAI PROMPT UMKM*?
@@ -75,7 +75,7 @@ Kalau lagi sepi order pun ada *MODE DARURAT* yang langsung kasih 3 prompt buat d
 Harga launching masih Rp87.000.
 Kode *LAUNCH10* diskon 10% untuk 100 penggunaan pertama.
 
-https://badaipromptumkm2026.vercel.app/
+https://badaiprompt.vercel.app/
 
 ## Follow-up 2 — Objection "Aku gaptek"
 Kalau takut ribet karena gak ngerti prompt, justru ini dibuat supaya gak perlu ngerti teknis.
@@ -90,7 +90,7 @@ Member cukup:
 Bahkan data bisnis bisa disimpan sekali supaya berikutnya auto terisi.
 
 Demo:
-https://badaipromptumkm2026.vercel.app/demo
+https://badaiprompt.vercel.app/demo
 
 ## Follow-up 3 — Objection "Sudah punya ChatGPT"
 Punya ChatGPT itu bagus.
@@ -103,7 +103,7 @@ BADAI PROMPT UMKM jadi shortcut-nya.
 
 Sudah disusun berdasarkan kebutuhan jualan UMKM, bukan prompt random.
 
-https://badaipromptumkm2026.vercel.app/
+https://badaiprompt.vercel.app/
 
 ## Setelah Pembayaran
 ✅ *PEMBAYARAN BERHASIL*
@@ -117,10 +117,10 @@ Cara masuk:
 4. buka link yang masuk ke email
 
 Member Area:
-https://badaipromptumkm2026.vercel.app/akses
+https://badaiprompt.vercel.app/akses
 
 Kalau ada kendala:
-https://badaipromptumkm2026.vercel.app/support
+https://badaiprompt.vercel.app/support
 
 ## Catatan Admin
 - Jangan menjanjikan omzet atau closing.
