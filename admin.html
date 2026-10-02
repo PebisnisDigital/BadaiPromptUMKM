@@ -414,7 +414,7 @@ main{
   bottom:8px !important;
   transform:translateX(-50%) !important;
   width:min(calc(100% - 16px),664px) !important;
-  grid-template-columns:repeat(5,1fr) !important;
+  grid-template-columns:repeat(4,1fr) !important;
   padding:7px !important;
   border-radius:22px !important;
 }
@@ -529,8 +529,33 @@ main{
 </section>
 
 <section class="view" id="v-orders">
-  <div class="title-row"><div><div class="eyebrow">TRANSAKSI</div><h1>Order</h1><p>Data QRIS dan status pembayaran.</p></div></div>
-  <div class="panel"><div class="toolbar"><select id="orderStatus" onchange="loadOrders()"><option value="">Semua status</option><option>pending</option><option>success</option><option>expired</option><option>failed</option></select></div><div class="list" id="orderList"></div></div>
+  <div class="title-row">
+    <div><div class="eyebrow">PENJUALAN</div><h1>Order & Member</h1><p>Kelola transaksi dan akses member dari satu tempat.</p></div>
+    <button class="btn pink" onclick="openManual()">+ ORDER MANUAL</button>
+  </div>
+
+  <div class="sales-summary">
+    <div class="sales-stat"><small>OMZET LUNAS</small><b id="salesRevenue">Rp0</b></div>
+    <div class="sales-stat"><small>MEMBER AKTIF</small><b id="salesActive">0</b></div>
+    <div class="sales-stat"><small>ORDER PENDING</small><b id="salesPending">0</b></div>
+  </div>
+
+  <div class="panel">
+    <div class="toolbar sales-toolbar">
+      <input id="salesSearch" placeholder="Cari nama, WA, atau email…" oninput="renderSales()">
+      <select id="orderStatus" onchange="renderSales()">
+        <option value="">Semua status</option>
+        <option value="active">Member aktif</option>
+        <option value="pending_access">Akses pending</option>
+        <option value="blocked">Member diblokir</option>
+        <option value="success">Pembayaran lunas</option>
+        <option value="pending">Pembayaran pending</option>
+        <option value="failed">Pembayaran gagal</option>
+        <option value="expired">Pembayaran expired</option>
+      </select>
+    </div>
+    <div class="list" id="orderList"></div>
+  </div>
 </section>
 
 <section class="view" id="v-members">
@@ -604,7 +629,6 @@ main{
   <button class="on" data-view="dashboard"><b>⌂</b>Dashboard</button>
   <button data-view="prompts"><b>✦</b>Prompt</button>
   <button data-view="orders"><b>▣</b>Order</button>
-  <button data-view="members"><b>☻</b>Member</button>
   <button data-view="settings"><b>⚙</b>Setting</button>
 </div>
 
