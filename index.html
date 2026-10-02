@@ -2158,6 +2158,21 @@ body,
   color:#fff !important;
 }
 </style>
+
+<style id="bpu-price-top-position-style">
+#harga .bpu-price-prompt{
+  border-top:0 !important;
+  padding-top:22px !important;
+}
+#harga .bpu-compact-prices{
+  padding-bottom:22px !important;
+  margin-bottom:0 !important;
+  border-bottom:1px solid rgba(22,22,24,.09);
+}
+#harga .bpu-value-table{
+  margin-top:0 !important;
+}
+</style>
 </head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
@@ -4257,6 +4272,25 @@ body,
         <span>✓ AKSES PENUH</span>
       </div>
 
+    <div class="bpu-price-prompt reveal2">
+      <b>Kalau semua value ini sudah di depan mata,<br><span class="bpu-price-dare">BERANI BELI BERAPA?</span></b>
+      <p>Pilih salah satu. Semua pilihan mendapat akses yang sama selama 1 tahun.</p>
+    </div>
+
+    <div class="bpu-value-price-options bpu-compact-prices reveal2" id="bpuPriceChoices">
+      <button class="bpu-price-card-choice value-high spotlight" type="button" onclick="openCheckout(199000)">
+        <b><span class="bpu-rp">Rp</span>199<span class="bpu-k">k</span></b>
+      </button>
+
+      <button class="bpu-price-card-choice value-mid" type="button" onclick="openCheckout(159000)">
+        <b><span class="bpu-rp">Rp</span>159<span class="bpu-k">k</span></b>
+      </button>
+
+      <button class="bpu-price-card-choice value-low" type="button" onclick="openCheckout(50000)">
+        <b><span class="bpu-rp">Rp</span>50<span class="bpu-k">k</span></b>
+      </button>
+    </div>
+
       <div class="bpu-value-table">
         <div class="bpu-value-row">
           <span class="bpu-check">✓</span>
@@ -4300,24 +4334,7 @@ body,
         </div>
       </div>
 
-    <div class="bpu-price-prompt reveal2">
-      <b>Kalau semua value ini sudah di depan mata,<br><span class="bpu-price-dare">BERANI BELI BERAPA?</span></b>
-      <p>Pilih salah satu. Semua pilihan mendapat akses yang sama selama 1 tahun.</p>
-    </div>
-
-    <div class="bpu-value-price-options bpu-compact-prices reveal2" id="bpuPriceChoices">
-      <button class="bpu-price-card-choice value-high spotlight" type="button" onclick="openCheckout(199000)">
-        <b><span class="bpu-rp">Rp</span>199<span class="bpu-k">k</span></b>
-      </button>
-
-      <button class="bpu-price-card-choice value-mid" type="button" onclick="openCheckout(159000)">
-        <b><span class="bpu-rp">Rp</span>159<span class="bpu-k">k</span></b>
-      </button>
-
-      <button class="bpu-price-card-choice value-low" type="button" onclick="openCheckout(50000)">
-        <b><span class="bpu-rp">Rp</span>50<span class="bpu-k">k</span></b>
-      </button>
-    </div>
+    
     </div>
 
       <div class="bpu-price-trust"><span>⚡ QRIS</span><span>✓ Akses 1 Tahun</span><span>🔒 Verifikasi Otomatis</span></div>
