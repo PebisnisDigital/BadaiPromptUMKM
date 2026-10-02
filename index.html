@@ -1734,6 +1734,104 @@ body,
   .bpu-problem-hit b{font-size:22px}
 }
 </style>
+
+<style id="bpu-product-solution-style">
+.bpu-product-solution{
+  position:relative;
+  overflow:hidden;
+  padding:62px 0 64px;
+  background:
+    radial-gradient(circle at 50% 10%,rgba(255,79,163,.18),transparent 34%),
+    linear-gradient(180deg,#0a0a0b 0%,#111014 100%);
+}
+.bpu-solution-intro{
+  max-width:700px;
+  margin:0 auto;
+  text-align:center;
+}
+.bpu-solution-intro>small{
+  display:block;
+  margin-top:12px;
+  color:#b7b7bc;
+  font:900 11px/1.3 var(--font-sf);
+  letter-spacing:.16em;
+}
+.bpu-solution-intro h2{
+  margin:5px 0 0;
+  color:#fff;
+  font:950 clamp(46px,9vw,86px)/.9 var(--font-sf);
+  letter-spacing:-.07em;
+}
+.bpu-solution-intro h2 span{color:var(--bpu-pink2)}
+.bpu-solution-intro p{
+  max-width:600px;
+  margin:18px auto 0;
+  color:#a9a9af;
+  font:500 14px/1.65 var(--font-roboto);
+}
+.bpu-solution-intro p b{
+  color:#fff;
+  font-family:var(--font-sf);
+  font-weight:900;
+}
+.bpu-get-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+  margin-top:30px;
+}
+.bpu-get-grid article{
+  min-height:154px;
+  padding:17px 15px;
+  border:1px solid #29292d;
+  border-radius:18px;
+  background:linear-gradient(180deg,#141416,#0f0f11);
+}
+.bpu-get-grid article>span{
+  display:block;
+  color:var(--bpu-pink2);
+  font:950 25px/1 var(--font-sf);
+}
+.bpu-get-grid article>b{
+  display:block;
+  margin-top:16px;
+  color:#fff;
+  font:900 13px/1.25 var(--font-sf);
+}
+.bpu-get-grid article>p{
+  margin:7px 0 0;
+  color:#8f8f95;
+  font:500 11.5px/1.5 var(--font-roboto);
+}
+.bpu-solution-punchline{
+  max-width:560px;
+  margin:24px auto 0;
+  padding:20px;
+  text-align:center;
+  border-radius:19px;
+  background:linear-gradient(135deg,#ff3f9b,#ff6bb3);
+  color:#4c1430;
+  font:800 14px/1.5 var(--font-roboto);
+  box-shadow:0 20px 48px rgba(255,63,155,.18);
+}
+.bpu-solution-punchline b{
+  display:inline-block;
+  margin-top:4px;
+  color:#fff;
+  font:950 24px/1.05 var(--font-sf);
+  letter-spacing:-.035em;
+}
+@media(max-width:720px){
+  .bpu-product-solution{padding:48px 0 50px}
+  .bpu-solution-intro p{font-size:13px}
+  .bpu-get-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .bpu-get-grid article{min-height:145px;padding:15px 13px}
+  .bpu-get-grid article>b{font-size:12.5px}
+  .bpu-get-grid article>p{font-size:11px}
+  .bpu-solution-punchline{font-size:13px}
+  .bpu-solution-punchline b{font-size:21px}
+}
+</style>
 </head>
 <body>
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
@@ -1866,6 +1964,66 @@ body,
     <div class="bpu-problem-hit reveal2">
       Masalahnya sering bukan produknya.<br>
       <b>Cara nunjukinnya.</b>
+    </div>
+  </div>
+</section>
+
+<section class="bpu-section bpu-product-solution" aria-label="Solusi BADAI PROMPT untuk UMKM">
+  <div class="bpu-container">
+    <div class="bpu-solution-intro reveal2">
+      <div class="bpu-kicker">SOLUSINYA</div>
+      <small>KINI HADIR...</small>
+      <h2>BADAI <span>PROMPT</span></h2>
+      <p><b>Prompt khusus untuk jualan & UMKM.</b><br>Bantu bikin jualan makin berkelas, promosi makin niat, dan peluang omzet makin deras.</p>
+    </div>
+
+    <div class="bpu-get-grid reveal2">
+      <article>
+        <span>500+</span>
+        <b>Prompt Siap Pakai</b>
+        <p>Tinggal pilih, salin, pakai.</p>
+      </article>
+      <article>
+        <span>📸</span>
+        <b>Prompt Foto Produk</b>
+        <p>Bikin produk lebih menarik dilihat.</p>
+      </article>
+      <article>
+        <span>🔥</span>
+        <b>Prompt Poster Promo</b>
+        <p>Bikin promo lebih cepat dipahami.</p>
+      </article>
+      <article>
+        <span>🎬</span>
+        <b>Prompt Video Jualan</b>
+        <p>Hook, adegan, sampai CTA.</p>
+      </article>
+      <article>
+        <span>✍️</span>
+        <b>Prompt Copy Jualan</b>
+        <p>Headline, caption, dan penawaran.</p>
+      </article>
+      <article>
+        <span>🛍️</span>
+        <b>Untuk Banyak Usaha</b>
+        <p>Kuliner, fashion, beauty, jasa, dan lainnya.</p>
+      </article>
+      <article>
+        <span>⚡</span>
+        <b>Update Prompt</b>
+        <p>Ikut berkembang selama masa akses.</p>
+      </article>
+      <article>
+        <span>✓</span>
+        <b>Akses 1 Tahun</b>
+        <p>Buka dan pakai berulang kali.</p>
+      </article>
+    </div>
+
+    <div class="bpu-solution-punchline reveal2">
+      Nggak perlu jago desain.<br>
+      Nggak perlu jago bikin prompt.<br>
+      <b>Tinggal pilih. Pakai. Jualan.</b>
     </div>
   </div>
 </section>
