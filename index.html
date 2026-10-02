@@ -1410,10 +1410,10 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   border-radius:18px;
   cursor:pointer;
   transition:
-    background .22s ease,
-    border-color .22s ease,
-    box-shadow .22s ease,
-    transform .22s ease,
+    background .28s ease,
+    border-color .28s ease,
+    box-shadow .28s ease,
+    transform .34s cubic-bezier(.2,.8,.2,1),
     color .22s ease;
 }
 .bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice:hover,
@@ -1421,9 +1421,11 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   background:linear-gradient(180deg,#ff5cab 0%,#ff2f92 100%) !important;
   border-color:#ffd1e6 !important;
   box-shadow:
-    0 14px 34px rgba(255,47,146,.34),
-    0 0 0 2px rgba(255,255,255,.30);
-  transform:translateY(-4px) scale(1.025);
+    0 18px 42px rgba(255,47,146,.38),
+    0 0 0 3px rgba(255,255,255,.34),
+    0 0 30px rgba(255,79,163,.24);
+  transform:translateY(-7px) scale(1.08);
+  z-index:7;
   outline:none;
 }
 .bpu-pricing-mega-card .bpu-compact-prices .bpu-price-card-choice:hover>b,
@@ -1451,7 +1453,12 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 .bpu-compact-prices .value-mid>b{font-size:34px}
 .bpu-compact-prices .value-low>b{font-size:27px}
 .bpu-compact-prices .bpu-price-card-choice.spotlight{
-  transform:translateY(-4px) scale(1.025);
+  transform:translateY(-9px) scale(1.12);
+  z-index:6;
+  box-shadow:
+    0 24px 48px rgba(255,47,146,.38),
+    0 0 0 3px rgba(255,255,255,.42),
+    0 0 36px rgba(255,79,163,.32);
 }
 .bpu-compact-prices .bpu-price-card-choice.spotlight::before{
   content:"";
@@ -1477,6 +1484,9 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
   .bpu-compact-prices .value-high>b{font-size:31px}
   .bpu-compact-prices .value-mid>b{font-size:27px}
   .bpu-compact-prices .value-low>b{font-size:22px}
+  .bpu-compact-prices .bpu-price-card-choice.spotlight{
+    transform:translateY(-5px) scale(1.08);
+  }
 }
 
 .bpu-pricing-mega-card .bpu-value-table-wrap .bpu-price-prompt{
