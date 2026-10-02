@@ -1020,20 +1020,133 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
 .bpu-price-question>small{color:#9f687f;font:900 7px var(--font-sf);letter-spacing:.13em}
 .bpu-price-question>b{display:block;max-width:560px;margin:8px auto 0;color:#fff;font:950 25px/1.05 var(--font-sf);letter-spacing:-.04em}
 .bpu-price-question>p{margin:8px auto 0;color:#77777c;font-size:9px}
-.bpu-value-price-options{display:grid;gap:8px;margin-top:5px}
-.bpu-value-price-options button{width:100%;display:grid;grid-template-columns:38px 1fr auto;gap:12px;align-items:center;text-align:left;padding:14px;border-radius:16px;border:1px solid #303034;background:#101011;color:#fff;cursor:pointer;transition:.2s ease}
-.bpu-value-price-options button:hover{transform:translateY(-2px);border-color:#70405a;background:#141113}
-.bpu-value-price-options button.official{border-color:var(--bpu-pink);background:linear-gradient(145deg,#24121b,#160e12);box-shadow:0 12px 30px rgba(255,79,163,.1)}
-.bpu-choice-letter{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:#211019;color:var(--bpu-pink2);font:950 12px var(--font-sf)}
-.bpu-choice-copy small{display:block;color:#77777c;font:850 6.5px var(--font-sf);letter-spacing:.11em}
-.bpu-choice-copy b{display:block;margin-top:3px;font:950 24px/1 var(--font-sf);letter-spacing:-.04em}
-.bpu-choice-arrow{color:var(--bpu-pink);font-size:20px;font-weight:950}
+
+.bpu-value-price-options{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin-top:18px;
+  align-items:stretch;
+}
+.bpu-price-card-choice{
+  position:relative;
+  width:100%;
+  min-height:220px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  text-align:left;
+  padding:20px 18px 18px;
+  border-radius:22px;
+  border:1px solid #303034;
+  background:linear-gradient(180deg,#111113,#0d0d0f);
+  color:#fff;
+  cursor:pointer;
+  transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease,background .22s ease;
+  overflow:visible;
+}
+.bpu-price-card-choice:hover{
+  transform:translateY(-6px);
+  border-color:#71415a;
+  background:linear-gradient(180deg,#151216,#101011);
+  box-shadow:0 18px 42px rgba(0,0,0,.28);
+}
+.bpu-price-card-choice.featured{
+  min-height:238px;
+  transform:translateY(-8px) scale(1.035);
+  border:1.5px solid var(--bpu-pink);
+  background:
+    radial-gradient(circle at 50% 0,rgba(255,79,163,.24),transparent 42%),
+    linear-gradient(180deg,#211019,#110d10);
+  box-shadow:0 24px 56px rgba(255,79,163,.2),0 0 0 1px rgba(255,79,163,.08) inset;
+}
+.bpu-price-card-choice.featured:hover{
+  transform:translateY(-12px) scale(1.055);
+  box-shadow:0 28px 68px rgba(255,79,163,.28);
+}
+.bpu-choice-badge{
+  position:absolute;
+  top:-12px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:7px 12px;
+  border-radius:999px;
+  white-space:nowrap;
+  background:var(--bpu-pink);
+  color:#fff;
+  font:950 7px var(--font-sf);
+  letter-spacing:.12em;
+  box-shadow:0 10px 26px rgba(255,79,163,.3);
+}
+.bpu-choice-letter{
+  width:38px;height:38px;
+  display:grid;place-items:center;
+  border-radius:12px;
+  background:#211019;
+  color:var(--bpu-pink2);
+  font:950 12px var(--font-sf);
+}
+.featured .bpu-choice-letter{
+  background:var(--bpu-pink);
+  color:#fff;
+}
+.bpu-choice-copy{display:block;margin-top:18px}
+.bpu-choice-copy small{
+  display:block;
+  color:#77777c;
+  font:850 6.5px var(--font-sf);
+  letter-spacing:.11em;
+}
+.bpu-choice-copy b{
+  display:block;
+  margin-top:5px;
+  font:950 31px/1 var(--font-sf);
+  letter-spacing:-.055em;
+}
+.featured .bpu-choice-copy b{
+  color:var(--bpu-pink2);
+  font-size:37px;
+}
+.bpu-choice-copy em{
+  display:block;
+  min-height:36px;
+  margin-top:9px;
+  color:#86868c;
+  font:500 8.5px/1.45 var(--font-roboto);
+  font-style:normal;
+}
+.featured .bpu-choice-copy em{color:#c59aad}
+.bpu-choice-cta{
+  display:block;
+  width:100%;
+  margin-top:auto;
+  padding-top:14px;
+  border-top:1px solid #27272a;
+  color:#aaaab0;
+  font:900 7.5px var(--font-sf);
+  letter-spacing:.08em;
+}
+.featured .bpu-choice-cta{
+  color:#fff;
+  border-color:#5b2b45;
+}
 .bpu-locked-choice .amount-selected{margin-top:2px;padding-top:9px}
-@media(max-width:560px){
+
+@media(max-width:720px){
+  .bpu-value-price-options{grid-template-columns:1fr;gap:12px}
+  .bpu-price-card-choice{min-height:175px}
+  .bpu-price-card-choice.featured{
+    order:-1;
+    min-height:190px;
+    transform:none;
+    margin-top:8px;
+  }
+  .bpu-price-card-choice.featured:hover{transform:translateY(-4px)}
   .bpu-value-compare{grid-template-columns:1fr}
   .bpu-value-compare article{min-height:0}
   .bpu-price-question>b{font-size:21px}
-  .bpu-choice-copy b{font-size:21px}
+  .bpu-choice-copy b{font-size:28px}
+  .featured .bpu-choice-copy b{font-size:34px}
 }
 </style></head>
 <body>
@@ -3191,22 +3304,35 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
     </div>
 
     <div class="bpu-value-price-options reveal2">
-      <button type="button" onclick="openCheckout(199000)">
+      <button class="bpu-price-card-choice" type="button" onclick="openCheckout(199000)">
         <span class="bpu-choice-letter">A</span>
-        <span class="bpu-choice-copy"><small>MENURUTMU VALUE-NYA</small><b>Rp199.000</b></span>
-        <span class="bpu-choice-arrow">→</span>
+        <span class="bpu-choice-copy">
+          <small>VALUE PREMIUM</small>
+          <b>Rp199.000</b>
+          <em>Kalau menurutmu manfaatnya layak dihargai lebih.</em>
+        </span>
+        <span class="bpu-choice-cta">PILIH INI →</span>
       </button>
 
-      <button type="button" onclick="openCheckout(159000)">
+      <button class="bpu-price-card-choice featured" type="button" onclick="openCheckout(50000)">
+        <span class="bpu-choice-badge">PILIHAN HEMAT</span>
         <span class="bpu-choice-letter">B</span>
-        <span class="bpu-choice-copy"><small>MENURUTMU VALUE-NYA</small><b>Rp159.000</b></span>
-        <span class="bpu-choice-arrow">→</span>
+        <span class="bpu-choice-copy">
+          <small>MULAI DARI SINI</small>
+          <b>Rp50.000</b>
+          <em>Akses sama. Harga paling ringan untuk mulai.</em>
+        </span>
+        <span class="bpu-choice-cta">AMBIL AKSES →</span>
       </button>
 
-      <button class="official" type="button" onclick="openCheckout(100000)">
+      <button class="bpu-price-card-choice" type="button" onclick="openCheckout(159000)">
         <span class="bpu-choice-letter">C</span>
-        <span class="bpu-choice-copy"><small>HARGA RESMI</small><b id="displayPrice">Rp100.000</b></span>
-        <span class="bpu-choice-arrow">→</span>
+        <span class="bpu-choice-copy">
+          <small>SANGAT WORTH IT</small>
+          <b>Rp159.000</b>
+          <em>Kalau menurutmu prompt ini bisa banyak membantu jualanmu.</em>
+        </span>
+        <span class="bpu-choice-cta">PILIH INI →</span>
       </button>
     </div>
 
@@ -3222,7 +3348,7 @@ body{margin:0!important;background:#000!important;color:var(--bpu-text)!importan
       <details class="reveal2"><summary>Prompt itu apa?</summary><p>Prompt adalah perintah yang diberikan ke AI. Di BADAI Prompt UMKM, perintahnya sudah disiapkan sesuai kebutuhan usaha supaya kamu tidak perlu menyusun dari nol.</p></details>
       <details class="reveal2"><summary>Saya baru belajar AI. Bisa pakai?</summary><p>Bisa. Produk ini memang dibuat supaya pemula cukup memilih kebutuhan, mengisi bagian yang diperlukan, lalu menyalin prompt ke AI.</p></details>
       <details class="reveal2"><summary>Harus pakai ChatGPT berbayar?</summary><p>Tidak. Kamu bisa menggunakan AI yang mendukung jenis tugas yang ingin dikerjakan. Fitur dan hasil tiap platform bisa berbeda.</p></details>
-      <details class="reveal2"><summary>Berapa harga BADAI PROMPT UMKM?</summary><p>Harga resminya Rp100.000 untuk akses 1 tahun. Di section harga kamu juga bisa memilih nominal value Rp159.000 atau Rp199.000 jika menurutmu manfaatnya pantas dihargai lebih. Semua pilihan mendapat akses yang sama.</p></details>
+      <details class="reveal2"><summary>Berapa harga BADAI PROMPT UMKM?</summary><p>Harga resminya Rp100.000 untuk akses 1 tahun. Di section value kamu bisa memilih Rp50.000, Rp159.000, atau Rp199.000 sesuai value yang kamu rasakan. Semua pilihan mendapat akses yang sama.</p></details>
       <details class="reveal2"><summary>Apakah dijamin bikin jualan laris?</summary><p>Tidak. BADAI membantu mempercepat ide dan eksekusi. Hasil bisnis tetap dipengaruhi produk, harga, pasar, penawaran, dan cara penerapannya.</p></details>
       <details class="reveal2"><summary>Boleh dipakai untuk usaha saya sendiri?</summary><p>Justru itu tujuan utamanya. Prompt disusun untuk membantu pekerjaan promosi dan komunikasi jualan di usaha sendiri.</p></details>
     </div>
