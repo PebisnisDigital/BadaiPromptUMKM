@@ -17,7 +17,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
 .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.stat{min-height:103px;padding:14px;border:1px solid var(--line);border-radius:19px;background:var(--card);box-shadow:var(--shadow)}.stat small{display:block;color:#85858d;font-size:8px;font-weight:900;letter-spacing:.08em}.stat b{display:block;margin-top:13px;font-family:Raleway,sans-serif;font-size:26px;letter-spacing:-.06em}.stat b.pinktext{color:var(--pink)}
 .panel{margin-top:11px;padding:13px;border:1px solid var(--line);border-radius:19px;background:#fff;box-shadow:var(--shadow)}.panel h2{margin:0 0 10px;font-family:Raleway,sans-serif;font-size:14px}.quick{display:grid;grid-template-columns:1fr 1fr;gap:8px}.quick button{text-align:left;min-height:74px;padding:12px;border:1px solid var(--line);border-radius:15px;background:#fafafa;color:#222}.quick b{display:block;font-size:11px}.quick span{display:block;margin-top:4px;color:#83838b;font-size:8px;line-height:1.35}.categorybars{display:grid;gap:8px}.catrow{display:grid;grid-template-columns:minmax(85px,1fr) 2fr auto;gap:8px;align-items:center;font-size:9px}.bar{height:8px;border-radius:999px;background:#eee;overflow:hidden}.bar i{display:block;height:100%;border-radius:999px;background:var(--pink)}
 .toolbar{display:grid;grid-template-columns:1fr 130px 110px;gap:7px;margin-bottom:10px}.toolbar input,.toolbar select{width:100%;height:39px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:0 10px;color:#222;outline:none;font-size:9px}.toolbar input:focus,.toolbar select:focus{border-color:var(--pink)}
-.promptlist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.memberlist{display:grid;gap:8px}.adminpromptcard{overflow:hidden;border:1px solid #29292e;border-radius:18px;background:#101012;color:#fff;box-shadow:var(--shadow)}.adminpromptvisual{position:relative;aspect-ratio:4/5;overflow:hidden;background:radial-gradient(circle at 25% 20%,rgba(255,45,141,.24),transparent 23%),linear-gradient(145deg,#27101c,#111116 55%,#080809)}.adminpromptvisual img{width:100%;height:100%;object-fit:cover;display:block}.adminpromptplaceholder{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:16px;color:#a0a0a8;font-size:11px}.adminpromptplaceholder b{display:block;color:#fff;font-family:Raleway,sans-serif;font-size:27px;margin-bottom:5px}.adminpromptbody{padding:10px}.adminpromptbody h3{min-height:38px;margin:0 0 10px;font-family:Raleway,sans-serif;font-size:12px;line-height:1.45;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}.admincodebtn{width:100%;min-height:42px;border:0;border-radius:10px;background:var(--pink);color:#fff;font-family:Raleway,sans-serif;font-size:12px;font-weight:900;letter-spacing:.03em}.admincodebtn:hover{filter:brightness(.96)}.adminpromptstate{position:absolute;left:8px;top:8px;z-index:2;padding:5px 7px;border-radius:999px;background:rgba(8,8,10,.76);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:7px;font-weight:900}.adminpromptstate.draftstate{background:rgba(154,105,0,.88)}.row{padding:11px;border:1px solid var(--line);border-radius:16px;background:#fff}.rowtop{display:flex;justify-content:space-between;align-items:start;gap:10px}.row h3{margin:0;font-family:Raleway,sans-serif;font-size:12px;line-height:1.3}.muted{color:#808088;font-size:8px;line-height:1.5}.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}.tag{display:inline-flex;align-items:center;padding:4px 6px;border-radius:999px;background:#f5f5f7;color:#777;font-size:7px;font-weight:900}.tag.live{background:var(--greenbg);color:var(--green)}.tag.featured{background:var(--pink2);color:var(--pink)}.tag.draft{background:var(--amberbg);color:var(--amber)}.rowactions{display:flex;gap:6px;margin-top:9px}.previewthumb{width:58px;height:58px;flex:0 0 58px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:linear-gradient(145deg,#f8e7ef,#eee)}.previewthumb img{width:100%;height:100%;object-fit:cover}.promptidentity{display:flex;gap:9px;align-items:flex-start;min-width:0}.promptidentity>div:last-child{min-width:0}
+.adminpager{display:none;margin:10px 0;padding:10px;border:1px solid var(--line);border-radius:15px;background:#fff}.adminpager.show{display:block}.adminpagerrow{display:grid;grid-template-columns:42px 1fr 42px;gap:7px;align-items:center}.adminpagenums{display:flex;gap:6px;min-width:0}.adminpagebtn,.adminprev,.adminnext{height:40px;border:1px solid var(--line);border-radius:10px;background:#fafafa;color:#333;font-weight:900;font-size:10px}.adminpagebtn{flex:1 1 0;min-width:34px}.adminpagebtn.on{border-color:var(--pink);background:var(--pink);color:#fff}.adminprev:disabled,.adminnext:disabled{opacity:.35}.adminpagejump{display:grid;grid-template-columns:auto 1fr auto;gap:7px;align-items:center;margin-top:8px;padding-top:8px;border-top:1px solid #eee}.adminpagejump label{font-size:9px;font-weight:900;color:#74747c}.adminpagejump select{height:38px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:0 9px;font-size:10px}.adminpagejump button{height:38px;border:0;border-radius:10px;background:#242429;color:#fff;padding:0 14px;font-size:9px;font-weight:900}.adminpageinfo{text-align:center;margin-top:7px;color:#85858d;font-size:9px}.promptlist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.memberlist{display:grid;gap:8px}.adminpromptcard{overflow:hidden;border:1px solid #29292e;border-radius:18px;background:#101012;color:#fff;box-shadow:var(--shadow)}.adminpromptvisual{position:relative;aspect-ratio:4/5;overflow:hidden;background:radial-gradient(circle at 25% 20%,rgba(255,45,141,.24),transparent 23%),linear-gradient(145deg,#27101c,#111116 55%,#080809)}.adminpromptvisual img{width:100%;height:100%;object-fit:cover;display:block}.adminpromptplaceholder{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:16px;color:#a0a0a8;font-size:11px}.adminpromptplaceholder b{display:block;color:#fff;font-family:Raleway,sans-serif;font-size:27px;margin-bottom:5px}.adminpromptbody{padding:10px}.adminpromptbody h3{min-height:38px;margin:0 0 10px;font-family:Raleway,sans-serif;font-size:12px;line-height:1.45;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}.admincodebtn{width:100%;min-height:42px;border:0;border-radius:10px;background:var(--pink);color:#fff;font-family:Raleway,sans-serif;font-size:12px;font-weight:900;letter-spacing:.03em}.admincodebtn:hover{filter:brightness(.96)}.adminpromptstate{position:absolute;left:8px;top:8px;z-index:2;padding:5px 7px;border-radius:999px;background:rgba(8,8,10,.76);border:1px solid rgba(255,255,255,.12);color:#fff;font-size:7px;font-weight:900}.adminpromptstate.draftstate{background:rgba(154,105,0,.88)}.row{padding:11px;border:1px solid var(--line);border-radius:16px;background:#fff}.rowtop{display:flex;justify-content:space-between;align-items:start;gap:10px}.row h3{margin:0;font-family:Raleway,sans-serif;font-size:12px;line-height:1.3}.muted{color:#808088;font-size:8px;line-height:1.5}.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}.tag{display:inline-flex;align-items:center;padding:4px 6px;border-radius:999px;background:#f5f5f7;color:#777;font-size:7px;font-weight:900}.tag.live{background:var(--greenbg);color:var(--green)}.tag.featured{background:var(--pink2);color:var(--pink)}.tag.draft{background:var(--amberbg);color:var(--amber)}.rowactions{display:flex;gap:6px;margin-top:9px}.previewthumb{width:58px;height:58px;flex:0 0 58px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:linear-gradient(145deg,#f8e7ef,#eee)}.previewthumb img{width:100%;height:100%;object-fit:cover}.promptidentity{display:flex;gap:9px;align-items:flex-start;min-width:0}.promptidentity>div:last-child{min-width:0}
 .empty{padding:26px 14px;text-align:center;border:1px dashed #d8d8dd;border-radius:16px;color:#85858d;font-size:10px}.empty b{color:#222}
 .bottomnav{position:fixed;left:50%;bottom:8px;z-index:50;transform:translateX(-50%);width:min(calc(100% - 16px),744px);display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:7px;border:1px solid #dddde2;border-radius:21px;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);box-shadow:0 14px 40px rgba(0,0,0,.14)}.bottomnav button{min-height:56px;border:0;border-radius:15px;background:transparent;color:#777;font-size:8px;font-weight:900}.bottomnav button b{display:block;margin-bottom:3px;font-size:17px}.bottomnav button.on{background:var(--pink2);color:var(--pink)}
 .overlay{position:fixed;inset:0;z-index:80;display:none;align-items:flex-end;justify-content:center;background:rgba(15,15,18,.58);backdrop-filter:blur(4px)}.overlay.show{display:flex}.sheet{width:min(100%,760px);max-height:94vh;overflow:auto;padding:14px 14px 24px;border-radius:25px 25px 0 0;background:#f7f7f9;box-shadow:0 -20px 60px rgba(0,0,0,.16)}.sheethead{display:flex;justify-content:space-between;gap:10px;align-items:start}.sheethead h2{margin:3px 0;font-family:Raleway,sans-serif;font-size:20px}.close{width:37px;height:37px;border:1px solid #ddd;border-radius:50%;background:#fff;font-size:18px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.field{min-width:0}.field.full{grid-column:1/-1}.field label{display:block;margin:0 0 5px;color:#74747c;font-size:8px;font-weight:900}.field input,.field textarea,.field select{width:100%;border:1px solid #dedee3;border-radius:12px;background:#fff;color:#222;padding:10px;outline:none;font-size:10px}.field input,.field select{height:43px}.field textarea{resize:vertical;line-height:1.5}.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(255,45,141,.08)}.checks{display:flex;gap:12px;flex-wrap:wrap;padding:10px;border:1px solid var(--line);border-radius:12px;background:#fff}.checks label{margin:0;color:#555;font-size:9px;font-weight:800}.imagebox{display:grid;grid-template-columns:120px 1fr;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:15px;background:#fff}.imagepreview{height:120px;border-radius:13px;overflow:hidden;background:linear-gradient(145deg,#ffe4f1,#eee);display:grid;place-items:center;color:#999;font-size:9px}.imagepreview img{width:100%;height:100%;object-fit:cover}.uploadhelp{color:#85858d;font-size:8px;line-height:1.45}.sheetactions{display:flex;justify-content:space-between;gap:8px;margin-top:12px}.rightactions{display:flex;gap:7px}.msg{min-height:15px;margin-top:8px;color:#777;font-size:8px}.msg.good{color:var(--green)}.msg.bad{color:var(--red)}
@@ -103,6 +103,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
         <div class="msg" id="importMsg"></div>
       </div>
     </div>
+    <div class="adminpager" id="promptPagination" aria-label="Navigasi halaman prompt admin"></div>
     <div class="promptlist" id="promptList" style="margin-top:10px"></div>
   </section>
 
@@ -203,7 +204,9 @@ const {Client,Account,TablesDB,Functions,Teams,Query,ID}=Appwrite;
 const client=new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
 const account=new Account(client),tables=new TablesDB(client),functions=new Functions(client),teams=new Teams(client);
 const DB='badai_prompt_umkm',TABLE='scene_prompts',FUNC='payment-api';
-let me=null,prompts=[],members=[],editing=null;
+let me=null,prompts=[],promptMeta=[],members=[],editing=null;
+const ADMIN_PAGE_SIZE=10;
+let promptPage=1,promptTotal=0,promptPages=1,promptMaxSort=0;
 
 const $=id=>document.getElementById(id);
 const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -239,31 +242,40 @@ function showView(name){
 }
 $('nav').querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>showView(b.dataset.view));
 
-async function loadPrompts(){
+async function loadPromptMeta(){
   const rows=[];
   for(let offset=0;offset<5000;offset+=100){
-    const r=await tables.listRows({databaseId:DB,tableId:TABLE,queries:[Query.orderAsc('sort_order'),Query.limit(100),Query.offset(offset)]});
+    const r=await tables.listRows({databaseId:DB,tableId:TABLE,queries:[Query.orderAsc('sort_order'),Query.select(['category','is_published','is_featured','preview_url','sort_order']),Query.limit(100),Query.offset(offset)]});
     const part=(r.rows||r.documents||[]).map(rowData);rows.push(...part);if(part.length<100)break;
   }
-  prompts=rows;
-  fillPromptFilters();
+  promptMeta=rows;promptMaxSort=Math.max(0,...rows.map(x=>Number(x.sort_order)||0));fillPromptFilters();
+}
+async function loadPrompts(){
+  const queries=[Query.orderAsc('sort_order'),Query.limit(ADMIN_PAGE_SIZE),Query.offset((promptPage-1)*ADMIN_PAGE_SIZE)];
+  const q=$('promptSearch').value.trim(),cat=$('categoryFilter').value,status=$('statusFilter').value;
+  if(q)queries.push(Query.search('title',q));if(cat)queries.push(Query.equal('category',cat));
+  if(status==='published')queries.push(Query.equal('is_published',true));
+  if(status==='draft')queries.push(Query.equal('is_published',false));
+  if(status==='featured')queries.push(Query.equal('is_featured',true));
+  if(status==='noimage')queries.push(Query.isNull('preview_url'));
+  const r=await tables.listRows({databaseId:DB,tableId:TABLE,queries});
+  prompts=(r.rows||r.documents||[]).map(rowData);promptTotal=Number(r.total||prompts.length);promptPages=Math.max(1,Math.ceil(promptTotal/ADMIN_PAGE_SIZE));
+  if(promptPage>promptPages){promptPage=promptPages;return loadPrompts()}
 }
 async function loadMembers(){
   try{const d=await api('/members/list',{limit:500});members=d.rows||[]}catch(e){members=[]}
 }
 async function reloadAll(){
-  busy(true);
-  try{await Promise.all([loadPrompts(),loadMembers()]);renderDashboard();renderPrompts();renderMembers()}
-  finally{busy(false)}
+  busy(true);try{await Promise.all([loadPromptMeta(),loadMembers()]);await loadPrompts();renderDashboard();renderPrompts();renderMembers()}finally{busy(false)}
 }
 function renderDashboard(){
-  $('sTotal').textContent=prompts.length.toLocaleString('id-ID');
-  $('sTayang').textContent=prompts.filter(x=>x.is_published!==false).length.toLocaleString('id-ID');
-  $('sUnggulan').textContent=prompts.filter(x=>x.is_featured===true).length.toLocaleString('id-ID');
-  $('sCategories').textContent=new Set(prompts.map(x=>x.category).filter(Boolean)).size.toLocaleString('id-ID');
+  $('sTotal').textContent=promptMeta.length.toLocaleString('id-ID');
+  $('sTayang').textContent=promptMeta.filter(x=>x.is_published!==false).length.toLocaleString('id-ID');
+  $('sUnggulan').textContent=promptMeta.filter(x=>x.is_featured===true).length.toLocaleString('id-ID');
+  $('sCategories').textContent=new Set(promptMeta.map(x=>x.category).filter(Boolean)).size.toLocaleString('id-ID');
   $('sMembers').textContent=members.filter(x=>x.status==='active').length.toLocaleString('id-ID');
-  $('sNoImage').textContent=prompts.filter(x=>!x.preview_url).length.toLocaleString('id-ID');
-  const counts={};prompts.forEach(x=>{if(x.category)counts[x.category]=(counts[x.category]||0)+1});
+  $('sNoImage').textContent=promptMeta.filter(x=>!x.preview_url).length.toLocaleString('id-ID');
+  const counts={};promptMeta.forEach(x=>{if(x.category)counts[x.category]=(counts[x.category]||0)+1});
   const rows=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,12),max=Math.max(1,...rows.map(x=>x[1]));
   $('categoryBars').innerHTML=rows.length?rows.map(([name,count])=>'<div class="catrow"><span>'+esc(name)+'</span><div class="bar"><i style="width:'+Math.max(5,Math.round(count/max*100))+'%"></i></div><b>'+count+'</b></div>').join(''):'<div class="empty">Belum ada kategori.</div>';
 }
@@ -277,40 +289,31 @@ function adminPromptVisual(p){
 }
 function fillPromptFilters(){
   const val=$('categoryFilter').value;
-  const cats=[...new Set(prompts.map(x=>x.category).filter(Boolean))].sort();
+  const cats=[...new Set(promptMeta.map(x=>x.category).filter(Boolean))].sort();
   $('categoryFilter').innerHTML='<option value="">Semua kategori</option>'+cats.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join('');
   if(cats.includes(val))$('categoryFilter').value=val;
 }
-function filteredPrompts(){
-  const q=$('promptSearch').value.trim().toLowerCase(),cat=$('categoryFilter').value,status=$('statusFilter').value;
-  return prompts.filter(x=>{
-    if(cat&&x.category!==cat)return false;
-    if(status==='published'&&x.is_published===false)return false;
-    if(status==='draft'&&x.is_published!==false)return false;
-    if(status==='featured'&&!x.is_featured)return false;
-    if(status==='noimage'&&x.preview_url)return false;
-    if(q&&!([x.title,x.category,x.subcategory,x.tags,x.style,x.source_creator].filter(Boolean).join(' ').toLowerCase().includes(q)))return false;
-    return true;
-  });
+function renderPromptPagination(){
+  const p=$('promptPagination');if(promptPages<=1){p.classList.remove('show');p.innerHTML='';return}
+  const start=Math.max(1,Math.min(promptPage-2,promptPages-4)),end=Math.min(promptPages,start+4),pages=[];for(let n=start;n<=end;n++)pages.push(n);
+  const options=Array.from({length:promptPages},(_,i)=>'<option value="'+(i+1)+'" '+((i+1)===promptPage?'selected':'')+'>Halaman '+(i+1)+'</option>').join('');
+  p.innerHTML='<div class="adminpagerrow"><button class="adminprev" data-prompt-page="'+(promptPage-1)+'" '+(promptPage===1?'disabled':'')+'>‹</button><div class="adminpagenums">'+pages.map(n=>'<button class="adminpagebtn '+(n===promptPage?'on':'')+'" data-prompt-page="'+n+'">'+n+'</button>').join('')+'</div><button class="adminnext" data-prompt-page="'+(promptPage+1)+'" '+(promptPage===promptPages?'disabled':'')+'>›</button></div><div class="adminpagejump"><label for="adminPageSelect">Pindah ke</label><select id="adminPageSelect">'+options+'</select><button id="adminPageGo" type="button">BUKA</button></div><div class="adminpageinfo">Halaman '+promptPage+' dari '+promptPages+' · '+promptTotal+' prompt · 10 prompt per halaman</div>';
+  p.classList.add('show');p.querySelectorAll('[data-prompt-page]').forEach(b=>b.onclick=()=>{const n=Number(b.dataset.promptPage);if(!b.disabled&&n>=1&&n<=promptPages&&n!==promptPage){promptPage=n;refreshPromptPage(true)}});$('adminPageGo').onclick=()=>{const n=Number($('adminPageSelect').value);if(n>=1&&n<=promptPages&&n!==promptPage){promptPage=n;refreshPromptPage(true)}};
 }
 function renderPrompts(){
-  const rows=filteredPrompts();
-  $('promptList').innerHTML=rows.length?rows.map(p=>
-    '<article class="adminpromptcard">'+
-      '<div class="adminpromptvisual">'+adminPromptVisual(p)+
-        (p.is_published===false?'<span class="adminpromptstate draftstate">DRAFT</span>':'')+
-      '</div>'+
-      '<div class="adminpromptbody">'+
-        '<h3>'+esc(p.title||'Tanpa judul')+'</h3>'+
-        '<button class="admincodebtn" type="button" onclick="editPrompt(\''+p.$id+'\')">'+esc(promptCode(p))+'</button>'+
-      '</div>'+
-    '</article>'
-  ).join(''):'<div class="empty" style="grid-column:1/-1"><b>Prompt tidak ditemukan.</b><br>Coba filter atau kata kunci lain.</div>';
+  renderPromptPagination();
+  $('promptList').innerHTML=prompts.length?prompts.map(p=>'<article class="adminpromptcard"><div class="adminpromptvisual">'+adminPromptVisual(p)+(p.is_published===false?'<span class="adminpromptstate draftstate">DRAF</span>':'')+'</div><div class="adminpromptbody"><h3>'+esc(p.title||'Tanpa judul')+'</h3><button class="admincodebtn" type="button" onclick="editPrompt(\''+p.$id+'\')">'+esc(promptCode(p))+'</button></div></article>').join(''):'<div class="empty" style="grid-column:1/-1"><b>Prompt tidak ditemukan.</b><br>Coba filter atau kata kunci lain.</div>';
 }
-$('promptSearch').oninput=renderPrompts;$('categoryFilter').onchange=renderPrompts;$('statusFilter').onchange=renderPrompts;
+async function refreshPromptPage(scroll=false){
+  busy(true);try{await loadPrompts();renderPrompts();if(scroll){const y=$('promptPagination').getBoundingClientRect().top+window.scrollY-90;window.scrollTo({top:y,behavior:'smooth'})}}catch(e){$('promptList').innerHTML='<div class="empty" style="grid-column:1/-1"><b>Prompt gagal dimuat.</b><br>'+esc(e.message||'Coba lagi.')+'</div>'}finally{busy(false)}
+}
+let promptSearchTimer=null;
+$('promptSearch').oninput=()=>{clearTimeout(promptSearchTimer);promptSearchTimer=setTimeout(()=>{promptPage=1;refreshPromptPage(false)},350)};
+$('categoryFilter').onchange=()=>{promptPage=1;refreshPromptPage(false)};
+$('statusFilter').onchange=()=>{promptPage=1;refreshPromptPage(false)};
 
 function resetPromptForm(){
-  editing=null;$('promptForm').reset();$('pId').value='';$('pTool').value='ChatGPT Image / Gemini';$('pGender').value='universal';$('pSort').value=prompts.length?Math.max(...prompts.map(x=>Number(x.sort_order)||0))+1:1;$('pNeedsReference').checked=true;$('pTayang').checked=true;$('pUnggulan').checked=false;$('imagePreview').innerHTML='Belum ada gambar';$('deletePromptBtn').style.display='none';$('promptModalTitle').textContent='Tambah Prompt';msg($('promptMsg'),'');
+  editing=null;$('promptForm').reset();$('pId').value='';$('pTool').value='ChatGPT Image / Gemini';$('pGender').value='universal';$('pSort').value=promptMaxSort+1;$('pNeedsReference').checked=true;$('pTayang').checked=true;$('pUnggulan').checked=false;$('imagePreview').innerHTML='Belum ada gambar';$('deletePromptBtn').style.display='none';$('promptModalTitle').textContent='Tambah Prompt';msg($('promptMsg'),'');
 }
 function openPrompt(){resetPromptForm();$('promptModal').classList.add('show')}
 window.editPrompt=id=>{
@@ -318,7 +321,7 @@ window.editPrompt=id=>{
   $('pId').value=p.$id;$('pPreviewUrl').value=p.preview_url||'';$('pCategory').value=p.category||'';$('pSubcategory').value=p.subcategory||'';$('pTitle').value=p.title||'';$('pStyle').value=p.style||'';$('pCamera').value=p.camera||'';$('pRatio').value=p.aspect_ratio||'';$('pTool').value=p.tool||'';$('pGender').value=p.gender||'universal';$('pSort').value=p.sort_order||0;$('pTags').value=p.tags||'';$('pPrompt').value=p.prompt_text||'';$('pSourceCreator').value=p.source_creator||'';$('pSourceUrl').value=p.source_url||'';$('pSourceNotes').value=p.source_notes||'';$('pNeedsReference').checked=p.needs_reference!==false;$('pTayang').checked=p.is_published!==false;$('pUnggulan').checked=p.is_featured===true;
   $('imagePreview').innerHTML=p.preview_url?'<img src="'+esc(p.preview_url)+'" alt="">':'Belum ada gambar';$('deletePromptBtn').style.display='inline-block';$('promptModalTitle').textContent='Ubah Prompt';msg($('promptMsg'),'');$('promptModal').classList.add('show');
 };
-window.togglePublish=async(id,val)=>{busy(true);try{await tables.updateRow({databaseId:DB,tableId:TABLE,rowId:id,data:{is_published:val}});await loadPrompts();renderPrompts();renderDashboard()}catch(e){alert(e.message||'Gagal mengubah status.')}finally{busy(false)}};
+window.togglePublish=async(id,val)=>{busy(true);try{await tables.updateRow({databaseId:DB,tableId:TABLE,rowId:id,data:{is_published:val}});await loadPromptMeta();await loadPrompts();renderPrompts();renderDashboard()}catch(e){alert(e.message||'Gagal mengubah status.')}finally{busy(false)}};
 
 $('pPreviewUrl').oninput=e=>{const u=normalizePreviewUrl(e.target.value);$('imagePreview').innerHTML=u?'<img src="'+esc(u)+'" alt="">':'Belum ada gambar';};
 $('openDropboxFolder').onclick=()=>window.open('https://www.dropbox.com/home/BADAI%20PROMPT','_blank');
@@ -331,14 +334,14 @@ $('promptForm').onsubmit=async e=>{
     if($('pId').value)await tables.updateRow({databaseId:DB,tableId:TABLE,rowId:$('pId').value,data});
     else await tables.createRow({databaseId:DB,tableId:TABLE,rowId:ID.unique(),data});
     if(url)$('pPreviewUrl').value=url;
-    msg($('promptMsg'),'Tersimpan ✓ Preview memakai Dropbox.','good');await loadPrompts();renderPrompts();renderDashboard();setTimeout(()=>$('promptModal').classList.remove('show'),450);
+    msg($('promptMsg'),'Tersimpan ✓ Preview memakai Dropbox.','good');await loadPromptMeta();await loadPrompts();renderPrompts();renderDashboard();setTimeout(()=>$('promptModal').classList.remove('show'),450);
   }catch(err){
     msg($('promptMsg'),err.message||'Prompt gagal disimpan.','bad');
   }finally{b.disabled=false;b.textContent='SIMPAN PROMPT'}
 };
 $('deletePromptBtn').onclick=async()=>{
   const id=$('pId').value;if(!id||!confirm('Hapus prompt ini permanen?'))return;
-  busy(true);try{await tables.deleteRow({databaseId:DB,tableId:TABLE,rowId:id});$('promptModal').classList.remove('show');await loadPrompts();renderPrompts();renderDashboard()}catch(e){alert(e.message||'Gagal menghapus prompt.')}finally{busy(false)}
+  busy(true);try{await tables.deleteRow({databaseId:DB,tableId:TABLE,rowId:id});$('promptModal').classList.remove('show');await loadPromptMeta();if(promptPage>Math.max(1,Math.ceil(promptMeta.length/ADMIN_PAGE_SIZE)))promptPage=Math.max(1,promptPage-1);await loadPrompts();renderPrompts();renderDashboard()}catch(e){alert(e.message||'Gagal menghapus prompt.')}finally{busy(false)}
 };
 
 function renderMembers(){
