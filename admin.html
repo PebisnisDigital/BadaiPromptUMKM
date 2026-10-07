@@ -23,7 +23,8 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
 .overlay{position:fixed;inset:0;z-index:80;display:none;align-items:flex-end;justify-content:center;background:rgba(15,15,18,.58);backdrop-filter:blur(4px)}.overlay.show{display:flex}.sheet{width:min(100%,760px);max-height:94vh;overflow:auto;padding:14px 14px 24px;border-radius:25px 25px 0 0;background:#f7f7f9;box-shadow:0 -20px 60px rgba(0,0,0,.16)}.sheethead{display:flex;justify-content:space-between;gap:10px;align-items:start}.sheethead h2{margin:3px 0;font-family:Raleway,sans-serif;font-size:20px}.close{width:37px;height:37px;border:1px solid #ddd;border-radius:50%;background:#fff;font-size:18px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.field{min-width:0}.field.full{grid-column:1/-1}.field label{display:block;margin:0 0 5px;color:#74747c;font-size:8px;font-weight:900}.field input,.field textarea,.field select{width:100%;border:1px solid #dedee3;border-radius:12px;background:#fff;color:#222;padding:10px;outline:none;font-size:10px}.field input,.field select{height:43px}.field textarea{resize:vertical;line-height:1.5}.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(255,45,141,.08)}.checks{display:flex;gap:12px;flex-wrap:wrap;padding:10px;border:1px solid var(--line);border-radius:12px;background:#fff}.checks label{margin:0;color:#555;font-size:9px;font-weight:800}.imagebox{display:grid;grid-template-columns:120px 1fr;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:15px;background:#fff}.imagepreview{height:120px;border-radius:13px;overflow:hidden;background:linear-gradient(145deg,#ffe4f1,#eee);display:grid;place-items:center;color:#999;font-size:9px}.imagepreview img{width:100%;height:100%;object-fit:cover}.uploadhelp{color:#85858d;font-size:8px;line-height:1.45}.sheetactions{display:flex;justify-content:space-between;gap:8px;margin-top:12px}.rightactions{display:flex;gap:7px}.msg{min-height:15px;margin-top:8px;color:#777;font-size:8px}.msg.good{color:var(--green)}.msg.bad{color:var(--red)}
 .gate{position:fixed;inset:0;z-index:120;display:flex;align-items:center;justify-content:center;padding:16px;background:radial-gradient(circle at 80% 0,#ffd6e8 0,transparent 28%),#f5f5f7}.gate.hide{display:none}.login{width:min(100%,430px);padding:20px;border:1px solid var(--line);border-radius:25px;background:#fff;box-shadow:0 20px 70px rgba(0,0,0,.1)}.login h1{margin:18px 0 5px;font-family:Raleway,sans-serif;font-size:28px;letter-spacing:-.045em}.login p{margin:0 0 13px;color:#818189;font-size:10px;line-height:1.5}.login .field{margin-top:9px}.loginbtn{width:100%;height:48px;margin-top:10px;border:0;border-radius:13px;background:var(--pink);color:#fff;font-weight:900}.linkbtn{width:100%;margin-top:7px;border:0;background:transparent;color:var(--pink);font-size:8px;font-weight:900;text-decoration:underline}.resetbox{display:none}.resetbox.show{display:block}.loginbox.hide{display:none}.loading{position:fixed;inset:0;z-index:110;display:none;place-items:center;background:rgba(245,245,247,.76)}.loading.show{display:grid}.loading div{padding:12px 15px;border:1px solid var(--line);border-radius:13px;background:#fff;color:#777;font-size:9px}
 .importbox{padding:10px;border:1px solid var(--line);border-radius:14px;background:#fff}.importbox p{margin:0 0 8px;color:#777;font-size:9px;line-height:1.5}.importactions{display:flex;gap:7px;flex-wrap:wrap}
-.membermeta{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start}
+.sales-subnav{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:0 0 10px;padding:5px;border:1px solid var(--line);border-radius:14px;background:#fff}.sales-subnav button{height:40px;border:0;border-radius:10px;background:transparent;color:#777;font-size:9px;font-weight:900}.sales-subnav button.on{background:var(--pink2);color:var(--pink)}.sales-pane.hidden{display:none}.sales-revenue-stats{grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:10px}.sales-revenue-stats .stat{min-height:88px}.sales-revenue-stats .success{background:#effbf4;border-color:#ccebd9}.sales-revenue-stats .pending{background:#fff9e9;border-color:#f1dfaa}.sales-revenue-stats .orders{background:#fff0f7;border-color:#ffd0e4}.sales-table-controls{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:4px 0 8px}.sales-page-size-control{display:flex;align-items:center;gap:6px;color:#777;font-size:9px;font-weight:800}.sales-page-size-control select{height:36px;border:1px solid var(--line);border-radius:9px;background:#fff;padding:0 8px;font-weight:900}.sales-toolbar{grid-template-columns:1fr 130px auto}.sales-export{height:39px;white-space:nowrap}.sales-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:15px;background:#fff}.sales-table{width:100%;border-collapse:collapse;min-width:700px}.sales-table th{padding:10px 9px;border-bottom:1px solid var(--line);background:#fafafa;color:#777;text-align:left;font-size:8px;font-weight:900;text-transform:uppercase}.sales-table td{padding:10px 9px;border-bottom:1px solid #eee;font-size:9px;vertical-align:middle}.sales-table tr:last-child td{border-bottom:0}.sales-no{color:var(--pink);font-weight:900}.sales-member b{display:block;font-size:10px}.sales-member small,.sales-package small{display:block;margin-top:2px;color:#85858d;font-size:8px}.sales-package b{display:block;color:#222}.sales-status{display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;font-size:7px;font-weight:900}.sales-status.success{background:#eaf8f0;color:#128a4c}.sales-status.pending{background:#fff6dc;color:#9a6900}.sales-status.expired{background:#f3f3f5;color:#777}.sales-status.failed{background:#fff0f3;color:#c8324e}.sales-detail-btn{height:32px;border:1px solid #dddde1;border-radius:9px;background:#fff;padding:0 10px;font-size:8px;font-weight:900}.sales-mobile-list{display:none}.sales-pagination-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:9px;padding:9px 10px;border:1px solid var(--line);border-radius:13px;background:#fff}.sales-pagination-info{color:#777;font-size:9px}.sales-pagination-buttons{display:flex;gap:5px;align-items:center}.sales-pagination-buttons button{min-width:34px;height:34px;border:1px solid var(--line);border-radius:9px;background:#fff;color:#555;font-size:9px;font-weight:900}.sales-pagination-buttons button.on{border-color:var(--pink);background:var(--pink);color:#fff}.sales-pagination-buttons button:disabled{opacity:.35}.order-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.order-detail-item{padding:10px;border:1px solid var(--line);border-radius:12px;background:#fff}.order-detail-item.full{grid-column:1/-1}.order-detail-item small{display:block;color:#85858d;font-size:8px;font-weight:900}.order-detail-item b{display:block;margin-top:4px;color:#222;font-size:11px;line-height:1.4;word-break:break-word}.order-detail-actions{display:flex;gap:7px;margin-top:10px}.order-detail-actions a,.order-detail-actions button{flex:1;min-height:42px;display:flex;align-items:center;justify-content:center;border-radius:11px;font-size:9px;font-weight:900;text-decoration:none}.order-detail-actions a{background:#17171a;color:#fff}.order-detail-actions button{border:0;background:var(--pink);color:#fff}.membermeta{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start}
+@media(max-width:620px){.sales-revenue-stats{grid-template-columns:repeat(3,minmax(0,1fr))}.sales-revenue-stats .stat{min-height:78px;padding:10px}.sales-revenue-stats .stat small{font-size:7px}.sales-revenue-stats .stat b{font-size:18px}.sales-toolbar{grid-template-columns:1fr 110px}.sales-export{grid-column:1/-1;width:100%}.sales-table-wrap{display:none}.sales-mobile-list{display:grid;gap:7px}.sales-mobile-card{padding:10px;border:1px solid var(--line);border-radius:14px;background:#fff}.sales-mobile-top{display:flex;justify-content:space-between;gap:8px}.sales-mobile-top b{font-size:10px}.sales-mobile-card small{display:block;margin-top:2px;color:#85858d;font-size:8px}.sales-mobile-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid #eee}.sales-mobile-meta span{font-size:8px;color:#666}.sales-mobile-card .sales-detail-btn{width:100%;margin-top:8px}.sales-pagination-bar{align-items:flex-start;flex-direction:column}.sales-pagination-buttons{width:100%;overflow-x:auto}.order-detail-grid{grid-template-columns:1fr}}
 @media(max-width:560px){.toolbar{grid-template-columns:1fr 1fr}.toolbar input{grid-column:1/-1}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.imagebox{grid-template-columns:1fr}.imagepreview{height:180px}.title h1{font-size:26px}.promptlist{gap:8px}.adminpromptbody{padding:9px}.adminpromptbody h3{font-size:11px}}
 </style>
 </head>
@@ -83,18 +84,56 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
   </section>
 
   <section class="view" id="v-sales">
-    <div class="title"><div><div class="eyebrow">PENJUALAN & MEMBER</div><h1>Penjualan</h1><p>Kelola data pembeli sekaligus akses member BADAI PROMPT.</p></div><button class="btn pink" id="addMemberBtn">+ MEMBER</button></div>
-    <div class="stats" style="margin-bottom:10px">
-      <div class="stat"><small>TOTAL MEMBER</small><b id="salesMemberTotal">0</b></div>
-      <div class="stat"><small>MEMBER AKTIF</small><b class="pinktext" id="salesMemberActive">0</b></div>
-      <div class="stat"><small>PENDING</small><b id="salesMemberPending">0</b></div>
-      <div class="stat"><small>DIBLOKIR</small><b id="salesMemberBlocked">0</b></div>
+    <div class="title"><div><div class="eyebrow">PENJUALAN & MEMBER</div><h1>Penjualan</h1><p>Tampilan data penjualan mengikuti pola ADMIN BADAI: ringkasan omzet, filter, tabel, aksi, dan pagination.</p></div><button class="btn pink" id="addMemberBtn">+ MEMBER</button></div>
+
+    <div class="sales-subnav">
+      <button class="on" type="button" data-sales-pane="orders">DATA PENJUALAN</button>
+      <button type="button" data-sales-pane="members">KELOLA MEMBER</button>
     </div>
-    <div class="toolbar" style="grid-template-columns:1fr 130px">
-      <input id="memberSearch" placeholder="Cari nama, email, WhatsApp…">
-      <select id="memberStatus"><option value="">Semua status</option><option value="active">Aktif</option><option value="pending">Pending</option><option value="blocked">Blocked</option></select>
+
+    <div class="sales-pane" id="salesOrdersPane">
+      <div class="stats sales-revenue-stats">
+        <div class="stat success"><small>OMSET LUNAS</small><b id="salesPaidRevenue">Rp0</b></div>
+        <div class="stat pending"><small>OMSET PENDING</small><b id="salesPendingRevenue">Rp0</b></div>
+        <div class="stat orders"><small>TOTAL ORDER</small><b id="salesOrderTotal">0</b></div>
+      </div>
+
+      <div class="sales-table-controls">
+        <label class="sales-page-size-control"><span>Tampilkan</span><select id="salesPageSize"><option value="10">10</option><option value="25" selected>25</option><option value="50">50</option><option value="100">100</option></select><span>data</span></label>
+      </div>
+
+      <div class="toolbar sales-toolbar">
+        <input id="salesSearch" type="search" placeholder="Cari nama, WA, email, transaksi, pembayaran…">
+        <select id="salesStatus"><option value="">Semua status</option><option value="success">Lunas</option><option value="pending">Pending</option><option value="expired">Expired</option><option value="failed">Gagal</option></select>
+        <button class="btn dark sales-export" id="salesExportBtn" type="button">⇩ EXPORT DATA</button>
+      </div>
+
+      <div class="sales-table-wrap">
+        <table class="sales-table">
+          <thead><tr><th>No</th><th>Member</th><th>Paket</th><th>Afiliasi</th><th>Status</th><th>Aksi</th></tr></thead>
+          <tbody id="salesTableBody"></tbody>
+        </table>
+      </div>
+      <div class="sales-mobile-list" id="salesMobileList"></div>
+      <div class="sales-pagination-bar" id="salesPaginationBar">
+        <div class="sales-pagination-info" id="salesPaginationInfo">Memuat data...</div>
+        <div class="sales-pagination-buttons" id="salesPaginationButtons"></div>
+      </div>
     </div>
-    <div class="memberlist" id="memberList"></div>
+
+    <div class="sales-pane hidden" id="salesMembersPane">
+      <div class="stats" style="margin-bottom:10px">
+        <div class="stat"><small>TOTAL MEMBER</small><b id="salesMemberTotal">0</b></div>
+        <div class="stat"><small>MEMBER AKTIF</small><b class="pinktext" id="salesMemberActive">0</b></div>
+        <div class="stat"><small>PENDING</small><b id="salesMemberPending">0</b></div>
+        <div class="stat"><small>DIBLOKIR</small><b id="salesMemberBlocked">0</b></div>
+      </div>
+      <div class="toolbar" style="grid-template-columns:1fr 130px">
+        <input id="memberSearch" placeholder="Cari nama, email, WhatsApp…">
+        <select id="memberStatus"><option value="">Semua status</option><option value="active">Aktif</option><option value="pending">Pending</option><option value="blocked">Blocked</option></select>
+      </div>
+      <div class="memberlist" id="memberList"></div>
+    </div>
   </section>
 
   <section class="view" id="v-affiliate">
@@ -176,6 +215,14 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
   </div>
 </div>
 
+<div class="overlay" id="orderModal">
+  <div class="sheet">
+    <div class="sheethead"><div><div class="eyebrow">DETAIL PENJUALAN</div><h2 id="orderModalTitle">Order</h2></div><button class="close" data-close="order">×</button></div>
+    <div class="order-detail-grid" id="orderDetailBody"></div>
+    <div class="order-detail-actions"><a id="orderWhatsappBtn" href="#" target="_blank" rel="noopener">BUKA WHATSAPP</a><button type="button" data-close="order">TUTUP</button></div>
+  </div>
+</div>
+
 <div class="overlay" id="memberModal">
   <div class="sheet">
     <div class="sheethead"><div><div class="eyebrow">MANUAL AKSES</div><h2>Tambah Member</h2></div><button class="close" data-close="member">×</button></div>
@@ -198,8 +245,9 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
 const {Client,Account,TablesDB,Functions,Teams,Query,ID}=Appwrite;
 const client=new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
 const account=new Account(client),tables=new TablesDB(client),functions=new Functions(client),teams=new Teams(client);
-const DB='badai_prompt_umkm',TABLE='scene_prompts',FUNC='payment-api';
-let me=null,prompts=[],promptMeta=[],members=[],editing=null;
+const DB='badai_prompt_umkm',TABLE='scene_prompts',ORDERS_TABLE='orders',FUNC='payment-api';
+let me=null,prompts=[],promptMeta=[],members=[],orders=[],salesSummaryRows=[],editing=null,currentOrder=null;
+let salesPage=1,salesPageSize=25,salesTotal=0,salesPages=1;
 const ADMIN_PAGE_SIZE=10;
 let promptPage=1,promptTotal=0,promptPages=1,promptMaxSort=0;
 
@@ -231,7 +279,7 @@ function showView(name){
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+name));
   $('nav').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.view===name));
   if(name==='prompts')renderPrompts();
-  if(name==='sales')renderMembers();
+  if(name==='sales'){renderSales();renderMembers();}
   window.scrollTo({top:0,behavior:'smooth'});
 }
 $('nav').querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>showView(b.dataset.view));
@@ -256,11 +304,46 @@ async function loadPrompts(){
   prompts=(r.rows||r.documents||[]).map(rowData);promptTotal=Number(r.total||prompts.length);promptPages=Math.max(1,Math.ceil(promptTotal/ADMIN_PAGE_SIZE));
   if(promptPage>promptPages){promptPage=promptPages;return loadPrompts()}
 }
+async function loadSalesSummary(){
+  const rows=[];
+  for(let offset=0;offset<5000;offset+=100){
+    const r=await tables.listRows({databaseId:DB,tableId:ORDERS_TABLE,queries:[Query.orderDesc('$createdAt'),Query.select(['status','amount','total_amount']),Query.limit(100),Query.offset(offset)]});
+    const part=(r.rows||r.documents||[]).map(rowData);rows.push(...part);if(part.length<100)break;
+  }
+  salesSummaryRows=rows;
+}
+async function loadAllSalesRows(){
+  const rows=[],status=$('salesStatus')?.value||'';
+  for(let offset=0;offset<5000;offset+=100){
+    const qs=[Query.orderDesc('$createdAt'),Query.limit(100),Query.offset(offset)];
+    if(status)qs.push(Query.equal('status',status));
+    const r=await tables.listRows({databaseId:DB,tableId:ORDERS_TABLE,queries:qs});
+    const part=(r.rows||r.documents||[]).map(rowData);rows.push(...part);if(part.length<100)break;
+  }
+  const q=($('salesSearch')?.value||'').trim().toLowerCase();
+  return q?rows.filter(x=>[x.full_name,x.email,x.whatsapp,x.transaction_id,x.payment_method,x.coupon_code].filter(Boolean).join(' ').toLowerCase().includes(q)):rows;
+}
+async function loadSalesPage(){
+  const q=($('salesSearch')?.value||'').trim(),status=$('salesStatus')?.value||'';
+  salesPageSize=Math.max(10,Math.min(100,Number($('salesPageSize')?.value||25)));
+  if(q){
+    const all=await loadAllSalesRows();
+    salesTotal=all.length;salesPages=Math.max(1,Math.ceil(salesTotal/salesPageSize));
+    if(salesPage>salesPages)salesPage=salesPages;
+    orders=all.slice((salesPage-1)*salesPageSize,salesPage*salesPageSize);
+    return;
+  }
+  const qs=[Query.orderDesc('$createdAt'),Query.limit(salesPageSize),Query.offset((salesPage-1)*salesPageSize)];
+  if(status)qs.push(Query.equal('status',status));
+  const r=await tables.listRows({databaseId:DB,tableId:ORDERS_TABLE,queries:qs});
+  orders=(r.rows||r.documents||[]).map(rowData);salesTotal=Number(r.total||orders.length);salesPages=Math.max(1,Math.ceil(salesTotal/salesPageSize));
+  if(salesPage>salesPages){salesPage=salesPages;return loadSalesPage()}
+}
 async function loadMembers(){
   try{const d=await api('/members/list',{limit:500});members=d.rows||[]}catch(e){members=[]}
 }
 async function reloadAll(){
-  busy(true);try{await Promise.all([loadPromptMeta(),loadMembers()]);await loadPrompts();renderPrompts();renderMembers()}finally{busy(false)}
+  busy(true);try{await Promise.all([loadPromptMeta(),loadMembers(),loadSalesSummary()]);await Promise.all([loadPrompts(),loadSalesPage()]);renderPrompts();renderSales();renderMembers()}finally{busy(false)}
 }
 function promptCode(p){
   const n=Number(p.sort_order)||Number(String(p.$id||'').replace(/\D/g,''))||0;
@@ -327,6 +410,50 @@ $('deletePromptBtn').onclick=async()=>{
   busy(true);try{await tables.deleteRow({databaseId:DB,tableId:TABLE,rowId:id});$('promptModal').classList.remove('show');await loadPromptMeta();if(promptPage>Math.max(1,Math.ceil(promptMeta.length/ADMIN_PAGE_SIZE)))promptPage=Math.max(1,promptPage-1);await loadPrompts();renderPrompts()}catch(e){alert(e.message||'Gagal menghapus prompt.')}finally{busy(false)}
 };
 
+const money=v=>'Rp'+Math.max(0,Number(v||0)).toLocaleString('id-ID');
+function salesStatusLabel(v){return ({success:'LUNAS',pending:'PENDING',expired:'EXPIRED',failed:'GAGAL'})[v]||String(v||'-').toUpperCase()}
+function salesPaymentLabel(v){const s=String(v||'').toLowerCase();if(s.includes('qris'))return 'QRIS';if(s.includes('bca'))return 'Bank BCA';return v||'Belum tercatat'}
+function salesDate(v){if(!v)return '-';try{return new Intl.DateTimeFormat('id-ID',{day:'2-digit',month:'short',year:'numeric'}).format(new Date(v))}catch{return '-'}}
+function renderSalesSummary(){
+  const paid=salesSummaryRows.filter(x=>x.status==='success').reduce((n,x)=>n+Number(x.total_amount||x.amount||0),0);
+  const pending=salesSummaryRows.filter(x=>x.status==='pending').reduce((n,x)=>n+Number(x.total_amount||x.amount||0),0);
+  $('salesPaidRevenue').textContent=money(paid);$('salesPendingRevenue').textContent=money(pending);$('salesOrderTotal').textContent=salesSummaryRows.length.toLocaleString('id-ID');
+}
+function renderSalesPagination(){
+  const info=$('salesPaginationInfo'),buttons=$('salesPaginationButtons');
+  const start=salesTotal?((salesPage-1)*salesPageSize+1):0,end=Math.min(salesPage*salesPageSize,salesTotal);
+  info.textContent='Menampilkan '+start+'–'+end+' dari '+salesTotal+' data';
+  if(salesPages<=1){buttons.innerHTML='';return}
+  const begin=Math.max(1,Math.min(salesPage-2,salesPages-4)),finish=Math.min(salesPages,begin+4),pages=[];for(let n=begin;n<=finish;n++)pages.push(n);
+  buttons.innerHTML='<button data-sales-page="'+(salesPage-1)+'" '+(salesPage===1?'disabled':'')+'>‹</button>'+pages.map(n=>'<button class="'+(n===salesPage?'on':'')+'" data-sales-page="'+n+'">'+n+'</button>').join('')+'<button data-sales-page="'+(salesPage+1)+'" '+(salesPage===salesPages?'disabled':'')+'>›</button>';
+  buttons.querySelectorAll('[data-sales-page]').forEach(b=>b.onclick=async()=>{const n=Number(b.dataset.salesPage);if(!b.disabled&&n>=1&&n<=salesPages&&n!==salesPage){salesPage=n;busy(true);try{await loadSalesPage();renderSales()}finally{busy(false)}}});
+}
+function renderSales(){
+  renderSalesSummary();
+  const tbody=$('salesTableBody'),mobile=$('salesMobileList');
+  if(!orders.length){
+    tbody.innerHTML='<tr><td colspan="6"><div class="empty">Belum ada data penjualan.</div></td></tr>';
+    mobile.innerHTML='<div class="empty">Belum ada data penjualan.</div>';renderSalesPagination();return;
+  }
+  tbody.innerHTML=orders.map((o,i)=>{
+    const no=(salesPage-1)*salesPageSize+i+1,amount=Number(o.total_amount||o.amount||0),affiliate=o.coupon_code||'—';
+    return '<tr><td class="sales-no">'+no+'</td><td class="sales-member"><b>'+esc(o.full_name||'-')+'</b><small>'+esc(o.whatsapp||o.email||'-')+'</small></td><td class="sales-package"><b>'+money(amount)+'</b><small>BADAI PROMPT · '+esc(salesPaymentLabel(o.payment_method))+'</small></td><td>'+esc(affiliate)+'</td><td><span class="sales-status '+esc(o.status||'pending')+'">'+esc(salesStatusLabel(o.status))+'</span></td><td><button class="sales-detail-btn" onclick="detailOrder(\''+o.$id+'\')">DETAIL</button></td></tr>';
+  }).join('');
+  mobile.innerHTML=orders.map((o,i)=>{
+    const no=(salesPage-1)*salesPageSize+i+1,amount=Number(o.total_amount||o.amount||0);
+    return '<div class="sales-mobile-card"><div class="sales-mobile-top"><div><b><span class="sales-no">#'+no+'</span> · '+esc(o.full_name||'-')+'</b><small>'+esc(o.whatsapp||o.email||'-')+'</small></div><span class="sales-status '+esc(o.status||'pending')+'">'+esc(salesStatusLabel(o.status))+'</span></div><div class="sales-mobile-meta"><span><b>'+money(amount)+'</b><br>BADAI PROMPT</span><span>'+esc(salesPaymentLabel(o.payment_method))+'<br>'+salesDate(o.$createdAt)+'</span></div><button class="sales-detail-btn" onclick="detailOrder(\''+o.$id+'\')">DETAIL</button></div>';
+  }).join('');
+  renderSalesPagination();
+}
+window.detailOrder=id=>{
+  const o=orders.find(x=>x.$id===id);if(!o)return;currentOrder=o;
+  $('orderModalTitle').textContent=o.full_name||'Detail Order';
+  const item=(label,value,full=false)=>'<div class="order-detail-item '+(full?'full':'')+'"><small>'+label+'</small><b>'+esc(value??'-')+'</b></div>';
+  $('orderDetailBody').innerHTML=item('NAMA',o.full_name)+item('STATUS',salesStatusLabel(o.status))+item('EMAIL',o.email,true)+item('WHATSAPP',o.whatsapp)+item('TOTAL',money(o.total_amount||o.amount))+item('PEMBAYARAN',salesPaymentLabel(o.payment_method))+item('TRANSAKSI',o.transaction_id||'-')+item('TANGGAL DAFTAR',salesDate(o.$createdAt))+item('TANGGAL BAYAR',salesDate(o.paid_at))+item('AKSES MEMBER',o.access_issued?'SUDAH AKTIF':'BELUM AKTIF')+item('KUPON / AFILIASI',o.coupon_code||'—')+item('CATATAN',o.notes||'—',true);
+  let wa=String(o.whatsapp||'').replace(/\D/g,'');if(wa.startsWith('0'))wa='62'+wa.slice(1);else if(wa.startsWith('8'))wa='62'+wa;
+  $('orderWhatsappBtn').href=wa?'https://wa.me/'+wa:'#';
+  $('orderModal').classList.add('show');
+};
 function renderMembers(){
   $('salesMemberTotal').textContent=members.length.toLocaleString('id-ID');
   $('salesMemberActive').textContent=members.filter(x=>x.status==='active'||x.access_status==='active').length.toLocaleString('id-ID');
@@ -336,6 +463,24 @@ function renderMembers(){
   const rows=members.filter(m=>{if(status&&m.status!==status)return false;if(q&&!([m.name,m.email,m.whatsapp].filter(Boolean).join(' ').toLowerCase().includes(q)))return false;return true});
   $('memberList').innerHTML=rows.length?rows.map(m=>'<div class="row"><div class="membermeta"><div><h3>'+esc(m.name||m.email||'Member')+'</h3><div class="muted">'+esc(m.email||'-')+'<br>'+esc(m.whatsapp||'-')+(m.access_until?'<br>Akses s/d '+new Date(m.access_until).toLocaleDateString('id-ID'):'')+'</div></div><span class="tag '+(m.status==='active'?'live':m.status==='blocked'?'draft':'')+'">'+esc(String(m.status||'pending').toUpperCase())+'</span></div></div>').join(''):'<div class="empty">Belum ada member sesuai filter.</div>';
 }
+let salesSearchTimer=null;
+$('salesSearch').oninput=()=>{clearTimeout(salesSearchTimer);salesSearchTimer=setTimeout(async()=>{salesPage=1;busy(true);try{await loadSalesPage();renderSales()}finally{busy(false)}},350)};
+$('salesStatus').onchange=async()=>{salesPage=1;busy(true);try{await loadSalesPage();renderSales()}finally{busy(false)}};
+$('salesPageSize').onchange=async()=>{salesPage=1;busy(true);try{await loadSalesPage();renderSales()}finally{busy(false)}};
+document.querySelectorAll('[data-sales-pane]').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('[data-sales-pane]').forEach(x=>x.classList.toggle('on',x===b));
+  $('salesOrdersPane').classList.toggle('hidden',b.dataset.salesPane!=='orders');
+  $('salesMembersPane').classList.toggle('hidden',b.dataset.salesPane!=='members');
+});
+$('salesExportBtn').onclick=async()=>{
+  const b=$('salesExportBtn');b.disabled=true;b.textContent='MENYIAPKAN…';
+  try{
+    const rows=await loadAllSalesRows();
+    const cols=['No','Nama','Email','WhatsApp','Total','Metode Pembayaran','Status','Transaction ID','Kupon','Akses Member','Tanggal'];
+    const csv=[cols.join(','),...rows.map((o,i)=>[i+1,o.full_name,o.email,o.whatsapp,o.total_amount||o.amount||0,salesPaymentLabel(o.payment_method),salesStatusLabel(o.status),o.transaction_id||'',o.coupon_code||'',o.access_issued?'Aktif':'Belum',o.$createdAt].map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(','))].join('\n');
+    const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='badai-prompt-penjualan.csv';a.click();URL.revokeObjectURL(url);
+  }catch(e){alert(e.message||'Export gagal.')}finally{b.disabled=false;b.textContent='⇩ EXPORT DATA'}
+};
 $('memberSearch').oninput=renderMembers;$('memberStatus').onchange=renderMembers;
 function openMember(){$('memberForm').reset();$('mStatus').value='active';msg($('memberMsg'),'');$('memberModal').classList.add('show')}
 $('memberForm').onsubmit=async e=>{
@@ -376,9 +521,9 @@ $('csvInput').onchange=async e=>{
   }catch(err){msg($('importMsg'),err.message||'Import gagal.','bad')}finally{e.target.value=''}
 };
 
-function closeModal(name){if(name==='prompt')$('promptModal').classList.remove('show');if(name==='member')$('memberModal').classList.remove('show')}
+function closeModal(name){if(name==='prompt')$('promptModal').classList.remove('show');if(name==='member')$('memberModal').classList.remove('show');if(name==='order')$('orderModal').classList.remove('show')}
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeModal(b.dataset.close));
-[$('promptModal'),$('memberModal')].forEach(o=>o.onclick=e=>{if(e.target===o)o.classList.remove('show')});
+[$('promptModal'),$('memberModal'),$('orderModal')].forEach(o=>o.onclick=e=>{if(e.target===o)o.classList.remove('show')});
 $('addPromptBtn').onclick=openPrompt;$('addMemberBtn').onclick=openMember;
 
 async function verifyAdmin(){
