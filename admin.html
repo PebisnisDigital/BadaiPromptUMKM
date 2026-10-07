@@ -122,7 +122,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
       <div class="row"><div class="rowtop"><div><h3>Member Area</h3><div class="muted">/member</div></div><span class="tag live">AKTIF</span></div></div>
       <div class="row" style="margin-top:7px"><div class="rowtop"><div><h3>Admin</h3><div class="muted">/admin</div></div><span class="tag live">AKTIF</span></div></div>
       <div class="row" style="margin-top:7px"><div class="rowtop"><div><h3>Database Prompt</h3><div class="muted">Appwrite → scene_prompts</div></div><span class="tag live">AKTIF</span></div></div>
-      <div class="row" style="margin-top:7px"><div class="rowtop"><div><h3>Storage Preview</h3><div class="muted">Appwrite → prompt-previews</div></div><span class="tag live">AKTIF</span></div></div>
+      <div class="row" style="margin-top:7px"><div class="rowtop"><div><h3>Storage Preview</h3><div class="muted">Dropbox → /BADAI PROMPT</div></div><span class="tag live">AKTIF</span></div></div>
     </div>
     <div class="panel">
       <h2>Keamanan Admin</h2>
@@ -145,13 +145,13 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
   <div class="sheet">
     <div class="sheethead"><div><div class="eyebrow">PROMPT CMS</div><h2 id="promptModalTitle">Tambah Prompt</h2></div><button class="close" data-close="prompt">×</button></div>
     <form id="promptForm">
-      <input type="hidden" id="pId"><input type="hidden" id="pPreviewFileId">
+      <input type="hidden" id="pId">
       <div class="imagebox" style="margin-top:10px">
         <div class="imagepreview" id="imagePreview">Belum ada gambar</div>
         <div>
-          <div class="field"><label>UPLOAD GAMBAR PREVIEW</label><input id="pImageFile" type="file" accept="image/jpeg,image/png,image/webp"></div>
-          <div class="field" style="margin-top:7px"><label>ATAU URL GAMBAR</label><input id="pPreviewUrl" type="url" placeholder="https://..."></div>
-          <div class="uploadhelp">Disarankan WebP/JPG portrait 4:5, maksimal 5 MB. Upload akan disimpan di Appwrite Storage.</div>
+          <div class="field"><label>LINK GAMBAR DROPBOX</label><input id="pPreviewUrl" type="url" placeholder="https://www.dropbox.com/..."></div>
+          <div class="importactions" style="margin-top:7px"><button class="btn dark sm" id="openDropboxFolder" type="button">BUKA FOLDER DROPBOX</button></div>
+          <div class="uploadhelp">Upload preview WebP ke folder kategori di <b>/BADAI PROMPT</b>, buat shared link Dropbox, lalu tempel di sini. Link Dropbox otomatis diubah ke format raw saat disimpan agar bisa tampil di member area.</div>
         </div>
       </div>
       <div class="formgrid">
@@ -199,10 +199,10 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
 
 <script src="https://cdn.jsdelivr.net/npm/appwrite@28.1.0"></script>
 <script>
-const {Client,Account,TablesDB,Storage,Functions,Teams,Query,ID}=Appwrite;
+const {Client,Account,TablesDB,Functions,Teams,Query,ID}=Appwrite;
 const client=new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
-const account=new Account(client),tables=new TablesDB(client),storage=new Storage(client),functions=new Functions(client),teams=new Teams(client);
-const DB='badai_prompt_umkm',TABLE='scene_prompts',BUCKET='prompt-previews',FUNC='payment-api';
+const account=new Account(client),tables=new TablesDB(client),functions=new Functions(client),teams=new Teams(client);
+const DB='badai_prompt_umkm',TABLE='scene_prompts',FUNC='payment-api';
 let me=null,prompts=[],members=[],editing=null;
 
 const $=id=>document.getElementById(id);
@@ -210,7 +210,18 @@ const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&
 const msg=(el,t,type='')=>{el.textContent=t||'';el.className='msg '+type};
 const rowData=r=>{const d=r.data||r;return {...d,$id:r.$id||d.$id,$createdAt:r.$createdAt||d.$createdAt}};
 const busy=v=>$('loading').classList.toggle('show',!!v);
-const previewUrl=id=>'https://sgp.cloud.appwrite.io/v1/storage/buckets/'+BUCKET+'/files/'+id+'/view?project=badai-prompt-umkm';
+function normalizePreviewUrl(value){
+  const raw=String(value||'').trim();
+  if(!raw)return null;
+  try{
+    const u=new URL(raw);
+    if(u.hostname==='dropbox.com'||u.hostname.endsWith('.dropbox.com')){
+      u.searchParams.delete('dl');
+      u.searchParams.set('raw','1');
+    }
+    return u.toString();
+  }catch{return raw}
+}
 
 async function api(path,body={}){
   const ex=await functions.createExecution({functionId:FUNC,body:JSON.stringify(body),async:false,xpath:'/admin'+path,method:'POST',headers:{'content-type':'application/json'}});
@@ -281,41 +292,35 @@ function renderPrompts(){
 $('promptSearch').oninput=renderPrompts;$('categoryFilter').onchange=renderPrompts;$('statusFilter').onchange=renderPrompts;
 
 function resetPromptForm(){
-  editing=null;$('promptForm').reset();$('pId').value='';$('pPreviewFileId').value='';$('pTool').value='ChatGPT Image / Gemini';$('pGender').value='universal';$('pSort').value=prompts.length?Math.max(...prompts.map(x=>Number(x.sort_order)||0))+1:1;$('pNeedsReference').checked=true;$('pPublished').checked=true;$('pFeatured').checked=false;$('imagePreview').innerHTML='Belum ada gambar';$('deletePromptBtn').style.display='none';$('promptModalTitle').textContent='Tambah Prompt';msg($('promptMsg'),'');
+  editing=null;$('promptForm').reset();$('pId').value='';$('pTool').value='ChatGPT Image / Gemini';$('pGender').value='universal';$('pSort').value=prompts.length?Math.max(...prompts.map(x=>Number(x.sort_order)||0))+1:1;$('pNeedsReference').checked=true;$('pPublished').checked=true;$('pFeatured').checked=false;$('imagePreview').innerHTML='Belum ada gambar';$('deletePromptBtn').style.display='none';$('promptModalTitle').textContent='Tambah Prompt';msg($('promptMsg'),'');
 }
 function openPrompt(){resetPromptForm();$('promptModal').classList.add('show')}
 window.editPrompt=id=>{
   const p=prompts.find(x=>x.$id===id);if(!p)return;editing=p;
-  $('pId').value=p.$id;$('pPreviewFileId').value=p.preview_file_id||'';$('pPreviewUrl').value=p.preview_url||'';$('pCategory').value=p.category||'';$('pSubcategory').value=p.subcategory||'';$('pTitle').value=p.title||'';$('pStyle').value=p.style||'';$('pCamera').value=p.camera||'';$('pRatio').value=p.aspect_ratio||'';$('pTool').value=p.tool||'';$('pGender').value=p.gender||'universal';$('pSort').value=p.sort_order||0;$('pTags').value=p.tags||'';$('pPrompt').value=p.prompt_text||'';$('pSourceCreator').value=p.source_creator||'';$('pSourceUrl').value=p.source_url||'';$('pSourceNotes').value=p.source_notes||'';$('pNeedsReference').checked=p.needs_reference!==false;$('pPublished').checked=p.is_published!==false;$('pFeatured').checked=p.is_featured===true;
+  $('pId').value=p.$id;$('pPreviewUrl').value=p.preview_url||'';$('pCategory').value=p.category||'';$('pSubcategory').value=p.subcategory||'';$('pTitle').value=p.title||'';$('pStyle').value=p.style||'';$('pCamera').value=p.camera||'';$('pRatio').value=p.aspect_ratio||'';$('pTool').value=p.tool||'';$('pGender').value=p.gender||'universal';$('pSort').value=p.sort_order||0;$('pTags').value=p.tags||'';$('pPrompt').value=p.prompt_text||'';$('pSourceCreator').value=p.source_creator||'';$('pSourceUrl').value=p.source_url||'';$('pSourceNotes').value=p.source_notes||'';$('pNeedsReference').checked=p.needs_reference!==false;$('pPublished').checked=p.is_published!==false;$('pFeatured').checked=p.is_featured===true;
   $('imagePreview').innerHTML=p.preview_url?'<img src="'+esc(p.preview_url)+'" alt="">':'Belum ada gambar';$('deletePromptBtn').style.display='inline-block';$('promptModalTitle').textContent='Edit Prompt';msg($('promptMsg'),'');$('promptModal').classList.add('show');
 };
 window.togglePublish=async(id,val)=>{busy(true);try{await tables.updateRow({databaseId:DB,tableId:TABLE,rowId:id,data:{is_published:val}});await loadPrompts();renderPrompts();renderDashboard()}catch(e){alert(e.message||'Gagal mengubah status.')}finally{busy(false)}};
 
-$('pImageFile').onchange=e=>{const f=e.target.files?.[0];if(!f)return;const u=URL.createObjectURL(f);$('imagePreview').innerHTML='<img src="'+u+'" alt="">';};
-$('pPreviewUrl').oninput=e=>{if(e.target.value&&!$('pImageFile').files?.length)$('imagePreview').innerHTML='<img src="'+esc(e.target.value)+'" alt="">';};
+$('pPreviewUrl').oninput=e=>{const u=normalizePreviewUrl(e.target.value);$('imagePreview').innerHTML=u?'<img src="'+esc(u)+'" alt="">':'Belum ada gambar';};
+$('openDropboxFolder').onclick=()=>window.open('https://www.dropbox.com/home/BADAI%20PROMPT','_blank');
 
 $('promptForm').onsubmit=async e=>{
   e.preventDefault();const b=$('savePromptBtn');b.disabled=true;b.textContent='MENYIMPAN…';msg($('promptMsg'),'Menyimpan prompt…');
-  let newFileId='',oldFileId=$('pPreviewFileId').value||'',url=$('pPreviewUrl').value.trim()||null;
+  const url=normalizePreviewUrl($('pPreviewUrl').value);
   try{
-    const f=$('pImageFile').files?.[0];
-    if(f){
-      const uploaded=await storage.createFile({bucketId:BUCKET,fileId:ID.unique(),file:f});
-      newFileId=uploaded.$id;url=previewUrl(newFileId);
-    }
-    const data={category:$('pCategory').value.trim(),subcategory:$('pSubcategory').value.trim()||null,title:$('pTitle').value.trim(),prompt_text:$('pPrompt').value.trim(),preview_url:url,preview_file_id:newFileId||oldFileId||null,style:$('pStyle').value.trim()||null,camera:$('pCamera').value.trim()||null,aspect_ratio:$('pRatio').value.trim()||null,tool:$('pTool').value.trim()||null,gender:$('pGender').value,tags:$('pTags').value.trim()||null,source_creator:$('pSourceCreator').value.trim()||null,source_url:$('pSourceUrl').value.trim()||null,source_notes:$('pSourceNotes').value.trim()||null,needs_reference:$('pNeedsReference').checked,is_published:$('pPublished').checked,is_featured:$('pFeatured').checked,sort_order:Number($('pSort').value)||0};
+    const data={category:$('pCategory').value.trim(),subcategory:$('pSubcategory').value.trim()||null,title:$('pTitle').value.trim(),prompt_text:$('pPrompt').value.trim(),preview_url:url,preview_file_id:null,style:$('pStyle').value.trim()||null,camera:$('pCamera').value.trim()||null,aspect_ratio:$('pRatio').value.trim()||null,tool:$('pTool').value.trim()||null,gender:$('pGender').value,tags:$('pTags').value.trim()||null,source_creator:$('pSourceCreator').value.trim()||null,source_url:$('pSourceUrl').value.trim()||null,source_notes:$('pSourceNotes').value.trim()||null,needs_reference:$('pNeedsReference').checked,is_published:$('pPublished').checked,is_featured:$('pFeatured').checked,sort_order:Number($('pSort').value)||0};
     if($('pId').value)await tables.updateRow({databaseId:DB,tableId:TABLE,rowId:$('pId').value,data});
     else await tables.createRow({databaseId:DB,tableId:TABLE,rowId:ID.unique(),data});
-    if(newFileId&&oldFileId&&oldFileId!==newFileId){try{await storage.deleteFile({bucketId:BUCKET,fileId:oldFileId})}catch{}}
-    msg($('promptMsg'),'Tersimpan ✓','good');await loadPrompts();renderPrompts();renderDashboard();setTimeout(()=>$('promptModal').classList.remove('show'),450);
+    if(url)$('pPreviewUrl').value=url;
+    msg($('promptMsg'),'Tersimpan ✓ Preview memakai Dropbox.','good');await loadPrompts();renderPrompts();renderDashboard();setTimeout(()=>$('promptModal').classList.remove('show'),450);
   }catch(err){
-    if(newFileId){try{await storage.deleteFile({bucketId:BUCKET,fileId:newFileId})}catch{}}
     msg($('promptMsg'),err.message||'Prompt gagal disimpan.','bad');
   }finally{b.disabled=false;b.textContent='SIMPAN PROMPT'}
 };
 $('deletePromptBtn').onclick=async()=>{
   const id=$('pId').value;if(!id||!confirm('Hapus prompt ini permanen?'))return;
-  busy(true);try{const fileId=$('pPreviewFileId').value;await tables.deleteRow({databaseId:DB,tableId:TABLE,rowId:id});if(fileId){try{await storage.deleteFile({bucketId:BUCKET,fileId})}catch{}}$('promptModal').classList.remove('show');await loadPrompts();renderPrompts();renderDashboard()}catch(e){alert(e.message||'Gagal menghapus prompt.')}finally{busy(false)}
+  busy(true);try{await tables.deleteRow({databaseId:DB,tableId:TABLE,rowId:id});$('promptModal').classList.remove('show');await loadPrompts();renderPrompts();renderDashboard()}catch(e){alert(e.message||'Gagal menghapus prompt.')}finally{busy(false)}
 };
 
 function renderMembers(){
@@ -355,7 +360,7 @@ $('csvInput').onchange=async e=>{
     for(let i=1;i<rows.length;i++){
       const obj={};headers.forEach((h,idx)=>obj[h]=(rows[i][idx]??'').trim());
       if(!obj.category||!obj.title||!obj.prompt_text){failed++;continue}
-      const data={category:obj.category,subcategory:obj.subcategory||null,title:obj.title,prompt_text:obj.prompt_text,preview_url:obj.preview_url||null,preview_file_id:null,style:obj.style||null,camera:obj.camera||null,aspect_ratio:obj.aspect_ratio||null,tool:obj.tool||'ChatGPT Image / Gemini',gender:obj.gender||'universal',tags:obj.tags||null,source_creator:obj.source_creator||null,source_url:obj.source_url||null,source_notes:obj.source_notes||null,needs_reference:truthy(obj.needs_reference,true),is_published:truthy(obj.is_published,true),is_featured:truthy(obj.is_featured,false),sort_order:Number(obj.sort_order)||prompts.length+i};
+      const data={category:obj.category,subcategory:obj.subcategory||null,title:obj.title,prompt_text:obj.prompt_text,preview_url:normalizePreviewUrl(obj.preview_url),preview_file_id:null,style:obj.style||null,camera:obj.camera||null,aspect_ratio:obj.aspect_ratio||null,tool:obj.tool||'ChatGPT Image / Gemini',gender:obj.gender||'universal',tags:obj.tags||null,source_creator:obj.source_creator||null,source_url:obj.source_url||null,source_notes:obj.source_notes||null,needs_reference:truthy(obj.needs_reference,true),is_published:truthy(obj.is_published,true),is_featured:truthy(obj.is_featured,false),sort_order:Number(obj.sort_order)||prompts.length+i};
       try{await tables.createRow({databaseId:DB,tableId:TABLE,rowId:ID.unique(),data});success++}catch(err){failed++}
       msg($('importMsg'),'Import '+(i)+'/'+(rows.length-1)+'…');
     }
