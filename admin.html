@@ -3,1397 +3,398 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Admin — BADAI PROMPT UMKM</title>
-<meta name="theme-color" content="#070707">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><style>
-:root{--bg:#070707;--s:#0e0e0e;--c:#121212;--c2:#171717;--line:#2a2a2a;--text:#fff;--muted:#919191;--pink:#ff2d8d;--pink2:#ff6fb3;--green:#73f6a7;--red:#ff7088;--yellow:#ffd166}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#000;color:var(--text);font-family:"Roboto","Segoe UI",Arial,sans-serif}button,input,textarea,select{font:inherit}
-.app{max-width:940px;margin:auto;min-height:100vh;background:radial-gradient(circle at 90% 0,rgba(255,45,141,.16),transparent 26%),var(--bg);padding-bottom:88px}
-header{position:sticky;top:0;z-index:30;background:rgba(7,7,7,.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.brand{font-weight:1000;letter-spacing:-.5px}.brand b{color:var(--pink)}.brand small{display:block;color:#777;font-size:9px;letter-spacing:.7px;margin-top:2px}
-.head-actions{display:flex;align-items:center;gap:8px}.admin-name{font-size:10px;color:#999;max-width:170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.btn{border:0;border-radius:12px;padding:10px 12px;font-weight:900;cursor:pointer}.pink{background:var(--pink);color:#fff}.dark{background:#191919;color:#fff;border:1px solid #333}.danger{background:#2a1117;color:#ff8da0;border:1px solid #5a2631}.good{background:#102319;color:var(--green);border:1px solid #28543a}.sm{padding:7px 9px;font-size:10px}
-main{padding:16px}.view{display:none}.view.on{display:block}.eyebrow{font-size:10px;color:var(--pink2);font-weight:900;letter-spacing:1px}.title-row{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:14px}.title-row h1{font-size:28px;margin:5px 0}.title-row p{margin:0;color:#888;font-size:11px}
-.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.stat{background:var(--c);border:1px solid var(--line);border-radius:16px;padding:14px}.stat small{color:#777;font-size:9px}.stat b{display:block;font-size:25px;margin-top:4px}.stat .pinktext{color:var(--pink2)}
-.panel{background:var(--c);border:1px solid var(--line);border-radius:18px;padding:14px;margin-top:12px}.panel h2{font-size:16px;margin:0 0 10px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.toolbar input,.toolbar select,.field input,.field textarea,.field select{background:#090909;border:1px solid #323232;color:#fff;border-radius:12px;padding:11px;outline:none}.toolbar input{flex:1;min-width:180px}.toolbar select{min-width:135px}.toolbar input:focus,.toolbar select:focus,.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--pink)}
-.list{display:grid;gap:8px}.row{background:#0d0d0d;border:1px solid #292929;border-radius:14px;padding:12px}.row-head{display:flex;justify-content:space-between;gap:10px}.row h3{font-size:13px;margin:0 0 4px}.muted{color:#818181;font-size:10px;line-height:1.5}.tags{display:flex;gap:5px;flex-wrap:wrap;margin:7px 0}.tag{font-size:8px;color:#aaa;border:1px solid #333;border-radius:999px;padding:4px 6px}.tag.live{color:var(--green);border-color:#28543a}.tag.off{color:#ff8da0;border-color:#5a2631}.tag.pend{color:var(--yellow);border-color:#594d24}.row-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
-.order-grid{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start}.money{font-weight:900;text-align:right}.status{font-size:9px;font-weight:900;text-transform:uppercase}.status.success{color:var(--green)}.status.pending{color:var(--yellow)}.status.failed,.status.expired{color:var(--red)}
-.empty{text-align:center;padding:28px;border:1px dashed #333;border-radius:15px;color:#777}.loading{opacity:.55;pointer-events:none}.pager{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid #242424}.pager-info{font-size:9px;color:#888;text-align:center;flex:1}.pager button:disabled{opacity:.35;cursor:not-allowed}
-.nav{position:fixed;z-index:35;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,940px);display:grid;grid-template-columns:repeat(5,1fr);background:rgba(9,9,9,.97);border-top:1px solid var(--line);padding:8px 5px 10px;backdrop-filter:blur(14px)}.nav button{background:none;border:0;color:#777;font-size:9px;padding:5px}.nav button b{display:block;font-size:16px;margin-bottom:2px}.nav button.on{color:var(--pink2)}
-.gate{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 80% 0,rgba(255,45,141,.22),transparent 30%),#070707;display:flex;align-items:center;justify-content:center;padding:18px}.gate.hide{display:none}.login{width:min(100%,420px);background:#0e0e0e;border:1px solid #303030;border-radius:24px;padding:20px}.login h1{font-size:26px;margin:16px 0 6px}.login p{color:#999;font-size:12px;line-height:1.55}.field{margin-top:9px}.field label{display:block;color:#999;font-size:9px;font-weight:800;margin-bottom:5px}.field input,.field textarea,.field select{width:100%}.password-wrap{position:relative}.password-wrap input{padding-right:48px}.password-toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:34px;height:34px;border:0;border-radius:9px;background:transparent;color:#ff2f92;display:grid;place-items:center;cursor:pointer;font-size:18px;line-height:1;transition:background .18s ease,transform .18s ease}.password-toggle:hover,.password-toggle:focus-visible{background:rgba(255,47,146,.12);outline:none}.password-toggle:active{transform:translateY(-50%) scale(.92)}.msg{font-size:10px;min-height:18px;color:#999;margin-top:9px}.msg.bad{color:var(--red)}.msg.good{color:var(--green)}
-.modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.82);display:none;align-items:flex-end;justify-content:center}.modal.show{display:flex}.sheet{width:min(100%,720px);max-height:94vh;overflow:auto;background:#101010;border:1px solid #333;border-radius:24px 24px 0 0;padding:17px}.sheet-head{display:flex;justify-content:space-between;gap:10px;align-items:start}.sheet h2{font-size:21px;margin:3px 0}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.full{grid-column:1/-1}.checks{display:flex;gap:14px;flex-wrap:wrap;padding:9px 0;color:#aaa;font-size:11px}.sheet-actions{display:flex;gap:8px;margin-top:12px}.sheet-actions .pink{flex:1}
-.switch{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px;background:#0c0c0c;border:1px solid #292929;border-radius:14px;margin-top:8px}.insight-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}.rank-list{display:grid;gap:7px}.rank-item{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;background:#0d0d0d;border:1px solid #292929;border-radius:13px;padding:10px}.rank-no{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#1d1118;color:var(--pink2);font-size:10px;font-weight:900}.rank-item b{display:block;font-size:11px}.rank-item span{display:block;font-size:8px;color:#7d7d7d;margin-top:3px}.rank-count{font-size:11px;font-weight:900;color:#fff}.chart{display:flex;align-items:end;gap:7px;height:150px;padding:10px 4px 0}.barcol{flex:1;min-width:0;text-align:center}.barwrap{height:108px;display:flex;align-items:end;justify-content:center}.bar{width:100%;max-width:36px;min-height:4px;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,var(--pink),#742047)}.barval{font-size:8px;color:#ddd;margin-bottom:4px}.barlabel{font-size:7px;color:#777;margin-top:6px;line-height:1.2}.insight-note{font-size:9px;color:#777;line-height:1.5;margin-top:8px}@media(min-width:700px){.insight-grid{grid-template-columns:1fr 1fr}.insight-grid .wide{grid-column:1/-1}}
-@media(min-width:650px){.cards{grid-template-columns:repeat(4,1fr)}.list.two{grid-template-columns:1fr 1fr}.formgrid{grid-template-columns:repeat(2,1fr)}}
-
-:root{--font-sf:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",sans-serif;--font-roboto:"Roboto","Segoe UI",Arial,sans-serif}
-body,input,textarea,select{font-family:var(--font-roboto)}
-h1,h2,h3,h4,h5,h6,.brand,.eyebrow,.btn,button,summary,.amount,strong,b{font-family:var(--font-sf)}
-
-/* ADMIN UI V2 — clean super-app style, BADAI brand */
-:root{
-  --admin-canvas:#f5f5f7;
-  --admin-card:#ffffff;
-  --admin-ink:#111114;
-  --admin-soft:#f0f0f2;
-  --admin-border:#e5e5e8;
-  --admin-muted:#73737a;
-  --admin-pink:#ff2d8d;
-  --admin-pink-soft:#fff0f7;
-  --admin-shadow:0 8px 28px rgba(20,20,24,.06);
-}
-body{
-  background:var(--admin-canvas);
-  color:var(--admin-ink);
-  font-family:var(--font-roboto);
-}
-.app{
-  max-width:1180px;
-  min-height:100vh;
-  margin:0 auto;
-  padding-bottom:94px;
-  background:var(--admin-canvas);
-}
-header{
-  min-height:72px;
-  padding:12px 20px;
-  background:rgba(255,255,255,.94);
-  border-bottom:1px solid var(--admin-border);
-  box-shadow:0 2px 12px rgba(18,18,20,.035);
-  backdrop-filter:blur(18px);
-}
-header .brand{color:var(--admin-ink)}
-header .brand b{color:var(--admin-pink)}
-header .brand small{color:#a0a0a6}
-.head-actions{gap:10px}
-.admin-name{color:#707078;font-weight:600}
-main{padding:24px 20px 32px}
-.eyebrow{
-  color:var(--admin-pink);
-  font-size:9px;
-  letter-spacing:.12em;
-}
-.title-row{
-  align-items:center;
-  margin-bottom:18px;
-}
-.title-row h1{
-  margin:4px 0 3px;
-  color:var(--admin-ink);
-  font-size:30px;
-  line-height:1.05;
-  letter-spacing:-.035em;
-}
-.title-row p{color:var(--admin-muted);font-size:11px}
-.btn{
-  min-height:40px;
-  padding:9px 14px;
-  border-radius:999px;
-  transition:transform .16s ease,box-shadow .16s ease,background .16s ease;
-}
-.btn:hover{transform:translateY(-1px)}
-.btn:active{transform:scale(.98)}
-.btn.pink,.pink{
-  background:var(--admin-pink);
-  color:#fff;
-  box-shadow:0 6px 16px rgba(255,45,141,.18);
-}
-.btn.dark,.dark{
-  background:#fff;
-  color:#1c1c20;
-  border:1px solid var(--admin-border);
-  box-shadow:none;
-}
-.btn.danger,.danger{
-  background:#fff1f3;
-  color:#d9304f;
-  border:1px solid #ffd6de;
-}
-.btn.good,.good{
-  background:#eefaf2;
-  color:#21864a;
-  border:1px solid #d4f1df;
-}
-.cards{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-}
-.stat{
-  min-height:112px;
-  padding:17px;
-  border:1px solid var(--admin-border);
-  border-radius:22px;
-  background:var(--admin-card);
-  box-shadow:var(--admin-shadow);
-}
-.stat small{
-  color:#85858d;
-  font-size:9px;
-  font-weight:700;
-  letter-spacing:.03em;
-}
-.stat b{
-  color:var(--admin-ink);
-  font-size:28px;
-  letter-spacing:-.035em;
-}
-.stat .pinktext{color:var(--admin-pink)}
-.panel{
-  margin-top:14px;
-  padding:16px;
-  border:1px solid var(--admin-border);
-  border-radius:22px;
-  background:var(--admin-card);
-  box-shadow:var(--admin-shadow);
-}
-.panel h2{
-  color:var(--admin-ink);
-  font-size:15px;
-  letter-spacing:-.015em;
-}
-.toolbar{
-  padding:6px;
-  gap:7px;
-  border-radius:18px;
-  background:#f7f7f8;
-}
-.toolbar input,.toolbar select,.field input,.field textarea,.field select{
-  background:#f7f7f8;
-  color:#161619;
-  border:1px solid #e2e2e5;
-  border-radius:14px;
-  padding:12px;
-}
-.toolbar input::placeholder,.field input::placeholder,.field textarea::placeholder{color:#a0a0a7}
-.toolbar input:focus,.toolbar select:focus,.field input:focus,.field textarea:focus,.field select:focus{
-  border-color:var(--admin-pink);
-  box-shadow:0 0 0 3px rgba(255,45,141,.10);
-}
-.row{
-  padding:14px;
-  border:1px solid var(--admin-border);
-  border-radius:18px;
-  background:#fff;
-}
-.row h3{color:#17171a}
-.muted{color:#7f7f86}
-.tag{
-  color:#73737a;
-  border:1px solid #e1e1e4;
-  background:#f8f8f9;
-}
-.tag.live{color:#198545;border-color:#d8f1e0;background:#f2fbf5}
-.tag.off{color:#d83d58;border-color:#ffd6de;background:#fff4f6}
-.tag.pend{color:#996900;border-color:#f2e3ad;background:#fffbed}
-.money,.rank-count{color:#111114}
-.status.success{color:#178547}
-.status.pending{color:#9a6900}
-.status.failed,.status.expired{color:#d83d58}
-.empty{
-  color:#8b8b92;
-  border-color:#d7d7db;
-  background:#fafafa;
-}
-.pager{border-color:#ececef}
-.pager-info{color:#83838a}
-.insight-grid{gap:12px}
-.rank-item{
-  background:#fafafa;
-  border-color:#ececef;
-  border-radius:16px;
-}
-.rank-no{
-  background:var(--admin-pink-soft);
-  color:var(--admin-pink);
-}
-.rank-item b,.rank-count{color:#19191c}
-.rank-item span{color:#8a8a91}
-.chart{background:#fafafa;border-radius:16px}
-.bar{background:linear-gradient(180deg,#ff4c9d,#ff2d8d)}
-.barval{color:#4e4e54}
-.barlabel,.insight-note{color:#85858c}
-.switch{
-  background:#fafafa;
-  border-color:#e8e8eb;
-  border-radius:17px;
-}
-.field label{color:#77777f;letter-spacing:.025em}
-.checks{color:#66666d}
-.modal{
-  background:rgba(15,15,18,.52);
-  backdrop-filter:blur(8px);
-}
-.sheet{
-  background:#fff;
-  color:#17171a;
-  border:1px solid #e1e1e5;
-  box-shadow:0 -20px 60px rgba(20,20,24,.16);
-}
-.sheet h2{color:#17171a}
-.password-toggle{color:var(--admin-pink)}
-.password-toggle:hover,.password-toggle:focus-visible{background:var(--admin-pink-soft)}
-.msg{color:#818188}
-.msg.bad{color:#d83d58}
-.msg.good{color:#168346}
-
-/* super-app bottom navigation */
-.nav{
-  width:min(calc(100% - 24px),720px);
-  bottom:12px;
-  padding:7px;
-  gap:4px;
-  border:1px solid var(--admin-border);
-  border-radius:24px;
-  background:rgba(255,255,255,.96);
-  box-shadow:0 12px 36px rgba(18,18,20,.13);
-  backdrop-filter:blur(18px);
-}
-.nav button{
-  min-height:56px;
-  border-radius:18px;
-  color:#828289;
-  font-size:9px;
-  font-weight:700;
-  transition:background .18s ease,color .18s ease,transform .18s ease;
-}
-.nav button b{
-  color:inherit;
-  font-size:17px;
-  margin-bottom:3px;
-}
-.nav button.on{
-  color:var(--admin-pink);
-  background:var(--admin-pink-soft);
-}
-.nav button:active{transform:scale(.96)}
-
-/* login keeps BADAI dark brand but cleaner */
-.gate{
-  background:
-    radial-gradient(circle at 85% 8%,rgba(255,45,141,.20),transparent 34%),
-    #070708;
-}
-.login{
-  padding:24px;
-  border:1px solid #29292d;
-  border-radius:28px;
-  background:#0d0d0f;
-  box-shadow:0 26px 80px rgba(0,0,0,.34);
-}
-.login h1{letter-spacing:-.035em}
-.login .field input{
-  background:#121214;
-  color:#fff;
-  border-color:#303034;
-}
-.login .field input:focus{
-  border-color:var(--admin-pink);
-  box-shadow:0 0 0 3px rgba(255,45,141,.12);
-}
-.login .field label,.login p{color:#96969d}
-.login .btn.dark{background:#151517;color:#fff;border-color:#303034}
-
-@media(min-width:650px){
-  .cards{grid-template-columns:repeat(4,minmax(0,1fr))}
-}
-@media(min-width:1080px){
-  body{padding-left:196px}
-  .app{
-    max-width:none;
-    width:min(1180px,calc(100vw - 220px));
-    margin:0 auto;
-    padding-bottom:36px;
-  }
-  .nav{
-    left:18px;
-    top:94px;
-    bottom:auto;
-    transform:none;
-    width:160px;
-    grid-template-columns:1fr;
-    padding:9px;
-    border-radius:26px;
-  }
-  .nav button{
-    min-height:58px;
-    display:grid;
-    grid-template-columns:30px 1fr;
-    align-items:center;
-    text-align:left;
-    padding:8px 12px;
-    font-size:10px;
-  }
-  .nav button b{
-    margin:0;
-    font-size:18px;
-    text-align:center;
-  }
-  .nav button.on{
-    box-shadow:inset 3px 0 0 var(--admin-pink);
-  }
-  header{border-radius:0 0 22px 22px}
-}
-@media(max-width:640px){
-  main{padding:18px 14px 26px}
-  header{padding:11px 14px}
-  .title-row{align-items:flex-start}
-  .title-row h1{font-size:26px}
-  .stat{min-height:100px;padding:14px;border-radius:19px}
-  .stat b{font-size:24px}
-  .panel{padding:13px;border-radius:19px}
-  .toolbar{background:transparent;padding:0}
-  .toolbar input,.toolbar select,.toolbar .btn{width:100%;min-width:0}
-  .nav{width:calc(100% - 16px);bottom:8px;border-radius:22px}
-}
-
-.sales-summary{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:9px;
-  margin-bottom:12px;
-}
-.sales-stat{
-  min-height:86px;
-  padding:12px;
-  border:1px solid var(--admin-border);
-  border-radius:18px;
-  background:#fff;
-  box-shadow:var(--admin-shadow);
-}
-.sales-stat small{
-  display:block;
-  color:#818188;
-  font-size:8px;
-  font-weight:800;
-  letter-spacing:.04em;
-}
-.sales-stat b{
-  display:block;
-  margin-top:7px;
-  color:#161619;
-  font-family:var(--font-sf);
-  font-size:18px;
-  line-height:1;
-  letter-spacing:-.04em;
-}
-.sales-stat:first-child b{color:var(--admin-pink)}
-.sales-row{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) auto;
-  gap:10px;
-  align-items:start;
-}
-.sales-main h3{margin:0 0 4px;font-size:13px}
-.sales-meta{color:#7b7b82;font-size:9px;line-height:1.55}
-.sales-side{text-align:right}
-.sales-side .money{font-size:13px}
-.sales-actions{
-  display:flex;
-  gap:6px;
-  justify-content:flex-end;
-  margin-top:9px;
-}
-.sales-actions .btn{min-height:32px;padding:6px 10px}
-.sales-access{
-  display:inline-flex;
-  margin-top:4px;
-}
-@media(max-width:520px){
-  .sales-summary{grid-template-columns:1fr 1fr}
-  .sales-stat:first-child{grid-column:1/-1}
-  .sales-stat{min-height:76px}
-  .sales-stat b{font-size:17px}
-}
-
-/* FINAL COMPACT SHELL — desktop follows mobile layout */
-html{background:#050505}
-body{
-  padding-left:0 !important;
-  background:#050505 !important;
-}
-.app{
-  width:100% !important;
-  max-width:680px !important;
-  margin:0 auto !important;
-  padding-bottom:96px !important;
-  background:var(--admin-canvas) !important;
-  box-shadow:0 0 0 1px rgba(255,255,255,.035),0 0 70px rgba(0,0,0,.32);
-}
-header{
-  width:100%;
-  max-width:680px;
-  margin:0 auto;
-  border-radius:0 !important;
-}
-main{
-  width:100%;
-  padding:18px 14px 28px !important;
-}
-.title-row{
-  align-items:flex-start !important;
-  gap:10px;
-}
-.title-row h1{font-size:26px !important}
-.cards{
-  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
-  gap:9px !important;
-}
-.stat{
-  min-height:100px !important;
-  padding:14px !important;
-  border-radius:18px !important;
-}
-.stat b{font-size:24px !important}
-.insight-grid{
-  grid-template-columns:1fr !important;
-  gap:10px !important;
-}
-.insight-grid .wide{grid-column:auto !important}
-.list.two{
-  grid-template-columns:1fr !important;
-}
-.formgrid{
-  grid-template-columns:1fr !important;
-}
-.full{grid-column:auto !important}
-.panel{
-  padding:13px !important;
-  border-radius:18px !important;
-}
-.toolbar{
-  background:transparent !important;
-  padding:0 !important;
-}
-.toolbar input,.toolbar select,.toolbar .btn{
-  width:100% !important;
-  min-width:0 !important;
-}
-.nav{
-  left:50% !important;
-  top:auto !important;
-  bottom:8px !important;
-  transform:translateX(-50%) !important;
-  width:min(calc(100% - 16px),664px) !important;
-  grid-template-columns:repeat(4,1fr) !important;
-  padding:7px !important;
-  border-radius:22px !important;
-}
-.nav button{
-  min-height:54px !important;
-  display:block !important;
-  text-align:center !important;
-  padding:5px !important;
-  font-size:9px !important;
-}
-.nav button b{
-  display:block !important;
-  margin:0 0 3px !important;
-  font-size:17px !important;
-}
-.nav button.on{
-  box-shadow:none !important;
-}
-.sheet{
-  width:min(calc(100% - 12px),680px) !important;
-  border-radius:24px 24px 0 0 !important;
-}
-.login{
-  width:min(calc(100% - 8px),520px) !important;
-}
-@media(min-width:700px){
-  .app{border-left:1px solid #1c1c1f;border-right:1px solid #1c1c1f}
-  main{padding:20px 18px 30px !important}
-}
+<title>BADAI PROMPT — Admin</title>
+<meta name="theme-color" content="#f5f5f7">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Raleway:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f5f7;--card:#fff;--ink:#111114;--muted:#74747d;--line:#e5e5e9;--pink:#ff2d8d;--pink2:#fff0f7;--dark:#17171a;--green:#128a4c;--greenbg:#eaf8f0;--red:#c8324e;--redbg:#fff0f3;--amber:#9a6900;--amberbg:#fff6dc;--shadow:0 10px 36px rgba(20,20,25,.07)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#ececef;color:var(--ink);font-family:Nunito,Arial,sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer}.app{width:min(100%,760px);min-height:100vh;margin:auto;background:var(--bg);padding-bottom:94px;box-shadow:0 0 0 1px rgba(0,0,0,.03)}
+header{position:sticky;top:0;z-index:40;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);background:rgba(245,245,247,.94);backdrop-filter:blur(14px)}.brand{font-family:Raleway,sans-serif;font-size:18px;font-weight:900;letter-spacing:-.045em}.brand b{color:var(--pink)}.brand small{display:block;margin-top:1px;color:#8c8c94;font-family:Nunito,sans-serif;font-size:8px;letter-spacing:.12em}.adminchip{max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:9px;color:#777}
+main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;align-items:end;justify-content:space-between;gap:10px;margin-bottom:13px}.title h1{margin:2px 0 2px;font-family:Raleway,sans-serif;font-size:29px;letter-spacing:-.05em}.title p{margin:0;color:var(--muted);font-size:10px;line-height:1.45}.eyebrow{color:var(--pink);font-size:9px;font-weight:900;letter-spacing:.12em}
+.btn{min-height:39px;border:0;border-radius:12px;padding:8px 12px;font-size:9px;font-weight:900}.pink{background:var(--pink);color:#fff}.dark{border:1px solid #dddde1;background:#fff;color:#222}.danger{border:1px solid #ffd1da;background:var(--redbg);color:var(--red)}.ghost{background:transparent;color:#777}.sm{min-height:32px;padding:6px 9px;font-size:8px}.btn:disabled{opacity:.55;cursor:wait}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.stat{min-height:103px;padding:14px;border:1px solid var(--line);border-radius:19px;background:var(--card);box-shadow:var(--shadow)}.stat small{display:block;color:#85858d;font-size:8px;font-weight:900;letter-spacing:.08em}.stat b{display:block;margin-top:13px;font-family:Raleway,sans-serif;font-size:26px;letter-spacing:-.06em}.stat b.pinktext{color:var(--pink)}
+.panel{margin-top:11px;padding:13px;border:1px solid var(--line);border-radius:19px;background:#fff;box-shadow:var(--shadow)}.panel h2{margin:0 0 10px;font-family:Raleway,sans-serif;font-size:14px}.quick{display:grid;grid-template-columns:1fr 1fr;gap:8px}.quick button{text-align:left;min-height:74px;padding:12px;border:1px solid var(--line);border-radius:15px;background:#fafafa;color:#222}.quick b{display:block;font-size:11px}.quick span{display:block;margin-top:4px;color:#83838b;font-size:8px;line-height:1.35}.categorybars{display:grid;gap:8px}.catrow{display:grid;grid-template-columns:minmax(85px,1fr) 2fr auto;gap:8px;align-items:center;font-size:9px}.bar{height:8px;border-radius:999px;background:#eee;overflow:hidden}.bar i{display:block;height:100%;border-radius:999px;background:var(--pink)}
+.toolbar{display:grid;grid-template-columns:1fr 130px 110px;gap:7px;margin-bottom:10px}.toolbar input,.toolbar select{width:100%;height:39px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:0 10px;color:#222;outline:none;font-size:9px}.toolbar input:focus,.toolbar select:focus{border-color:var(--pink)}
+.promptlist,.memberlist{display:grid;gap:8px}.row{padding:11px;border:1px solid var(--line);border-radius:16px;background:#fff}.rowtop{display:flex;justify-content:space-between;align-items:start;gap:10px}.row h3{margin:0;font-family:Raleway,sans-serif;font-size:12px;line-height:1.3}.muted{color:#808088;font-size:8px;line-height:1.5}.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}.tag{display:inline-flex;align-items:center;padding:4px 6px;border-radius:999px;background:#f5f5f7;color:#777;font-size:7px;font-weight:900}.tag.live{background:var(--greenbg);color:var(--green)}.tag.featured{background:var(--pink2);color:var(--pink)}.tag.draft{background:var(--amberbg);color:var(--amber)}.rowactions{display:flex;gap:6px;margin-top:9px}.previewthumb{width:58px;height:58px;flex:0 0 58px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:linear-gradient(145deg,#f8e7ef,#eee)}.previewthumb img{width:100%;height:100%;object-fit:cover}.promptidentity{display:flex;gap:9px;align-items:flex-start;min-width:0}.promptidentity>div:last-child{min-width:0}
+.empty{padding:26px 14px;text-align:center;border:1px dashed #d8d8dd;border-radius:16px;color:#85858d;font-size:10px}.empty b{color:#222}
+.bottomnav{position:fixed;left:50%;bottom:8px;z-index:50;transform:translateX(-50%);width:min(calc(100% - 16px),744px);display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:7px;border:1px solid #dddde2;border-radius:21px;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);box-shadow:0 14px 40px rgba(0,0,0,.14)}.bottomnav button{min-height:56px;border:0;border-radius:15px;background:transparent;color:#777;font-size:8px;font-weight:900}.bottomnav button b{display:block;margin-bottom:3px;font-size:17px}.bottomnav button.on{background:var(--pink2);color:var(--pink)}
+.overlay{position:fixed;inset:0;z-index:80;display:none;align-items:flex-end;justify-content:center;background:rgba(15,15,18,.58);backdrop-filter:blur(4px)}.overlay.show{display:flex}.sheet{width:min(100%,760px);max-height:94vh;overflow:auto;padding:14px 14px 24px;border-radius:25px 25px 0 0;background:#f7f7f9;box-shadow:0 -20px 60px rgba(0,0,0,.16)}.sheethead{display:flex;justify-content:space-between;gap:10px;align-items:start}.sheethead h2{margin:3px 0;font-family:Raleway,sans-serif;font-size:20px}.close{width:37px;height:37px;border:1px solid #ddd;border-radius:50%;background:#fff;font-size:18px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.field{min-width:0}.field.full{grid-column:1/-1}.field label{display:block;margin:0 0 5px;color:#74747c;font-size:8px;font-weight:900}.field input,.field textarea,.field select{width:100%;border:1px solid #dedee3;border-radius:12px;background:#fff;color:#222;padding:10px;outline:none;font-size:10px}.field input,.field select{height:43px}.field textarea{resize:vertical;line-height:1.5}.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(255,45,141,.08)}.checks{display:flex;gap:12px;flex-wrap:wrap;padding:10px;border:1px solid var(--line);border-radius:12px;background:#fff}.checks label{margin:0;color:#555;font-size:9px;font-weight:800}.imagebox{display:grid;grid-template-columns:120px 1fr;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:15px;background:#fff}.imagepreview{height:120px;border-radius:13px;overflow:hidden;background:linear-gradient(145deg,#ffe4f1,#eee);display:grid;place-items:center;color:#999;font-size:9px}.imagepreview img{width:100%;height:100%;object-fit:cover}.uploadhelp{color:#85858d;font-size:8px;line-height:1.45}.sheetactions{display:flex;justify-content:space-between;gap:8px;margin-top:12px}.rightactions{display:flex;gap:7px}.msg{min-height:15px;margin-top:8px;color:#777;font-size:8px}.msg.good{color:var(--green)}.msg.bad{color:var(--red)}
+.gate{position:fixed;inset:0;z-index:120;display:flex;align-items:center;justify-content:center;padding:16px;background:radial-gradient(circle at 80% 0,#ffd6e8 0,transparent 28%),#f5f5f7}.gate.hide{display:none}.login{width:min(100%,430px);padding:20px;border:1px solid var(--line);border-radius:25px;background:#fff;box-shadow:0 20px 70px rgba(0,0,0,.1)}.login h1{margin:18px 0 5px;font-family:Raleway,sans-serif;font-size:28px;letter-spacing:-.045em}.login p{margin:0 0 13px;color:#818189;font-size:10px;line-height:1.5}.login .field{margin-top:9px}.loginbtn{width:100%;height:48px;margin-top:10px;border:0;border-radius:13px;background:var(--pink);color:#fff;font-weight:900}.linkbtn{width:100%;margin-top:7px;border:0;background:transparent;color:var(--pink);font-size:8px;font-weight:900;text-decoration:underline}.resetbox{display:none}.resetbox.show{display:block}.loginbox.hide{display:none}.loading{position:fixed;inset:0;z-index:110;display:none;place-items:center;background:rgba(245,245,247,.76)}.loading.show{display:grid}.loading div{padding:12px 15px;border:1px solid var(--line);border-radius:13px;background:#fff;color:#777;font-size:9px}
+.importbox{padding:10px;border:1px solid var(--line);border-radius:14px;background:#fff}.importbox p{margin:0 0 8px;color:#777;font-size:9px;line-height:1.5}.importactions{display:flex;gap:7px;flex-wrap:wrap}
+.membermeta{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start}
+@media(max-width:560px){.toolbar{grid-template-columns:1fr 1fr}.toolbar input{grid-column:1/-1}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.imagebox{grid-template-columns:1fr}.imagepreview{height:180px}.title h1{font-size:26px}}
 </style>
 </head>
 <body>
 <div class="gate" id="gate">
   <div class="login">
-    <div class="brand">BADAI <b>PROMPT UMKM</b><small>ADMIN PANEL</small></div>
-    <div id="normalLoginPanel">
+    <div class="brand">BADAI <b>PROMPT</b><small>ADMIN PANEL</small></div>
+    <div id="loginBox" class="loginbox">
       <h1>Masuk sebagai admin.</h1>
-      <p>Gunakan email + password untuk masuk ke admin.</p>
+      <p>Kelola prompt, gambar preview, kategori, sumber inspirasi, dan member dari satu tempat.</p>
       <form id="loginForm">
         <div class="field"><label>EMAIL ADMIN</label><input id="loginEmail" type="email" autocomplete="email" required placeholder="email admin"></div>
-        <div class="field"><label>PASSWORD</label><div class="password-wrap"><input id="loginPassword" type="password" autocomplete="current-password" required placeholder="••••••••••"><button class="password-toggle" id="loginPasswordToggle" type="button" aria-label="Lihat password" aria-pressed="false"><span id="loginPasswordEye" aria-hidden="true">👁</span></button></div></div>
-        <button class="btn pink" id="loginBtn" type="submit" style="width:100%;margin-top:10px">MASUK ADMIN</button>
-        <div class="msg" id="loginMsg"></div>
+        <div class="field"><label>PASSWORD</label><input id="loginPassword" type="password" autocomplete="current-password" required placeholder="password"></div>
+        <button id="loginBtn" class="loginbtn" type="submit">MASUK ADMIN</button>
+        <button id="forgotBtn" class="linkbtn" type="button">LUPA / RESET PASSWORD ADMIN</button>
+        <div id="loginMsg" class="msg"></div>
       </form>
     </div>
-
-    <div id="resetPasswordPanel" style="display:none">
+    <div id="resetBox" class="resetbox">
       <h1>Buat password admin.</h1>
-      <p>Buat password baru minimal 10 karakter. Setelah ini login berikutnya cukup email + password.</p>
-      <form id="resetPasswordForm">
-        <div class="field"><label>PASSWORD BARU</label><input id="newPassword" type="password" autocomplete="new-password" minlength="10" required placeholder="Minimal 10 karakter"></div>
-        <div class="field"><label>ULANGI PASSWORD</label><input id="confirmPassword" type="password" autocomplete="new-password" minlength="10" required placeholder="Ulangi password"></div>
-        <button class="btn pink" id="resetPasswordBtn" type="submit" style="width:100%;margin-top:10px">SIMPAN PASSWORD BARU</button>
-        <div class="msg" id="resetPasswordMsg"></div>
+      <p>Masukkan password baru minimal 10 karakter.</p>
+      <form id="resetForm">
+        <div class="field"><label>PASSWORD BARU</label><input id="newPassword" type="password" minlength="10" required></div>
+        <div class="field"><label>ULANGI PASSWORD</label><input id="confirmPassword" type="password" minlength="10" required></div>
+        <button id="resetBtn" class="loginbtn" type="submit">SIMPAN PASSWORD BARU</button>
+        <div id="resetMsg" class="msg"></div>
       </form>
     </div>
   </div>
 </div>
+
+<div class="loading" id="loading"><div>Memuat admin BADAI PROMPT…</div></div>
 
 <div class="app">
 <header>
-  <div class="brand">BADAI <b>PROMPT UMKM</b><small>ADMIN PANEL</small></div>
-  <div class="head-actions"><span class="admin-name" id="adminName"></span><button class="btn dark sm" id="logoutBtn">KELUAR</button></div>
+  <div class="brand">BADAI <b>PROMPT</b><small>ADMIN PANEL</small></div>
+  <div style="display:flex;align-items:center;gap:8px"><span id="adminName" class="adminchip"></span><button id="logoutBtn" class="btn dark sm">KELUAR</button></div>
 </header>
+
 <main>
-<section class="view on" id="v-dashboard">
-  <div class="title-row"><div><div class="eyebrow">RINGKASAN</div><h1>Dashboard</h1><p>Lihat kondisi produk tanpa buka Appwrite.</p></div><button class="btn dark sm" onclick="loadDashboard()">↻ REFRESH</button></div>
-  <div class="cards">
-    <div class="stat"><small>TOTAL PROMPT</small><b id="sPrompts">0</b></div>
-    <div class="stat"><small>PROMPT AKTIF</small><b id="sPublished">0</b></div>
-    <div class="stat"><small>MEMBER AKTIF</small><b id="sMembers">0</b></div>
-    <div class="stat"><small>OMZET TERVERIFIKASI</small><b class="pinktext" id="sRevenue">Rp0</b></div>
-    <div class="stat"><small>TOTAL DIPAKAI</small><b id="sUses">0</b></div>
-    <div class="stat"><small>DIPAKAI HARI INI</small><b id="sUsesToday">0</b></div>
-    <div class="stat"><small>TOTAL FAVORIT</small><b id="sFavorites">0</b></div>
-    <div class="stat"><small>ORDER PENDING</small><b id="sPending">0</b></div>
-  </div>
-
-  <div class="insight-grid">
-    <div class="panel">
-      <h2>🔥 Prompt Paling Sering Dipakai</h2>
-      <div class="rank-list" id="topUsedList"></div>
+  <section class="view on" id="v-dashboard">
+    <div class="title"><div><div class="eyebrow">RINGKASAN</div><h1>Dashboard</h1><p>Pusat kendali perpustakaan prompt baru.</p></div><button class="btn dark" id="refreshDashboard">↻ REFRESH</button></div>
+    <div class="stats">
+      <div class="stat"><small>TOTAL PROMPT</small><b id="sTotal">0</b></div>
+      <div class="stat"><small>PUBLISHED</small><b class="pinktext" id="sPublished">0</b></div>
+      <div class="stat"><small>FEATURED</small><b id="sFeatured">0</b></div>
+      <div class="stat"><small>KATEGORI</small><b id="sCategories">0</b></div>
+      <div class="stat"><small>MEMBER AKTIF</small><b id="sMembers">0</b></div>
+      <div class="stat"><small>PROMPT TANPA GAMBAR</small><b id="sNoImage">0</b></div>
     </div>
     <div class="panel">
-      <h2>★ Prompt Paling Difavoritkan</h2>
-      <div class="rank-list" id="topFavoriteList"></div>
-    </div>
-    <div class="panel">
-      <h2>⚡ Member Paling Aktif</h2>
-      <div class="rank-list" id="topMemberList"></div>
-    </div>
-    <div class="panel">
-      <h2>📈 Aktivitas 7 Hari</h2>
-      <div class="chart" id="usageChart"></div>
-      <div class="insight-note">Grafik harian mulai tercatat akurat sejak fitur insight ini diaktifkan. Ranking kumulatif tetap memakai riwayat lama.</div>
-    </div>
-    <div class="panel wide"><h2>Order terbaru</h2><div class="list" id="recentOrders"></div></div>
-  </div>
-</section>
-
-<section class="view" id="v-prompts">
-  <div class="title-row"><div><div class="eyebrow">CONTENT ENGINE</div><h1>Prompt</h1><p>Tambah, edit, publish, featured, atau hapus prompt.</p></div><button class="btn pink" onclick="openPrompt()">+ PROMPT</button></div>
-  <div class="panel">
-    <div class="toolbar"><input id="promptSearch" placeholder="Cari judul prompt…"><select id="promptStatus"><option value="">Semua status</option><option value="published">Published</option><option value="draft">Draft</option></select><button class="btn dark" onclick="searchPrompts()">CARI</button></div>
-    <div class="list two" id="promptList"></div>
-    <div class="pager">
-      <button class="btn dark sm" id="promptPrevBtn" onclick="prevPromptPage()">← SEBELUMNYA</button>
-      <div class="pager-info" id="promptPageInfo">0 prompt</div>
-      <button class="btn dark sm" id="promptNextBtn" onclick="nextPromptPage()">BERIKUTNYA →</button>
-    </div>
-  </div>
-</section>
-
-<section class="view" id="v-orders">
-  <div class="title-row">
-    <div><div class="eyebrow">PENJUALAN</div><h1>Order & Member</h1><p>Kelola transaksi dan akses member dari satu tempat.</p></div>
-    <button class="btn pink" onclick="openManual()">+ ORDER MANUAL</button>
-  </div>
-
-  <div class="sales-summary">
-    <div class="sales-stat"><small>OMZET LUNAS</small><b id="salesRevenue">Rp0</b></div>
-    <div class="sales-stat"><small>MEMBER AKTIF</small><b id="salesActive">0</b></div>
-    <div class="sales-stat"><small>ORDER PENDING</small><b id="salesPending">0</b></div>
-  </div>
-
-  <div class="panel">
-    <div class="toolbar sales-toolbar">
-      <input id="salesSearch" placeholder="Cari nama, WA, atau email…" oninput="renderSales()">
-      <select id="orderStatus" onchange="renderSales()">
-        <option value="">Semua status</option>
-        <option value="active">Member aktif</option>
-        <option value="pending_access">Akses pending</option>
-        <option value="blocked">Member diblokir</option>
-        <option value="success">Pembayaran lunas</option>
-        <option value="pending">Pembayaran pending</option>
-        <option value="failed">Pembayaran gagal</option>
-        <option value="expired">Pembayaran expired</option>
-      </select>
-    </div>
-    <div class="list" id="orderList"></div>
-  </div>
-</section>
-
-<section class="view" id="v-members">
-  <div class="title-row"><div><div class="eyebrow">AKSES</div><h1>Member</h1><p>Aktifkan, blokir, atau daftarkan pembeli manual.</p></div><button class="btn pink" onclick="openManual()">+ DAFTAR MANUAL</button></div>
-  <div class="panel"><div class="toolbar"><select id="memberStatus" onchange="loadMembers()"><option value="">Semua status</option><option value="active">active</option><option value="blocked">blocked</option><option value="pending">pending</option></select></div><div class="list" id="memberList"></div></div>
-</section>
-
-<section class="view" id="v-settings">
-  <div class="title-row"><div><div class="eyebrow">KONFIGURASI</div><h1>Pengaturan</h1><p>Minimum pembayaran dan status penjualan.</p></div></div>
-  <div class="panel">
-    <form id="settingsForm">
-      <div class="field"><label>NAMA PRODUK</label><input id="setName"></div>
-      <div class="field"><label>MINIMUM BAYAR / TAHUN (RUPIAH)</label><input id="setPrice" inputmode="numeric" type="number" min="30000" step="1000"><div class="muted">Pembeli bebas membayar lebih. Semua nominal mendapat akses yang sama selama 1 tahun.</div></div>
-      <div class="switch"><div><b>Pendaftaran / Checkout</b><div class="muted">Matikan kalau penjualan sedang ditutup.</div></div><input id="setOpen" type="checkbox" style="width:22px;height:22px"></div>
-      <div class="switch"><div><b>Social Proof Pembelian</b><div class="muted">Tampilkan notifikasi member baru dari order success asli di LP.</div></div><input id="setSocialProof" type="checkbox" style="width:22px;height:22px"></div>
-      <div class="field"><label>INTERVAL SOCIAL PROOF (DETIK)</label><input id="setSocialProofInterval" type="number" min="10" max="60" value="18"><div class="muted">Disarankan 15–25 detik supaya tidak mengganggu.</div></div>
-      <button class="btn pink" type="submit" style="width:100%;margin-top:12px">SIMPAN PENGATURAN</button>
-      <div class="msg" id="settingsMsg"></div>
-    </form>
-  </div>
-
-  <div class="panel">
-    <div class="eyebrow">PEMBAYARAN</div>
-    <h2 style="margin-top:5px">BuatQRIS Merchant</h2>
-    <div class="muted">Gunakan merchant khusus BADAI PROMPT UMKM. Secret Token dan Signing Secret tidak pernah ditampilkan lagi setelah disimpan.</div>
-    <form id="paymentSettingsForm">
-      <div class="formgrid" style="margin-top:10px">
-        <div class="field"><label>LABEL MERCHANT</label><input id="payMerchantLabel" placeholder="BADAI PROMPT UMKM"></div>
-        <div class="field"><label>ACCOUNT ID</label><input id="payAccountId" autocomplete="off" placeholder="Account ID dari BuatQRIS"></div>
-        <div class="field"><label>SECRET TOKEN</label><input id="paySecretToken" type="password" autocomplete="new-password" placeholder="Isi / ganti Secret Token"></div>
-        <div class="field"><label>SIGNING SECRET WEBHOOK</label><input id="paySigningSecret" type="password" autocomplete="new-password" placeholder="Isi / ganti Signing Secret"></div>
-        <div class="field"><label>METODE QRIS</label><select id="payQrisMethod"><option value="qris_one">QRIS One</option><option value="qris_two">QRIS Two</option><option value="qris_three">QRIS Three</option><option value="qris_four">QRIS Four</option></select></div>
-        <div class="field"><label>BIAYA ADMIN DITANGGUNG</label><select id="payFeeBy"><option value="user">Merchant / saldo</option><option value="buyer">Pembeli</option></select></div>
-        <div class="field full"><label>NAMA QRIS / UMKM (MAKS 15 KARAKTER)</label><input id="payUmkmName" maxlength="15" placeholder="BADAI PROMPT"></div>
-        <div class="field full"><label>CALLBACK URL — COPY KE MERCHANT BUATQRIS</label><input id="payCallbackUrl" readonly value="https://badaiprompt.vercel.app/api/buatqris-webhook"></div>
+      <h2>Aksi Cepat</h2>
+      <div class="quick">
+        <button id="quickAdd"><b>＋ Tambah Prompt</b><span>Tambah satu prompt + preview image.</span></button>
+        <button id="quickImport"><b>⇧ Import CSV</b><span>Masukkan banyak prompt sekaligus.</span></button>
+        <button id="quickMember"><b>＋ Tambah Member</b><span>Buat akses member manual.</span></button>
+        <button onclick="window.open('/member','_blank')"><b>↗ Lihat Member Area</b><span>Cek tampilan publik member.</span></button>
       </div>
-
-      <div class="switch"><div><b>Mode Sandbox</b><div class="muted">Aktifkan saat testing. Matikan kalau sudah siap menerima pembayaran asli.</div></div><input id="payTestMode" type="checkbox" style="width:22px;height:22px"></div>
-      <div class="switch"><div><b>Aktifkan BuatQRIS</b><div class="muted">Kalau dimatikan, checkout QRIS akan ditolak sementara.</div></div><input id="payActive" type="checkbox" style="width:22px;height:22px"></div>
-
-      <div class="row-actions" style="margin-top:12px">
-        <button class="btn pink" id="savePaymentBtn" type="submit">SIMPAN MERCHANT</button>
-        <button class="btn dark" id="testPaymentBtn" type="button">TEST KONEKSI</button>
-        <button class="btn dark" id="copyCallbackBtn" type="button">COPY CALLBACK</button>
-      </div>
-      <div class="msg" id="paymentSettingsMsg"></div>
-      <div class="muted" id="paymentCredentialStatus" style="margin-top:6px"></div>
-    </form>
-  </div>
-
-  <div class="panel">
-    <div class="eyebrow">KEAMANAN ADMIN</div>
-    <h2 style="margin-top:5px">Login Email + Password</h2>
-    <div class="muted">Gunakan tombol ini untuk membuat password pertama atau mengganti password admin. Link reset akan dikirim ke email admin yang sedang login.</div>
-    <button class="btn dark" id="sendAdminPasswordResetBtn" type="button" style="width:100%;margin-top:10px">BUAT / RESET PASSWORD ADMIN</button>
-    <div class="msg" id="adminPasswordMsg"></div>
-  </div>
-
-  <div class="panel">
-    <div class="title-row" style="margin-bottom:10px">
-      <div><div class="eyebrow">VOUCHER & DISKON</div><h1 style="font-size:20px;margin:4px 0">Kupon</h1><p>Buat kode launching, reseller, promo grup, atau akses gratis terbatas.</p></div>
-      <button class="btn pink" onclick="openCoupon()">+ KUPON</button>
     </div>
-    <div class="list two" id="couponList"></div>
-  </div>
-</section>
+    <div class="panel">
+      <h2>Distribusi Kategori</h2>
+      <div class="categorybars" id="categoryBars"></div>
+    </div>
+  </section>
+
+  <section class="view" id="v-prompts">
+    <div class="title"><div><div class="eyebrow">CONTENT LIBRARY</div><h1>Prompt</h1><p>Kelola seluruh adegan AI yang tampil di member area.</p></div><button class="btn pink" id="addPromptBtn">+ PROMPT</button></div>
+    <div class="toolbar">
+      <input id="promptSearch" placeholder="Cari judul, kategori, tag…">
+      <select id="categoryFilter"><option value="">Semua kategori</option></select>
+      <select id="statusFilter"><option value="">Semua status</option><option value="published">Published</option><option value="draft">Draft</option><option value="featured">Featured</option><option value="noimage">Tanpa gambar</option></select>
+    </div>
+    <div class="panel" style="margin-top:0">
+      <div class="importbox">
+        <p><b>Bulk Import:</b> upload CSV dengan kolom sesuai template. Prompt baru akan langsung masuk database scene_prompts.</p>
+        <div class="importactions"><button class="btn dark sm" id="downloadTemplate">DOWNLOAD TEMPLATE</button><button class="btn dark sm" id="importCsvBtn">IMPORT CSV</button><input id="csvInput" type="file" accept=".csv,text/csv" hidden></div>
+        <div class="msg" id="importMsg"></div>
+      </div>
+    </div>
+    <div class="promptlist" id="promptList" style="margin-top:10px"></div>
+  </section>
+
+  <section class="view" id="v-members">
+    <div class="title"><div><div class="eyebrow">ACCESS</div><h1>Member</h1><p>Lihat member BADAI PROMPT dan buat akses manual.</p></div><button class="btn pink" id="addMemberBtn">+ MEMBER</button></div>
+    <div class="toolbar" style="grid-template-columns:1fr 130px">
+      <input id="memberSearch" placeholder="Cari nama, email, WhatsApp…">
+      <select id="memberStatus"><option value="">Semua status</option><option value="active">Aktif</option><option value="pending">Pending</option><option value="blocked">Blocked</option></select>
+    </div>
+    <div class="memberlist" id="memberList"></div>
+  </section>
+
+  <section class="view" id="v-system">
+    <div class="title"><div><div class="eyebrow">SYSTEM</div><h1>Pengaturan</h1><p>Info teknis yang dipakai proyek BADAI PROMPT baru.</p></div></div>
+    <div class="panel">
+      <h2>Struktur Aktif</h2>
+      <div class="row"><div class="rowtop"><div><h3>Member Area</h3><div class="muted">/member</div></div><span class="tag live">AKTIF</span></div></div>
+      <div class="row" style="margin-top:7px"><div class="rowtop"><div><h3>Admin</h3><div class="muted">/admin</div></div><span class="tag live">AKTIF</span></div></div>
+      <div class="row" style="margin-top:7px"><div class="rowtop"><div><h3>Database Prompt</h3><div class="muted">Appwrite → scene_prompts</div></div><span class="tag live">AKTIF</span></div></div>
+      <div class="row" style="margin-top:7px"><div class="rowtop"><div><h3>Storage Preview</h3><div class="muted">Appwrite → prompt-previews</div></div><span class="tag live">AKTIF</span></div></div>
+    </div>
+    <div class="panel">
+      <h2>Keamanan Admin</h2>
+      <div class="muted">Reset password akan dikirim ke email admin yang sedang login.</div>
+      <button class="btn dark" id="sendResetBtn" style="width:100%;margin-top:10px">KIRIM LINK RESET PASSWORD</button>
+      <div class="msg" id="securityMsg"></div>
+    </div>
+  </section>
 </main>
 </div>
 
-<div class="nav">
+<nav class="bottomnav" id="nav">
   <button class="on" data-view="dashboard"><b>⌂</b>Dashboard</button>
-  <button data-view="prompts"><b>✦</b>Prompt</button>
-  <button data-view="orders"><b>▣</b>Order</button>
-  <button data-view="settings"><b>⚙</b>Setting</button>
-</div>
+  <button data-view="prompts"><b>▦</b>Prompt</button>
+  <button data-view="members"><b>☻</b>Member</button>
+  <button data-view="system"><b>⚙</b>Sistem</button>
+</nav>
 
-<div class="modal" id="promptModal">
+<div class="overlay" id="promptModal">
   <div class="sheet">
-    <div class="sheet-head"><div><div class="eyebrow">EDITOR PROMPT</div><h2 id="promptModalTitle">Tambah Prompt</h2></div><button class="btn dark" onclick="closePrompt()">×</button></div>
+    <div class="sheethead"><div><div class="eyebrow">PROMPT CMS</div><h2 id="promptModalTitle">Tambah Prompt</h2></div><button class="close" data-close="prompt">×</button></div>
     <form id="promptForm">
-      <input type="hidden" id="pId">
-      <div class="formgrid">
-        <div class="field"><label>NICHE</label><input id="pNiche" list="nicheList" required><datalist id="nicheList"></datalist></div>
-        <div class="field"><label>KEBUTUHAN / GOAL</label><input id="pGoal" list="goalList" required><datalist id="goalList"></datalist></div>
-        <div class="field"><label>JENIS OUTPUT</label><select id="pType" required><option>Strategi Penawaran</option><option>Copy / Caption</option><option>Prompt Visual / Gambar</option><option>Script Video Pendek</option><option>WhatsApp / DM</option></select></div>
-        <div class="field"><label>URUTAN</label><input id="pSort" type="number" value="0"></div>
-        <div class="field full"><label>JUDUL</label><input id="pTitle" required></div>
-        <div class="field full"><label>PROMPT</label><textarea id="pText" rows="10" required></textarea></div>
-        <div class="field full"><label>VARIABLES</label><textarea id="pVars" rows="3" placeholder="[NAMA BISNIS], [PRODUK/LAYANAN]"></textarea></div>
-        <div class="field full"><label>TAGS</label><input id="pTags" placeholder="promo, jualan, umkm"></div>
-        <div class="field full"><label>PREVIEW URL (OPSIONAL)</label><input id="pPreview" type="url"></div>
+      <input type="hidden" id="pId"><input type="hidden" id="pPreviewFileId">
+      <div class="imagebox" style="margin-top:10px">
+        <div class="imagepreview" id="imagePreview">Belum ada gambar</div>
+        <div>
+          <div class="field"><label>UPLOAD GAMBAR PREVIEW</label><input id="pImageFile" type="file" accept="image/jpeg,image/png,image/webp"></div>
+          <div class="field" style="margin-top:7px"><label>ATAU URL GAMBAR</label><input id="pPreviewUrl" type="url" placeholder="https://..."></div>
+          <div class="uploadhelp">Disarankan WebP/JPG portrait 4:5, maksimal 5 MB. Upload akan disimpan di Appwrite Storage.</div>
+        </div>
       </div>
-      <div class="checks"><label><input id="pPublished" type="checkbox" checked> Published</label><label><input id="pFeatured" type="checkbox"> Featured</label></div>
-      <div class="sheet-actions"><button class="btn pink" type="submit">SIMPAN PROMPT</button><button class="btn danger" id="deletePromptBtn" type="button" style="display:none">HAPUS</button></div>
+      <div class="formgrid">
+        <div class="field"><label>KATEGORI *</label><input id="pCategory" required placeholder="Candid"></div>
+        <div class="field"><label>SUBKATEGORI</label><input id="pSubcategory" placeholder="Daily Life"></div>
+        <div class="field full"><label>JUDUL *</label><input id="pTitle" required placeholder="Ngopi Sendirian di Warung Pagi Hari"></div>
+        <div class="field"><label>STYLE</label><input id="pStyle" placeholder="Candid documentary"></div>
+        <div class="field"><label>CAMERA</label><input id="pCamera" placeholder="iPhone Pro 2x"></div>
+        <div class="field"><label>ASPECT RATIO</label><input id="pRatio" placeholder="4:5"></div>
+        <div class="field"><label>TOOLS</label><input id="pTool" value="ChatGPT Image / Gemini"></div>
+        <div class="field"><label>GENDER</label><select id="pGender"><option value="universal">Universal</option><option value="woman">Woman</option><option value="man">Man</option><option value="child">Child</option></select></div>
+        <div class="field"><label>SORT ORDER</label><input id="pSort" type="number" value="0"></div>
+        <div class="field full"><label>TAGS</label><input id="pTags" placeholder="candid; coffee; daily life; indonesia"></div>
+        <div class="field full"><label>PROMPT *</label><textarea id="pPrompt" rows="11" required placeholder="Use the uploaded reference image as the sole identity reference..."></textarea></div>
+        <div class="field"><label>SOURCE CREATOR</label><input id="pSourceCreator" placeholder="@creator / BADAI Prompt Lab"></div>
+        <div class="field"><label>SOURCE URL</label><input id="pSourceUrl" type="url" placeholder="https://..."></div>
+        <div class="field full"><label>CATATAN SUMBER</label><textarea id="pSourceNotes" rows="3" placeholder="Ide direwrite total / original internal seed..."></textarea></div>
+        <div class="field full"><div class="checks"><label><input id="pNeedsReference" type="checkbox" checked> Butuh foto referensi</label><label><input id="pPublished" type="checkbox" checked> Published</label><label><input id="pFeatured" type="checkbox"> Featured</label></div></div>
+      </div>
+      <div class="sheetactions">
+        <button class="btn danger" type="button" id="deletePromptBtn" style="display:none">HAPUS</button>
+        <div class="rightactions"><button class="btn dark" type="button" data-close="prompt">BATAL</button><button class="btn pink" id="savePromptBtn" type="submit">SIMPAN PROMPT</button></div>
+      </div>
       <div class="msg" id="promptMsg"></div>
     </form>
   </div>
 </div>
 
-<div class="modal" id="couponModal">
+<div class="overlay" id="memberModal">
   <div class="sheet">
-    <div class="sheet-head"><div><div class="eyebrow">VOUCHER & DISKON</div><h2 id="couponModalTitle">Tambah Kupon</h2></div><button class="btn dark" onclick="closeCoupon()">×</button></div>
-    <form id="couponForm">
-      <input type="hidden" id="cId">
+    <div class="sheethead"><div><div class="eyebrow">MANUAL ACCESS</div><h2>Tambah Member</h2></div><button class="close" data-close="member">×</button></div>
+    <form id="memberForm">
       <div class="formgrid">
-        <div class="field"><label>KODE KUPON</label><input id="cCode" required placeholder="LAUNCH87"></div>
-        <div class="field"><label>JENIS DISKON</label><select id="cType"><option value="percent">Persen (%)</option><option value="fixed">Potongan Rupiah</option></select></div>
-        <div class="field"><label>NILAI DISKON</label><input id="cValue" type="number" min="1" required placeholder="20"></div>
-        <div class="field"><label>MAKSIMAL POTONGAN</label><input id="cMax" type="number" min="0" value="0"><div class="muted">0 = tanpa batas</div></div>
-        <div class="field"><label>MINIMUM BELANJA</label><input id="cMin" type="number" min="0" value="0"></div>
-        <div class="field"><label>LIMIT PEMAKAIAN</label><input id="cLimit" type="number" min="0" value="0"><div class="muted">0 = tidak dibatasi</div></div>
-        <div class="field"><label>MULAI BERLAKU</label><input id="cStart" type="datetime-local"></div>
-        <div class="field"><label>BERAKHIR</label><input id="cEnd" type="datetime-local"></div>
-        <div class="field full"><label>CATATAN ADMIN</label><textarea id="cNotes" rows="3" placeholder="Contoh: Launching grup WA batch Oktober"></textarea></div>
+        <div class="field"><label>NAMA *</label><input id="mName" required></div>
+        <div class="field"><label>EMAIL *</label><input id="mEmail" type="email" required></div>
+        <div class="field"><label>WHATSAPP</label><input id="mWa" placeholder="62812..."></div>
+        <div class="field"><label>STATUS AKSES</label><select id="mStatus"><option value="active">Aktif</option><option value="pending">Pending</option></select></div>
+        <div class="field full"><label>CATATAN</label><textarea id="mNotes" rows="3" placeholder="Akses manual dari admin"></textarea></div>
       </div>
-      <div class="checks"><label><input id="cActive" type="checkbox" checked> Kupon aktif</label></div>
-      <div class="sheet-actions"><button class="btn pink" type="submit">SIMPAN KUPON</button><button class="btn danger" id="deleteCouponBtn" type="button" style="display:none">HAPUS</button></div>
-      <div class="msg" id="couponMsg"></div>
-    </form>
-  </div>
-</div>
-
-<div class="modal" id="memberEditModal">
-  <div class="sheet">
-    <div class="sheet-head">
-      <div><div class="eyebrow">EDIT PENJUALAN</div><h2 id="memberEditTitle">Data Order & Member</h2></div>
-      <button class="btn dark" onclick="closeMemberEdit()">×</button>
-    </div>
-    <p class="muted">Edit transaksi dan akses member sekaligus. Perubahan akun login ikut disinkronkan bila member sudah aktif.</p>
-    <form id="memberEditForm">
-      <input type="hidden" id="eOrderId">
-      <input type="hidden" id="eUserId">
-      <div class="formgrid">
-        <div class="field"><label>NAMA MEMBER</label><input id="eName" required></div>
-        <div class="field"><label>WHATSAPP</label><input id="eWhatsapp" inputmode="tel"></div>
-        <div class="field full"><label>EMAIL LOGIN</label><input id="eEmail" type="email" required></div>
-
-        <div class="field full"><div class="eyebrow" style="margin-top:8px">DATA ORDER</div></div>
-        <div class="field"><label>NOMINAL PEMBAYARAN</label><input id="eAmount" inputmode="numeric" type="number" min="0" step="1000"></div>
-        <div class="field"><label>STATUS PEMBAYARAN</label><select id="ePaymentStatus"><option value="success">Lunas</option><option value="pending">Pending</option><option value="failed">Gagal</option><option value="expired">Expired</option></select></div>
-        <div class="field"><label>METODE PEMBAYARAN</label><select id="ePaymentMethod"><option value="qris">QRIS</option><option value="transfer_bank">Transfer Bank</option><option value="qris_manual">QRIS Manual</option><option value="cash">Cash</option><option value="gratis">Gratis</option><option value="manual">Manual</option><option value="lainnya">Lainnya</option></select></div>
-        <div class="field"><label>STATUS AKSES</label><select id="eStatus"><option value="active">Aktif</option><option value="pending">Pending</option><option value="blocked">Blocked</option></select></div>
-        <div class="field full"><label>AKSES SAMPAI (OPSIONAL)</label><input id="eAccessUntil" type="date"></div>
-        <div class="field full"><label>CATATAN ORDER</label><textarea id="eOrderNotes" rows="2"></textarea></div>
-
-        <div class="field full"><div class="eyebrow" style="margin-top:8px">PROFIL BISNIS MEMBER</div></div>
-        <div class="field"><label>NAMA BISNIS</label><input id="eBusinessName"></div>
-        <div class="field"><label>KOTA / AREA</label><input id="eCityArea"></div>
-        <div class="field full"><label>PRODUK / LAYANAN</label><input id="eProductService"></div>
-        <div class="field"><label>HARGA</label><input id="ePriceText"></div>
-        <div class="field"><label>WARNA BRAND</label><input id="eBrandColor"></div>
-        <div class="field full"><label>TARGET PEMBELI</label><textarea id="eTargetBuyer" rows="2"></textarea></div>
-        <div class="field full"><label>KEUNGGULAN</label><textarea id="eAdvantage" rows="2"></textarea></div>
-        <div class="field full"><label>ASET TERSEDIA</label><textarea id="eAssets" rows="2"></textarea></div>
-      </div>
-      <div class="sheet-actions">
-        <button class="btn pink" id="memberEditSubmit" type="submit">SIMPAN PERUBAHAN</button>
-        <button class="btn danger" id="deleteSalesBtn" type="button">HAPUS DATA</button>
-      </div>
-      <div class="msg" id="memberEditMsg"></div>
-    </form>
-  </div>
-</div>
-
-<div class="modal" id="manualModal">
-  <div class="sheet">
-    <div class="sheet-head"><div><div class="eyebrow">ORDER MANUAL</div><h2>Tambah Order & Member</h2></div><button class="btn dark" onclick="closeManual()">×</button></div>
-    <p class="muted">Untuk pembeli transfer manual, QRIS bermasalah, akses gratis, atau input dari admin.</p>
-    <form id="manualForm">
-      <div class="formgrid">
-        <div class="field"><label>NAMA LENGKAP</label><input id="mName" required></div>
-        <div class="field"><label>WHATSAPP</label><input id="mWa" inputmode="tel" required placeholder="08xxxxxxxxxx"></div>
-        <div class="field full"><label>EMAIL AKSES</label><input id="mEmail" type="email" required></div>
-        <div class="field"><label>NOMINAL PEMBAYARAN</label><input id="mAmount" inputmode="numeric" value="87000"></div>
-        <div class="field"><label>METODE PEMBAYARAN</label><select id="mMethod"><option value="transfer_bank">Transfer Bank</option><option value="qris_manual">QRIS Manual</option><option value="cash">Cash</option><option value="gratis">Gratis</option><option value="lainnya">Lainnya</option></select></div>
-        <div class="field"><label>STATUS PEMBAYARAN</label><select id="mPayment"><option value="success">Lunas</option><option value="pending">Belum Lunas / Pending</option></select></div>
-        <div class="field"><label>STATUS AKSES</label><select id="mAccess"><option value="active">Aktifkan Sekarang</option><option value="pending">Pending Dulu</option></select></div>
-        <div class="field full"><label>CATATAN (OPSIONAL)</label><textarea id="mNotes" rows="3" placeholder="Contoh: transfer BCA, bonus member lama, dll."></textarea></div>
-      </div>
-      <button class="btn pink" id="manualSubmit" type="submit" style="width:100%;margin-top:12px">SIMPAN ORDER</button>
-      <div class="msg" id="manualMsg"></div>
+      <div class="sheetactions"><span></span><div class="rightactions"><button class="btn dark" type="button" data-close="member">BATAL</button><button class="btn pink" id="saveMemberBtn" type="submit">BUAT MEMBER</button></div></div>
+      <div class="msg" id="memberMsg"></div>
     </form>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/appwrite@28.1.0"></script>
 <script>
-const {Client,Account,Functions,ID}=Appwrite;
+const {Client,Account,TablesDB,Storage,Functions,Query,ID}=Appwrite;
 const client=new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
-const account=new Account(client), functions=new Functions(client);
-const FUNC='activate-member';
-let me=null,promptRows=[],memberRows=[],orderRows=[],salesRows=[],couponRows=[],allNiches=new Set(),allGoals=new Set(),promptPage=0,promptPageSize=50,promptTotal=0;
+const account=new Account(client),tables=new TablesDB(client),storage=new Storage(client),functions=new Functions(client);
+const DB='badai_prompt_umkm',TABLE='scene_prompts',BUCKET='prompt-previews',FUNC='payment-api';
+let me=null,prompts=[],members=[],editing=null;
 
-const gate=document.getElementById('gate'),loginMsg=document.getElementById('loginMsg');
-function msg(el,text,type=''){el.textContent=text;el.className='msg '+type}
-function rupiah(n){return new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n||0))}
-function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function dt(s){if(!s)return '-';try{return new Date(s).toLocaleString('id-ID',{dateStyle:'medium',timeStyle:'short'})}catch{return s}}
+const $=id=>document.getElementById(id);
+const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const msg=(el,t,type='')=>{el.textContent=t||'';el.className='msg '+type};
+const rowData=r=>{const d=r.data||r;return {...d,$id:r.$id||d.$id,$createdAt:r.$createdAt||d.$createdAt}};
+const busy=v=>$('loading').classList.toggle('show',!!v);
+const previewUrl=id=>'https://sgp.cloud.appwrite.io/v1/storage/buckets/'+BUCKET+'/files/'+id+'/view?project=badai-prompt-umkm';
 
 async function api(path,body={}){
-  const ex=await functions.createExecution({
-    functionId:FUNC,
-    body:JSON.stringify(body),
-    async:false,
-    xpath:'/admin'+path,
-    method:'POST',
-    headers:{'content-type':'application/json'}
-  });
+  const ex=await functions.createExecution({functionId:FUNC,body:JSON.stringify(body),async:false,xpath:'/admin'+path,method:'POST',headers:{'content-type':'application/json'}});
   let data={};try{data=JSON.parse(ex.responseBody||'{}')}catch{}
   if(Number(ex.responseStatusCode||500)>=400)throw new Error(data.error||'Admin API gagal.');
   return data;
 }
-
-async function finishLogin(){
-  me=await account.get();
-  localStorage.setItem('bpu_admin_email',me.email||'');
-  document.getElementById('adminName').textContent=me.name||me.email;
-  try{
-    await api('/health');
-  }catch(e){
-    await account.deleteSession({sessionId:'current'}).catch(()=>{});
-    throw new Error('Akun ini bukan admin BADAI PROMPT UMKM.');
-  }
-  gate.classList.add('hide');
-  await loadDashboard();
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+name));
+  $('nav').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.view===name));
+  if(name==='dashboard')renderDashboard();
+  if(name==='prompts')renderPrompts();
+  if(name==='members')renderMembers();
+  window.scrollTo({top:0,behavior:'smooth'});
 }
-
-const params=new URLSearchParams(location.search);
-async function completeMagic(){
-  if(params.get('magic')!=='1')return false;
-  const userId=params.get('userId'),secret=params.get('secret');
-  if(!userId||!secret)return false;
-  msg(loginMsg,'Membuka admin…');
-  try{
-    await account.createSession({userId,secret});
-    history.replaceState({},'',location.pathname);
-    await finishLogin();
-    return true;
-  }catch(e){msg(loginMsg,e.message||'Link login sudah tidak berlaku.','bad');return false}
-}
-
-const loginPasswordToggle=document.getElementById('loginPasswordToggle');
-const loginPasswordEye=document.getElementById('loginPasswordEye');
-if(loginPasswordToggle){
-  loginPasswordToggle.onclick=()=>{
-    const show=loginPassword.type==='password';
-    loginPassword.type=show?'text':'password';
-    loginPasswordToggle.setAttribute('aria-pressed',show?'true':'false');
-    loginPasswordToggle.setAttribute('aria-label',show?'Sembunyikan password':'Lihat password');
-    loginPasswordEye.textContent=show?'🙈':'👁';
-    loginPassword.focus({preventScroll:true});
-  };
-}
-
-document.getElementById('loginForm').onsubmit=async e=>{
-  e.preventDefault();
-  const b=document.getElementById('loginBtn');
-  b.disabled=true;b.textContent='MEMERIKSA…';msg(loginMsg,'Masuk ke admin…');
-  try{
-    await account.createEmailPasswordSession({
-      email:loginEmail.value.trim().toLowerCase(),
-      password:loginPassword.value
-    });
-    await finishLogin();
-  }catch(err){
-    msg(loginMsg,'Email atau password belum cocok.','bad');
-  }finally{
-    b.disabled=false;b.textContent='MASUK ADMIN';
-  }
-};
-
-document.getElementById('resetPasswordForm').onsubmit=async e=>{
-  e.preventDefault();
-  const password=newPassword.value;
-  const confirm=confirmPassword.value;
-  if(password.length<10){msg(resetPasswordMsg,'Password minimal 10 karakter.','bad');return}
-  if(password!==confirm){msg(resetPasswordMsg,'Ulangi password harus sama.','bad');return}
-  const userId=params.get('userId'),secret=params.get('secret');
-  if(!userId||!secret){msg(resetPasswordMsg,'Link reset tidak valid. Kirim ulang dari halaman login.','bad');return}
-  const b=document.getElementById('resetPasswordBtn');
-  b.disabled=true;b.textContent='MENYIMPAN…';
-  try{
-    await account.updateRecovery({userId,secret,password});
-    history.replaceState({},'',location.pathname);
-    document.getElementById('resetPasswordPanel').style.display='none';
-    document.getElementById('normalLoginPanel').style.display='block';
-    loginEmail.value=localStorage.getItem('bpu_admin_email')||loginEmail.value;
-    loginPassword.value='';
-    msg(loginMsg,'Password berhasil dibuat ✓ Sekarang login pakai email + password.','good');
-  }catch(err){
-    msg(resetPasswordMsg,err.message||'Password belum bisa diperbarui. Coba kirim link reset baru.','bad');
-  }finally{
-    b.disabled=false;b.textContent='SIMPAN PASSWORD BARU';
-  }
-};
-document.getElementById('logoutBtn').onclick=async()=>{await account.deleteSession({sessionId:'current'}).catch(()=>{});location.reload()};
-
-document.querySelectorAll('.nav button').forEach(b=>b.onclick=async()=>{
-  document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
-  document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));document.getElementById('v-'+b.dataset.view).classList.add('on');
-  if(b.dataset.view==='dashboard')await loadDashboard();
-  if(b.dataset.view==='prompts')await loadPrompts();
-  if(b.dataset.view==='orders')await loadOrders();
-  if(b.dataset.view==='members')await loadMembers();
-  if(b.dataset.view==='settings'){await loadSettings();await loadPaymentSettings();await loadCoupons();}
-});
-
-function rankHtml(rows,subKey='niche'){
-  if(!rows?.length)return '<div class="empty">Belum ada data pemakaian.</div>';
-  return rows.map((r,i)=>'<div class="rank-item"><div class="rank-no">#'+(i+1)+'</div><div><b>'+esc(r.title||r.name||'-')+'</b><span>'+esc(r[subKey]||r.email||'')+'</span></div><div class="rank-count">'+Number(r.count||0)+'x</div></div>').join('');
-}
-
-async function loadDashboard(){
-  const d=await api('/dashboard');
-  sPrompts.textContent=d.stats.prompts;
-  sPublished.textContent=d.stats.published;
-  sMembers.textContent=d.stats.members;
-  sRevenue.textContent=rupiah(d.stats.revenue);
-  sUses.textContent=Number(d.stats.total_uses||0).toLocaleString('id-ID');
-  sUsesToday.textContent=Number(d.stats.uses_today||0).toLocaleString('id-ID');
-  sFavorites.textContent=Number(d.stats.total_favorites||0).toLocaleString('id-ID');
-  sPending.textContent=d.stats.pending_orders;
-
-  topUsedList.innerHTML=rankHtml(d.insights?.top_used||[],'niche');
-  topFavoriteList.innerHTML=rankHtml(d.insights?.top_favorites||[],'niche');
-  topMemberList.innerHTML=rankHtml(d.insights?.top_members||[],'email');
-
-  const daily=d.insights?.daily_usage||[];
-  const max=Math.max(...daily.map(x=>Number(x.count||0)),1);
-  usageChart.innerHTML=daily.map(x=>{
-    const pct=Math.max(4,Math.round((Number(x.count||0)/max)*100));
-    return '<div class="barcol"><div class="barwrap"><div><div class="barval">'+Number(x.count||0)+'</div><div class="bar" style="height:'+pct+'px"></div></div></div><div class="barlabel">'+esc(x.label||'')+'</div></div>';
-  }).join('');
-
-  recentOrders.innerHTML=d.recent_orders.length?d.recent_orders.map(o=>'<div class="row"><div class="order-grid"><div><h3>'+esc(o.full_name)+'</h3><div class="muted">'+esc(o.email)+' • '+esc(o.whatsapp||'-')+'</div></div><div><div class="money">'+rupiah(o.total_amount||o.amount)+'</div><div class="status '+esc(o.status)+'">'+esc(o.status)+'</div></div></div></div>').join(''):'<div class="empty">Belum ada order.</div>';
-}
+$('nav').querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>showView(b.dataset.view));
 
 async function loadPrompts(){
-  const status=promptStatus.value;
-  const body={
-    search:promptSearch.value.trim(),
-    limit:promptPageSize,
-    offset:promptPage*promptPageSize
-  };
-  if(status==='published')body.published=true;
-  if(status==='draft')body.published=false;
-
-  const d=await api('/prompts/list',body);
-  promptRows=d.rows||[];
-  promptTotal=Number(d.total||0);
-
-  allNiches=new Set(promptRows.map(x=>x.niche));
-  allGoals=new Set(promptRows.map(x=>x.goal));
-  nicheList.innerHTML=[...allNiches].map(x=>'<option value="'+esc(x)+'">').join('');
-  goalList.innerHTML=[...allGoals].map(x=>'<option value="'+esc(x)+'">').join('');
-
-  promptList.innerHTML=promptRows.length?promptRows.map(p=>'<div class="row"><div class="row-head"><div><h3>'+esc(p.title)+'</h3><div class="muted">'+esc(p.niche)+' • '+esc(p.goal)+'</div></div><span class="tag '+(p.is_published!==false?'live':'off')+'">'+(p.is_published!==false?'LIVE':'DRAFT')+'</span></div><div class="tags"><span class="tag">'+esc(p.output_type)+'</span>'+(p.is_featured?'<span class="tag live">FEATURED</span>':'')+'</div><div class="muted">'+esc(String(p.prompt_text||'').slice(0,180))+(String(p.prompt_text||'').length>180?'…':'')+'</div><div class="row-actions"><button class="btn dark sm" onclick="editPrompt(\''+p.$id+'\')">EDIT</button><button class="btn '+(p.is_published!==false?'danger':'good')+' sm" onclick="togglePrompt(\''+p.$id+'\','+(p.is_published===false)+')">'+(p.is_published!==false?'UNPUBLISH':'PUBLISH')+'</button></div></div>').join(''):'<div class="empty">Prompt tidak ditemukan.</div>';
-
-  const start=promptTotal?promptPage*promptPageSize+1:0;
-  const end=Math.min((promptPage+1)*promptPageSize,promptTotal);
-  promptPageInfo.textContent=start+'–'+end+' dari '+promptTotal+' prompt • Halaman '+(promptPage+1)+' / '+Math.max(1,Math.ceil(promptTotal/promptPageSize));
-  promptPrevBtn.disabled=promptPage<=0;
-  promptNextBtn.disabled=end>=promptTotal;
-}
-window.searchPrompts=async()=>{promptPage=0;await loadPrompts()};
-window.prevPromptPage=async()=>{if(promptPage<=0)return;promptPage--;await loadPrompts();document.getElementById('v-prompts').scrollIntoView({behavior:'smooth',block:'start'})};
-window.nextPromptPage=async()=>{if((promptPage+1)*promptPageSize>=promptTotal)return;promptPage++;await loadPrompts();document.getElementById('v-prompts').scrollIntoView({behavior:'smooth',block:'start'})};
-promptSearch.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();searchPrompts()}};
-promptStatus.onchange=searchPrompts;
-
-window.openPrompt=()=>{promptForm.reset();pId.value='';pSort.value='0';pPublished.checked=true;pFeatured.checked=false;promptModalTitle.textContent='Tambah Prompt';deletePromptBtn.style.display='none';msg(promptMsg,'');promptModal.classList.add('show')};
-window.closePrompt=()=>promptModal.classList.remove('show');
-window.editPrompt=id=>{const p=promptRows.find(x=>x.$id===id);if(!p)return;pId.value=p.$id;pNiche.value=p.niche||'';pGoal.value=p.goal||'';pType.value=p.output_type||'';pSort.value=p.sort_order||0;pTitle.value=p.title||'';pText.value=p.prompt_text||'';pVars.value=p.variables||'';pTags.value=p.tags||'';pPreview.value=p.preview_url||'';pPublished.checked=p.is_published!==false;pFeatured.checked=p.is_featured===true;promptModalTitle.textContent='Edit Prompt';deletePromptBtn.style.display='block';msg(promptMsg,'');promptModal.classList.add('show')};
-window.togglePrompt=async(id,val)=>{await api('/prompts/toggle',{id,is_published:val});await loadPrompts()};
-promptForm.onsubmit=async e=>{e.preventDefault();msg(promptMsg,'Menyimpan…');try{await api('/prompts/save',{id:pId.value,niche:pNiche.value,goal:pGoal.value,output_type:pType.value,sort_order:Number(pSort.value)||0,title:pTitle.value,prompt_text:pText.value,variables:pVars.value,tags:pTags.value,preview_url:pPreview.value,is_published:pPublished.checked,is_featured:pFeatured.checked});msg(promptMsg,'Tersimpan ✓','good');setTimeout(async()=>{closePrompt();await loadPrompts()},500)}catch(err){msg(promptMsg,err.message,'bad')}};
-deletePromptBtn.onclick=async()=>{if(!pId.value||!confirm('Hapus prompt ini permanen?'))return;await api('/prompts/delete',{id:pId.value});closePrompt();await loadPrompts()};
-
-async function loadOrders(){
-  orderList.innerHTML='<div class="empty">Memuat data penjualan…</div>';
-  try{
-    const [od,md]=await Promise.all([
-      api('/orders/list',{limit:100}),
-      api('/members/list',{limit:100})
-    ]);
-    orderRows=od.rows||[];
-    memberRows=md.rows||[];
-
-    const byUser=new Map(memberRows.filter(x=>x.user_id).map(x=>[x.user_id,x]));
-    const byEmail=new Map(memberRows.filter(x=>x.email).map(x=>[String(x.email).toLowerCase(),x]));
-
-    salesRows=orderRows.map(order=>{
-      const member=(order.user_id&&byUser.get(order.user_id))||byEmail.get(String(order.email||'').toLowerCase())||null;
-      return {order,member};
-    });
-
-    const revenue=orderRows.filter(x=>x.status==='success').reduce((sum,x)=>sum+Number(x.total_amount||x.amount||0),0);
-    salesRevenue.textContent=rupiah(revenue);
-    salesActive.textContent=memberRows.filter(x=>x.status==='active').length.toLocaleString('id-ID');
-    salesPending.textContent=orderRows.filter(x=>x.status==='pending').length.toLocaleString('id-ID');
-    renderSales();
-  }catch(err){
-    orderList.innerHTML='<div class="empty">'+esc(err.message||'Gagal memuat data penjualan.')+'</div>';
+  const rows=[];
+  for(let offset=0;offset<5000;offset+=100){
+    const r=await tables.listRows({databaseId:DB,tableId:TABLE,queries:[Query.orderAsc('sort_order'),Query.limit(100),Query.offset(offset)]});
+    const part=(r.rows||r.documents||[]).map(rowData);rows.push(...part);if(part.length<100)break;
   }
+  prompts=rows;
+  fillPromptFilters();
 }
-
-window.renderSales=()=>{
-  const query=String(salesSearch?.value||'').trim().toLowerCase();
-  const filter=String(orderStatus?.value||'');
-
-  let rows=salesRows.filter(({order,member})=>{
-    const hay=[order.full_name,order.email,order.whatsapp,order.transaction_id,member?.name,member?.email,member?.whatsapp]
-      .filter(Boolean).join(' ').toLowerCase();
-    if(query&&!hay.includes(query))return false;
-
-    if(filter==='active')return member?.status==='active';
-    if(filter==='pending_access')return !member||member.status==='pending';
-    if(filter==='blocked')return member?.status==='blocked';
-    if(['success','pending','failed','expired'].includes(filter))return order.status===filter;
+async function loadMembers(){
+  try{const d=await api('/members/list',{limit:500});members=d.rows||[]}catch(e){members=[]}
+}
+async function reloadAll(){
+  busy(true);
+  try{await Promise.all([loadPrompts(),loadMembers()]);renderDashboard();renderPrompts();renderMembers()}
+  finally{busy(false)}
+}
+function renderDashboard(){
+  $('sTotal').textContent=prompts.length.toLocaleString('id-ID');
+  $('sPublished').textContent=prompts.filter(x=>x.is_published!==false).length.toLocaleString('id-ID');
+  $('sFeatured').textContent=prompts.filter(x=>x.is_featured===true).length.toLocaleString('id-ID');
+  $('sCategories').textContent=new Set(prompts.map(x=>x.category).filter(Boolean)).size.toLocaleString('id-ID');
+  $('sMembers').textContent=members.filter(x=>x.status==='active').length.toLocaleString('id-ID');
+  $('sNoImage').textContent=prompts.filter(x=>!x.preview_url).length.toLocaleString('id-ID');
+  const counts={};prompts.forEach(x=>{if(x.category)counts[x.category]=(counts[x.category]||0)+1});
+  const rows=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,12),max=Math.max(1,...rows.map(x=>x[1]));
+  $('categoryBars').innerHTML=rows.length?rows.map(([name,count])=>'<div class="catrow"><span>'+esc(name)+'</span><div class="bar"><i style="width:'+Math.max(5,Math.round(count/max*100))+'%"></i></div><b>'+count+'</b></div>').join(''):'<div class="empty">Belum ada kategori.</div>';
+}
+function fillPromptFilters(){
+  const val=$('categoryFilter').value;
+  const cats=[...new Set(prompts.map(x=>x.category).filter(Boolean))].sort();
+  $('categoryFilter').innerHTML='<option value="">Semua kategori</option>'+cats.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join('');
+  if(cats.includes(val))$('categoryFilter').value=val;
+}
+function filteredPrompts(){
+  const q=$('promptSearch').value.trim().toLowerCase(),cat=$('categoryFilter').value,status=$('statusFilter').value;
+  return prompts.filter(x=>{
+    if(cat&&x.category!==cat)return false;
+    if(status==='published'&&x.is_published===false)return false;
+    if(status==='draft'&&x.is_published!==false)return false;
+    if(status==='featured'&&!x.is_featured)return false;
+    if(status==='noimage'&&x.preview_url)return false;
+    if(q&&!([x.title,x.category,x.subcategory,x.tags,x.style,x.source_creator].filter(Boolean).join(' ').toLowerCase().includes(q)))return false;
     return true;
   });
-
-  orderList.innerHTML=rows.length?rows.map(({order:o,member:m},idx)=>{
-    const memberStatus=m?.status||'pending';
-    const accessClass=memberStatus==='active'?'live':memberStatus==='blocked'?'off':'pend';
-    const accessLabel=memberStatus==='active'?'AKTIF':memberStatus==='blocked'?'BLOKIR':'PENDING';
-    const paymentClass=o.status==='success'?'live':o.status==='pending'?'pend':'off';
-    const paymentLabel=o.status==='success'?'LUNAS':String(o.status||'pending').toUpperCase();
-    const phone=m?.whatsapp||o.whatsapp||'-';
-    const email=m?.email||o.email||'-';
-    const name=m?.name||o.full_name||email;
-    const accessUntil=m?.access_until?' • s/d '+new Date(m.access_until).toLocaleDateString('id-ID'):'';
-    return '<div class="row">'+
-      '<div class="sales-row">'+
-        '<div class="sales-main"><h3>'+esc(name)+'</h3><div class="sales-meta">'+esc(email)+'<br>'+esc(phone)+'<br>'+dt(o.$createdAt)+'</div></div>'+
-        '<div class="sales-side"><div class="money">'+rupiah(o.total_amount||o.amount)+'</div><span class="tag '+paymentClass+'">'+esc(paymentLabel)+'</span></div>'+
-      '</div>'+
-      '<div class="tags"><span class="tag '+accessClass+'">AKSES '+accessLabel+esc(accessUntil)+'</span><span class="tag">'+esc(o.payment_method||'qris')+'</span><span class="tag">'+esc(o.transaction_id||'-')+'</span></div>'+
-      (o.notes?'<div class="muted">Catatan: '+esc(o.notes)+'</div>':'')+
-      '<div class="sales-actions"><button class="btn dark sm" onclick="openMemberEdit(\''+o.$id+'\')">✎ EDIT</button><button class="btn danger sm" onclick="deleteSales(\''+o.$id+'\')">⌫ HAPUS</button></div>'+
-    '</div>';
-  }).join(''):'<div class="empty">Data tidak ditemukan.</div>';
-};
-
-function dateInputValue(iso){
-  if(!iso)return '';
-  try{
-    const d=new Date(iso);
-    const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jakarta',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(d);
-    const get=t=>parts.find(p=>p.type===t)?.value||'';
-    return get('year')+'-'+get('month')+'-'+get('day');
-  }catch{return ''}
 }
+function renderPrompts(){
+  const rows=filteredPrompts();
+  $('promptList').innerHTML=rows.length?rows.map(p=>'<div class="row"><div class="rowtop"><div class="promptidentity"><div class="previewthumb">'+(p.preview_url?'<img src="'+esc(p.preview_url)+'" alt="">':'')+'</div><div><h3>'+esc(p.title)+'</h3><div class="muted">'+esc(p.category||'-')+(p.subcategory?' • '+esc(p.subcategory):'')+'<br>'+esc(p.style||'')+'</div></div></div><span class="tag '+(p.is_published===false?'draft':'live')+'">'+(p.is_published===false?'DRAFT':'LIVE')+'</span></div><div class="tags">'+(p.is_featured?'<span class="tag featured">FEATURED</span>':'')+(p.aspect_ratio?'<span class="tag">'+esc(p.aspect_ratio)+'</span>':'')+(p.camera?'<span class="tag">'+esc(p.camera)+'</span>':'')+(p.source_creator?'<span class="tag">'+esc(p.source_creator)+'</span>':'')+'</div><div class="rowactions"><button class="btn dark sm" onclick="editPrompt(\''+p.$id+'\')">✎ EDIT</button><button class="btn '+(p.is_published===false?'pink':'dark')+' sm" onclick="togglePublish(\''+p.$id+'\','+(p.is_published===false?'true':'false')+')">'+(p.is_published===false?'PUBLISH':'JADIKAN DRAFT')+'</button></div></div>').join(''):'<div class="empty"><b>Prompt tidak ditemukan.</b><br>Coba filter atau kata kunci lain.</div>';
+}
+$('promptSearch').oninput=renderPrompts;$('categoryFilter').onchange=renderPrompts;$('statusFilter').onchange=renderPrompts;
 
-window.openMemberEdit=async orderId=>{
-  const entry=salesRows.find(x=>x.order.$id===orderId);
-  if(!entry)return;
-  const o=entry.order||{};
-  let m=entry.member||{};
-  memberEditModal.classList.add('show');
-  msg(memberEditMsg,'');
+function resetPromptForm(){
+  editing=null;$('promptForm').reset();$('pId').value='';$('pPreviewFileId').value='';$('pTool').value='ChatGPT Image / Gemini';$('pGender').value='universal';$('pSort').value=prompts.length?Math.max(...prompts.map(x=>Number(x.sort_order)||0))+1:1;$('pNeedsReference').checked=true;$('pPublished').checked=true;$('pFeatured').checked=false;$('imagePreview').innerHTML='Belum ada gambar';$('deletePromptBtn').style.display='none';$('promptModalTitle').textContent='Tambah Prompt';msg($('promptMsg'),'');
+}
+function openPrompt(){resetPromptForm();$('promptModal').classList.add('show')}
+window.editPrompt=id=>{
+  const p=prompts.find(x=>x.$id===id);if(!p)return;editing=p;
+  $('pId').value=p.$id;$('pPreviewFileId').value=p.preview_file_id||'';$('pPreviewUrl').value=p.preview_url||'';$('pCategory').value=p.category||'';$('pSubcategory').value=p.subcategory||'';$('pTitle').value=p.title||'';$('pStyle').value=p.style||'';$('pCamera').value=p.camera||'';$('pRatio').value=p.aspect_ratio||'';$('pTool').value=p.tool||'';$('pGender').value=p.gender||'universal';$('pSort').value=p.sort_order||0;$('pTags').value=p.tags||'';$('pPrompt').value=p.prompt_text||'';$('pSourceCreator').value=p.source_creator||'';$('pSourceUrl').value=p.source_url||'';$('pSourceNotes').value=p.source_notes||'';$('pNeedsReference').checked=p.needs_reference!==false;$('pPublished').checked=p.is_published!==false;$('pFeatured').checked=p.is_featured===true;
+  $('imagePreview').innerHTML=p.preview_url?'<img src="'+esc(p.preview_url)+'" alt="">':'Belum ada gambar';$('deletePromptBtn').style.display='inline-block';$('promptModalTitle').textContent='Edit Prompt';msg($('promptMsg'),'');$('promptModal').classList.add('show');
+};
+window.togglePublish=async(id,val)=>{busy(true);try{await tables.updateRow({databaseId:DB,tableId:TABLE,rowId:id,data:{is_published:val}});await loadPrompts();renderPrompts();renderDashboard()}catch(e){alert(e.message||'Gagal mengubah status.')}finally{busy(false)}};
+
+$('pImageFile').onchange=e=>{const f=e.target.files?.[0];if(!f)return;const u=URL.createObjectURL(f);$('imagePreview').innerHTML='<img src="'+u+'" alt="">';};
+$('pPreviewUrl').oninput=e=>{if(e.target.value&&!$('pImageFile').files?.length)$('imagePreview').innerHTML='<img src="'+esc(e.target.value)+'" alt="">';};
+
+$('promptForm').onsubmit=async e=>{
+  e.preventDefault();const b=$('savePromptBtn');b.disabled=true;b.textContent='MENYIMPAN…';msg($('promptMsg'),'Menyimpan prompt…');
+  let newFileId='',oldFileId=$('pPreviewFileId').value||'',url=$('pPreviewUrl').value.trim()||null;
   try{
-    if(o.user_id){
-      const d=await api('/members/get',{user_id:o.user_id});
-      m=d.row||m||{};
+    const f=$('pImageFile').files?.[0];
+    if(f){
+      const uploaded=await storage.createFile({bucketId:BUCKET,fileId:ID.unique(),file:f});
+      newFileId=uploaded.$id;url=previewUrl(newFileId);
     }
-  }catch{}
-
-  eOrderId.value=o.$id||orderId;
-  eUserId.value=m.user_id||o.user_id||'';
-  eName.value=m.name||o.full_name||'';
-  eWhatsapp.value=m.whatsapp||o.whatsapp||'';
-  eEmail.value=m.email||o.email||'';
-  eAmount.value=Number(o.total_amount||o.amount||0);
-  ePaymentStatus.value=o.status||'pending';
-  ePaymentMethod.value=o.payment_method||'qris';
-  if(![...ePaymentMethod.options].some(x=>x.value===ePaymentMethod.value))ePaymentMethod.value='lainnya';
-  eStatus.value=m.status||(o.access_issued?'active':'pending');
-  eAccessUntil.value=dateInputValue(m.access_until);
-  eOrderNotes.value=o.notes||'';
-  eBusinessName.value=m.business_name||'';
-  eCityArea.value=m.city_area||'';
-  eProductService.value=m.product_service||'';
-  ePriceText.value=m.price_text||'';
-  eBrandColor.value=m.brand_color||'';
-  eTargetBuyer.value=m.target_buyer||'';
-  eAdvantage.value=m.advantage||'';
-  eAssets.value=m.available_assets||'';
-  memberEditTitle.textContent=m.name||o.full_name||o.email||'Data Order & Member';
-};
-
-window.closeMemberEdit=()=>memberEditModal.classList.remove('show');
-memberEditModal.onclick=e=>{if(e.target===memberEditModal)closeMemberEdit()};
-
-memberEditForm.onsubmit=async e=>{
-  e.preventDefault();
-  const b=memberEditSubmit;
-  b.disabled=true;b.textContent='MENYIMPAN…';msg(memberEditMsg,'Menyimpan transaksi dan member…');
-  try{
-    const accessIso=eAccessUntil.value?new Date(eAccessUntil.value+'T23:59:59+07:00').toISOString():'';
-    await api('/sales/save',{
-      order_id:eOrderId.value,
-      user_id:eUserId.value,
-      name:eName.value.trim(),
-      email:eEmail.value.trim(),
-      whatsapp:eWhatsapp.value.trim(),
-      amount:Number(eAmount.value)||0,
-      payment_status:ePaymentStatus.value,
-      payment_method:ePaymentMethod.value,
-      access_status:eStatus.value,
-      access_until:accessIso,
-      notes:eOrderNotes.value.trim(),
-      business_name:eBusinessName.value.trim(),
-      city_area:eCityArea.value.trim(),
-      product_service:eProductService.value.trim(),
-      price_text:ePriceText.value.trim(),
-      target_buyer:eTargetBuyer.value.trim(),
-      advantage:eAdvantage.value.trim(),
-      brand_color:eBrandColor.value.trim(),
-      available_assets:eAssets.value.trim()
-    });
-    msg(memberEditMsg,'Order dan member berhasil diperbarui ✓','good');
-    setTimeout(async()=>{
-      closeMemberEdit();
-      await loadOrders();
-      await loadDashboard();
-    },450);
+    const data={category:$('pCategory').value.trim(),subcategory:$('pSubcategory').value.trim()||null,title:$('pTitle').value.trim(),prompt_text:$('pPrompt').value.trim(),preview_url:url,preview_file_id:newFileId||oldFileId||null,style:$('pStyle').value.trim()||null,camera:$('pCamera').value.trim()||null,aspect_ratio:$('pRatio').value.trim()||null,tool:$('pTool').value.trim()||null,gender:$('pGender').value,tags:$('pTags').value.trim()||null,source_creator:$('pSourceCreator').value.trim()||null,source_url:$('pSourceUrl').value.trim()||null,source_notes:$('pSourceNotes').value.trim()||null,needs_reference:$('pNeedsReference').checked,is_published:$('pPublished').checked,is_featured:$('pFeatured').checked,sort_order:Number($('pSort').value)||0};
+    if($('pId').value)await tables.updateRow({databaseId:DB,tableId:TABLE,rowId:$('pId').value,data});
+    else await tables.createRow({databaseId:DB,tableId:TABLE,rowId:ID.unique(),data});
+    if(newFileId&&oldFileId&&oldFileId!==newFileId){try{await storage.deleteFile({bucketId:BUCKET,fileId:oldFileId})}catch{}}
+    msg($('promptMsg'),'Tersimpan ✓','good');await loadPrompts();renderPrompts();renderDashboard();setTimeout(()=>$('promptModal').classList.remove('show'),450);
   }catch(err){
-    msg(memberEditMsg,err.message||'Gagal menyimpan perubahan.','bad');
-  }finally{
-    b.disabled=false;b.textContent='SIMPAN PERUBAHAN';
-  }
+    if(newFileId){try{await storage.deleteFile({bucketId:BUCKET,fileId:newFileId})}catch{}}
+    msg($('promptMsg'),err.message||'Prompt gagal disimpan.','bad');
+  }finally{b.disabled=false;b.textContent='SIMPAN PROMPT'}
+};
+$('deletePromptBtn').onclick=async()=>{
+  const id=$('pId').value;if(!id||!confirm('Hapus prompt ini permanen?'))return;
+  busy(true);try{const fileId=$('pPreviewFileId').value;await tables.deleteRow({databaseId:DB,tableId:TABLE,rowId:id});if(fileId){try{await storage.deleteFile({bucketId:BUCKET,fileId})}catch{}}$('promptModal').classList.remove('show');await loadPrompts();renderPrompts();renderDashboard()}catch(e){alert(e.message||'Gagal menghapus prompt.')}finally{busy(false)}
 };
 
-window.deleteSales=async orderId=>{
-  const entry=salesRows.find(x=>x.order.$id===orderId);
-  if(!entry)return;
-  const name=entry.member?.name||entry.order.full_name||entry.order.email||'data ini';
-  const hasMember=Boolean(entry.member?.user_id||entry.order.user_id);
-  const warning=hasMember
-    ?'Hapus '+name+' beserta akun member dan semua order yang terhubung? Data ini tidak bisa dikembalikan.'
-    :'Hapus order '+name+' secara permanen?';
-  if(!confirm(warning))return;
-  try{
-    await api('/sales/delete',{order_id:orderId,user_id:entry.member?.user_id||entry.order.user_id||''});
-    await loadOrders();
-    await loadDashboard();
-  }catch(err){
-    alert(err.message||'Gagal menghapus data.');
-  }
-};
-deleteSalesBtn.onclick=()=>deleteSales(eOrderId.value);
-
-window.openManual=async()=>{
-  manualForm.reset();
-  mPayment.value='success';
-  mAccess.value='active';
-  mMethod.value='transfer_bank';
-  msg(manualMsg,'');
-  try{
-    const d=await api('/settings/get');
-    mAmount.value=d.settings.minimum_price||'30000';
-  }catch{mAmount.value='30000'}
-  manualModal.classList.add('show');
-};
-window.closeManual=()=>manualModal.classList.remove('show');
-
-manualForm.onsubmit=async e=>{
-  e.preventDefault();
-  const b=document.getElementById('manualSubmit');
-  b.disabled=true;b.textContent='MEMPROSES…';msg(manualMsg,'Membuat akun dan mencatat transaksi…');
-  try{
-    const d=await api('/members/manual-create',{
-      name:mName.value.trim(),
-      email:mEmail.value.trim(),
-      whatsapp:mWa.value.trim(),
-      amount:Number(mAmount.value)||0,
-      payment_method:mMethod.value,
-      payment_status:mPayment.value,
-      access_status:mAccess.value,
-      notes:mNotes.value.trim()
-    });
-    msg(manualMsg,(d.access_status==='active'?'Member aktif ✓':'Member tersimpan sebagai pending ✓')+' — '+(d.payment_status==='success'?'pembayaran lunas':'pembayaran pending'),'good');
-    setTimeout(async()=>{
-      closeManual();
-      await loadOrders();
-      await loadDashboard();
-    },700);
-  }catch(err){
-    msg(manualMsg,err.message||'Gagal mendaftarkan member.','bad');
-  }finally{
-    b.disabled=false;b.textContent='SIMPAN ORDER';
-  }
-};
-
-manualModal.onclick=e=>{if(e.target===manualModal)closeManual()};
-
-function couponValueText(c){
-  if(c.discount_type==='percent'){
-    const cap=Number(c.max_discount||0)>0?' • maks '+rupiah(c.max_discount):'';
-    return Number(c.discount_value||0)+'%'+cap;
-  }
-  return rupiah(c.discount_value||0);
+function renderMembers(){
+  const q=$('memberSearch').value.trim().toLowerCase(),status=$('memberStatus').value;
+  const rows=members.filter(m=>{if(status&&m.status!==status)return false;if(q&&!([m.name,m.email,m.whatsapp].filter(Boolean).join(' ').toLowerCase().includes(q)))return false;return true});
+  $('memberList').innerHTML=rows.length?rows.map(m=>'<div class="row"><div class="membermeta"><div><h3>'+esc(m.name||m.email||'Member')+'</h3><div class="muted">'+esc(m.email||'-')+'<br>'+esc(m.whatsapp||'-')+(m.access_until?'<br>Akses s/d '+new Date(m.access_until).toLocaleDateString('id-ID'):'')+'</div></div><span class="tag '+(m.status==='active'?'live':m.status==='blocked'?'draft':'')+'">'+esc(String(m.status||'pending').toUpperCase())+'</span></div></div>').join(''):'<div class="empty">Belum ada member sesuai filter.</div>';
 }
-function localDateTimeValue(iso){
-  if(!iso)return '';
-  const d=new Date(iso);
-  if(Number.isNaN(d.getTime()))return '';
-  const pad=n=>String(n).padStart(2,'0');
-  return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes());
+$('memberSearch').oninput=renderMembers;$('memberStatus').onchange=renderMembers;
+function openMember(){$('memberForm').reset();$('mStatus').value='active';msg($('memberMsg'),'');$('memberModal').classList.add('show')}
+$('memberForm').onsubmit=async e=>{
+  e.preventDefault();const b=$('saveMemberBtn');b.disabled=true;b.textContent='MEMPROSES…';msg($('memberMsg'),'Membuat akses member…');
+  try{
+    const active=$('mStatus').value==='active';
+    await api('/members/manual-create',{name:$('mName').value.trim(),email:$('mEmail').value.trim(),whatsapp:$('mWa').value.trim(),amount:0,payment_method:'manual',payment_status:active?'success':'pending',access_status:$('mStatus').value,notes:$('mNotes').value.trim()});
+    msg($('memberMsg'),'Member tersimpan ✓','good');await loadMembers();renderMembers();renderDashboard();setTimeout(()=>$('memberModal').classList.remove('show'),500);
+  }catch(err){msg($('memberMsg'),err.message||'Gagal membuat member.','bad')}finally{b.disabled=false;b.textContent='BUAT MEMBER'}
+};
+
+function parseCSV(text){
+  const rows=[];let row=[],cell='',quoted=false;
+  for(let i=0;i<text.length;i++){const ch=text[i],next=text[i+1];if(ch==='"'){if(quoted&&next==='"'){cell+='"';i++}else quoted=!quoted}else if(ch===','&&!quoted){row.push(cell);cell=''}else if((ch==='\n'||ch==='\r')&&!quoted){if(ch==='\r'&&next==='\n')i++;row.push(cell);cell='';if(row.some(x=>x.trim()!==''))rows.push(row);row=[]}else cell+=ch}
+  row.push(cell);if(row.some(x=>x.trim()!==''))rows.push(row);return rows;
 }
-async function loadCoupons(){
-  const d=await api('/coupons/list');
-  couponRows=d.rows||[];
-  couponList.innerHTML=couponRows.length?couponRows.map(c=>{
-    const limit=Number(c.usage_limit||0)>0?Number(c.used_count||0)+' / '+Number(c.usage_limit):Number(c.used_count||0)+' / ∞';
-    let period='Selalu berlaku';
-    if(c.starts_at||c.ends_at)period=(c.starts_at?dt(c.starts_at):'Sekarang')+' → '+(c.ends_at?dt(c.ends_at):'tanpa batas');
-    return '<div class="row"><div class="row-head"><div><h3>'+esc(c.code)+'</h3><div class="muted">'+esc(couponValueText(c))+'</div></div><span class="tag '+(c.is_active?'live':'off')+'">'+(c.is_active?'AKTIF':'NONAKTIF')+'</span></div><div class="tags"><span class="tag">Dipakai '+esc(limit)+'</span><span class="tag">Min '+rupiah(c.min_order||0)+'</span></div><div class="muted">'+esc(period)+(c.notes?'<br>'+esc(c.notes):'')+'</div><div class="row-actions"><button class="btn dark sm" onclick="editCoupon(\''+c.$id+'\')">EDIT</button><button class="btn '+(c.is_active?'danger':'good')+' sm" onclick="toggleCoupon(\''+c.$id+'\','+(!c.is_active)+')">'+(c.is_active?'NONAKTIFKAN':'AKTIFKAN')+'</button></div></div>';
-  }).join(''):'<div class="empty">Belum ada kupon.</div>';
+function truthy(v,def=false){if(v===undefined||v===null||v==='')return def;return ['1','true','yes','y','published','on'].includes(String(v).trim().toLowerCase())}
+$('downloadTemplate').onclick=()=>{
+  const head=['category','subcategory','title','prompt_text','preview_url','style','camera','aspect_ratio','tool','gender','tags','source_creator','source_url','source_notes','needs_reference','is_published','is_featured','sort_order'];
+  const example=['Candid','Daily Life','Ngopi di Warung','Use the uploaded reference image as the sole identity reference...','','Candid documentary','iPhone Pro 2x','4:5','ChatGPT Image / Gemini','universal','candid; coffee','BADAI Prompt Lab','','Original seed','true','true','false','1'];
+  const csv=[head,example].map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='badai-prompt-template.csv';a.click();URL.revokeObjectURL(a.href);
+};
+$('importCsvBtn').onclick=()=>$('csvInput').click();
+$('csvInput').onchange=async e=>{
+  const f=e.target.files?.[0];if(!f)return;msg($('importMsg'),'Membaca CSV…');
+  try{
+    const rows=parseCSV(await f.text());if(rows.length<2)throw new Error('CSV kosong.');
+    const headers=rows[0].map(x=>x.trim());let success=0,failed=0;
+    for(let i=1;i<rows.length;i++){
+      const obj={};headers.forEach((h,idx)=>obj[h]=(rows[i][idx]??'').trim());
+      if(!obj.category||!obj.title||!obj.prompt_text){failed++;continue}
+      const data={category:obj.category,subcategory:obj.subcategory||null,title:obj.title,prompt_text:obj.prompt_text,preview_url:obj.preview_url||null,preview_file_id:null,style:obj.style||null,camera:obj.camera||null,aspect_ratio:obj.aspect_ratio||null,tool:obj.tool||'ChatGPT Image / Gemini',gender:obj.gender||'universal',tags:obj.tags||null,source_creator:obj.source_creator||null,source_url:obj.source_url||null,source_notes:obj.source_notes||null,needs_reference:truthy(obj.needs_reference,true),is_published:truthy(obj.is_published,true),is_featured:truthy(obj.is_featured,false),sort_order:Number(obj.sort_order)||prompts.length+i};
+      try{await tables.createRow({databaseId:DB,tableId:TABLE,rowId:ID.unique(),data});success++}catch(err){failed++}
+      msg($('importMsg'),'Import '+(i)+'/'+(rows.length-1)+'…');
+    }
+    await loadPrompts();renderPrompts();renderDashboard();msg($('importMsg'),'Selesai: '+success+' masuk, '+failed+' gagal/skip.','good');
+  }catch(err){msg($('importMsg'),err.message||'Import gagal.','bad')}finally{e.target.value=''}
+};
+
+function closeModal(name){if(name==='prompt')$('promptModal').classList.remove('show');if(name==='member')$('memberModal').classList.remove('show')}
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeModal(b.dataset.close));
+[$('promptModal'),$('memberModal')].forEach(o=>o.onclick=e=>{if(e.target===o)o.classList.remove('show')});
+$('addPromptBtn').onclick=openPrompt;$('quickAdd').onclick=openPrompt;$('quickImport').onclick=()=>{showView('prompts');setTimeout(()=>$('importCsvBtn').scrollIntoView({behavior:'smooth',block:'center'}),120)};$('addMemberBtn').onclick=openMember;$('quickMember').onclick=()=>{showView('members');setTimeout(openMember,100)};$('refreshDashboard').onclick=reloadAll;
+
+async function boot(){
+  try{
+    busy(true);me=await account.get();await api('/health');$('gate').classList.add('hide');$('adminName').textContent=me.name||me.email;localStorage.setItem('badai_admin_email',me.email||'');await reloadAll();
+  }catch(err){$('gate').classList.remove('hide');if(Number(err?.code)!==401)msg($('loginMsg'),err.message||'Akun ini bukan admin BADAI PROMPT.','bad')}finally{busy(false)}
 }
-window.openCoupon=()=>{
-  couponForm.reset();cId.value='';cType.value='percent';cMax.value='0';cMin.value='0';cLimit.value='0';cActive.checked=true;couponModalTitle.textContent='Tambah Kupon';deleteCouponBtn.style.display='none';msg(couponMsg,'');couponModal.classList.add('show');
+$('loginForm').onsubmit=async e=>{
+  e.preventDefault();const b=$('loginBtn');b.disabled=true;b.textContent='MEMERIKSA…';msg($('loginMsg'),'Membuka admin…');
+  try{await account.createEmailPasswordSession({email:$('loginEmail').value.trim().toLowerCase(),password:$('loginPassword').value});await boot();msg($('loginMsg'),'')}
+  catch(err){msg($('loginMsg'),Number(err?.code)===401?'Email atau password belum cocok.':(err.message||'Login gagal.'),'bad')}
+  finally{b.disabled=false;b.textContent='MASUK ADMIN'}
 };
-window.closeCoupon=()=>couponModal.classList.remove('show');
-couponModal.onclick=e=>{if(e.target===couponModal)closeCoupon()};
-window.editCoupon=id=>{
-  const c=couponRows.find(x=>x.$id===id);if(!c)return;
-  cId.value=c.$id;cCode.value=c.code||'';cType.value=c.discount_type||'percent';cValue.value=c.discount_value||0;cMax.value=c.max_discount||0;cMin.value=c.min_order||0;cLimit.value=c.usage_limit||0;cStart.value=localDateTimeValue(c.starts_at);cEnd.value=localDateTimeValue(c.ends_at);cNotes.value=c.notes||'';cActive.checked=c.is_active!==false;couponModalTitle.textContent='Edit Kupon '+c.code;deleteCouponBtn.style.display='block';msg(couponMsg,'');couponModal.classList.add('show');
-};
-window.toggleCoupon=async(id,is_active)=>{await api('/coupons/toggle',{id,is_active});await loadCoupons()};
-couponForm.onsubmit=async e=>{
-  e.preventDefault();msg(couponMsg,'Menyimpan…');
-  try{
-    await api('/coupons/save',{
-      id:cId.value,
-      code:cCode.value.trim(),
-      discount_type:cType.value,
-      discount_value:Number(cValue.value)||0,
-      max_discount:Number(cMax.value)||0,
-      min_order:Number(cMin.value)||0,
-      usage_limit:Number(cLimit.value)||0,
-      starts_at:cStart.value?new Date(cStart.value).toISOString():'',
-      ends_at:cEnd.value?new Date(cEnd.value).toISOString():'',
-      notes:cNotes.value.trim(),
-      is_active:cActive.checked
-    });
-    msg(couponMsg,'Kupon tersimpan ✓','good');
-    setTimeout(async()=>{closeCoupon();await loadCoupons()},450);
-  }catch(err){msg(couponMsg,err.message||'Gagal menyimpan kupon.','bad')}
-};
-deleteCouponBtn.onclick=async()=>{
-  if(!cId.value||!confirm('Hapus kupon ini permanen?'))return;
-  await api('/coupons/delete',{id:cId.value});
-  closeCoupon();await loadCoupons();
-};
+$('logoutBtn').onclick=async()=>{try{await account.deleteSession({sessionId:'current'})}catch{}location.reload()};
 
-async function loadPaymentSettings(){
-  try{
-    const d=await api('/payment/get');
-    const p=d.payment||{};
-    payMerchantLabel.value=p.merchant_label||'BADAI PROMPT UMKM';
-    payAccountId.value=p.account_id||'';
-    payQrisMethod.value=p.qris_method||'qris_two';
-    payFeeBy.value=p.fee_by||'user';
-    payUmkmName.value=p.umkm_name||'';
-    payTestMode.checked=p.test_mode!==false;
-    payActive.checked=p.is_active!==false;
-    payCallbackUrl.value=p.callback_url||'https://badaiprompt.vercel.app/api/buatqris-webhook';
-    paySecretToken.value='';
-    paySigningSecret.value='';
-    paySecretToken.placeholder=p.has_secret_token?'Secret Token sudah tersimpan — kosongkan jika tidak diganti':'Isi Secret Token BuatQRIS';
-    paySigningSecret.placeholder=p.has_signing_secret?'Signing Secret sudah tersimpan — kosongkan jika tidak diganti':'Isi Signing Secret webhook';
-    paymentCredentialStatus.innerHTML=p.configured
-      ?'<span style="color:#73f6a7">● Merchant terkonfigurasi</span>'+(p.test_mode?' • SANDBOX':' • LIVE')
-      :'<span style="color:#ff7088">● Merchant belum lengkap</span>';
-  }catch(err){
-    msg(paymentSettingsMsg,err.message||'Gagal memuat pengaturan pembayaran.','bad');
-  }
-}
-
-paymentSettingsForm.onsubmit=async e=>{
-  e.preventDefault();
-  const b=savePaymentBtn;
-  b.disabled=true;b.textContent='MENYIMPAN…';msg(paymentSettingsMsg,'Menyimpan merchant BuatQRIS…');
-  try{
-    const d=await api('/payment/save',{
-      merchant_label:payMerchantLabel.value.trim(),
-      account_id:payAccountId.value.trim(),
-      secret_token:paySecretToken.value.trim(),
-      signing_secret:paySigningSecret.value.trim(),
-      qris_method:payQrisMethod.value,
-      fee_by:payFeeBy.value,
-      umkm_name:payUmkmName.value.trim(),
-      test_mode:payTestMode.checked,
-      callback_url:payCallbackUrl.value.trim(),
-      api_url:'https://app.buatqris.site/api',
-      is_active:payActive.checked
-    });
-    msg(paymentSettingsMsg,'Merchant BuatQRIS tersimpan ✓','good');
-    await loadPaymentSettings();
-  }catch(err){
-    msg(paymentSettingsMsg,err.message||'Gagal menyimpan merchant.','bad');
-  }finally{
-    b.disabled=false;b.textContent='SIMPAN MERCHANT';
-  }
+const qp=new URLSearchParams(location.search),resetUserId=qp.get('userId')||'',resetSecret=qp.get('secret')||'';
+if(qp.get('reset')==='1'&&resetUserId&&resetSecret){$('loginBox').classList.add('hide');$('resetBox').classList.add('show');}
+$('forgotBtn').onclick=async()=>{
+  const email=$('loginEmail').value.trim().toLowerCase()||localStorage.getItem('badai_admin_email')||'';if(!email){msg($('loginMsg'),'Isi email admin dulu.','bad');return}
+  try{await account.createRecovery({email,url:'https://badaiprompt.vercel.app/admin?reset=1'});msg($('loginMsg'),'Link reset sudah dikirim ke '+email+'.','good')}catch(e){msg($('loginMsg'),e.message||'Gagal mengirim reset.','bad')}
 };
-
-testPaymentBtn.onclick=async()=>{
-  const b=testPaymentBtn;
-  b.disabled=true;b.textContent='TESTING…';msg(paymentSettingsMsg,'Membuat transaksi sandbox Rp1.000…');
-  try{
-    const d=await api('/payment/test');
-    msg(paymentSettingsMsg,'Koneksi berhasil ✓ Sandbox transaction: '+(d.transaction_id||'-'),'good');
-  }catch(err){
-    msg(paymentSettingsMsg,err.message||'Test koneksi gagal.','bad');
-  }finally{
-    b.disabled=false;b.textContent='TEST KONEKSI';
-  }
+$('resetForm').onsubmit=async e=>{
+  e.preventDefault();const p=$('newPassword').value,c=$('confirmPassword').value;if(p.length<10){msg($('resetMsg'),'Minimal 10 karakter.','bad');return}if(p!==c){msg($('resetMsg'),'Password tidak sama.','bad');return}
+  try{await account.updateRecovery({userId:resetUserId,secret:resetSecret,password:p});msg($('resetMsg'),'Password berhasil diganti ✓','good');history.replaceState({},'',location.pathname);setTimeout(()=>location.reload(),700)}catch(err){msg($('resetMsg'),err.message||'Reset gagal.','bad')}
 };
+$('sendResetBtn').onclick=async()=>{if(!me?.email)return;try{await account.createRecovery({email:me.email,url:'https://badaiprompt.vercel.app/admin?reset=1'});msg($('securityMsg'),'Link reset dikirim ke '+me.email+'.','good')}catch(e){msg($('securityMsg'),e.message||'Gagal mengirim.','bad')}};
 
-copyCallbackBtn.onclick=async()=>{
-  try{
-    await navigator.clipboard.writeText(payCallbackUrl.value);
-    msg(paymentSettingsMsg,'Callback URL tersalin ✓ Tempel ke Callback URL merchant di BuatQRIS.','good');
-  }catch{
-    msg(paymentSettingsMsg,'Copy gagal. Blok dan salin URL callback secara manual.','bad');
-  }
-};
-
-document.getElementById('sendAdminPasswordResetBtn').onclick=async()=>{
-  if(!me?.email){msg(adminPasswordMsg,'Email admin tidak terbaca. Coba login ulang.','bad');return}
-  const b=document.getElementById('sendAdminPasswordResetBtn');
-  b.disabled=true;b.textContent='MENGIRIM…';
-  try{
-    localStorage.setItem('bpu_admin_email',me.email);
-    await account.createRecovery({
-      email:me.email,
-      url:'https://badaiprompt.vercel.app/admin?reset=1'
-    });
-    msg(adminPasswordMsg,'Link buat/reset password sudah dikirim ke '+me.email+'.','good');
-  }catch(err){
-    msg(adminPasswordMsg,err.message||'Gagal mengirim link reset password.','bad');
-  }finally{
-    b.disabled=false;b.textContent='BUAT / RESET PASSWORD ADMIN';
-  }
-};
-
-async function loadSettings(){
-  const d=await api('/settings/get');
-  setName.value=d.settings.product_name||'BADAI PROMPT UMKM';
-  setPrice.value=d.settings.minimum_price||'30000';
-  setOpen.checked=String(d.settings.registration_open||'true')==='true';
-  setSocialProof.checked=String(d.settings.social_proof_enabled||'true')==='true';
-  setSocialProofInterval.value=Math.min(60,Math.max(10,Number(d.settings.social_proof_interval_seconds||18)));
-}
-settingsForm.onsubmit=async e=>{
-  e.preventDefault();msg(settingsMsg,'Menyimpan…');
-  try{
-    await api('/settings/save',{
-      product_name:setName.value.trim(),
-      minimum_price:String(Math.max(30000,Number(setPrice.value)||30000)),
-      registration_open:String(setOpen.checked),
-      social_proof_enabled:String(setSocialProof.checked),
-      social_proof_interval_seconds:String(Math.min(60,Math.max(10,Number(setSocialProofInterval.value)||18)))
-    });
-    msg(settingsMsg,'Pengaturan tersimpan ✓','good');
-  }catch(err){msg(settingsMsg,err.message,'bad')}
-};
-
-promptModal.onclick=e=>{if(e.target===promptModal)closePrompt()};
-if(params.get('reset')==='1'){
-  document.getElementById('normalLoginPanel').style.display='none';
-  document.getElementById('resetPasswordPanel').style.display='block';
-  gate.classList.remove('hide');
-}else{
-  const savedEmail=localStorage.getItem('bpu_admin_email');
-  if(savedEmail)loginEmail.value=savedEmail;
-  completeMagic().then(async done=>{if(done)return;try{await finishLogin()}catch(e){gate.classList.remove('hide')}});
-}
+$('loginEmail').value=localStorage.getItem('badai_admin_email')||'';
+boot();
 </script>
 </body>
 </html>
