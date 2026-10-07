@@ -293,7 +293,7 @@ const DB='badai_prompt_umkm',TABLE='scene_prompts',ORDERS_TABLE='orders',FUNC='p
 let me=null,prompts=[],promptMeta=[],members=[],orders=[],salesSummaryRows=[],editing=null,currentOrder=null,currentMemberData=null,adminSettings={},coupons=[],adminTeam=[],adminSelf=null;
 let salesPage=1,salesPageSize=25,salesTotal=0,salesPages=1;
 const ADMIN_PAGE_SIZE=10;
-let promptPage=1,promptTotal=0,promptPages=1,promptMaxSort=0;
+let promptPage=1,promptTotal=0,promptPages=1,promptMaxSort=0,promptOpenLatest=true;
 
 const $=id=>document.getElementById(id);
 const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -339,7 +339,7 @@ async function loadPromptMeta(){
   promptMeta=rows;promptMaxSort=Math.max(0,...rows.map(x=>Number(x.sort_order)||0));fillPromptFilters();
 }
 async function loadPrompts(){
-  const queries=[Query.orderDesc('sort_order'),Query.limit(ADMIN_PAGE_SIZE),Query.offset((promptPage-1)*ADMIN_PAGE_SIZE)];
+  const queries=[Query.orderAsc('sort_order'),Query.limit(ADMIN_PAGE_SIZE),Query.offset((promptPage-1)*ADMIN_PAGE_SIZE)];
   const q=$('promptSearch').value.trim(),cat=$('categoryFilter').value,status=$('statusFilter').value;
   if(q)queries.push(Query.search('title',q));if(cat)queries.push(Query.equal('category',cat));
   if(status==='published')queries.push(Query.equal('is_published',true));
@@ -348,6 +348,7 @@ async function loadPrompts(){
   if(status==='noimage')queries.push(Query.isNull('preview_url'));
   const r=await tables.listRows({databaseId:DB,tableId:TABLE,queries});
   prompts=(r.rows||r.documents||[]).map(rowData);promptTotal=Number(r.total||prompts.length);promptPages=Math.max(1,Math.ceil(promptTotal/ADMIN_PAGE_SIZE));
+  if(promptOpenLatest){promptOpenLatest=false;if(promptPage!==promptPages){promptPage=promptPages;return loadPrompts()}}
   if(promptPage>promptPages){promptPage=promptPages;return loadPrompts()}
 }
 async function loadSalesSummary(){
@@ -413,9 +414,9 @@ function fillPromptFilters(){
 }
 function renderPromptPagination(){
   const p=$('promptPagination');if(promptPages<=1){p.classList.remove('show');p.innerHTML='';return}
-  const start=Math.max(1,Math.min(promptPage-2,promptPages-4)),end=Math.min(promptPages,start+4),pages=[];for(let n=start;n<=end;n++)pages.push(n);
-  const options=Array.from({length:promptPages},(_,i)=>'<option value="'+(i+1)+'" '+((i+1)===promptPage?'selected':'')+'>Halaman '+(i+1)+'</option>').join('');
-  p.innerHTML='<div class="adminpagerrow"><button class="adminprev" data-prompt-page="'+(promptPage-1)+'" '+(promptPage===1?'disabled':'')+'>‹</button><div class="adminpagenums">'+pages.map(n=>'<button class="adminpagebtn '+(n===promptPage?'on':'')+'" data-prompt-page="'+n+'">'+n+'</button>').join('')+'</div><button class="adminnext" data-prompt-page="'+(promptPage+1)+'" '+(promptPage===promptPages?'disabled':'')+'>›</button></div><div class="adminpagejump"><label for="adminPageSelect">Pindah ke</label><select id="adminPageSelect">'+options+'</select><button id="adminPageGo" type="button">BUKA</button></div><div class="adminpageinfo">Halaman '+promptPage+' dari '+promptPages+' · '+promptTotal+' prompt · 10 prompt per halaman</div>';
+  const high=Math.min(promptPages,Math.max(promptPage+2,5)),low=Math.max(1,high-4),pages=[];for(let n=high;n>=low;n--)pages.push(n);
+  const options=Array.from({length:promptPages},(_,i)=>promptPages-i).map(n=>'<option value="'+n+'" '+(n===promptPage?'selected':'')+'>Halaman '+n+'</option>').join('');
+  p.innerHTML='<div class="adminpagerrow"><button class="adminprev" data-prompt-page="'+(promptPage+1)+'" '+(promptPage===promptPages?'disabled':'')+'>‹</button><div class="adminpagenums">'+pages.map(n=>'<button class="adminpagebtn '+(n===promptPage?'on':'')+'" data-prompt-page="'+n+'">'+n+'</button>').join('')+'</div><button class="adminnext" data-prompt-page="'+(promptPage-1)+'" '+(promptPage===1?'disabled':'')+'>›</button></div><div class="adminpagejump"><label for="adminPageSelect">Pindah ke</label><select id="adminPageSelect">'+options+'</select><button id="adminPageGo" type="button">BUKA</button></div><div class="adminpageinfo">Halaman '+promptPage+' dari '+promptPages+' · '+promptTotal+' prompt · 10 prompt per halaman</div>';
   p.classList.add('show');p.querySelectorAll('[data-prompt-page]').forEach(b=>b.onclick=()=>{const n=Number(b.dataset.promptPage);if(!b.disabled&&n>=1&&n<=promptPages&&n!==promptPage){promptPage=n;refreshPromptPage(true)}});$('adminPageGo').onclick=()=>{const n=Number($('adminPageSelect').value);if(n>=1&&n<=promptPages&&n!==promptPage){promptPage=n;refreshPromptPage(true)}};
 }
 function renderPrompts(){
@@ -426,9 +427,9 @@ async function refreshPromptPage(scroll=false){
   busy(true);try{await loadPrompts();renderPrompts();if(scroll){const y=$('promptPagination').getBoundingClientRect().top+window.scrollY-90;window.scrollTo({top:y,behavior:'smooth'})}}catch(e){$('promptList').innerHTML='<div class="empty" style="grid-column:1/-1"><b>Prompt gagal dimuat.</b><br>'+esc(e.message||'Coba lagi.')+'</div>'}finally{busy(false)}
 }
 let promptSearchTimer=null;
-$('promptSearch').oninput=()=>{clearTimeout(promptSearchTimer);promptSearchTimer=setTimeout(()=>{promptPage=1;refreshPromptPage(false)},350)};
-$('categoryFilter').onchange=()=>{promptPage=1;refreshPromptPage(false)};
-$('statusFilter').onchange=()=>{promptPage=1;refreshPromptPage(false)};
+$('promptSearch').oninput=()=>{clearTimeout(promptSearchTimer);promptSearchTimer=setTimeout(()=>{promptPage=1;promptOpenLatest=true;refreshPromptPage(false)},350)};
+$('categoryFilter').onchange=()=>{promptPage=1;promptOpenLatest=true;refreshPromptPage(false)};
+$('statusFilter').onchange=()=>{promptPage=1;promptOpenLatest=true;refreshPromptPage(false)};
 
 function resetPromptForm(){
   editing=null;$('promptForm').reset();$('pId').value='';$('pTool').value='ChatGPT Image / Gemini';$('pGender').value='universal';$('pSort').value=promptMaxSort+1;$('pNeedsReference').checked=true;$('pTayang').checked=true;$('pUnggulan').checked=false;$('imagePreview').innerHTML='Belum ada gambar';$('deletePromptBtn').style.display='none';$('promptModalTitle').textContent='Tambah Prompt';msg($('promptMsg'),'');

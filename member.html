@@ -123,7 +123,7 @@ const {Client,Account,TablesDB,Query,ID,Permission,Role}=Appwrite;
 const client=new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
 const account=new Account(client),tables=new TablesDB(client);
 const DB='badai_prompt_umkm',TABLE='scene_prompts';
-let currentUser=null,currentProfile=null,all=[],favorites=new Set(),favoriteRows=new Map(),current=null,category='',mode='all',currentPage=1,totalPrompts=0,totalPages=1;
+let currentUser=null,currentProfile=null,all=[],favorites=new Set(),favoriteRows=new Map(),current=null,category='',mode='all',currentPage=1,totalPrompts=0,totalPages=1,openLatestPage=true;
 const PAGE_SIZE=10;
 const CATEGORIES=['Spontan','Keseharian','Kerja','Bisnis','Pemimpin Bisnis','Perjalanan','Jalanan','Kafe','Rumah','Keluarga','Pasangan','Olahraga','Mode','Hijab','Sinematik','Film','Sejarah','Fantasi','Miniatur','Mainan','LEGO','Film Analog','iPhone','Studio','Perayaan','Ramadan','Lebaran','Indonesia','Jepang','Korea','Nyeleneh','Tren Viral'];
 
@@ -178,7 +178,7 @@ async function toggleFavorite(id){
 async function loadPrompts(){
   const queries=[
     Query.equal('is_published',true),
-    Query.orderDesc('sort_order'),
+    Query.orderAsc('sort_order'),
     Query.limit(PAGE_SIZE),
     Query.offset((currentPage-1)*PAGE_SIZE)
   ];
@@ -189,6 +189,7 @@ async function loadPrompts(){
   all=(r.rows||r.documents||[]).map(rowData);
   totalPrompts=Number(r.total||0);
   totalPages=Math.max(1,Math.ceil(totalPrompts/PAGE_SIZE));
+  if(openLatestPage){openLatestPage=false;if(currentPage!==totalPages){currentPage=totalPages;return loadPrompts()}}
   if(currentPage>totalPages){currentPage=totalPages;return loadPrompts()}
 }
 async function refreshPrompts(scrollToGallery=false){
@@ -209,7 +210,7 @@ function fillFilters(){
   categorySelect.value=category;
   categorySelect.onchange=async()=>{
     category=categorySelect.value;
-    currentPage=1;
+    currentPage=1;openLatestPage=true;
     await refreshPrompts(true);
   };
 }
@@ -223,16 +224,16 @@ function cardVisual(x){
 function renderPagination(){
   const p=$('pagination');
   if(totalPages<=1){p.classList.remove('show');p.innerHTML='';return}
-  const start=Math.max(1,Math.min(currentPage-2,totalPages-4));
-  const end=Math.min(totalPages,start+4);
+  const high=Math.min(totalPages,Math.max(currentPage+2,5));
+  const low=Math.max(1,high-4);
   const pages=[];
-  for(let n=start;n<=end;n++)pages.push(n);
-  const options=Array.from({length:totalPages},(_,i)=>'<option value="'+(i+1)+'" '+((i+1)===currentPage?'selected':'')+'>Halaman '+(i+1)+'</option>').join('');
+  for(let n=high;n>=low;n--)pages.push(n);
+  const options=Array.from({length:totalPages},(_,i)=>totalPages-i).map(n=>'<option value="'+n+'" '+(n===currentPage?'selected':'')+'>Halaman '+n+'</option>').join('');
   p.innerHTML=
     '<div class="pagerow">'+
-      '<button class="pageback" data-page="'+(currentPage-1)+'" '+(currentPage===1?'disabled':'')+' aria-label="Halaman sebelumnya">‹</button>'+
+      '<button class="pageback" data-page="'+(currentPage+1)+'" '+(currentPage===totalPages?'disabled':'')+' aria-label="Halaman lebih baru">‹</button>'+
       '<div class="pagenums">'+pages.map(n=>'<button class="pagebtn '+(n===currentPage?'on':'')+'" data-page="'+n+'">'+n+'</button>').join('')+'</div>'+
-      '<button class="pagenext" data-page="'+(currentPage+1)+'" '+(currentPage===totalPages?'disabled':'')+' aria-label="Halaman berikutnya">›</button>'+
+      '<button class="pagenext" data-page="'+(currentPage-1)+'" '+(currentPage===1?'disabled':'')+' aria-label="Halaman lebih lama">›</button>'+
     '</div>'+
     '<div class="pagejump"><label for="pageSelect">Pindah ke</label><select id="pageSelect">'+options+'</select><button id="pageGo" type="button">BUKA</button></div>'+
     '<div class="pageinfo">Halaman '+currentPage+' dari '+totalPages+' · '+totalPrompts+' prompt</div>';
@@ -315,7 +316,7 @@ let searchTimer=null;
 if(search){
   search.oninput=()=>{
     clearTimeout(searchTimer);
-    searchTimer=setTimeout(()=>{currentPage=1;refreshPrompts(false)},350);
+    searchTimer=setTimeout(()=>{currentPage=1;openLatestPage=true;refreshPrompts(false)},350);
   };
 }
 $('detailCopy').onclick=()=>current&&safeCopy(current.prompt_text);
