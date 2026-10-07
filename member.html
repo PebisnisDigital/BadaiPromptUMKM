@@ -72,15 +72,10 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
         <div><b>3. Salin prompt</b><span>Tempel ke ChatGPT / Gemini.</span></div>
       </div>
       <div class="searchbox"><input id="search" placeholder="Cari: candid, Jepang, cafe, iPhone…"><span class="searchicon">⌕</span></div>
-      <div class="stats"><span class="stat"><b id="totalStat">0</b> prompt</span><span class="stat"><b id="categoryStat">0</b> kategori</span><span class="stat">♡ simpan favorit</span></div>
     </section>
 
     <div class="filterbar">
       <div class="chips" id="chips"><button class="chip on" data-category="">Semua</button></div>
-      <div class="subfilters">
-        <select id="styleFilter"><option value="">Semua style</option></select>
-        <select id="ratioFilter"><option value="">Semua rasio</option></select>
-      </div>
     </div>
 
     <div class="sectionhead">
@@ -142,7 +137,7 @@ const DB='badai_prompt_umkm',TABLE='scene_prompts';
 let currentUser=null,currentProfile=null,all=[],favorites=new Set(),favoriteRows=new Map(),current=null,category='',mode='all';
 
 const $=id=>document.getElementById(id);
-const gate=$('gate'),loading=$('loading'),loginMsg=$('loginMsg'),grid=$('grid'),search=$('search'),chips=$('chips'),styleFilter=$('styleFilter'),ratioFilter=$('ratioFilter');
+const gate=$('gate'),loading=$('loading'),loginMsg=$('loginMsg'),grid=$('grid'),search=$('search'),chips=$('chips');
 const detailOverlay=$('detailOverlay'),affiliateOverlay=$('affiliateOverlay'),accountOverlay=$('accountOverlay'),toast=$('toast');
 
 function esc(v=''){return String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
@@ -197,18 +192,12 @@ function fillFilters(){
   const cats=[...new Set(all.map(x=>x.category).filter(Boolean))];
   chips.innerHTML='<button class="chip on" data-category="">Semua</button>'+cats.map(c=>'<button class="chip" data-category="'+esc(c)+'">'+esc(c)+'</button>').join('');
   chips.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>{category=b.dataset.category;chips.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===b));render()});
-  const styles=[...new Set(all.map(x=>x.style).filter(Boolean))].sort();
-  styleFilter.innerHTML='<option value="">Semua style</option>'+styles.map(x=>'<option>'+esc(x)+'</option>').join('');
-  const ratios=[...new Set(all.map(x=>x.aspect_ratio).filter(Boolean))].sort();
-  ratioFilter.innerHTML='<option value="">Semua rasio</option>'+ratios.map(x=>'<option>'+esc(x)+'</option>').join('');
 }
 function filteredRows(){
-  const q=search.value.trim().toLowerCase(),style=styleFilter.value,ratio=ratioFilter.value;
+  const q=search.value.trim().toLowerCase();
   return all.filter(x=>{
     if(mode==='favorites'&&!favorites.has(x.$id))return false;
     if(category&&x.category!==category)return false;
-    if(style&&x.style!==style)return false;
-    if(ratio&&x.aspect_ratio!==ratio)return false;
     if(q&&!([x.title,x.category,x.subcategory,x.style,x.camera,x.tool,x.tags].filter(Boolean).join(' ').toLowerCase().includes(q)))return false;
     return true;
   });
@@ -219,7 +208,7 @@ function cardVisual(x){
 }
 function render(){
   const rows=filteredRows();
-  $('totalStat').textContent=all.length;$('categoryStat').textContent=new Set(all.map(x=>x.category)).size;$('countLabel').textContent=rows.length+' prompt';
+  $('countLabel').textContent=rows.length+' prompt';
   $('sectionTitle').textContent=category||'Semua Prompt';
   $('sectionEyebrow').textContent='GALERI';
   $('accFav').textContent=favorites.size+' prompt';
@@ -294,7 +283,7 @@ $('loginForm').addEventListener('submit',async e=>{
   catch(err){setMsg(Number(err?.code)===401?'Email atau password belum cocok.':(err?.message||'Login gagal.'),'bad')}
   finally{btn.disabled=false;btn.textContent='MASUK MEMBER AREA'}
 });
-search.oninput=render;styleFilter.onchange=render;ratioFilter.onchange=render;
+search.oninput=render;
 $('detailCopy').onclick=()=>current&&safeCopy(current.prompt_text);
 $('detailFav').onclick=()=>current&&toggleFavorite(current.$id);
 $('accountBtn').onclick=openAccount;
