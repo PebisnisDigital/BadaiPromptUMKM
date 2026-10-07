@@ -1,9 +1,9 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/akses", "destination": "/akses.html" },
     { "source": "/member", "destination": "/member.html" },
     { "source": "/member-area", "destination": "/member.html" },
+    { "source": "/admin", "destination": "/admin.html" },
     { "source": "/instagram", "destination": "/instagram.html" }
   ]
 }
