@@ -90,7 +90,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
   </section>
 
   <section class="view" id="v-prompts">
-    <div class="title"><div><div class="eyebrow">CONTENT LIBRARY</div><h1>Prompt</h1><p>Tampilan dibuat seperti member area. Klik tombol kode BP untuk membuka dan mengedit prompt.</p></div><button class="btn pink" id="addPromptBtn">+ PROMPT</button></div>
+    <div class="title"><div><div class="eyebrow">PERPUSTAKAAN KONTEN</div><h1>Prompt</h1><p>Tampilan dibuat seperti member area. Klik kode BP untuk membuka, membaca, dan mengedit prompt Bahasa Indonesia.</p></div><button class="btn pink" id="addPromptBtn">+ PROMPT</button></div>
     <div class="toolbar">
       <input id="promptSearch" placeholder="Cari judul, kategori, tag…">
       <select id="categoryFilter"><option value="">Semua kategori</option></select>
@@ -158,16 +158,16 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
         <div class="field"><label>KATEGORI *</label><input id="pCategory" required placeholder="Candid"></div>
         <div class="field"><label>SUBKATEGORI</label><input id="pSubcategory" placeholder="Daily Life"></div>
         <div class="field full"><label>JUDUL *</label><input id="pTitle" required placeholder="Ngopi Sendirian di Warung Pagi Hari"></div>
-        <div class="field"><label>STYLE</label><input id="pStyle" placeholder="Candid documentary"></div>
-        <div class="field"><label>CAMERA</label><input id="pCamera" placeholder="iPhone Pro 2x"></div>
-        <div class="field"><label>ASPECT RATIO</label><input id="pRatio" placeholder="4:5"></div>
-        <div class="field"><label>TOOLS</label><input id="pTool" value="ChatGPT Image / Gemini"></div>
-        <div class="field"><label>GENDER</label><select id="pGender"><option value="universal">Universal</option><option value="woman">Woman</option><option value="man">Man</option><option value="child">Child</option></select></div>
-        <div class="field"><label>SORT ORDER</label><input id="pSort" type="number" value="0"></div>
-        <div class="field full"><label>TAGS</label><input id="pTags" placeholder="candid; coffee; daily life; indonesia"></div>
-        <div class="field full"><label>PROMPT *</label><textarea id="pPrompt" rows="11" required placeholder="Use the uploaded reference image as the sole identity reference..."></textarea></div>
-        <div class="field"><label>SOURCE CREATOR</label><input id="pSourceCreator" placeholder="@creator / BADAI Prompt Lab"></div>
-        <div class="field"><label>SOURCE URL</label><input id="pSourceUrl" type="url" placeholder="https://..."></div>
+        <div class="field"><label>GAYA VISUAL</label><input id="pStyle" placeholder="Candid documentary"></div>
+        <div class="field"><label>KAMERA</label><input id="pCamera" placeholder="iPhone Pro 2x"></div>
+        <div class="field"><label>RASIO GAMBAR</label><input id="pRatio" placeholder="4:5"></div>
+        <div class="field"><label>ALAT AI</label><input id="pTool" value="ChatGPT Image / Gemini"></div>
+        <div class="field"><label>SUBJEK</label><select id="pGender"><option value="universal">Universal</option><option value="woman">Perempuan</option><option value="man">Laki-laki</option><option value="child">Anak</option></select></div>
+        <div class="field"><label>URUTAN</label><input id="pSort" type="number" value="0"></div>
+        <div class="field full"><label>KATA KUNCI</label><input id="pTags" placeholder="candid; coffee; daily life; indonesia"></div>
+        <div class="field full"><label>PROMPT BAHASA INDONESIA *</label><textarea id="pPrompt" rows="11" required placeholder="Gunakan foto referensi yang diunggah sebagai acuan identitas utama. Pertahankan wajah, usia, proporsi, dan ciri khas subjek..."></textarea></div>
+        <div class="field"><label>SUMBER / KREATOR</label><input id="pSourceCreator" placeholder="@creator / BADAI Prompt Lab"></div>
+        <div class="field"><label>TAUTAN SUMBER</label><input id="pSourceUrl" type="url" placeholder="https://..."></div>
         <div class="field full"><label>CATATAN SUMBER</label><textarea id="pSourceNotes" rows="3" placeholder="Ide direwrite total / original internal seed..."></textarea></div>
         <div class="field full"><div class="checks"><label><input id="pNeedsReference" type="checkbox" checked> Butuh foto referensi</label><label><input id="pPublished" type="checkbox" checked> Published</label><label><input id="pFeatured" type="checkbox"> Featured</label></div></div>
       </div>
