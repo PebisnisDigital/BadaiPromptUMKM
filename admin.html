@@ -68,8 +68,8 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
     <div class="title"><div><div class="eyebrow">RINGKASAN</div><h1>Dashboard</h1><p>Pusat kendali perpustakaan prompt baru.</p></div><button class="btn dark" id="refreshDashboard">↻ REFRESH</button></div>
     <div class="stats">
       <div class="stat"><small>TOTAL PROMPT</small><b id="sTotal">0</b></div>
-      <div class="stat"><small>PUBLISHED</small><b class="pinktext" id="sPublished">0</b></div>
-      <div class="stat"><small>FEATURED</small><b id="sFeatured">0</b></div>
+      <div class="stat"><small>PUBLISHED</small><b class="pinktext" id="sTayang">0</b></div>
+      <div class="stat"><small>FEATURED</small><b id="sUnggulan">0</b></div>
       <div class="stat"><small>KATEGORI</small><b id="sCategories">0</b></div>
       <div class="stat"><small>MEMBER AKTIF</small><b id="sMembers">0</b></div>
       <div class="stat"><small>PROMPT TANPA GAMBAR</small><b id="sNoImage">0</b></div>
@@ -94,12 +94,12 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
     <div class="toolbar">
       <input id="promptSearch" placeholder="Cari judul, kategori, tag…">
       <select id="categoryFilter"><option value="">Semua kategori</option></select>
-      <select id="statusFilter"><option value="">Semua status</option><option value="published">Published</option><option value="draft">Draft</option><option value="featured">Featured</option><option value="noimage">Tanpa gambar</option></select>
+      <select id="statusFilter"><option value="">Semua status</option><option value="published">Tayang</option><option value="draft">Draf</option><option value="featured">Unggulan</option><option value="noimage">Tanpa gambar</option></select>
     </div>
     <div class="panel" style="margin-top:0">
       <div class="importbox">
-        <p><b>Bulk Import:</b> upload CSV dengan kolom sesuai template. Prompt baru akan langsung masuk database scene_prompts.</p>
-        <div class="importactions"><button class="btn dark sm" id="downloadTemplate">DOWNLOAD TEMPLATE</button><button class="btn dark sm" id="importCsvBtn">IMPORT CSV</button><input id="csvInput" type="file" accept=".csv,text/csv" hidden></div>
+        <p><b>Impor Massal:</b> upload CSV dengan kolom sesuai template. Prompt baru akan langsung masuk database scene_prompts.</p>
+        <div class="importactions"><button class="btn dark sm" id="downloadTemplate">UNDUH TEMPLATE</button><button class="btn dark sm" id="importCsvBtn">IMPOR CSV</button><input id="csvInput" type="file" accept=".csv,text/csv" hidden></div>
         <div class="msg" id="importMsg"></div>
       </div>
     </div>
@@ -107,7 +107,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
   </section>
 
   <section class="view" id="v-members">
-    <div class="title"><div><div class="eyebrow">ACCESS</div><h1>Member</h1><p>Lihat member BADAI PROMPT dan buat akses manual.</p></div><button class="btn pink" id="addMemberBtn">+ MEMBER</button></div>
+    <div class="title"><div><div class="eyebrow">AKSES</div><h1>Member</h1><p>Lihat member BADAI PROMPT dan buat akses manual.</p></div><button class="btn pink" id="addMemberBtn">+ MEMBER</button></div>
     <div class="toolbar" style="grid-template-columns:1fr 130px">
       <input id="memberSearch" placeholder="Cari nama, email, WhatsApp…">
       <select id="memberStatus"><option value="">Semua status</option><option value="active">Aktif</option><option value="pending">Pending</option><option value="blocked">Blocked</option></select>
@@ -143,7 +143,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
 
 <div class="overlay" id="promptModal">
   <div class="sheet">
-    <div class="sheethead"><div><div class="eyebrow">PROMPT CMS</div><h2 id="promptModalTitle">Tambah Prompt</h2></div><button class="close" data-close="prompt">×</button></div>
+    <div class="sheethead"><div><div class="eyebrow">MANAJEMEN PROMPT</div><h2 id="promptModalTitle">Tambah Prompt</h2></div><button class="close" data-close="prompt">×</button></div>
     <form id="promptForm">
       <input type="hidden" id="pId">
       <div class="imagebox" style="margin-top:10px">
@@ -155,21 +155,21 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
         </div>
       </div>
       <div class="formgrid">
-        <div class="field"><label>KATEGORI *</label><input id="pCategory" required placeholder="Candid"></div>
-        <div class="field"><label>SUBKATEGORI</label><input id="pSubcategory" placeholder="Daily Life"></div>
+        <div class="field"><label>KATEGORI *</label><input id="pCategory" required placeholder="Spontan"></div>
+        <div class="field"><label>SUBKATEGORI</label><input id="pSubcategory" placeholder="Keseharian"></div>
         <div class="field full"><label>JUDUL *</label><input id="pTitle" required placeholder="Ngopi Sendirian di Warung Pagi Hari"></div>
-        <div class="field"><label>GAYA VISUAL</label><input id="pStyle" placeholder="Candid documentary"></div>
+        <div class="field"><label>GAYA VISUAL</label><input id="pStyle" placeholder="Dokumenter spontan"></div>
         <div class="field"><label>KAMERA</label><input id="pCamera" placeholder="iPhone Pro 2x"></div>
         <div class="field"><label>RASIO GAMBAR</label><input id="pRatio" placeholder="4:5"></div>
         <div class="field"><label>ALAT AI</label><input id="pTool" value="ChatGPT Image / Gemini"></div>
-        <div class="field"><label>SUBJEK</label><select id="pGender"><option value="universal">Universal</option><option value="woman">Perempuan</option><option value="man">Laki-laki</option><option value="child">Anak</option></select></div>
+        <div class="field"><label>SUBJEK</label><select id="pGender"><option value="universal">Semua</option><option value="woman">Perempuan</option><option value="man">Laki-laki</option><option value="child">Anak</option></select></div>
         <div class="field"><label>URUTAN</label><input id="pSort" type="number" value="0"></div>
-        <div class="field full"><label>KATA KUNCI</label><input id="pTags" placeholder="candid; coffee; daily life; indonesia"></div>
+        <div class="field full"><label>KATA KUNCI</label><input id="pTags" placeholder="spontan; kopi; keseharian; indonesia"></div>
         <div class="field full"><label>PROMPT BAHASA INDONESIA *</label><textarea id="pPrompt" rows="11" required placeholder="Gunakan foto referensi yang diunggah sebagai acuan identitas utama. Pertahankan wajah, usia, proporsi, dan ciri khas subjek..."></textarea></div>
         <div class="field"><label>SUMBER / KREATOR</label><input id="pSourceCreator" placeholder="@creator / BADAI Prompt Lab"></div>
         <div class="field"><label>TAUTAN SUMBER</label><input id="pSourceUrl" type="url" placeholder="https://..."></div>
         <div class="field full"><label>CATATAN SUMBER</label><textarea id="pSourceNotes" rows="3" placeholder="Ide direwrite total / original internal seed..."></textarea></div>
-        <div class="field full"><div class="checks"><label><input id="pNeedsReference" type="checkbox" checked> Butuh foto referensi</label><label><input id="pPublished" type="checkbox" checked> Published</label><label><input id="pFeatured" type="checkbox"> Featured</label></div></div>
+        <div class="field full"><div class="checks"><label><input id="pNeedsReference" type="checkbox" checked> WAJIB FOTO REFERENSI</label><label><input id="pTayang" type="checkbox" checked> Tayang</label><label><input id="pUnggulan" type="checkbox"> Unggulan</label></div></div>
       </div>
       <div class="sheetactions">
         <button class="btn danger" type="button" id="deletePromptBtn" style="display:none">HAPUS</button>
@@ -182,7 +182,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
 
 <div class="overlay" id="memberModal">
   <div class="sheet">
-    <div class="sheethead"><div><div class="eyebrow">MANUAL ACCESS</div><h2>Tambah Member</h2></div><button class="close" data-close="member">×</button></div>
+    <div class="sheethead"><div><div class="eyebrow">MANUAL AKSES</div><h2>Tambah Member</h2></div><button class="close" data-close="member">×</button></div>
     <form id="memberForm">
       <div class="formgrid">
         <div class="field"><label>NAMA *</label><input id="mName" required></div>
@@ -258,8 +258,8 @@ async function reloadAll(){
 }
 function renderDashboard(){
   $('sTotal').textContent=prompts.length.toLocaleString('id-ID');
-  $('sPublished').textContent=prompts.filter(x=>x.is_published!==false).length.toLocaleString('id-ID');
-  $('sFeatured').textContent=prompts.filter(x=>x.is_featured===true).length.toLocaleString('id-ID');
+  $('sTayang').textContent=prompts.filter(x=>x.is_published!==false).length.toLocaleString('id-ID');
+  $('sUnggulan').textContent=prompts.filter(x=>x.is_featured===true).length.toLocaleString('id-ID');
   $('sCategories').textContent=new Set(prompts.map(x=>x.category).filter(Boolean)).size.toLocaleString('id-ID');
   $('sMembers').textContent=members.filter(x=>x.status==='active').length.toLocaleString('id-ID');
   $('sNoImage').textContent=prompts.filter(x=>!x.preview_url).length.toLocaleString('id-ID');
@@ -310,13 +310,13 @@ function renderPrompts(){
 $('promptSearch').oninput=renderPrompts;$('categoryFilter').onchange=renderPrompts;$('statusFilter').onchange=renderPrompts;
 
 function resetPromptForm(){
-  editing=null;$('promptForm').reset();$('pId').value='';$('pTool').value='ChatGPT Image / Gemini';$('pGender').value='universal';$('pSort').value=prompts.length?Math.max(...prompts.map(x=>Number(x.sort_order)||0))+1:1;$('pNeedsReference').checked=true;$('pPublished').checked=true;$('pFeatured').checked=false;$('imagePreview').innerHTML='Belum ada gambar';$('deletePromptBtn').style.display='none';$('promptModalTitle').textContent='Tambah Prompt';msg($('promptMsg'),'');
+  editing=null;$('promptForm').reset();$('pId').value='';$('pTool').value='ChatGPT Image / Gemini';$('pGender').value='universal';$('pSort').value=prompts.length?Math.max(...prompts.map(x=>Number(x.sort_order)||0))+1:1;$('pNeedsReference').checked=true;$('pTayang').checked=true;$('pUnggulan').checked=false;$('imagePreview').innerHTML='Belum ada gambar';$('deletePromptBtn').style.display='none';$('promptModalTitle').textContent='Tambah Prompt';msg($('promptMsg'),'');
 }
 function openPrompt(){resetPromptForm();$('promptModal').classList.add('show')}
 window.editPrompt=id=>{
   const p=prompts.find(x=>x.$id===id);if(!p)return;editing=p;
-  $('pId').value=p.$id;$('pPreviewUrl').value=p.preview_url||'';$('pCategory').value=p.category||'';$('pSubcategory').value=p.subcategory||'';$('pTitle').value=p.title||'';$('pStyle').value=p.style||'';$('pCamera').value=p.camera||'';$('pRatio').value=p.aspect_ratio||'';$('pTool').value=p.tool||'';$('pGender').value=p.gender||'universal';$('pSort').value=p.sort_order||0;$('pTags').value=p.tags||'';$('pPrompt').value=p.prompt_text||'';$('pSourceCreator').value=p.source_creator||'';$('pSourceUrl').value=p.source_url||'';$('pSourceNotes').value=p.source_notes||'';$('pNeedsReference').checked=p.needs_reference!==false;$('pPublished').checked=p.is_published!==false;$('pFeatured').checked=p.is_featured===true;
-  $('imagePreview').innerHTML=p.preview_url?'<img src="'+esc(p.preview_url)+'" alt="">':'Belum ada gambar';$('deletePromptBtn').style.display='inline-block';$('promptModalTitle').textContent='Edit Prompt';msg($('promptMsg'),'');$('promptModal').classList.add('show');
+  $('pId').value=p.$id;$('pPreviewUrl').value=p.preview_url||'';$('pCategory').value=p.category||'';$('pSubcategory').value=p.subcategory||'';$('pTitle').value=p.title||'';$('pStyle').value=p.style||'';$('pCamera').value=p.camera||'';$('pRatio').value=p.aspect_ratio||'';$('pTool').value=p.tool||'';$('pGender').value=p.gender||'universal';$('pSort').value=p.sort_order||0;$('pTags').value=p.tags||'';$('pPrompt').value=p.prompt_text||'';$('pSourceCreator').value=p.source_creator||'';$('pSourceUrl').value=p.source_url||'';$('pSourceNotes').value=p.source_notes||'';$('pNeedsReference').checked=p.needs_reference!==false;$('pTayang').checked=p.is_published!==false;$('pUnggulan').checked=p.is_featured===true;
+  $('imagePreview').innerHTML=p.preview_url?'<img src="'+esc(p.preview_url)+'" alt="">':'Belum ada gambar';$('deletePromptBtn').style.display='inline-block';$('promptModalTitle').textContent='Ubah Prompt';msg($('promptMsg'),'');$('promptModal').classList.add('show');
 };
 window.togglePublish=async(id,val)=>{busy(true);try{await tables.updateRow({databaseId:DB,tableId:TABLE,rowId:id,data:{is_published:val}});await loadPrompts();renderPrompts();renderDashboard()}catch(e){alert(e.message||'Gagal mengubah status.')}finally{busy(false)}};
 
@@ -327,7 +327,7 @@ $('promptForm').onsubmit=async e=>{
   e.preventDefault();const b=$('savePromptBtn');b.disabled=true;b.textContent='MENYIMPAN…';msg($('promptMsg'),'Menyimpan prompt…');
   const url=normalizePreviewUrl($('pPreviewUrl').value);
   try{
-    const data={category:$('pCategory').value.trim(),subcategory:$('pSubcategory').value.trim()||null,title:$('pTitle').value.trim(),prompt_text:$('pPrompt').value.trim(),preview_url:url,preview_file_id:null,style:$('pStyle').value.trim()||null,camera:$('pCamera').value.trim()||null,aspect_ratio:$('pRatio').value.trim()||null,tool:$('pTool').value.trim()||null,gender:$('pGender').value,tags:$('pTags').value.trim()||null,source_creator:$('pSourceCreator').value.trim()||null,source_url:$('pSourceUrl').value.trim()||null,source_notes:$('pSourceNotes').value.trim()||null,needs_reference:$('pNeedsReference').checked,is_published:$('pPublished').checked,is_featured:$('pFeatured').checked,sort_order:Number($('pSort').value)||0};
+    const data={category:$('pCategory').value.trim(),subcategory:$('pSubcategory').value.trim()||null,title:$('pTitle').value.trim(),prompt_text:$('pPrompt').value.trim(),preview_url:url,preview_file_id:null,style:$('pStyle').value.trim()||null,camera:$('pCamera').value.trim()||null,aspect_ratio:$('pRatio').value.trim()||null,tool:$('pTool').value.trim()||null,gender:$('pGender').value,tags:$('pTags').value.trim()||null,source_creator:$('pSourceCreator').value.trim()||null,source_url:$('pSourceUrl').value.trim()||null,source_notes:$('pSourceNotes').value.trim()||null,needs_reference:$('pNeedsReference').checked,is_published:$('pTayang').checked,is_featured:$('pUnggulan').checked,sort_order:Number($('pSort').value)||0};
     if($('pId').value)await tables.updateRow({databaseId:DB,tableId:TABLE,rowId:$('pId').value,data});
     else await tables.createRow({databaseId:DB,tableId:TABLE,rowId:ID.unique(),data});
     if(url)$('pPreviewUrl').value=url;
