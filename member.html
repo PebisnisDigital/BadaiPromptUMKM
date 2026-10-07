@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BADAI PROMPT — Member Area</title>
+<meta name="theme-color" content="#050505">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Raleway:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#050505;--panel:#0c0c0d;--card:#111113;--line:#26262a;--text:#f8f8fa;--muted:#85858d;--pink:#ff2d8d;--pink2:#ff73b7;--good:#7bf5aa;--danger:#ff8095;--shadow:0 18px 52px rgba(0,0,0,.34)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#000;color:var(--text);font-family:Nunito,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}.shell{width:min(100%,720px);min-height:100vh;margin:auto;background:radial-gradient(circle at 90% 0,rgba(255,45,141,.13),transparent 24%),var(--bg);padding-bottom:92px}
+.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;background:rgba(5,5,5,.92);backdrop-filter:blur(16px);border-bottom:1px solid #1e1e21}.brand{font-family:Raleway,sans-serif;font-weight:900;letter-spacing:-.04em;font-size:18px}.brand b{color:var(--pink)}.brand small{display:block;margin-top:2px;color:#66666e;font-family:Nunito,sans-serif;font-size:8px;letter-spacing:.12em}.avatar{width:38px;height:38px;border-radius:50%;border:1px solid #303034;background:#141416;color:#fff;font-weight:900}
+main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius:24px;background:linear-gradient(145deg,#121214,#09090a);box-shadow:var(--shadow)}.eyebrow{font-size:9px;color:var(--pink2);font-weight:900;letter-spacing:.14em}.hero h1{font-family:Raleway,sans-serif;font-size:34px;line-height:.98;letter-spacing:-.055em;margin:8px 0}.hero h1 span{color:var(--pink)}.hero p{margin:0;color:#9a9aa1;font-size:12px;line-height:1.58}.how{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:15px}.how div{padding:10px;border:1px solid #252529;border-radius:13px;background:#0a0a0b}.how b{display:block;font-size:10px}.how span{display:block;margin-top:3px;color:#6d6d74;font-size:8px;line-height:1.3}
+.searchbox{position:relative;margin-top:13px}.searchbox input{width:100%;height:48px;padding:0 44px 0 14px;border:1px solid #303034;border-radius:15px;background:#09090a;color:#fff;outline:none;font-size:13px}.searchbox input:focus{border-color:var(--pink);box-shadow:0 0 0 3px rgba(255,45,141,.10)}.searchicon{position:absolute;right:15px;top:14px;color:#73737b}.stats{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}.stat{padding:7px 10px;border:1px solid #29292d;border-radius:999px;background:#0d0d0f;color:#8c8c94;font-size:9px}.stat b{color:#fff}
+.filterbar{position:sticky;top:63px;z-index:20;margin:14px -14px 0;padding:10px 14px;background:linear-gradient(180deg,rgba(5,5,5,.98),rgba(5,5,5,.92),rgba(5,5,5,0));}.chips{display:flex;gap:7px;overflow:auto;padding-bottom:5px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}.chip{flex:0 0 auto;border:1px solid #2c2c31;border-radius:999px;background:#111113;color:#9a9aa2;padding:9px 12px;font-size:10px;font-weight:800}.chip.on{border-color:var(--pink);background:#28101d;color:#fff}.subfilters{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}.subfilters select{width:100%;height:39px;padding:0 10px;border:1px solid #29292e;border-radius:12px;background:#101012;color:#ddd;outline:none;font-size:9px}
+.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:10px;margin:12px 1px 10px}.sectionhead h2{margin:2px 0 0;font-family:Raleway,sans-serif;font-size:19px;letter-spacing:-.03em}.sectionhead span{font-size:9px;color:#777780}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{overflow:hidden;border:1px solid #29292e;border-radius:18px;background:#101012}.visual{position:relative;aspect-ratio:4/5;overflow:hidden;background:radial-gradient(circle at 25% 20%,rgba(255,45,141,.24),transparent 23%),linear-gradient(145deg,#27101c,#111116 55%,#080809)}.visual img{width:100%;height:100%;object-fit:cover;display:block}.visual:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 52%,rgba(5,5,7,.76) 100%);pointer-events:none}.visual-placeholder{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:16px;color:#777780;font-size:10px}.visual-placeholder b{display:block;color:#fff;font-family:Raleway,sans-serif;font-size:24px;margin-bottom:4px}.badge{position:absolute;z-index:2;left:8px;top:8px;padding:5px 7px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(8,8,10,.78);backdrop-filter:blur(8px);font-size:7px;font-weight:900}.fav{position:absolute;z-index:3;right:8px;top:8px;width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.15);background:rgba(7,7,9,.78);color:#fff;font-size:15px}.fav.on{color:var(--pink2);border-color:rgba(255,45,141,.45)}.body{padding:10px}.body h3{min-height:34px;margin:0;font-family:Raleway,sans-serif;font-size:11px;line-height:1.35;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}.meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}.tag{padding:4px 6px;border:1px solid #303035;border-radius:999px;color:#7f7f88;font-size:7px}.actions{display:grid;grid-template-columns:1fr 34px;gap:6px;margin-top:9px}.btn{min-height:34px;border:0;border-radius:10px;font-weight:900;font-size:8px}.btn-pink{background:var(--pink);color:#fff}.btn-dark{border:1px solid #303035;background:#18181b;color:#fff}.openbtn{font-size:14px}
+.empty{grid-column:1/-1;padding:28px 16px;border:1px dashed #303035;border-radius:18px;text-align:center;color:#7e7e86;font-size:11px;line-height:1.55}.empty b{color:#fff}
+.bottomnav{position:fixed;left:50%;bottom:8px;z-index:40;transform:translateX(-50%);width:min(calc(100% - 16px),704px);display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:7px;border:1px solid #29292e;border-radius:22px;background:rgba(13,13,15,.96);backdrop-filter:blur(16px);box-shadow:0 16px 50px rgba(0,0,0,.45)}.bottomnav button{min-height:55px;border:0;border-radius:16px;background:transparent;color:#72727a;font-size:9px;font-weight:800}.bottomnav button b{display:block;font-size:18px;margin-bottom:4px}.bottomnav button.on{background:rgba(255,45,141,.12);color:var(--pink2)}
+.overlay{position:fixed;inset:0;z-index:60;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.78);backdrop-filter:blur(6px)}.overlay.show{display:flex}.sheet{width:min(100%,720px);max-height:92vh;overflow:auto;border:1px solid #303035;border-radius:26px 26px 0 0;background:#0d0d0f;padding:14px}.sheethead{display:flex;justify-content:space-between;gap:10px;align-items:start}.sheethead h2{margin:5px 0;font-family:Raleway,sans-serif;font-size:21px;line-height:1.08}.close{width:38px;height:38px;border-radius:50%;border:1px solid #323237;background:#17171a;color:#fff;font-size:18px}.detailimage{position:relative;aspect-ratio:16/10;border-radius:18px;overflow:hidden;background:linear-gradient(145deg,#28101d,#111114);margin:10px 0}.detailimage img{width:100%;height:100%;object-fit:cover}.promptbox{margin-top:10px;padding:13px;border:1px solid #29292e;border-radius:15px;background:#080809;color:#d2d2d7;white-space:pre-wrap;font:10px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;max-height:310px;overflow:auto}.sheetactions{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:10px}.sheetactions .btn{min-height:45px;border-radius:13px;font-size:10px}.note{margin-top:9px;color:#6f6f77;font-size:8px;line-height:1.45}
+.gate{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;background:radial-gradient(circle at 80% 0,rgba(255,45,141,.17),transparent 28%),#050505}.gate.hide{display:none}.login{width:min(100%,460px);padding:20px;border:1px solid #2b2b30;border-radius:26px;background:#0d0d0f;box-shadow:var(--shadow)}.login h1{margin:20px 0 6px;font-family:Raleway,sans-serif;font-size:28px;letter-spacing:-.04em}.login p{margin:0 0 14px;color:#8c8c94;font-size:11px;line-height:1.55}.field{margin-top:9px}.field label{display:block;margin-bottom:5px;color:#8c8c94;font-size:9px;font-weight:900}.field input{width:100%;height:49px;padding:0 13px;border:1px solid #303035;border-radius:14px;background:#080809;color:#fff;outline:none;font-size:14px}.field input:focus{border-color:var(--pink)}.loginbtn{width:100%;height:50px;margin-top:11px;border:0;border-radius:14px;background:var(--pink);color:#fff;font-weight:900}.msg{min-height:16px;margin-top:9px;color:#8a8a92;font-size:9px;line-height:1.4}.msg.bad{color:var(--danger)}.loading{position:fixed;inset:0;z-index:80;display:none;place-items:center;background:rgba(0,0,0,.62)}.loading.show{display:grid}.loading div{padding:13px 16px;border:1px solid #303035;border-radius:14px;background:#111114;color:#aaa;font-size:10px}
+.accountbox{padding:8px 0}.accountrow{padding:11px;border:1px solid #29292e;border-radius:14px;background:#101012;margin-top:8px}.accountrow small{display:block;color:#717179;font-size:8px}.accountrow b{display:block;margin-top:3px;font-size:11px;word-break:break-word}
+.toast{position:fixed;left:50%;bottom:86px;z-index:120;transform:translate(-50%,12px);opacity:0;pointer-events:none;padding:10px 13px;border:1px solid #3c2d36;border-radius:999px;background:#171014;color:#fff;font-size:9px;font-weight:900;transition:.2s}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:360px){.grid{gap:7px}.body{padding:8px}.hero h1{font-size:30px}.how{grid-template-columns:1fr}.subfilters{grid-template-columns:1fr}.card{border-radius:15px}}
+</style>
+</head>
+<body>
+<div class="gate" id="gate">
+  <div class="login">
+    <div class="brand">BADAI <b>PROMPT</b><small>MEMBER AREA</small></div>
+    <h1>Masuk ke perpustakaan.</h1>
+    <p>Pilih adegan, salin prompt, lalu gunakan foto kamu sendiri di ChatGPT atau Gemini.</p>
+    <form id="loginForm">
+      <div class="field"><label>EMAIL</label><input id="loginEmail" type="email" autocomplete="email" required placeholder="email member"></div>
+      <div class="field"><label>PASSWORD</label><input id="loginPassword" type="password" autocomplete="current-password" required placeholder="password"></div>
+      <button class="loginbtn" id="loginBtn" type="submit">MASUK MEMBER AREA</button>
+      <div class="msg" id="loginMsg"></div>
+    </form>
+  </div>
+</div>
+
+<div class="loading" id="loading"><div>Memuat perpustakaan prompt…</div></div>
+<div class="toast" id="toast">Prompt tersalin ✓</div>
+
+<div class="shell">
+  <header class="topbar">
+    <div class="brand">BADAI <b>PROMPT</b><small>PERPUSTAKAAN ADEGAN AI</small></div>
+    <button class="avatar" id="accountBtn" aria-label="Buka akun">V</button>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="eyebrow">UPLOAD FOTO → JADI ADEGAN INI</div>
+      <h1>Pilih adegan.<br><span>Jadi kamu.</span></h1>
+      <p>Bukan kumpulan prompt random. Semua diracik supaya bisa memakai foto referensi sebagai identitas utama.</p>
+      <div class="how">
+        <div><b>1. Pilih adegan</b><span>Cari visual yang kamu suka.</span></div>
+        <div><b>2. Upload foto</b><span>Pakai foto diri sebagai referensi.</span></div>
+        <div><b>3. Salin prompt</b><span>Tempel ke ChatGPT / Gemini.</span></div>
+      </div>
+      <div class="searchbox"><input id="search" placeholder="Cari: candid, Jepang, cafe, iPhone…"><span class="searchicon">⌕</span></div>
+      <div class="stats"><span class="stat"><b id="totalStat">0</b> prompt</span><span class="stat"><b id="categoryStat">0</b> kategori</span><span class="stat">♡ simpan favorit</span></div>
+    </section>
+
+    <div class="filterbar">
+      <div class="chips" id="chips"><button class="chip on" data-category="">Semua</button></div>
+      <div class="subfilters">
+        <select id="styleFilter"><option value="">Semua style</option></select>
+        <select id="ratioFilter"><option value="">Semua rasio</option></select>
+      </div>
+    </div>
+
+    <div class="sectionhead">
+      <div><div class="eyebrow" id="sectionEyebrow">GALERI</div><h2 id="sectionTitle">Semua Prompt</h2></div>
+      <span id="countLabel">0 prompt</span>
+    </div>
+    <section class="grid" id="grid"></section>
+  </main>
+</div>
+
+<nav class="bottomnav" id="nav">
+  <button class="on" data-mode="all"><b>⌂</b>Beranda</button>
+  <button data-mode="featured"><b>✦</b>Pilihan</button>
+  <button data-mode="favorites"><b>♡</b>Favorit</button>
+  <button data-mode="account"><b>☻</b>Akun</button>
+</nav>
+
+<div class="overlay" id="detailOverlay">
+  <div class="sheet">
+    <div class="sheethead"><div><div class="eyebrow" id="detailCategory">PROMPT</div><h2 id="detailTitle">Prompt</h2></div><button class="close" data-close="detail">×</button></div>
+    <div class="detailimage" id="detailImage"></div>
+    <div class="meta" id="detailMeta"></div>
+    <div class="promptbox" id="detailPrompt"></div>
+    <div class="sheetactions"><button class="btn btn-pink" id="detailCopy">SALIN PROMPT</button><button class="btn btn-dark" id="detailFav">♡</button></div>
+    <div class="note">Tip: upload foto referensi terlebih dahulu, lalu tempel prompt ini. Hasil akhir tetap bergantung pada model gambar yang digunakan.</div>
+  </div>
+</div>
+
+<div class="overlay" id="accountOverlay">
+  <div class="sheet">
+    <div class="sheethead"><div><div class="eyebrow">AKUN MEMBER</div><h2>BADAI PROMPT</h2></div><button class="close" data-close="account">×</button></div>
+    <div class="accountbox">
+      <div class="accountrow"><small>NAMA</small><b id="accName">-</b></div>
+      <div class="accountrow"><small>EMAIL</small><b id="accEmail">-</b></div>
+      <div class="accountrow"><small>STATUS</small><b id="accStatus">-</b></div>
+      <div class="accountrow"><small>FAVORIT</small><b id="accFav">0 prompt</b></div>
+      <button class="btn btn-dark" id="logoutBtn" style="width:100%;min-height:44px;margin-top:12px">KELUAR</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/appwrite@28.1.0"></script>
+<script>
+const {Client,Account,TablesDB,Query,ID,Permission,Role}=Appwrite;
+const client=new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
+const account=new Account(client),tables=new TablesDB(client);
+const DB='badai_prompt_umkm',TABLE='scene_prompts';
+let currentUser=null,currentProfile=null,all=[],favorites=new Set(),favoriteRows=new Map(),current=null,category='',mode='all';
+
+const $=id=>document.getElementById(id);
+const gate=$('gate'),loading=$('loading'),loginMsg=$('loginMsg'),grid=$('grid'),search=$('search'),chips=$('chips'),styleFilter=$('styleFilter'),ratioFilter=$('ratioFilter');
+const detailOverlay=$('detailOverlay'),accountOverlay=$('accountOverlay'),toast=$('toast');
+
+function esc(v=''){return String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function rowData(r){const d=r.data||r;return {...d,$id:r.$id||d.$id,$createdAt:r.$createdAt||d.$createdAt}}
+function busy(v){loading.classList.toggle('show',!!v)}
+function setMsg(t,type=''){loginMsg.textContent=t;loginMsg.className='msg '+type}
+function showToast(t='Prompt tersalin ✓'){toast.textContent=t;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1200)}
+function iconFor(c){return ({Candid:'◉',Business:'▦',Travel:'✈',Cafe:'☕',Fashion:'◇',Studio:'◐',Cinematic:'◫',iPhone:'▣',Hijab:'◒',Sport:'⚽',Historical:'⌛',Fantasy:'✦'})[c]||'✦'}
+
+async function safeCopy(text){
+  try{await navigator.clipboard.writeText(text)}catch(e){
+    const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();
+  }
+  showToast();
+}
+async function loadProfile(){
+  const r=await tables.getRow({databaseId:DB,tableId:'member_profiles',rowId:currentUser.$id});
+  currentProfile={...(r.data||r),$id:r.$id||(r.data||{}).$id};
+  if(currentProfile.status!=='active')throw new Error('Akses member belum aktif. Hubungi admin.');
+  if(currentProfile.access_until&&new Date(currentProfile.access_until).getTime()<=Date.now())throw new Error('Masa akses sudah berakhir. Hubungi admin.');
+}
+async function loadFavorites(){
+  favorites=new Set();favoriteRows=new Map();
+  for(let offset=0;offset<500;offset+=100){
+    const r=await tables.listRows({databaseId:DB,tableId:'favorites',queries:[Query.equal('user_id',currentUser.$id),Query.limit(100),Query.offset(offset)]});
+    const rows=r.rows||r.documents||[];
+    rows.forEach(x=>{const d=x.data||x;favorites.add(d.prompt_id);favoriteRows.set(d.prompt_id,x.$id||d.$id)});
+    if(rows.length<100)break;
+  }
+}
+async function addFavorite(id){
+  if(favorites.has(id))return;
+  const r=await tables.createRow({databaseId:DB,tableId:'favorites',rowId:ID.unique(),data:{user_id:currentUser.$id,prompt_id:id},permissions:[Permission.read(Role.user(currentUser.$id)),Permission.update(Role.user(currentUser.$id)),Permission.delete(Role.user(currentUser.$id))]});
+  favorites.add(id);favoriteRows.set(id,r.$id||(r.data||{}).$id);
+}
+async function removeFavorite(id){
+  const rowId=favoriteRows.get(id);if(rowId)await tables.deleteRow({databaseId:DB,tableId:'favorites',rowId});
+  favorites.delete(id);favoriteRows.delete(id);
+}
+async function toggleFavorite(id){
+  try{favorites.has(id)?await removeFavorite(id):await addFavorite(id);render();if(current&&current.$id===id)updateDetailFav()}catch(e){showToast('Favorit gagal disimpan')}
+}
+async function loadPrompts(){
+  const rows=[];
+  for(let offset=0;offset<2000;offset+=100){
+    const r=await tables.listRows({databaseId:DB,tableId:TABLE,queries:[Query.equal('is_published',true),Query.orderAsc('sort_order'),Query.limit(100),Query.offset(offset)]});
+    const part=(r.rows||r.documents||[]).map(rowData);rows.push(...part);if(part.length<100)break;
+  }
+  all=rows;
+}
+function fillFilters(){
+  const cats=[...new Set(all.map(x=>x.category).filter(Boolean))];
+  chips.innerHTML='<button class="chip on" data-category="">Semua</button>'+cats.map(c=>'<button class="chip" data-category="'+esc(c)+'">'+esc(c)+'</button>').join('');
+  chips.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>{category=b.dataset.category;chips.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===b));render()});
+  const styles=[...new Set(all.map(x=>x.style).filter(Boolean))].sort();
+  styleFilter.innerHTML='<option value="">Semua style</option>'+styles.map(x=>'<option>'+esc(x)+'</option>').join('');
+  const ratios=[...new Set(all.map(x=>x.aspect_ratio).filter(Boolean))].sort();
+  ratioFilter.innerHTML='<option value="">Semua rasio</option>'+ratios.map(x=>'<option>'+esc(x)+'</option>').join('');
+}
+function filteredRows(){
+  const q=search.value.trim().toLowerCase(),style=styleFilter.value,ratio=ratioFilter.value;
+  return all.filter(x=>{
+    if(mode==='featured'&&!x.is_featured)return false;
+    if(mode==='favorites'&&!favorites.has(x.$id))return false;
+    if(category&&x.category!==category)return false;
+    if(style&&x.style!==style)return false;
+    if(ratio&&x.aspect_ratio!==ratio)return false;
+    if(q&&!([x.title,x.category,x.subcategory,x.style,x.camera,x.tool,x.tags].filter(Boolean).join(' ').toLowerCase().includes(q)))return false;
+    return true;
+  });
+}
+function cardVisual(x){
+  if(x.preview_url)return '<img src="'+esc(x.preview_url)+'" alt="'+esc(x.title)+'" loading="lazy" decoding="async">';
+  return '<div class="visual-placeholder"><div><b>'+iconFor(x.category)+'</b>'+esc(x.category||'BADAI PROMPT')+'</div></div>';
+}
+function render(){
+  const rows=filteredRows();
+  $('totalStat').textContent=all.length;$('categoryStat').textContent=new Set(all.map(x=>x.category)).size;$('countLabel').textContent=rows.length+' prompt';
+  $('sectionTitle').textContent=mode==='favorites'?'Prompt Favorit':mode==='featured'?'Pilihan BADAI':category||'Semua Prompt';
+  $('sectionEyebrow').textContent=mode==='favorites'?'TERSIMPAN':mode==='featured'?'FEATURED':'GALERI';
+  $('accFav').textContent=favorites.size+' prompt';
+  if(!rows.length){grid.innerHTML='<div class="empty"><b>Belum ada prompt di sini.</b><br>Coba kategori atau filter lain.</div>';return}
+  grid.innerHTML=rows.map(x=>'<article class="card">'+
+    '<div class="visual" data-open="'+esc(x.$id)+'">'+cardVisual(x)+'<span class="badge">'+esc(x.category||'Prompt')+'</span><button class="fav '+(favorites.has(x.$id)?'on':'')+'" data-fav="'+esc(x.$id)+'">'+(favorites.has(x.$id)?'♥':'♡')+'</button></div>'+
+    '<div class="body"><h3 data-open="'+esc(x.$id)+'">'+esc(x.title)+'</h3><div class="meta">'+
+    (x.style?'<span class="tag">'+esc(x.style)+'</span>':'')+(x.aspect_ratio?'<span class="tag">'+esc(x.aspect_ratio)+'</span>':'')+
+    '</div><div class="actions"><button class="btn btn-pink" data-copy="'+esc(x.$id)+'">SALIN PROMPT</button><button class="btn btn-dark openbtn" data-open="'+esc(x.$id)+'">›</button></div></div></article>').join('');
+  grid.querySelectorAll('[data-open]').forEach(el=>el.onclick=e=>{if(e.target.closest('[data-fav]'))return;openDetail(el.dataset.open)});
+  grid.querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{const x=all.find(v=>v.$id===b.dataset.copy);if(x)await safeCopy(x.prompt_text)});
+  grid.querySelectorAll('[data-fav]').forEach(b=>b.onclick=async e=>{e.stopPropagation();b.disabled=true;await toggleFavorite(b.dataset.fav);b.disabled=false});
+}
+function openDetail(id){
+  current=all.find(x=>x.$id===id);if(!current)return;
+  $('detailCategory').textContent=(current.category||'PROMPT').toUpperCase();$('detailTitle').textContent=current.title;$('detailPrompt').textContent=current.prompt_text;
+  $('detailMeta').innerHTML=[current.style,current.camera,current.aspect_ratio,current.tool].filter(Boolean).map(x=>'<span class="tag">'+esc(x)+'</span>').join('');
+  $('detailImage').innerHTML=current.preview_url?'<img src="'+esc(current.preview_url)+'" alt="'+esc(current.title)+'">':cardVisual(current);
+  updateDetailFav();detailOverlay.classList.add('show');
+}
+function updateDetailFav(){$('detailFav').textContent=current&&favorites.has(current.$id)?'♥':'♡'}
+function openAccount(){
+  $('accName').textContent=currentUser?.name||'-';$('accEmail').textContent=currentUser?.email||'-';$('accStatus').textContent=currentProfile?.status==='active'?'AKTIF':'-';$('accFav').textContent=favorites.size+' prompt';accountOverlay.classList.add('show');
+}
+async function boot(){
+  try{
+    busy(true);currentUser=await account.get();await loadProfile();await loadFavorites();await loadPrompts();gate.classList.add('hide');fillFilters();render();$('accountBtn').textContent=(currentUser.name||currentUser.email||'V').trim().charAt(0).toUpperCase();
+  }catch(e){
+    gate.classList.remove('hide');if(e?.code&&Number(e.code)!==401)setMsg(e.message||'Akses belum bisa dibuka.','bad');
+  }finally{busy(false)}
+}
+$('loginForm').addEventListener('submit',async e=>{
+  e.preventDefault();const btn=$('loginBtn');btn.disabled=true;btn.textContent='MEMERIKSA…';setMsg('Memeriksa akun…');
+  try{await account.createEmailPasswordSession({email:$('loginEmail').value.trim().toLowerCase(),password:$('loginPassword').value});await boot();setMsg('')}
+  catch(err){setMsg(Number(err?.code)===401?'Email atau password belum cocok.':(err?.message||'Login gagal.'),'bad')}
+  finally{btn.disabled=false;btn.textContent='MASUK MEMBER AREA'}
+});
+search.oninput=render;styleFilter.onchange=render;ratioFilter.onchange=render;
+$('detailCopy').onclick=()=>current&&safeCopy(current.prompt_text);
+$('detailFav').onclick=()=>current&&toggleFavorite(current.$id);
+$('accountBtn').onclick=openAccount;
+$('logoutBtn').onclick=async()=>{try{await account.deleteSession({sessionId:'current'})}catch(e){}location.reload()};
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>{detailOverlay.classList.remove('show');accountOverlay.classList.remove('show')});
+[detailOverlay,accountOverlay].forEach(o=>o.onclick=e=>{if(e.target===o)o.classList.remove('show')});
+$('nav').querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{
+  if(b.dataset.mode==='account'){openAccount();return}
+  mode=b.dataset.mode;$('nav').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));render();window.scrollTo({top:0,behavior:'smooth'});
+});
+boot();
+</script>
+</body>
+</html>
