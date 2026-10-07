@@ -125,7 +125,7 @@ const account=new Account(client),tables=new TablesDB(client);
 const DB='badai_prompt_umkm',TABLE='scene_prompts';
 let currentUser=null,currentProfile=null,all=[],favorites=new Set(),favoriteRows=new Map(),current=null,category='',mode='all',currentPage=1,totalPrompts=0,totalPages=1;
 const PAGE_SIZE=10;
-const CATEGORIES=['Candid','Daily Life','Work','Business','CEO','Travel','Street','Cafe','Home','Family','Couple','Sport','Fashion','Hijab','Cinematic','Movie','Historical','Fantasy','Miniature','Toy','LEGO','Analog Film','iPhone','Studio','Celebration','Ramadan','Lebaran','Indonesia','Japan','Korea','Absurd','Viral Trend'];
+const CATEGORIES=['Spontan','Keseharian','Kerja','Bisnis','Pemimpin Bisnis','Perjalanan','Jalanan','Kafe','Rumah','Keluarga','Pasangan','Olahraga','Mode','Hijab','Sinematik','Film','Sejarah','Fantasi','Miniatur','Mainan','LEGO','Film Analog','iPhone','Studio','Perayaan','Ramadan','Lebaran','Indonesia','Jepang','Korea','Nyeleneh','Tren Viral'];
 
 const $=id=>document.getElementById(id);
 const gate=$('gate'),loading=$('loading'),loginMsg=$('loginMsg'),grid=$('grid'),search=$('search'),categorySelect=$('categorySelect');
