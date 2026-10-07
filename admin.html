@@ -199,9 +199,9 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
 
 <script src="https://cdn.jsdelivr.net/npm/appwrite@28.1.0"></script>
 <script>
-const {Client,Account,TablesDB,Storage,Functions,Query,ID}=Appwrite;
+const {Client,Account,TablesDB,Storage,Functions,Teams,Query,ID}=Appwrite;
 const client=new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
-const account=new Account(client),tables=new TablesDB(client),storage=new Storage(client),functions=new Functions(client);
+const account=new Account(client),tables=new TablesDB(client),storage=new Storage(client),functions=new Functions(client),teams=new Teams(client);
 const DB='badai_prompt_umkm',TABLE='scene_prompts',BUCKET='prompt-previews',FUNC='payment-api';
 let me=null,prompts=[],members=[],editing=null;
 
@@ -368,9 +368,15 @@ document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeModal(b.
 [$('promptModal'),$('memberModal')].forEach(o=>o.onclick=e=>{if(e.target===o)o.classList.remove('show')});
 $('addPromptBtn').onclick=openPrompt;$('quickAdd').onclick=openPrompt;$('quickImport').onclick=()=>{showView('prompts');setTimeout(()=>$('importCsvBtn').scrollIntoView({behavior:'smooth',block:'center'}),120)};$('addMemberBtn').onclick=openMember;$('quickMember').onclick=()=>{showView('members');setTimeout(openMember,100)};$('refreshDashboard').onclick=reloadAll;
 
+async function verifyAdmin(){
+  const team=await teams.get({teamId:'admin-users'});
+  if(!team||team.$id!=='admin-users')throw new Error('Akun ini bukan admin BADAI PROMPT.');
+  return true;
+}
+
 async function boot(){
   try{
-    busy(true);me=await account.get();await api('/health');$('gate').classList.add('hide');$('adminName').textContent=me.name||me.email;localStorage.setItem('badai_admin_email',me.email||'');await reloadAll();
+    busy(true);me=await account.get();await verifyAdmin();$('gate').classList.add('hide');$('adminName').textContent=me.name||me.email;localStorage.setItem('badai_admin_email',me.email||'');await reloadAll();
   }catch(err){$('gate').classList.remove('hide');if(Number(err?.code)!==401)msg($('loginMsg'),err.message||'Akun ini bukan admin BADAI PROMPT.','bad')}finally{busy(false)}
 }
 $('loginForm').onsubmit=async e=>{
