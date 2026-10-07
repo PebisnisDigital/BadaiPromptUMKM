@@ -245,13 +245,13 @@ $('nav').querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>showView(b.dat
 async function loadPromptMeta(){
   const rows=[];
   for(let offset=0;offset<5000;offset+=100){
-    const r=await tables.listRows({databaseId:DB,tableId:TABLE,queries:[Query.orderAsc('sort_order'),Query.select(['category','is_published','is_featured','preview_url','sort_order']),Query.limit(100),Query.offset(offset)]});
+    const r=await tables.listRows({databaseId:DB,tableId:TABLE,queries:[Query.orderDesc('sort_order'),Query.select(['category','is_published','is_featured','preview_url','sort_order']),Query.limit(100),Query.offset(offset)]});
     const part=(r.rows||r.documents||[]).map(rowData);rows.push(...part);if(part.length<100)break;
   }
   promptMeta=rows;promptMaxSort=Math.max(0,...rows.map(x=>Number(x.sort_order)||0));fillPromptFilters();
 }
 async function loadPrompts(){
-  const queries=[Query.orderAsc('sort_order'),Query.limit(ADMIN_PAGE_SIZE),Query.offset((promptPage-1)*ADMIN_PAGE_SIZE)];
+  const queries=[Query.orderDesc('sort_order'),Query.limit(ADMIN_PAGE_SIZE),Query.offset((promptPage-1)*ADMIN_PAGE_SIZE)];
   const q=$('promptSearch').value.trim(),cat=$('categoryFilter').value,status=$('statusFilter').value;
   if(q)queries.push(Query.search('title',q));if(cat)queries.push(Query.equal('category',cat));
   if(status==='published')queries.push(Query.equal('is_published',true));
