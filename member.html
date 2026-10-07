@@ -68,10 +68,6 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
       <div class="chips" id="chips"><button class="chip on" data-category="">Semua</button></div>
     </div>
 
-    <div class="sectionhead">
-      <div><div class="eyebrow" id="sectionEyebrow">GALERI</div><h2 id="sectionTitle">Semua Prompt</h2></div>
-      <span id="countLabel">0 prompt</span>
-    </div>
     <div class="pagination" id="pagination" aria-label="Navigasi halaman prompt"></div>
     <section class="grid" id="grid"></section>
   </main>
@@ -195,7 +191,7 @@ async function refreshPrompts(scrollToGallery=false){
     await loadPrompts();
     render();
     if(scrollToGallery){
-      const y=document.querySelector('.sectionhead')?.getBoundingClientRect().top+window.scrollY-120;
+      const y=document.querySelector('.pagination')?.getBoundingClientRect().top+window.scrollY-110;
       if(Number.isFinite(y))window.scrollTo({top:y,behavior:'smooth'});
     }
   }catch(e){
@@ -235,17 +231,12 @@ function renderPagination(){
 }
 function render(){
   const rows=filteredRows();
-  $('countLabel').textContent=totalPrompts+' prompt · Halaman '+currentPage+'/'+totalPages;
-  $('sectionTitle').textContent=category||'Semua Prompt';
-  $('sectionEyebrow').textContent='GALERI';
   $('accFav').textContent=favorites.size+' prompt';
   renderPagination();
   if(!rows.length){grid.innerHTML='<div class="empty"><b>Belum ada prompt di sini.</b><br>Coba kategori atau kata pencarian lain.</div>';return}
   grid.innerHTML=rows.map(x=>'<article class="card">'+
     '<div class="visual" data-open="'+esc(x.$id)+'">'+cardVisual(x)+'<span class="badge">'+esc(x.category||'Prompt')+'</span><button class="fav '+(favorites.has(x.$id)?'on':'')+'" data-fav="'+esc(x.$id)+'">'+(favorites.has(x.$id)?'♥':'♡')+'</button></div>'+
-    '<div class="body"><h3 data-open="'+esc(x.$id)+'">'+esc(x.title)+'</h3><div class="meta">'+
-    (x.style?'<span class="tag">'+esc(x.style)+'</span>':'')+(x.aspect_ratio?'<span class="tag">'+esc(x.aspect_ratio)+'</span>':'')+
-    '</div><div class="actions"><button class="btn btn-pink" data-copy="'+esc(x.$id)+'">SALIN PROMPT</button><button class="btn btn-dark openbtn" data-open="'+esc(x.$id)+'">›</button></div></div></article>').join('');
+    '<div class="body"><h3 data-open="'+esc(x.$id)+'">'+esc(x.title)+'</h3><div class="actions"><button class="btn btn-pink" data-copy="'+esc(x.$id)+'">SALIN PROMPT</button><button class="btn btn-dark openbtn" data-open="'+esc(x.$id)+'">›</button></div></div></article>').join('');
   grid.querySelectorAll('[data-open]').forEach(el=>el.onclick=e=>{if(e.target.closest('[data-fav]'))return;openDetail(el.dataset.open)});
   grid.querySelectorAll('[data-copy]').forEach(b=>b.onclick=async()=>{const x=all.find(v=>v.$id===b.dataset.copy);if(x)await safeCopy(x.prompt_text)});
   grid.querySelectorAll('[data-fav]').forEach(b=>b.onclick=async e=>{e.stopPropagation();b.disabled=true;await toggleFavorite(b.dataset.fav);b.disabled=false});
