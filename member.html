@@ -63,8 +63,6 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
     <button class="avatar" id="accountBtn" aria-label="Buka akun">V</button>
   </header>
   <main>
-    <div class="searchbox"><input id="search" placeholder="Cari prompt: candid, Jepang, cafe, iPhone…"><span class="searchicon">⌕</span></div>
-
     <div class="filterbar">
       <div class="filterlabel"><span>KATEGORI</span><span>Geser untuk lihat lainnya →</span></div>
       <div class="chips" id="chips"><button class="chip on" data-category="">Semua</button></div>
@@ -183,7 +181,7 @@ async function loadPrompts(){
     Query.offset((currentPage-1)*PAGE_SIZE)
   ];
   if(category)queries.push(Query.equal('category',category));
-  const q=search.value.trim();
+  const q=(search?.value||'').trim();
   if(q)queries.push(Query.search('title',q));
   const r=await tables.listRows({databaseId:DB,tableId:TABLE,queries});
   all=(r.rows||r.documents||[]).map(rowData);
@@ -314,10 +312,12 @@ $('loginForm').addEventListener('submit',async e=>{
   finally{btn.disabled=false;btn.textContent='MASUK MEMBER AREA'}
 });
 let searchTimer=null;
-search.oninput=()=>{
-  clearTimeout(searchTimer);
-  searchTimer=setTimeout(()=>{currentPage=1;refreshPrompts(false)},350);
-};
+if(search){
+  search.oninput=()=>{
+    clearTimeout(searchTimer);
+    searchTimer=setTimeout(()=>{currentPage=1;refreshPrompts(false)},350);
+  };
+}
 $('detailCopy').onclick=()=>current&&safeCopy(current.prompt_text);
 $('detailFav').onclick=()=>current&&toggleFavorite(current.$id);
 $('accountBtn').onclick=openAccount;
