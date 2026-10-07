@@ -339,7 +339,7 @@ async function loadPromptMeta(){
   promptMeta=rows;promptMaxSort=Math.max(0,...rows.map(x=>Number(x.sort_order)||0));fillPromptFilters();
 }
 async function loadPrompts(){
-  const queries=[Query.orderDesc('sort_order'),Query.limit(ADMIN_PAGE_SIZE),Query.offset((promptPage-1)*ADMIN_PAGE_SIZE)];
+  const queries=[Query.orderAsc('sort_order'),Query.limit(ADMIN_PAGE_SIZE),Query.offset((promptPage-1)*ADMIN_PAGE_SIZE)];
   const q=$('promptSearch').value.trim(),cat=$('categoryFilter').value,status=$('statusFilter').value;
   if(q)queries.push(Query.search('title',q));if(cat)queries.push(Query.equal('category',cat));
   if(status==='published')queries.push(Query.equal('is_published',true));

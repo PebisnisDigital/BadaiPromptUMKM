@@ -178,7 +178,7 @@ async function toggleFavorite(id){
 async function loadPrompts(){
   const queries=[
     Query.equal('is_published',true),
-    Query.orderDesc('sort_order'),
+    Query.orderAsc('sort_order'),
     Query.limit(PAGE_SIZE),
     Query.offset((currentPage-1)*PAGE_SIZE)
   ];
