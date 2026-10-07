@@ -64,32 +64,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
 </header>
 
 <main>
-  <section class="view on" id="v-dashboard">
-    <div class="title"><div><div class="eyebrow">RINGKASAN</div><h1>Dashboard</h1><p>Pusat kendali perpustakaan prompt baru.</p></div><button class="btn dark" id="refreshDashboard">↻ REFRESH</button></div>
-    <div class="stats">
-      <div class="stat"><small>TOTAL PROMPT</small><b id="sTotal">0</b></div>
-      <div class="stat"><small>PUBLISHED</small><b class="pinktext" id="sTayang">0</b></div>
-      <div class="stat"><small>FEATURED</small><b id="sUnggulan">0</b></div>
-      <div class="stat"><small>KATEGORI</small><b id="sCategories">0</b></div>
-      <div class="stat"><small>MEMBER AKTIF</small><b id="sMembers">0</b></div>
-      <div class="stat"><small>PROMPT TANPA GAMBAR</small><b id="sNoImage">0</b></div>
-    </div>
-    <div class="panel">
-      <h2>Aksi Cepat</h2>
-      <div class="quick">
-        <button id="quickAdd"><b>＋ Tambah Prompt</b><span>Tambah satu prompt + preview image.</span></button>
-        <button id="quickImport"><b>⇧ Import CSV</b><span>Masukkan banyak prompt sekaligus.</span></button>
-        <button id="quickMember"><b>＋ Tambah Member</b><span>Buat akses member manual.</span></button>
-        <button onclick="window.open('/member','_blank')"><b>↗ Lihat Member Area</b><span>Cek tampilan publik member.</span></button>
-      </div>
-    </div>
-    <div class="panel">
-      <h2>Distribusi Kategori</h2>
-      <div class="categorybars" id="categoryBars"></div>
-    </div>
-  </section>
-
-  <section class="view" id="v-prompts">
+  <section class="view on" id="v-prompts">
     <div class="title"><div><div class="eyebrow">PERPUSTAKAAN KONTEN</div><h1>Prompt</h1><p>Tampilan dibuat seperti member area. Klik kode BP untuk membuka, membaca, dan mengedit prompt Bahasa Indonesia.</p></div><button class="btn pink" id="addPromptBtn">+ PROMPT</button></div>
     <div class="toolbar">
       <input id="promptSearch" placeholder="Cari judul, kategori, tag…">
@@ -107,8 +82,14 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
     <div class="promptlist" id="promptList" style="margin-top:10px"></div>
   </section>
 
-  <section class="view" id="v-members">
-    <div class="title"><div><div class="eyebrow">AKSES</div><h1>Member</h1><p>Lihat member BADAI PROMPT dan buat akses manual.</p></div><button class="btn pink" id="addMemberBtn">+ MEMBER</button></div>
+  <section class="view" id="v-sales">
+    <div class="title"><div><div class="eyebrow">PENJUALAN & MEMBER</div><h1>Penjualan</h1><p>Kelola data pembeli sekaligus akses member BADAI PROMPT.</p></div><button class="btn pink" id="addMemberBtn">+ MEMBER</button></div>
+    <div class="stats" style="margin-bottom:10px">
+      <div class="stat"><small>TOTAL MEMBER</small><b id="salesMemberTotal">0</b></div>
+      <div class="stat"><small>MEMBER AKTIF</small><b class="pinktext" id="salesMemberActive">0</b></div>
+      <div class="stat"><small>PENDING</small><b id="salesMemberPending">0</b></div>
+      <div class="stat"><small>DIBLOKIR</small><b id="salesMemberBlocked">0</b></div>
+    </div>
     <div class="toolbar" style="grid-template-columns:1fr 130px">
       <input id="memberSearch" placeholder="Cari nama, email, WhatsApp…">
       <select id="memberStatus"><option value="">Semua status</option><option value="active">Aktif</option><option value="pending">Pending</option><option value="blocked">Blocked</option></select>
@@ -116,8 +97,22 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
     <div class="memberlist" id="memberList"></div>
   </section>
 
-  <section class="view" id="v-system">
-    <div class="title"><div><div class="eyebrow">SYSTEM</div><h1>Pengaturan</h1><p>Info teknis yang dipakai proyek BADAI PROMPT baru.</p></div></div>
+  <section class="view" id="v-affiliate">
+    <div class="title"><div><div class="eyebrow">PROGRAM PARTNER</div><h1>Affiliate</h1><p>Pusat pengaturan sistem afiliasi BADAI PROMPT.</p></div></div>
+    <div class="panel">
+      <h2>Status Sistem Affiliate</h2>
+      <div class="row"><div class="rowtop"><div><h3>Program Affiliate</h3><div class="muted">Link referral, komisi, saldo dan payout akan dikelola dari menu ini.</div></div><span class="tag draft">BELUM AKTIF</span></div></div>
+      <div class="row" style="margin-top:7px"><div class="rowtop"><div><h3>Komisi</h3><div class="muted">Persentase komisi belum ditentukan.</div></div><span class="tag">BELUM DIATUR</span></div></div>
+      <div class="row" style="margin-top:7px"><div class="rowtop"><div><h3>Payout</h3><div class="muted">Aturan minimum payout dan jadwal pencairan belum ditentukan.</div></div><span class="tag">BELUM DIATUR</span></div></div>
+    </div>
+    <div class="panel">
+      <h2>Yang Akan Dikelola</h2>
+      <div class="muted">Kode referral member, tracking penjualan, nilai komisi, saldo affiliate, riwayat komisi, serta permintaan payout. Menu ini baru disiapkan tempatnya dan belum mengubah alur penjualan yang sedang berjalan.</div>
+    </div>
+  </section>
+
+  <section class="view" id="v-settings">
+    <div class="title"><div><div class="eyebrow">SISTEM</div><h1>Pengaturan</h1><p>Info teknis yang dipakai proyek BADAI PROMPT baru.</p></div></div>
     <div class="panel">
       <h2>Struktur Aktif</h2>
       <div class="row"><div class="rowtop"><div><h3>Member Area</h3><div class="muted">/member</div></div><span class="tag live">AKTIF</span></div></div>
@@ -136,10 +131,10 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
 </div>
 
 <nav class="bottomnav" id="nav">
-  <button class="on" data-view="dashboard"><b>⌂</b>Dashboard</button>
-  <button data-view="prompts"><b>▦</b>Prompt</button>
-  <button data-view="members"><b>☻</b>Member</button>
-  <button data-view="system"><b>⚙</b>Sistem</button>
+  <button class="on" data-view="prompts"><b>▦</b>Prompt</button>
+  <button data-view="sales"><b>◫</b>Penjualan</button>
+  <button data-view="affiliate"><b>↗</b>Affiliate</button>
+  <button data-view="settings"><b>⚙</b>Pengaturan</button>
 </nav>
 
 <div class="overlay" id="promptModal">
@@ -235,9 +230,8 @@ async function api(path,body={}){
 function showView(name){
   document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+name));
   $('nav').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.view===name));
-  if(name==='dashboard')renderDashboard();
   if(name==='prompts')renderPrompts();
-  if(name==='members')renderMembers();
+  if(name==='sales')renderMembers();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 $('nav').querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>showView(b.dataset.view));
@@ -266,18 +260,7 @@ async function loadMembers(){
   try{const d=await api('/members/list',{limit:500});members=d.rows||[]}catch(e){members=[]}
 }
 async function reloadAll(){
-  busy(true);try{await Promise.all([loadPromptMeta(),loadMembers()]);await loadPrompts();renderDashboard();renderPrompts();renderMembers()}finally{busy(false)}
-}
-function renderDashboard(){
-  $('sTotal').textContent=promptMeta.length.toLocaleString('id-ID');
-  $('sTayang').textContent=promptMeta.filter(x=>x.is_published!==false).length.toLocaleString('id-ID');
-  $('sUnggulan').textContent=promptMeta.filter(x=>x.is_featured===true).length.toLocaleString('id-ID');
-  $('sCategories').textContent=new Set(promptMeta.map(x=>x.category).filter(Boolean)).size.toLocaleString('id-ID');
-  $('sMembers').textContent=members.filter(x=>x.status==='active').length.toLocaleString('id-ID');
-  $('sNoImage').textContent=promptMeta.filter(x=>!x.preview_url).length.toLocaleString('id-ID');
-  const counts={};promptMeta.forEach(x=>{if(x.category)counts[x.category]=(counts[x.category]||0)+1});
-  const rows=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,12),max=Math.max(1,...rows.map(x=>x[1]));
-  $('categoryBars').innerHTML=rows.length?rows.map(([name,count])=>'<div class="catrow"><span>'+esc(name)+'</span><div class="bar"><i style="width:'+Math.max(5,Math.round(count/max*100))+'%"></i></div><b>'+count+'</b></div>').join(''):'<div class="empty">Belum ada kategori.</div>';
+  busy(true);try{await Promise.all([loadPromptMeta(),loadMembers()]);await loadPrompts();renderPrompts();renderMembers()}finally{busy(false)}
 }
 function promptCode(p){
   const n=Number(p.sort_order)||Number(String(p.$id||'').replace(/\D/g,''))||0;
@@ -321,7 +304,7 @@ window.editPrompt=id=>{
   $('pId').value=p.$id;$('pPreviewUrl').value=p.preview_url||'';$('pCategory').value=p.category||'';$('pSubcategory').value=p.subcategory||'';$('pTitle').value=p.title||'';$('pStyle').value=p.style||'';$('pCamera').value=p.camera||'';$('pRatio').value=p.aspect_ratio||'';$('pTool').value=p.tool||'';$('pGender').value=p.gender||'universal';$('pSort').value=p.sort_order||0;$('pTags').value=p.tags||'';$('pPrompt').value=p.prompt_text||'';$('pSourceCreator').value=p.source_creator||'';$('pSourceUrl').value=p.source_url||'';$('pSourceNotes').value=p.source_notes||'';$('pNeedsReference').checked=p.needs_reference!==false;$('pTayang').checked=p.is_published!==false;$('pUnggulan').checked=p.is_featured===true;
   $('imagePreview').innerHTML=p.preview_url?'<img src="'+esc(p.preview_url)+'" alt="">':'Belum ada gambar';$('deletePromptBtn').style.display='inline-block';$('promptModalTitle').textContent='Ubah Prompt';msg($('promptMsg'),'');$('promptModal').classList.add('show');
 };
-window.togglePublish=async(id,val)=>{busy(true);try{await tables.updateRow({databaseId:DB,tableId:TABLE,rowId:id,data:{is_published:val}});await loadPromptMeta();await loadPrompts();renderPrompts();renderDashboard()}catch(e){alert(e.message||'Gagal mengubah status.')}finally{busy(false)}};
+window.togglePublish=async(id,val)=>{busy(true);try{await tables.updateRow({databaseId:DB,tableId:TABLE,rowId:id,data:{is_published:val}});await loadPromptMeta();await loadPrompts();renderPrompts()}catch(e){alert(e.message||'Gagal mengubah status.')}finally{busy(false)}};
 
 $('pPreviewUrl').oninput=e=>{const u=normalizePreviewUrl(e.target.value);$('imagePreview').innerHTML=u?'<img src="'+esc(u)+'" alt="">':'Belum ada gambar';};
 $('openDropboxFolder').onclick=()=>window.open('https://www.dropbox.com/home/BADAI%20PROMPT','_blank');
@@ -334,17 +317,21 @@ $('promptForm').onsubmit=async e=>{
     if($('pId').value)await tables.updateRow({databaseId:DB,tableId:TABLE,rowId:$('pId').value,data});
     else await tables.createRow({databaseId:DB,tableId:TABLE,rowId:ID.unique(),data});
     if(url)$('pPreviewUrl').value=url;
-    msg($('promptMsg'),'Tersimpan ✓ Preview memakai Dropbox.','good');await loadPromptMeta();await loadPrompts();renderPrompts();renderDashboard();setTimeout(()=>$('promptModal').classList.remove('show'),450);
+    msg($('promptMsg'),'Tersimpan ✓ Preview memakai Dropbox.','good');await loadPromptMeta();await loadPrompts();renderPrompts();setTimeout(()=>$('promptModal').classList.remove('show'),450);
   }catch(err){
     msg($('promptMsg'),err.message||'Prompt gagal disimpan.','bad');
   }finally{b.disabled=false;b.textContent='SIMPAN PROMPT'}
 };
 $('deletePromptBtn').onclick=async()=>{
   const id=$('pId').value;if(!id||!confirm('Hapus prompt ini permanen?'))return;
-  busy(true);try{await tables.deleteRow({databaseId:DB,tableId:TABLE,rowId:id});$('promptModal').classList.remove('show');await loadPromptMeta();if(promptPage>Math.max(1,Math.ceil(promptMeta.length/ADMIN_PAGE_SIZE)))promptPage=Math.max(1,promptPage-1);await loadPrompts();renderPrompts();renderDashboard()}catch(e){alert(e.message||'Gagal menghapus prompt.')}finally{busy(false)}
+  busy(true);try{await tables.deleteRow({databaseId:DB,tableId:TABLE,rowId:id});$('promptModal').classList.remove('show');await loadPromptMeta();if(promptPage>Math.max(1,Math.ceil(promptMeta.length/ADMIN_PAGE_SIZE)))promptPage=Math.max(1,promptPage-1);await loadPrompts();renderPrompts()}catch(e){alert(e.message||'Gagal menghapus prompt.')}finally{busy(false)}
 };
 
 function renderMembers(){
+  $('salesMemberTotal').textContent=members.length.toLocaleString('id-ID');
+  $('salesMemberActive').textContent=members.filter(x=>x.status==='active'||x.access_status==='active').length.toLocaleString('id-ID');
+  $('salesMemberPending').textContent=members.filter(x=>x.status==='pending'||x.access_status==='pending').length.toLocaleString('id-ID');
+  $('salesMemberBlocked').textContent=members.filter(x=>x.status==='blocked'||x.access_status==='blocked').length.toLocaleString('id-ID');
   const q=$('memberSearch').value.trim().toLowerCase(),status=$('memberStatus').value;
   const rows=members.filter(m=>{if(status&&m.status!==status)return false;if(q&&!([m.name,m.email,m.whatsapp].filter(Boolean).join(' ').toLowerCase().includes(q)))return false;return true});
   $('memberList').innerHTML=rows.length?rows.map(m=>'<div class="row"><div class="membermeta"><div><h3>'+esc(m.name||m.email||'Member')+'</h3><div class="muted">'+esc(m.email||'-')+'<br>'+esc(m.whatsapp||'-')+(m.access_until?'<br>Akses s/d '+new Date(m.access_until).toLocaleDateString('id-ID'):'')+'</div></div><span class="tag '+(m.status==='active'?'live':m.status==='blocked'?'draft':'')+'">'+esc(String(m.status||'pending').toUpperCase())+'</span></div></div>').join(''):'<div class="empty">Belum ada member sesuai filter.</div>';
@@ -356,7 +343,7 @@ $('memberForm').onsubmit=async e=>{
   try{
     const active=$('mStatus').value==='active';
     await api('/members/manual-create',{name:$('mName').value.trim(),email:$('mEmail').value.trim(),whatsapp:$('mWa').value.trim(),amount:0,payment_method:'manual',payment_status:active?'success':'pending',access_status:$('mStatus').value,notes:$('mNotes').value.trim()});
-    msg($('memberMsg'),'Member tersimpan ✓','good');await loadMembers();renderMembers();renderDashboard();setTimeout(()=>$('memberModal').classList.remove('show'),500);
+    msg($('memberMsg'),'Member tersimpan ✓','good');await loadMembers();renderMembers();setTimeout(()=>$('memberModal').classList.remove('show'),500);
   }catch(err){msg($('memberMsg'),err.message||'Gagal membuat member.','bad')}finally{b.disabled=false;b.textContent='BUAT MEMBER'}
 };
 
@@ -385,14 +372,14 @@ $('csvInput').onchange=async e=>{
       try{await tables.createRow({databaseId:DB,tableId:TABLE,rowId:ID.unique(),data});success++}catch(err){failed++}
       msg($('importMsg'),'Import '+(i)+'/'+(rows.length-1)+'…');
     }
-    await loadPrompts();renderPrompts();renderDashboard();msg($('importMsg'),'Selesai: '+success+' masuk, '+failed+' gagal/skip.','good');
+    await loadPrompts();renderPrompts();msg($('importMsg'),'Selesai: '+success+' masuk, '+failed+' gagal/skip.','good');
   }catch(err){msg($('importMsg'),err.message||'Import gagal.','bad')}finally{e.target.value=''}
 };
 
 function closeModal(name){if(name==='prompt')$('promptModal').classList.remove('show');if(name==='member')$('memberModal').classList.remove('show')}
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeModal(b.dataset.close));
 [$('promptModal'),$('memberModal')].forEach(o=>o.onclick=e=>{if(e.target===o)o.classList.remove('show')});
-$('addPromptBtn').onclick=openPrompt;$('quickAdd').onclick=openPrompt;$('quickImport').onclick=()=>{showView('prompts');setTimeout(()=>$('importCsvBtn').scrollIntoView({behavior:'smooth',block:'center'}),120)};$('addMemberBtn').onclick=openMember;$('quickMember').onclick=()=>{showView('members');setTimeout(openMember,100)};$('refreshDashboard').onclick=reloadAll;
+$('addPromptBtn').onclick=openPrompt;$('addMemberBtn').onclick=openMember;
 
 async function verifyAdmin(){
   const team=await teams.get({teamId:'admin-users'});
