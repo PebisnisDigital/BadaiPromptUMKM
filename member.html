@@ -94,7 +94,7 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
 <nav class="bottomnav" id="nav">
   <button class="on" data-mode="all"><b>⌂</b>Beranda</button>
   <button data-mode="featured"><b>✦</b>Pilihan</button>
-  <button data-mode="favorites"><b>♡</b>Favorit</button>
+  <button data-mode="affiliate"><b>↗</b>Affiliasi</button>
   <button data-mode="account"><b>☻</b>Akun</button>
 </nav>
 
@@ -106,6 +106,18 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
     <div class="promptbox" id="detailPrompt"></div>
     <div class="sheetactions"><button class="btn btn-pink" id="detailCopy">SALIN PROMPT</button><button class="btn btn-dark" id="detailFav">♡</button></div>
     <div class="note">Tip: upload foto referensi terlebih dahulu, lalu tempel prompt ini. Hasil akhir tetap bergantung pada model gambar yang digunakan.</div>
+  </div>
+</div>
+
+<div class="overlay" id="affiliateOverlay">
+  <div class="sheet" style="text-align:center;padding:26px 18px 30px">
+    <button class="close" data-close="affiliate" style="float:right">×</button>
+    <div style="clear:both;padding:18px 8px 8px">
+      <div class="eyebrow">AFFILIASI BADAI PROMPT</div>
+      <div style="font-family:Raleway,sans-serif;font-weight:900;font-size:34px;letter-spacing:-.05em;margin:10px 0 8px">COMING SOON</div>
+      <p style="margin:0 auto;max-width:360px;color:#8a8a92;font-size:11px;line-height:1.6">Sistem affiliasi sedang kami siapkan. Nanti dari sini member bisa mendapatkan link referral, melihat penjualan, dan memantau komisi.</p>
+      <button class="btn btn-pink" data-close="affiliate" style="width:100%;min-height:44px;margin-top:18px">OKE, SAYA TUNGGU</button>
+    </div>
   </div>
 </div>
 
@@ -132,7 +144,7 @@ let currentUser=null,currentProfile=null,all=[],favorites=new Set(),favoriteRows
 
 const $=id=>document.getElementById(id);
 const gate=$('gate'),loading=$('loading'),loginMsg=$('loginMsg'),grid=$('grid'),search=$('search'),chips=$('chips'),styleFilter=$('styleFilter'),ratioFilter=$('ratioFilter');
-const detailOverlay=$('detailOverlay'),accountOverlay=$('accountOverlay'),toast=$('toast');
+const detailOverlay=$('detailOverlay'),affiliateOverlay=$('affiliateOverlay'),accountOverlay=$('accountOverlay'),toast=$('toast');
 
 function esc(v=''){return String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function rowData(r){const d=r.data||r;return {...d,$id:r.$id||d.$id,$createdAt:r.$createdAt||d.$createdAt}}
@@ -289,10 +301,11 @@ $('detailCopy').onclick=()=>current&&safeCopy(current.prompt_text);
 $('detailFav').onclick=()=>current&&toggleFavorite(current.$id);
 $('accountBtn').onclick=openAccount;
 $('logoutBtn').onclick=async()=>{try{await account.deleteSession({sessionId:'current'})}catch(e){}location.reload()};
-document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>{detailOverlay.classList.remove('show');accountOverlay.classList.remove('show')});
-[detailOverlay,accountOverlay].forEach(o=>o.onclick=e=>{if(e.target===o)o.classList.remove('show')});
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>{detailOverlay.classList.remove('show');affiliateOverlay.classList.remove('show');accountOverlay.classList.remove('show')});
+[detailOverlay,affiliateOverlay,accountOverlay].forEach(o=>o.onclick=e=>{if(e.target===o)o.classList.remove('show')});
 $('nav').querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{
   if(b.dataset.mode==='account'){openAccount();return}
+  if(b.dataset.mode==='affiliate'){affiliateOverlay.classList.add('show');return}
   mode=b.dataset.mode;$('nav').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));render();window.scrollTo({top:0,behavior:'smooth'});
 });
 boot();
