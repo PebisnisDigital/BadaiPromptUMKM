@@ -2529,235 +2529,203 @@ body{background:#000!important;color:var(--bp-text)}
 @media(max-width:410px){.bp-hero h1{font-size:45px}.bp-product-grid{min-height:0}.bp-gallery-card{aspect-ratio:1/1.1}.bp-how-list{grid-template-columns:1fr}.bp-trustbar b{font-size:15px}.bp-nav-cta{padding:0 10px}.bp-wordmark{font-size:16px}}
 @media(prefers-reduced-motion:reduce){.bp-reveal{opacity:1;transform:none;transition:none}}
 </style>
+
+<style id="badai-stopmotion-style">
+:root{
+  --sm-bg:#050505;--sm-panel:#0a0a0b;--sm-panel2:#101012;--sm-line:#25252a;
+  --sm-white:#f7f7f8;--sm-muted:#8c8c94;--sm-pink:#ff3b91;--sm-max:760px;
+}
+body{background:#000!important;color:var(--sm-white)}
+.sm-site{max-width:var(--sm-max);margin:0 auto;min-height:100vh;background:var(--sm-bg);overflow:hidden;font-family:var(--font-roboto)}
+.sm-shell{padding-left:20px;padding-right:20px}
+.sm-nav{position:sticky;top:0;z-index:50;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid #1d1d21;background:rgba(5,5,5,.92);backdrop-filter:blur(16px)}
+.sm-brand{color:#fff;text-decoration:none;font:950 18px/1 var(--font-sf);letter-spacing:-.04em}.sm-brand b{color:var(--sm-pink)}.sm-brand small{display:block;margin-top:5px;color:#606067;font:800 7px/1 var(--font-roboto);letter-spacing:.13em}
+.sm-nav-cta{height:36px;display:inline-flex;align-items:center;padding:0 13px;border-radius:9px;background:#fff;color:#090909;text-decoration:none;font:900 9px/1 var(--font-sf)}
+.sm-frame-label{display:inline-flex;align-items:center;gap:8px;color:#77777f;font:850 8px/1 var(--font-sf);letter-spacing:.15em}.sm-frame-label i{width:6px;height:6px;background:var(--sm-pink)}
+.sm-hero{padding:64px 0 40px;text-align:center}.sm-hero h1{max-width:690px;margin:18px auto 14px;font:950 clamp(48px,11vw,82px)/.9 var(--font-sf);letter-spacing:-.075em}.sm-hero h1 span{color:#74747c}.sm-hero p{max-width:590px;margin:0 auto;color:#a7a7ae;font:500 14px/1.7 var(--font-roboto)}.sm-hero p b{color:#fff}
+.sm-actions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:22px}.sm-btn{appearance:none;border:0;min-height:48px;padding:0 18px;border-radius:11px;font:900 10px/1 var(--font-sf);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.sm-btn.primary{background:#fff;color:#090909}.sm-btn.dark{background:#0d0d0f;color:#fff;border:1px solid #2a2a2f}.sm-micro{margin-top:10px;color:#5f5f66;font-size:8px}
+.sm-reel{margin-top:30px;border:1px solid #26262b;border-radius:21px;overflow:hidden;background:#08080a;box-shadow:0 30px 70px rgba(0,0,0,.42)}.sm-reel-top{height:43px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:0 12px;border-bottom:1px solid #222227;background:#0b0b0d}.sm-dots{display:flex;gap:5px}.sm-dots i{width:6px;height:6px;border-radius:50%;background:#333339}.sm-reel-top b{text-align:center;color:#77777f;font:850 8px/1 var(--font-sf);letter-spacing:.1em}.sm-reel-count{color:#ff75b5;font:900 8px/1 var(--font-sf)}
+.sm-reel-stage{position:relative;min-height:520px;padding:12px;background:#070709}.sm-reel-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.sm-shot{position:relative;aspect-ratio:4/5;border:1px solid #29292e;border-radius:13px;overflow:hidden;background:#111114}.sm-shot img{width:100%;height:100%;object-fit:cover;display:block}.sm-shot:after{content:"";position:absolute;inset:58% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.9))}.sm-shot-code{position:absolute;left:8px;top:8px;z-index:3;padding:5px 6px;border-radius:6px;background:rgba(0,0,0,.72);font:900 8px/1 var(--font-sf)}.sm-shot-copy{position:absolute;z-index:3;left:9px;right:9px;bottom:9px;text-align:left}.sm-shot-copy b{display:block;font:900 10px/1.15 var(--font-sf)}.sm-shot-copy small{display:block;margin-top:4px;color:#aaa;font-size:7px}.sm-shot.cut{animation:smCut .13s steps(1,end)}@keyframes smCut{0%{opacity:.35;transform:translate(2px,-1px) scale(.993)}100%{opacity:1;transform:none}}
+.sm-reel-caption{display:flex;justify-content:space-between;gap:12px;padding:11px 13px;border-top:1px solid #222227;color:#6a6a71;font-size:8px}.sm-reel-caption b{color:#b8b8bd}
+.sm-proof{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:8px;border:1px solid #222227;border-radius:14px;overflow:hidden;background:#222227}.sm-proof div{padding:13px 10px;background:#0a0a0c;text-align:left}.sm-proof b{display:block;font:950 18px/1 var(--font-sf)}.sm-proof span{display:block;margin-top:5px;color:#696970;font-size:8px}
+.sm-section{padding:68px 0;border-top:1px solid rgba(255,255,255,.055)}.sm-section-head{max-width:610px}.sm-section h2{margin:11px 0 13px;font:950 clamp(34px,7vw,52px)/.96 var(--font-sf);letter-spacing:-.055em}.sm-section h2 span{color:#74747b}.sm-lead{max-width:590px;color:#96969d;font-size:13px;line-height:1.68}
+.sm-member{margin-top:24px;border:1px solid #25252a;border-radius:18px;overflow:hidden;background:#08080a}.sm-member-bar{display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;padding:10px;border-bottom:1px solid #222227}.sm-member-select{height:36px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border:1px solid #28282d;border-radius:9px;background:#0e0e10;color:#aaa;font:800 8px/1 var(--font-sf)}.sm-pages{display:flex;gap:4px}.sm-pages i{font-style:normal;width:31px;height:36px;display:grid;place-items:center;border:1px solid #28282d;border-radius:8px;color:#67676e;font:900 8px/1 var(--font-sf)}.sm-pages i.on{background:#fff;color:#111;border-color:#fff}
+.sm-member-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:10px}.sm-member-card{position:relative;aspect-ratio:4/5;border-radius:11px;overflow:hidden;border:1px solid #242429;background:#111114}.sm-member-card img{width:100%;height:100%;object-fit:cover;display:block}.sm-member-card:after{content:"";position:absolute;inset:58% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.88))}.sm-member-card span,.sm-member-card b{position:absolute;z-index:2;left:8px}.sm-member-card span{top:8px;padding:4px 5px;border-radius:6px;background:rgba(0,0,0,.72);font:900 7px/1 var(--font-sf)}.sm-member-card b{right:8px;bottom:8px;font:850 8px/1.2 var(--font-sf)}.sm-member-card.cut{animation:smCut .13s steps(1,end)}
+.sm-member-foot{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;border-top:1px solid #222227;color:#66666d;font-size:8px}.sm-member-foot b{color:#aaa}
+.sm-story{display:grid;grid-template-columns:1.12fr .88fr;gap:8px;margin-top:24px}.sm-story-screen{min-height:365px;position:relative;overflow:hidden;border:1px solid #25252a;border-radius:17px;background:#09090b}.sm-story-frame{position:absolute;inset:0;padding:18px;opacity:0;transform:translate(7px,-4px);pointer-events:none}.sm-story-frame.on{opacity:1;transform:none}.sm-story-kicker{color:#74747b;font:850 8px/1 var(--font-sf);letter-spacing:.13em}.sm-story-frame h3{margin:16px 0 7px;font:950 28px/1 var(--font-sf);letter-spacing:-.04em}.sm-story-frame h3 span{color:#77777f}.sm-story-art{height:230px;margin-top:17px;border:1px solid #242429;border-radius:12px;background:#101013;overflow:hidden;display:grid;place-items:center}.sm-story-art img{width:100%;height:100%;object-fit:cover}.sm-upload{width:78%;padding:24px;text-align:center;border:1px dashed #3a3a41;border-radius:13px}.sm-upload i{display:grid;place-items:center;width:50px;height:50px;margin:0 auto 12px;border-radius:50%;background:#18181b;color:#ff79b8;font:300 24px/1 var(--font-sf)}.sm-upload b{display:block;font:900 10px/1 var(--font-sf)}.sm-upload small{display:block;margin-top:6px;color:#6f6f76;font-size:8px}.sm-copybox{width:88%;padding:13px;border:1px solid #29292e;border-radius:12px;background:#0e0e11}.sm-copylines{display:grid;gap:6px}.sm-copylines i{height:6px;border-radius:999px;background:#29292f}.sm-copylines i:nth-child(1){width:95%}.sm-copylines i:nth-child(2){width:83%}.sm-copylines i:nth-child(3){width:91%}.sm-copylines i:nth-child(4){width:67%}.sm-copybox b{display:block;margin-top:14px;padding:11px;border-radius:8px;background:#fff;color:#111;text-align:center;font:900 9px/1 var(--font-sf)}
+.sm-story-list{display:grid;gap:6px}.sm-story-list button{appearance:none;width:100%;display:grid;grid-template-columns:34px 1fr;gap:9px;align-items:center;padding:12px;border:1px solid #222227;border-radius:12px;background:#0a0a0c;color:#fff;text-align:left;cursor:pointer}.sm-story-list button>span{width:31px;height:31px;display:grid;place-items:center;border-radius:8px;background:#151517;color:#65656c;font:900 8px/1 var(--font-sf)}.sm-story-list b{display:block;font:900 10px/1 var(--font-sf)}.sm-story-list small{display:block;margin-top:3px;color:#66666d;font-size:8px;line-height:1.35}.sm-story-list button.on{border-color:#413139;background:#100d0f}.sm-story-list button.on>span{background:#fff;color:#111}
+.sm-standard{display:flex;gap:7px;overflow:auto;margin-top:22px;padding-bottom:2px;scrollbar-width:none}.sm-standard::-webkit-scrollbar{display:none}.sm-standard span{flex:0 0 auto;padding:10px 11px;border:1px solid #242429;border-radius:999px;background:#0a0a0c;color:#797980;font:850 8px/1 var(--font-sf)}.sm-standard span.on{background:#fff;color:#111;border-color:#fff}
+.sm-price{margin-top:23px;padding:20px;border:1px solid #28282d;border-radius:18px;background:#09090b}.sm-price h3{margin:0;font:950 20px/1 var(--font-sf)}.sm-price p{margin:7px 0 0;color:#74747b;font-size:10px;line-height:1.5}#bpuPriceChoices{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:17px}.bpu-price-card-choice{appearance:none;min-height:82px;border:1px solid #28282d;border-radius:11px;background:#0e0e10;color:#fff;cursor:pointer}.bpu-answer-letter{display:block;color:#5d5d64;font:900 8px/1 var(--font-sf)}.bpu-answer-price{display:block;margin-top:8px;font:950 23px/1 var(--font-sf)}.bpu-price-card-choice.spotlight,.bpu-price-card-choice:hover{background:#fff;color:#111;border-color:#fff}.bpu-price-card-choice.spotlight .bpu-answer-letter{color:#777}.bpu-top-pick-badge,.bpu-three-fingers{display:none!important}.sm-price-list{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:13px}.sm-price-list div{padding:10px;border:1px solid #222227;border-radius:9px;color:#929299;font-size:9px}.sm-price-list div:before{content:"✓";margin-right:7px;color:#ddd}.sm-price-cta{width:100%;height:48px;margin-top:14px;border:0;border-radius:10px;background:var(--sm-pink);color:#fff;font:900 10px/1 var(--font-sf);cursor:pointer}
+.sm-faq{margin-top:22px}.sm-faq details{padding:14px 0;border-top:1px solid #222227}.sm-faq details:last-child{border-bottom:1px solid #222227}.sm-faq summary{cursor:pointer;font:850 11px/1.4 var(--font-sf)}.sm-faq p{margin:8px 0 0;color:#77777f;font-size:10px;line-height:1.6}.sm-final{text-align:center;padding-bottom:85px}.sm-final h2{max-width:640px;margin-left:auto;margin-right:auto}.sm-final .sm-lead{margin-left:auto;margin-right:auto}.sm-footer{padding:26px 20px 90px;border-top:1px solid #202024;text-align:center;color:#595960;font-size:8px;line-height:1.6}.sm-footer b{color:#88888f}.sm-footer a{color:#707077;text-decoration:none;margin:0 5px}
+@media(max-width:620px){.sm-shell{padding-left:16px;padding-right:16px}.sm-nav{padding:0 16px}.sm-hero{padding-top:50px}.sm-reel-stage{min-height:auto}.sm-member-grid{grid-template-columns:1fr 1fr}.sm-story{grid-template-columns:1fr}.sm-story-screen{min-height:350px}.sm-price-list{grid-template-columns:1fr}.sm-pages i:nth-child(n+4){display:none}}
+@media(max-width:390px){.sm-hero h1{font-size:45px}.sm-proof b{font-size:15px}.sm-member-bar{grid-template-columns:1fr}.sm-pages{display:none}}
+@media(prefers-reduced-motion:reduce){.sm-shot.cut,.sm-member-card.cut{animation:none!important}}
+</style>
 </head>
 <body>
 
 
+
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
   <div class="ms-loader-top">BADAI PROMPT</div>
-  <div class="ms-loader-word" id="loaderWord">Curated</div>
+  <div class="ms-loader-word" id="loaderWord">Frame</div>
   <div class="ms-loader-count" id="loaderCount">000</div>
   <div class="ms-loader-progress"><span id="loaderProgress"></span></div>
 </div>
 
-<div class="bp-site">
-  <header class="bp-nav">
-    <a class="bp-wordmark" href="#home">BADAI <b>PROMPT</b><small>PERPUSTAKAAN ADEGAN AI</small></a>
-    <div class="bp-nav-actions">
-      <a class="bp-nav-link" href="/member">LOGIN</a>
-      <a class="bp-nav-cta" href="#harga">AMBIL AKSES</a>
-    </div>
+<div class="sm-site">
+  <header class="sm-nav">
+    <a class="sm-brand" href="#home">BADAI <b>PROMPT</b><small>PERPUSTAKAAN ADEGAN AI</small></a>
+    <a class="sm-nav-cta" href="#harga">DAFTAR</a>
   </header>
 
   <main>
-    <section class="bp-hero bp-shell" id="home">
-      <div class="bp-eyebrow"><i></i> CURATED AI SCENE LIBRARY</div>
-      <h1>Jangan mulai dari<br><span>prompt kosong.</span></h1>
-      <p><b>Pilih visual yang kamu suka.</b> Upload fotomu. Salin prompt Bahasa Indonesia. Lalu generate jadi versimu sendiri.</p>
-      <div class="bp-hero-actions">
-        <button class="bp-btn primary" type="button" onclick="openCheckout()">AMBIL AKSES BADAI PROMPT</button>
-        <a class="bp-btn secondary" href="#produk">LIHAT PRODUK</a>
+    <section class="sm-hero sm-shell" id="home">
+      <div class="sm-frame-label"><i></i> FRAME 001 · BADAI PROMPT</div>
+      <h1>Pilih gambar.<br><span>Jadi kamu.</span></h1>
+      <p><b>Jangan mulai dari prompt kosong.</b> Lihat adegannya dulu, pilih yang kamu suka, upload fotomu, lalu generate.</p>
+      <div class="sm-actions">
+        <button class="sm-btn primary" type="button" onclick="openCheckout(59000)">DAFTAR SEKARANG · MULAI 59K</button>
+        <a class="sm-btn dark" href="#isi">LIHAT ISINYA</a>
       </div>
-      <div class="bp-hero-note">500+ prompt • 30+ kategori • 1–4 preview visual • update selama masa akses</div>
+      <div class="sm-micro">Akses 1 tahun · Member Area · Prompt Bahasa Indonesia · Update selama masa akses</div>
 
-      <div class="bp-product-wrap bp-reveal" id="produk">
-        <div class="bp-product">
-          <div class="bp-product-bar">
-            <span class="bp-window-dots"><i></i><i></i><i></i></span>
-            <b>BADAI PROMPT · MEMBER AREA</b>
-            <span class="bp-live">LIVE PRODUCT</span>
-          </div>
-          <div class="bp-product-grid">
-            <div class="bp-library">
-              <div class="bp-library-head"><b>Prompt Library</b><span>Terbaru</span></div>
-              <div class="bp-library-search">Cari prompt: candid, cafe, Jepang, cinematic...</div>
-              <div class="bp-gallery">
-                <div class="bp-gallery-card active">
-                  <img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="Preview BADAI PROMPT BP533">
-                  <span>BP533</span><b>Street Portrait</b>
-                </div>
-                <div class="bp-gallery-card ghost"><span>BP532</span><b>Cafe Editorial</b></div>
-                <div class="bp-gallery-card ghost"><span>BP531</span><b>Candid Daily</b></div>
-                <div class="bp-gallery-card ghost"><span>BP530</span><b>Cinematic Night</b></div>
-              </div>
-            </div>
-            <div class="bp-inspector">
-              <div class="bp-inspector-meta"><b>BP533 · STREET</b><span>4:5 · REALISTIC</span></div>
-              <h3>Potret menoleh di jalan kota.</h3>
-              <p>Preview dulu. Kalau cocok, buka prompt lengkap dan jadikan adegan itu versi kamu.</p>
-              <div class="bp-prompt-preview">
-                <small>PROMPT BAHASA INDONESIA</small>
-                <div class="bp-prompt-lines"><i></i><i></i><i></i><i></i><i></i></div>
-              </div>
-              <button class="bp-inspector-button" type="button" tabindex="-1">BUKA PROMPT</button>
-            </div>
-          </div>
-          <div class="bp-product-caption"><span>Produk yang kamu beli benar-benar berbentuk library, bukan file PDF.</span><b>Preview → Prompt → Generate</b></div>
+      <div class="sm-reel" id="smHeroReel">
+        <div class="sm-reel-top">
+          <span class="sm-dots"><i></i><i></i><i></i></span>
+          <b>BADAI PROMPT · MEMBER AREA</b>
+          <span class="sm-reel-count" id="smHeroCounter">FRAME 01/03</span>
         </div>
-
-        <div class="bp-trustbar">
-          <div><b>500+</b><span>prompt adegan siap pakai</span></div>
-          <div><b>30+</b><span>kategori visual</span></div>
-          <div><b>1–4</b><span>preview per prompt</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="bp-section bp-shell">
-      <div class="bp-section-head bp-reveal">
-        <div class="bp-section-kicker">INSIDE THE MEMBER AREA</div>
-        <h2>Lihat isinya.<br><span>Sebelum kamu beli.</span></h2>
-        <p class="bp-section-lead">Bukan mockup kosong. Ini contoh visual yang memang ada di library BADAI PROMPT, ditampilkan seperti saat member sedang menjelajah.</p>
-      </div>
-
-      <div class="bp-tour bp-reveal" id="bpMemberTour">
-        <div class="bp-tour-head">
-          <div><b>BADAI PROMPT · MEMBER AREA</b><span>Stop-motion preview dari isi library</span></div>
-          <div class="bp-tour-frame"><i></i><span id="bpTourFrameLabel">FRAME 01 / 03</span></div>
-        </div>
-        <div class="bp-tour-toolbar">
-          <div class="bp-tour-select"><span id="bpTourCategory">SEMUA KATEGORI</span><b>⌄</b></div>
-          <div class="bp-tour-pages"><span class="active">54</span><span>53</span><span>52</span><span>51</span><span>50</span></div>
-        </div>
-        <div class="bp-tour-grid">
-          <article class="bp-tour-card" data-tour-card="0"><img alt=""><span class="bp-tour-code"></span><div class="bp-tour-copy"><b></b><small></small></div></article>
-          <article class="bp-tour-card" data-tour-card="1"><img alt=""><span class="bp-tour-code"></span><div class="bp-tour-copy"><b></b><small></small></div></article>
-          <article class="bp-tour-card" data-tour-card="2"><img alt=""><span class="bp-tour-code"></span><div class="bp-tour-copy"><b></b><small></small></div></article>
-          <article class="bp-tour-card" data-tour-card="3"><img alt=""><span class="bp-tour-code"></span><div class="bp-tour-copy"><b></b><small></small></div></article>
-        </div>
-        <div class="bp-tour-foot"><span>Gambar berpindah seperti sedang membuka halaman Member Area.</span><b id="bpTourStatus">TERBARU</b></div>
-      </div>
-    </section>
-
-    <section class="bp-section bp-shell">
-      <div class="bp-section-head bp-reveal">
-        <div class="bp-section-kicker">DESIGNED LIKE A PRODUCT</div>
-        <h2>Bukan kumpulan prompt.<br><span>Sebuah sistem visual.</span></h2>
-        <p class="bp-section-lead">Yang dijual bukan “ribuan kalimat prompt”. Yang kamu dapat adalah cara paling cepat menemukan ide visual yang ingin dibuat.</p>
-      </div>
-      <div class="bp-principles bp-reveal">
-        <article class="bp-principle"><small>01</small><h3>Visual first.</h3><p>Lihat hasilnya dulu. Kamu tidak perlu membayangkan prompt panjang sebelum tahu arahnya.</p></article>
-        <article class="bp-principle"><small>02</small><h3>Bahasa manusia.</h3><p>Prompt dibuat dalam Bahasa Indonesia supaya gampang dibaca dan diubah sesuai kebutuhan.</p></article>
-        <article class="bp-principle"><small>03</small><h3>Built for realism.</h3><p>Identitas, kamera, cahaya, tekstur, dan anti-AI-slop disusun sebagai satu standar.</p></article>
-      </div>
-    </section>
-
-    <section class="bp-section bp-shell">
-      <div class="bp-section-head bp-reveal">
-        <div class="bp-section-kicker">THE BADAI STANDARD</div>
-        <h2>Prompt yang terlihat simpel.<br><span>Punya struktur di belakangnya.</span></h2>
-        <p class="bp-section-lead">Delapan lapisan ini dipakai sebagai standar agar prompt tetap konsisten saat library terus bertambah.</p>
-      </div>
-      <div class="bp-standard bp-reveal" id="bpStandard">
-        <div class="bp-standard-row active"><span>01</span><b>Identity / Reference Lock</b><small>jaga identitas</small></div>
-        <div class="bp-standard-row"><span>02</span><b>Scene</b><small>tempat & suasana</small></div>
-        <div class="bp-standard-row"><span>03</span><b>Action</b><small>aktivitas natural</small></div>
-        <div class="bp-standard-row"><span>04</span><b>Wardrobe / Object</b><small>detail nyata</small></div>
-        <div class="bp-standard-row"><span>05</span><b>Camera</b><small>framing & lens</small></div>
-        <div class="bp-standard-row"><span>06</span><b>Lighting</b><small>arah cahaya</small></div>
-        <div class="bp-standard-row"><span>07</span><b>Realism</b><small>tekstur & imperfection</small></div>
-        <div class="bp-standard-row"><span>08</span><b>Anti-AI-Slop</b><small>hindari hasil generik</small></div>
-      </div>
-    </section>
-
-    <section class="bp-section bp-shell">
-      <div class="bp-section-head bp-reveal">
-        <div class="bp-section-kicker">HOW IT WORKS</div>
-        <h2>Empat langkah.<br><span>Tanpa belajar prompting dulu.</span></h2>
-        <p class="bp-section-lead">Demo ini menunjukkan persis bagaimana member memakai BADAI PROMPT.</p>
-      </div>
-
-      <div class="bp-how bp-reveal" id="bpHow">
-        <div class="bp-how-screen">
-          <div class="bp-how-display">
-            <div class="bp-how-scene active" data-bp-scene="0">
-              <div class="bp-how-title">01 · PILIH ADEGAN</div>
-              <div class="bp-how-main">Mulai dari <span>visual.</span></div>
-              <div class="bp-how-art"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="Pilih adegan BADAI PROMPT"></div>
-            </div>
-            <div class="bp-how-scene" data-bp-scene="1">
-              <div class="bp-how-title">02 · UPLOAD FOTO</div>
-              <div class="bp-how-main">Masukkan <span>identitasmu.</span></div>
-              <div class="bp-how-art"><div class="bp-upload-box"><i>+</i><b>FOTO REFERENSI</b><small>Gunakan foto kamu sendiri</small></div></div>
-            </div>
-            <div class="bp-how-scene" data-bp-scene="2">
-              <div class="bp-how-title">03 · SALIN PROMPT</div>
-              <div class="bp-how-main">Sudah siap <span>dipakai.</span></div>
-              <div class="bp-how-art"><div class="bp-copy-box"><div class="bp-copy-lines"><i></i><i></i><i></i><i></i></div><button type="button" tabindex="-1">SALIN PROMPT ✓</button></div></div>
-            </div>
-            <div class="bp-how-scene" data-bp-scene="3">
-              <div class="bp-how-title">04 · GENERATE</div>
-              <div class="bp-how-main">Jadi <span>versimu.</span></div>
-              <div class="bp-how-art"><div class="bp-result-box"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="Hasil generate BADAI PROMPT"></div></div>
-            </div>
+        <div class="sm-reel-stage">
+          <div class="sm-reel-grid">
+            <article class="sm-shot" data-sm-hero="0"><img alt=""><span class="sm-shot-code"></span><div class="sm-shot-copy"><b></b><small></small></div></article>
+            <article class="sm-shot" data-sm-hero="1"><img alt=""><span class="sm-shot-code"></span><div class="sm-shot-copy"><b></b><small></small></div></article>
+            <article class="sm-shot" data-sm-hero="2"><img alt=""><span class="sm-shot-code"></span><div class="sm-shot-copy"><b></b><small></small></div></article>
+            <article class="sm-shot" data-sm-hero="3"><img alt=""><span class="sm-shot-code"></span><div class="sm-shot-copy"><b></b><small></small></div></article>
           </div>
         </div>
-        <div class="bp-how-list">
-          <button class="active" type="button" data-bp-step="0"><span>01</span><div><b>Pilih adegan</b><small>Lihat preview yang paling kamu suka.</small></div></button>
-          <button type="button" data-bp-step="1"><span>02</span><div><b>Upload foto</b><small>Jadikan foto kamu referensi identitas.</small></div></button>
-          <button type="button" data-bp-step="2"><span>03</span><div><b>Salin prompt</b><small>Bahasa Indonesia, tinggal edit bila perlu.</small></div></button>
-          <button type="button" data-bp-step="3"><span>04</span><div><b>Generate</b><small>Tempel di ChatGPT Image atau Gemini.</small></div></button>
-        </div>
+        <div class="sm-reel-caption"><span>Stop-motion dari contoh visual di library.</span><b id="smHeroCategory">TERBARU</b></div>
       </div>
 
-      <div class="bp-category-strip bp-reveal">
-        <span>Candid</span><span>Daily Life</span><span>Work</span><span>Business</span><span>CEO</span><span>Travel</span><span>Street</span><span>Cafe</span><span>Family</span><span>Fashion</span><span>Hijab</span><span>Cinematic</span><span>Historical</span><span>Fantasy</span><span>iPhone</span><span>Studio</span><span>Japan</span><span>Korea</span><span>Viral Trend</span>
+      <div class="sm-proof">
+        <div><b>500+</b><span>prompt siap pakai</span></div>
+        <div><b>30+</b><span>kategori visual</span></div>
+        <div><b>1–4</b><span>preview per prompt</span></div>
       </div>
     </section>
 
-    <section class="bp-section bp-shell" id="harga">
-      <div class="bp-section-head bp-reveal">
-        <div class="bp-section-kicker">ACCESS</div>
-        <h2>Satu akses.<br><span>Pilih nominalnya.</span></h2>
-        <p class="bp-section-lead">Semua pilihan mendapatkan akses BADAI PROMPT yang sama selama 1 tahun.</p>
+    <section class="sm-section sm-shell" id="isi">
+      <div class="sm-section-head">
+        <div class="sm-frame-label"><i></i> FRAME 002 · ISI MEMBER AREA</div>
+        <h2>Biar nggak beli<br><span>kucing dalam karung.</span></h2>
+        <p class="sm-lead">Ini gambaran isi Member Area. Galeri visual, kategori, nomor BP, lalu tombol untuk membuka prompt lengkap.</p>
       </div>
 
-      <div class="bp-price bp-reveal">
-        <div class="bp-price-top">
-          <div><b>BADAI PROMPT · 1 TAHUN</b><p>Member Area + update prompt selama masa akses.</p></div>
-          <span class="bp-price-mark">ONE PRODUCT</span>
+      <div class="sm-member" id="smMemberTour">
+        <div class="sm-member-bar">
+          <div class="sm-member-select"><span id="smMemberCategory">SEMUA KATEGORI</span><b>⌄</b></div>
+          <div class="sm-pages"><i class="on">54</i><i>53</i><i>52</i><i>51</i><i>50</i></div>
         </div>
+        <div class="sm-member-grid">
+          <article class="sm-member-card" data-sm-member="0"><img alt=""><span></span><b></b></article>
+          <article class="sm-member-card" data-sm-member="1"><img alt=""><span></span><b></b></article>
+          <article class="sm-member-card" data-sm-member="2"><img alt=""><span></span><b></b></article>
+          <article class="sm-member-card" data-sm-member="3"><img alt=""><span></span><b></b></article>
+          <article class="sm-member-card" data-sm-member="4"><img alt=""><span></span><b></b></article>
+          <article class="sm-member-card" data-sm-member="5"><img alt=""><span></span><b></b></article>
+          <article class="sm-member-card" data-sm-member="6"><img alt=""><span></span><b></b></article>
+          <article class="sm-member-card" data-sm-member="7"><img alt=""><span></span><b></b></article>
+        </div>
+        <div class="sm-member-foot"><span id="smMemberFrame">FRAME 01 / 03</span><b>BUKA PROMPT → COPY → GENERATE</b></div>
+      </div>
+
+      <div class="sm-actions"><button class="sm-btn primary" type="button" onclick="openCheckout(59000)">AKU MAU MASUK MEMBER AREA</button></div>
+    </section>
+
+    <section class="sm-section sm-shell">
+      <div class="sm-section-head">
+        <div class="sm-frame-label"><i></i> FRAME 003 · CARA PAKAI</div>
+        <h2>Empat potong.<br><span>Langsung ngerti.</span></h2>
+      </div>
+      <div class="sm-story" id="smStory">
+        <div class="sm-story-screen">
+          <div class="sm-story-frame on" data-sm-story="0">
+            <div class="sm-story-kicker">01 · PILIH ADEGAN</div><h3>Lihat dulu.<br><span>Suka? Pilih.</span></h3>
+            <div class="sm-story-art"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="Contoh adegan"></div>
+          </div>
+          <div class="sm-story-frame" data-sm-story="1">
+            <div class="sm-story-kicker">02 · UPLOAD FOTO</div><h3>Masukkan<br><span>wajah kamu.</span></h3>
+            <div class="sm-story-art"><div class="sm-upload"><i>+</i><b>FOTO REFERENSI</b><small>Pakai foto kamu sendiri</small></div></div>
+          </div>
+          <div class="sm-story-frame" data-sm-story="2">
+            <div class="sm-story-kicker">03 · SALIN PROMPT</div><h3>Nggak perlu<br><span>nulis dari nol.</span></h3>
+            <div class="sm-story-art"><div class="sm-copybox"><div class="sm-copylines"><i></i><i></i><i></i><i></i></div><b>SALIN PROMPT ✓</b></div></div>
+          </div>
+          <div class="sm-story-frame" data-sm-story="3">
+            <div class="sm-story-kicker">04 · GENERATE</div><h3>Dan jadi<br><span>versimu.</span></h3>
+            <div class="sm-story-art"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="Hasil generate"></div>
+          </div>
+        </div>
+        <div class="sm-story-list">
+          <button class="on" type="button" data-sm-step="0"><span>01</span><div><b>Pilih adegan</b><small>Mulai dari contoh hasil.</small></div></button>
+          <button type="button" data-sm-step="1"><span>02</span><div><b>Upload foto</b><small>Gunakan identitasmu.</small></div></button>
+          <button type="button" data-sm-step="2"><span>03</span><div><b>Salin prompt</b><small>Bahasa Indonesia.</small></div></button>
+          <button type="button" data-sm-step="3"><span>04</span><div><b>Generate</b><small>ChatGPT Image / Gemini.</small></div></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="sm-section sm-shell">
+      <div class="sm-section-head">
+        <div class="sm-frame-label"><i></i> FRAME 004 · KUALITAS PROMPT</div>
+        <h2>Bukan prompt<br><span>asal panjang.</span></h2>
+        <p class="sm-lead">Setiap prompt diarahkan dengan struktur yang sama supaya hasilnya lebih terkendali dan nggak terasa generik.</p>
+      </div>
+      <div class="sm-standard" id="smStandard">
+        <span class="on">IDENTITY LOCK</span><span>SCENE</span><span>ACTION</span><span>WARDROBE</span><span>CAMERA</span><span>LIGHTING</span><span>REALISM</span><span>ANTI-AI-SLOP</span>
+      </div>
+      <div class="sm-actions"><button class="sm-btn primary" type="button" onclick="openCheckout(59000)">DAFTAR SEKARANG</button></div>
+    </section>
+
+    <section class="sm-section sm-shell" id="harga">
+      <div class="sm-section-head">
+        <div class="sm-frame-label"><i></i> FRAME 005 · DAFTAR</div>
+        <h2>Pilih harganya.<br><span>Aksesnya sama.</span></h2>
+        <p class="sm-lead">Semua pilihan mendapat BADAI PROMPT selama 1 tahun. Tinggal pilih nominal yang menurutmu paling pas.</p>
+      </div>
+      <div class="sm-price">
+        <h3>BADAI PROMPT · 1 TAHUN</h3>
+        <p>Member Area, 500+ prompt, 30+ kategori, preview visual, dan update prompt.</p>
         <div id="bpuPriceChoices">
-          <button class="bpu-price-card-choice spotlight" type="button" onclick="openCheckout(199000)"><b><span class="bpu-answer-letter">A</span><span class="bpu-answer-price">199k</span></b><span class="bpu-top-pick-badge"></span><span class="bpu-three-fingers"></span></button>
+          <button class="bpu-price-card-choice" type="button" onclick="openCheckout(199000)"><b><span class="bpu-answer-letter">A</span><span class="bpu-answer-price">199k</span></b><span class="bpu-top-pick-badge"></span><span class="bpu-three-fingers"></span></button>
           <button class="bpu-price-card-choice" type="button" onclick="openCheckout(159000)"><b><span class="bpu-answer-letter">B</span><span class="bpu-answer-price">159k</span></b></button>
-          <button class="bpu-price-card-choice" type="button" onclick="openCheckout(59000)"><b><span class="bpu-answer-letter">C</span><span class="bpu-answer-price">59k</span></b></button>
+          <button class="bpu-price-card-choice spotlight" type="button" onclick="openCheckout(59000)"><b><span class="bpu-answer-letter">C</span><span class="bpu-answer-price">59k</span></b></button>
         </div>
-        <div class="bp-value-list">
-          <div>500+ prompt dan terus bertambah.</div>
-          <div>Prompt Bahasa Indonesia.</div>
-          <div>1–4 preview visual per prompt.</div>
-          <div>30+ kategori adegan.</div>
-          <div>Identity lock + realism + anti-AI-slop.</div>
-          <div>Akses Member Area selama 1 tahun.</div>
+        <div class="sm-price-list">
+          <div>500+ prompt dan terus bertambah.</div><div>Prompt Bahasa Indonesia.</div>
+          <div>1–4 preview visual per prompt.</div><div>30+ kategori adegan.</div>
+          <div>Identity lock + realism.</div><div>Akses Member Area 1 tahun.</div>
         </div>
-        <button class="bp-price-cta" type="button" onclick="openCheckout()">AMBIL AKSES BADAI PROMPT</button>
-        <div class="bp-mini-trust"><span>QRIS</span><span>AKSES OTOMATIS</span><span>MEMBER AREA</span><span>UPDATE PROMPT</span></div>
+        <button class="sm-price-cta" type="button" onclick="openCheckout(59000)">DAFTAR SEKARANG · MULAI 59K</button>
+      </div>
+
+      <div class="sm-faq">
+        <details><summary>Apakah ini khusus UMKM?</summary><p>Tidak. BADAI PROMPT berisi adegan untuk personal branding, daily life, travel, fashion, keluarga, bisnis, cinematic, fantasy, dan banyak lainnya.</p></details>
+        <details><summary>Harus jago bikin prompt?</summary><p>Tidak. Kamu pilih visualnya, buka prompt, salin, lalu sesuaikan kalau diperlukan.</p></details>
+        <details><summary>Bisa dipakai di ChatGPT dan Gemini?</summary><p>Ya. Prompt dibuat agar mudah dipakai di model image generation populer.</p></details>
+        <details><summary>Berapa lama aksesnya?</summary><p>1 tahun, termasuk update prompt selama masa akses.</p></details>
       </div>
     </section>
 
-    <section class="bp-section bp-shell">
-      <div class="bp-section-head bp-reveal">
-        <div class="bp-section-kicker">FAQ</div>
-        <h2>Sebelum<br><span>masuk.</span></h2>
-      </div>
-      <div class="bp-faq bp-reveal">
-        <details><summary>Apakah BADAI PROMPT khusus untuk jualan?</summary><p>Tidak. Kategorinya mencakup personal branding, daily life, travel, fashion, keluarga, bisnis, cinematic, fantasy, dan banyak gaya lain.</p></details>
-        <details><summary>Harus jago bikin prompt?</summary><p>Tidak. Kamu mulai dari preview visual yang sudah ada, lalu salin promptnya. Prompt bisa diedit kalau ingin mengubah pakaian, lokasi, kamera, atau detail lain.</p></details>
-        <details><summary>Apakah wajah akan tetap sama?</summary><p>Prompt menggunakan arahan identity/reference lock. Hasil akhir tetap dipengaruhi model AI dan kualitas foto referensi.</p></details>
-        <details><summary>Bisa dipakai di ChatGPT dan Gemini?</summary><p>Ya. Struktur prompt dibuat agar mudah dipakai dan dimodifikasi pada model image generation populer.</p></details>
-        <details><summary>Berapa lama aksesnya?</summary><p>Akses Member Area berlaku 1 tahun dan termasuk update prompt selama masa akses.</p></details>
-      </div>
-    </section>
-
-    <section class="bp-section bp-shell bp-final">
-      <div class="bp-section-kicker">BADAI PROMPT</div>
-      <h2>Stop menebak-nebak<br><span>mau bikin gambar apa.</span></h2>
-      <p class="bp-section-lead">Pilih hasil yang kamu suka. Lihat promptnya. Jadikan itu versimu.</p>
-      <div class="bp-hero-actions"><button class="bp-btn primary" type="button" onclick="openCheckout()">AMBIL AKSES</button></div>
+    <section class="sm-section sm-shell sm-final">
+      <div class="sm-frame-label"><i></i> FINAL FRAME</div>
+      <h2>Masih mau mulai<br><span>dari prompt kosong?</span></h2>
+      <p class="sm-lead">Lihat hasilnya. Pilih adegannya. Jadikan itu versimu.</p>
+      <div class="sm-actions"><button class="sm-btn primary" type="button" onclick="openCheckout(59000)">DAFTAR BADAI PROMPT</button></div>
     </section>
   </main>
 
-  <footer class="bp-footer"><b>BADAI PROMPT</b> · Perpustakaan Adegan AI<br><a href="/privacy">Privasi</a> · <a href="/terms">Syarat</a> · <a href="/refund">Refund</a></footer>
+  <footer class="sm-footer"><b>BADAI PROMPT</b> · Perpustakaan Adegan AI<br><a href="/privacy">Privasi</a> · <a href="/terms">Syarat</a> · <a href="/refund">Refund</a></footer>
 </div>
 
 <div class="social-proof" id="socialProof" aria-live="polite">
@@ -3359,110 +3327,103 @@ loadSocialProof();
 
 
 
-<script id="badai-prompt-premium-script">
+
+
+<script id="badai-stopmotion-script">
 (function(){
   const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // Reveal only when it helps hierarchy.
-  const reveals=[...document.querySelectorAll('.bp-reveal')];
-  if(!reduce&&'IntersectionObserver' in window){
-    const io=new IntersectionObserver(entries=>entries.forEach(e=>{
-      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}
-    }),{threshold:.12,rootMargin:'0px 0px -5% 0px'});
-    reveals.forEach(el=>io.observe(el));
-  } else reveals.forEach(el=>el.classList.add('in'));
-
-  // Demonstrate the eight-layer prompt standard.
-  const rows=[...document.querySelectorAll('#bpStandard .bp-standard-row')];
-  let ri=0;
-  if(rows.length&&!reduce)setInterval(()=>{
-    rows.forEach((el,i)=>el.classList.toggle('active',i===ri));
-    ri=(ri+1)%rows.length;
-  },950);
-
-  // Stop-motion tour of real Member Area previews.
-  const tour=document.getElementById('bpMemberTour');
-  if(tour){
-    const base='https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/';
-    const suffix='/view?project=badai-prompt-umkm';
-    const frames=[
-      {
-        category:'TERBARU', status:'BP533 + PILIHAN MEMBER',
-        cards:[
-          ['bp533','BP533','Potret Menoleh di Jalan Kota','Jalanan'],
-          ['bp010','BP10','Main Sepak Bola di Taman Kota','Olahraga'],
-          ['bp009','BP9','Gaya Hidup Hijab di Taman Kota','Hijab'],
-          ['bp008','BP8','Foto Spontan iPhone Saat Belanja','iPhone']
-        ]
-      },
-      {
-        category:'CINEMATIC & EDITORIAL', status:'VISUAL COLLECTION',
-        cards:[
-          ['bp007','BP7','Menunggu Taksi di Jalan Basah','Sinematik'],
-          ['bp006','BP6','Potret Studio Minimal Hitam Putih','Studio'],
-          ['bp005','BP5','Editorial Busana Jalanan','Mode'],
-          ['bp004','BP4','Baca Buku Dekat Jendela Kafe','Kafe']
-        ]
-      },
-      {
-        category:'TRAVEL, BUSINESS & DAILY', status:'IDE ADEGAN LAINNYA',
-        cards:[
-          ['bp003','BP3','Jalan Kaki di Kyoto Saat Pagi','Perjalanan'],
-          ['bp002','BP2','Founder di Ruang Meeting','Bisnis'],
-          ['bp001','BP1','Ngopi di Warung Pagi Hari','Spontan'],
-          ['bp533','BP533','Potret Menoleh di Jalan Kota','Jalanan']
-        ]
-      }
-    ];
-    const cards=[...tour.querySelectorAll('[data-tour-card]')];
-    const label=document.getElementById('bpTourFrameLabel');
-    const category=document.getElementById('bpTourCategory');
-    const status=document.getElementById('bpTourStatus');
-    let frame=0,timer=null;
-
-    const draw=n=>{
-      frame=(n+frames.length)%frames.length;
-      const data=frames[frame];
-      if(label)label.textContent='FRAME '+String(frame+1).padStart(2,'0')+' / 03';
-      if(category)category.textContent=data.category;
-      if(status)status.textContent=data.status;
-      cards.forEach((card,i)=>{
-        const d=data.cards[i],img=card.querySelector('img');
-        card.classList.remove('cut');void card.offsetWidth;card.classList.add('cut');
-        img.src=base+d[0]+suffix;img.alt=d[2];
-        card.querySelector('.bp-tour-code').textContent=d[1];
-        card.querySelector('.bp-tour-copy b').textContent=d[2];
-        card.querySelector('.bp-tour-copy small').textContent=d[3];
-      });
-      const pages=[...tour.querySelectorAll('.bp-tour-pages span')];
-      pages.forEach((el,i)=>el.classList.toggle('active',i===frame));
-    };
-    draw(0);
-    if(!reduce){
-      timer=setInterval(()=>draw(frame+1),1500);
-      document.addEventListener('visibilitychange',()=>{
-        if(document.hidden&&timer){clearInterval(timer);timer=null}
-        else if(!document.hidden&&!timer)timer=setInterval(()=>draw(frame+1),1500);
-      });
+  const base='https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/';
+  const end='/view?project=badai-prompt-umkm';
+  const frames=[
+    {cat:'TERBARU',cards:[
+      ['bp533','BP533','Potret Menoleh di Jalan Kota','Jalanan'],
+      ['bp010','BP10','Main Sepak Bola di Taman Kota','Olahraga'],
+      ['bp009','BP9','Gaya Hidup Hijab di Taman Kota','Hijab'],
+      ['bp008','BP8','Foto Spontan iPhone Saat Belanja','iPhone']
+    ]},
+    {cat:'CINEMATIC / EDITORIAL',cards:[
+      ['bp007','BP7','Menunggu Taksi di Jalan Basah','Sinematik'],
+      ['bp006','BP6','Potret Studio Hitam Putih','Studio'],
+      ['bp005','BP5','Editorial Busana Jalanan','Mode'],
+      ['bp004','BP4','Baca Buku Dekat Jendela Kafe','Kafe']
+    ]},
+    {cat:'TRAVEL / BUSINESS / DAILY',cards:[
+      ['bp003','BP3','Jalan Kaki di Kyoto Saat Pagi','Perjalanan'],
+      ['bp002','BP2','Founder di Ruang Meeting','Bisnis'],
+      ['bp001','BP1','Ngopi di Warung Pagi Hari','Spontan'],
+      ['bp533','BP533','Potret Menoleh di Jalan Kota','Jalanan']
+    ]}
+  ];
+  const paintCard=(card,d,full)=>{
+    card.classList.remove('cut');void card.offsetWidth;card.classList.add('cut');
+    const img=card.querySelector('img');img.src=base+d[0]+end;img.alt=d[2];
+    if(full){
+      card.querySelector('.sm-shot-code').textContent=d[1];
+      card.querySelector('.sm-shot-copy b').textContent=d[2];
+      card.querySelector('.sm-shot-copy small').textContent=d[3];
+    }else{
+      card.querySelector('span').textContent=d[1];
+      card.querySelector('b').textContent=d[2];
     }
+  };
+
+  // Hero: faster cut, like a stop-motion reel.
+  const hero=document.getElementById('smHeroReel');
+  if(hero){
+    const cards=[...hero.querySelectorAll('[data-sm-hero]')];
+    const count=document.getElementById('smHeroCounter');
+    const cat=document.getElementById('smHeroCategory');
+    let i=0;
+    const draw=()=>{
+      const f=frames[i];
+      cards.forEach((card,n)=>paintCard(card,f.cards[n],true));
+      if(count)count.textContent='FRAME '+String(i+1).padStart(2,'0')+'/03';
+      if(cat)cat.textContent=f.cat;
+      i=(i+1)%frames.length;
+    };
+    draw(); if(!reduce)setInterval(draw,850);
   }
 
-  // Product usage demo. Only one motion narrative, no decorative particles.
-  const how=document.getElementById('bpHow');
-  if(how){
-    const scenes=[...how.querySelectorAll('[data-bp-scene]')];
-    const steps=[...how.querySelectorAll('[data-bp-step]')];
+  // Member Area: slower page-flip stop motion.
+  const member=document.getElementById('smMemberTour');
+  if(member){
+    const cards=[...member.querySelectorAll('[data-sm-member]')];
+    const cat=document.getElementById('smMemberCategory'),label=document.getElementById('smMemberFrame');
+    let i=0;
+    const memberFrames=[
+      [...frames[0].cards,...frames[1].cards],
+      [...frames[1].cards,...frames[2].cards],
+      [...frames[2].cards,...frames[0].cards]
+    ];
+    const draw=()=>{
+      cards.forEach((card,n)=>paintCard(card,memberFrames[i][n],false));
+      if(cat)cat.textContent=frames[i].cat;
+      if(label)label.textContent='FRAME '+String(i+1).padStart(2,'0')+' / 03';
+      [...member.querySelectorAll('.sm-pages i')].forEach((el,n)=>el.classList.toggle('on',n===i));
+      i=(i+1)%3;
+    };
+    draw(); if(!reduce)setInterval(draw,1250);
+  }
+
+  // Four-step usage story.
+  const story=document.getElementById('smStory');
+  if(story){
+    const scenes=[...story.querySelectorAll('[data-sm-story]')],steps=[...story.querySelectorAll('[data-sm-step]')];
     let active=0,timer=null;
     const show=n=>{
       active=(n+scenes.length)%scenes.length;
-      scenes.forEach((el,i)=>el.classList.toggle('active',i===active));
-      steps.forEach((el,i)=>el.classList.toggle('active',i===active));
+      scenes.forEach((el,i)=>el.classList.toggle('on',i===active));
+      steps.forEach((el,i)=>el.classList.toggle('on',i===active));
     };
-    const start=()=>{if(reduce||timer)return;timer=setInterval(()=>show(active+1),3200)};
-    const restart=()=>{if(timer)clearInterval(timer);timer=null;setTimeout(start,650)};
-    steps.forEach((btn,i)=>btn.addEventListener('click',()=>{show(i);restart()}));
+    const start=()=>{if(reduce||timer)return;timer=setInterval(()=>show(active+1),1500)};
+    steps.forEach((btn,i)=>btn.addEventListener('click',()=>{show(i);if(timer)clearInterval(timer);timer=null;setTimeout(start,500)}));
     show(0);start();
-    document.addEventListener('visibilitychange',()=>{if(document.hidden&&timer){clearInterval(timer);timer=null}else if(!document.hidden)start()});
+  }
+
+  // Prompt architecture flashes as a film strip.
+  const standard=[...document.querySelectorAll('#smStandard span')];
+  if(standard.length&&!reduce){
+    let i=0;setInterval(()=>{standard.forEach((el,n)=>el.classList.toggle('on',n===i));i=(i+1)%standard.length},650);
   }
 })();
 </script>
