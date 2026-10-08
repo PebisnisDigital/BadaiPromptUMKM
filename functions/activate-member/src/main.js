@@ -376,81 +376,18 @@ export default async ({req,res,log,error})=>{
       }
 
       if(route==='/sales/delete'){
-        const mode=q(body.mode)||'order';
         const orderId=q(body.order_id);
-        let userId=q(body.user_id);
+        const userId=q(body.user_id);
+        if(!orderId&&!userId)return res.json({error:'Data yang akan dihapus tidak ditemukan.'},400);
 
-        if(mode==='order'){
-          if(!orderId)return res.json({error:'order_id wajib'},400);
-
-          let order=null;
-          try{
-            order=unpack(await tables.getRow({databaseId:DB,tableId:ORDERS,rowId:orderId}));
-          }catch(e){
-            if(Number(e?.code)===404)return res.json({error:'Order tidak ditemukan.'},404);
-            throw e;
+        if(userId){
+          const allOrders=await listAll(tables,ORDERS);
+          const linked=allOrders.filter(x=>q(x.user_id)===userId);
+          for(const item of linked){
+            try{await tables.deleteRow({databaseId:DB,tableId:ORDERS,rowId:item.$id});}catch(e){if(Number(e?.code)!==404)throw e}
           }
 
-          // Jika order memakai kupon, kembalikan counter kupon agar statistik kupon tidak menggantung.
-          if(order.coupon_code&&(order.coupon_counted||order.coupon_claimed)){
-            try{
-              const r=await tables.listRows({
-                databaseId:DB,tableId:COUPONS,
-                queries:[Query.equal('code',String(order.coupon_code).toUpperCase()),Query.limit(1)]
-              });
-              const coupon=unpack((r.rows||r.documents||[])[0]);
-              if(coupon?.$id){
-                if(order.coupon_counted){
-                  try{await tables.decrementRowColumn({databaseId:DB,tableId:COUPONS,rowId:coupon.$id,column:'used_count',value:1,min:0});}catch{}
-                }
-                if(order.coupon_claimed){
-                  try{await tables.decrementRowColumn({databaseId:DB,tableId:COUPONS,rowId:coupon.$id,column:'claimed_count',value:1,min:0});}catch{}
-                }
-              }
-            }catch{}
-          }
-
-          await tables.deleteRow({databaseId:DB,tableId:ORDERS,rowId:orderId});
-          return res.json({ok:true,deleted:'order',order_id:orderId});
-        }
-
-        if(mode==='member'){
-          if(!userId)return res.json({error:'Member belum memiliki akun user yang dapat dihapus.'},400);
-
-          let profile=null;
-          try{
-            profile=unpack(await tables.getRow({databaseId:DB,tableId:PROFILES,rowId:userId}));
-          }catch(e){
-            if(Number(e?.code)!==404)throw e;
-          }
-          if(profile?.role==='admin'){
-            return res.json({error:'Akun admin tidak boleh dihapus dari menu Penjualan.'},403);
-          }
-
-          const deleteRowsForUser=async(tableId)=>{
-            const rows=await listAll(tables,tableId,[Query.equal('user_id',userId)]);
-            for(const row of rows){
-              try{await tables.deleteRow({databaseId:DB,tableId,rowId:row.$id});}
-              catch(e){if(Number(e?.code)!==404)throw e}
-            }
-            return rows.length;
-          };
-
-          const deletedFavorites=await deleteRowsForUser(FAVORITES);
-          const deletedHistory=await deleteRowsForUser(HISTORY);
-          const deletedEvents=await deleteRowsForUser(EVENTS);
-
-          // Pertahankan histori penjualan, tetapi lepaskan relasi ke akun yang dihapus.
-          const linkedOrders=await listAll(tables,ORDERS,[Query.equal('user_id',userId)]);
-          for(const item of linkedOrders){
-            await tables.updateRow({
-              databaseId:DB,tableId:ORDERS,rowId:item.$id,
-              data:{user_id:null,access_issued:false}
-            });
-          }
-
-          try{await tables.deleteRow({databaseId:DB,tableId:PROFILES,rowId:userId});}
-          catch(e){if(Number(e?.code)!==404)throw e}
+          try{await tables.deleteRow({databaseId:DB,tableId:PROFILES,rowId:userId});}catch(e){if(Number(e?.code)!==404)throw e}
 
           const memberships=await teams.listMemberships({
             teamId:TEAM_ID,
@@ -460,24 +397,12 @@ export default async ({req,res,log,error})=>{
             await teams.deleteMembership({teamId:TEAM_ID,membershipId:membership.$id});
           }
 
-          try{await users.delete({userId});}
-          catch(e){if(Number(e?.code)!==404)throw e}
-
-          return res.json({
-            ok:true,
-            deleted:'member',
-            user_id:userId,
-            kept_orders:linkedOrders.length,
-            cleaned:{
-              favorites:deletedFavorites,
-              history:deletedHistory,
-              usage_events:deletedEvents,
-              memberships:(memberships.memberships||[]).length
-            }
-          });
+          try{await users.delete({userId});}catch(e){if(Number(e?.code)!==404)throw e}
+          return res.json({ok:true,deleted:'member_and_orders'});
         }
 
-        return res.json({error:'Mode hapus tidak valid.'},400);
+        await tables.deleteRow({databaseId:DB,tableId:ORDERS,rowId:orderId});
+        return res.json({ok:true,deleted:'order'});
       }
 
       if(route==='/members/manual-create'){
