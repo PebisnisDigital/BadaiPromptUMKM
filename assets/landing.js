@@ -73,8 +73,32 @@
   document.querySelectorAll('.marquee').forEach(element => element.setAttribute('data-motion-zone', ''));
   const zones = [...document.querySelectorAll('[data-motion-zone]')];
   const zoneVisibility = new Map();
+  const zoneImagesReady = new Map();
   function syncZones() {
-    zones.forEach(element => element.classList.toggle('is-playing', motionAllowed() && zoneVisibility.get(element) === true));
+    zones.forEach(element => element.classList.toggle('is-playing', motionAllowed() && zoneVisibility.get(element) === true && zoneImagesReady.get(element) !== false));
+  }
+  // Lazy images inside translated tracks can otherwise enter the screen blank.
+  const marquees = zones.filter(element => element.matches('.marquee'));
+  function prepareImages(element) {
+    const images = [...element.querySelectorAll('img')];
+    images.forEach(image => { image.loading = 'eager'; });
+    Promise.allSettled(images.map(image => image.decode())).then(() => {
+      zoneImagesReady.set(element, true);
+      syncZones();
+    });
+  }
+  if ('IntersectionObserver' in window) {
+    const preloadObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        prepareImages(entry.target);
+        preloadObserver.unobserve(entry.target);
+      });
+    }, { rootMargin: '500px 0px', threshold: 0 });
+    marquees.forEach(element => {
+      zoneImagesReady.set(element, false);
+      preloadObserver.observe(element);
+    });
   }
   // A fixed pixel speed keeps long galleries and short galleries equally readable.
   function sizeMarquees() {

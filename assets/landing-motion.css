@@ -32,7 +32,8 @@
 /* Direct zones prevent an intersecting parent from running every child marquee. */
 .marquee .marquee-track{animation-play-state:paused}
 .marquee.is-playing .marquee-track{animation-play-state:running;will-change:transform}
-.marquee:hover .marquee-track,.marquee:focus-within .marquee-track{animation-play-state:paused}
+.marquee:focus-within .marquee-track{animation-play-state:paused}
+@media(hover:hover) and (pointer:fine){.marquee:hover .marquee-track{animation-play-state:paused!important}}
 body.motion-paused *,body.motion-paused *::before,body.motion-paused *::after{animation-play-state:paused!important}
 body.motion-paused .hero-spark .spark-icon{transform:none}
 .button{position:relative;overflow:hidden}.button .arrow-icon{transition:transform .25s var(--ease)}.button:hover .arrow-icon{transform:translate(2px,-2px)}
