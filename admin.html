@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BADAI PROMPT — Admin</title>
 <meta name="theme-color" content="#f5f5f7">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Raleway:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f5f5f7;--card:#fff;--ink:#111114;--muted:#74747d;--line:#e5e5e9;--pink:#ff2d8d;--pink2:#fff0f7;--dark:#17171a;--green:#128a4c;--greenbg:#eaf8f0;--red:#c8324e;--redbg:#fff0f3;--amber:#9a6900;--amberbg:#fff6dc;--shadow:0 10px 36px rgba(20,20,25,.07)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#ececef;color:var(--ink);font-family:Nunito,Arial,sans-serif}button,input,textarea,select{font:inherit}button{cursor:pointer}.app{width:min(100%,760px);min-height:100vh;margin:auto;background:var(--bg);padding-bottom:94px;box-shadow:0 0 0 1px rgba(0,0,0,.03)}
@@ -51,8 +48,9 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
 @media(max-width:560px){.manage-delete-actions{grid-template-columns:1fr}}
 </style>
 
+<link rel="stylesheet" href="/assets/admin-ui.css?v=1">
 </head>
-<body>
+<body class="admin-app">
 <div class="gate" id="gate">
   <div class="login">
     <div class="brand">BADAI <b>PROMPT</b><small>ADMIN PANEL</small></div>
@@ -90,25 +88,25 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
 
 <main>
   <section class="view on" id="v-prompts">
-    <div class="title"><div><div class="eyebrow">PERPUSTAKAAN KONTEN</div><h1>Prompt</h1><p>Tampilan dibuat seperti member area. Klik kode BP untuk membuka, membaca, dan mengedit prompt Bahasa Indonesia.</p></div><button class="btn pink" id="addPromptBtn">+ PROMPT</button></div>
+    <div class="title"><div><div class="eyebrow">PERPUSTAKAAN KONTEN</div><h1>Prompt</h1><p>Kelola gambar dan prompt yang dilihat member.</p></div><button class="btn pink" id="addPromptBtn">+ Tambah prompt</button></div>
     <div class="toolbar">
-      <input id="promptSearch" placeholder="Cari judul, kategori, tag…">
-      <select id="categoryFilter"><option value="">Semua kategori</option></select>
-      <select id="statusFilter"><option value="">Semua status</option><option value="published">Tayang</option><option value="draft">Draf</option><option value="featured">Unggulan</option><option value="noimage">Tanpa gambar</option></select>
+      <input id="promptSearch" type="search" aria-label="Cari prompt" placeholder="Cari judul prompt…">
+      <select id="categoryFilter" aria-label="Kategori prompt"><option value="">Semua kategori</option></select>
+      <select id="statusFilter" aria-label="Status prompt"><option value="">Semua status</option><option value="published">Tayang</option><option value="draft">Draf</option><option value="featured">Unggulan</option><option value="noimage">Tanpa gambar</option></select>
     </div>
-    <div class="panel" style="margin-top:0">
+    <details class="import-disclosure"><summary>Impor banyak prompt dari CSV</summary>
       <div class="importbox">
-        <p><b>Impor Massal:</b> upload CSV dengan kolom sesuai template. Prompt baru akan langsung masuk database scene_prompts.</p>
+        <p><b>Impor Massal:</b> Gunakan template untuk menambahkan banyak prompt sekaligus.</p>
         <div class="importactions"><button class="btn dark sm" id="downloadTemplate">UNDUH TEMPLATE</button><button class="btn dark sm" id="importCsvBtn">IMPOR CSV</button><input id="csvInput" type="file" accept=".csv,text/csv" hidden></div>
         <div class="msg" id="importMsg"></div>
       </div>
-    </div>
+    </details>
     <div class="adminpager" id="promptPagination" aria-label="Navigasi halaman prompt admin"></div>
     <div class="promptlist" id="promptList" style="margin-top:10px"></div>
   </section>
 
   <section class="view" id="v-sales">
-    <div class="title"><div><div class="eyebrow">PENJUALAN & MEMBER</div><h1>Penjualan</h1><p>Kelola transaksi dan member langsung dari data penjualan, seperti ADMIN BADAI.</p></div><button class="btn pink" id="addMemberBtn">+ MEMBER</button></div>
+    <div class="title"><div><div class="eyebrow">PENJUALAN & MEMBER</div><h1>Penjualan</h1><p>Lihat pembayaran dan kelola akses member.</p></div><button class="btn pink" id="addMemberBtn">+ MEMBER</button></div>
 
     <div class="stats sales-revenue-stats">
       <div class="stat success"><small>OMSET LUNAS</small><b id="salesPaidRevenue">Rp0</b></div>
@@ -132,7 +130,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
   </section>
 
   <section class="view" id="v-affiliate">
-    <div class="title"><div><div class="eyebrow">PROGRAM PARTNER</div><h1>Affiliate</h1><p>Pengaturan inti sistem afiliasi BADAI PROMPT mengikuti pola ADMIN BADAI.</p></div></div>
+    <div class="title"><div><div class="eyebrow">PROGRAM PARTNER</div><h1>Affiliate</h1><p>Atur komisi dan ketentuan program affiliate.</p></div></div>
     <div class="panel">
       <h2>Pengaturan Affiliate</h2>
       <div class="switchrow"><div><b>Aktifkan Program Affiliate</b><span>Menentukan apakah program affiliate siap digunakan.</span></div><input id="affiliateEnabled" type="checkbox"></div>
@@ -152,13 +150,13 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
   </section>
 
   <section class="view" id="v-settings">
-    <div class="title"><div><div class="eyebrow">PENGATURAN</div><h1>Marketing & Sistem</h1><p>Atur harga, pembayaran, notifikasi, dan akun admin BADAI PROMPT seperti konsep Marketing di ADMIN BADAI.</p></div></div>
+    <div class="title"><div><div class="eyebrow">PENGATURAN</div><h1>Pengaturan</h1><p>Harga, pembayaran, pesan, dan akun admin.</p></div></div>
 
     <div class="settings-tabs" id="settingsTabs">
-      <button class="settings-tab on" type="button" data-settings-tab="pricing"><span>💰</span>HARGA & KUPON</button>
-      <button class="settings-tab" type="button" data-settings-tab="payments"><span>💳</span>PEMBAYARAN</button>
-      <button class="settings-tab" type="button" data-settings-tab="notifications"><span>💬</span>NOTIFIKASI</button>
-      <button class="settings-tab" type="button" data-settings-tab="admin"><span>⚙</span>ADMIN</button>
+      <button class="settings-tab on" type="button" data-settings-tab="pricing">HARGA & KUPON</button>
+      <button class="settings-tab" type="button" data-settings-tab="payments">PEMBAYARAN</button>
+      <button class="settings-tab" type="button" data-settings-tab="notifications">NOTIFIKASI</button>
+      <button class="settings-tab" type="button" data-settings-tab="admin">ADMIN</button>
     </div>
 
     <div class="settings-panel on" data-settings-panel="pricing">
@@ -281,7 +279,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
       <div class="panel">
         <div class="marketing-card-head"><span class="marketing-number">3</span><div><h2>Struktur Aktif</h2><p>Ringkasan sistem inti BADAI PROMPT.</p></div></div>
         <div class="row"><div class="rowtop"><div><h3>Member Area</h3><div class="muted">/member</div></div><span class="tag live">AKTIF</span></div></div>
-        <div class="row" style="margin-top:7px"><div class="rowtop"><div><h3>Database Prompt</h3><div class="muted">Appwrite → scene_prompts</div></div><span class="tag live">AKTIF</span></div></div>
+        <div class="row" style="margin-top:7px"><div class="rowtop"><div><h3>Database Prompt</h3><div class="muted">Penyimpanan gambar dan prompt</div></div><span class="tag live">AKTIF</span></div></div>
         <div class="row" style="margin-top:7px"><div class="rowtop"><div><h3>Storage Preview</h3><div class="muted">Dropbox → /BADAI PROMPT</div></div><span class="tag live">AKTIF</span></div></div>
       </div>
     </div>
@@ -290,10 +288,10 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
 </div>
 
 <nav class="bottomnav" id="nav">
-  <button class="on" data-view="prompts"><b>▦</b>Prompt</button>
-  <button data-view="sales"><b>◫</b>Penjualan</button>
-  <button data-view="affiliate"><b>↗</b>Affiliate</button>
-  <button data-view="settings"><b>⚙</b>Pengaturan</button>
+  <button class="on" data-view="prompts"><b><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></b>Prompt</button>
+  <button data-view="sales"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2V3Z"/><path d="M8 8h8M8 12h8"/></svg></b>Penjualan</button>
+  <button data-view="affiliate"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></b>Affiliate</button>
+  <button data-view="settings"><b><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3"/></svg></b>Pengaturan</button>
 </nav>
 
 <div class="overlay" id="promptModal">
@@ -309,15 +307,20 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
           <div class="imagepreview" id="imagePreview4" data-slot="4">Gambar 4</div>
         </div>
         <div class="previewfields">
-          <div class="field"><label>LINK DROPBOX GAMBAR 1 <span>WAJIB</span></label><input id="pPreviewUrl" type="url" placeholder="https://www.dropbox.com/..."></div>
-          <div class="field"><label>LINK DROPBOX GAMBAR 2 <span>OPSIONAL</span></label><input id="pPreviewUrl2" type="url" placeholder="https://www.dropbox.com/..."></div>
-          <div class="field"><label>LINK DROPBOX GAMBAR 3 <span>OPSIONAL</span></label><input id="pPreviewUrl3" type="url" placeholder="https://www.dropbox.com/..."></div>
-          <div class="field"><label>LINK DROPBOX GAMBAR 4 <span>OPSIONAL</span></label><input id="pPreviewUrl4" type="url" placeholder="https://www.dropbox.com/..."></div>
+          <div class="field"><label>LINK GAMBAR UTAMA <span>WAJIB</span></label><input id="pPreviewUrl" type="url" placeholder="https://www.dropbox.com/..."></div>
+          <details class="additional-previews"><summary>Foto tambahan (opsional)</summary>
+          <div class="field"><label>LINK GAMBAR 2 <span>OPSIONAL</span></label><input id="pPreviewUrl2" type="url" placeholder="https://www.dropbox.com/..."></div>
+          <div class="field"><label>LINK GAMBAR 3 <span>OPSIONAL</span></label><input id="pPreviewUrl3" type="url" placeholder="https://www.dropbox.com/..."></div>
+          <div class="field"><label>LINK GAMBAR 4 <span>OPSIONAL</span></label><input id="pPreviewUrl4" type="url" placeholder="https://www.dropbox.com/..."></div>
+          </details>
           <div class="importactions"><button class="btn dark sm" id="openDropboxFolder" type="button">BUKA FOLDER DROPBOX</button></div>
-          <div class="uploadhelp">Minimal <b>1 gambar</b>, maksimal <b>4 gambar</b>. Upload WebP ke folder kategori di <b>/BADAI PROMPT</b>, lalu tempel link masing-masing. Member Area akan menampilkannya sebagai carousel otomatis.</div>
+          <div class="uploadhelp">Tempel link gambar yang bisa dibuka. Satu prompt bisa memakai hingga 4 foto.</div>
         </div>
       </div>
       <div class="formgrid prompt-simple-form">
+        <div class="field"><label for="pTitle">JUDUL GAMBAR</label><input id="pTitle" placeholder="Contoh: Ngopi di kafe"></div>
+        <div class="field"><label for="pCategory">KATEGORI</label><input id="pCategory" list="promptCategories" placeholder="Contoh: Kafe"><datalist id="promptCategories"></datalist></div>
+        <div class="field full"><label for="pPublish">STATUS</label><select id="pPublish"><option value="published">Tayang di member</option><option value="draft">Simpan sebagai draf</option></select></div>
         <div class="field full"><label>PROMPT *</label><textarea id="pPrompt" rows="16" required placeholder="Tempel prompt lengkap di sini..."></textarea></div>
       </div>
       <div class="sheetactions">
@@ -383,7 +386,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/appwrite@28.1.0"></script>
+<script src="/assets/vendor/appwrite-28.1.0.js"></script>
 <script>
 const {Client,Account,TablesDB,Functions,Teams,Query,ID}=Appwrite;
 const client=new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
@@ -446,7 +449,7 @@ async function loadPromptMeta(){
 async function loadPrompts(){
   const queries=[Query.orderAsc('sort_order'),Query.limit(ADMIN_PAGE_SIZE),Query.offset((promptPage-1)*ADMIN_PAGE_SIZE)];
   const q=$('promptSearch').value.trim(),cat=$('categoryFilter').value,status=$('statusFilter').value;
-  if(q)queries.push(Query.search('title',q));if(cat)queries.push(Query.equal('category',cat));
+  if(q.length>=3)queries.push(Query.search('title',q));if(cat)queries.push(Query.equal('category',cat));
   if(status==='published')queries.push(Query.equal('is_published',true));
   if(status==='draft')queries.push(Query.equal('is_published',false));
   if(status==='featured')queries.push(Query.equal('is_featured',true));
@@ -525,6 +528,7 @@ function fillPromptFilters(){
   const val=$('categoryFilter').value;
   const cats=[...new Set(promptMeta.map(x=>x.category).filter(Boolean))].sort();
   $('categoryFilter').innerHTML='<option value="">Semua kategori</option>'+cats.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join('');
+  $('promptCategories').innerHTML=cats.map(x=>'<option value="'+esc(x)+'">').join('');
   if(cats.includes(val))$('categoryFilter').value=val;
 }
 function renderPromptPagination(){
@@ -536,7 +540,7 @@ function renderPromptPagination(){
 }
 function renderPrompts(){
   renderPromptPagination();
-  $('promptList').innerHTML=prompts.length?prompts.map(p=>'<article class="adminpromptcard"><div class="adminpromptvisual"><span class="adminpromptcode">'+esc(promptCode(p))+'</span>'+adminPromptVisual(p)+(p.is_published===false?'<span class="adminpromptstate draftstate">DRAF</span>':'')+'</div><div class="adminpromptbody"><button class="admincodebtn" type="button" onclick="editPrompt(\''+p.$id+'\')">EDIT PROMPT</button></div></article>').join(''):'<div class="empty" style="grid-column:1/-1"><b>Prompt tidak ditemukan.</b></div>';
+  $('promptList').innerHTML=prompts.length?prompts.map(p=>'<article class="adminpromptcard"><div class="adminpromptvisual"><span class="adminpromptcode">'+esc(promptCode(p))+'</span>'+adminPromptVisual(p)+(p.is_published===false?'<span class="adminpromptstate draftstate">DRAF</span>':'')+'</div><div class="adminpromptbody"><h3>'+esc(p.title||promptCode(p))+'</h3><p>'+esc(p.category||'Prompt')+'</p><button class="admincodebtn" type="button" onclick="editPrompt(\''+p.$id+'\')">Edit prompt</button></div></article>').join(''):'<div class="empty" style="grid-column:1/-1"><b>Prompt tidak ditemukan.</b></div>';
 }
 async function refreshPromptPage(scroll=false){
   busy(true);try{await loadPrompts();renderPrompts();if(scroll){const y=$('promptPagination').getBoundingClientRect().top+window.scrollY-90;window.scrollTo({top:y,behavior:'smooth'})}}catch(e){$('promptList').innerHTML='<div class="empty" style="grid-column:1/-1"><b>Prompt gagal dimuat.</b><br>'+esc(e.message||'Coba lagi.')+'</div>'}finally{busy(false)}
@@ -549,9 +553,11 @@ $('statusFilter').onchange=()=>{promptPage=1;promptOpenLatest=true;refreshPrompt
 function resetPromptForm(){
   editing=null;$('promptForm').reset();$('pId').value='';for(let n=1;n<=4;n++)$('imagePreview'+n).innerHTML='Gambar '+n;$('deletePromptBtn').style.display='none';$('promptModalTitle').textContent='Tambah Prompt';msg($('promptMsg'),'');
 }
-function openPrompt(){resetPromptForm();$('promptModal').classList.add('show')}
+function openPrompt(){resetPromptForm();document.querySelector('.additional-previews').open=false;$('pPublish').value='published';$('promptModal').classList.add('show')}
 window.editPrompt=id=>{
   const p=prompts.find(x=>x.$id===id);if(!p)return;editing=p;
+  document.querySelector('.additional-previews').open=!!(p.preview_url_2||p.preview_url_3||p.preview_url_4);
+  $('pTitle').value=p.title||'';$('pCategory').value=p.category||'';$('pPublish').value=p.is_published===false?'draft':'published';
   $('pId').value=p.$id;$('pPreviewUrl').value=p.preview_url||'';$('pPreviewUrl2').value=p.preview_url_2||'';$('pPreviewUrl3').value=p.preview_url_3||'';$('pPreviewUrl4').value=p.preview_url_4||'';$('pPrompt').value=p.prompt_text||'';
   renderAdminImagePreviews(p);$('deletePromptBtn').style.display='inline-block';$('promptModalTitle').textContent='Ubah Prompt · '+promptCode(p);msg($('promptMsg'),'');$('promptModal').classList.add('show');
 };
@@ -581,15 +587,15 @@ $('promptForm').onsubmit=async e=>{
     const sortOrder=editing?(Number(editing.sort_order)||promptMaxSort+1):(promptMaxSort+1);
     const autoCode=promptCode({sort_order:sortOrder});
     const data={
-      category:editing?.category||'Prompt',
+      category:$('pCategory').value.trim()||editing?.category||'Prompt',
       subcategory:editing?.subcategory||null,
-      title:editing?.title||autoCode,
+      title:$('pTitle').value.trim()||editing?.title||autoCode,
       prompt_text:$('pPrompt').value.trim(),
       preview_url:urls[0],preview_url_2:urls[1],preview_url_3:urls[2],preview_url_4:urls[3],
       preview_file_id:keepFile(1,urls[0]),preview_file_id_2:keepFile(2,urls[1]),preview_file_id_3:keepFile(3,urls[2]),preview_file_id_4:keepFile(4,urls[3]),
       style:editing?.style||null,camera:editing?.camera||null,aspect_ratio:editing?.aspect_ratio||null,tool:editing?.tool||null,gender:editing?.gender||'universal',tags:editing?.tags||null,
       source_creator:editing?.source_creator||null,source_url:editing?.source_url||null,source_notes:editing?.source_notes||null,
-      needs_reference:editing?.needs_reference!==false,is_published:editing?.is_published!==false,is_featured:editing?.is_featured===true,sort_order:sortOrder
+      needs_reference:editing?.needs_reference!==false,is_published:$('pPublish').value==='published',is_featured:editing?.is_featured===true,sort_order:sortOrder
     };
     if($('pId').value)await tables.updateRow({databaseId:DB,tableId:TABLE,rowId:$('pId').value,data});
     else await tables.createRow({databaseId:DB,tableId:TABLE,rowId:ID.unique(),data});
@@ -919,5 +925,6 @@ $('resetForm').onsubmit=async e=>{
 $('loginEmail').value=localStorage.getItem('badai_admin_email')||'';
 boot();
 </script>
+<script src="/assets/workspace-ui.js?v=1"></script>
 </body>
 </html>
