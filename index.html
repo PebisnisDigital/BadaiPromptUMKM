@@ -127,6 +127,7 @@
 .arrow-icon{display:inline-block;vertical-align:middle;width:1em;height:1em;flex-shrink:0}.button .arrow-icon{width:19px;height:19px}.spark-icon{display:block;width:1em;height:1em}.hero-spark{font-size:.6em;vertical-align:baseline;transform:translateY(-3px)}.bonus-wordmark .spark-icon{width:.8em;height:.8em}.final-mark .spark-icon{margin:auto;width:1em;height:1em}.price-foot .arrow-icon{margin-left:2px}.library-mark .arrow-icon{width:24px;height:24px}
 
   </style>
+  <link rel="stylesheet" href="/assets/landing-motion.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Lewati ke konten</a>
@@ -135,11 +136,16 @@
   <nav aria-label="Navigasi utama"><a class="login-link" href="/member">Login member <span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 20 20" width="14" height="14" fill="none" aria-hidden="true"><path d="M4 16 16 4M5 4h11v11" stroke="currentColor" stroke-width="1.5"/></svg></span></a><a class="nav-cta" href="#harga">Ambil akses <span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 20 20" width="14" height="14" fill="none" aria-hidden="true"><path d="M4 16 16 4M5 4h11v11" stroke="currentColor" stroke-width="1.5"/></svg></span></a></nav>
 </header>
 <main id="main" class="shell">
-  <section class="hero" id="home" aria-labelledby="hero-title">
+  <section class="hero" data-motion-zone id="home" aria-labelledby="hero-title">
     <div class="eyebrow hero-label"><span class="label-line"></span> LIBRARY PROMPT GAMBAR AI</div>
     <h1 id="hero-title">PILIH GAMBAR.<br>COPY PROMPT.<br><span class="pink-text">JADI.</span><span class="hero-spark" aria-hidden="true"><svg class="spark-icon" viewBox="0 0 48 48" width="48" height="48" fill="none" aria-hidden="true"><path d="M24 3v42M3 24h42M9 9l30 30M9 39 39 9" stroke="currentColor" stroke-width="3"/></svg></span></h1>
     <p class="hero-copy">Nggak perlu bikin prompt dari nol.<br>Pilih visual yang kamu suka. Copy promptnya.<br>Lalu, generate versimu.</p>
     <div class="hero-actions"><a class="button primary" href="#harga">AMBIL AKSES <span aria-hidden="true"><svg class="arrow-icon" viewBox="0 0 20 20" width="14" height="14" fill="none" aria-hidden="true"><path d="M4 16 16 4M5 4h11v11" stroke="currentColor" stroke-width="1.5"/></svg></span></a><a class="button secondary" href="#member-area">LIHAT ISINYA <span aria-hidden="true">↓</span></a></div>
+    <div class="motion-story" data-motion-zone aria-label="Alur penggunaan: pilih gambar, copy prompt, generate visual">
+      <div class="motion-orbit" aria-hidden="true"><i></i><i></i><i></i><span>✦</span></div>
+      <div class="motion-steps"><span><b>01</b> PILIH GAMBAR</span><i aria-hidden="true">→</i><span><b>02</b> COPY PROMPT</span><i aria-hidden="true">→</i><span><b>03</b> GENERATE</span></div>
+      <div class="motion-signal" aria-hidden="true"><i></i></div>
+    </div>
     <div class="hero-product" data-motion-zone>
       <div class="product-window">
         <div class="window-bar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>BADAI PROMPT <span class="muted">/ MEMBER AREA</span></span><svg width="12" height="14" viewBox="0 0 16 18" fill="none" aria-hidden="true"><rect x="2" y="7" width="12" height="9" rx="2" stroke="currentColor"/><path d="M5 7V4a3 3 0 0 1 6 0v3" stroke="currentColor"/></svg></div>

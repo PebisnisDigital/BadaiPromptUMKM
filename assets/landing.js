@@ -69,7 +69,28 @@
   tour.addEventListener('focusout', () => requestAnimationFrame(scheduleTour));
 
   const reveals = [...document.querySelectorAll('[data-reveal]')];
+  // Track each moving row separately: a tall parent must not start offscreen rows.
+  document.querySelectorAll('.marquee').forEach(element => element.setAttribute('data-motion-zone', ''));
   const zones = [...document.querySelectorAll('[data-motion-zone]')];
+  const zoneVisibility = new Map();
+  function syncZones() {
+    zones.forEach(element => element.classList.toggle('is-playing', motionAllowed() && zoneVisibility.get(element) === true));
+  }
+  // A fixed pixel speed keeps long galleries and short galleries equally readable.
+  function sizeMarquees() {
+    document.querySelectorAll('.marquee-track').forEach(track => {
+      const group = track.querySelector('.marquee-group');
+      if (!group || !group.scrollWidth) return;
+      const pixelsPerSecond = track.closest('.proof-row') ? 28 : 38;
+      track.style.animationDuration = `${group.scrollWidth / pixelsPerSecond}s`;
+    });
+  }
+  const resizeObserver = 'ResizeObserver' in window ? new ResizeObserver(sizeMarquees) : null;
+  document.querySelectorAll('.marquee-group:not([aria-hidden])').forEach(group => resizeObserver?.observe(group));
+  sizeMarquees();
+  reducedMotion.addEventListener('change', syncZones);
+  document.addEventListener('visibilitychange', syncZones);
+  motionButton.addEventListener('click', syncZones);
   if ('IntersectionObserver' in window) {
     const revealObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -79,18 +100,19 @@
       });
     }, { threshold: 0.08 });
     reveals.forEach(element => {
-      if (!reducedMotion.matches) element.classList.add('reveal-ready');
+      if (!reducedMotion.matches && element.getBoundingClientRect().top >= window.innerHeight) element.classList.add('reveal-ready');
       revealObserver.observe(element);
     });
     const motionObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        entry.target.classList.toggle('is-playing', entry.isIntersecting);
+        zoneVisibility.set(entry.target, entry.isIntersecting);
+        syncZones();
         if (entry.target === tour) {
           tourVisible = entry.isIntersecting;
           scheduleTour();
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0 });
     zones.forEach(element => motionObserver.observe(element));
   } else {
     reveals.forEach(element => element.classList.add('is-visible'));

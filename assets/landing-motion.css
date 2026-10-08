@@ -1,0 +1,42 @@
+/* BADAI motion: compositor-friendly transforms and opacity; no animation CDN. */
+.hero{isolation:isolate;position:relative}
+.hero::before{content:"";position:absolute;z-index:-1;inset:90px -10px auto;height:520px;pointer-events:none;background:radial-gradient(ellipse at 75% 40%,#ff2e9212,transparent 62%)}
+.hero-spark .spark-icon{animation:badai-spark 16s linear infinite;animation-play-state:paused}
+.hero.is-playing .hero-spark .spark-icon{animation-play-state:running}
+@keyframes badai-spark{to{transform:rotate(180deg)}}
+.motion-story{position:relative;margin-top:30px;padding:20px 22px;display:grid;grid-template-columns:76px 1fr;align-items:center;gap:24px;border:1px solid #ffffff1c;border-radius:12px;background:linear-gradient(110deg,#ff2e920b,#141416 45%,#141416);overflow:hidden}
+.motion-orbit{position:relative;width:76px;height:76px;display:grid;place-items:center}
+.motion-orbit>i{position:absolute;inset:4px;border:1px solid #ff2e9270;border-radius:50%;transform:rotate(-32deg) scaleY(.4)}
+.motion-orbit>i:nth-child(2){transform:rotate(32deg) scaleY(.4)}
+.motion-orbit>i:nth-child(3){inset:0;border-color:#ffffff20;transform:none}
+.motion-orbit>i:nth-child(3)::after{content:"";position:absolute;left:33px;top:-3px;width:6px;height:6px;border-radius:50%;background:var(--pink);box-shadow:0 0 12px #ff2e92}
+.motion-orbit>span{font-size:34px;color:var(--pink-soft)}
+.motion-steps{display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;z-index:1}
+.motion-steps>span{font-size:9px;font-weight:700;letter-spacing:.05em;color:#e4e4e8;white-space:nowrap}
+.motion-steps b{display:block;font-size:8px;letter-spacing:.1em;color:#87878f;margin-bottom:8px}
+.motion-steps>i{color:var(--pink);font-size:18px;font-style:normal}
+.motion-signal{position:absolute;left:122px;right:22px;bottom:13px;height:1px;background:#ffffff14;overflow:hidden}
+.motion-signal>i{display:block;width:28%;height:1px;background:linear-gradient(90deg,transparent,var(--pink),#ffe4f2);transform:translateX(-110%)}
+.motion-orbit>i:nth-child(3){animation:badai-orbit 8s linear infinite;animation-play-state:paused}
+.motion-orbit>span{animation:badai-core 4s ease-in-out infinite;animation-play-state:paused}
+.motion-signal>i{animation:badai-signal 4s cubic-bezier(.4,0,.2,1) infinite;animation-play-state:paused}
+.motion-steps>span{animation:badai-step 6s ease-in-out infinite;animation-play-state:paused}
+.motion-steps>span:nth-of-type(2){animation-delay:-4s}.motion-steps>span:nth-of-type(3){animation-delay:-2s}
+.motion-story.is-playing .motion-orbit>i,.motion-story.is-playing .motion-orbit>span,.motion-story.is-playing .motion-signal>i,.motion-story.is-playing .motion-steps>span{animation-play-state:running}
+@keyframes badai-orbit{to{transform:rotate(360deg)}}
+@keyframes badai-core{50%{transform:rotate(90deg) scale(.85);opacity:.6}}
+@keyframes badai-signal{to{transform:translateX(460%)}}
+@keyframes badai-step{0%,33%,100%{opacity:1;transform:none}16%{opacity:.65;transform:translateY(-3px)}}
+.product-window{animation-duration:6s;transform:rotateX(2deg);box-shadow:0 24px 54px #0005,0 0 60px #ff2e9208}
+@keyframes product-float{0%,100%{transform:rotateX(2deg) translateY(0)}50%{transform:rotateX(0deg) translateY(-9px)}}
+/* Direct zones prevent an intersecting parent from running every child marquee. */
+.marquee .marquee-track{animation-play-state:paused}
+.marquee.is-playing .marquee-track{animation-play-state:running;will-change:transform}
+.marquee:hover .marquee-track,.marquee:focus-within .marquee-track{animation-play-state:paused}
+body.motion-paused *,body.motion-paused *::before,body.motion-paused *::after{animation-play-state:paused!important}
+body.motion-paused .hero-spark .spark-icon{transform:none}
+.button{position:relative;overflow:hidden}.button .arrow-icon{transition:transform .25s var(--ease)}.button:hover .arrow-icon{transform:translate(2px,-2px)}
+[data-reveal].reveal-ready{transform:translateY(24px);transition-duration:.65s}
+[data-reveal].reveal-ready.is-visible{transform:none}
+@media(max-width:600px){.motion-story{padding:16px 12px;gap:12px;grid-template-columns:48px 1fr;margin-top:24px}.motion-orbit{width:48px;height:48px}.motion-orbit>i:nth-child(3)::after{left:20px}.motion-orbit>span{font-size:26px}.motion-steps{gap:5px}.motion-steps>span{font-size:6.5px;letter-spacing:0}.motion-steps b{font-size:7px}.motion-steps>i{font-size:12px}.motion-signal{left:72px;right:12px;bottom:9px}}
+@media(prefers-reduced-motion:reduce){.motion-story *,.hero-spark .spark-icon,.product-window{animation:none!important}.motion-signal>i{transform:none;width:100%}.product-window{transform:none}[data-reveal].reveal-ready{transform:none}}
