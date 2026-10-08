@@ -63,3 +63,26 @@ body.motion-paused .hero-spark .spark-icon{transform:none}
 @keyframes badai-hero-gallery{to{transform:translateX(-50%)}}
 .motion-suspended .hero-preview-track{animation-play-state:paused!important}
 @media(prefers-reduced-motion:reduce){body:not(.motion-enabled) .hero-grid[aria-hidden="true"]{display:none}}
+
+/* Annotated hero refinement: a single CTA and oversized process typography. */
+.hero-topline{justify-content:flex-end}
+.motion-story{grid-template-columns:80px minmax(0,1fr);gap:20px;padding:28px 20px}
+.motion-orbit{width:80px;height:80px}.motion-orbit>i:nth-child(3)::after{left:35px}
+.motion-steps{gap:12px;align-items:center}
+.motion-steps>span{white-space:normal;flex:1;min-width:0}
+.motion-steps strong{display:block;font-size:30px;font-weight:900;letter-spacing:-.055em;line-height:1.02}
+.motion-steps b{font-size:11px;letter-spacing:.08em;margin-bottom:10px}
+.motion-steps>i{flex:0 0 auto;font-size:22px}
+.motion-signal{left:120px;right:20px;bottom:14px}
+@media(max-width:600px){
+ .motion-story{display:block;padding:26px 22px}
+ .motion-orbit{position:absolute;right:20px;top:20px;width:64px;height:64px}
+ .motion-orbit>i:nth-child(3)::after{left:28px}
+ .motion-steps{flex-direction:column;align-items:flex-start;gap:13px}
+ .motion-steps>span{flex:none;width:100%}
+ .motion-steps>span:first-child{padding-right:70px}
+ .motion-steps strong{font-size:32px;line-height:1;letter-spacing:-.055em}
+ .motion-steps b{font-size:10px;margin-bottom:8px}
+ .motion-steps>i{transform:rotate(90deg);margin-left:5px;font-size:20px}
+ .motion-signal{left:22px;right:22px;bottom:13px}
+}
