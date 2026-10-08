@@ -2625,6 +2625,86 @@ body{background:#000!important;color:var(--bf-text)}
 @media(max-width:390px){
   .bf-hero h1{font-size:47px}.bf-year-number{font-size:76px}.bf-aff-number{font-size:86px}.bf-canva-word{font-size:36px}
 }
+
+.bf-proof-section{
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 8%,rgba(255,45,141,.14),transparent 29%),
+    linear-gradient(180deg,#060607 0%,#0c080b 52%,#060607 100%);
+}
+.bf-proof-wall{margin-top:34px;display:grid;gap:11px}
+.bf-proof-row{
+  width:100%;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 94%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0,#000 6%,#000 94%,transparent 100%);
+}
+.bf-proof-track{display:flex;width:max-content;will-change:transform}
+.bf-proof-group{display:flex;align-items:center;gap:10px;padding-right:10px}
+.bf-proof-row.to-left .bf-proof-track{animation:bfProofLeft var(--bf-proof-speed) linear infinite}
+.bf-proof-row.to-right .bf-proof-track{animation:bfProofRight var(--bf-proof-speed) linear infinite}
+.bf-proof-row:hover .bf-proof-track{animation-play-state:paused}
+@keyframes bfProofLeft{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+@keyframes bfProofRight{from{transform:translate3d(-50%,0,0)}to{transform:translate3d(0,0,0)}}
+.bf-proof-card{
+  flex:0 0 auto;width:170px;margin:0;padding:5px;
+  border:1px solid rgba(255,255,255,.085);border-radius:16px;
+  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.012));
+  box-shadow:0 16px 36px rgba(0,0,0,.28);
+  transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease;
+}
+.bf-proof-card:hover{transform:translateY(-4px) scale(1.02);border-color:rgba(255,45,141,.48);box-shadow:0 22px 45px rgba(0,0,0,.38),0 0 24px rgba(255,45,141,.11)}
+.bf-proof-card img{display:block;width:100%;height:225px;object-fit:cover;object-position:top;border-radius:11px;background:#111}
+.bf-proof-row:nth-child(2) .bf-proof-card{width:182px}
+.bf-proof-row:nth-child(2) .bf-proof-card img{height:238px}
+.bf-proof-note{
+  width:max-content;max-width:100%;margin:27px auto 0;padding:10px 13px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  border:1px solid #2a2529;border-radius:999px;background:#0d0b0c;
+  color:#76767d;font:900 7.5px/1 var(--font-sf);letter-spacing:.13em
+}
+.bf-proof-note i{font-style:normal;color:var(--bf-pink)}
+.bf-gallery-head{margin-top:58px;display:flex;justify-content:space-between;align-items:end;gap:18px}
+.bf-gallery-head h3{margin:10px 0 0;color:#fff;font:950 clamp(30px,6vw,45px)/.95 var(--font-sf);letter-spacing:-.055em}
+.bf-gallery-head h3 span{color:var(--bf-pink)}
+.bf-gallery-head p{max-width:170px;margin:0;color:#74747c;font-size:9.5px;line-height:1.45;text-align:right}
+.bf-wa-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:20px}
+.bf-wa-thumb{
+  appearance:none;position:relative;overflow:hidden;padding:0;
+  aspect-ratio:9/14;border:1px solid #29292f;border-radius:15px;
+  background:#101012;cursor:zoom-in;
+}
+.bf-wa-thumb img{width:100%;height:100%;display:block;object-fit:cover;object-position:top;transition:transform .45s ease,filter .45s ease}
+.bf-wa-thumb:after{content:"";position:absolute;inset:55% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.78));pointer-events:none}
+.bf-wa-thumb span{position:absolute;z-index:2;left:10px;bottom:10px;padding:6px 8px;border-radius:7px;background:rgba(0,0,0,.72);color:#fff;font:900 7px/1 var(--font-sf);letter-spacing:.08em;opacity:.85}
+.bf-wa-thumb:hover img{transform:scale(1.035);filter:brightness(.78)}
+.bf-proof-close{margin:27px auto 0;padding:14px 8px;border-top:1px solid #232327;border-bottom:1px solid #232327;text-align:center;color:#77777e}
+.bf-proof-close p{margin:0;font-size:10.5px}.bf-proof-close b{display:block;margin-top:4px;color:#fff;font:900 12px/1.3 var(--font-sf)}
+.bf-wa-lightbox{
+  position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;
+  padding:24px;background:rgba(0,0,0,.92);backdrop-filter:blur(10px)
+}
+.bf-wa-lightbox.open{display:flex}
+.bf-wa-lightbox img{display:block;max-width:min(520px,92vw);max-height:88vh;object-fit:contain;border-radius:16px;box-shadow:0 28px 90px rgba(0,0,0,.65)}
+.bf-wa-close{
+  position:fixed;right:18px;top:18px;width:44px;height:44px;border:1px solid #38383e;border-radius:50%;
+  background:#111115;color:#fff;font:400 29px/1 sans-serif;cursor:pointer
+}
+@media(max-width:620px){
+  .bf-proof-wall{gap:8px}
+  .bf-proof-group{gap:8px;padding-right:8px}
+  .bf-proof-card,.bf-proof-row:nth-child(2) .bf-proof-card{width:148px;padding:4px;border-radius:13px}
+  .bf-proof-card img,.bf-proof-row:nth-child(2) .bf-proof-card img{height:198px;border-radius:9px}
+  .bf-proof-row.to-right .bf-proof-track{animation-duration:29s}
+  .bf-proof-row.to-left .bf-proof-track{animation-duration:31s}
+  .bf-proof-row:nth-child(3) .bf-proof-track{animation-duration:34s}
+  .bf-gallery-head{margin-top:44px;display:block}
+  .bf-gallery-head p{margin-top:10px;max-width:none;text-align:left}
+  .bf-wa-gallery{grid-template-columns:repeat(2,1fr);gap:7px}
+}
+@media(prefers-reduced-motion:reduce){
+  .bf-proof-track{animation:none!important;transform:none!important}
+}
+
 @media(prefers-reduced-motion:reduce){
   .bf-btn.primary,.bf-update-track,.bf-lock,.bf-lock:after,.bf-aff-flow i{animation:none!important}
   .bf-reveal{opacity:1!important;transform:none!important;transition:none!important}
@@ -2740,6 +2820,85 @@ body{background:#000!important;color:var(--bf-text)}
         </div>
       </div>
     </section>
+
+
+    <section class="bf-section bf-proof-section" id="testimoni">
+      <div class="bf-shell">
+        <div class="bf-section-head bf-reveal">
+          <div class="bf-overline">06 · SOCIAL PROOF</div>
+          <h2>BUKAN KATANYA.<br><span>INI BUKTINYA.</span></h2>
+          <p class="bf-lead">Respon asli dari Member BADAI. Baca sendiri chat mereka—nggak perlu percaya copywriting kami.</p>
+        </div>
+      </div>
+
+      <div class="bf-proof-wall bf-reveal">
+        <div class="bf-proof-row to-right" style="--bf-proof-speed:35s"><div class="bf-proof-track"><div class="bf-proof-group"><figure class="bf-proof-card"><img src="https://i.ibb.co.com/5W93zMtN/01-Heni.webp" alt="Testimoni WhatsApp Member BADAI - Heni" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/wrLQMRx6/02-Arin.webp" alt="Testimoni WhatsApp Member BADAI - Arin" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/Cphh48tg/03-Testimoni-03.webp" alt="Testimoni WhatsApp Member BADAI - Member 03" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/m5DFCCMh/04-Member-Badai-04.webp" alt="Testimoni WhatsApp Member BADAI - Member 04" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/Jj6gp2QJ/05-Testimoni-Pink.webp" alt="Testimoni WhatsApp Member BADAI - Member 05" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/xtwsR3yv/06-Testimoni-BW.webp" alt="Testimoni WhatsApp Member BADAI - Member 06" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/twfDBDJb/07-Testimoni-07.webp" alt="Testimoni WhatsApp Member BADAI - Member 07" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/MDrrztcv/08-Testimoni-08.webp" alt="Testimoni WhatsApp Member BADAI - Member 08" loading="lazy" decoding="async"></figure></div><div class="bf-proof-group" aria-hidden="true"><figure class="bf-proof-card"><img src="https://i.ibb.co.com/5W93zMtN/01-Heni.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/wrLQMRx6/02-Arin.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/Cphh48tg/03-Testimoni-03.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/m5DFCCMh/04-Member-Badai-04.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/Jj6gp2QJ/05-Testimoni-Pink.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/xtwsR3yv/06-Testimoni-BW.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/twfDBDJb/07-Testimoni-07.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/MDrrztcv/08-Testimoni-08.webp" alt="" loading="lazy" decoding="async"></figure></div></div></div><div class="bf-proof-row to-left" style="--bf-proof-speed:39s"><div class="bf-proof-track"><div class="bf-proof-group"><figure class="bf-proof-card"><img src="https://i.ibb.co.com/G3rmLhDn/09-Aliyyah.webp" alt="Testimoni WhatsApp Member BADAI - Aliyyah" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/1G9JxB8q/10-Eko.webp" alt="Testimoni WhatsApp Member BADAI - Eko" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/v6YHz551/11-Dian.webp" alt="Testimoni WhatsApp Member BADAI - Dian" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/DDKxhCBr/12-Testimoni-12.webp" alt="Testimoni WhatsApp Member BADAI - Member 12" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/kgkH0j4M/13-Member-BADAI-13.webp" alt="Testimoni WhatsApp Member BADAI - Member 13" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/QjJJDfvr/14-Maria.webp" alt="Testimoni WhatsApp Member BADAI - Maria" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/wNpCrt81/15-Rosma.webp" alt="Testimoni WhatsApp Member BADAI - Rosma" loading="lazy" decoding="async"></figure></div><div class="bf-proof-group" aria-hidden="true"><figure class="bf-proof-card"><img src="https://i.ibb.co.com/G3rmLhDn/09-Aliyyah.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/1G9JxB8q/10-Eko.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/v6YHz551/11-Dian.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/DDKxhCBr/12-Testimoni-12.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/kgkH0j4M/13-Member-BADAI-13.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/QjJJDfvr/14-Maria.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/wNpCrt81/15-Rosma.webp" alt="" loading="lazy" decoding="async"></figure></div></div></div><div class="bf-proof-row to-right" style="--bf-proof-speed:43s"><div class="bf-proof-track"><div class="bf-proof-group"><figure class="bf-proof-card"><img src="https://i.ibb.co.com/KzjLmrbb/16-Ay.webp" alt="Testimoni WhatsApp Member BADAI - Ay" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/hRR0TRV2/17-Testimoni-17.webp" alt="Testimoni WhatsApp Member BADAI - Member 17" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/HpKbx9H5/18-Testimoni-18.webp" alt="Testimoni WhatsApp Member BADAI - Member 18" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/M5tcp0tF/19-Mukromah.webp" alt="Testimoni WhatsApp Member BADAI - Mukromah" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/bgv70Rzp/20-Nurul.webp" alt="Testimoni WhatsApp Member BADAI - Nurul" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/twX9tV0k/21-Salim.webp" alt="Testimoni WhatsApp Member BADAI - Salim" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/vv3t0XxB/22-Testimoni-22.webp" alt="Testimoni WhatsApp Member BADAI - Member 22" loading="lazy" decoding="async"></figure></div><div class="bf-proof-group" aria-hidden="true"><figure class="bf-proof-card"><img src="https://i.ibb.co.com/KzjLmrbb/16-Ay.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/hRR0TRV2/17-Testimoni-17.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/HpKbx9H5/18-Testimoni-18.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/M5tcp0tF/19-Mukromah.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/bgv70Rzp/20-Nurul.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/twX9tV0k/21-Salim.webp" alt="" loading="lazy" decoding="async"></figure><figure class="bf-proof-card"><img src="https://i.ibb.co.com/vv3t0XxB/22-Testimoni-22.webp" alt="" loading="lazy" decoding="async"></figure></div></div></div>
+      </div>
+
+      <div class="bf-shell">
+        <div class="bf-proof-note bf-reveal">
+          <span>REAL CHAT</span><i>•</i><span>REAL MEMBER</span><i>•</i><span>BADAI</span>
+        </div>
+
+        <div class="bf-gallery-head bf-reveal">
+          <div>
+            <div class="bf-overline">GALERI SCREENSHOT WHATSAPP</div>
+            <h3>BACA SATU-SATU.<br><span>JANGAN CUMA LEWAT.</span></h3>
+          </div>
+          <p>Klik screenshot untuk melihat versi besar.</p>
+        </div>
+
+        <div class="bf-wa-gallery bf-reveal">
+          
+  <button class="bf-wa-thumb" type="button" data-wa-src="https://i.ibb.co.com/5W93zMtN/01-Heni.webp" data-wa-alt="Testimoni WhatsApp Member BADAI - Heni" aria-label="Buka testimoni Heni">
+    <img src="https://i.ibb.co.com/5W93zMtN/01-Heni.webp" alt="Screenshot WhatsApp Member BADAI - Heni" loading="lazy" decoding="async">
+    <span>LIHAT CHAT</span>
+  </button>
+  <button class="bf-wa-thumb" type="button" data-wa-src="https://i.ibb.co.com/wrLQMRx6/02-Arin.webp" data-wa-alt="Testimoni WhatsApp Member BADAI - Arin" aria-label="Buka testimoni Arin">
+    <img src="https://i.ibb.co.com/wrLQMRx6/02-Arin.webp" alt="Screenshot WhatsApp Member BADAI - Arin" loading="lazy" decoding="async">
+    <span>LIHAT CHAT</span>
+  </button>
+  <button class="bf-wa-thumb" type="button" data-wa-src="https://i.ibb.co.com/Cphh48tg/03-Testimoni-03.webp" data-wa-alt="Testimoni WhatsApp Member BADAI - Member 03" aria-label="Buka testimoni Member 03">
+    <img src="https://i.ibb.co.com/Cphh48tg/03-Testimoni-03.webp" alt="Screenshot WhatsApp Member BADAI - Member 03" loading="lazy" decoding="async">
+    <span>LIHAT CHAT</span>
+  </button>
+  <button class="bf-wa-thumb" type="button" data-wa-src="https://i.ibb.co.com/m5DFCCMh/04-Member-Badai-04.webp" data-wa-alt="Testimoni WhatsApp Member BADAI - Member 04" aria-label="Buka testimoni Member 04">
+    <img src="https://i.ibb.co.com/m5DFCCMh/04-Member-Badai-04.webp" alt="Screenshot WhatsApp Member BADAI - Member 04" loading="lazy" decoding="async">
+    <span>LIHAT CHAT</span>
+  </button>
+  <button class="bf-wa-thumb" type="button" data-wa-src="https://i.ibb.co.com/Jj6gp2QJ/05-Testimoni-Pink.webp" data-wa-alt="Testimoni WhatsApp Member BADAI - Member 05" aria-label="Buka testimoni Member 05">
+    <img src="https://i.ibb.co.com/Jj6gp2QJ/05-Testimoni-Pink.webp" alt="Screenshot WhatsApp Member BADAI - Member 05" loading="lazy" decoding="async">
+    <span>LIHAT CHAT</span>
+  </button>
+  <button class="bf-wa-thumb" type="button" data-wa-src="https://i.ibb.co.com/xtwsR3yv/06-Testimoni-BW.webp" data-wa-alt="Testimoni WhatsApp Member BADAI - Member 06" aria-label="Buka testimoni Member 06">
+    <img src="https://i.ibb.co.com/xtwsR3yv/06-Testimoni-BW.webp" alt="Screenshot WhatsApp Member BADAI - Member 06" loading="lazy" decoding="async">
+    <span>LIHAT CHAT</span>
+  </button>
+  <button class="bf-wa-thumb" type="button" data-wa-src="https://i.ibb.co.com/twfDBDJb/07-Testimoni-07.webp" data-wa-alt="Testimoni WhatsApp Member BADAI - Member 07" aria-label="Buka testimoni Member 07">
+    <img src="https://i.ibb.co.com/twfDBDJb/07-Testimoni-07.webp" alt="Screenshot WhatsApp Member BADAI - Member 07" loading="lazy" decoding="async">
+    <span>LIHAT CHAT</span>
+  </button>
+  <button class="bf-wa-thumb" type="button" data-wa-src="https://i.ibb.co.com/MDrrztcv/08-Testimoni-08.webp" data-wa-alt="Testimoni WhatsApp Member BADAI - Member 08" aria-label="Buka testimoni Member 08">
+    <img src="https://i.ibb.co.com/MDrrztcv/08-Testimoni-08.webp" alt="Screenshot WhatsApp Member BADAI - Member 08" loading="lazy" decoding="async">
+    <span>LIHAT CHAT</span>
+  </button>
+  <button class="bf-wa-thumb" type="button" data-wa-src="https://i.ibb.co.com/G3rmLhDn/09-Aliyyah.webp" data-wa-alt="Testimoni WhatsApp Member BADAI - Aliyyah" aria-label="Buka testimoni Aliyyah">
+    <img src="https://i.ibb.co.com/G3rmLhDn/09-Aliyyah.webp" alt="Screenshot WhatsApp Member BADAI - Aliyyah" loading="lazy" decoding="async">
+    <span>LIHAT CHAT</span>
+  </button>
+        </div>
+
+        <div class="bf-proof-close bf-reveal">
+          <p>Nggak perlu percaya kata kami.</p>
+          <b>Lihat sendiri kata mereka.</b>
+        </div>
+      </div>
+    </section>
+
+    <div class="bf-wa-lightbox" id="bfWaLightbox" aria-hidden="true">
+      <button class="bf-wa-close" type="button" aria-label="Tutup">×</button>
+      <img src="" alt="">
+    </div>
 
     <section class="bf-section bf-shell" id="harga">
       <div class="bf-section-head bf-reveal">
@@ -3509,6 +3668,26 @@ loadSocialProof();
     })
   },{threshold:.12});
   els.forEach(el=>io.observe(el));
+})();
+</script>
+
+<script id="badai-testimonial-script">
+(function(){
+  const box=document.getElementById('bfWaLightbox');
+  if(!box) return;
+  const img=box.querySelector('img');
+  const close=()=>{box.classList.remove('open');box.setAttribute('aria-hidden','true');img.src='';};
+  document.querySelectorAll('.bf-wa-thumb').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      img.src=btn.dataset.waSrc||'';
+      img.alt=btn.dataset.waAlt||'Testimoni WhatsApp Member BADAI';
+      box.classList.add('open');
+      box.setAttribute('aria-hidden','false');
+    });
+  });
+  box.querySelector('.bf-wa-close').addEventListener('click',close);
+  box.addEventListener('click',e=>{if(e.target===box) close()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&box.classList.contains('open')) close()});
 })();
 </script>
 </body></html>
