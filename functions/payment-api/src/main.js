@@ -467,6 +467,30 @@ export default async ({req,res,error})=>{
     };
   }
 
+  async function setFirstPassword(body){
+    const userId=q(req.headers['x-appwrite-user-id']);
+    if(!userId)throw Object.assign(new Error('Sesi member tidak terbaca. Silakan buka ulang member area.'),{status:401});
+    const password=String(body.password||'');
+    if(password.length<10)throw Object.assign(new Error('Password baru minimal 10 karakter.'),{status:400});
+
+    const profile=rowData(await tables.getRow({databaseId:DB,tableId:PROFILES,rowId:userId}));
+    if(!profile?.$id)throw Object.assign(new Error('Profil member tidak ditemukan.'),{status:404});
+    if(profile.status!=='active')throw Object.assign(new Error('Akses member belum aktif.'),{status:403});
+
+    if(profile.must_change_password===false){
+      return {ok:true,already_set:true};
+    }
+
+    await users.updatePassword({userId,password});
+    await tables.updateRow({
+      databaseId:DB,
+      tableId:PROFILES,
+      rowId:userId,
+      data:{must_change_password:false}
+    });
+    return {ok:true};
+  }
+
   async function saveMemberBusinessProfile(body){
     const userId=q(req.headers['x-appwrite-user-id']);
     if(!userId)throw Object.assign(new Error('Sesi member tidak terbaca. Silakan login ulang.'),{status:401});
@@ -779,6 +803,7 @@ export default async ({req,res,error})=>{
       return reply(res,{ok:true,...cfg,payment_configured:payment.configured,payment_active:payment.is_active,test_mode:payment.test_mode});
     }
     if(path==='/social-proof')return reply(res,await getSocialProof());
+    if(path==='/first-password')return reply(res,await setFirstPassword(req.bodyJson||{}));
     if(path==='/profile/save')return reply(res,await saveMemberBusinessProfile(req.bodyJson||{}));
     if(path==='/quote'){
       const cfg=await getConfig();

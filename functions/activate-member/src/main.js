@@ -752,7 +752,8 @@ export default async ({req,res,log,error})=>{
       whatsapp:String(order.whatsapp||''),
       status:'active',
       role:'member',
-      access_until:oneYearFrom(order.paid_at||order.$updatedAt||new Date().toISOString())
+      access_until:oneYearFrom(order.paid_at||order.$updatedAt||new Date().toISOString()),
+      must_change_password:true
     };
 
     try{
