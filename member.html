@@ -172,7 +172,7 @@ function showToast(t='Prompt tersalin ✓'){toast.textContent=t;toast.classList.
 function iconFor(c){return ({Candid:'◉',Business:'▦',Travel:'✈',Cafe:'☕',Fashion:'◇',Studio:'◐',Cinematic:'◫',iPhone:'▣',Hijab:'◒',Sport:'⚽',Historical:'⌛',Fantasy:'✦'})[c]||'✦'}
 function promptCode(x){
   const n=Number(x.sort_order)||Number(String(x.$id||'').replace(/\D/g,''))||0;
-  return 'BP'+n;
+  return 'BP'+String(Math.max(0,n)).padStart(3,'0');
 }
 
 async function memberApi(path,body={}){
