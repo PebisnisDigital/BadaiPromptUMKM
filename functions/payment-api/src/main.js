@@ -491,6 +491,74 @@ export default async ({req,res,error})=>{
     return {ok:true};
   }
 
+  async function saveMemberAccount(body){
+    const userId=q(req.headers['x-appwrite-user-id']);
+    if(!userId)throw Object.assign(new Error('Sesi member tidak terbaca. Silakan login ulang.'),{status:401});
+
+    const profile=rowData(await tables.getRow({
+      databaseId:DB,
+      tableId:PROFILES,
+      rowId:userId
+    }));
+    if(!profile?.$id)throw Object.assign(new Error('Profil member tidak ditemukan.'),{status:404});
+    if(profile.status!=='active')throw Object.assign(new Error('Akses member tidak aktif.'),{status:403});
+
+    const current=await users.get({userId});
+    const name=q(body.name);
+    const email=q(body.email).toLowerCase();
+    const whatsapp=normalizeWa(body.whatsapp);
+    const password=String(body.password||'');
+
+    if(!name)throw Object.assign(new Error('Nama wajib diisi.'),{status:400});
+    if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))throw Object.assign(new Error('Email belum valid.'),{status:400});
+    if(!whatsapp||!/^62\d{8,13}$/.test(whatsapp))throw Object.assign(new Error('Nomor WhatsApp belum valid.'),{status:400});
+    if(password&&password.length<10)throw Object.assign(new Error('Password baru minimal 10 karakter.'),{status:400});
+
+    try{
+      if(name!==current.name)await users.updateName({userId,name:name.slice(0,128)});
+      if(email!==String(current.email||'').toLowerCase())await users.updateEmail({userId,email});
+      if(password)await users.updatePassword({userId,password});
+    }catch(e){
+      if(Number(e?.code)===409)throw Object.assign(new Error('Email tersebut sudah digunakan akun lain.'),{status:409});
+      throw e;
+    }
+
+    const updatedProfile=rowData(await tables.updateRow({
+      databaseId:DB,
+      tableId:PROFILES,
+      rowId:userId,
+      data:{name,email,whatsapp}
+    }));
+
+    // Keep sales/admin data synchronized with the member account.
+    try{
+      const r=await tables.listRows({
+        databaseId:DB,
+        tableId:ORDERS,
+        queries:[Query.equal('user_id',userId),Query.limit(100)]
+      });
+      for(const row of (r.rows||r.documents||[])){
+        const order=rowData(row);
+        await tables.updateRow({
+          databaseId:DB,
+          tableId:ORDERS,
+          rowId:order.$id,
+          data:{full_name:name,email,whatsapp}
+        });
+      }
+    }catch(e){
+      error?.('Account sync orders warning: '+String(e?.message||e));
+    }
+
+    const updatedUser=await users.get({userId});
+    return {
+      ok:true,
+      user:{$id:updatedUser.$id,name:updatedUser.name,email:updatedUser.email},
+      profile:updatedProfile,
+      password_changed:Boolean(password)
+    };
+  }
+
   async function saveMemberBusinessProfile(body){
     const userId=q(req.headers['x-appwrite-user-id']);
     if(!userId)throw Object.assign(new Error('Sesi member tidak terbaca. Silakan login ulang.'),{status:401});
@@ -804,6 +872,7 @@ export default async ({req,res,error})=>{
     }
     if(path==='/social-proof')return reply(res,await getSocialProof());
     if(path==='/first-password')return reply(res,await setFirstPassword(req.bodyJson||{}));
+    if(path==='/account/save')return reply(res,await saveMemberAccount(req.bodyJson||{}));
     if(path==='/profile/save')return reply(res,await saveMemberBusinessProfile(req.bodyJson||{}));
     if(path==='/quote'){
       const cfg=await getConfig();
