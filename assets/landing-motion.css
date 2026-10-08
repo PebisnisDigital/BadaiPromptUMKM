@@ -183,3 +183,21 @@ body.motion-paused .hero-spark .spark-icon{transform:none}
 .pricing-section .payment-note{color:#555;margin-top:14px;font-size:8px;gap:16px}
 .pricing-section.motion-suspended .price-choice{animation-play-state:paused!important}
 @media(max-width:600px){.pricing-section{padding:52px 0!important}.pricing-section #price-title{font-size:30px}.pricing-section .pricing-panel{padding:18px}.pricing-section .price-choice{column-gap:9px;padding:11px;min-height:66px}.pricing-section .price-choice strong{font-size:26px}.pricing-section .price-letter{font-size:12px}.pricing-section .included-list{font-size:10px}}
+
+/* Sticky header and three decorative fingers pointing into the registration CTA. */
+html{scroll-padding-top:110px}
+.site-header{position:sticky;top:0;z-index:40;background:#090909f5;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 24px #0004;height:90px}
+.site-header nav{gap:32px}
+.site-header .nav-cta{position:relative;display:inline-flex;align-items:center;justify-content:center;min-width:105px;min-height:42px;padding:12px 19px;border-color:var(--pink);background:var(--pink);color:#090909;font-size:11px;font-weight:900;letter-spacing:.06em;animation:register-glow 1.8s ease-in-out infinite}
+.site-header .nav-cta:hover{background:#ff65a8;border-color:#ff65a8}
+.site-header .register-pointers{position:absolute;inset:0;margin:0;pointer-events:none}
+.register-pointers i{position:absolute;font-size:19px;font-style:normal;line-height:1;animation-duration:1s;animation-timing-function:ease-in-out;animation-iteration-count:infinite;filter:drop-shadow(0 2px 3px #0006)}
+.register-pointers .pointer-top{top:-21px;left:calc(50% - 10px);animation-name:point-down}
+.register-pointers .pointer-left{left:-24px;top:calc(50% - 10px);animation-name:point-right;animation-delay:-.33s}
+.register-pointers .pointer-bottom{bottom:-21px;left:calc(50% - 10px);animation-name:point-up;animation-delay:-.66s}
+@keyframes register-glow{0%,100%{box-shadow:0 0 0 0 #ff2f8b30,0 0 12px #ff2f8b55}50%{box-shadow:0 0 0 5px #ff2f8b08,0 0 25px #ff2f8b99}}
+@keyframes point-down{0%,100%{transform:translateY(-2px)}50%{transform:translateY(3px)}}
+@keyframes point-right{0%,100%{transform:translateX(-2px)}50%{transform:translateX(4px)}}
+@keyframes point-up{0%,100%{transform:translateY(2px)}50%{transform:translateY(-3px)}}
+@media(max-width:600px){html{scroll-padding-top:96px}.site-header{height:82px;gap:10px}.site-header nav{gap:27px}.site-header .brand{font-size:14px;gap:5px}.site-header .login-link{font-size:9px}.site-header .nav-cta{min-width:82px;min-height:38px;padding:10px 14px;font-size:10px}.register-pointers i{font-size:17px}.register-pointers .pointer-top{top:-19px}.register-pointers .pointer-bottom{bottom:-19px}.register-pointers .pointer-left{left:-21px}}
+@media(max-width:360px){.site-header .nav-login-member,.site-header .login-link>span[aria-hidden]{display:none}.site-header nav{gap:26px}}
