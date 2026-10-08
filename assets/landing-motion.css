@@ -139,35 +139,46 @@ body.motion-paused .hero-spark .spark-icon{transform:none}
 @media(max-width:600px){.money-note{width:calc(var(--note-width)*.7);opacity:.42}.affiliate-section #affiliate-title{font-size:34px}.affiliate-section .affiliate-punch{font-size:21px}.commission-number{font-size:clamp(145px,45vw,205px)}.commission-meter{margin-top:20px}}
 @media(prefers-reduced-motion:reduce){body:not(.motion-enabled) .money-layer{display:none}}
 
-/* A brighter registration section with a spotlight separate from the chosen amount. */
-.pricing-section{background:#fff0f5;color:#24141c;border-radius:22px;padding:54px 32px!important;margin:50px -32px;isolation:isolate}
-.pricing-section .section-head p,.pricing-section .eyebrow{color:#69515d}
-.pricing-section #price-title{font-size:clamp(32px,5vw,48px);line-height:1.1;letter-spacing:-.05em}
+/* Compact white purchase card; animated spotlight never changes the selected amount. */
+.pricing-section{background:#fff;color:#111;border-radius:22px;padding:40px 28px!important;margin:50px -28px;isolation:isolate}
+.pricing-section .section-head{margin-bottom:24px}
+.pricing-section .section-head p,.pricing-section .eyebrow{color:#555}
+.pricing-section #price-title{font-size:clamp(30px,5vw,44px);line-height:1.1;letter-spacing:-.05em}
 .pricing-section .pink-text{color:#c91965}
-.pricing-section .pricing-panel{background:#fff9fc;border-color:#e6c7d5;box-shadow:0 18px 60px #ac2b5b10}
-.pricing-section .price-choice{background:#fff;color:#24141c;border-color:#dec2ce;animation:price-spotlight 6s ease-in-out infinite}
+.pricing-section .pricing-panel{max-width:480px;margin-inline:auto;padding:22px;background:#fff;border:1px solid #e8d7df;border-radius:18px;box-shadow:6px 6px 0 #ff2f8b}
+.pricing-section .pricing-choices{display:grid;grid-template-columns:1fr;gap:10px}
+.pricing-section .price-choice{display:grid;grid-template-columns:20px 1fr auto;grid-template-rows:auto auto;align-items:center;column-gap:12px;row-gap:4px;min-height:70px;padding:12px 14px;border-radius:10px;background:#fff;color:#111;border:1px solid #ddd;animation:price-spotlight 6s ease-in-out infinite;text-align:left}
+.pricing-section .price-choice::before{content:"";grid-column:1;grid-row:1/3;width:18px;height:18px;border:2px solid #999;border-radius:50%;box-sizing:border-box}
 .pricing-section .price-choice:nth-child(2){animation-delay:-4s}
 .pricing-section .price-choice:nth-child(3){animation-delay:-2s}
-.pricing-section .price-choice.is-selected{border-color:#c91965;background:#ffe0ed}
-.pricing-section .price-choice .price-check{display:none}
-.pricing-section .price-choice.is-selected .price-check{display:inline-flex}
-.pricing-section .price-foot,.pricing-section .price-letter,.pricing-section .included-label,.pricing-section .payment-note{color:#765361}
-.pricing-section .price-choice.is-selected strong{color:#c91965}
-@keyframes price-spotlight{0%,28%{box-shadow:0 0 0 3px #ff2f8b,0 10px 28px #ff2f8b25;transform:translateY(-4px)}34%,100%{box-shadow:0 0 0 0 transparent;transform:translateY(0)}}
-.inline-registration{margin-top:32px;padding-top:26px;border-top:1px solid #e6c7d5}
-.inline-registration h3{font-size:26px;letter-spacing:-.04em;margin:0 0 22px}
-.pricing-section .pay-what-you-want{background:#ffe9f2;border-color:#e6c7d5;color:#24141c}
-.pricing-section .amount-selected b{color:#c91965}
-.pricing-section .same-access-note,.pricing-section .same-access-note strong,.pricing-section .pay-what-you-want-title,.pricing-section .amount-selected span{color:#765361}
-.pricing-section .checkout-form label{color:#60404f}
-.pricing-section .checkout-form input:not([type=checkbox]){background:#fff;border-color:#d6b6c5;color:#24141c}
-.pricing-section .checkout-form input:focus{outline:2px solid #c91965;outline-offset:2px}
-.pricing-section .checkout-form input::placeholder{color:#987987}
-.pricing-section .legal-check,.pricing-section .checkout-msg{color:#765361}
-.pricing-section .legal-check a{color:#a81250}
+.pricing-section .price-choice.is-selected{border-color:#ff2f8b;background:#fff3f8}
+.pricing-section .price-choice.is-selected::before{border-color:#d61969;background:#d61969;box-shadow:inset 0 0 0 3px #fff}
+.pricing-section .price-letter{grid-column:2;grid-row:1;font-size:13px;font-weight:800;color:#111}
+.pricing-section .price-check{display:none!important}
+.pricing-section .price-choice strong{grid-column:3;grid-row:1/3;margin:0;font-size:27px;letter-spacing:-.045em;color:#111}
+.pricing-section .price-choice strong span{font-size:.55em}
+.pricing-section .price-foot{grid-column:2;grid-row:2;font-size:10px;color:#555}
+.pricing-section .price-foot svg{display:none}
+@keyframes price-spotlight{0%,28%{box-shadow:0 0 0 2px #ff2f8b,0 4px 14px #ff2f8b18}34%,100%{box-shadow:0 0 0 0 transparent}}
+.pricing-section .included-label{font-size:9px;margin-top:20px;color:#555}
+.pricing-section .included-list{color:#111;font-size:11px;gap:10px 12px;margin-top:12px}
+.inline-registration{margin-top:20px;padding-top:18px;border-top:1px solid #eee}
+.inline-registration h3{font-size:21px;letter-spacing:-.04em;margin:0 0 12px}
+.pricing-section .checkout-form{gap:10px;margin-top:0}
+.pricing-section .pay-what-you-want{background:#fff;border:0;padding:0;color:#111}
+.pricing-section .amount-selected{margin:0 0 4px}
+.pricing-section .amount-selected span{color:#555;font-size:10px}
+.pricing-section .amount-selected b{color:#111;font-size:20px}
+.pricing-section .checkout-form label{color:#111;font-size:9px}
+.pricing-section .checkout-form input:not([type=checkbox]){background:#fff;border-color:#ddd;color:#111;margin-top:5px;padding:10px 11px;min-height:42px;font-size:14px}
+.pricing-section .checkout-form input:focus{outline:2px solid #d61969;outline-offset:2px}
+.pricing-section .checkout-form input::placeholder{color:#777}
+.pricing-section .legal-check{color:#444;font-size:10px;line-height:1.5!important}
+.pricing-section .legal-check a{color:#b91159}
+.pricing-section .checkout-msg{color:#555;font-size:10px;line-height:1.5;min-height:0}
 .pricing-section .checkout-msg.bad{color:#a4142c}
-.pricing-section #payBtn{width:100%;min-height:54px}
-@media(max-width:600px){.pricing-section{margin:36px -10px;padding:36px 18px!important;border-radius:16px}.pricing-section #price-title{font-size:32px}.inline-registration h3{font-size:24px}}
-
-.pricing-section .included-list{color:#60404f}
+.pricing-section #payBtn{width:100%;min-height:46px;padding:12px;font-size:12px;color:#111}
+.pricing-section #payBtn:hover{background:#e91d77;color:#fff}
+.pricing-section .payment-note{color:#555;margin-top:14px;font-size:8px;gap:16px}
 .pricing-section.motion-suspended .price-choice{animation-play-state:paused!important}
+@media(max-width:600px){.pricing-section{margin:36px -10px;padding:30px 18px!important;border-radius:16px}.pricing-section #price-title{font-size:30px}.pricing-section .pricing-panel{padding:18px}.pricing-section .price-choice{column-gap:9px;padding:11px;min-height:66px}.pricing-section .price-choice strong{font-size:26px}.pricing-section .price-letter{font-size:12px}.pricing-section .included-list{font-size:10px}}
