@@ -2522,7 +2522,7 @@ body{background:#000!important}
 .lp2-how-stage{position:relative;padding:10px;border:1px solid #2d2d33;border-radius:24px;background:linear-gradient(145deg,#0c0c0f,#080809);box-shadow:0 24px 60px rgba(0,0,0,.22),0 0 45px rgba(255,45,141,.07)}
 .lp2-how-screen{position:relative;min-height:430px;overflow:hidden;border:1px solid #29292f;border-radius:17px;background:radial-gradient(circle at 85% 8%,rgba(255,45,141,.11),transparent 27%),#0b0b0d}
 .lp2-how-screenbar{height:45px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:9px;padding:0 12px;border-bottom:1px solid #25252a;background:rgba(14,14,16,.92)}
-.lp2-how-screenbar>b{font:900 9px/1 var(--font-sf);letter-spacing:.08em;color:#e9e9ed;text-align:center}
+.lp2-how-screenbar>b{font:900 9px/1 var(--font-sf);letter-spacing:.08em;color:#e9e9ed;text-align:center;transition:.3s ease}.lp2-how-motion[data-running="1"] .lp2-how-live{animation:lp2HowLive 1s ease-in-out infinite alternate}@keyframes lp2HowLive{to{opacity:.35}}
 .lp2-how-dots{display:flex;gap:4px}.lp2-how-dots i{width:6px;height:6px;border-radius:50%;background:#35353a}.lp2-how-dots i:first-child{background:#ff568f}
 .lp2-how-live{font:900 7px/1 var(--font-sf);color:#72efaa}
 .lp2-how-scene{position:absolute;left:0;right:0;top:45px;bottom:0;display:grid;place-items:center;padding:15px;opacity:0;visibility:hidden;transform:translateX(26px) scale(.98);filter:blur(7px);transition:opacity .5s ease,transform .55s cubic-bezier(.2,.75,.2,1),filter .5s ease,visibility .5s}
@@ -3541,17 +3541,28 @@ loadSocialProof();
       if(progress)progress.style.width=((active+1)*25)+'%';
     };
     const startHow=()=>{
-      if(reduce||timer)return;
-      timer=setInterval(()=>showStep(active+1),3000);
+      if(timer)return;
+      howMotion.dataset.running='1';
+      const speed=reduce?4200:2800;
+      timer=setInterval(()=>showStep(active+1),speed);
     };
-    const stopHow=()=>{if(timer){clearInterval(timer);timer=null}};
-    buttons.forEach((btn,i)=>btn.addEventListener('click',()=>{showStep(i);stopHow();startHow()}));
+    const stopHow=()=>{
+      if(timer){clearInterval(timer);timer=null}
+      howMotion.dataset.running='0';
+    };
+    buttons.forEach((btn,i)=>btn.addEventListener('click',()=>{
+      showStep(i);
+      stopHow();
+      setTimeout(startHow,700);
+    }));
     showStep(0);
 
-    if('IntersectionObserver' in window&&!reduce){
-      const hio=new IntersectionObserver(entries=>entries.forEach(e=>e.isIntersecting?startHow():stopHow()),{threshold:.22});
-      hio.observe(howMotion);
-    }else startHow();
+    // Start immediately so the demo never depends on IntersectionObserver/browser settings.
+    requestAnimationFrame(()=>setTimeout(startHow,450));
+    document.addEventListener('visibilitychange',()=>{
+      if(document.hidden)stopHow();
+      else startHow();
+    });
   }
 })();
 </script>
