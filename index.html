@@ -2515,6 +2515,60 @@ body{background:#000!important}
 .lp2-sop div.is-active:after{width:100%}
 
 .lp2-how article b{transition:.35s ease}.lp2-how article.is-active b{background:#ff2d8d;transform:scale(1.08);box-shadow:0 0 0 7px rgba(255,45,141,.1)}
+
+/* Animated explainer: Pilih → Upload → Salin → Generate */
+.lp2-how-section{overflow:hidden}
+.lp2-how-motion{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(250px,.88fr);gap:12px;margin-top:24px;align-items:stretch}
+.lp2-how-stage{position:relative;padding:10px;border:1px solid #2d2d33;border-radius:24px;background:linear-gradient(145deg,#0c0c0f,#080809);box-shadow:0 24px 60px rgba(0,0,0,.22),0 0 45px rgba(255,45,141,.07)}
+.lp2-how-screen{position:relative;min-height:430px;overflow:hidden;border:1px solid #29292f;border-radius:17px;background:radial-gradient(circle at 85% 8%,rgba(255,45,141,.11),transparent 27%),#0b0b0d}
+.lp2-how-screenbar{height:45px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:9px;padding:0 12px;border-bottom:1px solid #25252a;background:rgba(14,14,16,.92)}
+.lp2-how-screenbar>b{font:900 9px/1 var(--font-sf);letter-spacing:.08em;color:#e9e9ed;text-align:center}
+.lp2-how-dots{display:flex;gap:4px}.lp2-how-dots i{width:6px;height:6px;border-radius:50%;background:#35353a}.lp2-how-dots i:first-child{background:#ff568f}
+.lp2-how-live{font:900 7px/1 var(--font-sf);color:#72efaa}
+.lp2-how-scene{position:absolute;left:0;right:0;top:45px;bottom:0;display:grid;place-items:center;padding:15px;opacity:0;visibility:hidden;transform:translateX(26px) scale(.98);filter:blur(7px);transition:opacity .5s ease,transform .55s cubic-bezier(.2,.75,.2,1),filter .5s ease,visibility .5s}
+.lp2-how-scene.active{opacity:1;visibility:visible;transform:none;filter:none}
+.lp2-how-gallery{width:100%;display:grid;grid-template-columns:1.45fr .7fr;grid-template-rows:1fr 1fr;gap:8px}
+.lp2-how-gallery-card{position:relative;grid-row:1/3;min-height:315px;border:1px solid #35353b;border-radius:16px;overflow:hidden;background:#121216;transform-origin:center;animation:lp2GalleryBreath 3.1s ease-in-out infinite}
+.lp2-how-gallery-card img{width:100%;height:100%;object-fit:cover;display:block}.lp2-how-gallery-card:after{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.8))}
+.lp2-how-gallery-card span{position:absolute;z-index:2;left:10px;top:10px;padding:6px 8px;border-radius:8px;background:#ff2d8d;color:#fff;font:900 10px/1 var(--font-sf)}
+.lp2-how-gallery-card b{position:absolute;z-index:2;left:12px;bottom:12px;font:900 15px/1 var(--font-sf)}
+.lp2-how-mini{display:flex;flex-direction:column;justify-content:flex-end;padding:11px;border:1px solid #2d2d32;border-radius:14px;background:linear-gradient(145deg,#1b1117,#101012);overflow:hidden;position:relative}
+.lp2-how-mini:before{content:"";position:absolute;width:100px;height:100px;border-radius:50%;right:-55px;top:-55px;background:#ff2d8d;filter:blur(25px);opacity:.18}
+.lp2-how-mini i{color:#ff79b9;font:900 9px/1 var(--font-sf);font-style:normal}.lp2-how-mini strong{margin-top:5px;font:900 12px/1 var(--font-sf)}
+.lp2-how-pointer{position:absolute;right:15px;bottom:14px;z-index:4;display:flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid #3b3036;border-radius:999px;background:rgba(6,6,8,.82);backdrop-filter:blur(7px);animation:lp2PointerTap 1.8s ease-in-out infinite}
+.lp2-how-pointer span{font-size:16px}.lp2-how-pointer small{font-size:8px;color:#ddd}
+@keyframes lp2GalleryBreath{50%{transform:scale(1.018);box-shadow:0 0 30px rgba(255,45,141,.11)}}@keyframes lp2PointerTap{50%{transform:translate(-7px,-8px) scale(.97)}}
+
+.lp2-upload-zone{width:min(320px,92%);padding:26px 18px;text-align:center;border:1px dashed #82405f;border-radius:20px;background:rgba(255,45,141,.045)}
+.lp2-upload-avatar{width:92px;height:108px;margin:0 auto 16px;border:1px solid #3a3a40;border-radius:17px;background:linear-gradient(145deg,#1c1c21,#101012);display:grid;place-items:center;position:relative;overflow:hidden}
+.lp2-upload-avatar:before{content:"";width:39px;height:39px;border-radius:50%;background:#3b3b42;box-shadow:0 49px 0 15px #303036}
+.lp2-upload-avatar span{position:absolute;right:7px;bottom:7px;z-index:2;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#ff2d8d;color:white;font-size:18px;font-weight:900;animation:lp2UploadPlus 1.5s ease-in-out infinite}
+.lp2-upload-zone>b{display:block;font:900 12px/1 var(--font-sf)}.lp2-upload-zone p{margin:7px 0 14px;color:#92929b;font-size:10px}
+.lp2-upload-progress{height:6px;border-radius:999px;background:#232328;overflow:hidden}.lp2-upload-progress i{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#ff2d8d,#ff8cc4);animation:lp2UploadBar 2.3s ease-in-out infinite}
+.lp2-upload-zone small{display:block;margin-top:8px;color:#ff82bd;font-size:8px}
+@keyframes lp2UploadPlus{50%{transform:scale(1.13);box-shadow:0 0 0 7px rgba(255,45,141,.1)}}@keyframes lp2UploadBar{0%{width:0}68%,100%{width:100%}}
+
+.lp2-prompt-demo{width:min(360px,95%);padding:14px;border:1px solid #303036;border-radius:17px;background:#101012;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.lp2-prompt-head{display:flex;justify-content:space-between;gap:10px;align-items:center;padding-bottom:11px;border-bottom:1px solid #29292e}.lp2-prompt-head span{padding:6px 8px;border-radius:8px;background:#ff2d8d;font:900 9px/1 var(--font-sf)}.lp2-prompt-head b{font:900 8px/1 var(--font-sf);color:#aaa}
+.lp2-prompt-lines{display:grid;gap:8px;margin:15px 0}.lp2-prompt-lines i{height:7px;width:0;border-radius:999px;background:linear-gradient(90deg,#34343a,#56565f);animation:lp2TypeLine 3.1s ease-in-out infinite}.lp2-prompt-lines i:nth-child(2){animation-delay:.13s}.lp2-prompt-lines i:nth-child(3){animation-delay:.26s}.lp2-prompt-lines i:nth-child(4){animation-delay:.39s}.lp2-prompt-lines i:nth-child(5){animation-delay:.52s}.lp2-prompt-lines i:nth-child(6){animation-delay:.65s}
+.lp2-prompt-demo button{width:100%;height:42px;border:0;border-radius:11px;background:#ff2d8d;color:white;font:900 10px/1 var(--font-sf);pointer-events:none}.lp2-prompt-demo button span{display:inline-block;margin-left:6px;animation:lp2CheckPop 1.45s ease-in-out infinite}
+.lp2-copy-fly{position:absolute;top:24px;right:20px;padding:8px 10px;border:1px solid #335c47;border-radius:999px;background:#0c1c13;color:#7cf2ab;font:900 8px/1 var(--font-sf);animation:lp2CopyFly 2.1s ease-in-out infinite}
+@keyframes lp2TypeLine{0%{width:0;opacity:.3}55%,100%{width:var(--w);opacity:1}}@keyframes lp2CheckPop{50%{transform:scale(1.35)}}@keyframes lp2CopyFly{0%,100%{opacity:.3;transform:translateY(5px)}50%{opacity:1;transform:translateY(-3px)}}
+
+.lp2-result-demo{position:relative;width:min(330px,92%);height:340px;border:1px solid #3c2a34;border-radius:19px;overflow:hidden;background:#111;box-shadow:0 24px 55px rgba(255,45,141,.12)}
+.lp2-result-demo img{width:100%;height:100%;object-fit:cover;display:block;animation:lp2ResultReveal 3.2s ease-in-out infinite alternate}
+.lp2-result-scan{position:absolute;left:0;right:0;top:-20%;height:28%;background:linear-gradient(180deg,transparent,rgba(255,73,164,.22),rgba(255,255,255,.12),transparent);filter:blur(2px);animation:lp2Scan 2.5s linear infinite}
+.lp2-result-ready{position:absolute;left:12px;right:12px;bottom:12px;display:flex;align-items:center;gap:9px;padding:10px;border:1px solid rgba(255,255,255,.13);border-radius:13px;background:rgba(5,5,7,.78);backdrop-filter:blur(9px)}
+.lp2-result-ready>span{display:grid;place-items:center;width:29px;height:29px;border-radius:50%;background:#56df91;color:#092514;font-weight:900;animation:lp2DonePulse 1.7s ease-in-out infinite}.lp2-result-ready b{display:block;font:900 9px/1 var(--font-sf)}.lp2-result-ready small{display:block;margin-top:4px;color:#aaa;font-size:8px}
+@keyframes lp2ResultReveal{from{transform:scale(1.04);filter:saturate(.75) brightness(.8)}to{transform:scale(1);filter:saturate(1.08) brightness(1.03)}}@keyframes lp2Scan{to{top:105%}}@keyframes lp2DonePulse{50%{box-shadow:0 0 0 7px rgba(86,223,145,.1)}}
+
+.lp2-how-progress{height:4px;margin:9px 7px 0;border-radius:999px;background:#202025;overflow:hidden}.lp2-how-progress i{display:block;width:25%;height:100%;border-radius:inherit;background:linear-gradient(90deg,#ff2d8d,#ff8cc4);transition:width .55s cubic-bezier(.2,.75,.2,1)}
+.lp2-how-steps{display:grid;gap:7px}
+.lp2-how-steps button{appearance:none;width:100%;display:grid;grid-template-columns:43px 1fr;gap:10px;align-items:center;padding:12px;border:1px solid #29292e;border-radius:15px;background:#0e0e10;color:#fff;text-align:left;cursor:pointer;transition:.35s ease}
+.lp2-how-steps button>span{display:grid;place-items:center;width:39px;height:39px;border-radius:11px;background:#18181b;color:#8c8c94;font:900 9px/1 var(--font-sf);transition:.35s ease}.lp2-how-steps button b{display:block;font:900 12px/1.15 var(--font-sf)}.lp2-how-steps button small{display:block;margin-top:4px;color:#85858d;font-size:9px;line-height:1.4}
+.lp2-how-steps button.active{border-color:#743a55;background:#1a1015;transform:translateX(-4px);box-shadow:0 12px 30px rgba(255,45,141,.08)}.lp2-how-steps button.active>span{background:#ff2d8d;color:#fff;box-shadow:0 0 0 6px rgba(255,45,141,.08)}.lp2-how-steps button.active small{color:#bdbdc4}
+.lp2-how-note{margin-top:12px;padding:13px 15px;border-left:2px solid #ff2d8d;background:#0e0e10;border-radius:0 13px 13px 0;color:#a9a9b0;font-size:11px;line-height:1.55}.lp2-how-note b{color:#fff}.lp2-how-note span{color:#ff79b9;font-weight:800}
+@media(max-width:640px){.lp2-how-motion{grid-template-columns:1fr}.lp2-how-screen{min-height:390px}.lp2-how-steps{grid-template-columns:1fr 1fr}.lp2-how-steps button{grid-template-columns:34px 1fr;padding:10px}.lp2-how-steps button>span{width:32px;height:32px}.lp2-how-steps button.active{transform:translateY(-2px)}.lp2-how-gallery-card{min-height:275px}}
 .lp2-price{position:relative;overflow:hidden}.lp2-price:before{content:"";position:absolute;width:190px;height:190px;right:-100px;top:-90px;border:1px solid rgba(255,45,141,.25);border-radius:50%;box-shadow:0 0 0 28px rgba(255,45,141,.035),0 0 0 58px rgba(255,45,141,.02);animation:lp2PriceOrb 7s ease-in-out infinite alternate;pointer-events:none}
 @keyframes lp2PriceOrb{to{transform:translate(-45px,55px) scale(1.12)}}
 .bpu-price-card-choice{transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease,background .3s ease}
@@ -2526,7 +2580,7 @@ body{background:#000!important}
 @keyframes lp2Particle{to{transform:translate3d(var(--x,20px),var(--y,-50px),0) scale(1.8);opacity:.08}}
 
 @media(prefers-reduced-motion:reduce){
-  .lp2-page:before,.lp2-page:after,.lp2-nav a:after,.lp2-btn.primary:after,.lp2-pill,.lp2-photo img,.lp2-code,.lp2-demo:before,.lp2-copy:after,.lp2-cats-track,.lp2-price:before,.lp2-final .lp2-btn.primary,.lp2-particle{animation:none!important}
+  .lp2-page:before,.lp2-page:after,.lp2-nav a:after,.lp2-btn.primary:after,.lp2-pill,.lp2-photo img,.lp2-code,.lp2-demo:before,.lp2-copy:after,.lp2-cats-track,.lp2-price:before,.lp2-final .lp2-btn.primary,.lp2-particle,.lp2-how-gallery-card,.lp2-how-pointer,.lp2-upload-avatar span,.lp2-upload-progress i,.lp2-prompt-lines i,.lp2-prompt-demo button span,.lp2-copy-fly,.lp2-result-demo img,.lp2-result-scan,.lp2-result-ready>span{animation:none!important}
   .lp2-motion-reveal{opacity:1!important;transform:none!important;filter:none!important}
   .lp2-demo{transform:none!important}
 }
@@ -2645,15 +2699,75 @@ body{background:#000!important}
       </div>
     </section>
 
-    <section class="lp2-section">
+    <section class="lp2-section lp2-how-section">
       <div class="lp2-wrap">
         <div class="lp2-kicker">CARA PAKAINYA</div>
-        <h2>Tiga langkah.<br><span>Nggak perlu kursus dulu.</span></h2>
-        <div class="lp2-how">
-          <article><b>1</b><h3>Pilih adegan</h3><p>Buka galeri, pilih kategori, lihat contoh visual yang paling kamu suka.</p></article>
-          <article><b>2</b><h3>Upload foto</h3><p>Pakai foto kamu sebagai referensi identitas di ChatGPT Image atau Gemini.</p></article>
-          <article><b>3</b><h3>Salin prompt</h3><p>Klik BUKA PROMPT, copy, tempel, lalu edit bagian yang ingin kamu ubah.</p></article>
+        <h2>Lihat alurnya.<br><span>Empat langkah, langsung jadi.</span></h2>
+        <p class="lp2-copywide">Bukan tutorial panjang. Ini gambaran persis bagaimana BADAI PROMPT dipakai dari pilih adegan sampai hasil akhirnya keluar.</p>
+
+        <div class="lp2-how-motion" id="lp2HowMotion">
+          <div class="lp2-how-stage">
+            <div class="lp2-how-screen">
+              <div class="lp2-how-screenbar">
+                <span class="lp2-how-dots"><i></i><i></i><i></i></span>
+                <b id="lp2HowScreenTitle">1. PILIH ADEGAN</b>
+                <span class="lp2-how-live">● LIVE</span>
+              </div>
+
+              <div class="lp2-how-scene active" data-how-scene="0">
+                <div class="lp2-how-gallery">
+                  <div class="lp2-how-gallery-card is-main">
+                    <img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="Contoh preview adegan BADAI PROMPT">
+                    <span>BP533</span><b>Street Portrait</b>
+                  </div>
+                  <div class="lp2-how-mini"><i>BP532</i><strong>CAFE</strong></div>
+                  <div class="lp2-how-mini"><i>BP531</i><strong>CANDID</strong></div>
+                </div>
+                <div class="lp2-how-pointer"><span>☝</span><small>Pilih visual yang kamu suka</small></div>
+              </div>
+
+              <div class="lp2-how-scene" data-how-scene="1">
+                <div class="lp2-upload-zone">
+                  <div class="lp2-upload-avatar"><span>＋</span></div>
+                  <b>UPLOAD FOTO REFERENSI</b>
+                  <p>Gunakan foto wajah kamu sendiri</p>
+                  <div class="lp2-upload-progress"><i></i></div>
+                  <small>Menjaga identitas wajah...</small>
+                </div>
+              </div>
+
+              <div class="lp2-how-scene" data-how-scene="2">
+                <div class="lp2-prompt-demo">
+                  <div class="lp2-prompt-head"><span>BP533</span><b>PROMPT BAHASA INDONESIA</b></div>
+                  <div class="lp2-prompt-lines">
+                    <i style="--w:94%"></i><i style="--w:88%"></i><i style="--w:96%"></i><i style="--w:78%"></i><i style="--w:91%"></i><i style="--w:67%"></i>
+                  </div>
+                  <button type="button" tabindex="-1">SALIN PROMPT <span>✓</span></button>
+                </div>
+                <div class="lp2-copy-fly">PROMPT TERSALIN ✓</div>
+              </div>
+
+              <div class="lp2-how-scene" data-how-scene="3">
+                <div class="lp2-result-demo">
+                  <img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="Contoh hasil generate BADAI PROMPT">
+                  <div class="lp2-result-scan"></div>
+                  <div class="lp2-result-ready"><span>✓</span><div><b>HASIL SIAP</b><small>Wajah kamu + adegan pilihan</small></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lp2-how-progress"><i id="lp2HowProgress"></i></div>
+          </div>
+
+          <div class="lp2-how-steps">
+            <button class="active" type="button" data-how-step="0"><span>01</span><div><b>Pilih Adegan</b><small>Lihat preview, pilih yang paling kamu suka.</small></div></button>
+            <button type="button" data-how-step="1"><span>02</span><div><b>Upload Foto</b><small>Masukkan foto kamu sebagai referensi wajah.</small></div></button>
+            <button type="button" data-how-step="2"><span>03</span><div><b>Salin Prompt</b><small>Prompt sudah Bahasa Indonesia dan siap diedit.</small></div></button>
+            <button type="button" data-how-step="3"><span>04</span><div><b>Generate</b><small>Tempel ke ChatGPT / Gemini, lalu jadi versimu.</small></div></button>
+          </div>
         </div>
+
+        <div class="lp2-how-note"><b>Simpelnya:</b> kamu nggak mulai dari halaman kosong. Kamu mulai dari <span>contoh hasil yang sudah kelihatan.</span></div>
       </div>
     </section>
 
@@ -3409,11 +3523,35 @@ loadSocialProof();
     }else start();
   }
 
-  // "How it works" cards pulse one by one.
-  const how=document.querySelector('.lp2-how');
-  if(how&&!reduce){
-    const items=[...how.children];let hi=0;
-    setInterval(()=>{items.forEach((el,i)=>el.classList.toggle('is-active',i===hi));hi=(hi+1)%items.length},1450);
+  // Animated explainer in "Cara Pakainya".
+  const howMotion=document.getElementById('lp2HowMotion');
+  if(howMotion){
+    const scenes=[...howMotion.querySelectorAll('[data-how-scene]')];
+    const buttons=[...howMotion.querySelectorAll('[data-how-step]')];
+    const title=document.getElementById('lp2HowScreenTitle');
+    const progress=document.getElementById('lp2HowProgress');
+    const labels=['1. PILIH ADEGAN','2. UPLOAD FOTO','3. SALIN PROMPT','4. GENERATE'];
+    let active=0,timer=null;
+
+    const showStep=(n)=>{
+      active=(n+scenes.length)%scenes.length;
+      scenes.forEach((el,i)=>el.classList.toggle('active',i===active));
+      buttons.forEach((el,i)=>el.classList.toggle('active',i===active));
+      if(title)title.textContent=labels[active];
+      if(progress)progress.style.width=((active+1)*25)+'%';
+    };
+    const startHow=()=>{
+      if(reduce||timer)return;
+      timer=setInterval(()=>showStep(active+1),3000);
+    };
+    const stopHow=()=>{if(timer){clearInterval(timer);timer=null}};
+    buttons.forEach((btn,i)=>btn.addEventListener('click',()=>{showStep(i);stopHow();startHow()}));
+    showStep(0);
+
+    if('IntersectionObserver' in window&&!reduce){
+      const hio=new IntersectionObserver(entries=>entries.forEach(e=>e.isIntersecting?startHow():stopHow()),{threshold:.22});
+      hio.observe(howMotion);
+    }else startHow();
   }
 })();
 </script>
