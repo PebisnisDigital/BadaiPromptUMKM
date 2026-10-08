@@ -151,11 +151,70 @@ export default async ({req,res,error})=>{
     if(path==='/coupons/delete'){await tables.deleteRow({databaseId:DB,tableId:COUPONS,rowId:q(body.id)});return {ok:true}}
 
     if(path==='/settings/get'){
-      const s=await adminSettingsMap();return {ok:true,settings:{product_name:q(s.product_name)||'BADAI PROMPT',product_price:Number(s.product_price||100000),minimum_price:Number(s.minimum_price||30000),registration_open:String(s.registration_open??'true')==='true',affiliate_enabled:String(s.affiliate_enabled??'false')==='true',affiliate_commission_type:q(s.affiliate_commission_type)||'percent',affiliate_commission_value:Number(s.affiliate_commission_value||30),affiliate_inactivity_months:Number(s.affiliate_inactivity_months||3),affiliate_min_payout:Number(s.affiliate_min_payout||100000)}};
+      const s=await adminSettingsMap();return {ok:true,settings:{
+        product_name:q(s.product_name)||'BADAI PROMPT',
+        product_price:Number(s.product_price||100000),
+        minimum_price:Number(s.minimum_price||30000),
+        registration_open:String(s.registration_open??'true')==='true',
+        affiliate_enabled:String(s.affiliate_enabled??'false')==='true',
+        affiliate_commission_type:q(s.affiliate_commission_type)||'percent',
+        affiliate_commission_value:Number(s.affiliate_commission_value||30),
+        affiliate_inactivity_months:Number(s.affiliate_inactivity_months||3),
+        affiliate_min_payout:Number(s.affiliate_min_payout||100000),
+        register_message:q(s.register_message),
+        followup_1:q(s.followup_1),followup_2:q(s.followup_2),followup_3:q(s.followup_3),followup_4:q(s.followup_4),
+        followup_5:q(s.followup_5),followup_6:q(s.followup_6),followup_7:q(s.followup_7),
+        success_message:q(s.success_message),
+        manual_payment_enabled:String(s.manual_payment_enabled??'false')==='true',
+        manual_bank_name:q(s.manual_bank_name),
+        manual_account_number:q(s.manual_account_number),
+        manual_account_holder:q(s.manual_account_holder),
+        manual_payment_instructions:q(s.manual_payment_instructions)
+      }};
     }
     if(path==='/settings/save'){
-      const allowed=['product_name','product_price','minimum_price','registration_open','affiliate_enabled','affiliate_commission_type','affiliate_commission_value','affiliate_inactivity_months','affiliate_min_payout'];
+      const allowed=['product_name','product_price','minimum_price','registration_open','affiliate_enabled','affiliate_commission_type','affiliate_commission_value','affiliate_inactivity_months','affiliate_min_payout','register_message','followup_1','followup_2','followup_3','followup_4','followup_5','followup_6','followup_7','success_message','manual_payment_enabled','manual_bank_name','manual_account_number','manual_account_holder','manual_payment_instructions'];
       for(const key of allowed)if(body[key]!==undefined)await adminUpsertSetting(key,body[key],['product_name','product_price','minimum_price','registration_open'].includes(key));return {ok:true};
+    }
+    if(path==='/payment/get'){
+      let row=null;try{row=rowData(await tables.getRow({databaseId:DB,tableId:PAYMENT_SETTINGS,rowId:'buatqris'}))}catch(e){if(Number(e?.code)!==404)throw e}
+      return {ok:true,payment:{
+        provider:'buatqris',
+        merchant_label:q(row?.merchant_label)||'BADAI PROMPT',
+        account_id:q(row?.account_id),
+        qris_method:q(row?.qris_method)||'qris_two',
+        fee_by:q(row?.fee_by)||'user',
+        umkm_name:q(row?.umkm_name),
+        test_mode:row?row.test_mode!==false:true,
+        callback_url:q(row?.callback_url)||'https://badaiprompt.vercel.app/api/buatqris-webhook',
+        api_url:q(row?.api_url)||'https://app.buatqris.site/api',
+        is_active:row?row.is_active!==false:false,
+        has_secret_token:Boolean(q(row?.secret_token)),
+        has_signing_secret:Boolean(q(row?.signing_secret))
+      }};
+    }
+    if(path==='/payment/save'){
+      let existing=null;try{existing=rowData(await tables.getRow({databaseId:DB,tableId:PAYMENT_SETTINGS,rowId:'buatqris'}))}catch(e){if(Number(e?.code)!==404)throw e}
+      const method=['qris_one','qris_two','qris_three','qris_four'].includes(q(body.qris_method))?q(body.qris_method):'qris_two';
+      const fee=['user','buyer'].includes(q(body.fee_by))?q(body.fee_by):'user';
+      const data={
+        provider:'buatqris',
+        merchant_label:q(body.merchant_label)||q(existing?.merchant_label)||'BADAI PROMPT',
+        account_id:q(body.account_id)||q(existing?.account_id)||null,
+        qris_method:method,
+        fee_by:fee,
+        umkm_name:(q(body.umkm_name)||q(existing?.umkm_name)||'').slice(0,15)||null,
+        test_mode:body.test_mode!==false,
+        callback_url:q(body.callback_url)||q(existing?.callback_url)||'https://badaiprompt.vercel.app/api/buatqris-webhook',
+        api_url:q(body.api_url)||q(existing?.api_url)||'https://app.buatqris.site/api',
+        is_active:body.is_active===true,
+        secret_token:q(body.secret_token)||q(existing?.secret_token)||null,
+        signing_secret:q(body.signing_secret)||q(existing?.signing_secret)||null
+      };
+      let saved;
+      if(existing?.$id)saved=await tables.updateRow({databaseId:DB,tableId:PAYMENT_SETTINGS,rowId:'buatqris',data});
+      else saved=await tables.createRow({databaseId:DB,tableId:PAYMENT_SETTINGS,rowId:'buatqris',data});
+      return {ok:true,payment:{is_active:data.is_active,account_id:data.account_id,qris_method:data.qris_method,fee_by:data.fee_by,test_mode:data.test_mode,merchant_label:data.merchant_label,umkm_name:data.umkm_name,callback_url:data.callback_url,api_url:data.api_url,has_secret_token:Boolean(data.secret_token),has_signing_secret:Boolean(data.signing_secret)}};
     }
 
     if(path==='/self/get'){
