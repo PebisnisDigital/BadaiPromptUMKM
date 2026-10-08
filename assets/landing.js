@@ -1,14 +1,6 @@
 /* Landing-page motion and accessible QRIS popup controls. */
 (() => {
   'use strict';
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const motionButtons = [...document.querySelectorAll('[data-motion-toggle], #motionToggle')];
-  let motionPreference = null;
-  try {
-    const saved = sessionStorage.getItem('badai-motion');
-    if (saved === 'on' || saved === 'off') motionPreference = saved === 'on';
-  } catch (_) { /* Motion also works when browser storage is unavailable. */ }
-
   const tour = document.getElementById('productTour');
   const tourButtons = [...document.querySelectorAll('[data-tour-step-button]')];
   let tourStep = 0;
@@ -17,7 +9,7 @@
   let tourManual = false;
 
   function motionAllowed() {
-    return (motionPreference === null ? !reducedMotion.matches : motionPreference) && !document.hidden;
+    return !document.hidden;
   }
 
   function showTourStep(step) {
@@ -38,28 +30,12 @@
   }
 
   function syncMotion() {
-    const enabled = motionPreference === null ? !reducedMotion.matches : motionPreference;
-    document.body.classList.toggle('motion-enabled', enabled);
-    document.body.classList.toggle('motion-paused', !motionAllowed());
-    motionButtons.forEach(button => {
-      button.setAttribute('aria-pressed', String(!enabled));
-      button.querySelector('[data-motion-label]').textContent = enabled ? 'Jeda animasi' : 'Aktifkan animasi';
-      button.setAttribute('aria-label', enabled ? 'Jeda semua animasi' : 'Aktifkan animasi halaman');
-      const icon = button.querySelector('[data-motion-icon]');
-      if (icon) icon.innerHTML = enabled
-        ? '<svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true"><path d="M1 1h2v10H1zM7 1h2v10H7z"/></svg>'
-        : '<svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true"><path d="M1 1l8 5-8 5z"/></svg>';
-    });
+    document.body.classList.add('motion-enabled');
+    document.body.classList.toggle('motion-paused', document.hidden);
     syncZones();
     scheduleTour();
   }
 
-  motionButtons.forEach(button => button.addEventListener('click', () => {
-    const enabled = motionPreference === null ? !reducedMotion.matches : motionPreference;
-    motionPreference = !enabled;
-    try { sessionStorage.setItem('badai-motion', motionPreference ? 'on' : 'off'); } catch (_) {}
-    syncMotion();
-  }));
   document.addEventListener('visibilitychange', syncMotion);
   window.addEventListener('pageshow', syncMotion);
   tourButtons.forEach(button => button.addEventListener('click', () => {
@@ -126,7 +102,6 @@
       if (dayFrame !== null) cancelAnimationFrame(dayFrame);
       dayFrame = null;
       // Keep the complete offer readable for visitors who prefer reduced motion.
-      if (reducedMotion.matches && motionPreference !== true) paintDays(1);
       return;
     }
     if (dayProgress < 1 && dayFrame === null) {
@@ -161,7 +136,6 @@
     if (!motionAllowed() || !visible) {
       if (commissionFrame !== null) cancelAnimationFrame(commissionFrame);
       commissionFrame = null;
-      if (reducedMotion.matches && motionPreference !== true) paintCommission(1);
       return;
     }
     if (commissionProgress < 1 && commissionFrame === null) {
@@ -208,9 +182,6 @@
   const resizeObserver = 'ResizeObserver' in window ? new ResizeObserver(sizeMarquees) : null;
   document.querySelectorAll('.marquee-group:not([aria-hidden])').forEach(group => resizeObserver?.observe(group));
   sizeMarquees();
-  // Safari / embedded WebViews may only implement the legacy MediaQueryList API.
-  if (typeof reducedMotion.addEventListener === 'function') reducedMotion.addEventListener('change', syncMotion);
-  else if (typeof reducedMotion.addListener === 'function') reducedMotion.addListener(syncMotion);
   if ('IntersectionObserver' in window) {
     const revealObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -220,7 +191,7 @@
       });
     }, { threshold: 0.08 });
     reveals.forEach(element => {
-      if (!reducedMotion.matches && element.getBoundingClientRect().top >= window.innerHeight) element.classList.add('reveal-ready');
+      if (element.getBoundingClientRect().top >= window.innerHeight) element.classList.add('reveal-ready');
       revealObserver.observe(element);
     });
     const motionObserver = new IntersectionObserver(entries => {

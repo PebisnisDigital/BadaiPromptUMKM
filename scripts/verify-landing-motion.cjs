@@ -10,16 +10,16 @@ if(mode==='legacy-media')await p.addInitScript(()=>{const original=window.matchM
 if(mode==='no-observer')await p.addInitScript(()=>{delete window.IntersectionObserver;delete window.ResizeObserver});
 if(mode==='stalled-decode')await p.addInitScript(()=>{HTMLImageElement.prototype.decode=()=>new Promise(()=>{})});
 if(mode==='blocked-script')await p.route('**/assets/landing.js*',r=>r.abort());
+await p.addInitScript(()=>sessionStorage.setItem('badai-motion','off'));
 await p.goto('https://badaiprompt.vercel.app/',{waitUntil:'domcontentloaded'});await p.waitForTimeout(350);
 const orbit=p.locator('.hero-spark .spark-icon');const transform=()=>orbit.evaluate(el=>getComputedStyle(el).transform);
-if(mode==='reduce'){if(await orbit.evaluate(el=>getComputedStyle(el).animationName)!=='none')throw Error('Reduced default failed');await p.locator('.hero-motion-toggle').click();}
+if(await p.locator('[data-motion-toggle],#motionToggle').count())throw Error('Motion controls remain');
 const first=await transform();await p.waitForTimeout(700);const second=await transform();if(first===second)throw Error(mode+' hero stuck');
 if(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error(mode+' overflow');
 if(mode==='normal'||touch){await p.screenshot({path:`/workspace/work/motion2-${width}.png`});}
 await p.locator('.visual-carousel').scrollIntoViewIfNeeded();await p.locator('.visual-carousel').hover();await p.waitForTimeout(200);const track=p.locator('.visual-carousel .marquee-track');const x1=await track.evaluate(el=>getComputedStyle(el).transform);await p.waitForTimeout(700);const x2=await track.evaluate(el=>getComputedStyle(el).transform);if(x1===x2)throw Error(mode+' gallery stuck while hovered');
 if(mode!=='blocked-script'){
- await p.locator('#motionToggle').evaluate(el=>el.click());const paused1=await track.evaluate(el=>getComputedStyle(el).transform);await p.waitForTimeout(250);if(paused1!==await track.evaluate(el=>getComputedStyle(el).transform))throw Error(mode+' pause failed');await p.locator('.hero-motion-toggle').evaluate(el=>el.click());
- await p.locator('.price-choice').last().click();if(!await p.locator('#checkoutModal').evaluate(el=>el.classList.contains('show')))throw Error(mode+' checkout failed');await p.locator('#checkoutModal .xbtn').click();
+ await p.locator('.price-choice').last().click();if(await p.locator('#checkoutModal').evaluate(el=>el.classList.contains('show')))throw Error(mode+' price opens popup');if(!await p.locator('#harga #checkoutForm').isVisible())throw Error(mode+' inline form missing');if(await p.locator('#payBtn').innerText()!=='PROSES DAFTAR SEKARANG!')throw Error(mode+' wrong registration label');
 }
 if(errors.length)throw Error(mode+': '+errors.join(','));results.push({mode,heroMoves:true,galleryMovesOnHover:true,errors});await p.close();console.log(mode+' PASS');}
 fs.writeFileSync('/tmp/badai-motion2-'+(live?'live':'local')+'-results.json',JSON.stringify(results,null,2));await browser.close();})().catch(e=>{console.error(e);process.exit(1)});
