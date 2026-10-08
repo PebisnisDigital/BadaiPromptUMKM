@@ -2562,84 +2562,72 @@ body{background:#000!important;color:var(--sm-white)}
 @media(prefers-reduced-motion:reduce){.sm-shot.cut,.sm-member-card.cut{animation:none!important}}
 </style>
 
-<style id="badai-greedy-lp-2026">
+
+
+<style id="badai-benefit-lp-2026">
 :root{
-  --gd-bg:#050506;--gd-panel:#0b0b0d;--gd-panel2:#101013;--gd-line:#29292f;
-  --gd-text:#fafafa;--gd-muted:#9a9aa2;--gd-pink:#ff2d8d;--gd-pink2:#ff78b8;
-  --gd-green:#78efaa;--gd-max:760px;
+  --bf-bg:#050506;--bf-panel:#0b0b0d;--bf-panel2:#101013;--bf-line:#29292f;
+  --bf-text:#fafafa;--bf-muted:#96969e;--bf-pink:#ff2d8d;--bf-pink2:#ff79b9;--bf-green:#79f0ab;
 }
 html{scroll-behavior:smooth}
-body{background:#000!important;color:var(--gd-text)}
-.gd-site{max-width:var(--gd-max);margin:0 auto;min-height:100vh;overflow:hidden;background:
-  radial-gradient(circle at 75% 0,rgba(255,45,141,.11),transparent 25%),var(--gd-bg);
-  font-family:var(--font-roboto)}
-.gd-shell{padding-left:20px;padding-right:20px}
-.gd-nav{position:sticky;top:0;z-index:60;height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 20px;border-bottom:1px solid rgba(255,255,255,.065);background:rgba(5,5,6,.91);backdrop-filter:blur(18px)}
-.gd-brand{color:#fff;text-decoration:none;font:950 18px/1 var(--font-sf);letter-spacing:-.045em}.gd-brand b{color:var(--gd-pink)}.gd-brand small{display:block;margin-top:5px;color:#6e6e75;font:800 7px/1 var(--font-roboto);letter-spacing:.14em}
-.gd-nav-cta{display:inline-flex;align-items:center;justify-content:center;height:37px;padding:0 14px;border-radius:10px;background:#fff;color:#0a0a0b;text-decoration:none;font:900 9px/1 var(--font-sf)}
-.gd-hero{position:relative;isolation:isolate;padding:72px 0 38px;text-align:center}
-.gd-hero:before{content:"";position:absolute;z-index:-2;width:520px;height:520px;left:50%;top:-210px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,45,141,.24),rgba(255,45,141,.05) 37%,transparent 67%);filter:blur(5px);animation:gdAura 5s ease-in-out infinite}
-@keyframes gdAura{50%{transform:translateX(-50%) scale(1.12);opacity:.72}}
-.gd-kicker{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(255,45,141,.34);border-radius:999px;background:rgba(255,45,141,.07);color:#ff9bcb;font:900 9px/1 var(--font-sf);letter-spacing:.12em}
-.gd-kicker i{width:6px;height:6px;border-radius:50%;background:var(--gd-pink);box-shadow:0 0 16px var(--gd-pink)}
-.gd-hero h1{max-width:700px;margin:18px auto 14px;font:950 clamp(48px,11vw,82px)/.9 var(--font-sf);letter-spacing:-.075em}.gd-hero h1 span{display:block;color:var(--gd-pink)}
-.gd-hero-lead{max-width:620px;margin:0 auto;color:#b6b6bd;font:500 14px/1.72 var(--font-roboto)}.gd-hero-lead b{color:#fff}
-.gd-hero-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:24px}.gd-btn{appearance:none;border:0;display:inline-flex;align-items:center;justify-content:center;min-height:49px;padding:0 20px;border-radius:12px;font:900 10px/1 var(--font-sf);cursor:pointer;text-decoration:none}.gd-btn.primary{background:var(--gd-pink);color:#fff;box-shadow:0 15px 38px rgba(255,45,141,.22);animation:gdCta 2.6s ease-in-out infinite}.gd-btn.dark{border:1px solid #2b2b31;background:#0d0d10;color:#fff}
-@keyframes gdCta{50%{box-shadow:0 18px 48px rgba(255,45,141,.34);transform:translateY(-2px)}}
-.gd-hero-mini{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:13px;color:#73737a;font-size:8.5px}.gd-hero-mini span:before{content:"✓";margin-right:5px;color:#a6ffca}
-.gd-stage{position:relative;max-width:650px;height:425px;margin:34px auto 0;perspective:900px;transform-style:preserve-3d}
-.gd-stage:after{content:"";position:absolute;left:12%;right:12%;bottom:26px;height:58px;border-radius:50%;background:rgba(255,45,141,.16);filter:blur(28px)}
-.gd-phone{position:absolute;z-index:8;left:50%;top:15px;width:270px;height:365px;transform:translateX(-50%) rotateX(2deg);border:1px solid #3a3a42;border-radius:28px;padding:9px;background:#08080a;box-shadow:0 32px 80px rgba(0,0,0,.62),0 0 0 1px rgba(255,255,255,.03) inset;animation:gdPhone 4.8s ease-in-out infinite}
-@keyframes gdPhone{50%{transform:translateX(-50%) translateY(-7px) rotateX(2deg)}}
-.gd-phone-top{height:26px;display:flex;align-items:center;justify-content:center;color:#686870;font:800 7px/1 var(--font-sf);letter-spacing:.11em}
-.gd-phone-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;height:311px}
-.gd-phone-card{position:relative;overflow:hidden;border-radius:13px;background:#111;border:1px solid #24242a}.gd-phone-card img{width:100%;height:100%;display:block;object-fit:cover}.gd-phone-card:after{content:"";position:absolute;inset:55% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.9))}.gd-phone-card b{position:absolute;z-index:2;left:8px;bottom:8px;font:900 8px/1.1 var(--font-sf)}
-.gd-float{position:absolute;z-index:5;width:145px;padding:11px;border:1px solid rgba(255,255,255,.12);border-radius:15px;background:rgba(16,16,19,.82);backdrop-filter:blur(14px);box-shadow:0 20px 45px rgba(0,0,0,.42);text-align:left;animation:gdFloat 4.2s ease-in-out infinite}
-.gd-float small{display:block;color:#85858d;font:800 7px/1 var(--font-sf);letter-spacing:.1em}.gd-float b{display:block;margin-top:6px;color:#fff;font:950 16px/1 var(--font-sf)}.gd-float p{margin:5px 0 0;color:#8f8f97;font-size:8px;line-height:1.4}
-.gd-float.a{left:0;top:52px;transform:rotate(-6deg)}.gd-float.b{right:0;top:90px;transform:rotate(6deg);animation-delay:-1.2s}.gd-float.c{left:18px;bottom:38px;transform:rotate(4deg);animation-delay:-2.1s}.gd-float.d{right:16px;bottom:24px;transform:rotate(-4deg);animation-delay:-3s}
-@keyframes gdFloat{50%{translate:0 -8px}}
-.gd-float .hot{color:var(--gd-pink2)}.gd-float .money{color:#9bffc1}
-.gd-marquee{overflow:hidden;margin-top:4px;border-top:1px solid #1f1f23;border-bottom:1px solid #1f1f23;background:#08080a;-webkit-mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent)}
-.gd-marquee-track{display:flex;width:max-content;animation:gdTicker 27s linear infinite}.gd-marquee-group{display:flex;flex:0 0 auto;align-items:center}.gd-marquee span{padding:14px 15px;color:#c9c9ce;font:850 9px/1 var(--font-sf);white-space:nowrap}.gd-marquee span:after{content:"✦";margin-left:28px;color:var(--gd-pink)}
-@keyframes gdTicker{to{transform:translateX(-50%)}}
-.gd-section{padding:72px 0;border-top:1px solid rgba(255,255,255,.055)}.gd-section-head{max-width:620px}.gd-overline{color:#8d8d95;font:900 8px/1 var(--font-sf);letter-spacing:.14em}.gd-section h2{margin:11px 0 13px;font:950 clamp(34px,7vw,54px)/.96 var(--font-sf);letter-spacing:-.058em}.gd-section h2 span{color:var(--gd-pink)}.gd-lead{max-width:610px;color:#9b9ba3;font-size:13px;line-height:1.7}
-.gd-bento{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:25px}.gd-card{position:relative;min-height:178px;padding:17px;border:1px solid #29292f;border-radius:19px;background:linear-gradient(180deg,#101013,#0b0b0d);overflow:hidden}.gd-card:before{content:"";position:absolute;width:110px;height:110px;right:-43px;top:-42px;border-radius:50%;border:24px solid rgba(255,45,141,.035)}.gd-card.big{grid-column:1/-1;min-height:210px;background:radial-gradient(circle at 88% 10%,rgba(255,45,141,.22),transparent 30%),linear-gradient(145deg,#171015,#0b0b0d)}
-.gd-card-icon{width:34px;height:34px;display:grid;place-items:center;border-radius:11px;background:#25101b;color:#ff82bd;font:950 11px/1 var(--font-sf)}.gd-card strong{display:block;margin-top:25px;font:950 18px/1.06 var(--font-sf);letter-spacing:-.025em}.gd-card.big strong{font-size:28px;max-width:440px}.gd-card p{margin:8px 0 0;color:#8e8e96;font-size:11px;line-height:1.55}.gd-card .gd-bignum{display:block;margin-top:23px;color:#fff;font:950 44px/.9 var(--font-sf);letter-spacing:-.06em}.gd-card .gd-bignum em{color:var(--gd-pink);font-style:normal}.gd-card .gd-pill{display:inline-flex;margin-top:14px;padding:7px 9px;border:1px solid #3a2832;border-radius:999px;color:#ff8fc5;font:850 8px/1 var(--font-sf)}
-.gd-stackline{display:flex;gap:7px;overflow:auto;margin-top:10px;padding-bottom:2px;scrollbar-width:none}.gd-stackline::-webkit-scrollbar{display:none}.gd-stackline span{flex:0 0 auto;padding:9px 10px;border-radius:999px;border:1px solid #29292e;background:#0c0c0e;color:#a7a7ae;font:800 8px/1 var(--font-sf)}
-.gd-product-proof{background:radial-gradient(circle at 50% 0,rgba(255,45,141,.08),transparent 34%),#070708}
-.gd-browser{margin-top:26px;border:1px solid #29292f;border-radius:23px;background:#09090b;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.45)}
-.gd-browser-top{height:46px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:0 13px;border-bottom:1px solid #232328}.gd-dots{display:flex;gap:5px}.gd-dots i{width:6px;height:6px;border-radius:50%;background:#35353a}.gd-browser-top b{text-align:center;color:#7a7a82;font:850 8px/1 var(--font-sf);letter-spacing:.1em}.gd-browser-top span{color:#ff72b4;font:900 7px/1 var(--font-sf)}
-.gd-browser-toolbar{display:grid;grid-template-columns:1fr auto;gap:7px;padding:10px;border-bottom:1px solid #222227}.gd-search{height:37px;display:flex;align-items:center;padding:0 11px;border:1px solid #29292f;border-radius:9px;background:#0e0e11;color:#68686f;font-size:9px}.gd-filter{height:37px;display:flex;align-items:center;padding:0 10px;border:1px solid #29292f;border-radius:9px;background:#0e0e11;color:#aaa;font:800 8px/1 var(--font-sf)}
-.gd-gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:10px}.gd-shot{position:relative;aspect-ratio:4/5;overflow:hidden;border:1px solid #242429;border-radius:12px;background:#111}.gd-shot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}.gd-shot:hover img{transform:scale(1.05)}.gd-shot:after{content:"";position:absolute;inset:58% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.91))}.gd-shot span{position:absolute;z-index:2;left:8px;top:8px;padding:5px 6px;border-radius:6px;background:rgba(0,0,0,.7);font:900 7px/1 var(--font-sf)}.gd-shot b{position:absolute;z-index:2;left:8px;right:8px;bottom:8px;font:850 8px/1.2 var(--font-sf)}
-.gd-browser-foot{display:flex;justify-content:space-between;gap:10px;padding:11px 13px;border-top:1px solid #222227;color:#67676f;font-size:8px}.gd-browser-foot b{color:#aaa}
-.gd-proof-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:9px;border:1px solid #222227;border-radius:15px;overflow:hidden;background:#222227}.gd-proof-stats div{padding:15px 12px;background:#0b0b0d}.gd-proof-stats b{display:block;font:950 20px/1 var(--font-sf)}.gd-proof-stats span{display:block;margin-top:5px;color:#77777f;font-size:8.5px;line-height:1.35}
-.gd-money-flow{margin-top:25px;border:1px solid #29292f;border-radius:22px;padding:20px;background:radial-gradient(circle at 90% 0,rgba(255,45,141,.16),transparent 30%),#0b0b0d}.gd-flow{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}.gd-flow b{padding:10px 12px;border-radius:999px;background:#151519;color:#fff;font:900 9px/1 var(--font-sf)}.gd-flow i{font-style:normal;color:var(--gd-pink);font-weight:950}.gd-money-flow>strong{display:block;max-width:570px;margin:22px auto 0;text-align:center;font:950 26px/1.08 var(--font-sf);letter-spacing:-.04em}.gd-money-flow>strong span{color:var(--gd-pink)}
-.gd-use-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}.gd-use{padding:16px;border:1px solid #29292f;border-radius:17px;background:#0e0e10}.gd-use small{color:#ff7ebc;font:900 8px/1 var(--font-sf)}.gd-use b{display:block;margin-top:15px;font:950 15px/1.15 var(--font-sf)}.gd-use p{margin:7px 0 0;color:#888890;font-size:10.5px;line-height:1.55}
-.gd-showcase{overflow:hidden;margin-top:25px;-webkit-mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent)}.gd-showcase-track{display:flex;width:max-content;gap:9px;animation:gdShow 34s linear infinite}.gd-showcase-card{position:relative;flex:0 0 190px;width:190px;aspect-ratio:4/5;overflow:hidden;border:1px solid #29292f;border-radius:18px;background:#111}.gd-showcase-card img{width:100%;height:100%;object-fit:cover;display:block}.gd-showcase-card:after{content:"";position:absolute;inset:60% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.87))}.gd-showcase-card b{position:absolute;z-index:2;left:11px;bottom:11px;font:900 10px/1.15 var(--font-sf)}.gd-showcase-card span{position:absolute;z-index:2;top:10px;left:10px;padding:5px 7px;border-radius:999px;background:rgba(0,0,0,.7);color:#ff9ac9;font:850 7px/1 var(--font-sf)}
-@keyframes gdShow{to{transform:translateX(calc(-50% - 4.5px))}}
-.gd-proof-panel{margin-top:26px;padding:20px;border:1px solid #294536;border-radius:21px;background:linear-gradient(145deg,#0b1510,#0a0d0b)}
-.gd-proof-panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px}.gd-proof-panel-head b{font:950 17px/1.1 var(--font-sf)}.gd-live-dot{color:#75efaa;font:900 8px/1 var(--font-sf);white-space:nowrap}.gd-live-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px}.gd-live-item{padding:13px;border:1px solid #22382c;border-radius:13px;background:#0d1610}.gd-live-item b{display:block;font:900 11px/1.25 var(--font-sf)}.gd-live-item span{display:block;margin-top:5px;color:#739080;font-size:9px}.gd-proof-placeholder{margin-top:15px;color:#789084;font-size:10px;line-height:1.55}
-.gd-verified-note{margin-top:9px;padding:13px 14px;border:1px solid #29292f;border-radius:14px;background:#0b0b0d;color:#888890;font-size:10px;line-height:1.55}.gd-verified-note b{color:#ddd}
-.gd-equation{margin-top:25px;padding:24px 18px;border-radius:24px;background:linear-gradient(145deg,#ff2d8d,#ff76b8);color:#310617;box-shadow:0 28px 70px rgba(255,45,141,.18)}.gd-equation small{display:block;color:#68153a;font:900 8px/1 var(--font-sf);letter-spacing:.14em}.gd-equation h3{margin:12px 0 0;color:#fff;font:950 clamp(31px,7vw,50px)/.96 var(--font-sf);letter-spacing:-.055em}.gd-eq-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:19px}.gd-eq-row span{padding:9px 10px;border-radius:999px;background:rgba(255,255,255,.86);color:#64153a;font:900 8px/1 var(--font-sf)}.gd-eq-row i{font-style:normal;color:#fff;font-weight:950}
-.gd-price{margin-top:25px;padding:21px;border:1px solid #3a2a33;border-radius:23px;background:radial-gradient(circle at 90% 0,rgba(255,45,141,.18),transparent 30%),#0b0b0d}.gd-price h3{margin:0;font:950 22px/1 var(--font-sf)}.gd-price>p{margin:8px 0 0;color:#85858d;font-size:11px;line-height:1.55}
-#bpuPriceChoices{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}.bpu-price-card-choice{appearance:none;position:relative;min-height:100px;padding:12px;border:1px solid #303036;border-radius:14px;background:#111114;color:#fff;cursor:pointer;transition:.25s ease}.bpu-answer-letter{display:block;color:#696970;font:900 8px/1 var(--font-sf)}.bpu-answer-price{display:block;margin-top:9px;font:950 26px/1 var(--font-sf)}.bpu-price-card-choice:hover,.bpu-price-card-choice.spotlight{border-color:var(--gd-pink);background:#29101c;transform:translateY(-3px);box-shadow:0 15px 35px rgba(255,45,141,.13)}.bpu-price-card-choice.spotlight:after{content:"PILIHAN";position:absolute;top:-8px;left:50%;transform:translateX(-50%);padding:5px 7px;border-radius:999px;background:var(--gd-pink);color:#fff;font:900 6px/1 var(--font-sf);letter-spacing:.09em}.bpu-top-pick-badge,.bpu-three-fingers{display:none!important}
-.gd-price-list{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:15px}.gd-price-list div{padding:11px;border:1px solid #28282d;border-radius:11px;background:#0d0d0f;color:#a0a0a7;font-size:10px;line-height:1.45}.gd-price-list div:before{content:"✓";margin-right:7px;color:#83f5af;font-weight:950}.gd-price-cta{width:100%;height:51px;margin-top:15px;border:0;border-radius:12px;background:var(--gd-pink);color:#fff;font:950 11px/1 var(--font-sf);cursor:pointer;box-shadow:0 15px 35px rgba(255,45,141,.18)}
-.gd-trust-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.gd-trust{padding:13px;border:1px solid #28282e;border-radius:12px;background:#0d0d0f}.gd-trust b{display:block;font:900 10px/1.2 var(--font-sf)}.gd-trust span{display:block;margin-top:5px;color:#77777f;font-size:8.5px;line-height:1.4}
-.gd-faq{margin-top:25px}.gd-faq details{padding:16px 0;border-top:1px solid #25252a}.gd-faq details:last-child{border-bottom:1px solid #25252a}.gd-faq summary{cursor:pointer;font:900 13px/1.4 var(--font-sf)}.gd-faq p{margin:9px 0 0;color:#8e8e96;font-size:11px;line-height:1.65}
-.gd-final{text-align:center;padding-bottom:90px}.gd-final h2{max-width:650px;margin-left:auto;margin-right:auto}.gd-final .gd-lead{margin-left:auto;margin-right:auto}.gd-footer{padding:28px 20px 100px;border-top:1px solid #202024;text-align:center;color:#5e5e65;font-size:8.5px;line-height:1.7}.gd-footer b{color:#aaa}.gd-footer a{color:#7f7f87;text-decoration:none;margin:0 5px}
-.gd-reveal{opacity:0;transform:translateY(20px);transition:opacity .75s ease,transform .75s cubic-bezier(.2,.75,.2,1)}.gd-reveal.in{opacity:1;transform:none}
+body{background:#000!important;color:var(--bf-text)}
+.bf-site{max-width:760px;margin:0 auto;min-height:100vh;overflow:hidden;background:var(--bf-bg);font-family:var(--font-roboto)}
+.bf-shell{padding-left:20px;padding-right:20px}
+.bf-nav{position:sticky;top:0;z-index:60;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(5,5,6,.92);backdrop-filter:blur(18px)}
+.bf-brand{color:#fff;text-decoration:none;font:950 18px/1 var(--font-sf);letter-spacing:-.045em}.bf-brand b{color:var(--bf-pink)}.bf-brand small{display:block;margin-top:5px;color:#696970;font:800 7px/1 var(--font-roboto);letter-spacing:.14em}
+.bf-nav-cta{height:37px;display:inline-flex;align-items:center;padding:0 14px;border-radius:10px;background:#fff;color:#0b0b0c;text-decoration:none;font:900 9px/1 var(--font-sf)}
+.bf-section{position:relative;padding:76px 0;border-top:1px solid rgba(255,255,255,.055)}
+.bf-hero{padding:70px 0 46px;text-align:center;border-top:0;background:
+  radial-gradient(circle at 50% -15%,rgba(255,45,141,.24),transparent 38%),
+  linear-gradient(180deg,#070609 0%,#050506 100%)}
+.bf-kicker{display:inline-flex;align-items:center;gap:8px;color:#9e9ea6;font:900 8px/1 var(--font-sf);letter-spacing:.15em}.bf-kicker i{width:6px;height:6px;border-radius:50%;background:var(--bf-pink);box-shadow:0 0 18px var(--bf-pink)}
+.bf-hero h1,.bf-section h2{font-family:var(--font-sf);font-weight:950;letter-spacing:-.06em}
+.bf-hero h1{max-width:700px;margin:18px auto 15px;font-size:clamp(48px,11vw,82px);line-height:.9}.bf-hero h1 span,.bf-section h2 span{color:var(--bf-pink)}
+.bf-hero p{max-width:610px;margin:0 auto;color:#b2b2ba;font-size:14px;line-height:1.72}.bf-hero p b{color:#fff}
+.bf-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:24px}.bf-btn{appearance:none;border:0;display:inline-flex;align-items:center;justify-content:center;min-height:49px;padding:0 20px;border-radius:12px;text-decoration:none;cursor:pointer;font:900 10px/1 var(--font-sf)}.bf-btn.primary{background:var(--bf-pink);color:#fff;box-shadow:0 15px 42px rgba(255,45,141,.22);animation:bfCta 2.5s ease-in-out infinite}.bf-btn.dark{border:1px solid #2d2d33;background:#0d0d10;color:#fff}
+@keyframes bfCta{50%{transform:translateY(-2px);box-shadow:0 20px 52px rgba(255,45,141,.34)}}
+.bf-mini{margin-top:12px;color:#6e6e75;font-size:8.5px}
+.bf-hero-demo{position:relative;max-width:650px;margin:34px auto 0;padding:11px;border:1px solid #29292e;border-radius:25px;background:#09090b;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.bf-hero-window{overflow:hidden;border:1px solid #242429;border-radius:18px;background:#08080a}
+.bf-window-top{height:43px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:0 12px;border-bottom:1px solid #222227}.bf-dots{display:flex;gap:5px}.bf-dots i{width:6px;height:6px;border-radius:50%;background:#343439}.bf-window-top b{text-align:center;color:#77777f;font:850 8px/1 var(--font-sf);letter-spacing:.1em}.bf-window-top span{color:#ff77b7;font:900 8px/1 var(--font-sf)}
+.bf-hero-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:10px}.bf-hero-card{position:relative;aspect-ratio:4/5;overflow:hidden;border:1px solid #242429;border-radius:12px;background:#111}.bf-hero-card img{width:100%;height:100%;object-fit:cover;display:block}.bf-hero-card:after{content:"";position:absolute;inset:58% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.9))}.bf-hero-card b{position:absolute;z-index:2;left:8px;bottom:8px;font:900 8px/1.15 var(--font-sf)}
+.bf-section-head{max-width:620px}.bf-overline{color:#8c8c94;font:900 8px/1 var(--font-sf);letter-spacing:.14em}.bf-section h2{margin:11px 0 13px;font-size:clamp(36px,7vw,54px);line-height:.96}.bf-lead{max-width:600px;color:#9999a1;font-size:13px;line-height:1.7}
+.bf-product{margin-top:28px;border:1px solid #29292f;border-radius:23px;background:#09090b;overflow:hidden;box-shadow:0 28px 70px rgba(0,0,0,.42)}
+.bf-product-toolbar{display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px;border-bottom:1px solid #222227}.bf-search{height:38px;display:flex;align-items:center;padding:0 11px;border:1px solid #29292f;border-radius:10px;background:#0e0e11;color:#6d6d74;font-size:9px}.bf-filter{height:38px;display:flex;align-items:center;padding:0 11px;border:1px solid #29292f;border-radius:10px;background:#0e0e11;color:#aaa;font:800 8px/1 var(--font-sf)}
+.bf-product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;padding:10px}.bf-shot{position:relative;aspect-ratio:4/5;overflow:hidden;border:1px solid #242429;border-radius:12px;background:#111}.bf-shot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}.bf-shot:hover img{transform:scale(1.05)}.bf-shot:after{content:"";position:absolute;inset:58% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.92))}.bf-shot span{position:absolute;z-index:2;top:8px;left:8px;padding:5px 6px;border-radius:6px;background:rgba(0,0,0,.72);font:900 7px/1 var(--font-sf)}.bf-shot b{position:absolute;z-index:2;left:8px;right:8px;bottom:8px;font:850 8px/1.2 var(--font-sf)}
+.bf-product-foot{display:flex;justify-content:space-between;gap:10px;padding:11px 13px;border-top:1px solid #222227;color:#66666d;font-size:8px}.bf-product-foot b{color:#b1b1b7}
+.bf-update-wrap{margin-top:28px;overflow:hidden;-webkit-mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent);mask-image:linear-gradient(to right,transparent,#000 5%,#000 95%,transparent)}
+.bf-update-track{display:flex;width:max-content;gap:9px;animation:bfMarquee 30s linear infinite}.bf-update-card{position:relative;flex:0 0 180px;width:180px;aspect-ratio:4/5;overflow:hidden;border:1px solid #29292f;border-radius:18px;background:#111}.bf-update-card img{width:100%;height:100%;object-fit:cover;display:block}.bf-update-card:after{content:"";position:absolute;inset:60% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.9))}.bf-update-card span{position:absolute;z-index:2;left:10px;top:10px;padding:5px 7px;border-radius:999px;background:rgba(0,0,0,.7);color:#ff9bcb;font:900 7px/1 var(--font-sf)}.bf-update-card b{position:absolute;z-index:2;left:11px;bottom:11px;font:900 10px/1.15 var(--font-sf)}
+@keyframes bfMarquee{to{transform:translateX(calc(-50% - 4.5px))}}
+.bf-update-note{margin-top:16px;padding:15px 16px;border:1px solid #3d2934;border-radius:16px;background:#100d0f;color:#b0b0b7;font-size:11px;line-height:1.55}.bf-update-note b{color:#fff}
+.bf-year-card{position:relative;margin-top:28px;padding:25px 21px 22px;border:1px solid #302b2e;border-radius:24px;background:radial-gradient(circle at 85% 0,rgba(255,45,141,.18),transparent 32%),#0b0b0d;overflow:hidden}
+.bf-year-number{font:950 clamp(74px,18vw,128px)/.78 var(--font-sf);letter-spacing:-.085em;color:#fff}.bf-year-number span{color:var(--bf-pink)}.bf-year-copy{margin-top:20px;color:#aaaab2;font-size:12px;line-height:1.65}
+.bf-timeline{position:relative;display:grid;grid-template-columns:repeat(5,1fr);margin-top:28px;padding-top:16px}.bf-timeline:before{content:"";position:absolute;left:6%;right:6%;top:20px;height:2px;background:#29292f}.bf-timeline:after{content:"";position:absolute;left:6%;top:20px;height:2px;width:0;background:linear-gradient(90deg,var(--bf-pink),#ff8ec8);box-shadow:0 0 13px rgba(255,45,141,.5)}.bf-year-card.in .bf-timeline:after{animation:bfLine 1.8s .2s ease forwards}@keyframes bfLine{to{width:88%}}
+.bf-month{position:relative;z-index:2;text-align:center;color:#77777f;font:850 8px/1 var(--font-sf)}.bf-month i{display:block;width:11px;height:11px;margin:0 auto 10px;border:2px solid #55555c;border-radius:50%;background:#0b0b0d}.bf-year-card.in .bf-month i{animation:bfDot .45s ease forwards}.bf-year-card.in .bf-month:nth-child(2) i{animation-delay:.35s}.bf-year-card.in .bf-month:nth-child(3) i{animation-delay:.7s}.bf-year-card.in .bf-month:nth-child(4) i{animation-delay:1.05s}.bf-year-card.in .bf-month:nth-child(5) i{animation-delay:1.4s}@keyframes bfDot{to{background:var(--bf-pink);border-color:var(--bf-pink);box-shadow:0 0 15px rgba(255,45,141,.48)}}
+.bf-aff-card{position:relative;margin-top:28px;padding:25px 21px;border:1px solid #3b2b34;border-radius:24px;background:linear-gradient(145deg,#110d10,#0b0b0d);overflow:hidden}.bf-aff-card:before{content:"50%";position:absolute;right:-18px;top:-30px;color:rgba(255,45,141,.08);font:950 170px/1 var(--font-sf);letter-spacing:-.09em}
+.bf-aff-number{position:relative;z-index:2;color:#fff;font:950 clamp(82px,20vw,140px)/.78 var(--font-sf);letter-spacing:-.09em}.bf-aff-number span{color:var(--bf-pink)}.bf-aff-sub{position:relative;z-index:2;margin-top:20px;color:#a3a3aa;font-size:12px;line-height:1.65}.bf-aff-sub b{color:#fff}
+.bf-aff-flow{position:relative;z-index:2;display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:22px}.bf-aff-flow b{padding:10px 12px;border-radius:999px;background:#151519;color:#fff;font:900 8px/1 var(--font-sf)}.bf-aff-flow i{font-style:normal;color:var(--bf-pink);font-weight:950;animation:bfArrow 1s ease-in-out infinite alternate}@keyframes bfArrow{to{transform:translateX(4px)}}
+.bf-canva-card{position:relative;margin-top:28px;min-height:300px;display:grid;place-items:center;border:1px solid #29292f;border-radius:24px;background:
+  radial-gradient(circle at 50% 25%,rgba(255,45,141,.15),transparent 34%),#0a0a0c;overflow:hidden}
+.bf-unlock{position:relative;z-index:2;text-align:center}.bf-lock{width:78px;height:78px;margin:0 auto;position:relative;border:2px solid #6b3a51;border-radius:20px;background:#160e12;box-shadow:0 0 34px rgba(255,45,141,.12);animation:bfLock 2.8s ease-in-out infinite}.bf-lock:before{content:"";position:absolute;width:35px;height:31px;left:50%;top:-24px;transform:translateX(-50%);border:6px solid #8c4b69;border-bottom:0;border-radius:22px 22px 0 0}.bf-lock:after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:#ff83bd;font:950 30px/1 var(--font-sf);opacity:0;animation:bfCheck 2.8s ease-in-out infinite}
+@keyframes bfLock{0%,35%{transform:scale(.96);filter:grayscale(.5)}55%,100%{transform:scale(1.06);border-color:var(--bf-pink);box-shadow:0 0 45px rgba(255,45,141,.28)}}@keyframes bfCheck{0%,42%{opacity:0;transform:scale(.7)}60%,100%{opacity:1;transform:scale(1)}}
+.bf-canva-word{margin-top:26px;color:#fff;font:950 42px/1 var(--font-sf);letter-spacing:-.06em}.bf-canva-word span{color:var(--bf-pink)}.bf-canva-sub{margin:10px auto 0;max-width:440px;color:#92929a;font-size:11px;line-height:1.55}
+.bf-price{margin-top:28px;padding:21px;border:1px solid #392b33;border-radius:23px;background:radial-gradient(circle at 88% 0,rgba(255,45,141,.17),transparent 30%),#0b0b0d}.bf-price h3{margin:0;font:950 22px/1 var(--font-sf)}.bf-price>p{margin:8px 0 0;color:#85858d;font-size:11px;line-height:1.55}
+#bpuPriceChoices{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}.bpu-price-card-choice{appearance:none;position:relative;min-height:98px;padding:12px;border:1px solid #303036;border-radius:14px;background:#111114;color:#fff;cursor:pointer;transition:.25s ease}.bpu-answer-letter{display:block;color:#696970;font:900 8px/1 var(--font-sf)}.bpu-answer-price{display:block;margin-top:9px;font:950 26px/1 var(--font-sf)}.bpu-price-card-choice:hover,.bpu-price-card-choice.spotlight{border-color:var(--bf-pink);background:#29101c;transform:translateY(-3px);box-shadow:0 15px 35px rgba(255,45,141,.13)}.bpu-price-card-choice.spotlight:after{content:"PILIHAN";position:absolute;top:-8px;left:50%;transform:translateX(-50%);padding:5px 7px;border-radius:999px;background:var(--bf-pink);color:#fff;font:900 6px/1 var(--font-sf);letter-spacing:.09em}.bpu-top-pick-badge,.bpu-three-fingers{display:none!important}
+.bf-price-list{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:15px}.bf-price-list div{padding:11px;border:1px solid #28282d;border-radius:11px;background:#0d0d0f;color:#a0a0a7;font-size:10px;line-height:1.45}.bf-price-list div:before{content:"✓";margin-right:7px;color:#83f5af;font-weight:950}.bf-price-cta{width:100%;height:51px;margin-top:15px;border:0;border-radius:12px;background:var(--bf-pink);color:#fff;font:950 11px/1 var(--font-sf);cursor:pointer;box-shadow:0 15px 35px rgba(255,45,141,.18)}
+.bf-faq{margin-top:25px}.bf-faq details{padding:16px 0;border-top:1px solid #25252a}.bf-faq details:last-child{border-bottom:1px solid #25252a}.bf-faq summary{cursor:pointer;font:900 13px/1.4 var(--font-sf)}.bf-faq p{margin:9px 0 0;color:#8e8e96;font-size:11px;line-height:1.65}
+.bf-final{text-align:center;padding-bottom:90px}.bf-final h2{max-width:650px;margin-left:auto;margin-right:auto}.bf-final .bf-lead{margin-left:auto;margin-right:auto}
+.bf-footer{padding:28px 20px 100px;border-top:1px solid #202024;text-align:center;color:#5e5e65;font-size:8.5px;line-height:1.7}.bf-footer b{color:#aaa}.bf-footer a{color:#7f7f87;text-decoration:none;margin:0 5px}
+.bf-reveal{opacity:0;transform:translateY(20px);transition:opacity .75s ease,transform .75s cubic-bezier(.2,.75,.2,1)}.bf-reveal.in{opacity:1;transform:none}
 @media(max-width:620px){
-  .gd-shell{padding-left:16px;padding-right:16px}.gd-nav{padding:0 16px}.gd-hero{padding-top:54px}
-  .gd-stage{height:385px}.gd-phone{width:240px;height:335px}.gd-phone-grid{height:281px}.gd-float{width:122px;padding:9px}.gd-float b{font-size:13px}.gd-float p{display:none}.gd-float.a{left:-18px}.gd-float.b{right:-18px}.gd-float.c{left:-2px}.gd-float.d{right:-4px}
-  .gd-bento{grid-template-columns:1fr 1fr}.gd-gallery{grid-template-columns:1fr 1fr}.gd-shot:nth-child(n+7){display:none}.gd-use-grid{grid-template-columns:1fr 1fr}.gd-live-grid{grid-template-columns:1fr}.gd-price-list{grid-template-columns:1fr}.gd-trust-row{grid-template-columns:1fr 1fr 1fr}.gd-showcase-card{flex-basis:158px;width:158px}
+  .bf-shell{padding-left:16px;padding-right:16px}.bf-nav{padding:0 16px}.bf-hero{padding-top:52px}.bf-hero-grid,.bf-product-grid{grid-template-columns:1fr 1fr}.bf-hero-card:nth-child(n+5),.bf-shot:nth-child(n+7){display:none}.bf-update-card{flex-basis:156px;width:156px}.bf-price-list{grid-template-columns:1fr}.bf-timeline{font-size:7px}
 }
-@media(max-width:420px){
-  .gd-hero h1{font-size:49px}.gd-bento{grid-template-columns:1fr}.gd-card.big{grid-column:auto}.gd-card{min-height:155px}.gd-card.big strong{font-size:24px}.gd-stage{height:360px}.gd-phone{width:218px;height:310px}.gd-phone-grid{height:257px}.gd-float{width:110px}.gd-float.a{top:38px}.gd-float.b{top:105px}.gd-float.c{bottom:30px}.gd-float.d{bottom:18px}
-  .gd-proof-stats b{font-size:16px}.gd-proof-stats span{font-size:7.5px}.gd-use-grid{grid-template-columns:1fr}.gd-trust-row{grid-template-columns:1fr}.gd-equation{padding:21px 15px}
+@media(max-width:390px){
+  .bf-hero h1{font-size:47px}.bf-year-number{font-size:76px}.bf-aff-number{font-size:86px}.bf-canva-word{font-size:36px}
 }
 @media(prefers-reduced-motion:reduce){
-  .gd-hero:before,.gd-btn.primary,.gd-phone,.gd-float,.gd-marquee-track,.gd-showcase-track{animation:none!important}
-  .gd-reveal{opacity:1!important;transform:none!important;transition:none!important}
+  .bf-btn.primary,.bf-update-track,.bf-lock,.bf-lock:after,.bf-aff-flow i{animation:none!important}
+  .bf-reveal{opacity:1!important;transform:none!important;transition:none!important}
 }
 </style>
 </head>
@@ -2655,174 +2643,114 @@ body{background:#000!important;color:var(--gd-text)}
 </div>
 
 
-<div class="gd-site">
-  <header class="gd-nav">
-    <a class="gd-brand" href="#home">BADAI <b>PROMPT</b><small>GUDANG PROMPT GAMBAR AI</small></a>
-    <a class="gd-nav-cta" href="#harga">AMBIL AKSES</a>
+
+<div class="bf-site">
+  <header class="bf-nav">
+    <a class="bf-brand" href="#home">BADAI <b>PROMPT</b><small>PROMPT GAMBAR AI</small></a>
+    <a class="bf-nav-cta" href="#harga">AMBIL AKSES</a>
   </header>
 
   <main>
-    <section class="gd-hero gd-shell" id="home">
-      <div class="gd-kicker"><i></i> PROMPT LIBRARY + CUAN ENGINE</div>
-      <h1>MASUK SEKALI.<span>ISINYA TERUS NAMBAH.</span></h1>
-      <p class="gd-hero-lead"><b>Prompt gambar viral, Member Area 1 tahun, Affiliate 50%, bonus Canva, dan library visual yang terus di-update.</b> Tinggal pilih. Copy. Ganti kebutuhanmu. Generate.</p>
-      <div class="gd-hero-actions">
-        <button class="gd-btn primary" type="button" onclick="openCheckout(59000)">AMBIL AKSES</button>
-        <a class="gd-btn dark" href="#dapat">LIHAT SEMUANYA</a>
+    <section class="bf-section bf-hero bf-shell" id="home">
+      <div class="bf-kicker"><i></i> BADAI PROMPT</div>
+      <h1>PILIH GAMBAR.<br><span>COPY PROMPT. JADI.</span></h1>
+      <p><b>Nggak perlu mikir prompt dari nol.</b> Masuk ke library, pilih visual yang kamu suka, copy promptnya, lalu generate versimu.</p>
+      <div class="bf-actions">
+        <button class="bf-btn primary" type="button" onclick="openCheckout(59000)">AMBIL AKSES</button>
+        <a class="bf-btn dark" href="#member-area">LIHAT ISINYA</a>
       </div>
-      <div class="gd-hero-mini"><span>500+ prompt saat ini</span><span>30+ kategori</span><span>Akses 1 tahun</span></div>
+      <div class="bf-mini">Member Area · Prompt terus update · Akses 1 tahun · Affiliate 50% · Bonus Canva</div>
 
-      <div class="gd-stage" aria-label="Preview BADAI PROMPT">
-        <div class="gd-float a"><small>UPDATE</small><b class="hot">PROMPT BARU</b><p>Masuk selama masa akses.</p></div>
-        <div class="gd-float b"><small>AFFILIATE</small><b class="money">KOMISI 50%</b><p>Bukan cuma dipakai. Bisa dipromosikan.</p></div>
-        <div class="gd-float c"><small>BONUS</small><b>CANVA GRATIS</b><p>Sesuai mekanisme bonus.</p></div>
-        <div class="gd-float d"><small>AKSES</small><b>1 TAHUN</b><p>Masuk dari HP maupun desktop.</p></div>
-
-        <div class="gd-phone">
-          <div class="gd-phone-top">BADAI PROMPT · MEMBER AREA</div>
-          <div class="gd-phone-grid">
-            <div class="gd-phone-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="Preview prompt BP533"><b>BP533</b></div>
-            <div class="gd-phone-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp010/view?project=badai-prompt-umkm" alt="Preview prompt BP010"><b>BP010</b></div>
-            <div class="gd-phone-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp007/view?project=badai-prompt-umkm" alt="Preview prompt BP007"><b>BP007</b></div>
-            <div class="gd-phone-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp002/view?project=badai-prompt-umkm" alt="Preview prompt BP002"><b>BP002</b></div>
-          </div>
+      <div class="bf-hero-demo">
+        <div class="bf-hero-window">
+          <div class="bf-window-top"><span class="bf-dots"><i></i><i></i><i></i></span><b>BADAI PROMPT · MEMBER AREA</b><span>● LIVE</span></div>
+          <div class="bf-hero-grid"><article class="bf-hero-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="STREET"><b>STREET</b></article><article class="bf-hero-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp010/view?project=badai-prompt-umkm" alt="ACTION"><b>ACTION</b></article><article class="bf-hero-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp009/view?project=badai-prompt-umkm" alt="HIJAB"><b>HIJAB</b></article><article class="bf-hero-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp008/view?project=badai-prompt-umkm" alt="IPHONE"><b>IPHONE</b></article></div>
         </div>
       </div>
     </section>
 
-    <div class="gd-marquee" aria-hidden="true">
-      <div class="gd-marquee-track">
-        <div class="gd-marquee-group">
-          <span>PROMPT VIRAL TERUS UPDATE</span><span>MEMBER AREA 1 TAHUN</span><span>AFFILIATE 50%</span><span>BONUS CANVA</span><span>PROMPT FOTO PRODUK</span><span>AI INFLUENCER</span><span>ANTI AI-SLOP</span>
-        </div>
-        <div class="gd-marquee-group">
-          <span>PROMPT VIRAL TERUS UPDATE</span><span>MEMBER AREA 1 TAHUN</span><span>AFFILIATE 50%</span><span>BONUS CANVA</span><span>PROMPT FOTO PRODUK</span><span>AI INFLUENCER</span><span>ANTI AI-SLOP</span>
-        </div>
-      </div>
-    </div>
-
-    <section class="gd-section gd-shell" id="dapat">
-      <div class="gd-section-head gd-reveal">
-        <div class="gd-overline">GREED STACK · SEMUA MASUK</div>
-        <h2>INI YANG MASUK<br><span>KE KANTONG.</span></h2>
-        <p class="gd-lead">Bukan satu PDF prompt. Bukan file acak yang habis didownload lalu dilupakan. Ini library yang dibuat supaya makin lama dipakai, makin terasa nilainya.</p>
+    <section class="bf-section bf-shell" id="member-area">
+      <div class="bf-section-head bf-reveal">
+        <div class="bf-overline">01 · DAPAT MEMBER AREA</div>
+        <h2>SEMUA PROMPT.<br><span>SATU TEMPAT.</span></h2>
+        <p class="bf-lead">Bukan PDF berantakan. Bukan file ZIP. Kamu dapat Member Area untuk cari prompt, lihat preview gambarnya, pilih kategori, lalu buka prompt lengkap.</p>
       </div>
 
-      <div class="gd-bento">
-        <article class="gd-card big gd-reveal">
-          <div class="gd-card-icon">01</div>
-          <strong>BELI SEKALI. PROMPTNYA TERUS BERTAMBAH.</strong>
-          <p>Mulai dari library yang sudah ada sekarang, lalu nikmati update prompt selama masa aksesmu.</p>
-          <span class="gd-bignum">500<em>+</em></span>
-          <span class="gd-pill">PROMPT SIAP PAKAI SAAT INI</span>
-        </article>
+      <div class="bf-product bf-reveal">
+        <div class="bf-product-toolbar"><div class="bf-search">⌕ Cari prompt: bisnis, produk, cinematic, lifestyle…</div><div class="bf-filter">SEMUA KATEGORI ▾</div></div>
+        <div class="bf-product-grid"><article class="bf-shot"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="STREET"><span>BP533</span><b>STREET</b></article><article class="bf-shot"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp010/view?project=badai-prompt-umkm" alt="ACTION"><span>BP010</span><b>ACTION</b></article><article class="bf-shot"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp009/view?project=badai-prompt-umkm" alt="HIJAB"><span>BP009</span><b>HIJAB</b></article><article class="bf-shot"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp008/view?project=badai-prompt-umkm" alt="IPHONE"><span>BP008</span><b>IPHONE</b></article><article class="bf-shot"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp007/view?project=badai-prompt-umkm" alt="CINEMATIC"><span>BP007</span><b>CINEMATIC</b></article><article class="bf-shot"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp006/view?project=badai-prompt-umkm" alt="STUDIO"><span>BP006</span><b>STUDIO</b></article><article class="bf-shot"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp005/view?project=badai-prompt-umkm" alt="FASHION"><span>BP005</span><b>FASHION</b></article><article class="bf-shot"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp004/view?project=badai-prompt-umkm" alt="CAFE"><span>BP004</span><b>CAFE</b></article></div>
+        <div class="bf-product-foot"><span>Preview visual nyata dari library.</span><b>PILIH → BUKA → COPY</b></div>
+      </div>
+      <div class="bf-actions bf-reveal"><button class="bf-btn primary" type="button" onclick="openCheckout(59000)">AKU MAU MEMBER AREA</button></div>
+    </section>
 
-        <article class="gd-card gd-reveal"><div class="gd-card-icon">02</div><strong>AKSES MEMBER AREA 1 TAHUN</strong><p>Semua prompt, preview, kategori, dan update tinggal dibuka dari satu tempat.</p></article>
-        <article class="gd-card gd-reveal"><div class="gd-card-icon">03</div><strong>AFFILIATE KOMISI 50%</strong><p>Pakai produknya. Lalu punya peluang dapat komisi saat mempromosikan BADAI PROMPT.</p></article>
-        <article class="gd-card gd-reveal"><div class="gd-card-icon">04</div><strong>BONUS CANVA GRATIS</strong><p>Bonus tambahan untuk member, mengikuti mekanisme bonus yang berlaku.</p></article>
-        <article class="gd-card gd-reveal"><div class="gd-card-icon">05</div><strong>PROMPT GAMBAR VIRAL</strong><p>Inspirasi visual yang bisa dipakai untuk konten, personal branding, dan jualan.</p></article>
-        <article class="gd-card gd-reveal"><div class="gd-card-icon">06</div><strong>PROMPT FOTO PRODUK</strong><p>Bikin produk tampil lebih niat tanpa selalu mulai dari studio dan konsep kosong.</p></article>
-        <article class="gd-card gd-reveal"><div class="gd-card-icon">07</div><strong>AI INFLUENCER & BRANDING</strong><p>Adegan untuk personal branding, fashion, lifestyle, bisnis, dan konten harian.</p></article>
-        <article class="gd-card gd-reveal"><div class="gd-card-icon">08</div><strong>ANTI “AI SLOP”</strong><p>Prompt diarahkan ke detail kamera, pencahayaan, tekstur, identity lock, dan realism.</p></article>
+    <section class="bf-section bf-shell" id="update">
+      <div class="bf-section-head bf-reveal">
+        <div class="bf-overline">02 · PROMPT GAMBAR VIRAL</div>
+        <h2>HARI INI ADA.<br><span>BESOK NAMBAH LAGI.</span></h2>
+        <p class="bf-lead">Library BADAI PROMPT terus diisi visual dan prompt baru selama masa akses. Jadi yang kamu beli bukan koleksi yang berhenti di hari pertama.</p>
       </div>
 
-      <div class="gd-stackline gd-reveal">
-        <span>SEARCH PROMPT</span><span>PREVIEW VISUAL</span><span>COPY PROMPT</span><span>BAHASA INDONESIA</span><span>CHATGPT IMAGE</span><span>GEMINI</span><span>MOBILE FRIENDLY</span><span>30+ KATEGORI</span>
+      <div class="bf-update-wrap bf-reveal">
+        <div class="bf-update-track"><article class="bf-update-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="STREET"><span>UPDATE</span><b>STREET</b></article><article class="bf-update-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp010/view?project=badai-prompt-umkm" alt="ACTION"><span>UPDATE</span><b>ACTION</b></article><article class="bf-update-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp009/view?project=badai-prompt-umkm" alt="HIJAB"><span>UPDATE</span><b>HIJAB</b></article><article class="bf-update-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp008/view?project=badai-prompt-umkm" alt="IPHONE"><span>UPDATE</span><b>IPHONE</b></article><article class="bf-update-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp007/view?project=badai-prompt-umkm" alt="CINEMATIC"><span>UPDATE</span><b>CINEMATIC</b></article><article class="bf-update-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp006/view?project=badai-prompt-umkm" alt="STUDIO"><span>UPDATE</span><b>STUDIO</b></article><article class="bf-update-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp005/view?project=badai-prompt-umkm" alt="FASHION"><span>UPDATE</span><b>FASHION</b></article><article class="bf-update-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp004/view?project=badai-prompt-umkm" alt="CAFE"><span>UPDATE</span><b>CAFE</b></article><article class="bf-update-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="STREET"><span>UPDATE</span><b>STREET</b></article><article class="bf-update-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp010/view?project=badai-prompt-umkm" alt="ACTION"><span>UPDATE</span><b>ACTION</b></article><article class="bf-update-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp009/view?project=badai-prompt-umkm" alt="HIJAB"><span>UPDATE</span><b>HIJAB</b></article><article class="bf-update-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp008/view?project=badai-prompt-umkm" alt="IPHONE"><span>UPDATE</span><b>IPHONE</b></article><article class="bf-update-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp007/view?project=badai-prompt-umkm" alt="CINEMATIC"><span>UPDATE</span><b>CINEMATIC</b></article><article class="bf-update-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp006/view?project=badai-prompt-umkm" alt="STUDIO"><span>UPDATE</span><b>STUDIO</b></article><article class="bf-update-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp005/view?project=badai-prompt-umkm" alt="FASHION"><span>UPDATE</span><b>FASHION</b></article><article class="bf-update-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp004/view?project=badai-prompt-umkm" alt="CAFE"><span>UPDATE</span><b>CAFE</b></article></div>
+      </div>
+      <div class="bf-update-note bf-reveal"><b>Intinya:</b> selama aksesmu aktif, update prompt baru ikut masuk ke Member Area kamu.</div>
+    </section>
+
+    <section class="bf-section bf-shell" id="setahun">
+      <div class="bf-section-head bf-reveal">
+        <div class="bf-overline">03 · AKSES MEMBER AREA 1 TAHUN</div>
+        <h2>BUKAN 7 HARI.<br>BUKAN 30 HARI.<br><span>1 TAHUN.</span></h2>
+        <p class="bf-lead">Punya waktu panjang buat eksplor, bikin konten, nyoba gaya baru, dan menikmati prompt yang masuk selama masa akses.</p>
+      </div>
+
+      <div class="bf-year-card bf-reveal">
+        <div class="bf-year-number">12<span> BULAN</span></div>
+        <div class="bf-year-copy">Masuk kapan pun selama akses aktif. Prompt baru yang ditambahkan ke library ikut bisa kamu lihat.</div>
+        <div class="bf-timeline"><div class="bf-month"><i></i>HARI 1</div><div class="bf-month"><i></i>3 BULAN</div><div class="bf-month"><i></i>6 BULAN</div><div class="bf-month"><i></i>9 BULAN</div><div class="bf-month"><i></i>12 BULAN</div></div>
       </div>
     </section>
 
-    <section class="gd-section gd-shell gd-product-proof" id="member-area">
-      <div class="gd-section-head gd-reveal">
-        <div class="gd-overline">BUKTI PRODUK</div>
-        <h2>BUKAN PDF.<br><span>BUKAN FILE ZIP.</span></h2>
-        <p class="gd-lead">Kamu masuk ke Member Area, lihat hasil visualnya dulu, cari kategori yang kamu butuhkan, lalu buka prompt yang cocok.</p>
+    <section class="bf-section bf-shell" id="affiliate">
+      <div class="bf-section-head bf-reveal">
+        <div class="bf-overline">04 · PROGRAM AFFILIATE</div>
+        <h2>BELI BUAT DIPAKAI.<br><span>JUALIN, DAPAT KOMISI.</span></h2>
+        <p class="bf-lead">Kamu juga bisa ikut program affiliate BADAI PROMPT dan mendapatkan komisi sesuai ketentuan program.</p>
       </div>
 
-      <div class="gd-browser gd-reveal">
-        <div class="gd-browser-top"><span class="gd-dots"><i></i><i></i><i></i></span><b>BADAI PROMPT · MEMBER AREA</b><span>● LIVE LIBRARY</span></div>
-        <div class="gd-browser-toolbar"><div class="gd-search">⌕ Cari prompt: produk, bisnis, lifestyle, cinematic…</div><div class="gd-filter">SEMUA KATEGORI ▾</div></div>
-        <div class="gd-gallery">
-          <article class="gd-shot"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="Prompt BP533"><span>BP533</span><b>Street Portrait</b></article>
-          <article class="gd-shot"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp010/view?project=badai-prompt-umkm" alt="Prompt BP010"><span>BP010</span><b>Outdoor Action</b></article>
-          <article class="gd-shot"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp009/view?project=badai-prompt-umkm" alt="Prompt BP009"><span>BP009</span><b>Hijab Lifestyle</b></article>
-          <article class="gd-shot"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp008/view?project=badai-prompt-umkm" alt="Prompt BP008"><span>BP008</span><b>iPhone Candid</b></article>
-          <article class="gd-shot"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp007/view?project=badai-prompt-umkm" alt="Prompt BP007"><span>BP007</span><b>Cinematic Night</b></article>
-          <article class="gd-shot"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp006/view?project=badai-prompt-umkm" alt="Prompt BP006"><span>BP006</span><b>Studio Portrait</b></article>
-          <article class="gd-shot"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp005/view?project=badai-prompt-umkm" alt="Prompt BP005"><span>BP005</span><b>Fashion Editorial</b></article>
-          <article class="gd-shot"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp004/view?project=badai-prompt-umkm" alt="Prompt BP004"><span>BP004</span><b>Coffee Shop</b></article>
-        </div>
-        <div class="gd-browser-foot"><span>Preview visual nyata dari library.</span><b>PILIH → BUKA → COPY → GENERATE</b></div>
-      </div>
-      <div class="gd-proof-stats gd-reveal">
-        <div><b>500+</b><span>prompt tersedia</span></div><div><b>30+</b><span>kategori visual</span></div><div><b>1–4</b><span>preview per prompt</span></div>
+      <div class="bf-aff-card bf-reveal">
+        <div class="bf-aff-number">50<span>%</span></div>
+        <div class="bf-aff-sub"><b>KOMISI BESAR.</b> Produk yang kamu pakai sendiri bisa sekaligus kamu rekomendasikan ke orang lain.</div>
+        <div class="bf-aff-flow"><b>BADAI PROMPT</b><i>→</i><b>LINK AFFILIATE</b><i>→</i><b>ORANG BELI</b><i>→</i><b>KOMISI</b></div>
       </div>
     </section>
 
-    <section class="gd-section gd-shell">
-      <div class="gd-section-head gd-reveal">
-        <div class="gd-overline">BISA JADI APA?</div>
-        <h2>MASUK CARI PROMPT.<br><span>PULANG BAWA MESIN CUAN.</span></h2>
-        <p class="gd-lead">Nilainya nggak berhenti di “punya kumpulan prompt”. Promptnya bisa jadi bahan bakar buat konten, jualan, jasa, dan affiliate.</p>
+    <section class="bf-section bf-shell" id="canva">
+      <div class="bf-section-head bf-reveal">
+        <div class="bf-overline">05 · BONUS</div>
+        <h2>BELUM SELESAI.<br><span>CANVA GRATIS.</span></h2>
+        <p class="bf-lead">Selain BADAI PROMPT, member juga mendapat bonus Canva gratis sesuai mekanisme bonus yang berlaku.</p>
       </div>
 
-      <div class="gd-money-flow gd-reveal">
-        <div class="gd-flow"><b>PROMPT</b><i>→</i><b>KONTEN</b><i>→</i><b>JUALAN</b><i>→</i><b>JASA</b><i>→</i><b>AFFILIATE</b><i>→</i><b>CUAN</b></div>
-        <strong>Jangan cuma koleksi prompt.<br><span>PAKAI BUAT NGASILIN.</span></strong>
-      </div>
-
-      <div class="gd-use-grid">
-        <article class="gd-use gd-reveal"><small>01 · BISNIS SENDIRI</small><b>Bikin konten jualan lebih niat.</b><p>Cari konsep visual → copy prompt → sesuaikan produk → generate.</p></article>
-        <article class="gd-use gd-reveal"><small>02 · JASA</small><b>Jadi modal buka jasa AI.</b><p>Bisa jadi inspirasi jasa konten, foto produk AI, atau visual promosi.</p></article>
-        <article class="gd-use gd-reveal"><small>03 · CONTENT ENGINE</small><b>Nggak blank tiap mau posting.</b><p>Saat ide habis, buka library. Pilih visual. Eksekusi.</p></article>
-        <article class="gd-use gd-reveal"><small>04 · AFFILIATE</small><b>Komisi sampai 50%.</b><p>Promosikan BADAI PROMPT melalui program affiliate sesuai ketentuan yang berlaku.</p></article>
-      </div>
-    </section>
-
-    <section class="gd-section gd-shell">
-      <div class="gd-section-head gd-reveal">
-        <div class="gd-overline">HASIL DULU. BARU PERCAYA.</div>
-        <h2>LIHAT VISUALNYA.<br><span>BARU PUTUSKAN.</span></h2>
-        <p class="gd-lead">Ini bukan gambar stock tempelan LP. Ini preview yang memang dipakai di library BADAI PROMPT.</p>
-      </div>
-
-      <div class="gd-showcase gd-reveal" aria-label="Contoh hasil BADAI PROMPT">
-        <div class="gd-showcase-track">
-          <article class="gd-showcase-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp001/view?project=badai-prompt-umkm" alt="Warung Pagi"><span>DAILY</span><b>Warung Pagi</b></article><article class="gd-showcase-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp002/view?project=badai-prompt-umkm" alt="Founder Meeting"><span>BUSINESS</span><b>Founder Meeting</b></article><article class="gd-showcase-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp003/view?project=badai-prompt-umkm" alt="Kyoto Morning"><span>TRAVEL</span><b>Kyoto Morning</b></article><article class="gd-showcase-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp004/view?project=badai-prompt-umkm" alt="Reading Moment"><span>CAFE</span><b>Reading Moment</b></article><article class="gd-showcase-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp005/view?project=badai-prompt-umkm" alt="Street Editorial"><span>FASHION</span><b>Street Editorial</b></article><article class="gd-showcase-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp006/view?project=badai-prompt-umkm" alt="B&W Portrait"><span>STUDIO</span><b>B&W Portrait</b></article><article class="gd-showcase-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp007/view?project=badai-prompt-umkm" alt="Rainy Taxi"><span>CINEMATIC</span><b>Rainy Taxi</b></article><article class="gd-showcase-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp008/view?project=badai-prompt-umkm" alt="Candid Shopping"><span>IPHONE</span><b>Candid Shopping</b></article><article class="gd-showcase-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp001/view?project=badai-prompt-umkm" alt="Warung Pagi"><span>DAILY</span><b>Warung Pagi</b></article><article class="gd-showcase-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp002/view?project=badai-prompt-umkm" alt="Founder Meeting"><span>BUSINESS</span><b>Founder Meeting</b></article><article class="gd-showcase-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp003/view?project=badai-prompt-umkm" alt="Kyoto Morning"><span>TRAVEL</span><b>Kyoto Morning</b></article><article class="gd-showcase-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp004/view?project=badai-prompt-umkm" alt="Reading Moment"><span>CAFE</span><b>Reading Moment</b></article><article class="gd-showcase-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp005/view?project=badai-prompt-umkm" alt="Street Editorial"><span>FASHION</span><b>Street Editorial</b></article><article class="gd-showcase-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp006/view?project=badai-prompt-umkm" alt="B&W Portrait"><span>STUDIO</span><b>B&W Portrait</b></article><article class="gd-showcase-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp007/view?project=badai-prompt-umkm" alt="Rainy Taxi"><span>CINEMATIC</span><b>Rainy Taxi</b></article><article class="gd-showcase-card"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp008/view?project=badai-prompt-umkm" alt="Candid Shopping"><span>IPHONE</span><b>Candid Shopping</b></article>
+      <div class="bf-canva-card bf-reveal">
+        <div class="bf-unlock">
+          <div class="bf-lock"></div>
+          <div class="bf-canva-word">CANVA <span>UNLOCKED</span></div>
+          <div class="bf-canva-sub">Bonus tambahan setelah bergabung. Detail akses dan mekanismenya tersedia melalui admin/member area.</div>
         </div>
       </div>
-
-      <div class="gd-proof-panel gd-reveal" id="gdLiveProof">
-        <div class="gd-proof-panel-head"><b>Aktivitas pembeli terbaru</b><span class="gd-live-dot">● DATA LANGSUNG</span></div>
-        <div class="gd-live-grid" id="gdLiveGrid"></div>
-        <div class="gd-proof-placeholder" id="gdLiveEmpty">Aktivitas pembelian hanya ditampilkan ketika datanya tersedia dari sistem.</div>
-      </div>
-
-      <div class="gd-verified-note gd-reveal"><b>Soal testimoni:</b> kami tidak menaruh quote karangan. Review member BADAI PROMPT akan ditampilkan setelah benar-benar ada dan terverifikasi.</div>
     </section>
 
-    <section class="gd-section gd-shell">
-      <div class="gd-section-head gd-reveal">
-        <div class="gd-overline">GREED ROUND 2</div>
-        <h2>SATU AKSES.<br><span>BANYAK YANG DIBAWA.</span></h2>
-      </div>
-
-      <div class="gd-equation gd-reveal">
-        <small>BADAI PROMPT · VALUE STACK</small>
-        <h3>MASUK SEKALI.<br>PANEN BERKALI-KALI.</h3>
-        <div class="gd-eq-row"><span>500+ PROMPT</span><i>+</i><span>UPDATE</span><i>+</i><span>1 TAHUN</span><i>+</i><span>AFFILIATE 50%</span><i>+</i><span>BONUS CANVA</span></div>
-      </div>
-    </section>
-
-    <section class="gd-section gd-shell" id="harga">
-      <div class="gd-section-head gd-reveal">
-        <div class="gd-overline">SEMUA DI ATAS KAMU DAPAT</div>
+    <section class="bf-section bf-shell" id="harga">
+      <div class="bf-section-head bf-reveal">
+        <div class="bf-overline">SEMUA BENEFIT DI ATAS KAMU DAPAT</div>
         <h2>BERANI BELI<br><span>BERAPA?</span></h2>
-        <p class="gd-lead">Aksesnya sama selama 1 tahun. Pilih nominal yang menurutmu paling pas.</p>
+        <p class="bf-lead">Aksesnya sama selama 1 tahun. Tinggal pilih nominal yang menurutmu paling pas.</p>
       </div>
 
-      <div class="gd-price gd-reveal">
+      <div class="bf-price bf-reveal">
         <h3>BADAI PROMPT · 1 TAHUN</h3>
-        <p>Member Area + prompt visual + update + affiliate + bonus. Pilih salah satu nominal.</p>
+        <p>Member Area + prompt terus update + affiliate + bonus Canva.</p>
 
         <div id="bpuPriceChoices">
           <button class="bpu-price-card-choice" type="button" onclick="openCheckout(199000)"><b><span class="bpu-answer-letter">A</span><span class="bpu-answer-price">199K</span></b><span class="bpu-top-pick-badge"></span><span class="bpu-three-fingers"></span></button>
@@ -2830,44 +2758,42 @@ body{background:#000!important;color:var(--gd-text)}
           <button class="bpu-price-card-choice spotlight" type="button" onclick="openCheckout(59000)"><b><span class="bpu-answer-letter">C</span><span class="bpu-answer-price">59K</span></b></button>
         </div>
 
-        <div class="gd-price-list">
-          <div>500+ prompt dan terus bertambah selama masa akses.</div>
+        <div class="bf-price-list">
+          <div>Dapat Member Area.</div>
+          <div>Prompt gambar terus update.</div>
           <div>Akses Member Area 1 tahun.</div>
-          <div>30+ kategori visual.</div>
-          <div>1–4 preview visual per prompt.</div>
           <div>Program affiliate komisi hingga 50%.</div>
-          <div>Bonus Canva sesuai mekanisme bonus.</div>
-          <div>Identity lock + realism + anti AI-slop.</div>
-          <div>Bisa diakses dari HP dan desktop.</div>
+          <div>Bonus Canva gratis sesuai mekanisme bonus.</div>
+          <div>Preview visual + kategori + copy prompt.</div>
         </div>
-        <button class="gd-price-cta" type="button" onclick="openCheckout(59000)">AMBIL AKSES · MULAI 59K</button>
-
-        <div class="gd-trust-row">
-          <div class="gd-trust"><b>QRIS</b><span>Pembayaran diproses lewat sistem checkout.</span></div>
-          <div class="gd-trust"><b>AKSES OTOMATIS</b><span>Setelah pembayaran terverifikasi.</span></div>
-          <div class="gd-trust"><b>1 TAHUN</b><span>Termasuk update selama masa akses.</span></div>
-        </div>
-      </div>
-
-      <div class="gd-faq gd-reveal">
-        <details><summary>Harus jago prompt engineering?</summary><p>Nggak. Sistemnya dibuat supaya kamu mulai dari contoh visual, buka promptnya, lalu copy dan sesuaikan bila perlu.</p></details>
-        <details><summary>Bisa dipakai dari HP?</summary><p>Ya. Member Area dibuat responsif dan bisa dibuka dari browser HP maupun desktop.</p></details>
-        <details><summary>Bisa dipakai di ChatGPT dan Gemini?</summary><p>Ya. Prompt ditulis agar mudah dipakai pada model image generation populer seperti ChatGPT Image dan Gemini.</p></details>
-        <details><summary>Kalau ada prompt baru, saya ikut dapat?</summary><p>Ya, update prompt yang masuk ke library selama masa akses 1 tahun bisa kamu nikmati dari Member Area.</p></details>
-        <details><summary>Affiliate 50% itu bagaimana?</summary><p>Member dapat kesempatan mengikuti program affiliate BADAI PROMPT. Besaran dan mekanisme komisi mengikuti ketentuan program yang berlaku.</p></details>
-        <details><summary>Canva gratisnya bagaimana?</summary><p>Canva merupakan bonus member dan diberikan mengikuti mekanisme bonus yang berlaku. Detail akses akan disampaikan di area member/admin.</p></details>
+        <button class="bf-price-cta" type="button" onclick="openCheckout(59000)">AMBIL AKSES · MULAI 59K</button>
       </div>
     </section>
 
-    <section class="gd-section gd-shell gd-final">
-      <div class="gd-overline">FINAL PUSH</div>
-      <h2>MASIH MAU BIKIN<br><span>PROMPT DARI NOL?</span></h2>
-      <p class="gd-lead">Atau masuk, pilih visual yang kamu suka, copy promptnya, lalu bikin versi kamu.</p>
-      <div class="gd-hero-actions"><button class="gd-btn primary" type="button" onclick="openCheckout(59000)">MASUK BADAI PROMPT</button></div>
+    <section class="bf-section bf-shell">
+      <div class="bf-section-head bf-reveal">
+        <div class="bf-overline">FAQ</div>
+        <h2>MASIH ADA<br><span>YANG GANJEL?</span></h2>
+      </div>
+      <div class="bf-faq bf-reveal">
+        <details><summary>Harus jago prompt engineering?</summary><p>Nggak. Kamu tinggal pilih visual, buka prompt, copy, lalu sesuaikan bila perlu.</p></details>
+        <details><summary>Bisa dipakai dari HP?</summary><p>Ya. Member Area bisa dibuka dari browser HP maupun desktop.</p></details>
+        <details><summary>Bisa dipakai di ChatGPT dan Gemini?</summary><p>Ya. Prompt dibuat agar mudah digunakan di model image generation populer seperti ChatGPT Image dan Gemini.</p></details>
+        <details><summary>Kalau ada prompt baru, saya ikut dapat?</summary><p>Ya. Update prompt yang masuk selama masa akses 1 tahun bisa kamu lihat dari Member Area.</p></details>
+        <details><summary>Affiliate 50% bagaimana cara kerjanya?</summary><p>Program affiliate mengikuti mekanisme dan ketentuan yang berlaku di BADAI PROMPT. Detail link dan komisi diberikan kepada member yang mengikuti program.</p></details>
+        <details><summary>Canva gratisnya bagaimana?</summary><p>Canva adalah bonus member. Detail pemberian akses mengikuti mekanisme bonus yang berlaku dan diinformasikan melalui admin/member area.</p></details>
+      </div>
+    </section>
+
+    <section class="bf-section bf-shell bf-final">
+      <div class="bf-overline">FINAL CTA</div>
+      <h2>SATU KALI MASUK.<br><span>SEMUA INI KAMU BAWA.</span></h2>
+      <p class="bf-lead">Member Area. Prompt terus update. Akses 1 tahun. Affiliate 50%. Bonus Canva.</p>
+      <div class="bf-actions"><button class="bf-btn primary" type="button" onclick="openCheckout(59000)">MASUK BADAI PROMPT</button></div>
     </section>
   </main>
 
-  <footer class="gd-footer"><b>BADAI PROMPT</b> · Gudang Prompt Gambar AI<br><a href="/privacy">Privasi</a> · <a href="/terms">Syarat</a> · <a href="/refund">Refund</a></footer>
+  <footer class="bf-footer"><b>BADAI PROMPT</b> · Prompt Gambar AI<br><a href="/privacy">Privasi</a> · <a href="/terms">Syarat</a> · <a href="/refund">Refund</a></footer>
 </div>
 
 <div class="social-proof" id="socialProof" aria-live="polite">
@@ -3570,59 +3496,19 @@ loadSocialProof();
 })();
 </script>
 
-<script id="badai-greedy-script">
+
+
+<script id="badai-benefit-script">
 (function(){
   const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  const reveals=[...document.querySelectorAll('.gd-reveal')];
-  if(!('IntersectionObserver' in window)||reduce){reveals.forEach(el=>el.classList.add('in'))}
-  else{
-    const io=new IntersectionObserver(entries=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){entry.target.classList.add('in');io.unobserve(entry.target)}
-      })
-    },{threshold:.12});
-    reveals.forEach(el=>io.observe(el));
-  }
-
-  const stage=document.querySelector('.gd-stage');
-  if(stage&&!reduce){
-    stage.addEventListener('pointermove',e=>{
-      const r=stage.getBoundingClientRect();
-      const x=(e.clientX-r.left)/r.width-.5;
-      const y=(e.clientY-r.top)/r.height-.5;
-      const phone=stage.querySelector('.gd-phone');
-      if(phone) phone.style.marginLeft=(x*9).toFixed(1)+'px';
-      stage.querySelectorAll('.gd-float').forEach((el,i)=>{
-        el.style.marginLeft=(x*(i%2?8:-8)).toFixed(1)+'px';
-        el.style.marginTop=(y*(i<2?7:-7)).toFixed(1)+'px';
-      });
-    });
-    stage.addEventListener('pointerleave',()=>{
-      const phone=stage.querySelector('.gd-phone');if(phone)phone.style.marginLeft='';
-      stage.querySelectorAll('.gd-float').forEach(el=>{el.style.marginLeft='';el.style.marginTop=''});
-    });
-  }
-
-  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  async function loadGreedyLiveProof(){
-    const section=document.getElementById('gdLiveProof');
-    const grid=document.getElementById('gdLiveGrid');
-    const empty=document.getElementById('gdLiveEmpty');
-    if(!section||!grid||typeof runPayment!=='function')return;
-    try{
-      const data=await runPayment('/social-proof',{});
-      const items=(data&&data.enabled&&Array.isArray(data.items))?data.items.slice(0,6):[];
-      if(!items.length)return;
-      if(empty)empty.style.display='none';
-      grid.innerHTML=items.map(item=>{
-        const name=esc(item.display_name||'Member');
-        const when=(typeof relativeTime==='function')?esc(relativeTime(item.paid_at)):'baru bergabung';
-        return '<article class="gd-live-item"><b>✓ '+name+' bergabung</b><span>'+when+' · BADAI PROMPT</span></article>';
-      }).join('');
-    }catch(_){}
-  }
-  setTimeout(loadGreedyLiveProof,700);
+  const els=[...document.querySelectorAll('.bf-reveal')];
+  if(reduce||!('IntersectionObserver' in window)){els.forEach(el=>el.classList.add('in'));return}
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){entry.target.classList.add('in');io.unobserve(entry.target)}
+    })
+  },{threshold:.12});
+  els.forEach(el=>io.observe(el));
 })();
 </script>
 </body></html>
