@@ -317,22 +317,12 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
           <div class="uploadhelp">Minimal <b>1 gambar</b>, maksimal <b>4 gambar</b>. Upload WebP ke folder kategori di <b>/BADAI PROMPT</b>, lalu tempel link masing-masing. Member Area akan menampilkannya sebagai carousel otomatis.</div>
         </div>
       </div>
-      <div class="formgrid">
-        <div class="field"><label>KATEGORI *</label><input id="pCategory" required placeholder="Spontan"></div>
-        <div class="field"><label>SUBKATEGORI</label><input id="pSubcategory" placeholder="Keseharian"></div>
-        <div class="field full"><label>JUDUL *</label><input id="pTitle" required placeholder="Ngopi Sendirian di Warung Pagi Hari"></div>
-        <div class="field"><label>GAYA VISUAL</label><input id="pStyle" placeholder="Dokumenter spontan"></div>
-        <div class="field"><label>KAMERA</label><input id="pCamera" placeholder="iPhone Pro 2x"></div>
-        <div class="field"><label>RASIO GAMBAR</label><input id="pRatio" placeholder="4:5"></div>
-        <div class="field"><label>ALAT AI</label><input id="pTool" value="ChatGPT Image / Gemini"></div>
-        <div class="field"><label>SUBJEK</label><select id="pGender"><option value="universal">Semua</option><option value="woman">Perempuan</option><option value="man">Laki-laki</option><option value="child">Anak</option></select></div>
-        <div class="field"><label>KODE PROMPT</label><input id="pSort" type="text" value="BP001" readonly aria-label="Kode prompt otomatis"></div>
-        <div class="field full"><label>KATA KUNCI</label><input id="pTags" placeholder="spontan; kopi; keseharian; indonesia"></div>
-        <div class="field full"><label>PROMPT BAHASA INDONESIA *</label><textarea id="pPrompt" rows="11" required placeholder="Gunakan foto referensi yang diunggah sebagai acuan identitas utama. Pertahankan wajah, usia, proporsi, dan ciri khas subjek..."></textarea></div>
+      <div class="formgrid prompt-simple-form">
+        <div class="field full"><label>PROMPT *</label><textarea id="pPrompt" rows="14" required placeholder="Tempel prompt lengkap di sini..."></textarea></div>
         <div class="field"><label>SUMBER / KREATOR</label><input id="pSourceCreator" placeholder="@creator / BADAI Prompt Lab"></div>
         <div class="field"><label>TAUTAN SUMBER</label><input id="pSourceUrl" type="url" placeholder="https://..."></div>
-        <div class="field full"><label>CATATAN SUMBER</label><textarea id="pSourceNotes" rows="3" placeholder="Ide direwrite total / original internal seed..."></textarea></div>
-        <div class="field full"><div class="checks"><label><input id="pNeedsReference" type="checkbox" checked> WAJIB FOTO REFERENSI</label><label><input id="pTayang" type="checkbox" checked> Tayang</label><label><input id="pUnggulan" type="checkbox"> Unggulan</label></div></div>
+        <div class="field full"><label>CATATAN SUMBER</label><textarea id="pSourceNotes" rows="3" placeholder="Opsional..."></textarea></div>
+        <div class="field full"><div class="checks"><label><input id="pNeedsReference" type="checkbox" checked> WAJIB FOTO REFERENSI</label><label><input id="pTayang" type="checkbox" checked> TAYANG</label><label><input id="pUnggulan" type="checkbox"> UNGGULAN</label></div></div>
       </div>
       <div class="sheetactions">
         <button class="btn danger" type="button" id="deletePromptBtn" style="display:none">HAPUS</button>
@@ -550,7 +540,7 @@ function renderPromptPagination(){
 }
 function renderPrompts(){
   renderPromptPagination();
-  $('promptList').innerHTML=prompts.length?prompts.map(p=>'<article class="adminpromptcard"><div class="adminpromptvisual"><span class="adminpromptcode">'+esc(promptCode(p))+'</span>'+adminPromptVisual(p)+(p.is_published===false?'<span class="adminpromptstate draftstate">DRAF</span>':'')+'</div><div class="adminpromptbody"><h3>'+esc(p.title||'Tanpa judul')+'</h3><button class="admincodebtn" type="button" onclick="editPrompt(\''+p.$id+'\')">EDIT</button></div></article>').join(''):'<div class="empty" style="grid-column:1/-1"><b>Prompt tidak ditemukan.</b><br>Coba filter atau kata kunci lain.</div>';
+  $('promptList').innerHTML=prompts.length?prompts.map(p=>'<article class="adminpromptcard"><div class="adminpromptvisual"><span class="adminpromptcode">'+esc(promptCode(p))+'</span>'+adminPromptVisual(p)+(p.is_published===false?'<span class="adminpromptstate draftstate">DRAF</span>':'')+'</div><div class="adminpromptbody"><button class="admincodebtn" type="button" onclick="editPrompt(\''+p.$id+'\')">EDIT PROMPT</button></div></article>').join(''):'<div class="empty" style="grid-column:1/-1"><b>Prompt tidak ditemukan.</b></div>';
 }
 async function refreshPromptPage(scroll=false){
   busy(true);try{await loadPrompts();renderPrompts();if(scroll){const y=$('promptPagination').getBoundingClientRect().top+window.scrollY-90;window.scrollTo({top:y,behavior:'smooth'})}}catch(e){$('promptList').innerHTML='<div class="empty" style="grid-column:1/-1"><b>Prompt gagal dimuat.</b><br>'+esc(e.message||'Coba lagi.')+'</div>'}finally{busy(false)}
@@ -561,13 +551,13 @@ $('categoryFilter').onchange=()=>{promptPage=1;promptOpenLatest=true;refreshProm
 $('statusFilter').onchange=()=>{promptPage=1;promptOpenLatest=true;refreshPromptPage(false)};
 
 function resetPromptForm(){
-  editing=null;$('promptForm').reset();$('pId').value='';$('pTool').value='ChatGPT Image / Gemini';$('pGender').value='universal';$('pSort').value=promptCode({sort_order:promptMaxSort+1});$('pNeedsReference').checked=true;$('pTayang').checked=true;$('pUnggulan').checked=false;for(let n=1;n<=4;n++)$('imagePreview'+n).innerHTML='Gambar '+n;$('deletePromptBtn').style.display='none';$('promptModalTitle').textContent='Tambah Prompt';msg($('promptMsg'),'');
+  editing=null;$('promptForm').reset();$('pId').value='';$('pNeedsReference').checked=true;$('pTayang').checked=true;$('pUnggulan').checked=false;for(let n=1;n<=4;n++)$('imagePreview'+n).innerHTML='Gambar '+n;$('deletePromptBtn').style.display='none';$('promptModalTitle').textContent='Tambah Prompt';msg($('promptMsg'),'');
 }
 function openPrompt(){resetPromptForm();$('promptModal').classList.add('show')}
 window.editPrompt=id=>{
   const p=prompts.find(x=>x.$id===id);if(!p)return;editing=p;
-  $('pId').value=p.$id;$('pPreviewUrl').value=p.preview_url||'';$('pPreviewUrl2').value=p.preview_url_2||'';$('pPreviewUrl3').value=p.preview_url_3||'';$('pPreviewUrl4').value=p.preview_url_4||'';$('pCategory').value=p.category||'';$('pSubcategory').value=p.subcategory||'';$('pTitle').value=p.title||'';$('pStyle').value=p.style||'';$('pCamera').value=p.camera||'';$('pRatio').value=p.aspect_ratio||'';$('pTool').value=p.tool||'';$('pGender').value=p.gender||'universal';$('pSort').value=promptCode(p);$('pTags').value=p.tags||'';$('pPrompt').value=p.prompt_text||'';$('pSourceCreator').value=p.source_creator||'';$('pSourceUrl').value=p.source_url||'';$('pSourceNotes').value=p.source_notes||'';$('pNeedsReference').checked=p.needs_reference!==false;$('pTayang').checked=p.is_published!==false;$('pUnggulan').checked=p.is_featured===true;
-  renderAdminImagePreviews(p);$('deletePromptBtn').style.display='inline-block';$('promptModalTitle').textContent='Ubah Prompt';msg($('promptMsg'),'');$('promptModal').classList.add('show');
+  $('pId').value=p.$id;$('pPreviewUrl').value=p.preview_url||'';$('pPreviewUrl2').value=p.preview_url_2||'';$('pPreviewUrl3').value=p.preview_url_3||'';$('pPreviewUrl4').value=p.preview_url_4||'';$('pPrompt').value=p.prompt_text||'';$('pSourceCreator').value=p.source_creator||'';$('pSourceUrl').value=p.source_url||'';$('pSourceNotes').value=p.source_notes||'';$('pNeedsReference').checked=p.needs_reference!==false;$('pTayang').checked=p.is_published!==false;$('pUnggulan').checked=p.is_featured===true;
+  renderAdminImagePreviews(p);$('deletePromptBtn').style.display='inline-block';$('promptModalTitle').textContent='Ubah Prompt · '+promptCode(p);msg($('promptMsg'),'');$('promptModal').classList.add('show');
 };
 window.togglePublish=async(id,val)=>{busy(true);try{await tables.updateRow({databaseId:DB,tableId:TABLE,rowId:id,data:{is_published:val}});await loadPromptMeta();await loadPrompts();renderPrompts()}catch(e){alert(e.message||'Gagal mengubah status.')}finally{busy(false)}};
 
@@ -592,7 +582,19 @@ $('promptForm').onsubmit=async e=>{
       const suffix=slot===1?'':'_'+slot,oldUrl=normalizePreviewUrl(old['preview_url'+suffix]);
       return url&&url===oldUrl?(old['preview_file_id'+suffix]||null):null;
     };
-    const data={category:$('pCategory').value.trim(),subcategory:$('pSubcategory').value.trim()||null,title:$('pTitle').value.trim(),prompt_text:$('pPrompt').value.trim(),preview_url:urls[0],preview_url_2:urls[1],preview_url_3:urls[2],preview_url_4:urls[3],preview_file_id:keepFile(1,urls[0]),preview_file_id_2:keepFile(2,urls[1]),preview_file_id_3:keepFile(3,urls[2]),preview_file_id_4:keepFile(4,urls[3]),style:$('pStyle').value.trim()||null,camera:$('pCamera').value.trim()||null,aspect_ratio:$('pRatio').value.trim()||null,tool:$('pTool').value.trim()||null,gender:$('pGender').value,tags:$('pTags').value.trim()||null,source_creator:$('pSourceCreator').value.trim()||null,source_url:$('pSourceUrl').value.trim()||null,source_notes:$('pSourceNotes').value.trim()||null,needs_reference:$('pNeedsReference').checked,is_published:$('pTayang').checked,is_featured:$('pUnggulan').checked,sort_order:Number(String($('pSort').value||'').replace(/\D/g,''))||0};
+    const sortOrder=editing?(Number(editing.sort_order)||promptMaxSort+1):(promptMaxSort+1);
+    const autoCode=promptCode({sort_order:sortOrder});
+    const data={
+      category:editing?.category||'Prompt',
+      subcategory:editing?.subcategory||null,
+      title:editing?.title||autoCode,
+      prompt_text:$('pPrompt').value.trim(),
+      preview_url:urls[0],preview_url_2:urls[1],preview_url_3:urls[2],preview_url_4:urls[3],
+      preview_file_id:keepFile(1,urls[0]),preview_file_id_2:keepFile(2,urls[1]),preview_file_id_3:keepFile(3,urls[2]),preview_file_id_4:keepFile(4,urls[3]),
+      style:editing?.style||null,camera:editing?.camera||null,aspect_ratio:editing?.aspect_ratio||null,tool:editing?.tool||null,gender:editing?.gender||'universal',tags:editing?.tags||null,
+      source_creator:$('pSourceCreator').value.trim()||null,source_url:$('pSourceUrl').value.trim()||null,source_notes:$('pSourceNotes').value.trim()||null,
+      needs_reference:$('pNeedsReference').checked,is_published:$('pTayang').checked,is_featured:$('pUnggulan').checked,sort_order:sortOrder
+    };
     if($('pId').value)await tables.updateRow({databaseId:DB,tableId:TABLE,rowId:$('pId').value,data});
     else await tables.createRow({databaseId:DB,tableId:TABLE,rowId:ID.unique(),data});
     ['pPreviewUrl','pPreviewUrl2','pPreviewUrl3','pPreviewUrl4'].forEach((id,i)=>{if(urls[i])$(id).value=urls[i]});
