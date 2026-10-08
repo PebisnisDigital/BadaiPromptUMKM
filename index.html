@@ -2458,372 +2458,274 @@ body{background:#000!important}
 @media(max-width:380px){.lp2-feature-grid,.lp2-sop{grid-template-columns:1fr}.lp2-stats{grid-template-columns:1fr 1fr}.lp2-stat:last-child{grid-column:1/-1}}
 </style>
 
-<style id="badai-prompt-motion-style">
-/* ===== BADAI PROMPT MOTION GRAPHICS ===== */
-.lp2-page{position:relative;isolation:isolate;overflow:hidden}
-.lp2-page:before,.lp2-page:after{content:"";position:fixed;z-index:-1;pointer-events:none;border-radius:50%;filter:blur(70px);opacity:.28}
-.lp2-page:before{width:360px;height:360px;right:-170px;top:9vh;background:#ff2d8d;animation:lp2AmbientA 11s ease-in-out infinite alternate}
-.lp2-page:after{width:300px;height:300px;left:-180px;top:52vh;background:#7724ff;opacity:.14;animation:lp2AmbientB 14s ease-in-out infinite alternate}
-@keyframes lp2AmbientA{to{transform:translate(-40px,90px) scale(1.18);opacity:.19}}
-@keyframes lp2AmbientB{to{transform:translate(70px,-80px) scale(.88);opacity:.22}}
 
-.lp2-nav{transition:box-shadow .3s ease,border-color .3s ease}
-.lp2-nav.is-scrolled{box-shadow:0 12px 40px rgba(0,0,0,.34);border-color:#303036}
-.lp2-brand b{text-shadow:0 0 22px rgba(255,45,141,.28)}
-.lp2-nav a,.lp2-btn.primary{position:relative;overflow:hidden}
-.lp2-nav a:after,.lp2-btn.primary:after{content:"";position:absolute;inset:-40% auto -40% -45%;width:32%;transform:skewX(-18deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);animation:lp2Shine 3.6s ease-in-out infinite}
-@keyframes lp2Shine{0%,68%{left:-45%}100%{left:125%}}
 
-.lp2-pill{position:relative;overflow:hidden;box-shadow:0 0 0 0 rgba(255,45,141,.28);animation:lp2PillPulse 2.8s ease-in-out infinite}
-@keyframes lp2PillPulse{50%{box-shadow:0 0 0 7px rgba(255,45,141,0)}}
-.lp2-hero h1{animation:lp2HeroIn .85s cubic-bezier(.2,.75,.2,1) both}
-.lp2-hero .lp2-lead{animation:lp2HeroIn .85s .12s cubic-bezier(.2,.75,.2,1) both}
-.lp2-hero .lp2-flow{animation:lp2HeroIn .85s .22s cubic-bezier(.2,.75,.2,1) both}
-.lp2-hero .lp2-actions{animation:lp2HeroIn .85s .32s cubic-bezier(.2,.75,.2,1) both}
-@keyframes lp2HeroIn{from{opacity:0;transform:translateY(24px);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
-
-.lp2-flow span{position:relative;transition:.35s ease}
-.lp2-flow span.is-active{border-color:#ff2d8d;background:#28101b;color:#fff;box-shadow:0 0 0 1px rgba(255,45,141,.18),0 0 28px rgba(255,45,141,.13);transform:translateY(-2px) scale(1.04)}
-.lp2-flow i{transition:.3s ease;opacity:.45}.lp2-flow i.is-active{opacity:1;transform:translateX(3px);text-shadow:0 0 14px #ff2d8d}
-
-.lp2-demo{position:relative;transform-style:preserve-3d;transition:transform .18s ease-out,box-shadow .25s ease;will-change:transform}
-.lp2-demo:before{content:"";position:absolute;inset:-1px;border-radius:26px;pointer-events:none;background:linear-gradient(115deg,transparent 22%,rgba(255,255,255,.08) 42%,rgba(255,45,141,.14) 50%,transparent 67%);background-size:230% 100%;animation:lp2DemoSweep 5.6s linear infinite}
-@keyframes lp2DemoSweep{to{background-position:-230% 0}}
-.lp2-photo{overflow:hidden}.lp2-photo img{animation:lp2KenBurns 9s ease-in-out infinite alternate;will-change:transform}
-@keyframes lp2KenBurns{from{transform:scale(1.01) translate3d(0,0,0)}to{transform:scale(1.075) translate3d(-1.5%,-1%,0)}}
-.lp2-code{animation:lp2CodeFloat 2.5s ease-in-out infinite}
-@keyframes lp2CodeFloat{50%{transform:translateY(-5px);box-shadow:0 10px 25px rgba(0,0,0,.28),0 0 20px rgba(255,45,141,.2)}}
-.lp2-card{transition:.35s ease}.lp2-card.motion-active{border-color:#573047;background:#171015;transform:translateX(-3px)}
-.lp2-copy{position:relative;overflow:hidden}.lp2-copy:after{content:"";position:absolute;top:0;bottom:0;width:38%;left:-45%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);animation:lp2CopySweep 3s ease-in-out infinite}
-@keyframes lp2CopySweep{70%,100%{left:120%}}
-
-.lp2-stat{transition:.35s ease}.lp2-stat:hover{transform:translateY(-4px);border-color:#4c2b3c}
-.lp2-motion-reveal{opacity:0;transform:translateY(24px) scale(.985);filter:blur(5px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.75,.2,1),filter .7s ease}
-.lp2-motion-reveal.is-visible{opacity:1;transform:none;filter:none}
-.lp2-feature-grid .lp2-feature,.lp2-problems .lp2-problem,.lp2-how article,.lp2-sop div{transition:transform .35s ease,border-color .35s ease,background .35s ease,box-shadow .35s ease}
-.lp2-feature-grid .lp2-feature:hover,.lp2-problems .lp2-problem:hover{transform:translateY(-4px);border-color:#4e2a3d}
-.lp2-how article:hover{transform:translateY(-6px) rotate(-.5deg);box-shadow:0 18px 34px rgba(0,0,0,.22)}
-
-.lp2-cats{display:block!important;overflow:hidden!important;position:relative;mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
-.lp2-cats-track{display:flex;width:max-content;gap:8px;will-change:transform;animation:lp2CatsMarquee 28s linear infinite}
-.lp2-cats-track:hover{animation-play-state:paused}
-.lp2-cats-track span{flex:0 0 auto}
-@keyframes lp2CatsMarquee{to{transform:translateX(-50%)}}
-
-.lp2-sop div{position:relative;overflow:hidden}.lp2-sop div:after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:linear-gradient(90deg,#ff2d8d,#ff8bc2);transition:width .45s ease}
-.lp2-sop div.is-active{border-color:#ff2d8d;background:#1b0f15;transform:translateY(-2px);box-shadow:0 10px 28px rgba(255,45,141,.08)}
-.lp2-sop div.is-active:after{width:100%}
-
-.lp2-how article b{transition:.35s ease}.lp2-how article.is-active b{background:#ff2d8d;transform:scale(1.08);box-shadow:0 0 0 7px rgba(255,45,141,.1)}
-
-/* Animated explainer: Pilih → Upload → Salin → Generate */
-.lp2-how-section{overflow:hidden}
-.lp2-how-motion{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(250px,.88fr);gap:12px;margin-top:24px;align-items:stretch}
-.lp2-how-stage{position:relative;padding:10px;border:1px solid #2d2d33;border-radius:24px;background:linear-gradient(145deg,#0c0c0f,#080809);box-shadow:0 24px 60px rgba(0,0,0,.22),0 0 45px rgba(255,45,141,.07)}
-.lp2-how-screen{position:relative;min-height:430px;overflow:hidden;border:1px solid #29292f;border-radius:17px;background:radial-gradient(circle at 85% 8%,rgba(255,45,141,.11),transparent 27%),#0b0b0d}
-.lp2-how-screenbar{height:45px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:9px;padding:0 12px;border-bottom:1px solid #25252a;background:rgba(14,14,16,.92)}
-.lp2-how-screenbar>b{font:900 9px/1 var(--font-sf);letter-spacing:.08em;color:#e9e9ed;text-align:center;transition:.3s ease}.lp2-how-motion[data-running="1"] .lp2-how-live{animation:lp2HowLive 1s ease-in-out infinite alternate}@keyframes lp2HowLive{to{opacity:.35}}
-.lp2-how-dots{display:flex;gap:4px}.lp2-how-dots i{width:6px;height:6px;border-radius:50%;background:#35353a}.lp2-how-dots i:first-child{background:#ff568f}
-.lp2-how-live{font:900 7px/1 var(--font-sf);color:#72efaa}
-.lp2-how-scene{position:absolute;left:0;right:0;top:45px;bottom:0;display:grid;place-items:center;padding:15px;opacity:0;visibility:hidden;transform:translateX(26px) scale(.98);filter:blur(7px);transition:opacity .5s ease,transform .55s cubic-bezier(.2,.75,.2,1),filter .5s ease,visibility .5s}
-.lp2-how-scene.active{opacity:1;visibility:visible;transform:none;filter:none}
-.lp2-how-gallery{width:100%;display:grid;grid-template-columns:1.45fr .7fr;grid-template-rows:1fr 1fr;gap:8px}
-.lp2-how-gallery-card{position:relative;grid-row:1/3;min-height:315px;border:1px solid #35353b;border-radius:16px;overflow:hidden;background:#121216;transform-origin:center;animation:lp2GalleryBreath 3.1s ease-in-out infinite}
-.lp2-how-gallery-card img{width:100%;height:100%;object-fit:cover;display:block}.lp2-how-gallery-card:after{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.8))}
-.lp2-how-gallery-card span{position:absolute;z-index:2;left:10px;top:10px;padding:6px 8px;border-radius:8px;background:#ff2d8d;color:#fff;font:900 10px/1 var(--font-sf)}
-.lp2-how-gallery-card b{position:absolute;z-index:2;left:12px;bottom:12px;font:900 15px/1 var(--font-sf)}
-.lp2-how-mini{display:flex;flex-direction:column;justify-content:flex-end;padding:11px;border:1px solid #2d2d32;border-radius:14px;background:linear-gradient(145deg,#1b1117,#101012);overflow:hidden;position:relative}
-.lp2-how-mini:before{content:"";position:absolute;width:100px;height:100px;border-radius:50%;right:-55px;top:-55px;background:#ff2d8d;filter:blur(25px);opacity:.18}
-.lp2-how-mini i{color:#ff79b9;font:900 9px/1 var(--font-sf);font-style:normal}.lp2-how-mini strong{margin-top:5px;font:900 12px/1 var(--font-sf)}
-.lp2-how-pointer{position:absolute;right:15px;bottom:14px;z-index:4;display:flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid #3b3036;border-radius:999px;background:rgba(6,6,8,.82);backdrop-filter:blur(7px);animation:lp2PointerTap 1.8s ease-in-out infinite}
-.lp2-how-pointer span{font-size:16px}.lp2-how-pointer small{font-size:8px;color:#ddd}
-@keyframes lp2GalleryBreath{50%{transform:scale(1.018);box-shadow:0 0 30px rgba(255,45,141,.11)}}@keyframes lp2PointerTap{50%{transform:translate(-7px,-8px) scale(.97)}}
-
-.lp2-upload-zone{width:min(320px,92%);padding:26px 18px;text-align:center;border:1px dashed #82405f;border-radius:20px;background:rgba(255,45,141,.045)}
-.lp2-upload-avatar{width:92px;height:108px;margin:0 auto 16px;border:1px solid #3a3a40;border-radius:17px;background:linear-gradient(145deg,#1c1c21,#101012);display:grid;place-items:center;position:relative;overflow:hidden}
-.lp2-upload-avatar:before{content:"";width:39px;height:39px;border-radius:50%;background:#3b3b42;box-shadow:0 49px 0 15px #303036}
-.lp2-upload-avatar span{position:absolute;right:7px;bottom:7px;z-index:2;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#ff2d8d;color:white;font-size:18px;font-weight:900;animation:lp2UploadPlus 1.5s ease-in-out infinite}
-.lp2-upload-zone>b{display:block;font:900 12px/1 var(--font-sf)}.lp2-upload-zone p{margin:7px 0 14px;color:#92929b;font-size:10px}
-.lp2-upload-progress{height:6px;border-radius:999px;background:#232328;overflow:hidden}.lp2-upload-progress i{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#ff2d8d,#ff8cc4);animation:lp2UploadBar 2.3s ease-in-out infinite}
-.lp2-upload-zone small{display:block;margin-top:8px;color:#ff82bd;font-size:8px}
-@keyframes lp2UploadPlus{50%{transform:scale(1.13);box-shadow:0 0 0 7px rgba(255,45,141,.1)}}@keyframes lp2UploadBar{0%{width:0}68%,100%{width:100%}}
-
-.lp2-prompt-demo{width:min(360px,95%);padding:14px;border:1px solid #303036;border-radius:17px;background:#101012;box-shadow:0 18px 40px rgba(0,0,0,.25)}
-.lp2-prompt-head{display:flex;justify-content:space-between;gap:10px;align-items:center;padding-bottom:11px;border-bottom:1px solid #29292e}.lp2-prompt-head span{padding:6px 8px;border-radius:8px;background:#ff2d8d;font:900 9px/1 var(--font-sf)}.lp2-prompt-head b{font:900 8px/1 var(--font-sf);color:#aaa}
-.lp2-prompt-lines{display:grid;gap:8px;margin:15px 0}.lp2-prompt-lines i{height:7px;width:0;border-radius:999px;background:linear-gradient(90deg,#34343a,#56565f);animation:lp2TypeLine 3.1s ease-in-out infinite}.lp2-prompt-lines i:nth-child(2){animation-delay:.13s}.lp2-prompt-lines i:nth-child(3){animation-delay:.26s}.lp2-prompt-lines i:nth-child(4){animation-delay:.39s}.lp2-prompt-lines i:nth-child(5){animation-delay:.52s}.lp2-prompt-lines i:nth-child(6){animation-delay:.65s}
-.lp2-prompt-demo button{width:100%;height:42px;border:0;border-radius:11px;background:#ff2d8d;color:white;font:900 10px/1 var(--font-sf);pointer-events:none}.lp2-prompt-demo button span{display:inline-block;margin-left:6px;animation:lp2CheckPop 1.45s ease-in-out infinite}
-.lp2-copy-fly{position:absolute;top:24px;right:20px;padding:8px 10px;border:1px solid #335c47;border-radius:999px;background:#0c1c13;color:#7cf2ab;font:900 8px/1 var(--font-sf);animation:lp2CopyFly 2.1s ease-in-out infinite}
-@keyframes lp2TypeLine{0%{width:0;opacity:.3}55%,100%{width:var(--w);opacity:1}}@keyframes lp2CheckPop{50%{transform:scale(1.35)}}@keyframes lp2CopyFly{0%,100%{opacity:.3;transform:translateY(5px)}50%{opacity:1;transform:translateY(-3px)}}
-
-.lp2-result-demo{position:relative;width:min(330px,92%);height:340px;border:1px solid #3c2a34;border-radius:19px;overflow:hidden;background:#111;box-shadow:0 24px 55px rgba(255,45,141,.12)}
-.lp2-result-demo img{width:100%;height:100%;object-fit:cover;display:block;animation:lp2ResultReveal 3.2s ease-in-out infinite alternate}
-.lp2-result-scan{position:absolute;left:0;right:0;top:-20%;height:28%;background:linear-gradient(180deg,transparent,rgba(255,73,164,.22),rgba(255,255,255,.12),transparent);filter:blur(2px);animation:lp2Scan 2.5s linear infinite}
-.lp2-result-ready{position:absolute;left:12px;right:12px;bottom:12px;display:flex;align-items:center;gap:9px;padding:10px;border:1px solid rgba(255,255,255,.13);border-radius:13px;background:rgba(5,5,7,.78);backdrop-filter:blur(9px)}
-.lp2-result-ready>span{display:grid;place-items:center;width:29px;height:29px;border-radius:50%;background:#56df91;color:#092514;font-weight:900;animation:lp2DonePulse 1.7s ease-in-out infinite}.lp2-result-ready b{display:block;font:900 9px/1 var(--font-sf)}.lp2-result-ready small{display:block;margin-top:4px;color:#aaa;font-size:8px}
-@keyframes lp2ResultReveal{from{transform:scale(1.04);filter:saturate(.75) brightness(.8)}to{transform:scale(1);filter:saturate(1.08) brightness(1.03)}}@keyframes lp2Scan{to{top:105%}}@keyframes lp2DonePulse{50%{box-shadow:0 0 0 7px rgba(86,223,145,.1)}}
-
-.lp2-how-progress{height:4px;margin:9px 7px 0;border-radius:999px;background:#202025;overflow:hidden}.lp2-how-progress i{display:block;width:25%;height:100%;border-radius:inherit;background:linear-gradient(90deg,#ff2d8d,#ff8cc4);transition:width .55s cubic-bezier(.2,.75,.2,1)}
-.lp2-how-steps{display:grid;gap:7px}
-.lp2-how-steps button{appearance:none;width:100%;display:grid;grid-template-columns:43px 1fr;gap:10px;align-items:center;padding:12px;border:1px solid #29292e;border-radius:15px;background:#0e0e10;color:#fff;text-align:left;cursor:pointer;transition:.35s ease}
-.lp2-how-steps button>span{display:grid;place-items:center;width:39px;height:39px;border-radius:11px;background:#18181b;color:#8c8c94;font:900 9px/1 var(--font-sf);transition:.35s ease}.lp2-how-steps button b{display:block;font:900 12px/1.15 var(--font-sf)}.lp2-how-steps button small{display:block;margin-top:4px;color:#85858d;font-size:9px;line-height:1.4}
-.lp2-how-steps button.active{border-color:#743a55;background:#1a1015;transform:translateX(-4px);box-shadow:0 12px 30px rgba(255,45,141,.08)}.lp2-how-steps button.active>span{background:#ff2d8d;color:#fff;box-shadow:0 0 0 6px rgba(255,45,141,.08)}.lp2-how-steps button.active small{color:#bdbdc4}
-.lp2-how-note{margin-top:12px;padding:13px 15px;border-left:2px solid #ff2d8d;background:#0e0e10;border-radius:0 13px 13px 0;color:#a9a9b0;font-size:11px;line-height:1.55}.lp2-how-note b{color:#fff}.lp2-how-note span{color:#ff79b9;font-weight:800}
-@media(max-width:640px){.lp2-how-motion{grid-template-columns:1fr}.lp2-how-screen{min-height:390px}.lp2-how-steps{grid-template-columns:1fr 1fr}.lp2-how-steps button{grid-template-columns:34px 1fr;padding:10px}.lp2-how-steps button>span{width:32px;height:32px}.lp2-how-steps button.active{transform:translateY(-2px)}.lp2-how-gallery-card{min-height:275px}}
-.lp2-price{position:relative;overflow:hidden}.lp2-price:before{content:"";position:absolute;width:190px;height:190px;right:-100px;top:-90px;border:1px solid rgba(255,45,141,.25);border-radius:50%;box-shadow:0 0 0 28px rgba(255,45,141,.035),0 0 0 58px rgba(255,45,141,.02);animation:lp2PriceOrb 7s ease-in-out infinite alternate;pointer-events:none}
-@keyframes lp2PriceOrb{to{transform:translate(-45px,55px) scale(1.12)}}
-.bpu-price-card-choice{transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease,background .3s ease}
-.bpu-price-card-choice.spotlight{transform:translateY(-4px) scale(1.025)}
-.lp2-final .lp2-btn.primary{animation:lp2FinalPulse 2.4s ease-in-out infinite}
-@keyframes lp2FinalPulse{50%{transform:translateY(-2px) scale(1.025);box-shadow:0 12px 38px rgba(255,45,141,.24)}}
-
-.lp2-particle{position:absolute;z-index:0;width:4px;height:4px;border-radius:50%;background:#ff6fb3;opacity:.3;pointer-events:none;animation:lp2Particle var(--dur,8s) ease-in-out infinite alternate}
-@keyframes lp2Particle{to{transform:translate3d(var(--x,20px),var(--y,-50px),0) scale(1.8);opacity:.08}}
-
-@media(prefers-reduced-motion:reduce){
-  .lp2-page:before,.lp2-page:after,.lp2-nav a:after,.lp2-btn.primary:after,.lp2-pill,.lp2-photo img,.lp2-code,.lp2-demo:before,.lp2-copy:after,.lp2-cats-track,.lp2-price:before,.lp2-final .lp2-btn.primary,.lp2-particle,.lp2-how-gallery-card,.lp2-how-pointer,.lp2-upload-avatar span,.lp2-upload-progress i,.lp2-prompt-lines i,.lp2-prompt-demo button span,.lp2-copy-fly,.lp2-result-demo img,.lp2-result-scan,.lp2-result-ready>span{animation:none!important}
-  .lp2-motion-reveal{opacity:1!important;transform:none!important;filter:none!important}
-  .lp2-demo{transform:none!important}
+<style id="badai-prompt-premium-style">
+:root{
+  --bp-bg:#050505;
+  --bp-surface:#0a0a0b;
+  --bp-surface2:#0f0f11;
+  --bp-line:#222226;
+  --bp-line2:#303036;
+  --bp-text:#f7f7f8;
+  --bp-muted:#96969f;
+  --bp-soft:#c9c9ce;
+  --bp-pink:#ff3b91;
+  --bp-max:760px;
 }
+html{scroll-behavior:smooth}
+body{background:#000!important;color:var(--bp-text)}
+.bp-site{max-width:var(--bp-max);margin:0 auto;min-height:100vh;background:var(--bp-bg);color:var(--bp-text);font-family:var(--font-roboto);overflow:hidden}
+.bp-shell{padding-left:22px;padding-right:22px}
+.bp-nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:20px;height:66px;padding:0 22px;border-bottom:1px solid rgba(255,255,255,.07);background:rgba(5,5,5,.9);backdrop-filter:blur(18px)}
+.bp-wordmark{color:#fff;text-decoration:none;font:900 18px/1 var(--font-sf);letter-spacing:-.045em}.bp-wordmark b{color:var(--bp-pink)}.bp-wordmark small{display:block;margin-top:5px;color:#6f6f75;font:800 7px/1 var(--font-roboto);letter-spacing:.14em}
+.bp-nav-actions{display:flex;align-items:center;gap:7px}.bp-nav-link,.bp-nav-cta{display:inline-flex;align-items:center;justify-content:center;height:36px;padding:0 13px;border-radius:10px;text-decoration:none;font:850 9px/1 var(--font-sf);letter-spacing:.01em}
+.bp-nav-link{color:#a7a7ae}.bp-nav-cta{background:#fff;color:#090909}
+.bp-hero{padding:74px 0 44px;text-align:center}
+.bp-eyebrow{display:inline-flex;align-items:center;gap:7px;color:#b7b7bd;font:800 9px/1 var(--font-sf);letter-spacing:.12em;text-transform:uppercase}.bp-eyebrow i{width:6px;height:6px;border-radius:50%;background:var(--bp-pink);box-shadow:0 0 18px rgba(255,59,145,.55)}
+.bp-hero h1{max-width:700px;margin:20px auto 18px;font:950 clamp(46px,10vw,78px)/.93 var(--font-sf);letter-spacing:-.07em}.bp-hero h1 span{color:#74747b}
+.bp-hero p{max-width:610px;margin:0 auto;color:#a8a8af;font:500 14px/1.72 var(--font-roboto)}.bp-hero p b{color:#eee;font-weight:700}
+.bp-hero-actions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:25px}.bp-btn{appearance:none;border:0;display:inline-flex;align-items:center;justify-content:center;min-height:47px;padding:0 18px;border-radius:12px;font:900 10px/1 var(--font-sf);cursor:pointer;text-decoration:none}.bp-btn.primary{background:#fff;color:#090909}.bp-btn.secondary{border:1px solid #28282d;background:#0c0c0e;color:#d7d7db}
+.bp-hero-note{margin-top:12px;color:#66666d;font-size:9px}
+.bp-product-wrap{padding:12px 0 0}
+.bp-product{position:relative;margin:0 auto;border:1px solid #25252a;border-radius:24px;background:#08080a;box-shadow:0 30px 80px rgba(0,0,0,.4);overflow:hidden}
+.bp-product:before{content:"";position:absolute;left:12%;right:12%;top:-1px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent)}
+.bp-product-bar{height:46px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:0 13px;border-bottom:1px solid #232328;background:#0b0b0d}
+.bp-window-dots{display:flex;gap:5px}.bp-window-dots i{width:7px;height:7px;border-radius:50%;background:#303036}.bp-product-bar b{text-align:center;color:#82828a;font:800 8px/1 var(--font-sf);letter-spacing:.08em}.bp-live{color:#6f6f76;font:800 7px/1 var(--font-sf)}
+.bp-product-grid{display:grid;grid-template-columns:1.08fr .92fr;min-height:500px}
+.bp-library{padding:13px;border-right:1px solid #222227;background:#08080a}
+.bp-library-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.bp-library-head b{font:900 11px/1 var(--font-sf)}.bp-library-head span{color:#6d6d74;font-size:8px}
+.bp-library-search{height:38px;display:flex;align-items:center;padding:0 11px;margin-bottom:9px;border:1px solid #27272c;border-radius:10px;background:#0d0d10;color:#66666d;font-size:9px}
+.bp-gallery{display:grid;grid-template-columns:1fr 1fr;gap:8px}.bp-gallery-card{position:relative;aspect-ratio:4/5;overflow:hidden;border:1px solid #25252a;border-radius:13px;background:#101013;cursor:default;transition:.35s ease}.bp-gallery-card img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.94)}.bp-gallery-card:after{content:"";position:absolute;inset:55% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.84))}.bp-gallery-card b{position:absolute;left:9px;bottom:10px;z-index:2;font:900 10px/1 var(--font-sf)}.bp-gallery-card span{position:absolute;left:8px;top:8px;z-index:2;padding:5px 6px;border:1px solid rgba(255,255,255,.13);border-radius:7px;background:rgba(0,0,0,.63);font:900 8px/1 var(--font-sf)}
+.bp-gallery-card.ghost{display:flex;align-items:flex-end;padding:10px;background:linear-gradient(145deg,#141417,#0d0d10)}.bp-gallery-card.ghost:before{content:"";position:absolute;width:90px;height:90px;border-radius:50%;right:-38px;top:-35px;background:#28282e;filter:blur(22px);opacity:.45}
+.bp-gallery-card.active{border-color:#5f384b;box-shadow:0 0 0 1px rgba(255,59,145,.08),0 18px 40px rgba(0,0,0,.25);transform:translateY(-2px)}
+.bp-inspector{padding:20px 17px;display:flex;flex-direction:column;background:#0b0b0d}.bp-inspector-meta{display:flex;align-items:center;justify-content:space-between;color:#75757d;font-size:8px}.bp-inspector-meta b{color:#ff7ab9;font:900 8px/1 var(--font-sf)}.bp-inspector h3{margin:12px 0 8px;font:900 24px/1.04 var(--font-sf);letter-spacing:-.035em}.bp-inspector>p{margin:0;color:#8d8d95;font-size:10px;line-height:1.55}
+.bp-prompt-preview{margin-top:16px;padding:13px;border:1px solid #29292e;border-radius:13px;background:#0f0f12}.bp-prompt-preview small{display:block;color:#6f6f76;font:800 7px/1 var(--font-sf);letter-spacing:.09em}.bp-prompt-lines{display:grid;gap:7px;margin-top:10px}.bp-prompt-lines i{height:6px;border-radius:999px;background:#27272d}.bp-prompt-lines i:nth-child(1){width:94%}.bp-prompt-lines i:nth-child(2){width:87%}.bp-prompt-lines i:nth-child(3){width:98%}.bp-prompt-lines i:nth-child(4){width:72%}.bp-prompt-lines i:nth-child(5){width:91%}
+.bp-inspector-button{margin-top:auto;height:43px;border:0;border-radius:11px;background:#fff;color:#0a0a0b;font:900 10px/1 var(--font-sf)}
+.bp-product-caption{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:12px 15px;border-top:1px solid #222227;color:#77777f;font-size:8px}.bp-product-caption b{color:#babac0}
+.bp-trustbar{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:9px;border:1px solid #222227;border-radius:16px;overflow:hidden;background:#222227}.bp-trustbar div{padding:15px 12px;background:#0b0b0d;text-align:left}.bp-trustbar b{display:block;font:900 18px/1 var(--font-sf)}.bp-trustbar span{display:block;margin-top:5px;color:#77777f;font-size:8px;line-height:1.35}
+.bp-section{padding:78px 0;border-top:1px solid rgba(255,255,255,.055)}.bp-section-head{max-width:610px}.bp-section-kicker{color:#85858d;font:850 8px/1 var(--font-sf);letter-spacing:.13em;text-transform:uppercase}.bp-section h2{margin:12px 0 14px;font:950 clamp(33px,7vw,52px)/.98 var(--font-sf);letter-spacing:-.055em}.bp-section h2 span{color:#77777e}.bp-section-lead{max-width:600px;color:#9999a1;font-size:13px;line-height:1.68}
+.bp-principles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:26px}.bp-principle{padding:17px;border:1px solid #242429;border-radius:16px;background:#0b0b0d}.bp-principle small{color:#626269;font:900 8px/1 var(--font-sf)}.bp-principle h3{margin:20px 0 7px;font:900 15px/1.17 var(--font-sf)}.bp-principle p{margin:0;color:#82828a;font-size:10px;line-height:1.55}
+.bp-standard{margin-top:28px;border:1px solid #242429;border-radius:18px;overflow:hidden}.bp-standard-row{display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:10px;min-height:51px;padding:0 14px;border-bottom:1px solid #1e1e22;background:#09090b}.bp-standard-row:last-child{border-bottom:0}.bp-standard-row>span{color:#55555c;font:900 8px/1 var(--font-sf)}.bp-standard-row b{font:850 10px/1 var(--font-sf)}.bp-standard-row small{color:#5f5f66;font-size:8px}.bp-standard-row.active{background:#0e0b0d}.bp-standard-row.active b{color:#fff}.bp-standard-row.active>span{color:var(--bp-pink)}
+.bp-how{margin-top:28px;display:grid;grid-template-columns:1.15fr .85fr;gap:9px}.bp-how-screen{min-height:360px;padding:14px;border:1px solid #242429;border-radius:18px;background:#09090b}.bp-how-display{height:100%;min-height:330px;position:relative;overflow:hidden;border:1px solid #202025;border-radius:13px;background:#0c0c0f}.bp-how-scene{position:absolute;inset:0;padding:17px;opacity:0;transform:translateY(12px);transition:.45s ease;pointer-events:none}.bp-how-scene.active{opacity:1;transform:none}.bp-how-title{color:#696970;font:800 8px/1 var(--font-sf);letter-spacing:.11em}.bp-how-main{margin-top:18px;font:900 25px/1.05 var(--font-sf);letter-spacing:-.03em}.bp-how-main span{color:#77777f}.bp-how-art{margin-top:20px;min-height:190px;border:1px solid #25252b;border-radius:13px;background:#101013;display:grid;place-items:center;overflow:hidden}.bp-how-art img{width:100%;height:100%;object-fit:cover}.bp-upload-box{width:78%;padding:26px 18px;text-align:center;border:1px dashed #393940;border-radius:14px}.bp-upload-box i{display:grid;place-items:center;width:52px;height:52px;margin:0 auto 13px;border-radius:50%;background:#17171a;color:#ff79b9;font:300 25px/1 var(--font-sf)}.bp-upload-box b{display:block;font:900 10px/1 var(--font-sf)}.bp-upload-box small{display:block;margin-top:7px;color:#6d6d74;font-size:8px}.bp-copy-box{width:90%;padding:14px;border:1px solid #29292f;border-radius:13px;background:#0e0e11}.bp-copy-lines{display:grid;gap:7px}.bp-copy-lines i{height:6px;border-radius:99px;background:#2a2a30}.bp-copy-lines i:nth-child(1){width:93%}.bp-copy-lines i:nth-child(2){width:84%}.bp-copy-lines i:nth-child(3){width:96%}.bp-copy-lines i:nth-child(4){width:67%}.bp-copy-box button{width:100%;height:38px;margin-top:15px;border:0;border-radius:9px;background:#fff;color:#111;font:900 9px/1 var(--font-sf)}
+.bp-result-box{width:70%;height:230px;border:1px solid #2d2d32;border-radius:14px;overflow:hidden}.bp-result-box img{width:100%;height:100%;object-fit:cover}.bp-how-list{display:grid;gap:6px}.bp-how-list button{appearance:none;display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;width:100%;padding:12px;border:1px solid #222227;border-radius:13px;background:#0a0a0c;color:#fff;text-align:left;cursor:pointer;transition:.28s ease}.bp-how-list button>span{display:grid;place-items:center;width:31px;height:31px;border-radius:9px;background:#141416;color:#6d6d73;font:900 8px/1 var(--font-sf)}.bp-how-list b{display:block;font:900 10px/1 var(--font-sf)}.bp-how-list small{display:block;margin-top:4px;color:#696970;font-size:8px;line-height:1.35}.bp-how-list button.active{border-color:#3e3037;background:#0e0b0d}.bp-how-list button.active>span{background:#fff;color:#111}
+.bp-category-strip{display:flex;gap:7px;overflow:auto;padding:4px 0 2px;margin-top:22px;scrollbar-width:none}.bp-category-strip::-webkit-scrollbar{display:none}.bp-category-strip span{flex:0 0 auto;padding:9px 11px;border:1px solid #242429;border-radius:999px;background:#0a0a0c;color:#9a9aa1;font:800 8px/1 var(--font-sf)}
+.bp-price{margin-top:25px;padding:22px;border:1px solid #29292e;border-radius:20px;background:#0a0a0c}.bp-price-top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}.bp-price-top p{margin:7px 0 0;color:#7f7f87;font-size:10px;line-height:1.5}.bp-price-mark{padding:7px 9px;border:1px solid #2b2b31;border-radius:999px;color:#8e8e96;font:800 8px/1 var(--font-sf)}
+#bpuPriceChoices{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:18px}.bpu-price-card-choice{appearance:none;min-height:86px;border:1px solid #28282d;border-radius:13px;background:#0d0d0f;color:#fff;cursor:pointer;transition:.3s ease}.bpu-answer-letter{display:block;color:#5f5f66;font:900 8px/1 var(--font-sf)}.bpu-answer-price{display:block;margin-top:8px;font:950 23px/1 var(--font-sf)}.bpu-price-card-choice.spotlight,.bpu-price-card-choice:hover{border-color:#5a3948;background:#120d0f;transform:translateY(-2px)}.bpu-top-pick-badge,.bpu-three-fingers{display:none!important}
+.bp-value-list{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:15px}.bp-value-list div{padding:11px;border:1px solid #222227;border-radius:11px;background:#08080a;color:#9b9ba2;font-size:9px;line-height:1.45}.bp-value-list div:before{content:"✓";margin-right:7px;color:#d8d8dc}
+.bp-price-cta{width:100%;height:48px;margin-top:15px;border:0;border-radius:11px;background:#fff;color:#111;font:900 10px/1 var(--font-sf);cursor:pointer}.bp-mini-trust{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px;color:#66666d;font-size:8px}.bp-mini-trust span{padding:7px 8px;border:1px solid #222227;border-radius:999px}
+.bp-faq{margin-top:24px}.bp-faq details{padding:15px 0;border-top:1px solid #222227}.bp-faq details:last-child{border-bottom:1px solid #222227}.bp-faq summary{cursor:pointer;font:850 11px/1.4 var(--font-sf)}.bp-faq p{margin:8px 0 0;color:#7f7f87;font-size:10px;line-height:1.6}
+.bp-final{text-align:center}.bp-final h2{max-width:650px;margin-left:auto;margin-right:auto}.bp-final .bp-section-lead{margin-left:auto;margin-right:auto}.bp-final .bp-hero-actions{margin-top:24px}
+.bp-footer{padding:30px 22px 100px;border-top:1px solid #202024;text-align:center;color:#5f5f66;font-size:8px;line-height:1.6}.bp-footer b{color:#96969e}.bp-footer a{color:#73737a;text-decoration:none;margin:0 5px}
+.social-proof{opacity:.94!important}
+.bp-reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.75,.2,1)}.bp-reveal.in{opacity:1;transform:none}
+@media(max-width:620px){.bp-shell{padding-left:16px;padding-right:16px}.bp-nav{padding:0 16px}.bp-nav-link{display:none}.bp-hero{padding-top:55px}.bp-product-grid{grid-template-columns:1fr}.bp-library{border-right:0;border-bottom:1px solid #222227}.bp-inspector{min-height:300px}.bp-trustbar{grid-template-columns:1fr 1fr 1fr}.bp-principles{grid-template-columns:1fr}.bp-how{grid-template-columns:1fr}.bp-how-list{grid-template-columns:1fr 1fr}.bp-value-list{grid-template-columns:1fr}.bp-standard-row{grid-template-columns:34px 1fr}.bp-standard-row small{display:none}.bp-gallery-card:nth-child(4){display:none}}
+@media(max-width:410px){.bp-hero h1{font-size:45px}.bp-product-grid{min-height:0}.bp-gallery-card{aspect-ratio:1/1.1}.bp-how-list{grid-template-columns:1fr}.bp-trustbar b{font-size:15px}.bp-nav-cta{padding:0 10px}.bp-wordmark{font-size:16px}}
+@media(prefers-reduced-motion:reduce){.bp-reveal{opacity:1;transform:none;transition:none}}
 </style>
 </head>
 <body>
 
+
 <div id="badaiLoader" class="ms-loader" aria-hidden="true">
   <div class="ms-loader-top">BADAI PROMPT</div>
-  <div class="ms-loader-word" id="loaderWord">Pilih</div>
+  <div class="ms-loader-word" id="loaderWord">Curated</div>
   <div class="ms-loader-count" id="loaderCount">000</div>
   <div class="ms-loader-progress"><span id="loaderProgress"></span></div>
 </div>
 
-<div class="lp2-page">
-  <header class="lp2-nav">
-    <div class="lp2-brand">BADAI <b>PROMPT</b><small>PERPUSTAKAAN ADEGAN AI</small></div>
-    <a href="#harga">AMBIL AKSES</a>
+<div class="bp-site">
+  <header class="bp-nav">
+    <a class="bp-wordmark" href="#home">BADAI <b>PROMPT</b><small>PERPUSTAKAAN ADEGAN AI</small></a>
+    <div class="bp-nav-actions">
+      <a class="bp-nav-link" href="/member">LOGIN</a>
+      <a class="bp-nav-cta" href="#harga">AMBIL AKSES</a>
+    </div>
   </header>
 
   <main>
-    <section class="lp2-hero" id="home">
-      <div class="lp2-wrap">
-        <div class="lp2-pill">500+ ADEGAN • BAHASA INDONESIA • TERUS DIUPDATE</div>
-        <h1>Bingung mau bikin foto AI kayak apa?<br><span>Pilih adegannya. Jadi kamu.</span></h1>
-        <p class="lp2-lead"><b>BADAI PROMPT bukan kumpulan prompt random.</b> Ini perpustakaan adegan AI: pilih contoh yang kamu suka, upload fotomu sendiri, salin promptnya, lalu generate.</p>
-        <div class="lp2-flow"><span>1. PILIH ADEGAN</span><i>→</i><span>2. UPLOAD FOTO</span><i>→</i><span>3. SALIN PROMPT</span><i>→</i><span>4. GENERATE</span></div>
-        <div class="lp2-actions">
-          <button class="lp2-btn primary" type="button" onclick="openCheckout()">AMBIL SEMUA PROMPT →</button>
-          <a class="lp2-btn ghost" href="/member">SUDAH PUNYA AKSES</a>
+    <section class="bp-hero bp-shell" id="home">
+      <div class="bp-eyebrow"><i></i> CURATED AI SCENE LIBRARY</div>
+      <h1>Jangan mulai dari<br><span>prompt kosong.</span></h1>
+      <p><b>Pilih visual yang kamu suka.</b> Upload fotomu. Salin prompt Bahasa Indonesia. Lalu generate jadi versimu sendiri.</p>
+      <div class="bp-hero-actions">
+        <button class="bp-btn primary" type="button" onclick="openCheckout()">AMBIL AKSES BADAI PROMPT</button>
+        <a class="bp-btn secondary" href="#produk">LIHAT PRODUK</a>
+      </div>
+      <div class="bp-hero-note">500+ prompt • 30+ kategori • 1–4 preview visual • update selama masa akses</div>
+
+      <div class="bp-product-wrap bp-reveal" id="produk">
+        <div class="bp-product">
+          <div class="bp-product-bar">
+            <span class="bp-window-dots"><i></i><i></i><i></i></span>
+            <b>BADAI PROMPT · MEMBER AREA</b>
+            <span class="bp-live">LIVE PRODUCT</span>
+          </div>
+          <div class="bp-product-grid">
+            <div class="bp-library">
+              <div class="bp-library-head"><b>Prompt Library</b><span>Terbaru</span></div>
+              <div class="bp-library-search">Cari prompt: candid, cafe, Jepang, cinematic...</div>
+              <div class="bp-gallery">
+                <div class="bp-gallery-card active">
+                  <img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="Preview BADAI PROMPT BP533">
+                  <span>BP533</span><b>Street Portrait</b>
+                </div>
+                <div class="bp-gallery-card ghost"><span>BP532</span><b>Cafe Editorial</b></div>
+                <div class="bp-gallery-card ghost"><span>BP531</span><b>Candid Daily</b></div>
+                <div class="bp-gallery-card ghost"><span>BP530</span><b>Cinematic Night</b></div>
+              </div>
+            </div>
+            <div class="bp-inspector">
+              <div class="bp-inspector-meta"><b>BP533 · STREET</b><span>4:5 · REALISTIC</span></div>
+              <h3>Potret menoleh di jalan kota.</h3>
+              <p>Preview dulu. Kalau cocok, buka prompt lengkap dan jadikan adegan itu versi kamu.</p>
+              <div class="bp-prompt-preview">
+                <small>PROMPT BAHASA INDONESIA</small>
+                <div class="bp-prompt-lines"><i></i><i></i><i></i><i></i><i></i></div>
+              </div>
+              <button class="bp-inspector-button" type="button" tabindex="-1">BUKA PROMPT</button>
+            </div>
+          </div>
+          <div class="bp-product-caption"><span>Produk yang kamu beli benar-benar berbentuk library, bukan file PDF.</span><b>Preview → Prompt → Generate</b></div>
         </div>
 
-        <div class="lp2-demo" aria-label="Contoh tampilan BADAI PROMPT">
-          <div class="lp2-browser">
-            <div class="lp2-browser-top"><i></i><i></i><i></i><b>BADAI PROMPT • MEMBER AREA</b></div>
-            <div class="lp2-demo-grid">
-              <div class="lp2-photo">
-                <img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="Contoh hasil adegan BADAI PROMPT">
-                <span class="lp2-code">BP533</span>
-              </div>
-              <div class="lp2-panel">
-                <div class="lp2-search">Cari: candid, Jepang, cafe, iPhone...</div>
-                <div class="lp2-card"><small>ADEGAN STREET</small><h3>Potret Menoleh di Jalan Kota</h3><p>Preview visual dulu. Kalau suka, buka prompt lengkap Bahasa Indonesia.</p></div>
-                <div class="lp2-card"><small>STRUKTUR PROMPT</small><h3>Wajah tetap kamu.</h3><p>Identity lock + scene + action + wardrobe + camera + lighting + realism + anti-AI-slop.</p></div>
-                <div class="lp2-copy">BUKA PROMPT</div>
-              </div>
+        <div class="bp-trustbar">
+          <div><b>500+</b><span>prompt adegan siap pakai</span></div>
+          <div><b>30+</b><span>kategori visual</span></div>
+          <div><b>1–4</b><span>preview per prompt</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bp-section bp-shell">
+      <div class="bp-section-head bp-reveal">
+        <div class="bp-section-kicker">DESIGNED LIKE A PRODUCT</div>
+        <h2>Bukan kumpulan prompt.<br><span>Sebuah sistem visual.</span></h2>
+        <p class="bp-section-lead">Yang dijual bukan “ribuan kalimat prompt”. Yang kamu dapat adalah cara paling cepat menemukan ide visual yang ingin dibuat.</p>
+      </div>
+      <div class="bp-principles bp-reveal">
+        <article class="bp-principle"><small>01</small><h3>Visual first.</h3><p>Lihat hasilnya dulu. Kamu tidak perlu membayangkan prompt panjang sebelum tahu arahnya.</p></article>
+        <article class="bp-principle"><small>02</small><h3>Bahasa manusia.</h3><p>Prompt dibuat dalam Bahasa Indonesia supaya gampang dibaca dan diubah sesuai kebutuhan.</p></article>
+        <article class="bp-principle"><small>03</small><h3>Built for realism.</h3><p>Identitas, kamera, cahaya, tekstur, dan anti-AI-slop disusun sebagai satu standar.</p></article>
+      </div>
+    </section>
+
+    <section class="bp-section bp-shell">
+      <div class="bp-section-head bp-reveal">
+        <div class="bp-section-kicker">THE BADAI STANDARD</div>
+        <h2>Prompt yang terlihat simpel.<br><span>Punya struktur di belakangnya.</span></h2>
+        <p class="bp-section-lead">Delapan lapisan ini dipakai sebagai standar agar prompt tetap konsisten saat library terus bertambah.</p>
+      </div>
+      <div class="bp-standard bp-reveal" id="bpStandard">
+        <div class="bp-standard-row active"><span>01</span><b>Identity / Reference Lock</b><small>jaga identitas</small></div>
+        <div class="bp-standard-row"><span>02</span><b>Scene</b><small>tempat & suasana</small></div>
+        <div class="bp-standard-row"><span>03</span><b>Action</b><small>aktivitas natural</small></div>
+        <div class="bp-standard-row"><span>04</span><b>Wardrobe / Object</b><small>detail nyata</small></div>
+        <div class="bp-standard-row"><span>05</span><b>Camera</b><small>framing & lens</small></div>
+        <div class="bp-standard-row"><span>06</span><b>Lighting</b><small>arah cahaya</small></div>
+        <div class="bp-standard-row"><span>07</span><b>Realism</b><small>tekstur & imperfection</small></div>
+        <div class="bp-standard-row"><span>08</span><b>Anti-AI-Slop</b><small>hindari hasil generik</small></div>
+      </div>
+    </section>
+
+    <section class="bp-section bp-shell">
+      <div class="bp-section-head bp-reveal">
+        <div class="bp-section-kicker">HOW IT WORKS</div>
+        <h2>Empat langkah.<br><span>Tanpa belajar prompting dulu.</span></h2>
+        <p class="bp-section-lead">Demo ini menunjukkan persis bagaimana member memakai BADAI PROMPT.</p>
+      </div>
+
+      <div class="bp-how bp-reveal" id="bpHow">
+        <div class="bp-how-screen">
+          <div class="bp-how-display">
+            <div class="bp-how-scene active" data-bp-scene="0">
+              <div class="bp-how-title">01 · PILIH ADEGAN</div>
+              <div class="bp-how-main">Mulai dari <span>visual.</span></div>
+              <div class="bp-how-art"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="Pilih adegan BADAI PROMPT"></div>
+            </div>
+            <div class="bp-how-scene" data-bp-scene="1">
+              <div class="bp-how-title">02 · UPLOAD FOTO</div>
+              <div class="bp-how-main">Masukkan <span>identitasmu.</span></div>
+              <div class="bp-how-art"><div class="bp-upload-box"><i>+</i><b>FOTO REFERENSI</b><small>Gunakan foto kamu sendiri</small></div></div>
+            </div>
+            <div class="bp-how-scene" data-bp-scene="2">
+              <div class="bp-how-title">03 · SALIN PROMPT</div>
+              <div class="bp-how-main">Sudah siap <span>dipakai.</span></div>
+              <div class="bp-how-art"><div class="bp-copy-box"><div class="bp-copy-lines"><i></i><i></i><i></i><i></i></div><button type="button" tabindex="-1">SALIN PROMPT ✓</button></div></div>
+            </div>
+            <div class="bp-how-scene" data-bp-scene="3">
+              <div class="bp-how-title">04 · GENERATE</div>
+              <div class="bp-how-main">Jadi <span>versimu.</span></div>
+              <div class="bp-how-art"><div class="bp-result-box"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="Hasil generate BADAI PROMPT"></div></div>
             </div>
           </div>
         </div>
-
-        <div class="lp2-stats">
-          <div class="lp2-stat"><b>500+</b><small>prompt adegan siap pakai</small></div>
-          <div class="lp2-stat"><b>30+</b><small>kategori visual</small></div>
-          <div class="lp2-stat"><b>1–4</b><small>contoh visual per prompt</small></div>
+        <div class="bp-how-list">
+          <button class="active" type="button" data-bp-step="0"><span>01</span><div><b>Pilih adegan</b><small>Lihat preview yang paling kamu suka.</small></div></button>
+          <button type="button" data-bp-step="1"><span>02</span><div><b>Upload foto</b><small>Jadikan foto kamu referensi identitas.</small></div></button>
+          <button type="button" data-bp-step="2"><span>03</span><div><b>Salin prompt</b><small>Bahasa Indonesia, tinggal edit bila perlu.</small></div></button>
+          <button type="button" data-bp-step="3"><span>04</span><div><b>Generate</b><small>Tempel di ChatGPT Image atau Gemini.</small></div></button>
         </div>
+      </div>
+
+      <div class="bp-category-strip bp-reveal">
+        <span>Candid</span><span>Daily Life</span><span>Work</span><span>Business</span><span>CEO</span><span>Travel</span><span>Street</span><span>Cafe</span><span>Family</span><span>Fashion</span><span>Hijab</span><span>Cinematic</span><span>Historical</span><span>Fantasy</span><span>iPhone</span><span>Studio</span><span>Japan</span><span>Korea</span><span>Viral Trend</span>
       </div>
     </section>
 
-    <section class="lp2-section">
-      <div class="lp2-wrap">
-        <div class="lp2-kicker">MASALAHNYA BUKAN AI-NYA</div>
-        <h2>Seringnya kita cuma<br><span>nggak tahu mau bikin apa.</span></h2>
-        <p class="lp2-copywide">Sudah buka ChatGPT atau Gemini, tapi akhirnya bengong di kolom prompt. Begitu nyoba sendiri, wajah berubah, tangan aneh, pose kaku, atau hasilnya terasa “AI banget”.</p>
-        <div class="lp2-problems">
-          <div class="lp2-problem"><span class="lp2-x">✕</span><div><b>Prompt dari internet kepanjangan dan berbahasa Inggris.</b> Mau diedit malah tambah bingung.</div></div>
-          <div class="lp2-problem"><span class="lp2-x">✕</span><div><b>Sudah punya foto bagus.</b> Tapi ide adegan, angle, kamera, dan suasananya mentok.</div></div>
-          <div class="lp2-problem"><span class="lp2-x">✕</span><div><b>Generate berkali-kali.</b> Wajah tidak konsisten dan hasilnya terlalu halus, plastik, atau generik.</div></div>
-          <div class="lp2-problem"><span class="lp2-x">✕</span><div><b>Pengen bikin banyak konten.</b> Tapi capek kalau harus menyusun prompt dari nol setiap hari.</div></div>
+    <section class="bp-section bp-shell" id="harga">
+      <div class="bp-section-head bp-reveal">
+        <div class="bp-section-kicker">ACCESS</div>
+        <h2>Satu akses.<br><span>Pilih nominalnya.</span></h2>
+        <p class="bp-section-lead">Semua pilihan mendapatkan akses BADAI PROMPT yang sama selama 1 tahun.</p>
+      </div>
+
+      <div class="bp-price bp-reveal">
+        <div class="bp-price-top">
+          <div><b>BADAI PROMPT · 1 TAHUN</b><p>Member Area + update prompt selama masa akses.</p></div>
+          <span class="bp-price-mark">ONE PRODUCT</span>
         </div>
+        <div id="bpuPriceChoices">
+          <button class="bpu-price-card-choice spotlight" type="button" onclick="openCheckout(199000)"><b><span class="bpu-answer-letter">A</span><span class="bpu-answer-price">199k</span></b><span class="bpu-top-pick-badge"></span><span class="bpu-three-fingers"></span></button>
+          <button class="bpu-price-card-choice" type="button" onclick="openCheckout(159000)"><b><span class="bpu-answer-letter">B</span><span class="bpu-answer-price">159k</span></b></button>
+          <button class="bpu-price-card-choice" type="button" onclick="openCheckout(59000)"><b><span class="bpu-answer-letter">C</span><span class="bpu-answer-price">59k</span></b></button>
+        </div>
+        <div class="bp-value-list">
+          <div>500+ prompt dan terus bertambah.</div>
+          <div>Prompt Bahasa Indonesia.</div>
+          <div>1–4 preview visual per prompt.</div>
+          <div>30+ kategori adegan.</div>
+          <div>Identity lock + realism + anti-AI-slop.</div>
+          <div>Akses Member Area selama 1 tahun.</div>
+        </div>
+        <button class="bp-price-cta" type="button" onclick="openCheckout()">AMBIL AKSES BADAI PROMPT</button>
+        <div class="bp-mini-trust"><span>QRIS</span><span>AKSES OTOMATIS</span><span>MEMBER AREA</span><span>UPDATE PROMPT</span></div>
       </div>
     </section>
 
-    <section class="lp2-section">
-      <div class="lp2-wrap">
-        <div class="lp2-solution">
-          <div class="lp2-kicker">MAKANYA KITA BIKIN BADAI PROMPT</div>
-          <strong>Lihat hasilnya dulu.<br>Kalau suka, tinggal pakai promptnya.</strong>
-          <p>Bukan belajar teori prompting. Bukan harus jago teknis. Kamu cukup memilih adegan yang paling cocok, lalu sesuaikan beberapa kata kalau mau.</p>
-        </div>
-
-        <div class="lp2-feature-grid">
-          <article class="lp2-feature"><span class="lp2-num">01</span><b>Prompt Bahasa Indonesia</b><p>Lebih gampang dibaca, dipahami, dan diganti sesuai kebutuhan.</p></article>
-          <article class="lp2-feature"><span class="lp2-num">02</span><b>Preview 1–4 Gambar</b><p>Satu prompt bisa punya beberapa contoh hasil supaya kebayang variasinya.</p></article>
-          <article class="lp2-feature"><span class="lp2-num">03</span><b>Foto Kamu Tetap Jadi Kamu</b><p>Prompt memakai identity/reference lock untuk menjaga ciri wajah dan identitas utama.</p></article>
-          <article class="lp2-feature"><span class="lp2-num">04</span><b>Dirapikan Anti AI-Slop</b><p>Diarahkan ke tekstur kulit, kain, cahaya, pose, dan lingkungan yang lebih natural.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="lp2-section">
-      <div class="lp2-wrap">
-        <div class="lp2-kicker">BUKAN CUMA UNTUK JUALAN</div>
-        <h2>Satu perpustakaan.<br><span>Ratusan kemungkinan adegan.</span></h2>
-        <p class="lp2-copywide">Mau bikin foto personal branding, konten Instagram, travelling, cinematic, fashion, foto keluarga, bisnis, sampai adegan absurd—tinggal pilih kategorinya.</p>
-        <div class="lp2-cats">
-          <span>Candid</span><span>Daily Life</span><span>Work</span><span>Business</span><span>CEO</span><span>Travel</span><span>Street</span><span>Cafe</span><span>Home</span><span>Family</span><span>Couple</span><span>Sport</span><span>Fashion</span><span>Hijab</span><span>Cinematic</span><span>Movie</span><span>Historical</span><span>Fantasy</span><span>Miniature</span><span>LEGO</span><span>Analog Film</span><span>iPhone</span><span>Studio</span><span>Indonesia</span><span>Japan</span><span>Korea</span><span>Viral Trend</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="lp2-section">
-      <div class="lp2-wrap">
-        <div class="lp2-kicker">STANDAR BADAI PROMPT</div>
-        <h2>Promptnya bukan asal<br><span>panjang.</span></h2>
-        <p class="lp2-copywide">Setiap prompt diarahkan memakai struktur yang konsisten supaya prompt awal sampai ribuan prompt berikutnya tetap enak dipakai.</p>
-        <div class="lp2-sop">
-          <div><b>01</b><span>IDENTITY / REFERENCE LOCK</span></div>
-          <div><b>02</b><span>SCENE</span></div>
-          <div><b>03</b><span>ACTION</span></div>
-          <div><b>04</b><span>WARDROBE / OBJECT DETAIL</span></div>
-          <div><b>05</b><span>CAMERA</span></div>
-          <div><b>06</b><span>LIGHTING</span></div>
-          <div><b>07</b><span>REALISM</span></div>
-          <div><b>08</b><span>ANTI-AI-SLOP</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="lp2-section lp2-how-section">
-      <div class="lp2-wrap">
-        <div class="lp2-kicker">CARA PAKAINYA</div>
-        <h2>Lihat alurnya.<br><span>Empat langkah, langsung jadi.</span></h2>
-        <p class="lp2-copywide">Bukan tutorial panjang. Ini gambaran persis bagaimana BADAI PROMPT dipakai dari pilih adegan sampai hasil akhirnya keluar.</p>
-
-        <div class="lp2-how-motion" id="lp2HowMotion">
-          <div class="lp2-how-stage">
-            <div class="lp2-how-screen">
-              <div class="lp2-how-screenbar">
-                <span class="lp2-how-dots"><i></i><i></i><i></i></span>
-                <b id="lp2HowScreenTitle">1. PILIH ADEGAN</b>
-                <span class="lp2-how-live">● LIVE</span>
-              </div>
-
-              <div class="lp2-how-scene active" data-how-scene="0">
-                <div class="lp2-how-gallery">
-                  <div class="lp2-how-gallery-card is-main">
-                    <img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="Contoh preview adegan BADAI PROMPT">
-                    <span>BP533</span><b>Street Portrait</b>
-                  </div>
-                  <div class="lp2-how-mini"><i>BP532</i><strong>CAFE</strong></div>
-                  <div class="lp2-how-mini"><i>BP531</i><strong>CANDID</strong></div>
-                </div>
-                <div class="lp2-how-pointer"><span>☝</span><small>Pilih visual yang kamu suka</small></div>
-              </div>
-
-              <div class="lp2-how-scene" data-how-scene="1">
-                <div class="lp2-upload-zone">
-                  <div class="lp2-upload-avatar"><span>＋</span></div>
-                  <b>UPLOAD FOTO REFERENSI</b>
-                  <p>Gunakan foto wajah kamu sendiri</p>
-                  <div class="lp2-upload-progress"><i></i></div>
-                  <small>Menjaga identitas wajah...</small>
-                </div>
-              </div>
-
-              <div class="lp2-how-scene" data-how-scene="2">
-                <div class="lp2-prompt-demo">
-                  <div class="lp2-prompt-head"><span>BP533</span><b>PROMPT BAHASA INDONESIA</b></div>
-                  <div class="lp2-prompt-lines">
-                    <i style="--w:94%"></i><i style="--w:88%"></i><i style="--w:96%"></i><i style="--w:78%"></i><i style="--w:91%"></i><i style="--w:67%"></i>
-                  </div>
-                  <button type="button" tabindex="-1">SALIN PROMPT <span>✓</span></button>
-                </div>
-                <div class="lp2-copy-fly">PROMPT TERSALIN ✓</div>
-              </div>
-
-              <div class="lp2-how-scene" data-how-scene="3">
-                <div class="lp2-result-demo">
-                  <img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" alt="Contoh hasil generate BADAI PROMPT">
-                  <div class="lp2-result-scan"></div>
-                  <div class="lp2-result-ready"><span>✓</span><div><b>HASIL SIAP</b><small>Wajah kamu + adegan pilihan</small></div></div>
-                </div>
-              </div>
-            </div>
-
-            <div class="lp2-how-progress"><i id="lp2HowProgress"></i></div>
-          </div>
-
-          <div class="lp2-how-steps">
-            <button class="active" type="button" data-how-step="0"><span>01</span><div><b>Pilih Adegan</b><small>Lihat preview, pilih yang paling kamu suka.</small></div></button>
-            <button type="button" data-how-step="1"><span>02</span><div><b>Upload Foto</b><small>Masukkan foto kamu sebagai referensi wajah.</small></div></button>
-            <button type="button" data-how-step="2"><span>03</span><div><b>Salin Prompt</b><small>Prompt sudah Bahasa Indonesia dan siap diedit.</small></div></button>
-            <button type="button" data-how-step="3"><span>04</span><div><b>Generate</b><small>Tempel ke ChatGPT / Gemini, lalu jadi versimu.</small></div></button>
-          </div>
-        </div>
-
-        <div class="lp2-how-note"><b>Simpelnya:</b> kamu nggak mulai dari halaman kosong. Kamu mulai dari <span>contoh hasil yang sudah kelihatan.</span></div>
-      </div>
-    </section>
-
-    <section id="harga" class="lp2-section">
-      <div class="lp2-wrap">
-        <div class="lp2-price">
-          <div class="lp2-kicker">AKSES BADAI PROMPT</div>
-          <h2>Pilih harganya?</h2>
-          <p class="lp2-price-note">Semua pilihan mendapatkan <b>akses yang sama selama 1 tahun</b>. Pilih nominal yang menurutmu paling cocok.</p>
-
-          <div id="bpuPriceChoices">
-            <button class="bpu-price-card-choice value-high spotlight" type="button" onclick="openCheckout(199000)"><b><span class="bpu-answer-letter">A</span><span class="bpu-answer-price">199k</span></b><span class="bpu-top-pick-badge"></span><span class="bpu-three-fingers"></span></button>
-            <button class="bpu-price-card-choice value-mid" type="button" onclick="openCheckout(159000)"><b><span class="bpu-answer-letter">B</span><span class="bpu-answer-price">159k</span></b></button>
-            <button class="bpu-price-card-choice value-low" type="button" onclick="openCheckout(59000)"><b><span class="bpu-answer-letter">C</span><span class="bpu-answer-price">59k</span></b></button>
-          </div>
-
-          <div class="lp2-value">
-            <div>500+ prompt adegan siap pakai dan terus bertambah.</div>
-            <div>Prompt Bahasa Indonesia yang gampang dimodifikasi.</div>
-            <div>Preview visual 1–4 gambar per prompt.</div>
-            <div>30+ kategori: candid, travel, business, cinematic, fashion, fantasy, dan lainnya.</div>
-            <div>Struktur identity lock + realism + anti-AI-slop.</div>
-            <div>Akses Member Area selama 1 tahun.</div>
-            <div>Update prompt baru selama masa akses.</div>
-          </div>
-          <div class="lp2-trust"><span>⚡ QRIS</span><span>✓ AKSES OTOMATIS</span><span>🔒 MEMBER AREA</span><span>↻ UPDATE PROMPT</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="lp2-section lp2-faq">
-      <div class="lp2-wrap">
-        <div class="lp2-kicker">FAQ</div>
+    <section class="bp-section bp-shell">
+      <div class="bp-section-head bp-reveal">
+        <div class="bp-section-kicker">FAQ</div>
         <h2>Sebelum<br><span>masuk.</span></h2>
-        <details><summary>Apakah ini khusus UMKM?</summary><p>Tidak. BADAI PROMPT sekarang adalah perpustakaan adegan AI umum. Bisa dipakai untuk personal branding, konten harian, travelling, bisnis, keluarga, fashion, cinematic, dan banyak kategori lainnya.</p></details>
-        <details><summary>Harus bisa bikin prompt?</summary><p>Tidak. Tujuannya justru supaya kamu tidak perlu mulai dari prompt kosong. Tinggal pilih adegan, salin, lalu sesuaikan bila perlu.</p></details>
-        <details><summary>Apakah wajah saya akan tetap sama?</summary><p>Prompt diarahkan dengan identity/reference lock, tetapi hasil akhir tetap bergantung pada model AI dan kualitas foto referensi yang kamu pakai.</p></details>
-        <details><summary>Bisa dipakai di ChatGPT dan Gemini?</summary><p>Ya. Prompt dirancang supaya mudah dipakai dan diedit pada model image generation populer.</p></details>
-        <details><summary>Berapa lama aksesnya?</summary><p>Akses Member Area berlaku 1 tahun dan mendapatkan update prompt selama masa akses.</p></details>
+      </div>
+      <div class="bp-faq bp-reveal">
+        <details><summary>Apakah BADAI PROMPT khusus untuk jualan?</summary><p>Tidak. Kategorinya mencakup personal branding, daily life, travel, fashion, keluarga, bisnis, cinematic, fantasy, dan banyak gaya lain.</p></details>
+        <details><summary>Harus jago bikin prompt?</summary><p>Tidak. Kamu mulai dari preview visual yang sudah ada, lalu salin promptnya. Prompt bisa diedit kalau ingin mengubah pakaian, lokasi, kamera, atau detail lain.</p></details>
+        <details><summary>Apakah wajah akan tetap sama?</summary><p>Prompt menggunakan arahan identity/reference lock. Hasil akhir tetap dipengaruhi model AI dan kualitas foto referensi.</p></details>
+        <details><summary>Bisa dipakai di ChatGPT dan Gemini?</summary><p>Ya. Struktur prompt dibuat agar mudah dipakai dan dimodifikasi pada model image generation populer.</p></details>
+        <details><summary>Berapa lama aksesnya?</summary><p>Akses Member Area berlaku 1 tahun dan termasuk update prompt selama masa akses.</p></details>
       </div>
     </section>
 
-    <section class="lp2-final">
-      <div class="lp2-wrap">
-        <div class="lp2-kicker">STOP BENGONG DI KOLOM PROMPT</div>
-        <h2>Pilih visual yang kamu suka.<br><span>Lalu jadikan itu versimu.</span></h2>
-        <p class="lp2-lead">BADAI PROMPT membantu kamu mulai dari contoh nyata, bukan dari halaman kosong.</p>
-        <div class="lp2-actions"><button class="lp2-btn primary" type="button" onclick="openCheckout()">AMBIL AKSES BADAI PROMPT →</button></div>
-      </div>
+    <section class="bp-section bp-shell bp-final">
+      <div class="bp-section-kicker">BADAI PROMPT</div>
+      <h2>Stop menebak-nebak<br><span>mau bikin gambar apa.</span></h2>
+      <p class="bp-section-lead">Pilih hasil yang kamu suka. Lihat promptnya. Jadikan itu versimu.</p>
+      <div class="bp-hero-actions"><button class="bp-btn primary" type="button" onclick="openCheckout()">AMBIL AKSES</button></div>
     </section>
   </main>
 
-  <footer class="lp2-footer">
-    <b>BADAI PROMPT</b> · Perpustakaan Adegan AI<br>
-    <a href="/privacy">Privasi</a> · <a href="/terms">Syarat</a> · <a href="/refund">Refund</a>
-  </footer>
+  <footer class="bp-footer"><b>BADAI PROMPT</b> · Perpustakaan Adegan AI<br><a href="/privacy">Privasi</a> · <a href="/terms">Syarat</a> · <a href="/refund">Refund</a></footer>
 </div>
 
 <div class="social-proof" id="socialProof" aria-live="polite">
@@ -3423,146 +3325,45 @@ loadSocialProof();
 })();
 </script>
 
-<script id="badai-prompt-motion-script">
+
+
+<script id="badai-prompt-premium-script">
 (function(){
   const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const page=document.querySelector('.lp2-page');
-  if(!page)return;
 
-  // Tiny ambient particles: DOM only, no video/canvas, so it stays lightweight.
-  if(!reduce){
-    const hero=document.querySelector('.lp2-hero');
-    if(hero){
-      hero.style.position='relative';
-      for(let i=0;i<10;i++){
-        const p=document.createElement('i');
-        p.className='lp2-particle';
-        p.style.left=(5+(i*9)%90)+'%';
-        p.style.top=(10+(i*17)%75)+'%';
-        p.style.setProperty('--dur',(6+(i%5)*1.1)+'s');
-        p.style.setProperty('--x',((i%2?1:-1)*(18+(i%4)*9))+'px');
-        p.style.setProperty('--y',(-(28+(i%5)*15))+'px');
-        p.style.animationDelay=(-i*.65)+'s';
-        hero.appendChild(p);
-      }
-    }
-  }
+  // Reveal only when it helps hierarchy.
+  const reveals=[...document.querySelectorAll('.bp-reveal')];
+  if(!reduce&&'IntersectionObserver' in window){
+    const io=new IntersectionObserver(entries=>entries.forEach(e=>{
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}
+    }),{threshold:.12,rootMargin:'0px 0px -5% 0px'});
+    reveals.forEach(el=>io.observe(el));
+  } else reveals.forEach(el=>el.classList.add('in'));
 
-  // Header depth on scroll.
-  const nav=document.querySelector('.lp2-nav');
-  const onScroll=()=>nav&&nav.classList.toggle('is-scrolled',window.scrollY>24);
-  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+  // Demonstrate the eight-layer prompt standard.
+  const rows=[...document.querySelectorAll('#bpStandard .bp-standard-row')];
+  let ri=0;
+  if(rows.length&&!reduce)setInterval(()=>{
+    rows.forEach((el,i)=>el.classList.toggle('active',i===ri));
+    ri=(ri+1)%rows.length;
+  },950);
 
-  // Step-by-step animated flow in the hero.
-  const flow=document.querySelector('.lp2-flow');
-  if(flow&&!reduce){
-    const steps=[...flow.querySelectorAll('span')],arrows=[...flow.querySelectorAll('i')];
-    let fi=0;
-    const tick=()=>{
-      steps.forEach((el,i)=>el.classList.toggle('is-active',i===fi));
-      arrows.forEach((el,i)=>el.classList.toggle('is-active',i===fi-1));
-      fi=(fi+1)%steps.length;
-    };
-    tick();setInterval(tick,1250);
-  }
-
-  // Subtle perspective / "product demo floating card" effect.
-  const demo=document.querySelector('.lp2-demo');
-  if(demo&&!reduce&&window.matchMedia('(pointer:fine)').matches){
-    demo.addEventListener('pointermove',e=>{
-      const r=demo.getBoundingClientRect();
-      const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
-      demo.style.transform='perspective(950px) rotateX('+(-y*3.2)+'deg) rotateY('+(x*4.2)+'deg) translateY(-2px)';
-      demo.style.boxShadow=(-x*18)+'px '+(18+y*14)+'px 65px rgba(255,45,141,.12)';
-    });
-    demo.addEventListener('pointerleave',()=>{demo.style.transform='';demo.style.boxShadow=''});
-  }
-
-  // Animate the right side of the demo like a live member-area interaction.
-  const demoCards=[...document.querySelectorAll('.lp2-panel .lp2-card')];
-  if(demoCards.length&&!reduce){
-    let di=0;
-    setInterval(()=>{
-      demoCards.forEach((el,i)=>el.classList.toggle('motion-active',i===di));
-      di=(di+1)%demoCards.length;
-    },1800);
-  }
-
-  // Infinite category marquee without changing the original content.
-  const cats=document.querySelector('.lp2-cats');
-  if(cats&&!cats.querySelector('.lp2-cats-track')){
-    const originals=[...cats.children];
-    const track=document.createElement('div');track.className='lp2-cats-track';
-    originals.forEach(el=>track.appendChild(el));
-    originals.forEach(el=>track.appendChild(el.cloneNode(true)));
-    cats.appendChild(track);
-  }
-
-  // Scroll reveal.
-  const revealTargets=[
-    ...document.querySelectorAll('.lp2-section h2,.lp2-copywide,.lp2-solution,.lp2-feature-grid,.lp2-problems,.lp2-cats,.lp2-sop,.lp2-how,.lp2-price,.lp2-faq details,.lp2-final h2,.lp2-final .lp2-lead')
-  ];
-  revealTargets.forEach(el=>el.classList.add('lp2-motion-reveal'));
-  if('IntersectionObserver' in window&&!reduce){
-    const io=new IntersectionObserver(entries=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target)}
-      });
-    },{threshold:.12,rootMargin:'0px 0px -7% 0px'});
-    revealTargets.forEach(el=>io.observe(el));
-  }else revealTargets.forEach(el=>el.classList.add('is-visible'));
-
-  // SOP steps light up sequentially once that block is on screen.
-  const sop=document.querySelector('.lp2-sop');
-  if(sop&&!reduce){
-    const items=[...sop.children];let timer=null,si=0;
-    const start=()=>{if(timer)return;timer=setInterval(()=>{items.forEach((el,i)=>el.classList.toggle('is-active',i===si));si=(si+1)%items.length},720)};
-    const stop=()=>{clearInterval(timer);timer=null;items.forEach(el=>el.classList.remove('is-active'))};
-    if('IntersectionObserver' in window){
-      const so=new IntersectionObserver(entries=>entries.forEach(e=>e.isIntersecting?start():stop()),{threshold:.25});so.observe(sop);
-    }else start();
-  }
-
-  // Animated explainer in "Cara Pakainya".
-  const howMotion=document.getElementById('lp2HowMotion');
-  if(howMotion){
-    const scenes=[...howMotion.querySelectorAll('[data-how-scene]')];
-    const buttons=[...howMotion.querySelectorAll('[data-how-step]')];
-    const title=document.getElementById('lp2HowScreenTitle');
-    const progress=document.getElementById('lp2HowProgress');
-    const labels=['1. PILIH ADEGAN','2. UPLOAD FOTO','3. SALIN PROMPT','4. GENERATE'];
+  // Product usage demo. Only one motion narrative, no decorative particles.
+  const how=document.getElementById('bpHow');
+  if(how){
+    const scenes=[...how.querySelectorAll('[data-bp-scene]')];
+    const steps=[...how.querySelectorAll('[data-bp-step]')];
     let active=0,timer=null;
-
-    const showStep=(n)=>{
+    const show=n=>{
       active=(n+scenes.length)%scenes.length;
       scenes.forEach((el,i)=>el.classList.toggle('active',i===active));
-      buttons.forEach((el,i)=>el.classList.toggle('active',i===active));
-      if(title)title.textContent=labels[active];
-      if(progress)progress.style.width=((active+1)*25)+'%';
+      steps.forEach((el,i)=>el.classList.toggle('active',i===active));
     };
-    const startHow=()=>{
-      if(timer)return;
-      howMotion.dataset.running='1';
-      const speed=reduce?4200:2800;
-      timer=setInterval(()=>showStep(active+1),speed);
-    };
-    const stopHow=()=>{
-      if(timer){clearInterval(timer);timer=null}
-      howMotion.dataset.running='0';
-    };
-    buttons.forEach((btn,i)=>btn.addEventListener('click',()=>{
-      showStep(i);
-      stopHow();
-      setTimeout(startHow,700);
-    }));
-    showStep(0);
-
-    // Start immediately so the demo never depends on IntersectionObserver/browser settings.
-    requestAnimationFrame(()=>setTimeout(startHow,450));
-    document.addEventListener('visibilitychange',()=>{
-      if(document.hidden)stopHow();
-      else startHow();
-    });
+    const start=()=>{if(reduce||timer)return;timer=setInterval(()=>show(active+1),3200)};
+    const restart=()=>{if(timer)clearInterval(timer);timer=null;setTimeout(start,650)};
+    steps.forEach((btn,i)=>btn.addEventListener('click',()=>{show(i);restart()}));
+    show(0);start();
+    document.addEventListener('visibilitychange',()=>{if(document.hidden&&timer){clearInterval(timer);timer=null}else if(!document.hidden)start()});
   }
 })();
 </script>
