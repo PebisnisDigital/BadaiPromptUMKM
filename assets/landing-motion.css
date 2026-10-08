@@ -86,3 +86,11 @@ body.motion-paused .hero-spark .spark-icon{transform:none}
  .motion-steps>i{transform:rotate(90deg);margin-left:5px;font-size:20px}
  .motion-signal{left:22px;right:22px;bottom:13px}
 }
+
+/* Move the interactive walkthrough into the first hero, replacing both previews. */
+.hero-demo{margin-top:32px;scroll-margin-top:24px}
+.hero-demo .under-note{margin-top:12px}
+.hero-demo .demo-grid{transition:transform .65s var(--ease),opacity .3s}
+.hero-demo .tour-cursor{transition:transform .65s var(--ease),opacity .3s}
+.hero-demo .tour-detail{transition:opacity .3s,transform .35s var(--ease),visibility .3s}
+@media(max-width:600px){.hero-demo{margin-top:26px}}

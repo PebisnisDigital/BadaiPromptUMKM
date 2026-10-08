@@ -11,9 +11,9 @@ if(mode==='no-observer')await p.addInitScript(()=>{delete window.IntersectionObs
 if(mode==='stalled-decode')await p.addInitScript(()=>{HTMLImageElement.prototype.decode=()=>new Promise(()=>{})});
 if(mode==='blocked-script')await p.route('**/assets/landing.js*',r=>r.abort());
 await p.goto('https://badaiprompt.vercel.app/',{waitUntil:'domcontentloaded'});await p.waitForTimeout(350);
-const orbit=p.locator('.motion-orbit>i:nth-child(3)');const transform=()=>orbit.evaluate(el=>getComputedStyle(el).transform);
+const orbit=p.locator('.hero-spark .spark-icon');const transform=()=>orbit.evaluate(el=>getComputedStyle(el).transform);
 if(mode==='reduce'){if(await orbit.evaluate(el=>getComputedStyle(el).animationName)!=='none')throw Error('Reduced default failed');await p.locator('.hero-motion-toggle').click();}
-const first=await transform();await p.waitForTimeout(700);const second=await transform();if(first===second)throw Error(mode+' hero stuck');const heroTrack=p.locator('.hero-preview-track');const h1=await heroTrack.evaluate(el=>getComputedStyle(el).transform);await p.waitForTimeout(400);const h2=await heroTrack.evaluate(el=>getComputedStyle(el).transform);if(h1===h2)throw Error(mode+' hero image strip stuck');
+const first=await transform();await p.waitForTimeout(700);const second=await transform();if(first===second)throw Error(mode+' hero stuck');
 if(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth))throw Error(mode+' overflow');
 if(mode==='normal'||touch){await p.screenshot({path:`/workspace/work/motion2-${width}.png`});}
 await p.locator('.visual-carousel').scrollIntoViewIfNeeded();await p.locator('.visual-carousel').hover();await p.waitForTimeout(200);const track=p.locator('.visual-carousel .marquee-track');const x1=await track.evaluate(el=>getComputedStyle(el).transform);await p.waitForTimeout(700);const x2=await track.evaluate(el=>getComputedStyle(el).transform);if(x1===x2)throw Error(mode+' gallery stuck while hovered');

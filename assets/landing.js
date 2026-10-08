@@ -34,7 +34,7 @@
     tourTimer = setTimeout(() => {
       showTourStep((tourStep + 1) % 3);
       scheduleTour();
-    }, tourStep === 0 ? 4300 : 3300);
+    }, tourStep === 0 ? 2600 : 1800);
   }
 
   function syncMotion() {
