@@ -91,6 +91,47 @@
       element.classList.toggle('is-playing', playing);
       element.classList.toggle('motion-suspended', !playing);
     });
+    syncDays();
+  }
+  // One clock drives the day count, growing bars, progress line and milestones.
+  const dayVisual = document.querySelector('.year-visual');
+  const dayCount = dayVisual?.querySelector('[data-day-count]');
+  let dayProgress = 0, dayLastTime = 0, dayFrame = null, dayWasVisible = false, dayDelay = 150;
+  function paintDays(progress) {
+    if (!dayVisual || !dayCount) return;
+    const eased = 1 - Math.pow(1 - progress, 2);
+    const days = 1 + Math.floor(364 * eased);
+    dayCount.textContent = String(days);
+    dayVisual.style.setProperty('--day-progress', String(eased));
+    dayVisual.querySelectorAll('[data-day-threshold]').forEach(marker => {
+      marker.classList.toggle('day-reached', days >= Number(marker.dataset.dayThreshold));
+    });
+  }
+  function tickDays(now) {
+    dayFrame = null;
+    const elapsed = Math.max(0, Math.min(80, now - dayLastTime));
+    if (dayDelay > 0) dayDelay = Math.max(0, dayDelay - elapsed);
+    else dayProgress = Math.min(1, dayProgress + elapsed / 3200);
+    dayLastTime = now;
+    paintDays(dayProgress);
+    if (dayProgress < 1) dayFrame = requestAnimationFrame(tickDays);
+  }
+  function syncDays() {
+    if (!dayVisual) return;
+    const visible = zoneVisibility.get(dayVisual) === true || !('IntersectionObserver' in window);
+    if (visible && !dayWasVisible) { dayProgress = 0; dayDelay = 150; paintDays(0); }
+    dayWasVisible = visible;
+    if (!motionAllowed() || !visible) {
+      if (dayFrame !== null) cancelAnimationFrame(dayFrame);
+      dayFrame = null;
+      // Keep the complete offer readable for visitors who prefer reduced motion.
+      if (reducedMotion.matches && motionPreference !== true) paintDays(1);
+      return;
+    }
+    if (dayProgress < 1 && dayFrame === null) {
+      dayLastTime = performance.now();
+      dayFrame = requestAnimationFrame(tickDays);
+    }
   }
   // Lazy images inside translated tracks can otherwise enter the screen blank.
   const marquees = zones.filter(element => element.matches('.marquee'));
