@@ -305,6 +305,9 @@ $('firstPasswordForm').addEventListener('submit',async e=>{
   b.disabled=true;b.textContent='MENYIMPAN…';m.textContent='Menyimpan password baru…';m.className='msg';
   try{
     await memberApi('/first-password',{password:p});
+    try{await account.deleteSession({sessionId:'current'})}catch{}
+    await account.createEmailPasswordSession({email:currentUser.email,password:p});
+    currentUser=await account.get();
     currentProfile.must_change_password=false;
     sessionStorage.removeItem('bpu_checkout_password');sessionStorage.removeItem('bpu_checkout_email');
     firstPasswordOverlay.classList.remove('show');
