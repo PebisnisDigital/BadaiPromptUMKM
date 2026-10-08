@@ -140,12 +140,13 @@ body.motion-paused .hero-spark .spark-icon{transform:none}
 @media(prefers-reduced-motion:reduce){body:not(.motion-enabled) .money-layer{display:none}}
 
 /* Compact white purchase card; animated spotlight never changes the selected amount. */
-.pricing-section{background:#fff;color:#111;border-radius:22px;padding:40px 28px!important;margin:50px -28px;isolation:isolate}
+.pricing-section{background:var(--bg);color:var(--text);padding:70px 0!important;isolation:isolate}
 .pricing-section .section-head{margin-bottom:24px}
-.pricing-section .section-head p,.pricing-section .eyebrow{color:#555}
+.pricing-section .section-head p{color:#b4b4b8}
+.pricing-section .eyebrow{color:#a1a1a8}
 .pricing-section #price-title{font-size:clamp(30px,5vw,44px);line-height:1.1;letter-spacing:-.05em}
-.pricing-section .pink-text{color:#c91965}
-.pricing-section .pricing-panel{max-width:480px;margin-inline:auto;padding:22px;background:#fff;border:1px solid #e8d7df;border-radius:18px;box-shadow:6px 6px 0 #ff2f8b}
+.pricing-section .pink-text{color:var(--pink)}
+.pricing-section .pricing-panel{color:#111;max-width:480px;margin-inline:auto;padding:22px;background:#fff;border:1px solid #e8d7df;border-radius:18px;box-shadow:6px 6px 0 #ff2f8b}
 .pricing-section .pricing-choices{display:grid;grid-template-columns:1fr;gap:10px}
 .pricing-section .price-choice{display:grid;grid-template-columns:20px 1fr auto;grid-template-rows:auto auto;align-items:center;column-gap:12px;row-gap:4px;min-height:70px;padding:12px 14px;border-radius:10px;background:#fff;color:#111;border:1px solid #ddd;animation:price-spotlight 6s ease-in-out infinite;text-align:left}
 .pricing-section .price-choice::before{content:"";grid-column:1;grid-row:1/3;width:18px;height:18px;border:2px solid #999;border-radius:50%;box-sizing:border-box}
@@ -181,4 +182,4 @@ body.motion-paused .hero-spark .spark-icon{transform:none}
 .pricing-section #payBtn:hover{background:#e91d77;color:#fff}
 .pricing-section .payment-note{color:#555;margin-top:14px;font-size:8px;gap:16px}
 .pricing-section.motion-suspended .price-choice{animation-play-state:paused!important}
-@media(max-width:600px){.pricing-section{margin:36px -10px;padding:30px 18px!important;border-radius:16px}.pricing-section #price-title{font-size:30px}.pricing-section .pricing-panel{padding:18px}.pricing-section .price-choice{column-gap:9px;padding:11px;min-height:66px}.pricing-section .price-choice strong{font-size:26px}.pricing-section .price-letter{font-size:12px}.pricing-section .included-list{font-size:10px}}
+@media(max-width:600px){.pricing-section{padding:52px 0!important}.pricing-section #price-title{font-size:30px}.pricing-section .pricing-panel{padding:18px}.pricing-section .price-choice{column-gap:9px;padding:11px;min-height:66px}.pricing-section .price-choice strong{font-size:26px}.pricing-section .price-letter{font-size:12px}.pricing-section .included-list{font-size:10px}}
