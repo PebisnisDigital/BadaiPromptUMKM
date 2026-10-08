@@ -780,8 +780,8 @@ function parseCSV(text){
 }
 function truthy(v,def=false){if(v===undefined||v===null||v==='')return def;return ['1','true','yes','y','published','on'].includes(String(v).trim().toLowerCase())}
 $('downloadTemplate').onclick=()=>{
-  const head=['category','subcategory','title','prompt_text','preview_url','style','camera','aspect_ratio','tool','gender','tags','source_creator','source_url','source_notes','needs_reference','is_published','is_featured','sort_order'];
-  const example=['Candid','Daily Life','Ngopi di Warung','Use the uploaded reference image as the sole identity reference...','','Candid documentary','iPhone Pro 2x','4:5','ChatGPT Image / Gemini','universal','candid; coffee','BADAI Prompt Lab','','Original seed','true','true','false','1'];
+  const head=['category','subcategory','title','prompt_text','preview_url','preview_url_2','preview_url_3','preview_url_4','style','camera','aspect_ratio','tool','gender','tags','source_creator','source_url','source_notes','needs_reference','is_published','is_featured','sort_order'];
+  const example=['Candid','Daily Life','Ngopi di Warung','Gunakan foto referensi sebagai identitas utama...','','','','','Dokumenter spontan','iPhone Pro 2x','4:5','ChatGPT Image / Gemini','universal','spontan; kopi','BADAI Prompt Lab','','Original seed','true','true','false','1'];
   const csv=[head,example].map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\n');
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='badai-prompt-template.csv';a.click();URL.revokeObjectURL(a.href);
 };
@@ -794,7 +794,7 @@ $('csvInput').onchange=async e=>{
     for(let i=1;i<rows.length;i++){
       const obj={};headers.forEach((h,idx)=>obj[h]=(rows[i][idx]??'').trim());
       if(!obj.category||!obj.title||!obj.prompt_text){failed++;continue}
-      const data={category:obj.category,subcategory:obj.subcategory||null,title:obj.title,prompt_text:obj.prompt_text,preview_url:normalizePreviewUrl(obj.preview_url),preview_file_id:null,style:obj.style||null,camera:obj.camera||null,aspect_ratio:obj.aspect_ratio||null,tool:obj.tool||'ChatGPT Image / Gemini',gender:obj.gender||'universal',tags:obj.tags||null,source_creator:obj.source_creator||null,source_url:obj.source_url||null,source_notes:obj.source_notes||null,needs_reference:truthy(obj.needs_reference,true),is_published:truthy(obj.is_published,true),is_featured:truthy(obj.is_featured,false),sort_order:Number(obj.sort_order)||prompts.length+i};
+      const data={category:obj.category,subcategory:obj.subcategory||null,title:obj.title,prompt_text:obj.prompt_text,preview_url:normalizePreviewUrl(obj.preview_url),preview_url_2:normalizePreviewUrl(obj.preview_url_2),preview_url_3:normalizePreviewUrl(obj.preview_url_3),preview_url_4:normalizePreviewUrl(obj.preview_url_4),preview_file_id:null,preview_file_id_2:null,preview_file_id_3:null,preview_file_id_4:null,style:obj.style||null,camera:obj.camera||null,aspect_ratio:obj.aspect_ratio||null,tool:obj.tool||'ChatGPT Image / Gemini',gender:obj.gender||'universal',tags:obj.tags||null,source_creator:obj.source_creator||null,source_url:obj.source_url||null,source_notes:obj.source_notes||null,needs_reference:truthy(obj.needs_reference,true),is_published:truthy(obj.is_published,true),is_featured:truthy(obj.is_featured,false),sort_order:Number(obj.sort_order)||prompts.length+i};
       try{await tables.createRow({databaseId:DB,tableId:TABLE,rowId:ID.unique(),data});success++}catch(err){failed++}
       msg($('importMsg'),'Import '+(i)+'/'+(rows.length-1)+'…');
     }
