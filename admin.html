@@ -369,7 +369,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
       <div class="manage-save-row"><a id="orderWhatsappBtn" href="#" target="_blank" rel="noopener">BUKA WHATSAPP</a><button id="saveManagedMemberBtn" type="button">SIMPAN / UPDATE MEMBER</button></div>
       <div class="manage-danger-zone">
         <small>ZONA HAPUS</small>
-        <p>Hapus Order hanya menghapus transaksi ini. Hapus Member menghapus akun, profil, akses member, favorit, dan histori pemakaian; data order tetap disimpan.</p>
+        <p>Hapus Order hanya menghapus transaksi ini. Hapus Member menghapus akun member, profil, akses member, dan seluruh order yang terhubung ke member tersebut.</p>
         <div class="manage-delete-actions">
           <button id="deleteManagedOrderBtn" type="button">HAPUS ORDER</button>
           <button id="deleteManagedMemberBtn" class="member-delete" type="button">HAPUS MEMBER</button>
@@ -693,7 +693,7 @@ $('deleteManagedOrderBtn').onclick=async()=>{
   if(!confirm('Hapus order '+name+' ('+amount+')?\n\nOrder akan hilang permanen dari data penjualan dan perhitungan omzet. Data member TIDAK ikut dihapus.'))return;
   const b=$('deleteManagedOrderBtn');b.disabled=true;b.textContent='MENGHAPUS…';msg($('manageMemberMsg'),'Menghapus order…');
   try{
-    await memberAdminApi('/sales/delete',{mode:'order',order_id:orderId});
+    await memberAdminApi('/sales/delete',{order_id:orderId});
     $('orderModal').classList.remove('show');
     currentOrder=null;currentMemberData=null;
     await Promise.all([loadSalesPage(),loadSalesSummary()]);
@@ -709,17 +709,17 @@ $('deleteManagedMemberBtn').onclick=async()=>{
   const email=$('manageEmail').value.trim();
   if(!userId){msg($('manageMemberMsg'),'Member ini belum memiliki akun user yang bisa dihapus.','bad');return}
   const name=$('manageName').value.trim()||email||'member ini';
-  if(!confirm('Hapus MEMBER '+name+'?\n\nAkun login, profil, akses member, favorites, dan histori pemakaian akan dihapus. Histori ORDER tetap disimpan.'))return;
+  if(!confirm('Hapus MEMBER '+name+'?\n\nAkun login, profil, akses member, dan SELURUH ORDER yang terhubung ke member ini akan dihapus permanen.'))return;
   const typed=prompt('Ketik HAPUS MEMBER untuk konfirmasi permanen:');
   if(typed!=='HAPUS MEMBER')return;
   const b=$('deleteManagedMemberBtn');b.disabled=true;b.textContent='MENGHAPUS…';msg($('manageMemberMsg'),'Membersihkan data member…');
   try{
-    await memberAdminApi('/sales/delete',{mode:'member',user_id:userId,email});
+    await memberAdminApi('/sales/delete',{user_id:userId,order_id:$('manageOrderId').value.trim()});
     $('orderModal').classList.remove('show');
     currentOrder=null;currentMemberData=null;
     await Promise.all([loadSalesPage(),loadSalesSummary()]);
     renderSales();
-    alert('Data member berhasil dihapus. Histori order tetap disimpan.');
+    alert('Member dan seluruh order yang terhubung berhasil dihapus.');
   }catch(e){
     msg($('manageMemberMsg'),e.message||'Gagal menghapus member.','bad');
     b.disabled=false;b.textContent='HAPUS MEMBER';
