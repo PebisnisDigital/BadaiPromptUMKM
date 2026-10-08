@@ -138,3 +138,36 @@ body.motion-paused .hero-spark .spark-icon{transform:none}
 .affiliate-section.motion-suspended .money-note{animation-play-state:paused!important}
 @media(max-width:600px){.money-note{width:calc(var(--note-width)*.7);opacity:.42}.affiliate-section #affiliate-title{font-size:34px}.affiliate-section .affiliate-punch{font-size:21px}.commission-number{font-size:clamp(145px,45vw,205px)}.commission-meter{margin-top:20px}}
 @media(prefers-reduced-motion:reduce){body:not(.motion-enabled) .money-layer{display:none}}
+
+/* A brighter registration section with a spotlight separate from the chosen amount. */
+.pricing-section{background:#fff0f5;color:#24141c;border-radius:22px;padding:54px 32px!important;margin:50px -32px;isolation:isolate}
+.pricing-section .section-head p,.pricing-section .eyebrow{color:#69515d}
+.pricing-section #price-title{font-size:clamp(32px,5vw,48px);line-height:1.1;letter-spacing:-.05em}
+.pricing-section .pink-text{color:#c91965}
+.pricing-section .pricing-panel{background:#fff9fc;border-color:#e6c7d5;box-shadow:0 18px 60px #ac2b5b10}
+.pricing-section .price-choice{background:#fff;color:#24141c;border-color:#dec2ce;animation:price-spotlight 6s ease-in-out infinite}
+.pricing-section .price-choice:nth-child(2){animation-delay:-4s}
+.pricing-section .price-choice:nth-child(3){animation-delay:-2s}
+.pricing-section .price-choice.is-selected{border-color:#c91965;background:#ffe0ed}
+.pricing-section .price-choice .price-check{display:none}
+.pricing-section .price-choice.is-selected .price-check{display:inline-flex}
+.pricing-section .price-foot,.pricing-section .price-letter,.pricing-section .included-label,.pricing-section .payment-note{color:#765361}
+.pricing-section .price-choice.is-selected strong{color:#c91965}
+@keyframes price-spotlight{0%,28%{box-shadow:0 0 0 3px #ff2f8b,0 10px 28px #ff2f8b25;transform:translateY(-4px)}34%,100%{box-shadow:0 0 0 0 transparent;transform:translateY(0)}}
+.inline-registration{margin-top:32px;padding-top:26px;border-top:1px solid #e6c7d5}
+.inline-registration h3{font-size:26px;letter-spacing:-.04em;margin:0 0 22px}
+.pricing-section .pay-what-you-want{background:#ffe9f2;border-color:#e6c7d5;color:#24141c}
+.pricing-section .amount-selected b{color:#c91965}
+.pricing-section .same-access-note,.pricing-section .same-access-note strong,.pricing-section .pay-what-you-want-title,.pricing-section .amount-selected span{color:#765361}
+.pricing-section .checkout-form label{color:#60404f}
+.pricing-section .checkout-form input:not([type=checkbox]){background:#fff;border-color:#d6b6c5;color:#24141c}
+.pricing-section .checkout-form input:focus{outline:2px solid #c91965;outline-offset:2px}
+.pricing-section .checkout-form input::placeholder{color:#987987}
+.pricing-section .legal-check,.pricing-section .checkout-msg{color:#765361}
+.pricing-section .legal-check a{color:#a81250}
+.pricing-section .checkout-msg.bad{color:#a4142c}
+.pricing-section #payBtn{width:100%;min-height:54px}
+@media(max-width:600px){.pricing-section{margin:36px -10px;padding:36px 18px!important;border-radius:16px}.pricing-section #price-title{font-size:32px}.inline-registration h3{font-size:24px}}
+
+.pricing-section .included-list{color:#60404f}
+.pricing-section.motion-suspended .price-choice{animation-play-state:paused!important}

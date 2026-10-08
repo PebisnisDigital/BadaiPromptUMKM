@@ -1,4 +1,4 @@
-/* Presentation only. The checkout, Appwrite and payment scripts in index.html are unchanged. */
+/* Landing-page motion and accessible QRIS popup controls. */
 (() => {
   'use strict';
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -301,7 +301,7 @@
     background.forEach(element => { element.inert = isOpen; });
     document.body.classList.toggle('modal-open', isOpen || lightbox.open);
     if (isOpen) {
-      checkoutTrigger = document.activeElement;
+      checkoutTrigger = document.getElementById('payBtn');
       checkout.querySelector('.checkout-card').scrollTop = 0;
       checkout.querySelector('.xbtn').focus({ preventScroll: true });
     } else {
