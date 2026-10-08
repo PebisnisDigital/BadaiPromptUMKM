@@ -2,18 +2,22 @@
 (() => {
   'use strict';
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const motionButton = document.getElementById('motionToggle');
-  let userPaused = false;
+  const motionButtons = [...document.querySelectorAll('[data-motion-toggle], #motionToggle')];
+  let motionPreference = null;
+  try {
+    const saved = sessionStorage.getItem('badai-motion');
+    if (saved === 'on' || saved === 'off') motionPreference = saved === 'on';
+  } catch (_) { /* Motion also works when browser storage is unavailable. */ }
+
   const tour = document.getElementById('productTour');
   const tourButtons = [...document.querySelectorAll('[data-tour-step-button]')];
   let tourStep = 0;
   let tourTimer;
   let tourVisible = false;
   let tourManual = false;
-  let tourHovered = false;
 
   function motionAllowed() {
-    return !reducedMotion.matches && !userPaused && !document.hidden;
+    return (motionPreference === null ? !reducedMotion.matches : motionPreference) && !document.hidden;
   }
 
   function showTourStep(step) {
@@ -26,7 +30,7 @@
 
   function scheduleTour() {
     clearTimeout(tourTimer);
-    if (!motionAllowed() || !tourVisible || tourManual || tourHovered || tour.contains(document.activeElement)) return;
+    if (!motionAllowed() || !tourVisible || tourManual || tour.contains(document.activeElement)) return;
     tourTimer = setTimeout(() => {
       showTourStep((tourStep + 1) % 3);
       scheduleTour();
@@ -34,23 +38,30 @@
   }
 
   function syncMotion() {
+    const enabled = motionPreference === null ? !reducedMotion.matches : motionPreference;
+    document.body.classList.toggle('motion-enabled', enabled);
     document.body.classList.toggle('motion-paused', !motionAllowed());
-    const paused = userPaused || reducedMotion.matches;
-    motionButton.setAttribute('aria-pressed', String(paused));
-    motionButton.querySelector('[data-motion-label]').textContent = paused ? 'Animasi dijeda' : 'Jeda animasi';
-    motionButton.setAttribute('aria-label', reducedMotion.matches
-      ? 'Animasi dijeda mengikuti pengaturan perangkat'
-      : paused ? 'Lanjutkan animasi' : 'Jeda semua animasi');
+    motionButtons.forEach(button => {
+      button.setAttribute('aria-pressed', String(!enabled));
+      button.querySelector('[data-motion-label]').textContent = enabled ? 'Jeda animasi' : 'Aktifkan animasi';
+      button.setAttribute('aria-label', enabled ? 'Jeda semua animasi' : 'Aktifkan animasi halaman');
+      const icon = button.querySelector('[data-motion-icon]');
+      if (icon) icon.innerHTML = enabled
+        ? '<svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true"><path d="M1 1h2v10H1zM7 1h2v10H7z"/></svg>'
+        : '<svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true"><path d="M1 1l8 5-8 5z"/></svg>';
+    });
+    syncZones();
     scheduleTour();
   }
 
-  motionButton.addEventListener('click', () => {
-    if (reducedMotion.matches) return;
-    userPaused = !userPaused;
+  motionButtons.forEach(button => button.addEventListener('click', () => {
+    const enabled = motionPreference === null ? !reducedMotion.matches : motionPreference;
+    motionPreference = !enabled;
+    try { sessionStorage.setItem('badai-motion', motionPreference ? 'on' : 'off'); } catch (_) {}
     syncMotion();
-  });
-  reducedMotion.addEventListener('change', syncMotion);
+  }));
   document.addEventListener('visibilitychange', syncMotion);
+  window.addEventListener('pageshow', syncMotion);
   tourButtons.forEach(button => button.addEventListener('click', () => {
     tourManual = true;
     showTourStep(Number(button.dataset.tourStepButton));
@@ -63,28 +74,32 @@
     showTourStep(1);
     scheduleTour();
   }));
-  tour.addEventListener('mouseenter', () => { tourHovered = true; scheduleTour(); });
-  tour.addEventListener('mouseleave', () => { tourHovered = false; scheduleTour(); });
   tour.addEventListener('focusin', scheduleTour);
-  tour.addEventListener('focusout', () => requestAnimationFrame(scheduleTour));
+  tour.addEventListener('focusout', () => requestAnimationFrame(() => {
+    if (!tour.contains(document.activeElement)) tourManual = false;
+    scheduleTour();
+  }));
 
   const reveals = [...document.querySelectorAll('[data-reveal]')];
   // Track each moving row separately: a tall parent must not start offscreen rows.
   document.querySelectorAll('.marquee').forEach(element => element.setAttribute('data-motion-zone', ''));
   const zones = [...document.querySelectorAll('[data-motion-zone]')];
   const zoneVisibility = new Map();
-  const zoneImagesReady = new Map();
   function syncZones() {
-    zones.forEach(element => element.classList.toggle('is-playing', motionAllowed() && zoneVisibility.get(element) === true && zoneImagesReady.get(element) !== false));
+    zones.forEach(element => {
+      const playing = motionAllowed() && zoneVisibility.get(element) !== false;
+      element.classList.toggle('is-playing', playing);
+      element.classList.toggle('motion-suspended', !playing);
+    });
   }
   // Lazy images inside translated tracks can otherwise enter the screen blank.
   const marquees = zones.filter(element => element.matches('.marquee'));
   function prepareImages(element) {
     const images = [...element.querySelectorAll('img')];
     images.forEach(image => { image.loading = 'eager'; });
-    Promise.allSettled(images.map(image => image.decode())).then(() => {
-      zoneImagesReady.set(element, true);
-      syncZones();
+    // Image decode/network must never gate the animation clock.
+    images.forEach(image => {
+      if (typeof image.decode === 'function') image.decode().catch(() => {});
     });
   }
   if ('IntersectionObserver' in window) {
@@ -96,7 +111,6 @@
       });
     }, { rootMargin: '500px 0px', threshold: 0 });
     marquees.forEach(element => {
-      zoneImagesReady.set(element, false);
       preloadObserver.observe(element);
     });
   }
@@ -112,9 +126,9 @@
   const resizeObserver = 'ResizeObserver' in window ? new ResizeObserver(sizeMarquees) : null;
   document.querySelectorAll('.marquee-group:not([aria-hidden])').forEach(group => resizeObserver?.observe(group));
   sizeMarquees();
-  reducedMotion.addEventListener('change', syncZones);
-  document.addEventListener('visibilitychange', syncZones);
-  motionButton.addEventListener('click', syncZones);
+  // Safari / embedded WebViews may only implement the legacy MediaQueryList API.
+  if (typeof reducedMotion.addEventListener === 'function') reducedMotion.addEventListener('change', syncMotion);
+  else if (typeof reducedMotion.addListener === 'function') reducedMotion.addListener(syncMotion);
   if ('IntersectionObserver' in window) {
     const revealObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -140,8 +154,9 @@
     zones.forEach(element => motionObserver.observe(element));
   } else {
     reveals.forEach(element => element.classList.add('is-visible'));
-    // No continuous animation when viewport visibility cannot be tracked.
-    tourManual = true;
+    // CSS autoplay remains available if viewport observers are unsupported.
+    tourVisible = true;
+    marquees.forEach(prepareImages);
   }
   syncMotion();
 
