@@ -92,6 +92,7 @@
       element.classList.toggle('motion-suspended', !playing);
     });
     syncDays();
+    syncCommission();
   }
   // One clock drives the day count, growing bars, progress line and milestones.
   const dayVisual = document.querySelector('.year-visual');
@@ -132,6 +133,46 @@
       dayLastTime = performance.now();
       dayFrame = requestAnimationFrame(tickDays);
     }
+  }
+  const commissionSection = document.getElementById('affiliate');
+  const commissionCount = commissionSection?.querySelector('[data-commission-count]');
+  let commissionProgress = 0, commissionLast = 0, commissionFrame = null;
+  let commissionWasVisible = false, commissionDelay = 150;
+  function paintCommission(progress) {
+    if (!commissionSection || !commissionCount) return;
+    const eased = 1 - Math.pow(1 - progress, 2);
+    commissionCount.textContent = String(Math.floor(50 * eased));
+    commissionSection.style.setProperty('--commission-progress', String(eased));
+  }
+  function tickCommission(now) {
+    commissionFrame = null;
+    const elapsed = Math.max(0, Math.min(80, now - commissionLast));
+    if (commissionDelay > 0) commissionDelay = Math.max(0, commissionDelay - elapsed);
+    else commissionProgress = Math.min(1, commissionProgress + elapsed / 2800);
+    commissionLast = now;
+    paintCommission(commissionProgress);
+    if (commissionProgress < 1) commissionFrame = requestAnimationFrame(tickCommission);
+  }
+  function syncCommission() {
+    if (!commissionSection) return;
+    const visible = zoneVisibility.get(commissionSection) === true || !('IntersectionObserver' in window);
+    if (visible && !commissionWasVisible) { commissionProgress = 0; commissionDelay = 150; paintCommission(0); }
+    commissionWasVisible = visible;
+    if (!motionAllowed() || !visible) {
+      if (commissionFrame !== null) cancelAnimationFrame(commissionFrame);
+      commissionFrame = null;
+      if (reducedMotion.matches && motionPreference !== true) paintCommission(1);
+      return;
+    }
+    if (commissionProgress < 1 && commissionFrame === null) {
+      commissionLast = performance.now();
+      commissionFrame = requestAnimationFrame(tickCommission);
+    }
+  }
+  if (commissionSection && 'ResizeObserver' in window) {
+    new ResizeObserver(() => {
+      commissionSection.style.setProperty('--money-height', `${commissionSection.offsetHeight}px`);
+    }).observe(commissionSection);
   }
   // Lazy images inside translated tracks can otherwise enter the screen blank.
   const marquees = zones.filter(element => element.matches('.marquee'));

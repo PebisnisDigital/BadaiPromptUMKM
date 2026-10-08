@@ -114,3 +114,27 @@ body.motion-paused .hero-spark .spark-icon{transform:none}
 .year-visual .timeline-labels>.day-reached{color:var(--pink-soft)}
 .year-visual .timeline-labels>span.day-reached i{border-color:var(--pink);background:var(--pink)}
 @media(max-width:600px){.year-number{display:block;margin-top:34px}.year-number>span{display:block;font-size:clamp(132px,47vw,240px);min-width:0}.year-number>div{font-size:38px;margin-top:14px;display:flex;align-items:center;gap:20px}.year-number small{font-size:8px;margin-top:0}.day-growth{height:90px;gap:4px;margin-top:22px}.year-visual .timeline-labels>span{font-size:7px}.year-visual .year-timeline{margin-top:22px}}
+
+/* Affiliate counter and decorative red Rp100k notes, confined to this section. */
+.affiliate-section{--commission-progress:1;position:relative;isolation:isolate;overflow:hidden}
+.affiliate-section>.section-head,.affiliate-section>.commission-visual,.affiliate-section>.under-note{position:relative;z-index:1}
+.affiliate-section #affiliate-title{font-size:clamp(32px,6.3vw,56px);line-height:1.08}
+.affiliate-section #affiliate-title .pink-text{display:inline-block;font-size:1.2em;margin-top:10px}
+.affiliate-section .affiliate-punch{color:#fff;font-size:clamp(18px,3vw,26px);font-weight:800;margin-top:24px;letter-spacing:-.035em}
+.affiliate-section .section-head>p:not(.affiliate-punch){max-width:540px;line-height:1.75}
+.commission-number{display:flex;align-items:flex-start;line-height:.85;margin-left:0;font-variant-numeric:tabular-nums}
+.commission-number>[data-commission-count]{font:inherit;min-width:2ch;letter-spacing:-.065em}
+.commission-number>span{font-size:.57em;line-height:1.1}
+.commission-arrow{transform:translateY(calc((1 - var(--commission-progress))*24px));opacity:calc(.35 + var(--commission-progress)*.65)}
+.commission-meter{margin:26px 0 30px}
+.commission-track{position:relative;height:8px;border-radius:8px;background:#ffffff16}
+.commission-track>i{display:block;width:100%;height:100%;border-radius:8px;background:linear-gradient(90deg,#a12451,var(--pink));transform:scaleX(var(--commission-progress));transform-origin:left}
+.commission-track>b{position:absolute;left:calc(var(--commission-progress)*100%);top:-3px;width:14px;height:14px;border-radius:50%;background:var(--pink);transform:translateX(-50%);box-shadow:0 0 16px #ff398d66}
+.commission-marks{display:flex;justify-content:space-between;margin-top:12px;font-size:11px;color:#b6a4ac}.commission-marks>span:last-child{color:var(--pink-soft)}
+.money-layer{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;mask-image:linear-gradient(180deg,transparent,#000 8%,#000 92%,transparent)}
+.money-layer::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#09090930,#090909a6 45%,#09090920);pointer-events:none}
+.money-note{position:absolute;top:-100px;left:var(--note-x);width:var(--note-width);height:auto;opacity:.52;animation:badai-money-rain var(--note-speed) linear var(--note-delay) infinite;will-change:transform;filter:drop-shadow(0 8px 10px #0004)}
+@keyframes badai-money-rain{from{transform:translate3d(0,-80px,0) rotate(-25deg)}to{transform:translate3d(var(--note-drift),calc(var(--money-height,1000px) + 180px),0) rotate(var(--note-spin))}}
+.affiliate-section.motion-suspended .money-note{animation-play-state:paused!important}
+@media(max-width:600px){.money-note{width:calc(var(--note-width)*.7);opacity:.42}.affiliate-section #affiliate-title{font-size:34px}.affiliate-section .affiliate-punch{font-size:21px}.commission-number{font-size:clamp(145px,45vw,205px)}.commission-meter{margin-top:20px}}
+@media(prefers-reduced-motion:reduce){body:not(.motion-enabled) .money-layer{display:none}}
