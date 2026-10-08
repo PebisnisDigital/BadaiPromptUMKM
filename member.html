@@ -255,8 +255,13 @@ function fillFilters(){
 function filteredRows(){
   return all.filter(x=>mode!=='favorites'||favorites.has(x.$id));
 }
+function previewSrc(x){
+  if(x?.preview_file_id)return 'https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/'+encodeURIComponent(x.preview_file_id)+'/view?project=badai-prompt-umkm';
+  return x?.preview_url||'';
+}
 function cardVisual(x){
-  if(x.preview_url)return '<img src="'+esc(x.preview_url)+'" alt="'+esc(x.title)+'" loading="lazy" decoding="async">';
+  const src=previewSrc(x);
+  if(src)return '<img src="'+esc(src)+'" alt="'+esc(x.title)+'" loading="lazy" decoding="async">';
   return '<div class="visual-placeholder"><div><b>'+iconFor(x.category)+'</b>'+esc(x.category||'BADAI PROMPT')+'</div></div>';
 }
 function renderPagination(){
@@ -293,7 +298,8 @@ function openDetail(id){
   current=all.find(x=>x.$id===id);if(!current)return;
   $('detailCategory').textContent=promptCode(current)+' · '+(current.category||'PROMPT').toUpperCase();$('detailTitle').textContent=current.title;$('detailPrompt').textContent=current.prompt_text;
   $('detailMeta').innerHTML=[current.style,current.camera,current.aspect_ratio,current.tool].filter(Boolean).map(x=>'<span class="tag">'+esc(x)+'</span>').join('');
-  $('detailImage').innerHTML=current.preview_url?'<img src="'+esc(current.preview_url)+'" alt="'+esc(current.title)+'">':cardVisual(current);
+  const detailSrc=previewSrc(current);
+  $('detailImage').innerHTML=detailSrc?'<img src="'+esc(detailSrc)+'" alt="'+esc(current.title)+'">':cardVisual(current);
   updateDetailFav();detailOverlay.classList.add('show');
 }
 function updateDetailFav(){$('detailFav').textContent=current&&favorites.has(current.$id)?'♥':'♡'}
