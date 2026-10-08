@@ -318,11 +318,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
         </div>
       </div>
       <div class="formgrid prompt-simple-form">
-        <div class="field full"><label>PROMPT *</label><textarea id="pPrompt" rows="14" required placeholder="Tempel prompt lengkap di sini..."></textarea></div>
-        <div class="field"><label>SUMBER / KREATOR</label><input id="pSourceCreator" placeholder="@creator / BADAI Prompt Lab"></div>
-        <div class="field"><label>TAUTAN SUMBER</label><input id="pSourceUrl" type="url" placeholder="https://..."></div>
-        <div class="field full"><label>CATATAN SUMBER</label><textarea id="pSourceNotes" rows="3" placeholder="Opsional..."></textarea></div>
-        <div class="field full"><div class="checks"><label><input id="pNeedsReference" type="checkbox" checked> WAJIB FOTO REFERENSI</label><label><input id="pTayang" type="checkbox" checked> TAYANG</label><label><input id="pUnggulan" type="checkbox"> UNGGULAN</label></div></div>
+        <div class="field full"><label>PROMPT *</label><textarea id="pPrompt" rows="16" required placeholder="Tempel prompt lengkap di sini..."></textarea></div>
       </div>
       <div class="sheetactions">
         <button class="btn danger" type="button" id="deletePromptBtn" style="display:none">HAPUS</button>
@@ -551,12 +547,12 @@ $('categoryFilter').onchange=()=>{promptPage=1;promptOpenLatest=true;refreshProm
 $('statusFilter').onchange=()=>{promptPage=1;promptOpenLatest=true;refreshPromptPage(false)};
 
 function resetPromptForm(){
-  editing=null;$('promptForm').reset();$('pId').value='';$('pNeedsReference').checked=true;$('pTayang').checked=true;$('pUnggulan').checked=false;for(let n=1;n<=4;n++)$('imagePreview'+n).innerHTML='Gambar '+n;$('deletePromptBtn').style.display='none';$('promptModalTitle').textContent='Tambah Prompt';msg($('promptMsg'),'');
+  editing=null;$('promptForm').reset();$('pId').value='';for(let n=1;n<=4;n++)$('imagePreview'+n).innerHTML='Gambar '+n;$('deletePromptBtn').style.display='none';$('promptModalTitle').textContent='Tambah Prompt';msg($('promptMsg'),'');
 }
 function openPrompt(){resetPromptForm();$('promptModal').classList.add('show')}
 window.editPrompt=id=>{
   const p=prompts.find(x=>x.$id===id);if(!p)return;editing=p;
-  $('pId').value=p.$id;$('pPreviewUrl').value=p.preview_url||'';$('pPreviewUrl2').value=p.preview_url_2||'';$('pPreviewUrl3').value=p.preview_url_3||'';$('pPreviewUrl4').value=p.preview_url_4||'';$('pPrompt').value=p.prompt_text||'';$('pSourceCreator').value=p.source_creator||'';$('pSourceUrl').value=p.source_url||'';$('pSourceNotes').value=p.source_notes||'';$('pNeedsReference').checked=p.needs_reference!==false;$('pTayang').checked=p.is_published!==false;$('pUnggulan').checked=p.is_featured===true;
+  $('pId').value=p.$id;$('pPreviewUrl').value=p.preview_url||'';$('pPreviewUrl2').value=p.preview_url_2||'';$('pPreviewUrl3').value=p.preview_url_3||'';$('pPreviewUrl4').value=p.preview_url_4||'';$('pPrompt').value=p.prompt_text||'';
   renderAdminImagePreviews(p);$('deletePromptBtn').style.display='inline-block';$('promptModalTitle').textContent='Ubah Prompt · '+promptCode(p);msg($('promptMsg'),'');$('promptModal').classList.add('show');
 };
 window.togglePublish=async(id,val)=>{busy(true);try{await tables.updateRow({databaseId:DB,tableId:TABLE,rowId:id,data:{is_published:val}});await loadPromptMeta();await loadPrompts();renderPrompts()}catch(e){alert(e.message||'Gagal mengubah status.')}finally{busy(false)}};
@@ -592,8 +588,8 @@ $('promptForm').onsubmit=async e=>{
       preview_url:urls[0],preview_url_2:urls[1],preview_url_3:urls[2],preview_url_4:urls[3],
       preview_file_id:keepFile(1,urls[0]),preview_file_id_2:keepFile(2,urls[1]),preview_file_id_3:keepFile(3,urls[2]),preview_file_id_4:keepFile(4,urls[3]),
       style:editing?.style||null,camera:editing?.camera||null,aspect_ratio:editing?.aspect_ratio||null,tool:editing?.tool||null,gender:editing?.gender||'universal',tags:editing?.tags||null,
-      source_creator:$('pSourceCreator').value.trim()||null,source_url:$('pSourceUrl').value.trim()||null,source_notes:$('pSourceNotes').value.trim()||null,
-      needs_reference:$('pNeedsReference').checked,is_published:$('pTayang').checked,is_featured:$('pUnggulan').checked,sort_order:sortOrder
+      source_creator:editing?.source_creator||null,source_url:editing?.source_url||null,source_notes:editing?.source_notes||null,
+      needs_reference:editing?.needs_reference!==false,is_published:editing?.is_published!==false,is_featured:editing?.is_featured===true,sort_order:sortOrder
     };
     if($('pId').value)await tables.updateRow({databaseId:DB,tableId:TABLE,rowId:$('pId').value,data});
     else await tables.createRow({databaseId:DB,tableId:TABLE,rowId:ID.unique(),data});
