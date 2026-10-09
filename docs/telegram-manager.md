@@ -4,7 +4,7 @@ Prepared 9 October 2026 (WIB). Work branch: `feature/telegram-manager-20261009`.
 
 ## Audit and baseline
 
-GitHub `main` is `86bb681`; the frontend actually serving production came from `d85e766` on `fix/badai-motion`. This feature branch starts from that deployed frontend to preserve the existing member/admin improvements. A PR to `main` therefore includes the earlier deployed frontend changes as well. Reconcile this baseline before merging; do not deploy an older `main` checkout over the running site.
+GitHub `main` is `86bb681`; the frontend actually serving production came from `d85e766` on `fix/badai-motion`. This feature branch starts from that deployed frontend to preserve the existing member/admin improvements. A PR to `main` therefore includes the earlier deployed frontend changes as well. The feature branch also incorporates `main` through a merge commit. Conflicts in the two Function entrypoints were resolved with the tested production-reconciled sources; the reviewed source tree stayed unchanged. Review the inherited UI changes before merging, and do not deploy an older `main` checkout over the running site.
 
 The active `activate-member` deployment is `6ac8fad9ae172fb04d94`, based on `019d310` plus the previous deletion fix. The active `payment-api` deployment is `6ac6fb7200126b22072d`, from `86bb681`. Their source was reconciled into this branch before adding Telegram. The BuatQRIS checkout portion of `payment-api`, the website checkout, and `api/buatqris-webhook.js` retain the verified production implementation. The payment Function receives only an annual-term calculation for admin activation and read-only profile permissions for newly created profiles. Existing profile data/permissions were not changed.
 
@@ -12,7 +12,7 @@ The three existing Telegram tables were empty. Their column/index statuses were 
 
 ## Files
 
-- `api/telegram/{manager,link,webhook}.js`: protected admin/member endpoints and a separate secret-verified webhook.
+- `api/telegram/{manager,link,webhook,health}.js`: protected admin/member endpoints and a separate secret-verified webhook.
 - `functions/activate-member/src/telegram/{security,auth,policy,store,transport,service,delivery,runtime,renewal}.mjs`: encryption, verified identity, schedule/rights policy, Appwrite persistence, Telegram API, account linking, delivery, and transactional annual renewal.
 - `functions/activate-member/src/main.js`: existing activation/expiry retained; scheduled Telegram worker gated by `TELEGRAM_ENABLED`; persisted payment events rechecked; renewal and issued flag committed together.
 - `functions/payment-api/src/{main.js,access-policy.mjs}`: active checkout source preserved, annual default for new manual activations, lifetime/remaining term retained for existing members, browser write permission omitted on new member profiles.
@@ -48,12 +48,12 @@ Tests require explicitly authorized tester consent on the selected bot. Test del
 
 ## Checks performed
 
-- `npm test`: 40/40 backend checks pass (32 Telegram/security/scheduling/renewal checks plus 8 deletion regression checks).
+- `npm test`: 41/41 backend checks pass (33 Telegram/security/scheduling/renewal/API checks plus 8 deletion regression checks).
 - `npm run test:telegram-ui`: passes at 1280, 390 and 320 px; actual-data rendering, token clearing, JWT request, connection/error recovery, switch confirmation and test deletion. Member linking and QRIS account/create/poll flows at Rp59,000/Rp159,000/Rp199,000 also pass with mocked APIs.
 - Existing workspace UI checks pass at 1280/390/320 px for member browsing, copying, favorites, login, admin prompt editing, sales and settings; existing admin-deletion UI checks pass.
 - Checkout HTML and QRIS relay compare byte-for-byte with the deployed frontend baseline. Payment checkout routes after `getConfig` compare byte-for-byte with the active `86bb681` backend.
 - An empty Appwrite transaction was created and rolled back successfully; no rows changed. This confirms transaction API availability, not a live paid-order test.
-- Syntax and whitespace checks pass. No live bot credentials were available, so Telegram `getMe`, send, delete, and switch behavior were exercised with controlled API doubles.
+- Syntax and whitespace checks pass. A preview runtime smoke test exposed Vercel CommonJS/ESM interoperability; the API handlers now use CommonJS exports with explicit dynamic imports, and an actual-handler authorization test covers this integration. No live bot credentials were available, so Telegram `getMe`, send, delete, and switch behavior were exercised with controlled API doubles.
 
 `tests/landing.test.cjs` is an older suite for a different landing-page revision: it expects a previous script hash, section layout and a removed `agreeTerms` checkbox. An exploratory run failed those stale assertions and was stopped. It was not changed or presented as passing. The current checkout is covered by the new regression smoke test above. This old suite should be reconciled as a separate baseline-cleanup step before requiring it in CI.
 
