@@ -24,6 +24,7 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
 @media(max-width:360px){.grid{gap:7px}.body{padding:9px}.hero h1{font-size:34px}.hero p{font-size:14px}.how{grid-template-columns:1fr}.how b{font-size:13px}.how span{font-size:11px}.subfilters{grid-template-columns:1fr}.card{border-radius:15px}.body h3{font-size:13px}.categoryselect select{font-size:14px}.sectionhead h2{font-size:22px}}
 </style>
 <link rel="stylesheet" href="/assets/member-ui.css?v=2">
+<link rel="stylesheet" href="/assets/telegram-manager.css">
 </head>
 <body class="member-app">
 <div class="gate" id="gate">
@@ -131,6 +132,7 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
         <div class="accountrow"><small>FAVORIT</small><b id="accFav">0 prompt</b></div>
       </div>
 
+      <div class="tg-link"><h3>Telegram BADAI PROMPT</h3><p>Hubungkan akun ini ke Telegram untuk mengikuti rekomendasi sesuai hak aksesmu.</p><button type="button" id="tgLinkBtn">HUBUNGKAN TELEGRAM</button> <a id="tgLinkOpen" href="#" target="_blank" rel="noopener" hidden>BUKA BOT & START</a><p id="tgLinkMsg" role="status"></p></div>
       <form class="accountedit" id="accountForm">
         <h3>Edit Data Akun</h3>
         <p>Nama, email, WhatsApp, dan password di sini langsung disinkronkan ke akun BADAI PROMPT.</p>
@@ -502,6 +504,7 @@ $('nav').querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{
 });
 boot();
 </script>
+<script src="/assets/telegram-member.js"></script>
 <script src="/assets/workspace-ui.js?v=2"></script>
 </body>
 </html>

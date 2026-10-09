@@ -1,3 +1,5 @@
+import { runtime as telegramRuntime } from './telegram/runtime.mjs';
+import { commitPaidAccess } from './telegram/renewal.mjs';
 import { deleteSalesData } from './delete-sales.js';
 import { Client, TablesDB, Users, Teams, ID, Query, Permission, Role } from 'node-appwrite';
 
@@ -77,12 +79,19 @@ export default async ({req,res,log,error})=>{
     const users=new Users(client);
     const teams=new Teams(client);
     const path=req.path||'/';
-    const body=req.bodyJson||{};
+    const trigger=req.headers['x-appwrite-trigger']||'';
+    const body=trigger==='schedule'?{}:(req.bodyJson||{});
 
     // Scheduled execution: expire time-limited access without adding another Function.
     if(path==='/' && !body?.$id){
+      if(trigger!=='schedule')return res.json({ok:false,error:'Scheduler hanya menerima trigger terjadwal.'},403);
       const expired=await expireMemberAccess(tables,teams);
-      return res.json({ok:true,expired});
+      let telegram={paused:true};
+      if(process.env.TELEGRAM_ENABLED==='true'){
+        try{telegram=await telegramRuntime({apiKey:req.headers['x-appwrite-key']}).scheduler()}
+        catch{error?.('Telegram scheduler failed; secrets omitted.');telegram={ok:false,error:'Telegram scheduler belum selesai.'}}
+      }
+      return res.json({ok:true,expired,telegram});
     }
 
     // HTTP admin routes. Client execution is restricted to team:admin-users
@@ -275,107 +284,6 @@ export default async ({req,res,log,error})=>{
         return res.json({ok:true,total:r.total||0,rows:(r.rows||r.documents||[]).map(unpack)});
       }
 
-      if(route==='/sales/save'){
-        const orderId=q(body.order_id);
-        if(!orderId)return res.json({error:'order_id wajib'},400);
-
-        const order=unpack(await tables.getRow({databaseId:DB,tableId:ORDERS,rowId:orderId}));
-        const userId=q(body.user_id)||q(order.user_id);
-        const name=q(body.name)||q(order.full_name);
-        const email=q(body.email).toLowerCase()||q(order.email).toLowerCase();
-        let whatsapp=q(body.whatsapp).replace(/\D/g,'');
-        if(whatsapp.startsWith('0'))whatsapp='62'+whatsapp.slice(1);
-        if(!whatsapp)whatsapp=q(order.whatsapp);
-
-        if(!name||!email)return res.json({error:'Nama dan email wajib diisi.'},400);
-        if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return res.json({error:'Email belum valid.'},400);
-
-        const paymentStatus=['success','pending','expired','failed'].includes(q(body.payment_status))
-          ?q(body.payment_status):q(order.status)||'pending';
-        const accessStatus=['active','pending','blocked'].includes(q(body.access_status))
-          ?q(body.access_status):'pending';
-        const amount=Math.max(Number(body.amount??order.total_amount??order.amount)||0,0);
-        const paymentMethod=q(body.payment_method)||q(order.payment_method)||'manual';
-        const notes=q(body.notes)||null;
-
-        let accessUntil=null;
-        if(q(body.access_until)){
-          const d=new Date(q(body.access_until));
-          if(Number.isNaN(d.getTime()))return res.json({error:'Tanggal masa akses tidak valid.'},400);
-          accessUntil=d.toISOString();
-        }
-
-        if(userId){
-          try{await users.updateName({userId,name:name.slice(0,128)});}catch{}
-          if(email&&email!==q(order.email).toLowerCase()){
-            await users.updateEmail({userId,email});
-          }
-
-          const profileData={
-            name,
-            email,
-            whatsapp:whatsapp||null,
-            status:accessStatus,
-            access_until:accessUntil,
-            business_name:q(body.business_name)||null,
-            city_area:q(body.city_area)||null,
-            product_service:q(body.product_service)||null,
-            price_text:q(body.price_text)||null,
-            target_buyer:q(body.target_buyer)||null,
-            advantage:q(body.advantage)||null,
-            brand_color:q(body.brand_color)||null,
-            available_assets:q(body.available_assets)||null
-          };
-
-          try{
-            await tables.updateRow({databaseId:DB,tableId:PROFILES,rowId:userId,data:profileData});
-          }catch(e){
-            if(Number(e?.code)===404){
-              await tables.createRow({
-                databaseId:DB,
-                tableId:PROFILES,
-                rowId:userId,
-                data:{user_id:userId,role:'member',...profileData},
-                permissions:[Permission.read(Role.user(userId))]
-              });
-            }else throw e;
-          }
-
-          const memberships=await teams.listMemberships({
-            teamId:TEAM_ID,
-            queries:[Query.equal('userId',userId),Query.limit(10)]
-          });
-          const current=(memberships.memberships||[])[0]||null;
-          if(accessStatus==='active'&&!current){
-            await teams.createMembership({teamId:TEAM_ID,roles:['member'],userId});
-          }
-          if(accessStatus!=='active'&&current){
-            await teams.deleteMembership({teamId:TEAM_ID,membershipId:current.$id});
-          }
-        }
-
-        const savedOrder=await tables.updateRow({
-          databaseId:DB,
-          tableId:ORDERS,
-          rowId:orderId,
-          data:{
-            full_name:name,
-            email,
-            whatsapp:whatsapp||null,
-            amount,
-            total_amount:amount,
-            status:paymentStatus,
-            paid_at:paymentStatus==='success'?(order.paid_at||new Date().toISOString()):null,
-            user_id:userId||null,
-            access_issued:Boolean(userId&&accessStatus==='active'),
-            payment_method:paymentMethod,
-            notes
-          }
-        });
-
-        return res.json({ok:true,order:unpack(savedOrder),user_id:userId||null});
-      }
-
       if(route==='/sales/delete'){
         try{
           const result=await deleteSalesData({
@@ -414,13 +322,15 @@ export default async ({req,res,log,error})=>{
           });
         }
 
+        let existingProfile=null;try{existingProfile=unpack(await tables.getRow({databaseId:DB,tableId:PROFILES,rowId:user.$id}))}catch(e){if(Number(e?.code)!==404)throw e}
         const profileData={
           user_id:user.$id,
           name,
           email,
           whatsapp,
           status:accessStatus,
-          role:'member'
+          role:'member',
+          access_until:existingProfile?.status==='active'&&!existingProfile.access_until?null:(existingProfile?.access_until||new Date(Date.now()+365*86400000).toISOString())
         };
 
         try{
@@ -827,7 +737,8 @@ export default async ({req,res,log,error})=>{
     }
 
     // Event worker: activate paid member when an order becomes successful.
-    const order=unpack(body);
+    let order=unpack(body);
+    if(order.$id)order=unpack(await tables.getRow({databaseId:DB,tableId:ORDERS,rowId:order.$id}));
     const autoAccessMethods=['qris','coupon_free'];
     if(!order.$id||order.status!=='success'||order.access_issued===true||(order.payment_method&&!autoAccessMethods.includes(order.payment_method))){
       return res.json({ok:true,skipped:true});
@@ -857,43 +768,13 @@ export default async ({req,res,log,error})=>{
       if(Number(e?.code)!==409)throw e;
     }
 
-    const profile={
-      user_id:user.$id,
-      name:String(order.full_name||''),
-      email,
-      whatsapp:String(order.whatsapp||''),
-      status:'active',
-      role:'member',
-      access_until:oneYearFrom(order.paid_at||order.$updatedAt||new Date().toISOString())
-    };
+    const activation=await commitPaidAccess({tables,databaseId:DB,profileTable:PROFILES,ordersTable:ORDERS,orderId:order.$id,user,Permission,Role});
 
-    try{
-      await tables.createRow({
-        databaseId:DB,
-        tableId:PROFILES,
-        rowId:user.$id,
-        data:profile,
-        permissions:[
-          Permission.read(Role.user(user.$id))
-        ]
-      });
-    }catch(e){
-      if(Number(e?.code)===409){
-        await tables.updateRow({databaseId:DB,tableId:PROFILES,rowId:user.$id,data:profile});
-      }else{
-        throw e;
-      }
+    if(process.env.TELEGRAM_ENABLED==='true'){
+      try{const telegram=telegramRuntime({apiKey:req.headers['x-appwrite-key']});const linked=await telegram.store.list('telegram_members',[['equal','appwrite_user_id',user.$id]],2);for(const member of linked.rows)await telegram.sync(member)}catch{error?.('Telegram access sync pending; scheduler will retry.')}
     }
-
-    await tables.updateRow({
-      databaseId:DB,
-      tableId:ORDERS,
-      rowId:order.$id,
-      data:{user_id:user.$id,access_issued:true}
-    });
-
     log?.('Activated paid member '+user.$id);
-    return res.json({ok:true,user_id:user.$id});
+    return res.json({ok:true,user_id:user.$id,...activation});
   }catch(e){
     error?.(e?.stack||String(e));
     return res.json({ok:false,error:String(e?.message||e)},500);

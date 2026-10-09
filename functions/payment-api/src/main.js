@@ -1,5 +1,6 @@
+import { manualAccessUntil } from './access-policy.mjs';
 import crypto from 'node:crypto';
-import { Client, TablesDB, ID, Query } from 'node-appwrite';
+import { Client, TablesDB, Teams, Users, ID, Query, Permission, Role } from 'node-appwrite';
 
 const DB=process.env.APP_DB_ID || 'badai_prompt_umkm';
 const ORDERS=process.env.ORDERS_TABLE_ID || 'orders';
@@ -7,6 +8,8 @@ const SETTINGS='settings';
 const COUPONS='coupons';
 const PROFILES='member_profiles';
 const PAYMENT_SETTINGS='payment_settings';
+const PAID_TEAM='paid-members';
+const ADMIN_TEAM='admin-users';
 const FALLBACK_PRICE=Number(process.env.PRODUCT_PRICE || 100000);
 const FALLBACK_MINIMUM_PRICE=Number(process.env.MINIMUM_PRICE || 30000);
 const MAX_PAY_WHAT_YOU_WANT=5000000;
@@ -36,6 +39,8 @@ function safeEqual(a='',b=''){
 function hmac(secret,body){return 'sha256='+crypto.createHmac('sha256',secret).update(body).digest('hex');}
 function rowData(row){return {...(row?.data||row||{}),$id:row?.$id||row?.data?.$id};}
 function q(v){return String(v??'').trim();}
+function adminNormWa(v=''){let s=String(v).replace(/\D/g,'');if(s.startsWith('0'))s='62'+s.slice(1);else if(s.startsWith('8'))s='62'+s;return s;}
+function adminRandomPassword(){return crypto.randomBytes(9).toString('base64url')+'A1!';}
 
 export default async ({req,res,error})=>{
   if(req.method==='OPTIONS')return res.text('ok',200,corsHeaders());
@@ -47,6 +52,198 @@ export default async ({req,res,error})=>{
 
   const client=new Client().setEndpoint(endpoint).setProject(project).setKey(key);
   const tables=new TablesDB(client);
+  const teams=new Teams(client);
+  const users=new Users(client);
+
+  async function adminListAll(tableId,base=[]){
+    const rows=[];
+    for(let offset=0;offset<5000;offset+=100){
+      const r=await tables.listRows({databaseId:DB,tableId,queries:[...base,Query.limit(100),Query.offset(offset)]});
+      const part=(r.rows||r.documents||[]).map(rowData);rows.push(...part);if(part.length<100)break;
+    }
+    return rows;
+  }
+  async function adminProfile(userId){
+    if(!userId)return null;
+    try{return rowData(await tables.getRow({databaseId:DB,tableId:PROFILES,rowId:userId}))}
+    catch(e){if(Number(e?.code)===404)return null;throw e}
+  }
+  async function adminFindUser(email){
+    if(!email)return null;
+    const r=await users.list({queries:[Query.equal('email',String(email).toLowerCase()),Query.limit(1)]});
+    return (r.users||[])[0]||null;
+  }
+  async function adminPaidMembership(userId){
+    const r=await teams.listMemberships({teamId:PAID_TEAM,queries:[Query.equal('userId',userId),Query.limit(10)]});
+    return (r.memberships||[])[0]||null;
+  }
+  async function adminSetPaidAccess(userId,status){
+    const m=await adminPaidMembership(userId);
+    if(status==='active'&&!m)await teams.createMembership({teamId:PAID_TEAM,roles:['member'],userId});
+    if(status!=='active'&&m)await teams.deleteMembership({teamId:PAID_TEAM,membershipId:m.$id});
+  }
+  async function adminAssert(){
+    const userId=q(req.headers['x-appwrite-user-id']);
+    if(!userId)throw Object.assign(new Error('Sesi admin tidak terbaca.'),{status:401});
+    const r=await teams.listMemberships({teamId:ADMIN_TEAM,queries:[Query.equal('userId',userId),Query.limit(1)]});
+    if(!(r.memberships||[]).length)throw Object.assign(new Error('Akun ini bukan admin BADAI PROMPT.'),{status:403});
+    return userId;
+  }
+  async function adminUpsertSetting(key,value,isPublic=false){
+    try{return await tables.updateRow({databaseId:DB,tableId:SETTINGS,rowId:key,data:{key,value:String(value),is_public:isPublic}})}
+    catch(e){if(Number(e?.code)===404)return tables.createRow({databaseId:DB,tableId:SETTINGS,rowId:key,data:{key,value:String(value),is_public:isPublic}});throw e}
+  }
+  async function adminSettingsMap(){
+    const rows=await adminListAll(SETTINGS),map={};for(const r of rows)map[r.key]=r.value;return map;
+  }
+  async function adminHandle(path,body){
+    const callerId=await adminAssert();
+    if(path==='/health')return {ok:true,service:'payment-api-admin'};
+
+    if(path==='/members/list'){
+      const rows=await adminListAll(PROFILES);return {ok:true,total:rows.length,rows};
+    }
+    if(path==='/member/get'){
+      let userId=q(body.user_id),user=null;
+      if(userId){try{user=await users.get({userId})}catch(e){if(Number(e?.code)!==404)throw e}}
+      if(!user&&q(body.email)){user=await adminFindUser(q(body.email));userId=user?.$id||''}
+      const profile=userId?await adminProfile(userId):null,membership=userId?await adminPaidMembership(userId):null;
+      return {ok:true,user:user?{$id:user.$id,name:user.name,email:user.email,status:user.status}:null,profile,membership:Boolean(membership)};
+    }
+    if(path==='/members/manual-create'){
+      const name=q(body.name),email=q(body.email).toLowerCase(),whatsapp=adminNormWa(body.whatsapp),status=['active','pending','blocked'].includes(q(body.access_status))?q(body.access_status):'active';
+      if(!name||!email)throw Object.assign(new Error('Nama dan email wajib diisi.'),{status:400});
+      let user=await adminFindUser(email),generatedPassword='';
+      if(!user){generatedPassword=q(body.password)||adminRandomPassword();user=await users.create({userId:ID.unique(),email,password:generatedPassword,name})}
+      else if(name&&name!==user.name)user=await users.updateName({userId:user.$id,name});
+      let profile=await adminProfile(user.$id);
+      const pdata={user_id:user.$id,name,email,whatsapp:whatsapp||null,status,role:'member',access_until:manualAccessUntil(profile,status,body.access_until)};
+      if(profile)profile=rowData(await tables.updateRow({databaseId:DB,tableId:PROFILES,rowId:user.$id,data:pdata}));
+      else profile=rowData(await tables.createRow({databaseId:DB,tableId:PROFILES,rowId:user.$id,data:pdata,permissions:[Permission.read(Role.user(user.$id))]}));
+      await adminSetPaidAccess(user.$id,status);
+      return {ok:true,row:profile,user_id:user.$id,generated_password:generatedPassword||null};
+    }
+    if(path==='/member/save'){
+      let userId=q(body.user_id),user=null;const email=q(body.email).toLowerCase(),name=q(body.name),whatsapp=adminNormWa(body.whatsapp);
+      if(userId){try{user=await users.get({userId})}catch(e){if(Number(e?.code)!==404)throw e}}
+      if(!user&&email){user=await adminFindUser(email);userId=user?.$id||''}
+      if(!userId||!user)throw Object.assign(new Error('Akun member belum ditemukan. Buat/aktifkan akses member dulu.'),{status:404});
+      if(name&&name!==user.name)user=await users.updateName({userId,name});
+      if(email&&email!==user.email)user=await users.updateEmail({userId,email});
+      const password=q(body.password);if(password){if(password.length<8)throw Object.assign(new Error('Password minimal 8 karakter.'),{status:400});await users.updatePassword({userId,password})}
+      const status=['active','pending','blocked'].includes(q(body.status))?q(body.status):'pending';
+      let profile=await adminProfile(userId);const pdata={user_id:userId,name:name||user.name,email:email||user.email,whatsapp:whatsapp||null,status,role:'member',access_until:manualAccessUntil(profile,status,body.access_until)};
+      if(profile)profile=rowData(await tables.updateRow({databaseId:DB,tableId:PROFILES,rowId:userId,data:pdata}));
+      else profile=rowData(await tables.createRow({databaseId:DB,tableId:PROFILES,rowId:userId,data:pdata,permissions:[Permission.read(Role.user(userId))]}));
+      await adminSetPaidAccess(userId,status);
+      if(q(body.order_id)){try{await tables.updateRow({databaseId:DB,tableId:ORDERS,rowId:q(body.order_id),data:{full_name:pdata.name,email:pdata.email,whatsapp:pdata.whatsapp||'',user_id:userId,access_issued:status==='active'}})}catch{}}
+      return {ok:true,user:{$id:userId,name:pdata.name,email:pdata.email},profile};
+    }
+
+    if(path==='/coupons/list'){const rows=await adminListAll(COUPONS,[Query.orderDesc('$createdAt')]);return {ok:true,rows}}
+    if(path==='/coupons/save'){
+      const code=q(body.code).toUpperCase();if(!code)throw Object.assign(new Error('Kode kupon wajib diisi.'),{status:400});
+      const data={code,discount_type:['percent','fixed'].includes(q(body.discount_type))?q(body.discount_type):'percent',discount_value:Math.max(1,Number(body.discount_value)||0),is_active:body.is_active!==false,min_order:Math.max(0,Number(body.min_order)||0),max_discount:Math.max(0,Number(body.max_discount)||0),usage_limit:Math.max(0,Number(body.usage_limit)||0),starts_at:body.starts_at||null,ends_at:body.ends_at||null,notes:q(body.notes)||null};
+      let saved;if(q(body.id))saved=await tables.updateRow({databaseId:DB,tableId:COUPONS,rowId:q(body.id),data});
+      else{const ex=await tables.listRows({databaseId:DB,tableId:COUPONS,queries:[Query.equal('code',code),Query.limit(1)]});if((ex.rows||ex.documents||[]).length)throw Object.assign(new Error('Kode kupon sudah ada.'),{status:409});saved=await tables.createRow({databaseId:DB,tableId:COUPONS,rowId:ID.unique(),data:{...data,used_count:0,claimed_count:0}})}
+      return {ok:true,row:rowData(saved)};
+    }
+    if(path==='/coupons/toggle'){const saved=await tables.updateRow({databaseId:DB,tableId:COUPONS,rowId:q(body.id),data:{is_active:body.is_active===true}});return {ok:true,row:rowData(saved)}}
+    if(path==='/coupons/delete'){await tables.deleteRow({databaseId:DB,tableId:COUPONS,rowId:q(body.id)});return {ok:true}}
+
+    if(path==='/settings/get'){
+      const s=await adminSettingsMap();return {ok:true,settings:{
+        product_name:q(s.product_name)||'BADAI PROMPT',
+        product_price:Number(s.product_price||100000),
+        minimum_price:Number(s.minimum_price||30000),
+        registration_open:String(s.registration_open??'true')==='true',
+        affiliate_enabled:String(s.affiliate_enabled??'false')==='true',
+        affiliate_commission_type:q(s.affiliate_commission_type)||'percent',
+        affiliate_commission_value:Number(s.affiliate_commission_value||30),
+        affiliate_inactivity_months:Number(s.affiliate_inactivity_months||3),
+        affiliate_min_payout:Number(s.affiliate_min_payout||100000),
+        register_message:q(s.register_message),
+        followup_1:q(s.followup_1),followup_2:q(s.followup_2),followup_3:q(s.followup_3),followup_4:q(s.followup_4),
+        followup_5:q(s.followup_5),followup_6:q(s.followup_6),followup_7:q(s.followup_7),
+        success_message:q(s.success_message),
+        manual_payment_enabled:String(s.manual_payment_enabled??'false')==='true',
+        manual_bank_name:q(s.manual_bank_name),
+        manual_account_number:q(s.manual_account_number),
+        manual_account_holder:q(s.manual_account_holder),
+        manual_payment_instructions:q(s.manual_payment_instructions)
+      }};
+    }
+    if(path==='/settings/save'){
+      const allowed=['product_name','product_price','minimum_price','registration_open','affiliate_enabled','affiliate_commission_type','affiliate_commission_value','affiliate_inactivity_months','affiliate_min_payout','register_message','followup_1','followup_2','followup_3','followup_4','followup_5','followup_6','followup_7','success_message','manual_payment_enabled','manual_bank_name','manual_account_number','manual_account_holder','manual_payment_instructions'];
+      for(const key of allowed)if(body[key]!==undefined)await adminUpsertSetting(key,body[key],['product_name','product_price','minimum_price','registration_open'].includes(key));return {ok:true};
+    }
+    if(path==='/payment/get'){
+      let row=null;try{row=rowData(await tables.getRow({databaseId:DB,tableId:PAYMENT_SETTINGS,rowId:'buatqris'}))}catch(e){if(Number(e?.code)!==404)throw e}
+      return {ok:true,payment:{
+        provider:'buatqris',
+        merchant_label:q(row?.merchant_label)||'BADAI PROMPT',
+        account_id:q(row?.account_id),
+        qris_method:q(row?.qris_method)||'qris_two',
+        fee_by:q(row?.fee_by)||'user',
+        umkm_name:q(row?.umkm_name),
+        test_mode:row?row.test_mode!==false:true,
+        callback_url:q(row?.callback_url)||'https://badaiprompt.vercel.app/api/buatqris-webhook',
+        api_url:q(row?.api_url)||'https://app.buatqris.site/api',
+        is_active:row?row.is_active!==false:false,
+        has_secret_token:Boolean(q(row?.secret_token)),
+        has_signing_secret:Boolean(q(row?.signing_secret))
+      }};
+    }
+    if(path==='/payment/save'){
+      let existing=null;try{existing=rowData(await tables.getRow({databaseId:DB,tableId:PAYMENT_SETTINGS,rowId:'buatqris'}))}catch(e){if(Number(e?.code)!==404)throw e}
+      const method=['qris_one','qris_two','qris_three','qris_four'].includes(q(body.qris_method))?q(body.qris_method):'qris_two';
+      const fee=['user','buyer'].includes(q(body.fee_by))?q(body.fee_by):'user';
+      const data={
+        provider:'buatqris',
+        merchant_label:q(body.merchant_label)||q(existing?.merchant_label)||'BADAI PROMPT',
+        account_id:q(body.account_id)||q(existing?.account_id)||null,
+        qris_method:method,
+        fee_by:fee,
+        umkm_name:(q(body.umkm_name)||q(existing?.umkm_name)||'').slice(0,15)||null,
+        test_mode:body.test_mode!==false,
+        callback_url:q(body.callback_url)||q(existing?.callback_url)||'https://badaiprompt.vercel.app/api/buatqris-webhook',
+        api_url:q(body.api_url)||q(existing?.api_url)||'https://app.buatqris.site/api',
+        is_active:body.is_active===true,
+        secret_token:q(body.secret_token)||q(existing?.secret_token)||null,
+        signing_secret:q(body.signing_secret)||q(existing?.signing_secret)||null
+      };
+      let saved;
+      if(existing?.$id)saved=await tables.updateRow({databaseId:DB,tableId:PAYMENT_SETTINGS,rowId:'buatqris',data});
+      else saved=await tables.createRow({databaseId:DB,tableId:PAYMENT_SETTINGS,rowId:'buatqris',data});
+      return {ok:true,payment:{is_active:data.is_active,account_id:data.account_id,qris_method:data.qris_method,fee_by:data.fee_by,test_mode:data.test_mode,merchant_label:data.merchant_label,umkm_name:data.umkm_name,callback_url:data.callback_url,api_url:data.api_url,has_secret_token:Boolean(data.secret_token),has_signing_secret:Boolean(data.signing_secret)}};
+    }
+
+    if(path==='/self/get'){
+      const user=await users.get({userId:callerId});const r=await teams.listMemberships({teamId:ADMIN_TEAM,queries:[Query.equal('userId',callerId),Query.limit(1)]});const m=(r.memberships||[])[0]||null;
+      return {ok:true,user:{$id:user.$id,name:user.name,email:user.email,status:user.status},membership:m?{$id:m.$id,roles:m.roles||[]}:null};
+    }
+    if(path==='/self/save'){
+      if(q(body.name))await users.updateName({userId:callerId,name:q(body.name)});if(q(body.password)){if(q(body.password).length<8)throw Object.assign(new Error('Password minimal 8 karakter.'),{status:400});await users.updatePassword({userId:callerId,password:q(body.password)})}
+      const user=await users.get({userId:callerId});return {ok:true,user:{$id:user.$id,name:user.name,email:user.email,status:user.status}};
+    }
+    if(path==='/team/list'){
+      const r=await teams.listMemberships({teamId:ADMIN_TEAM,queries:[Query.limit(100)]}),rows=[];
+      for(const m of (r.memberships||[])){let u=null;try{u=await users.get({userId:m.userId})}catch{}rows.push({membership_id:m.$id,user_id:m.userId,name:u?.name||m.userName||'',email:u?.email||m.userEmail||'',roles:m.roles||[],status:u?.status!==false})}
+      return {ok:true,rows};
+    }
+    if(path==='/team/create'){
+      const name=q(body.name),email=q(body.email).toLowerCase(),role=q(body.role)||'admin';if(!name||!email)throw Object.assign(new Error('Nama dan email admin wajib diisi.'),{status:400});
+      let user=await adminFindUser(email),generatedPassword='';if(!user){generatedPassword=q(body.password)||adminRandomPassword();user=await users.create({userId:ID.unique(),email,password:generatedPassword,name})}else if(name!==user.name)await users.updateName({userId:user.$id,name});
+      const ex=await teams.listMemberships({teamId:ADMIN_TEAM,queries:[Query.equal('userId',user.$id),Query.limit(1)]});if(!(ex.memberships||[]).length)await teams.createMembership({teamId:ADMIN_TEAM,roles:[role],userId:user.$id});
+      return {ok:true,user_id:user.$id,generated_password:generatedPassword||null};
+    }
+    if(path==='/team/update'){
+      const userId=q(body.user_id);if(!userId)throw Object.assign(new Error('User ID wajib.'),{status:400});
+      if(q(body.name))await users.updateName({userId,name:q(body.name)});if(q(body.password)){if(q(body.password).length<8)throw Object.assign(new Error('Password minimal 8 karakter.'),{status:400});await users.updatePassword({userId,password:q(body.password)})}
+      if(typeof body.status==='boolean')await users.updateStatus({userId,status:body.status});return {ok:true};
+    }
+    throw Object.assign(new Error('Not found'),{status:404});
+  }
 
   async function getConfig(){
     const r=await tables.listRows({databaseId:DB,tableId:SETTINGS,queries:[Query.limit(20)]});
@@ -268,6 +465,98 @@ export default async ({req,res,error})=>{
       enabled:true,
       interval_seconds:cfg.social_proof_interval_seconds,
       items
+    };
+  }
+
+  async function setFirstPassword(body){
+    const userId=q(req.headers['x-appwrite-user-id']);
+    if(!userId)throw Object.assign(new Error('Sesi member tidak terbaca. Silakan buka ulang member area.'),{status:401});
+    const password=String(body.password||'');
+    if(password.length<10)throw Object.assign(new Error('Password baru minimal 10 karakter.'),{status:400});
+
+    const profile=rowData(await tables.getRow({databaseId:DB,tableId:PROFILES,rowId:userId}));
+    if(!profile?.$id)throw Object.assign(new Error('Profil member tidak ditemukan.'),{status:404});
+    if(profile.status!=='active')throw Object.assign(new Error('Akses member belum aktif.'),{status:403});
+
+    if(profile.must_change_password===false){
+      return {ok:true,already_set:true};
+    }
+
+    await users.updatePassword({userId,password});
+    await tables.updateRow({
+      databaseId:DB,
+      tableId:PROFILES,
+      rowId:userId,
+      data:{must_change_password:false}
+    });
+    return {ok:true};
+  }
+
+  async function saveMemberAccount(body){
+    const userId=q(req.headers['x-appwrite-user-id']);
+    if(!userId)throw Object.assign(new Error('Sesi member tidak terbaca. Silakan login ulang.'),{status:401});
+
+    const profile=rowData(await tables.getRow({
+      databaseId:DB,
+      tableId:PROFILES,
+      rowId:userId
+    }));
+    if(!profile?.$id)throw Object.assign(new Error('Profil member tidak ditemukan.'),{status:404});
+    if(profile.status!=='active')throw Object.assign(new Error('Akses member tidak aktif.'),{status:403});
+
+    const current=await users.get({userId});
+    const name=q(body.name);
+    const email=q(body.email).toLowerCase();
+    const whatsapp=normalizeWa(body.whatsapp);
+    const password=String(body.password||'');
+
+    if(!name)throw Object.assign(new Error('Nama wajib diisi.'),{status:400});
+    if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))throw Object.assign(new Error('Email belum valid.'),{status:400});
+    if(!whatsapp||!/^62\d{8,13}$/.test(whatsapp))throw Object.assign(new Error('Nomor WhatsApp belum valid.'),{status:400});
+    if(password&&password.length<10)throw Object.assign(new Error('Password baru minimal 10 karakter.'),{status:400});
+
+    try{
+      if(name!==current.name)await users.updateName({userId,name:name.slice(0,128)});
+      if(email!==String(current.email||'').toLowerCase())await users.updateEmail({userId,email});
+      if(password)await users.updatePassword({userId,password});
+    }catch(e){
+      if(Number(e?.code)===409)throw Object.assign(new Error('Email tersebut sudah digunakan akun lain.'),{status:409});
+      throw e;
+    }
+
+    const updatedProfile=rowData(await tables.updateRow({
+      databaseId:DB,
+      tableId:PROFILES,
+      rowId:userId,
+      data:{name,email,whatsapp}
+    }));
+
+    // Keep sales/admin data synchronized with the member account.
+    try{
+      const r=await tables.listRows({
+        databaseId:DB,
+        tableId:ORDERS,
+        queries:[Query.equal('user_id',userId),Query.limit(100)]
+      });
+      for(const row of (r.rows||r.documents||[])){
+        const order=rowData(row);
+        await tables.updateRow({
+          databaseId:DB,
+          tableId:ORDERS,
+          rowId:order.$id,
+          data:{full_name:name,email,whatsapp}
+        });
+      }
+    }catch(e){
+      error?.('Account sync orders warning: '+String(e?.message||e));
+    }
+
+    const updatedUser=await users.get({userId});
+    return {
+      ok:true,
+      user:{$id:updatedUser.$id,name:updatedUser.name,email:updatedUser.email},
+      profile:updatedProfile,
+      password_changed:Boolean(password)
     };
   }
 
@@ -558,6 +847,11 @@ export default async ({req,res,error})=>{
 
   try{
     const path=req.path||'/';
+    if(path.startsWith('/admin')){
+      if(req.method!=='POST')return reply(res,{error:'Method not allowed'},405);
+      try{return reply(res,await adminHandle(path.slice(6)||'/',req.bodyJson||{}))}
+      catch(e){throw Object.assign(e,{status:Number(e?.status||e?.code||500)})}
+    }
     if(req.method==='GET'&&(path==='/'||path==='/health'||path==='/config')){
       const cfg=await getConfig();
       return reply(res,{
@@ -578,6 +872,8 @@ export default async ({req,res,error})=>{
       return reply(res,{ok:true,...cfg,payment_configured:payment.configured,payment_active:payment.is_active,test_mode:payment.test_mode});
     }
     if(path==='/social-proof')return reply(res,await getSocialProof());
+    if(path==='/first-password')return reply(res,await setFirstPassword(req.bodyJson||{}));
+    if(path==='/account/save')return reply(res,await saveMemberAccount(req.bodyJson||{}));
     if(path==='/profile/save')return reply(res,await saveMemberBusinessProfile(req.bodyJson||{}));
     if(path==='/quote'){
       const cfg=await getConfig();
