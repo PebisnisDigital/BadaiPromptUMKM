@@ -1,0 +1,9 @@
+(()=>{
+ const {Client,Account,ID}=Appwrite,account=new Account(new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm')),el=id=>document.getElementById(id);let busy=false;
+ async function signedIn(){const user=await account.get();el('accessForm').hidden=true;el('connect').hidden=false;el('status').textContent='Masuk sebagai '+user.email+'. Konfirmasi akun ini di Telegram untuk membuka koleksi.'}
+ async function run(task){if(busy)return;busy=true;document.querySelectorAll('button').forEach(b=>b.disabled=true);el('status').textContent='Memproses…';try{await task()}catch(e){el('status').textContent=e.message||'Belum dapat menghubungkan akun.'}finally{busy=false;document.querySelectorAll('button').forEach(b=>b.disabled=false)}}
+ el('accessForm').onsubmit=e=>{e.preventDefault();run(async()=>{await account.createEmailPasswordSession({email:el('email').value.trim().toLowerCase(),password:el('password').value});el('password').value='';await signedIn()})};
+ el('signup').onclick=()=>run(async()=>{if(!el('accessForm').reportValidity())return;const email=el('email').value.trim().toLowerCase(),password=el('password').value;await account.create({userId:ID.unique(),email,password});await account.createEmailPasswordSession({email,password});el('password').value='';await signedIn()});
+ el('connect').onclick=()=>run(async()=>{const {jwt}=await account.createJWT(),response=await fetch('/api/telegram/link',{method:'POST',headers:{authorization:'Bearer '+jwt}}),result=await response.json();if(!response.ok)throw Error(result.error||'Penghubungan belum tersedia.');const url=new URL(result.url);if(url.origin!=='https://t.me')throw Error('Tautan tidak valid.');el('openBot').href=url.href;el('openBot').hidden=false;el('status').textContent='Buka bot lalu tekan START untuk mengonfirmasi. Tautan hanya berlaku 10 menit dan sekali pakai.'});
+ signedIn().catch(()=>{});
+})();

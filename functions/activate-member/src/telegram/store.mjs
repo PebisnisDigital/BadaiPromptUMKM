@@ -18,6 +18,12 @@ export class Store{
  async createStatesAtomically(entries){
   const tx=await this.tables.createTransaction({ttl:60});try{for(const e of entries){const args={databaseId:this.databaseId,tableId:'telegram_state',rowId:e.rowId,data:{kind:'settings',status:'ready',payload:JSON.stringify(e.data),...e.meta},transactionId:tx.$id};if(e.update)await this.tables.updateRow(args);else await this.tables.createRow({...args,permissions:[]})}await this.tables.updateTransaction({transactionId:tx.$id,commit:true})}catch(e){try{await this.tables.updateTransaction({transactionId:tx.$id,rollback:true})}catch{}if(Number(e.code)===409)throw fail('Konten duplikat atau antrean berubah. Perbarui sebelum menyetujui.',409);throw e}
  }
+ async transaction(fn){
+  const transaction=await this.tables.createTransaction({ttl:60}),transactionId=transaction.$id,base={databaseId:this.databaseId,transactionId};
+  const get=async(tableId,rowId)=>{try{return unwrap(await this.tables.getRow({...base,tableId,rowId}))}catch(e){if(Number(e.code)===404)return null;throw e}};
+  const tx={get,state:async rowId=>{const row=await get('telegram_state',rowId);return row?{...row,data:JSON.parse(row.payload||'{}')}:null},update:(tableId,rowId,data)=>this.tables.updateRow({...base,tableId,rowId,data}),put:async(rowId,data,meta={},exists=false)=>{const args={...base,tableId:'telegram_state',rowId,data:{payload:JSON.stringify(data),...meta}};return exists?this.tables.updateRow(args):this.tables.createRow({...args,permissions:[]})}};
+  try{const result=await fn(tx);await this.tables.updateTransaction({transactionId,commit:true});return result}catch(e){try{await this.tables.updateTransaction({transactionId,rollback:true})}catch{}if(Number(e.code)===409)throw fail('Transaksi pembayaran bentrok; ulangi webhook dengan Charge ID yang sama.',503);throw e}
+ }
  async rate(userId,action,now,max=20){
   const bucket=Math.floor(now/60000),key=id('rate',userId,action,bucket);
   // One row per request slot gives a strict distributed limit without racy counters.
