@@ -57,6 +57,16 @@ Tests require explicitly authorized tester consent on the selected bot. Test del
 
 `tests/landing.test.cjs` is an older suite for a different landing-page revision: it expects a previous script hash, section layout and a removed `agreeTerms` checkbox. An exploratory run failed those stale assertions and was stopped. It was not changed or presented as passing. The current checkout is covered by the new regression smoke test above. This old suite should be reconciled as a separate baseline-cleanup step before requiring it in CI.
 
+## Preview and final verification
+
+Draft PR: https://github.com/PebisnisDigital/BadaiPromptUMKM/pull/1 (draft, mergeable). Review preview: https://badaiprompt-git-feature-telegra-9cf1ee-cuanify25-2175s-projects.vercel.app/admin.html. Vercel deployment `dpl_9Cfkrbn9o5nezBiEn3pUficiFJjo`, code commit `6d7745cf5c74c22ec068d4e2876dd8454dba418a`, is ready. GitHub Telegram checks run `37957897750` completed successfully for that code revision.
+
+Protected preview fetches returned HTTP 200 from `/api/telegram/health` with `sending_enabled:false`. This verifies the deployed shared runtime, configured encryption key and a real server-side settings read. GET requests to manager/link correctly returned HTTP 405. Browser UI tests use controlled APIs; authenticated real preview login and Telegram integration are not represented as verified.
+
+Adding the exact preview hostname as an Appwrite web platform was attempted through the connector but rejected with `403 additional_resource_not_allowed`: “Additional platforms not allowed in the selected plan.” No existing platform was removed or changed. Preview browser login requires available platform capacity or an owner-approved existing registered review hostname. This is a plan limit, not an automatic approval rejection.
+
+Final production check still shows Vercel `dpl_5WRnV9oPUsZRtMYWr9oPtFo8Ttme`, `activate-member` active deployment `6ac8fad9ae172fb04d94`, and `payment-api` active deployment `6ac6fb7200126b22072d`. Neither inactive build was activated.
+
 ## Secrets and current activation status
 
 Prepared through connectors without writing values to GitHub or chat:
