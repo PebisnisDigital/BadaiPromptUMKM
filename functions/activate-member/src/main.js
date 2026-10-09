@@ -1,3 +1,4 @@
+import { deleteSalesData } from './delete-sales.js';
 import { Client, TablesDB, Users, Teams, ID, Query, Permission, Role } from 'node-appwrite';
 
 const DB=process.env.APP_DB_ID || 'badai_prompt_umkm';
@@ -376,33 +377,13 @@ export default async ({req,res,log,error})=>{
       }
 
       if(route==='/sales/delete'){
-        const orderId=q(body.order_id);
-        const userId=q(body.user_id);
-        if(!orderId&&!userId)return res.json({error:'Data yang akan dihapus tidak ditemukan.'},400);
-
-        if(userId){
-          const allOrders=await listAll(tables,ORDERS);
-          const linked=allOrders.filter(x=>q(x.user_id)===userId);
-          for(const item of linked){
-            try{await tables.deleteRow({databaseId:DB,tableId:ORDERS,rowId:item.$id});}catch(e){if(Number(e?.code)!==404)throw e}
-          }
-
-          try{await tables.deleteRow({databaseId:DB,tableId:PROFILES,rowId:userId});}catch(e){if(Number(e?.code)!==404)throw e}
-
-          const memberships=await teams.listMemberships({
-            teamId:TEAM_ID,
-            queries:[Query.equal('userId',userId),Query.limit(100)]
+        try{
+          const result=await deleteSalesData({
+            body,actorId:q(req.headers['x-appwrite-user-id']),tables,users,teams,Query,
+            databaseId:DB,ordersTable:ORDERS,profilesTable:PROFILES,paidTeam:TEAM_ID
           });
-          for(const membership of (memberships.memberships||[])){
-            await teams.deleteMembership({teamId:TEAM_ID,membershipId:membership.$id});
-          }
-
-          try{await users.delete({userId});}catch(e){if(Number(e?.code)!==404)throw e}
-          return res.json({ok:true,deleted:'member_and_orders'});
-        }
-
-        await tables.deleteRow({databaseId:DB,tableId:ORDERS,rowId:orderId});
-        return res.json({ok:true,deleted:'order'});
+          return res.json(result);
+        }catch(e){return res.json({ok:false,error:String(e?.message||e)},Number(e?.status||e?.code)||500)}
       }
 
       if(route==='/members/manual-create'){

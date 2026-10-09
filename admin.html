@@ -358,7 +358,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
       <div class="manage-save-row"><a id="orderWhatsappBtn" href="#" target="_blank" rel="noopener">BUKA WHATSAPP</a><button id="saveManagedMemberBtn" type="button">SIMPAN / UPDATE MEMBER</button></div>
       <div class="manage-danger-zone">
         <small>ZONA HAPUS</small>
-        <p>Hapus Order hanya menghapus transaksi ini. Hapus Member menghapus akun member, profil, akses member, dan seluruh order yang terhubung ke member tersebut.</p>
+        <p>Hapus Order hanya menghapus transaksi ini. Hapus Member menghapus akun, profil, akses, favorit, riwayat pemakaian, dan seluruh order terkait secara permanen.</p>
         <div class="manage-delete-actions">
           <button id="deleteManagedOrderBtn" type="button">HAPUS ORDER</button>
           <button id="deleteManagedMemberBtn" class="member-delete" type="button">HAPUS MEMBER</button>
@@ -646,6 +646,7 @@ function renderSales(){
   renderSalesPagination();
 }
 window.detailOrder=async id=>{
+  if(managedDeletePending)return;
   const o=orders.find(x=>x.$id===id);if(!o)return;currentOrder=o;currentMemberData=null;
   $('orderModalTitle').textContent=o.full_name||'Kelola Member';
   const item=(label,value,full=false)=>'<div class="order-detail-item '+(full?'full':'')+'"><small>'+label+'</small><b>'+esc(value??'-')+'</b></div>';
@@ -657,11 +658,13 @@ window.detailOrder=async id=>{
   let wa=String(o.whatsapp||'').replace(/\D/g,'');if(wa.startsWith('0'))wa='62'+wa.slice(1);else if(wa.startsWith('8'))wa='62'+wa;$('orderWhatsappBtn').href=wa?'https://wa.me/'+wa:'#';
   $('orderModal').classList.add('show');
   try{
-    const d=await api('/member/get',{user_id:o.user_id||'',email:o.email||''});currentMemberData=d;
+    const d=await api('/member/get',{user_id:o.user_id||'',email:o.email||''});
+    if(currentOrder?.$id!==id||managedDeletePending)return;
+    currentMemberData=d;
     const p=d.profile||{},u=d.user||null;
     if(u){$('manageUserId').value=u.$id||'';$('manageName').value=p.name||u.name||o.full_name||'';$('manageEmail').value=p.email||u.email||o.email||'';$('manageWa').value=p.whatsapp||o.whatsapp||'';$('manageStatus').value=p.status||'pending';$('manageAccessUntil').value=p.access_until?String(p.access_until).slice(0,10):'';$('manageAccountState').textContent='SUDAH ADA';$('manageAccessState').textContent=d.membership&&p.status==='active'?'AKTIF':'TIDAK AKTIF';$('deleteManagedMemberBtn').disabled=false;}
     else{$('manageAccountState').textContent='BELUM DIBUAT';$('manageAccessState').textContent='BELUM AKTIF';$('deleteManagedMemberBtn').disabled=true;}
-  }catch(e){$('manageAccountState').textContent='BELUM DITEMUKAN';msg($('manageMemberMsg'),e.message||'Data member belum terbaca.','bad')}
+  }catch(e){if(currentOrder?.$id!==id||managedDeletePending)return;$('manageAccountState').textContent='BELUM DITEMUKAN';msg($('manageMemberMsg'),e.message||'Data member belum terbaca.','bad')}
 };
 
 let salesSearchTimer=null;
@@ -689,46 +692,42 @@ $('memberForm').onsubmit=async e=>{
 };
 
 
-$('deleteManagedOrderBtn').onclick=async()=>{
-  const orderId=$('manageOrderId').value.trim();
-  if(!orderId)return;
-  const name=currentOrder?.full_name||$('manageName').value.trim()||'order ini';
-  const amount=money(currentOrder?.total_amount||currentOrder?.amount||0);
-  if(!confirm('Hapus order '+name+' ('+amount+')?\n\nOrder akan hilang permanen dari data penjualan dan perhitungan omzet. Data member TIDAK ikut dihapus.'))return;
-  const b=$('deleteManagedOrderBtn');b.disabled=true;b.textContent='MENGHAPUS…';msg($('manageMemberMsg'),'Menghapus order…');
+let managedDeletePending=false;
+async function deleteManagedData(kind){
+  if(managedDeletePending)return;
+  const orderId=$('manageOrderId').value.trim(),userId=$('manageUserId').value.trim();
+  const member=kind==='member';
+  if(!orderId&&!member)return;
+  if(member&&!userId){msg($('manageMemberMsg'),'Member ini belum memiliki akun yang bisa dihapus.','bad');return}
+  const name=$('manageName').value.trim()||currentOrder?.full_name||'data ini';
+  const warning=member
+    ?'Hapus MEMBER '+name+'?\n\nAkun login, profil, akses, favorit, riwayat, dan seluruh order terkait akan dihapus permanen.'
+    :'Hapus order '+name+' ('+money(currentOrder?.total_amount||currentOrder?.amount||0)+')?\n\nHanya transaksi ini yang dihapus. Akun member tetap ada.';
+  if(!confirm(warning))return;
+  if(member&&prompt('Ketik HAPUS MEMBER untuk konfirmasi permanen:')!=='HAPUS MEMBER')return;
+  managedDeletePending=true;
+  const buttons=[...['deleteManagedOrderBtn','deleteManagedMemberBtn','saveManagedMemberBtn'].map(id=>$(id)),$('orderModal').querySelector('.close')];
+  const disabled=buttons.map(b=>b.disabled);buttons.forEach(b=>b.disabled=true);
+  const button=member?$('deleteManagedMemberBtn'):$('deleteManagedOrderBtn'),label=button.textContent;
+  button.textContent='MENGHAPUS…';msg($('manageMemberMsg'),'Menghapus data…');
   try{
-    await memberAdminApi('/sales/delete',{order_id:orderId});
-    $('orderModal').classList.remove('show');
-    currentOrder=null;currentMemberData=null;
-    await Promise.all([loadSalesPage(),loadSalesSummary()]);
-    renderSales();
+    const result=await memberAdminApi('/sales/delete',member?{user_id:userId,order_id:orderId}:{order_id:orderId});
+    if(result.ok!==true)throw new Error('Penghapusan belum dikonfirmasi server. Coba lagi.');
+    $('orderModal').classList.remove('show');currentOrder=null;currentMemberData=null;
+    try{await Promise.all([loadSalesPage(),loadSalesSummary()]);renderSales()}
+    catch{alert('Data sudah dihapus. Muat ulang halaman untuk memperbarui daftar dan omzet.');return;}
+    if(member)alert('Member, data pemakaian, dan seluruh order terkait berhasil dihapus.');
   }catch(e){
-    msg($('manageMemberMsg'),e.message||'Gagal menghapus order.','bad');
-    b.disabled=false;b.textContent='HAPUS ORDER';
+    const message=e.message==='Admin route not found'
+      ?'Layanan hapus belum tersedia. Muat ulang halaman atau hubungi pengelola.'
+      :e.message||'Penghapusan belum selesai. Coba lagi; data yang sudah terhapus tidak akan diproses dua kali.';
+    msg($('manageMemberMsg'),message,'bad');
+  }finally{
+    button.textContent=label;buttons.forEach((b,i)=>b.disabled=disabled[i]);managedDeletePending=false;
   }
-};
-
-$('deleteManagedMemberBtn').onclick=async()=>{
-  const userId=$('manageUserId').value.trim();
-  const email=$('manageEmail').value.trim();
-  if(!userId){msg($('manageMemberMsg'),'Member ini belum memiliki akun user yang bisa dihapus.','bad');return}
-  const name=$('manageName').value.trim()||email||'member ini';
-  if(!confirm('Hapus MEMBER '+name+'?\n\nAkun login, profil, akses member, dan SELURUH ORDER yang terhubung ke member ini akan dihapus permanen.'))return;
-  const typed=prompt('Ketik HAPUS MEMBER untuk konfirmasi permanen:');
-  if(typed!=='HAPUS MEMBER')return;
-  const b=$('deleteManagedMemberBtn');b.disabled=true;b.textContent='MENGHAPUS…';msg($('manageMemberMsg'),'Membersihkan data member…');
-  try{
-    await memberAdminApi('/sales/delete',{user_id:userId,order_id:$('manageOrderId').value.trim()});
-    $('orderModal').classList.remove('show');
-    currentOrder=null;currentMemberData=null;
-    await Promise.all([loadSalesPage(),loadSalesSummary()]);
-    renderSales();
-    alert('Member dan seluruh order yang terhubung berhasil dihapus.');
-  }catch(e){
-    msg($('manageMemberMsg'),e.message||'Gagal menghapus member.','bad');
-    b.disabled=false;b.textContent='HAPUS MEMBER';
-  }
-};
+}
+$('deleteManagedOrderBtn').onclick=()=>deleteManagedData('order');
+$('deleteManagedMemberBtn').onclick=()=>deleteManagedData('member');
 
 $('saveManagedMemberBtn').onclick=async()=>{
   const b=$('saveManagedMemberBtn');b.disabled=true;b.textContent='MENYIMPAN…';msg($('manageMemberMsg'),'Menyimpan data member…');
@@ -887,9 +886,9 @@ $('csvInput').onchange=async e=>{
   }catch(err){msg($('importMsg'),err.message||'Import gagal.','bad')}finally{e.target.value=''}
 };
 
-function closeModal(name){if(name==='prompt')$('promptModal').classList.remove('show');if(name==='member')$('memberModal').classList.remove('show');if(name==='order')$('orderModal').classList.remove('show')}
+function closeModal(name){if(name==='order'&&managedDeletePending)return;if(name==='prompt')$('promptModal').classList.remove('show');if(name==='member')$('memberModal').classList.remove('show');if(name==='order')$('orderModal').classList.remove('show')}
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>closeModal(b.dataset.close));
-[$('promptModal'),$('memberModal'),$('orderModal')].forEach(o=>o.onclick=e=>{if(e.target===o)o.classList.remove('show')});
+[$('promptModal'),$('memberModal'),$('orderModal')].forEach(o=>o.onclick=e=>{if(e.target===o&&!(o.id==='orderModal'&&managedDeletePending))o.classList.remove('show')});
 $('addPromptBtn').onclick=openPrompt;$('addMemberBtn').onclick=openMember;initSettingsTabs();
 
 async function verifyAdmin(){
