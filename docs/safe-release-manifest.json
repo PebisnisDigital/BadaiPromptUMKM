@@ -1,0 +1,75 @@
+{
+  "prepared_at": "2026-10-09",
+  "branch": "feature/telegram-manager-20261009",
+  "pr": 1,
+  "application_baseline_commit": "9d4443bde1ea2a29621258b7a414eb748dba0b69",
+  "main_expected_before_approval": "86bb681bb2cf864dc1bd86546acbcc6b8ba3e54a",
+  "production_frontend_baseline": "d85e766bc17d036f16d31f66f8ad598945a1e5b2",
+  "vercel": {
+    "project_id": "prj_pWlrusma5D0WqyeuUXdYxjjTOPMh",
+    "team_id": "team_itpLxpN9jthtNesNgAqqyyOE",
+    "production_rollback_deployment": "dpl_5WRnV9oPUsZRtMYWr9oPtFo8Ttme",
+    "preview_hostname": "badaipromptumkm2026.vercel.app"
+  },
+  "appwrite": {
+    "project_id": "badai-prompt-umkm",
+    "database_id": "badai_prompt_umkm",
+    "endpoint": "https://sgp.cloud.appwrite.io/v1",
+    "functions": {
+      "activate-member": {
+        "release_deployment": "6ac91ac78b467375e925",
+        "rollback_deployment": "6ac8fad9ae172fb04d94"
+      },
+      "payment-api": {
+        "release_deployment": "6ac911aab855c7d0be9a",
+        "rollback_deployment": "6ac6fb7200126b22072d"
+      }
+    }
+  },
+  "required_flags": {
+    "TELEGRAM_ENABLED": "false",
+    "TELEGRAM_SEND_ENABLED": "false"
+  },
+  "required_settings": {
+    "enabled": false,
+    "paused": true,
+    "dry_run": true
+  },
+  "backend_file_sha256": {
+    "functions/activate-member/package-lock.json": "3628d8a9c79c6d864ee467a118f423d264d0ab8fd5df16baa43240e6f0b8cd56",
+    "functions/activate-member/package.json": "1b259a8d0d50a7cea19602199713f420269621ffa8af5bee17ba3f218a6c1c31",
+    "functions/activate-member/src/delete-sales.js": "fdc95345d0197e9638f5995e41f2ef606d5bd9d7629e5d12dd19e0640a10d8d9",
+    "functions/activate-member/src/main.js": "920ff1c79ab6e4ffd8ee687478217363a66957bacab9be2b10fc3ad7894f0a19",
+    "functions/activate-member/src/telegram/auth.mjs": "2eb34e52a33d91e25511c2102154bc1ebec47383e0bfe9435c5be6217530868f",
+    "functions/activate-member/src/telegram/delivery.mjs": "de5e3fe9f8848910a589bd069565656549596e6780cb305bf481f05e63e551f6",
+    "functions/activate-member/src/telegram/policy.mjs": "078a85507a4ccd8dca11e05d9119e800734af08085560e3aa4e244f56cf5b5b7",
+    "functions/activate-member/src/telegram/renewal.mjs": "e8f8418c11edd7d878db83ea0e55a3346534ff2ba6986b5500595d2b2b15bca4",
+    "functions/activate-member/src/telegram/runtime.mjs": "49faaa1bdeaa8628394e6e36334f32a7ad1c5f3ff18f42558afb06be449723a9",
+    "functions/activate-member/src/telegram/security.mjs": "1fd170bb64e1440174179df3e84893023dc4bec078dc725cee61d36e0a86472b",
+    "functions/activate-member/src/telegram/service.mjs": "6ea27f70f59644997e725f7861ffb58e762404d85bcbbf31c59b64115cdcfe3f",
+    "functions/activate-member/src/telegram/store.mjs": "ffda042d4927fb9e968b5784d529f5dcfbc071960c515f5a6fd635b290d3e5dc",
+    "functions/activate-member/src/telegram/transport.mjs": "18a200d345fa34fff3e7f8eb4cca3c3b852ac74e905e5b34e34c2ac2d53d1745",
+    "functions/payment-api/package-lock.json": "bcfe4fbecc0be217e9745a3534e822c42bf6a4365fe52c355d78194913fa2cc3",
+    "functions/payment-api/package.json": "7a44623604b3b71984fbf916f9ba6721cfc07ae3f1b68d51100ac7b60c26be3f",
+    "functions/payment-api/src/access-policy.mjs": "a9e219fb16211f64e7f5568c1f53b3a4355e0abde314f2956feeee1ee7c937cc",
+    "functions/payment-api/src/main.js": "4a2a904440acb24be29b28e3112f70518e06d47bd2345d9b6836154127cdf86e"
+  },
+  "frontend_file_sha256": {
+    "index.html": "e0487e01274b4b64eedbf9fe4c18b9f44b47cae668f121d37353363cc915ee48",
+    "admin.html": "45d55f5b673ba628c06223aaad2f63fe40d0a5877da7ecd0a85ea7ae439b1301",
+    "member.html": "44cbdff1e56cbe906c70401ab28079a98b384860ca0f86743ac39d2cf68f3e57",
+    "vercel.json": "b0162f92522b78f0c73a86f196be6129dd294e1c6374aa5872092ea35da95335",
+    "api/buatqris-webhook.js": "8b6a208f809c3646886c23027154012ad9aae24ad336759360c2ed00b81c1545",
+    "api/telegram/health.js": "c004e7f9eddd6e7cf51aea952dc4c823a71bb5528893f77ed2d53b00f00d2d30",
+    "api/telegram/manager.js": "a67d9acdd96800a67cf9749b0f0eb8257fafdbd2fd925320d36c70a41cce20a6",
+    "api/telegram/link.js": "c7c4dd242d52f0ebfae985c788b77c1e93d8c5a795f33d5347aaabb5560269aa",
+    "api/telegram/webhook.js": "f2d64b724b6b3eb89cff6407c70f194ca084412b972584e06ffeef18e0752fa7",
+    "assets/telegram-manager.js": "fbb0b55565f1bce4d089462bdaedbcceac5e646bdcb7e9c23a4092abee57107a",
+    "assets/telegram-member.js": "6b6cb50fce21be188e2cd98dabd188ac17fd3aacc31ff4e290eab3cf4ad44061",
+    "assets/telegram-manager.css": "72b61f9c7d882ac5d4daa92251b6480c1ae91004d2caddc9ee9458e1671f360c"
+  },
+  "rollback_archive_sha256": {
+    "activate-member": "004b820f86a7dfd5e08b99ad653830a404794b58e3f9b78c370c0a935ac39fa8",
+    "payment-api": "9ca46e323733f1606cd835ace7f34a7a6a6d9a27533ffd20da21f8c4e1f0e75e"
+  }
+}

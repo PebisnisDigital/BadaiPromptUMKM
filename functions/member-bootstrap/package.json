@@ -1,9 +1,9 @@
 {
-  "name": "badai-prompt-umkm-payment-api",
+  "name": "badai-prompt-umkm-member-bootstrap",
   "version": "1.0.0",
   "type": "module",
   "private": true,
   "dependencies": {
-    "node-appwrite": "29.2.0"
+    "node-appwrite": "latest"
   }
 }

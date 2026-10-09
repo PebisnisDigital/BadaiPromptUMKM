@@ -1,3 +1,4 @@
+import { manualAccessUntil } from './access-policy.mjs';
 import crypto from 'node:crypto';
 import { Client, TablesDB, Teams, Users, ID, Query, Permission, Role } from 'node-appwrite';
 
@@ -116,9 +117,9 @@ export default async ({req,res,error})=>{
       if(!user){generatedPassword=q(body.password)||adminRandomPassword();user=await users.create({userId:ID.unique(),email,password:generatedPassword,name})}
       else if(name&&name!==user.name)user=await users.updateName({userId:user.$id,name});
       let profile=await adminProfile(user.$id);
-      const pdata={user_id:user.$id,name,email,whatsapp:whatsapp||null,status,role:'member',access_until:body.access_until||null};
+      const pdata={user_id:user.$id,name,email,whatsapp:whatsapp||null,status,role:'member',access_until:manualAccessUntil(profile,status,body.access_until)};
       if(profile)profile=rowData(await tables.updateRow({databaseId:DB,tableId:PROFILES,rowId:user.$id,data:pdata}));
-      else profile=rowData(await tables.createRow({databaseId:DB,tableId:PROFILES,rowId:user.$id,data:pdata,permissions:[Permission.read(Role.user(user.$id)),Permission.update(Role.user(user.$id))]}));
+      else profile=rowData(await tables.createRow({databaseId:DB,tableId:PROFILES,rowId:user.$id,data:pdata,permissions:[Permission.read(Role.user(user.$id))]}));
       await adminSetPaidAccess(user.$id,status);
       return {ok:true,row:profile,user_id:user.$id,generated_password:generatedPassword||null};
     }
@@ -131,9 +132,9 @@ export default async ({req,res,error})=>{
       if(email&&email!==user.email)user=await users.updateEmail({userId,email});
       const password=q(body.password);if(password){if(password.length<8)throw Object.assign(new Error('Password minimal 8 karakter.'),{status:400});await users.updatePassword({userId,password})}
       const status=['active','pending','blocked'].includes(q(body.status))?q(body.status):'pending';
-      let profile=await adminProfile(userId);const pdata={user_id:userId,name:name||user.name,email:email||user.email,whatsapp:whatsapp||null,status,role:'member',access_until:body.access_until||null};
+      let profile=await adminProfile(userId);const pdata={user_id:userId,name:name||user.name,email:email||user.email,whatsapp:whatsapp||null,status,role:'member',access_until:manualAccessUntil(profile,status,body.access_until)};
       if(profile)profile=rowData(await tables.updateRow({databaseId:DB,tableId:PROFILES,rowId:userId,data:pdata}));
-      else profile=rowData(await tables.createRow({databaseId:DB,tableId:PROFILES,rowId:userId,data:pdata,permissions:[Permission.read(Role.user(userId)),Permission.update(Role.user(userId))]}));
+      else profile=rowData(await tables.createRow({databaseId:DB,tableId:PROFILES,rowId:userId,data:pdata,permissions:[Permission.read(Role.user(userId))]}));
       await adminSetPaidAccess(userId,status);
       if(q(body.order_id)){try{await tables.updateRow({databaseId:DB,tableId:ORDERS,rowId:q(body.order_id),data:{full_name:pdata.name,email:pdata.email,whatsapp:pdata.whatsapp||'',user_id:userId,access_issued:status==='active'}})}catch{}}
       return {ok:true,user:{$id:userId,name:pdata.name,email:pdata.email},profile};
