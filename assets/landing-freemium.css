@@ -1,0 +1,61 @@
+/* BADAI PROMPT — Freemium storefront 2026-10-10, additive to existing motion styles. */
+:root{--pink:#f64d9d;--pink-soft:#ff92c3}
+body{font-family:"Nunito",Arial,sans-serif;background:radial-gradient(ellipse 95% 490px at 50% 7%,#3a122840,transparent 80%),#09090b}
+h1,h2,h3,.brand,.plan-price,.offer-price{font-family:"Raleway",Arial,sans-serif}
+.shell{width:min(100% - 36px,704px)}
+.site-header{height:74px}.site-header .nav-cta{border-color:#ff73b570;background:#ff4ca014;color:#ffd5e8}.site-header .nav-cta:hover{background:#ff4ca02d}
+.hero{padding-top:68px}.freemium-kicker{display:flex;align-items:center;gap:9px;color:#f8a0cb;letter-spacing:.19em;font-size:10px;font-weight:900;margin-bottom:22px}
+.freemium-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ff5ca9;box-shadow:0 0 0 5px #ff5ca91a,0 0 25px #ff5ca9}
+.hero h1{font-size:clamp(35px,8vw,70px);letter-spacing:-.07em;line-height:.99;max-width:704px}
+.freemium-star{display:inline-block;font-weight:400;font-family:sans-serif;font-size:.45em;color:#ff5ca9;vertical-align:top;margin:1px 0 0 12px;animation:free-rotate 18s linear infinite}
+@keyframes free-rotate{to{transform:rotate(360deg)}}
+.freemium-intro{font-size:15px;line-height:1.78;max-width:570px;color:#cac5ce;margin-top:25px}
+.freemium-intro strong{color:#fff}
+.hero-actions{flex-wrap:wrap;margin-top:28px}.hero-actions .button{min-width:170px;min-height:53px;border-radius:9px}
+.hero-actions .primary,.plan-button.primary,.offer-scroll-cta{background:linear-gradient(110deg,#ff80bd,#f33f96);box-shadow:0 14px 34px #e52e8834;color:#130610}
+.hero-actions .primary:hover,.offer-scroll-cta:hover{box-shadow:0 14px 38px #e52e8860}
+.freemium-hero-note{display:flex;gap:16px;flex-wrap:wrap;font-size:10px;font-weight:800;letter-spacing:.06em;margin:17px 0 30px;color:#a9a2ae}
+.freemium-hero-note span:before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:#ff6eaf;vertical-align:middle;margin-right:7px}
+.hero-demo{margin-top:12px}.hero-bottom{margin-top:10px}
+.freemium-story{padding-top:75px}.telegram-concept{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:30px;align-items:center}
+.telegram-phone{border:1px solid #40404d;border-radius:25px;background:linear-gradient(150deg,#18222b,#0f1219 70%);padding:12px;box-shadow:0 30px 70px #0007;max-width:340px;width:100%;margin:auto;position:relative;overflow:hidden}
+.telegram-phone:before{content:"";position:absolute;inset:-50% -80%;background:linear-gradient(100deg,transparent,#ff7bbb05,transparent);transform:rotate(-25deg);pointer-events:none}
+.telegram-phone-top{display:flex;gap:10px;align-items:center;padding:9px 10px 13px;border-bottom:1px solid #ffffff17;font-size:15px}
+.telegram-avatar{height:35px;width:35px;display:grid;place-items:center;border-radius:50%;background:#f44898;color:#151019}
+.telegram-phone-title{flex:1;display:grid;gap:2px}.telegram-phone-title b{font-size:12px}.telegram-phone-title small{color:#a9a6b2;font-size:9px}
+.telegram-bubble{border:1px solid #ffffff16;border-radius:13px;background:#25282f;margin-top:11px;padding:11px;font-size:11px;line-height:1.55;color:#ededf1}
+.telegram-bubble-label{display:block;color:#ff9ccb;font-size:9px;font-weight:900;letter-spacing:.08em;margin-bottom:9px}
+.telegram-bubble img{height:170px;width:100%;object-fit:cover;object-position:center 34%;border-radius:8px;margin-bottom:9px}
+.telegram-bubble b{display:block;font-size:12px;margin-bottom:4px}.telegram-bubble p{color:#cecfdb}.telegram-bubble-offer{background:#261d29}.telegram-bubble-offer b{color:#ffd484}
+.telegram-mini-action{margin-top:10px;display:block;padding:10px;border-radius:7px;background:#3c414e;text-align:center;color:#fff;font-size:10px;font-weight:900}
+.telegram-mini-pink{background:#ed4b96;color:#11040b}
+.telegram-screen-caption{display:block;font-size:8px;letter-spacing:.12em;color:#a6a1ad;text-align:center;margin:13px 0 2px}
+.telegram-steps{display:grid;gap:18px}.tg-step{display:grid;grid-template-columns:42px 1fr;gap:15px;align-items:start;padding:0 0 17px;border-bottom:1px solid #29252e}
+.tg-step>span{height:40px;width:40px;display:grid;place-items:center;background:#25131f;border:1px solid #853659;border-radius:11px;color:#ff97c5;font-family:"Raleway";font-weight:900;font-size:13px}
+.tg-step b{font-family:"Raleway";font-size:13px}.tg-step p{font-size:12px;line-height:1.65;color:#aaa5b0;margin-top:5px}
+.freemium-step-cta{width:100%;margin-top:5px}
+.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.plan-card{background:#121216;border:1px solid #32323b;padding:24px 19px;border-radius:16px;display:flex;flex-direction:column;gap:12px}
+.plan-card-premium{background:linear-gradient(155deg,#341726 0%,#181016 38%,#131217 100%);border:1px solid #e95a9c;box-shadow:inset 0 1px #ffb2d124,0 18px 38px #0003}
+.plan-kicker{font-size:9px;letter-spacing:.18em;color:#ff9aca;font-weight:900}.plan-card:first-child .plan-kicker{color:#afabb7}
+.plan-price{font-size:30px;font-weight:900;letter-spacing:-.05em}.plan-price small{font-family:"Nunito";font-weight:800;letter-spacing:0;font-size:11px;color:#c6b8c1}
+.plan-lead{font-size:12px;color:#ccc2cc}.plan-card ul,.premium-offer ul{padding:0;margin:3px 0 9px;list-style:none;display:grid;gap:11px}
+.plan-card li,.premium-offer li{font-size:12px;line-height:1.55;color:#d5ced7;padding-left:20px;position:relative}
+.plan-card li:before,.premium-offer li:before{content:"✓";position:absolute;left:0;color:#fd77b1;font-weight:900}
+.plan-button{width:100%;margin-top:auto;min-height:48px;padding:0 12px;font-size:10px;gap:6px}
+.pricing-section .section-head>p{max-width:530px}
+.premium-offer{border:1px solid #ff6ead;border-radius:18px;background:linear-gradient(155deg,#3b152a,#140e15 55%,#111115);padding:28px;box-shadow:0 20px 65px #e43c8012}
+.offer-kicker{color:#ff93c4;font-size:10px;font-weight:900;letter-spacing:.17em}
+.offer-price{font-weight:900;font-size:clamp(38px,8vw,58px);letter-spacing:-.06em;margin-top:10px}
+.premium-offer>p{color:#cfc3cc;font-size:13px;line-height:1.7;margin-top:10px}
+.offer-divider{height:1px;background:#ffffff25;margin:20px 0}.premium-offer ul{margin-bottom:21px;gap:12px}.premium-offer li{font-size:13px}
+.offer-scroll-cta{display:flex;max-width:100%;width:100%;justify-content:center;gap:18px}
+.freemium-checkout{margin-top:22px;border:1px solid #3b303b;border-radius:16px;background:#121115;padding:24px}
+.checkout-heading>span{color:#ff91bd;letter-spacing:.15em;font-size:10px;font-weight:900}.checkout-heading h3{font-size:22px;margin:8px 0}.checkout-heading p{font-size:12px;color:#b6afb9;line-height:1.65;margin-bottom:16px}
+.freemium-fineprint{font-size:11px;line-height:1.75;margin:14px 0 0;color:#aca1ad}.freemium-fineprint a{text-decoration:underline;text-underline-offset:3px}
+.faq-list{border-top:1px solid #353138}.faq-list details{border-bottom:1px solid #353138;padding:3px 0}.faq-list summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px;cursor:pointer;padding:18px 0;font-size:13px;font-weight:800}.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary span{font-size:21px;color:#ff73ac;transition:transform .2s}.faq-list details[open] summary span{transform:rotate(45deg)}.faq-list details p{font-size:12px;line-height:1.75;color:#c6bac6;padding:0 30px 20px 0}
+.freemium-last-cta{margin-top:34px;border-radius:15px;border:1px solid #34313b;background:#17151a;padding:22px}.freemium-last-cta>p{font-weight:700;font-size:13px}.freemium-last-cta .hero-actions{margin-top:14px}
+.site-footer{padding-bottom:105px}
+@media(max-width:650px){.hero{padding-top:45px}.telegram-concept{grid-template-columns:1fr;gap:28px}.telegram-phone{max-width:370px}.telegram-bubble img{height:200px}.telegram-steps{grid-template-columns:1fr 1fr;gap:14px}.tg-step{grid-template-columns:1fr;gap:7px;padding:15px;border:1px solid #332732;border-radius:12px;background:#111015}.tg-step>span{width:33px;height:33px}.tg-step p{font-size:11px}.freemium-step-cta{grid-column:1/-1}.premium-offer{padding:23px}.plan-card{padding:20px 15px}.plan-price{font-size:26px}.site-header .login-link{font-size:10px}}
+@media(max-width:430px){.shell{width:min(100% - 26px,704px)}.site-header{height:67px}.site-header .nav-cta{padding:9px 10px;font-size:9px}.site-header nav{gap:8px}.site-header .login-link{font-size:9px}.hero h1{font-size:clamp(30px,9.2vw,42px)}.freemium-intro{font-size:13px}.freemium-hero-note{gap:8px;font-size:8px}.hero-actions{gap:9px}.hero-actions .button{min-width:0;flex:1;padding:0 12px;gap:9px;font-size:10px}.plan-grid{grid-template-columns:1fr}.plan-card{padding:23px}.plan-price{font-size:32px}.tg-step{padding:12px}.premium-offer li{font-size:12px}.freemium-checkout{padding:15px}.freemium-last-cta{padding:16px}}
+@media(prefers-reduced-motion:reduce){.freemium-star{animation:none}html{scroll-behavior:auto}}
