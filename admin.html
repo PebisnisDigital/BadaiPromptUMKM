@@ -307,6 +307,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
    </form><p id="tgAutomationState">Status belum dimuat.</p>
   </section>
   <section class="tg-panel"><h2>Testing Center</h2><p>Penguji harus START bot terpilih dan mendapat otorisasi admin. Tes kirim memakai pesan sungguhan hanya ke akun penguji.</p>
+   <p id="tgTesterHelp" role="status">Pilih bot, pasang webhook, lalu START bot dari akun penguji.</p><a id="tgStartBot" class="btn dark" target="_blank" rel="noopener noreferrer" hidden>BUKA BOT / START</a>
    <div class="field"><label for="tgTester">AKUN PENGUJI</label><select id="tgTester"><option value="">Pilih member terdaftar</option></select></div><button class="btn dark" id="tgAuthorizeTester">OTORISASI AKUN PENGUJI</button>
    <div class="field"><label for="tgPrompt">PROMPT PUBLISHED</label><select id="tgPrompt"><option value="">Pilih prompt</option></select></div>
    <div class="tg-actions"><button class="btn pink" data-tg-test="test-message">TEST KIRIM PESAN</button><button class="btn dark" data-tg-test="test-prompt">TEST PROMPT + PREVIEW</button><button class="btn tg-danger" id="tgTestDelete">TEST HAPUS PESAN UJI</button></div>
