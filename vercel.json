@@ -32,7 +32,8 @@
   ],
   "git": {
     "deploymentEnabled": {
-      "feature/freemium-curation-20261010": false
+      "feature/freemium-curation-20261010": false,
+      "feature/telegram-stars-upsell-20261010": false
     }
   }
 }

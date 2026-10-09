@@ -1,5 +1,5 @@
 import {fail} from './security.mjs';
-const METHODS=new Set(['getMe','getWebhookInfo','setWebhook','deleteWebhook','sendMessage','sendPhoto','deleteMessage','answerCallbackQuery']);
+const METHODS=new Set(['getMe','getWebhookInfo','setWebhook','deleteWebhook','sendMessage','sendPhoto','deleteMessage','answerCallbackQuery','sendInvoice','answerPreCheckoutQuery']);
 export class Telegram{
  constructor(fetcher=fetch){this.fetcher=fetcher;this.tail=Promise.resolve();this.chatTimes=new Map();this.globalTime=0}
  setDeadline(value){this.deadline=value}
