@@ -23,3 +23,30 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 @media(max-width:700px){.settings-tabs{display:grid;grid-template-columns:1fr 1fr;overflow:visible}.settings-tab{padding:10px;font-size:11px}.adminpagerrow{grid-template-columns:36px 1fr 36px}.adminpagebtn{min-width:26px}}
 
 .additional-previews summary{font-size:13px;color:#555;cursor:pointer;padding:6px 0}.additional-previews .field{margin-top:12px}
+
+/* Follow-up audit: touch targets, long amounts, keyboard and small screens. */
+.stat,.sales-revenue-stats .stat,.sales-member,.sales-package{min-width:0}
+.sales-revenue-stats .stat b{overflow-wrap:anywhere;font-variant-numeric:tabular-nums;line-height:1.3}
+.bottomnav{bottom:calc(12px + env(safe-area-inset-bottom))}
+.app{padding-bottom:calc(110px + env(safe-area-inset-bottom))}
+.gate{overflow-y:auto;overscroll-behavior:contain}.login{margin:auto}
+button:disabled{cursor:not-allowed}.linkbtn{min-height:44px}
+.switchrow input{flex-shrink:0}.sheethead>div{min-width:0}.sheethead h2{overflow-wrap:anywhere}
+@media(max-width:700px){
+  .field input,.field select,.field textarea,.toolbar input,.toolbar select,.coupon-form input,.coupon-form select{font-size:16px}
+  .sm,.sales-detail-btn,.sales-pagination-buttons button,.adminpagebtn,.adminprev,.adminnext,.coupon-actions button,.admin-team-row button{min-height:44px}
+  .sales-revenue-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .sales-revenue-stats .stat:last-child{grid-column:1/-1}.sales-revenue-stats .stat b{font-size:24px}
+  .sales-pagination-buttons{flex-wrap:wrap;overflow:visible}.sales-table-controls{flex-wrap:wrap}
+  .order-detail-actions{flex-wrap:wrap}.order-detail-actions>*{min-width:110px}
+}
+@media(max-width:360px){.sales-revenue-stats{grid-template-columns:1fr}.sales-revenue-stats .stat:last-child{grid-column:auto}}
+@media(max-height:560px){.gate{align-items:flex-start}.login{margin:12px auto}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+@media(max-width:700px){
+  .sales-revenue-stats{grid-template-columns:1fr}
+  .sales-revenue-stats .stat{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:72px;padding:16px}
+  .sales-revenue-stats .stat:last-child{grid-column:auto}
+  .sales-revenue-stats .stat small{max-width:95px}
+  .sales-revenue-stats .stat b{margin:0;font-size:clamp(17px,4.6vw,22px);text-align:right}
+}

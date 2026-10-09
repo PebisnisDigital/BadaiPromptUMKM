@@ -35,3 +35,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 @media(prefers-reduced-motion:reduce){.carouseltrack{transition:none}.card{transition:none}html{scroll-behavior:auto}}
 
 .search-help{font-size:12px;color:#777;margin:-6px 0 12px}[hidden]{display:none!important}
+
+/* Follow-up audit: safe-area spacing and scrollable authentication. */
+.bottomnav{bottom:calc(12px + env(safe-area-inset-bottom))}
+.shell{padding-bottom:calc(110px + env(safe-area-inset-bottom))}
+.gate,.firstpass{overflow-y:auto;overscroll-behavior:contain}.login,.firstpasscard{margin:auto}
+.resetlink{min-height:44px}.accountpasswordnote{line-height:1.6}
+.accountsummary{min-width:0}.accountrow{min-width:0}.accountrow b{overflow-wrap:anywhere}
+.sheethead>div{min-width:0}.sheethead h2{overflow-wrap:anywhere}
+@media(max-height:560px){.gate{align-items:flex-start}.login,.firstpasscard{margin:12px auto}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
