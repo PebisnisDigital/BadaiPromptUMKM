@@ -27,6 +27,7 @@ export class Service{
   if(action==='overview')return this.overview();
   if(action==='settings'){
    const old=await this.config();const allowed=['enabled','paused','dry_run','premium_time','free_days','premium_days','delete_hours','term_days','batch_size'];const filtered=Object.fromEntries(allowed.filter(k=>k in body).map(k=>[k,body[k]]));const s=settings({...old,...filtered});
+   if(!this.sendEnabled&&(s.enabled||!s.paused||!s.dry_run))throw fail('Pengiriman belum diizinkan pada server. Pertahankan otomatisasi nonaktif, PAUSE, dan mode uji coba.',409);
    if(s.enabled&&!s.paused&&!s.dry_run){await this.requireSend(true);if(!await this.main())throw fail('Pilih bot utama dengan webhook valid terlebih dahulu.')}
    await this.store.putState('telegram-settings',s);await this.audit(actor.$id,action);return {ok:true,settings:s};
   }

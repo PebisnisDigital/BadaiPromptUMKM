@@ -1,5 +1,7 @@
 # Telegram Manager — implementation and release review
 
+Latest safe-release preparation: [safe-release-2026-10-09.md](safe-release-2026-10-09.md). This supersedes the initial preview platform blocker and activation build ID below.
+
 Prepared 9 October 2026 (WIB). Work branch: `feature/telegram-manager-20261009`. No production branch merge, frontend production deployment, active Function switch, real Telegram send, or customer deletion was performed for this task.
 
 ## Audit and baseline
