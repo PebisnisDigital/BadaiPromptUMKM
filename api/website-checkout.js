@@ -75,7 +75,7 @@ async function checkout(req,res,s){
   throw Error('BuatQRIS belum dapat dipastikan. Jangan ulangi pembayaran dulu, hubungi bantuan.');
  }
  if(!created.transaction_id||!created.qr_url&&!created.qris_image)throw Error('QRIS belum berhasil dibuat. Hubungi bantuan, jangan ulangi dulu.');
- const tx=String(created.transaction_id),expiry=Date.parse(created.expired_at)||Date.now()+900000;
+ const tx=String(created.transaction_id),now=Date.now(),providerExpiry=Date.parse(created.expired_at),expiry=Number.isFinite(providerExpiry)&&providerExpiry>now&&providerExpiry<=now+960000?providerExpiry:now+900000;
  const amount=Number(created.amount??PRICE),total=Number(created.total_amount??amount);
  if(amount!==PRICE||!Number.isFinite(total)||total<PRICE)throw Error('Nominal QRIS tidak cocok. Transaksi ditahan untuk review.');
  const payload={telegram_id:tg,telegram_sub:who.sub,first_name:who.name,transaction_id:tx,amount:PRICE,total_amount:total,qr_url:String(created.qr_url||created.qris_image),expires_at:new Date(expiry).toISOString(),created_at:new Date().toISOString(),paid_at:null};
