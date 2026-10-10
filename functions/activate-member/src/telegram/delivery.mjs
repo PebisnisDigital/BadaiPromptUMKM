@@ -36,7 +36,7 @@ export class Delivery{
   if(row&&row.bot_id!==bot.$id)return {duplicate:true,requires_review:true};
   if(!row){try{row=await s.store.create('telegram_deliveries',rowId,{telegram_id:member.telegram_id,chat_id:consent.data.chat_id,bot_id:bot.$id,prompt_id:prompt.$id,message_id:'pending',message_ids:'[]',plan:member.plan,day_number:(member.delivery_day||0)+1,delivery_key:deliveryKey,sent_at:new Date(now).toISOString(),dispatch_status:'reserved',kind:test?'test':kind,attempts:0})}catch(e){if(e.code===409)return {duplicate:true};throw e}}
   if(!test&&!await s.curation.reserve(member,prompt,rowId)){await s.store.update('telegram_deliveries',rowId,{dispatch_status:'failed',error_code:'Konten sudah dicadangkan untuk kiriman lain; review diperlukan.'});return {duplicate:true,requires_review:true}}
-  if(!row.attempts)await s.store.putState(id('delivery-content',rowId),{content_source:prompt.content_source||'scene_prompts',content_position:prompt.content_position||null,fingerprint:contentHash(prompt),marketing_day:prompt.marketing_day||null,marketing_offer:prompt.marketing_offer||null},{kind:'content_ref'});
+  if(!row.attempts)await s.store.putState(id('delivery-content',rowId),{content_source:prompt.content_source||'scene_prompts',content_position:prompt.content_position||null,fingerprint:contentHash(prompt),marketing_day:prompt.marketing_day||null,marketing_cycle:prompt.marketing_cycle||0,marketing_offer:prompt.marketing_offer||null},{kind:'content_ref'});
   const lock=await s.store.claim(id('attempt',rowId,row.attempts||0),{kind:'attempt',bot_id:bot.$id,status:'claimed',due_at:new Date(now+7*DAY).toISOString(),payload:'{}'});
   if(!lock)return {duplicate:true};
   const ids=JSON.parse(row.message_ids||'[]');
