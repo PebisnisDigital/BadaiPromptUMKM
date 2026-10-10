@@ -147,7 +147,8 @@ const root=path.resolve(__dirname,'..'),output=process.env.UI_ARTIFACTS||path.jo
    const action=new URL(r.request().url()).searchParams.get('action');calls.push('checkout:'+action);
    if(action==='preflight')return r.fulfill({json:{
     ok:true,telegram_verified:true,provider_ready:true,identity_linked:true,
-    account_exists:true,premium_already_active:false,account_review_needed:false,
+    account_exists:false,account_check_pending:true,account_permission_ready:false,
+    missing_appwrite_scopes:['users.read'],premium_already_active:false,account_review_needed:false,
     safe_to_test:false,merchant_test_mode:false,checkout_enabled:false,
     bot_notice_enabled:false,price:199000
    }});
@@ -165,6 +166,8 @@ const root=path.resolve(__dirname,'..'),output=process.env.UI_ARTIFACTS||path.jo
    await p.waitForFunction(()=>document.getElementById('qrisReadiness').textContent.includes('LIVE (RIIL)'));
    assert.match(await p.locator('#qrisReadiness').innerText(),/Merchant QRIS Rp199.000: TERKONFIGURASI/);
    assert.match(await p.locator('#qrisReadiness').innerText(),/Checkout QRIS baru: BELUM DIAKTIFKAN/);
+   assert.match(await p.locator('#qrisReadiness').innerText(),/Akses baca akun Appwrite: PERLU IZIN users.read/);
+   assert.match(await p.locator('#qrisReadiness').innerText(),/Pemeriksaan akun: BELUM BISA DIPASTIKAN/);
    assert.deepStrictEqual(calls,['config','session','checkout:preflight']);
   }else{
    assert.equal(await p.locator('#checkQris').isHidden(),true);

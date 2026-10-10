@@ -2,6 +2,7 @@
 // avoiding require() of .mjs and keeping the config route payment-free.
 const crypto=require('node:crypto');
 const {Client,TablesDB,Users,Teams,Query,Permission,Role}=require('node-appwrite');
+const {inspectAccount}=require('./website-preflight-helpers.js');
 let Store,id,telegramRuntime,notifyVerifiedWebsitePurchase;
 let assertProviderSettlement,assertAccountOwner,calculatePaidAccessUntil,freezeOrderEntitlement,selectVerifiedAccountId;
 async function loadEsmModules(){
@@ -210,12 +211,10 @@ async function preflight(req,res){
   try{assertAccountOwner({telegramId:tg,userId,telegramLink:websiteLink,userLink,botMember:member})}catch{conflict=true}
   let providerReady=false,providerTestMode=false;
   try{const merchant=await provider(s);providerReady=true;providerTestMode=merchant.test_mode===true}catch{}
-  let accountExists=false,profile=null;
+  let accountExists=null,profile=null,readAuthorized=false,missingScopes=[];
   if(!conflict){
-   try{await s.users.get({userId});accountExists=true}catch(e){
-    if(Number(e?.code)!==404)throw e;
-   }
-   if(accountExists)profile=await s.store.get('member_profiles',userId);
+   const result=await inspectAccount({users:s.users,store:s.store,userId});
+   ({accountExists,profile,readAuthorized,missingScopes}=result);
   }
   const premium=Boolean(profile?.status==='active'&&
     (!profile.access_until||Date.parse(profile.access_until)>Date.now()));
@@ -223,8 +222,10 @@ async function preflight(req,res){
   return json(res,{
    ok:true,telegram_verified:true,provider_ready:providerReady,
    identity_linked:connected,account_exists:accountExists,
+   account_check_pending:!readAuthorized,account_permission_ready:readAuthorized,
+   missing_appwrite_scopes:missingScopes,
    premium_already_active:premium,account_review_needed:conflict,
-   safe_to_test:providerReady&&providerTestMode&&!conflict&&!premium,
+   safe_to_test:providerReady&&providerTestMode&&readAuthorized&&!conflict&&!premium,
    merchant_test_mode:providerTestMode,
    checkout_enabled:process.env.TELEGRAM_SITE_CHECKOUT_ENABLED==='true',
    bot_notice_enabled:process.env.TELEGRAM_WEBSITE_PAID_NOTICE_ENABLED==='true',
