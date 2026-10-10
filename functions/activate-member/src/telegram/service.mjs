@@ -2,12 +2,13 @@ import {Curation} from './curation.mjs';
 import {assessLaunchReadiness} from './launch-readiness.mjs';
 import {QrisChat} from './qris.mjs';
 import {TelegramLogin} from './login.mjs';
+import {Marketing} from './marketing.mjs';
 import {Delivery} from './delivery.mjs';
 import {fail,id,random,masterKey,seal,unseal,equal,numeric,privateIdentity,safeError} from './security.mjs';
 import {defaults,settings,entitlement,DAY,jakartaStart} from './policy.mjs';
 export class Service{
- constructor({store,telegram,key,now=()=>Date.now(),sendEnabled=false,webhookBase='https://badaiprompt.vercel.app/api/telegram/webhook',verifyUser,verifyAdmin,verifyPaidAccess=async()=>false,qrisEnabled=false,grantPaidAccess=null,fetcher=fetch,passwordlessEnabled=false,users=null}){
-  Object.assign(this,{store,telegram,key,now,sendEnabled,webhookBase,verifyUser,verifyAdmin,verifyPaidAccess,qrisEnabled,grantPaidAccess,fetcher,passwordlessEnabled});this.delivery=new Delivery(this);this.curation=new Curation(this);this.qris=new QrisChat(this);this.login=new TelegramLogin(this,users);
+ constructor({store,telegram,key,now=()=>Date.now(),sendEnabled=false,webhookBase='https://badaiprompt.vercel.app/api/telegram/webhook',verifyUser,verifyAdmin,verifyPaidAccess=async()=>false,qrisEnabled=false,grantPaidAccess=null,fetcher=fetch,passwordlessEnabled=false,users=null,marketingEnabled=false}){
+  Object.assign(this,{store,telegram,key,now,sendEnabled,webhookBase,verifyUser,verifyAdmin,verifyPaidAccess,qrisEnabled,grantPaidAccess,fetcher,passwordlessEnabled,marketingEnabled});this.delivery=new Delivery(this);this.curation=new Curation(this);this.qris=new QrisChat(this);this.login=new TelegramLogin(this,users);this.marketing=new Marketing(this);
  }
  async config(){return settings((await this.store.state('telegram-settings'))?.data||defaults)}
  token(bot){return unseal(bot.token_cipher,masterKey(this.key),'token:'+bot.$id)}
@@ -30,6 +31,28 @@ export class Service{
  async admin(action,body,jwt){
   const actor=await this.verifyAdmin(jwt);await this.store.rate(actor.$id,'admin',this.now(),20);
   if(action==='overview')return this.overview();
+  if(action==='marketing-get')return this.marketing.get();
+  if(action==='marketing-candidates')return this.marketing.candidates(body);
+  if(action==='marketing-settings'){
+    const result=await this.marketing.saveSettings(body,actor.$id);
+    await this.audit(actor.$id,action,{enabled:result.settings.enabled,start_date:result.settings.start_date});
+    return result;
+  }
+  if(action==='marketing-slot-save'){
+    const result=await this.marketing.save(body,actor.$id);
+    await this.audit(actor.$id,action,{day:result.slot.day,source:result.slot.source,prompt_id:result.slot.prompt_id});
+    return result;
+  }
+  if(action==='marketing-slot-delete'){
+    const result=await this.marketing.remove(body.day,actor.$id);
+    await this.audit(actor.$id,action,{day:Number(body.day)});
+    return result;
+  }
+  if(action==='marketing-slot-move'){
+    const result=await this.marketing.move(body.from,body.to,actor.$id);
+    await this.audit(actor.$id,action,{from:result.from,to:result.to});
+    return result;
+  }
   if(action==='content-status'){
     const [content,monitor,setting,bot,price,min,registered,free,premium]=await Promise.all([
       this.curation.status(),this.monitor(),this.config(),this.main(),

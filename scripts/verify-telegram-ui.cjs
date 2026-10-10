@@ -53,5 +53,62 @@ const root=path.resolve(__dirname,'..'),output=process.env.UI_ARTIFACTS||path.jo
     assert.equal(received[0],'A'.repeat(32));assert.equal(new URL(p.url()).hash,'');
     await p.close();console.log('Telegram passwordless session exchange and Member Area redirect PASS. Simulated.');
   }
+
+ // Marketing calendar: isolated browser simulation, no real messages or DB mutations.
+ for(const width of [1280,390]){
+  const page=await browser.newPage({viewport:{width,height:1000}}),pageErrors=[],calls=[],slots=new Map();
+  page.on('pageerror',e=>pageErrors.push(e.message));await local(page);
+  await page.route('**/assets/vendor/appwrite-28.1.0.js',r=>r.fulfill({body:fixture,contentType:'application/javascript'}));
+  let marketingSettings={enabled:false,loop_campaign:false,start_date:'2026-10-10',send_time:'06:00',timezone:'Asia/Jakarta',
+    default_offer:'Suka prompt ini? Buka semua prompt Premium Rp199.000.',default_cta_label:'BUKA PREMIUM',default_cta_type:'premium',default_cta_url:''};
+  await page.route('**/api/telegram/manager',async route=>{
+   const body=route.request().postDataJSON();calls.push(body);
+   let reply={ok:true};
+   if(body.action==='marketing-get')reply={ok:true,settings:marketingSettings,slots:[...slots.values()],stats:{filled:slots.size,empty:365-slots.size,target:365,active:false,campaign_day:1},server_gate:false};
+   if(body.action==='marketing-candidates')reply={ok:true,total:2,next_cursor:null,rows:[
+    {source:'scene_prompts',id:'p1',title:'BP001 • Foto Editorial',category:'Foto',preview_url:'https://example.com/p1.jpg',summary:'Prompt visual pertama'},
+    {source:'scene_prompts',id:'p2',title:'BP002 • Poster Produk',category:'Bisnis',preview_url:'https://example.com/p2.jpg',summary:'Prompt visual kedua'}]};
+   if(body.action==='marketing-slot-save'){const item={...body,title:body.prompt_id==='p1'?'BP001 • Foto Editorial':'BP002 • Poster Produk'};slots.set(body.day,item);reply={ok:true,slot:item}}
+   if(body.action==='marketing-slot-delete')slots.delete(body.day);
+   if(body.action==='marketing-slot-move'){
+     const from=slots.get(body.from),to=slots.get(body.to);
+     slots.delete(body.from);if(to)slots.set(body.from,{...to,day:body.from});
+     slots.set(body.to,{...from,day:body.to});
+   }
+   if(body.action==='marketing-settings'){marketingSettings={...marketingSettings,...body};reply={ok:true,settings:marketingSettings}}
+   await route.fulfill({json:reply});
+  });
+  await page.goto('https://badaiprompt.vercel.app/admin');
+  await page.waitForFunction(()=>!document.getElementById('loading').classList.contains('show'));
+  await page.locator('[data-view="marketing"]').click();
+  await page.locator('#mktPromptList .mkt-prompt').first().waitFor();
+  assert.match(await page.locator('#mktStats').innerText(),/0\/365/);
+  assert.equal(await page.locator('#mktEnabled option[value="true"]').evaluate(el=>el.disabled),true);
+  await page.locator('[data-mkt-pick="scene_prompts:p1"]').click();
+  await page.locator('[data-mkt-day="1"]').click();
+  await page.locator('#mktEditOffer').fill('Coba prompt ini, lalu buka Premium Rp199.000 untuk 365 hari.');
+  await page.locator('#mktEditLabel').fill('UPGRADE SEKARANG');
+  await page.locator('#mktEditForm button[type="submit"]').click();
+  await page.waitForFunction(()=>document.getElementById('mktNotice').textContent.includes('disimpan'));
+  assert.match(await page.locator('[data-mkt-day="1"]').innerText(),/Foto Editorial/);
+  assert.equal(slots.get(1).cta_label,'UPGRADE SEKARANG');
+  if(width===1280){
+   await page.locator('[data-mkt-day="1"]').dragTo(page.locator('[data-mkt-day="2"]'));
+   await page.waitForFunction(()=>document.getElementById('mktNotice').textContent.includes('dipindahkan'));
+   assert.match(await page.locator('[data-mkt-day="2"]').innerText(),/Foto Editorial/);
+   assert.equal(slots.get(2).prompt_id,'p1');
+  }
+  await page.locator('#mktLoop').check();
+  await page.locator('#mktSettingsForm button[type="submit"]').click();
+  await page.waitForFunction(()=>document.getElementById('mktNotice').textContent.includes('Pengaturan Marketing tersimpan'));
+  assert.equal(marketingSettings.loop_campaign,true);
+  assert.equal(marketingSettings.enabled,false);
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+  assert(calls.filter(x=>x.action?.startsWith('marketing-')).every(x=>x.action!=='marketing-broadcast'));
+  assert.deepStrictEqual(pageErrors,[]);
+  await page.screenshot({path:path.join(output,'marketing-calendar-'+width+'.png'),fullPage:true});
+  await page.close();
+  console.log('Marketing Admin '+width+' PASS: Free calendar, prompt select, upsell CTA editor, draft settings'+(width===1280?', drag-and-drop':'')+'. Simulated.');
+ }
   await browser.close();
 })().catch(e=>{console.error(e);process.exit(1)});

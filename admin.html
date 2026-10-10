@@ -50,6 +50,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
 
 <link rel="stylesheet" href="/assets/admin-ui.css?v=2">
 <link rel="stylesheet" href="/assets/telegram-manager.css">
+<link rel="stylesheet" href="/assets/admin-marketing.css?v=1">
 </head>
 <body class="admin-app">
 <div class="gate" id="gate">
@@ -285,6 +286,62 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
       </div>
     </div>
   </section>
+
+<section class="view marketing-view" id="v-marketing" aria-labelledby="marketing-title">
+  <div class="title"><div><div class="eyebrow">MARKETING • KONTEN FREE → PREMIUM</div><h1 id="marketing-title">Kalender Konten 365 Hari</h1><p>Ambil prompt asli dari Member Area, susun dengan drag & drop, dan atur teks upselling serta CTA untuk member Free. Premium tetap memakai sistem pengirimannya sendiri.</p></div><button class="btn dark" id="mktRefresh" type="button">SEGARKAN</button></div>
+  <div class="mkt-notice" id="mktNotice" role="status">Memuat kalender…</div>
+  <div class="mkt-stats" id="mktStats" aria-label="Ringkasan kalender"></div>
+  <section class="mkt-schedule" aria-labelledby="mktSettingsHeading">
+    <div class="mkt-head"><h2 id="mktSettingsHeading">Pengaturan jadwal</h2><span class="mkt-caption">WIB • Asia/Jakarta • Tidak mengirim saat menyimpan</span></div>
+    <form id="mktSettingsForm">
+      <div class="mkt-fields">
+        <label>TANGGAL MULAI<input id="mktStartDate" type="date" required></label>
+        <label>JAM KAMPANYE<input id="mktTime" type="time" value="06:00" required></label>
+        <label>MODE PENGIRIMAN<select id="mktEnabled"><option value="false">DRAF — Tidak mengirim</option><option value="true">AKTIF — Memerlukan izin server</option></select></label>
+      </div>
+      <label class="mkt-loop"><input id="mktLoop" type="checkbox"> Ulangi kalender mulai Hari 1 setelah Hari 365</label>
+      <p class="mkt-footnote">Hari 1 adalah tanggal mulai di WIB. Kalender berjalan global selama 365 hari. Member Free hanya menerima slot pada hari jatuh tempo menurut interval di Telegram Manager (saat ini 3 hari); hari tanpa konten akan dilewati, tidak diganti prompt acak. Pesan Free dijadwalkan dihapus setelah 24 jam.</p>
+      <div class="mkt-subhead">TEMPLATE UPSELLING DEFAULT</div>
+      <textarea id="mktDefaultOffer" rows="3" maxlength="850" placeholder="Pesan upselling setelah prompt terkirim…" required></textarea>
+      <div class="mkt-fields mkt-fields-three"><label>TEKS TOMBOL CTA<input id="mktDefaultLabel" maxlength="40" required></label><label>TUJUAN CTA<select id="mktDefaultType"><option value="premium">Penawaran Premium</option><option value="member">Member Area</option><option value="url">Link BADAI PROMPT</option></select></label><label>LINK (OPSIONAL)<input id="mktDefaultUrl" type="url" placeholder="https://badaiprompt.vercel.app/#harga"></label></div>
+      <div class="mkt-actions"><button class="btn pink" type="submit">SIMPAN PENGATURAN</button><span id="mktGate" class="mkt-gate"></span></div>
+    </form>
+  </section>
+  <div class="mkt-workspace">
+    <section class="mkt-calendar-panel" aria-labelledby="mktCalendarTitle">
+      <div class="mkt-panel-header"><div><span class="eyebrow">RENCANA DISTRIBUSI</span><h2 id="mktCalendarTitle">Susunan 365 Hari</h2><p>Pindahkan kartu antarslot. Di HP, pilih prompt lalu ketuk harinya.</p></div><span id="mktSelection" class="mkt-selection">Belum memilih prompt</span></div>
+      <div class="mkt-calendar-toolbar">
+        <button type="button" class="btn dark sm" id="mktPrev" aria-label="30 hari sebelumnya">‹</button>
+        <select id="mktPage" aria-label="Bagian kalender"></select>
+        <button type="button" class="btn dark sm" id="mktNext" aria-label="30 hari berikutnya">›</button>
+        <span class="mkt-display" id="mktPageCount"></span>
+      </div>
+      <div class="mkt-calendar-grid" id="mktCalendar" aria-label="Kalender konten 365 hari"></div>
+      <div class="mkt-day-detail" id="mktDayDetail" role="status">Pilih hari untuk mengatur prompt.</div>
+    </section>
+    <section class="mkt-library-panel" aria-labelledby="mktLibraryTitle">
+      <div class="mkt-panel-header"><div><span class="eyebrow">SUMBER MEMBER AREA</span><h2 id="mktLibraryTitle">Perpustakaan Prompt</h2><p>Hanya prompt tayang dengan preview yang dapat dijadwalkan.</p></div></div>
+      <div class="mkt-library-search"><select id="mktSource"><option value="scene_prompts">Prompt Viral / Visual</option><option value="prompts">Seluruh Koleksi Prompt</option></select><input type="search" id="mktSearch" placeholder="Cari di prompt yang sudah dimuat…" aria-label="Cari prompt"></div>
+      <div class="mkt-prompt-list" id="mktPromptList"></div>
+      <button type="button" class="btn dark mkt-load-more" id="mktLoadMore">MUAT PROMPT BERIKUTNYA</button>
+      <p class="mkt-footnote">Geser kartu ke kalender (desktop) atau ketuk PILIH lalu pilih hari (HP). Klik MUAT PROMPT BERIKUTNYA untuk mencari dari seluruh koleksi.</p>
+    </section>
+  </div>
+  <section class="mkt-editor" id="mktEditor" aria-labelledby="mktEditorTitle" hidden>
+    <div class="mkt-panel-header"><div><span class="eyebrow">EDIT PESAN TERJADWAL</span><h2 id="mktEditorTitle">Atur konten hari <span id="mktEditDay">1</span></h2></div><button type="button" class="btn dark sm" id="mktCloseEditor">TUTUP</button></div>
+    <form id="mktEditForm">
+      <div class="mkt-editor-preview" id="mktEditorPrompt">Pilih prompt dari perpustakaan.</div>
+      <label>TEKS UPSELLING SETELAH PROMPT<textarea id="mktEditOffer" rows="4" maxlength="850" required placeholder="Suka hasil ini? Buka koleksi Premium…"></textarea></label>
+      <div class="mkt-fields mkt-fields-three">
+       <label>TEKS TOMBOL<input id="mktEditLabel" maxlength="40" required></label>
+       <label>AKSI TOMBOL<select id="mktEditType"><option value="premium">Beli / Upgrade Premium</option><option value="member">Masuk Member Area</option><option value="url">URL BADAI PROMPT</option></select></label>
+       <label>URL TUJUAN<input id="mktEditUrl" type="url" placeholder="https://badaiprompt.vercel.app/#harga"></label>
+      </div>
+      <div class="mkt-actions"><button type="submit" class="btn pink">SIMPAN KONTEN HARI INI</button><button type="button" id="mktDeleteSlot" class="btn dark">KOSONGKAN HARI</button></div>
+      <div class="mkt-mock-chat"><b>PREVIEW CHAT TELEGRAM</b><p id="mktMockContent"></p><p id="mktMockOffer"></p><span id="mktMockButton" class="mkt-mock-cta">BUKA PREMIUM →</span><small>Simulasi teks saja; tidak mengirim pesan.</small></div>
+    </form>
+  </section>
+</section>
 <section class="view telegram-view" id="v-telegram">
  <div class="title"><div><div class="eyebrow">DISTRIBUSI PROMPT</div><h1>Telegram Manager</h1><p>Kelola bot, uji koneksi, dan atur pengiriman member.</p></div><button class="btn pink" id="tgRefresh" type="button">PERBARUI</button></div>
  <div id="tgStatus" class="tg-notice" role="status">Data Telegram belum dimuat.</div>
@@ -326,6 +383,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
   <button class="on" data-view="prompts"><b><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></b>Prompt</button>
   <button data-view="sales"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2V3Z"/><path d="M8 8h8M8 12h8"/></svg></b>Penjualan</button>
   <button data-view="affiliate"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></b>Affiliate</button>
+  <button data-view="marketing"><b>▦</b>Marketing</button>
   <button data-view="telegram"><b>✈</b>Telegram</button>
   <button data-view="settings"><b><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3"/></svg></b>Pengaturan</button>
 </nav>
@@ -961,6 +1019,7 @@ $('loginEmail').value=localStorage.getItem('badai_admin_email')||'';
 boot();
 </script>
 <script src="/assets/telegram-manager.js"></script>
+<script src="/assets/admin-marketing.js?v=1"></script>
 <script src="/assets/workspace-ui.js?v=2"></script>
 </body>
 </html>
