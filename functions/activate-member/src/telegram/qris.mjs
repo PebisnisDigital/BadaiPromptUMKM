@@ -126,9 +126,10 @@ export class QrisChat{
   // A successful payment first provisions/reconciles a verified Telegram identity.
   member=await this.s.login.ensureAccount(member);
   await this.grant(member,member.appwrite_user_id);
-  const link=await this.s.login.issue(member,bot);
-  await this.s.delivery.text(member,bot,'Pembayaran QRIS terverifikasi! Premium aktif 365 hari. Tekan BUKA MEMBER AREA untuk masuk tanpa formulir. Tautan berlaku 5 menit.',id('qris-paid-notice',invoice.$id),'reply',{inline_keyboard:[[{text:'BUKA MEMBER AREA',url:link.url}]]});
+  const notice=await this.s.delivery.text(member,bot,'Pembayaran QRIS terverifikasi! Premium aktif 365 hari. Tekan BUKA MEMBER AREA untuk masuk tanpa formulir.',id('qris-paid-notice',invoice.$id),'reply',{inline_keyboard:[[{text:'BUKA MEMBER AREA',callback_data:'login'}]]});
+  if(!notice.ok&&!notice.duplicate)throw fail('Notifikasi Premium belum terkirim. Pemulihan akan dicoba ulang.',503);
   try{await this.s.delivery.prompt(member,bot,{key:id('qris-first',invoice.$id)})}catch{}
+  await this.s.store.update('telegram_state',invoice.$id,{status:'delivered'});
   return {ok:true};
  }
  async grant(member,userId=member.appwrite_user_id){
