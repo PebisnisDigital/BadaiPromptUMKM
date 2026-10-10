@@ -1,4 +1,5 @@
 import {Curation} from './curation.mjs';
+import {assessLaunchReadiness} from './launch-readiness.mjs';
 import {QrisChat} from './qris.mjs';
 import {TelegramLogin} from './login.mjs';
 import {Delivery} from './delivery.mjs';
@@ -29,7 +30,22 @@ export class Service{
  async admin(action,body,jwt){
   const actor=await this.verifyAdmin(jwt);await this.store.rate(actor.$id,'admin',this.now(),20);
   if(action==='overview')return this.overview();
-  if(action==='content-status')return {ok:true,content:await this.curation.status(),monitor:await this.monitor()};
+  if(action==='content-status'){
+    const [content,monitor,setting,bot,price,min,registered,free,premium]=await Promise.all([
+      this.curation.status(),this.monitor(),this.config(),this.main(),
+      this.store.get('settings','product_price'),this.store.get('settings','minimum_price'),
+      this.store.list('telegram_members',[],1),
+      this.store.list('telegram_members',[['equal','plan','free']],1),
+      this.store.list('telegram_members',[['equal','plan','premium']],1)
+    ]);
+    const launch=assessLaunchReadiness({
+      content,monitor,settings:setting,mainBot:bot,
+      pricing:{price:price?.value,minimum:min?.value},
+      members:{registered:registered.total,free:free.total,premium:premium.total},
+      flags:{qrisEnabled:this.qrisEnabled,passwordlessEnabled:this.passwordlessEnabled}
+    });
+    return {ok:true,content,monitor,launch};
+  }
   if(action==='content-candidates')return this.curation.candidates(body);
   if(action==='content-approve'){const result=await this.curation.approve(body,actor.$id);await this.audit(actor.$id,action,{source:body.source,prompt_id:body.prompt_id});return result}
   if(action==='content-enable'){if(body.enabled!==true)throw fail('Kurasi hanya dapat diaktifkan melalui konfirmasi admin.');const state=await this.curation.status();if(!state.ready_days)throw fail('Setujui konten dengan preview terlebih dahulu.');await this.store.putState('telegram-content-plan',{enabled:true});await this.audit(actor.$id,action);return {ok:true}}
