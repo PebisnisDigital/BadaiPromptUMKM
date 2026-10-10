@@ -29,5 +29,29 @@ const root=path.resolve(__dirname,'..'),output=process.env.UI_ARTIFACTS||path.jo
   await p.route('**/functions/payment-api/executions',r=>{const ex=r.request().postDataJSON(),body=JSON.parse(ex.body||'{}');calls.push({path:ex.path,body});let data=ex.path==='/config'?{minimum_price:199000,price:199000,price_mode:'fixed',registration_open:true}:ex.path==='/social-proof'?{enabled:false,items:[]}:ex.path==='/create'?{public_token:'test-order',amount,total_amount:amount,qr_url:'data:image/png;base64,iVBORw0KGgo=',expires_at:new Date(Date.now()+900000).toISOString()}:{status:'pending',access_ready:false};return r.fulfill({json:{responseStatusCode:200,responseBody:JSON.stringify(data)}})});
   await p.goto('https://badaiprompt.vercel.app/');assert.equal(await p.locator('[data-free-cta]').first().getAttribute('href'),'https://t.me/BadaiPromptBot?start=landing_free');assert.equal(await p.locator('[data-premium-cta]').first().getAttribute('href'),'#harga');assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);await p.locator('.offer-scroll-cta').click();assert.match((await p.locator('#selectedAmountLabel').innerText()).replace(/\s/g,''),/^Rp199\.000$/);await p.locator('#buyerName').fill('Pembeli Simulasi');await p.locator('#buyerEmail').fill('checkout@example.com');await p.locator('#buyerWa').fill('081234567890');await p.locator('#payBtn').click();await p.waitForFunction(()=>document.getElementById('paymentWrap').style.display==='block');assert.equal(calls.find(x=>x.path==='/create').body.amount,amount);await p.locator('#checkNowBtn').click();await p.waitForFunction(()=>document.getElementById('payStatus').textContent.includes('Belum ada pembayaran'));assert(calls.some(x=>x.path==='/check'));assert.deepStrictEqual(errors,[]);await p.close();console.log('Fixed-price Premium checkout Rp199.000 PASS: account, amount, QR and status polling. Simulated.');
  }
- await browser.close();
+ 
+  {const p=await browser.newPage({viewport:{width:390,height:800}});await local(p);
+    await p.route('**/assets/vendor/appwrite-28.1.0.js',r=>r.fulfill({body:fixture,contentType:'application/javascript'}));
+    await p.goto('https://badaiprompt.vercel.app/telegram-login.html#code=short');
+    await p.waitForFunction(()=>document.getElementById('status')?.textContent.includes('tidak valid'));
+    assert.equal(new URL(p.url()).hash,'');
+    assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+    await p.close();console.log('Telegram passwordless invalid secret rejected and URL hash cleared. Simulated.');
+  }
+  {const p=await browser.newPage({viewport:{width:390,height:800}}),received=[];await local(p);
+    const fake=fixture.replace('class Account{',"class Account{async createSession(input){window.qaSession=input;window.mockCalls.push({mutation:'session',...input});return {}}")
+      .replace("async get(){if(mode==='login')throw {code:401,message:'Unauthorized'};return {$id:'test-user',name:'Ibu Rina',email:'simulasi@example.com'}}",
+               "async get(){if(!window.qaSession)throw {code:401,message:'Unauthorized'};return {$id:window.qaSession.userId,name:'Telegram Tester',email:''}}");
+    await p.route('**/assets/vendor/appwrite-28.1.0.js',r=>r.fulfill({body:fake,contentType:'application/javascript'}));
+    await p.route('**/api/telegram/login',async route=>{
+      received.push(route.request().postDataJSON().code);
+      await route.fulfill({json:{ok:true,userId:'paid-tg-user',secret:'appwrite-session-otp',expires_in:180}});
+    });
+    await p.route('https://badaiprompt.vercel.app/member',r=>r.fulfill({body:'<!doctype html><title>Passed</title><h1 id="passed">Member Area reached</h1>',contentType:'text/html'}));
+    await p.goto('https://badaiprompt.vercel.app/telegram-login.html#code='+ 'A'.repeat(32));
+    await p.locator('#passed').waitFor({state:'visible'});
+    assert.equal(received[0],'A'.repeat(32));assert.equal(new URL(p.url()).hash,'');
+    await p.close();console.log('Telegram passwordless session exchange and Member Area redirect PASS. Simulated.');
+  }
+  await browser.close();
 })().catch(e=>{console.error(e);process.exit(1)});
