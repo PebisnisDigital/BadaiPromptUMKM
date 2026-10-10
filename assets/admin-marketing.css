@@ -1,0 +1,76 @@
+/* BADAI PROMPT MARKETING – calm, premium operational calendar. */
+nav.telegram-nav{grid-template-columns:repeat(6,minmax(0,1fr))}
+.marketing-view{--mkt-pink:#d91c68;--mkt-border:#e4e3e7;--mkt-ink:#242027;--mkt-muted:#706b73;color:var(--mkt-ink);background:#faf9fa}
+.marketing-view .title{margin-bottom:15px;gap:12px}
+.marketing-view .title h1{font-size:28px;letter-spacing:-.05em}
+.marketing-view .title p{font-size:13px;max-width:650px;color:var(--mkt-muted)}
+.marketing-view button:focus-visible,.marketing-view input:focus-visible,.marketing-view select:focus-visible,.marketing-view textarea:focus-visible{outline:2px solid var(--mkt-pink);outline-offset:2px}
+.mkt-notice{border:1px solid #f4c4d7;background:#fff6fa;padding:13px 15px;border-radius:10px;font-size:12px;line-height:1.6;color:#9d2459}
+.mkt-notice[data-tone="error"]{background:#fff0f0;color:#a12b2b;border-color:#eeafae}
+.mkt-notice[data-tone="success"]{background:#ecf9f3;color:#12764a;border-color:#b8e8ce}
+.mkt-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:13px 0}
+.mkt-stat{padding:14px;border-radius:10px;border:1px solid var(--mkt-border);background:white;min-width:0}
+.mkt-stat b{display:block;font-weight:850;font-size:25px;letter-spacing:-.06em}
+.mkt-stat span{display:block;font-size:10px;line-height:1.6;margin-top:4px;color:var(--mkt-muted)}
+.mkt-stat:first-child{background:#fff2f8;border-color:#f2afce}
+.mkt-stat:first-child b{color:var(--mkt-pink)}
+.mkt-schedule,.mkt-calendar-panel,.mkt-library-panel,.mkt-editor{border:1px solid var(--mkt-border);background:#fff;border-radius:13px;padding:17px;min-width:0}
+.mkt-schedule{margin-bottom:14px}
+.mkt-head,.mkt-panel-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.marketing-view h2{font-size:17px;letter-spacing:-.04em;font-weight:800;margin:0 0 3px}
+.mkt-panel-header p{font-size:11px;color:var(--mkt-muted);line-height:1.6;margin:3px 0 0}
+.mkt-caption{color:var(--mkt-muted);font-size:11px;white-space:nowrap}
+.mkt-fields{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin:13px 0}
+.mkt-fields-three{grid-template-columns:1.2fr 1fr 1.4fr}
+.mkt-fields label,.mkt-editor label{font-size:10px;font-weight:800;letter-spacing:.045em;color:#4e4650;display:grid;gap:5px;min-width:0}
+.marketing-view input,.marketing-view select,.marketing-view textarea{font-family:inherit;box-sizing:border-box;color:var(--mkt-ink);background:#fff;border:1px solid #dcdbe0;border-radius:8px;padding:10px;font-size:12px;min-height:40px;min-width:0;width:100%;line-height:1.6}
+.marketing-view textarea{resize:vertical}
+.marketing-view input[type="search"]{min-width:0}
+.mkt-footnote{font-size:11px;line-height:1.7;margin:10px 0;color:var(--mkt-muted)}
+.mkt-subhead{font-size:10px;letter-spacing:.1em;font-weight:900;margin:14px 0 6px;color:#b42160}
+.mkt-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:10px 0 0}
+.mkt-actions>.btn{min-height:43px}
+.mkt-gate{font-size:11px;color:#8b6177;max-width:600px}
+.mkt-workspace{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:12px;align-items:start}
+.mkt-calendar-toolbar{display:grid;grid-template-columns:41px minmax(0,1fr) 41px auto;align-items:center;gap:7px;margin:14px 0}
+.mkt-calendar-toolbar .btn{font-size:19px;padding:4px;min-height:40px}
+.mkt-display{font-size:10px;color:var(--mkt-muted);text-align:right}
+.mkt-calendar-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.mkt-day{height:86px;min-width:0;border:1px dashed #d5d3d9;border-radius:9px;padding:7px;cursor:pointer;text-align:left;background:#fbfafb;display:flex;flex-direction:column;gap:4px;position:relative}
+.mkt-day:hover,.mkt-day:focus-visible{border:1px solid var(--mkt-pink);background:#fff5f9}
+.mkt-day[aria-selected="true"]{border:2px solid var(--mkt-pink);background:#fff4f9}
+.mkt-day[draggable="true"]{cursor:grab;border:1px solid #eda5c4;background:#fff1f7}
+.mkt-day.drop-target{border:2px solid #bc235f;background:#ffdce9}
+.mkt-day>span{font-size:8px;font-weight:800;color:#92858e;letter-spacing:.06em}
+.mkt-day strong{font-size:16px;letter-spacing:-.04em}
+.mkt-day small{font-size:9px;line-height:1.3;color:#50444e;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.mkt-day .mkt-pill{font-size:8px;color:#ab225d;margin-top:auto;font-weight:700}
+.mkt-day.empty{align-items:flex-start}
+.mkt-day.empty small{color:#aaa5ac;margin-top:auto}
+.mkt-day-detail{background:#f9f7f8;border:1px solid #ece6ea;border-radius:8px;padding:12px;margin-top:10px;font-size:11px;line-height:1.6;color:#6a5964}
+.mkt-selection{font-size:10px;font-weight:800;color:#9f2e5a;background:#fff0f6;border:1px solid #f4cada;padding:7px 9px;border-radius:8px;min-width:0;word-break:break-word}
+.mkt-library-search{display:grid;grid-template-columns:1fr;gap:8px;margin:13px 0}
+.mkt-prompt-list{display:grid;gap:7px;max-height:560px;overflow-y:auto;padding-right:2px}
+.mkt-prompt{background:#fcfbfd;border:1px solid #e5e1e7;border-radius:11px;padding:8px;display:grid;grid-template-columns:62px minmax(0,1fr);gap:9px;min-height:80px;cursor:grab}
+.mkt-prompt[data-selected="true"]{border-color:var(--mkt-pink);background:#fff3f9}
+.mkt-prompt img{width:62px;height:64px;border-radius:7px;object-fit:cover;background:#f0eef1}
+.mkt-prompt strong{font-size:11px;display:block;color:#29232a}
+.mkt-prompt p{font-size:10px;color:#807985;line-height:1.5;margin:3px 0}
+.mkt-prompt .btn{font-size:9px;min-height:28px;padding:4px 9px}
+.mkt-prompt-meta{min-width:0}
+.mkt-prompt-list>.mkt-empty{font-size:12px;padding:20px;color:#888}
+.mkt-load-more{display:block;margin:12px auto 0;max-width:100%;width:100%}
+.mkt-editor{margin-top:13px;border-color:#e69cbb}
+.mkt-editor[hidden]{display:none}
+.mkt-editor-preview{border:1px solid #eed4e0;background:#fff4f9;border-radius:8px;padding:12px;margin:11px 0;font-size:12px;color:#9c2258;font-weight:700}
+.mkt-editor label{margin:11px 0}
+.mkt-mock-chat{margin-top:14px;padding:15px;border-radius:11px;background:#17151b;color:#fff}
+.mkt-mock-chat b{font-size:11px;color:#ff9fc8}
+.mkt-mock-chat p{font-size:12px;line-height:1.65;padding:9px;background:#302831;border-radius:7px;white-space:pre-wrap;overflow-wrap:anywhere;margin:10px 0}
+.mkt-mock-cta{display:block;font-size:11px;font-weight:700;text-align:center;padding:12px;background:#e63e8c;border-radius:8px}
+.mkt-mock-chat small{display:block;color:#b5a7b2;margin-top:10px;font-size:10px}
+html:has(#v-marketing.on){scroll-padding-top:110px}
+@media(max-width:950px){.mkt-workspace{grid-template-columns:1fr}.mkt-calendar-grid{grid-template-columns:repeat(6,minmax(0,1fr))}.mkt-prompt-list{max-height:400px}}
+@media(max-width:700px){.marketing-view{padding:0}.marketing-view .title h1{font-size:24px}.mkt-calendar-grid{grid-template-columns:repeat(5,minmax(0,1fr))}.mkt-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.mkt-fields,.mkt-fields-three{grid-template-columns:1fr 1fr}.mkt-fields label:nth-child(3){grid-column:1/-1}.mkt-caption{white-space:normal}nav.telegram-nav button{font-size:9px;padding-inline:0}}
+@media(max-width:450px){.mkt-calendar-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.mkt-calendar-toolbar{grid-template-columns:39px minmax(0,1fr) 39px}.mkt-display{grid-column:1/-1;text-align:center}.mkt-day{height:79px}.mkt-schedule,.mkt-calendar-panel,.mkt-library-panel,.mkt-editor{padding:12px}.mkt-fields,.mkt-fields-three{grid-template-columns:1fr}.mkt-fields label:nth-child(3){grid-column:auto}.mkt-stats{gap:6px}nav.telegram-nav button{font-size:8px}}
+@media(prefers-reduced-motion:reduce){.mkt-day,.mkt-prompt{transition:none!important}}
