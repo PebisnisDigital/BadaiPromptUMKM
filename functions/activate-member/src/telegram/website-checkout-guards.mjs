@@ -31,3 +31,20 @@ export function calculatePaidAccessUntil({paidAt,profile}){
   const base=Number.isFinite(old)&&old>paid?old:paid;
   return new Date(base+YEAR).toISOString();
 }
+
+
+// Atomic insert of one immutable activation plan per paid order. A concurrent
+// webhook and browser check can race, but never produce two different years.
+export async function freezeOrderEntitlement({store,key,orderId,userId,telegramId,proposed}){
+ if(typeof key!=='string'||!key||!orderId||!userId||!telegramId)throw Error('Identitas rencana aktivasi tidak valid.');
+ await store.claim(key,{
+  kind:'activation_plan',user_id:userId,telegram_id:telegramId,status:'fixed',
+  payload:JSON.stringify({user_id:userId,telegram_id:telegramId,access_until:proposed,order_id:orderId})
+ });
+ const existing=await store.state(key);
+ if(!existing||existing.kind!=='activation_plan'||existing.data?.user_id!==userId||existing.data?.telegram_id!==telegramId||existing.data?.order_id!==orderId)
+  throw Error('Rencana aktivasi tidak konsisten; perlu pemeriksaan admin.');
+ const value=existing.data.access_until;
+ if(value!==null&&(!value||!Number.isFinite(Date.parse(value))))throw Error('Masa akses aktivasi tidak valid.');
+ return value;
+}
