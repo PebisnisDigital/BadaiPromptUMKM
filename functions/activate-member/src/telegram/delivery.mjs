@@ -32,13 +32,17 @@ export class Delivery{
   if(ids.length)return {uncertain:true}; // Never replay a partly sent prompt.
   await s.store.update('telegram_deliveries',rowId,{dispatch_status:'sending',attempts:(row.attempts||0)+1});
   const token=s.token(bot);let warning=null;
+  const freeOffer=!test&&member.plan==='free'?s.qris.freeMessage(setting,rowId):null;
+  const header=(welcome?'Selamat datang di BADAI PROMPT! Kamu sudah terdaftar.\n\n':'')+String(prompt.title||'Prompt BADAI PROMPT');
+  const promo=freeOffer?'\n\n'+freeOffer.text:'';
+  const keyboard=freeOffer?{reply_markup:freeOffer.reply_markup}:{};
   try{
    const image=String(prompt.preview_url||'');
    if(image&&/^https:\/\//.test(image)){
-    try{const photo=await s.telegram.call(token,'sendPhoto',{chat_id:consent.data.chat_id,photo:image,caption:((welcome?'Selamat datang di BADAI PROMPT! Kamu sudah terdaftar.\n\n':'')+String(prompt.title||'Prompt BADAI PROMPT')).slice(0,900)});ids.push(String(photo.message_id));await s.store.update('telegram_deliveries',rowId,{message_id:ids[0],message_ids:JSON.stringify(ids)})}
+    try{const photo=await s.telegram.call(token,'sendPhoto',{chat_id:consent.data.chat_id,photo:image,caption:(header+promo).slice(0,1000),...keyboard});ids.push(String(photo.message_id));await s.store.update('telegram_deliveries',rowId,{message_id:ids[0],message_ids:JSON.stringify(ids)})}
     catch(e){if(e.ambiguous||e.blocked||e.retryAfter)throw e;warning='Preview tidak dapat dikirim.'}
    }
-   if(!ids.length){const intro=await s.telegram.call(token,'sendMessage',{chat_id:consent.data.chat_id,text:(welcome?'Selamat datang di BADAI PROMPT!\n\n':'')+String(prompt.title||'Prompt BADAI PROMPT').slice(0,200)});ids.push(String(intro.message_id));await s.store.update('telegram_deliveries',rowId,{message_id:ids[0],message_ids:JSON.stringify(ids)})}
+   if(!ids.length){const intro=await s.telegram.call(token,'sendMessage',{chat_id:consent.data.chat_id,text:(header+promo).slice(0,1500),...keyboard});ids.push(String(intro.message_id));await s.store.update('telegram_deliveries',rowId,{message_id:ids[0],message_ids:JSON.stringify(ids)})}
    for(const text of promptChunks(prompt.prompt_text)){
     const message=await s.telegram.call(token,'sendMessage',{chat_id:consent.data.chat_id,text,parse_mode:'HTML'});ids.push(String(message.message_id));
     await s.store.update('telegram_deliveries',rowId,{message_id:ids[0],message_ids:JSON.stringify(ids)});
