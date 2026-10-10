@@ -230,7 +230,11 @@
     <a class="button primary offer-scroll-cta" href="#form-premium">DAFTAR SEKARANG <span aria-hidden="true">↓</span></a>
   </div>
   <div class="pricing-panel freemium-checkout" id="form-premium" data-reveal>
-    <div class="inline-registration"><div class="checkout-heading"><span>CHECKOUT PREMIUM</span><h3>Satu langkah lagi.</h3><p>Isi data untuk membuat akun Member Area. Bayar melalui QRIS buatqris.</p></div>
+    <div class="inline-registration"><div id="telegramFastBuy" hidden style="padding:14px 0 20px">
+  <div class="checkout-heading"><span>CHECKOUT PREMIUM</span><h3>Klik BELI. QRIS langsung.</h3><p>Tanpa isi formulir. Verifikasi Telegram saat pertama kali saja, lalu bayar QRIS di website BADAI PROMPT.</p></div>
+  <a class="btn pink" style="display:block;text-align:center;text-decoration:none;padding:17px 12px" href="/beli-premium.html">BELI PREMIUM — Rp199.000</a>
+  <p class="checkout-msg">Punya akun Member Area lama yang belum terhubung Telegram? Gunakan <button id="legacyCheckoutLink" type="button" style="background:transparent;border:0;text-decoration:underline;color:inherit;cursor:pointer">checkout dengan email</button> untuk mencegah akun ganda.</p>
+</div><div id="legacyCheckoutForm"><div class="checkout-heading"><span>CHECKOUT PREMIUM</span><h3>Satu langkah lagi.</h3><p>Isi data untuk membuat akun Member Area. Bayar melalui QRIS buatqris.</p></div>
       <div id="checkoutFormWrap">
         <form class="checkout-form" id="checkoutForm">
           <div class="pay-what-you-want bpu-locked-choice"><div class="amount-selected"><span>BADAI PROMPT • 365 HARI</span><b id="selectedAmountLabel">Rp199.000</b></div></div>
@@ -241,7 +245,7 @@
           <div class="checkout-msg" id="checkoutMsg" role="status">Email ini menjadi identitas login Member Area. Setelah pembayaran, kamu dapat menghubungkan Telegram melalui menu Akun.</div>
         </form>
       </div>
-    </div>
+    </div></div>
     <div class="payment-note"><span>QRIS BUATQRIS</span><span>AKTIVASI SETELAH PEMBAYARAN</span></div>
   </div>
   <p class="freemium-fineprint">Pembelian ini adalah akses Member Area melalui website. Checkout di dalam bot Telegram menggunakan aturan pembayaran Telegram Stars. <a href="/terms.html">Syarat layanan</a> · <a href="/refund.html">Refund</a> · <a href="/support.html">Bantuan</a>.</p>
@@ -639,6 +643,19 @@ async function loadPublicConfig(){
 setAmount(199000);
 loadPublicConfig();
 loadSocialProof();
+(async()=>{
+  try{
+    const response=await fetch('/api/website-checkout?action=config',{cache:'no-store'});
+    const data=await response.json();
+    if(!response.ok||data.enabled!==true)return;
+    const fast=document.getElementById('telegramFastBuy'),legacy=document.getElementById('legacyCheckoutForm');
+    fast.hidden=false;legacy.style.display='none';
+    document.getElementById('legacyCheckoutLink').addEventListener('click',()=>{
+      legacy.style.display='';fast.hidden=true;
+      document.getElementById('buyerName').focus({preventScroll:true});
+    });
+  }catch{}
+})();
 </script>
 <script src="/assets/landing.js?v=sticky-13"></script>
 </body>

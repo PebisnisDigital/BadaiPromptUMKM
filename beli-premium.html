@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#130e14">
+<title>Beli Premium • BADAI PROMPT</title>
+<style>
+*{box-sizing:border-box}body{background:#130e14;color:#fff;font:15px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif;margin:0;min-height:100vh;display:grid;place-items:center;padding:25px 12px}
+main{width:min(100%,510px);background:#1e1721;border:1px solid #3c2a38;border-radius:22px;padding:28px 23px;box-shadow:0 30px 90px #0006}
+.top{font-size:12px;letter-spacing:.17em;color:#f38ab4;font-weight:850}.heading{margin:8px 0 4px;font-size:34px;line-height:1.1;letter-spacing:-.065em;font-weight:950}.sub{color:#b8a7b8;font-size:13px;margin:8px 0 20px}.price{font-size:32px;letter-spacing:-.04em;font-weight:900;margin:18px 0 6px}
+ul{margin:12px 0 22px;padding:0;list-style:none}li{padding:7px 0;color:#e7dbe5}li:before{content:"✓";color:#ff5da3;margin-right:11px}
+button,.button{border:0;border-radius:11px;padding:15px 17px;display:block;text-align:center;width:100%;background:#ff4b9b;color:#1b0710;font:inherit;font-weight:850;text-decoration:none;cursor:pointer}
+button:disabled{opacity:.5;cursor:wait}.secondary{background:#342630;color:#eee;border:1px solid #604359;margin-top:10px}.note{font-size:12px;color:#b9aab8;margin:13px 0;line-height:1.6}.notice{background:#2b222d;border:1px solid #5b3b52;border-radius:10px;padding:12px;margin:12px 0;white-space:pre-wrap;font-size:13px;color:#f5d6e4}
+.payment{background:#fff;color:#291827;border-radius:13px;text-align:center;padding:19px;margin:15px 0}.payment img{max-width:100%;height:auto;width:min(100%,300px);min-height:200px;object-fit:contain}
+.hide{display:none!important}.smalltitle{font-weight:800;font-size:12px;color:#bd8cab}.spinner{display:inline-block;width:14px;height:14px;border:2px solid #dcb8ca;border-top-color:#ff4b9b;border-radius:50%;animation:spin 1s linear infinite;vertical-align:middle;margin-right:7px}@keyframes spin{to{transform:rotate(360deg)}}
+a{color:#ffa3ca}footer{margin-top:22px;border-top:1px solid #423040;padding-top:15px;font-size:11px;color:#ac9ba7}.status-good{color:#6fe4b3}#name{color:#ffc5db;font-weight:850}button:focus-visible,a:focus-visible{outline:3px solid #fff;outline-offset:3px}
+</style>
+</head>
+<body>
+<main>
+<div class="top">KOMUNITAS BADAI • BADAI PROMPT</div>
+<h1 class="heading">Beli Premium.<br>Selesai dalam beberapa klik.</h1>
+<p class="sub">Checkout QRIS melalui website resmi BADAI PROMPT. Tidak perlu mengisi formulir panjang jika identitas Telegram sudah terverifikasi.</p>
+<div class="price">Rp199.000 <span style="font-size:12px;color:#bfa7b5;letter-spacing:0">/ 365 hari</span></div>
+<ul><li>Buka koleksi prompt AI di Member Area</li><li>Lihat contoh gambar dan salin prompt</li><li>Rekomendasi prompt baru setiap hari</li><li>Tanpa perpanjangan otomatis</li></ul>
+<p id="status" class="notice" role="status" aria-live="polite"><span class="spinner"></span>Memeriksa koneksi checkout…</p>
+<section id="authorize" class="hide">
+  <p class="note">Pertama kali membeli, Telegram akan meminta persetujuan identitas. Setelah itu QRIS ditampilkan otomatis tanpa harus mengisi nama, email, atau nomor WhatsApp.</p>
+  <button type="button" id="start">BELI PREMIUM • LANJUTKAN</button>
+</section>
+<section id="payment" class="hide">
+  <p class="smalltitle">TERVERIFIKASI: <span id="name"></span></p>
+  <div class="payment"><strong>SCAN QRIS UNTUK MEMBAYAR</strong><div><img id="qr" alt="Kode QRIS tagihan resmi BADAI PROMPT"></div><b id="total"></b><p id="expiry" style="font-size:12px"></p></div>
+  <button type="button" class="secondary" id="check">CEK PEMBAYARAN</button>
+  <p class="note">Setelah bayar, sistem akan memeriksa status transaksi. Jangan membuat tagihan baru saat QRIS sebelumnya masih aktif.</p>
+</section>
+<section id="success" class="hide"><p class="notice status-good">Pembayaran terverifikasi dan akun Premium sudah aktif!</p><button id="memberBtn" type="button">BUKA MEMBER AREA</button></section>
+<section id="regular" class="hide"><a class="button secondary" href="/#form-premium">LANJUT CHECKOUT WEBSITE BIASA</a><p class="note">Pembelian dengan formulir lama tetap tersedia selama login Telegram belum diaktifkan.</p></section>
+<footer><a href="/terms.html">Syarat Layanan</a> · <a href="/refund.html">Refund</a> · <a href="/support.html">Bantuan</a><p>Pembelian ini berasal dari website mandiri. Telegram dipakai untuk verifikasi identitas dan pemberitahuan bagi pengguna yang mengizinkan bot.</p></footer>
+</main>
+<script src="/assets/vendor/appwrite-28.1.0.js"></script>
+<script>
+(()=>{
+ const $=id=>document.getElementById(id),set=(msg)=>{$('status').textContent=msg},
+ show=id=>['authorize','payment','success','regular'].forEach(k=>$(k).classList.toggle('hide',k!==id));
+ const api=async(action,body)=>{
+  const r=await fetch('/api/website-checkout?action='+encodeURIComponent(action),{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify(body||{}),cache:'no-store'});
+  const d=await r.json();if(!r.ok)throw Error(d.error||'Checkout belum dapat diproses.');return d;
+ };
+ let timer=null,expiry=0,hasSession=false;
+ const setImage=(value)=>{
+  const u=String(value||'');if(!/^https:\/\//.test(u)&&!/^data:image\/(png|jpeg|webp);base64,/.test(u))throw Error('Kode QRIS tidak valid.');
+  $('qr').src=u;
+ };
+ async function beginPayment(){
+  set('Identitas terverifikasi. Menyiapkan QRIS…');
+  const order=await api('create');
+  if(order.status==='activated'||order.status==='paid'){return await poll(true)}
+  if(order.status!=='pending')throw Error('Checkout belum dapat membuat QRIS.');
+  setImage(order.qr_url);$('total').textContent='Total tagihan Rp'+Number(order.total_amount).toLocaleString('id-ID');
+  expiry=Date.parse(order.expires_at)||Date.now()+900000;
+  show('payment');set('Scan QRIS lalu tunggu konfirmasi otomatis.');
+  const countdown=()=>{$('expiry').textContent=expiry>Date.now()?'Berlaku sampai '+new Date(expiry).toLocaleString('id-ID',{timeZone:'Asia/Jakarta'})+' WIB':'Masa QRIS telah berakhir. Periksa status pembayaran atau hubungi bantuan.'};
+  countdown();timer=setInterval(()=>{countdown();void poll(false)},20000);
+ }
+ async function enter(){
+  const d=await api('session-token');
+  const client=new Appwrite.Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
+  const account=new Appwrite.Account(client);
+  try{
+   const old=await account.get().catch(()=>null);
+   if(old&&old.$id!==d.userId)await account.deleteSession({sessionId:'current'});
+   if(!old||old.$id!==d.userId)await account.createSession({userId:d.userId,secret:d.secret});
+   location.assign('/member?first=1');
+  }catch(e){set('Akses Premium aktif, tetapi sesi website belum berhasil dibuka. Hubungi Admin melalui Bantuan.')}
+ }
+ async function poll(manual){
+  try{
+   const d=await api('status');
+   if(d.status==='activated'){
+    if(timer)clearInterval(timer);
+    show('success');set('Pembayaran berhasil! Premium sudah aktif.');await enter();return;
+   }
+   if(['expired','failed'].includes(d.status)){if(timer)clearInterval(timer);set('QRIS '+(d.status==='expired'?'kedaluwarsa':'tidak berhasil')+'. Hubungi bantuan jika sudah melakukan transfer.');return}
+   if(manual)set('Belum tercatat lunas. Jangan bayar dua kali; tunggu sebentar.');
+  }catch(e){if(manual)set(e.message)}
+ }
+ $('start').addEventListener('click',()=>{location.assign('/api/website-login?action=start')});
+ $('check').addEventListener('click',()=>void poll(true));
+ $('memberBtn').addEventListener('click',()=>void enter());
+ (async()=>{
+  try{
+   const [login,checkout]=await Promise.all([
+    fetch('/api/website-login?action=config',{cache:'no-store'}).then(r=>r.json()),
+    fetch('/api/website-checkout?action=config',{cache:'no-store'}).then(r=>r.json())]);
+   if(!login.enabled||!checkout.enabled){set('Checkout Telegram tanpa formulir belum diaktifkan. Gunakan checkout website biasa untuk sementara.');show('regular');return}
+   const session=await fetch('/api/website-login?action=session',{cache:'no-store'}).then(r=>r.json());
+   if(!session.authenticated){show('authorize');set('Klik BELI PREMIUM untuk mengonfirmasi identitas Telegram satu kali.');return}
+   hasSession=true;$('name').textContent=session.name||'Member BADAI PROMPT';await beginPayment();
+  }catch(e){set('Checkout belum tersedia: '+e.message);show('regular')}
+ })();
+})();
+</script>
+</body>
+</html>

@@ -96,5 +96,40 @@ const root=path.resolve(__dirname,'..'),output=process.env.UI_ARTIFACTS||path.jo
   await page.close();
   console.log('Marketing Admin '+width+' PASS: Free calendar, prompt select, upsell CTA editor, draft settings'+(width===1280?', drag-and-drop':'')+'. Simulated.');
  }
+
+ // Independent website: old production checkout remains available while Telegram OIDC is off.
+ for(const enabled of [false,true]){
+  const p=await browser.newPage({viewport:{width:390,height:900}}),errors=[],calls=[];
+  p.on('pageerror',e=>errors.push(e.message));await local(p);
+  await p.route('**/api/website-login**',async r=>{
+   const query=new URL(r.request().url()).searchParams;
+   if(query.get('action')==='session')return r.fulfill({json:{ok:true,authenticated:true,name:'Rina, pembeli terverifikasi'}});
+   return r.fulfill({json:{ok:true,enabled}});
+  });
+  await p.route('**/api/website-checkout**',async r=>{
+   const query=new URL(r.request().url()).searchParams;
+   const action=query.get('action')||'status';calls.push(action);
+   if(action==='config')return r.fulfill({json:{ok:true,enabled,price:199000}});
+   if(action==='create')return r.fulfill({json:{ok:true,status:'pending',qr_url:'data:image/png;base64,iVBORw0KGgo=',total_amount:199000,expires_at:new Date(Date.now()+900000).toISOString()}});
+   return r.fulfill({json:{ok:true,status:'pending'}});
+  });
+  await p.route('**/assets/vendor/appwrite-28.1.0.js',r=>r.fulfill({body:fixture,contentType:'application/javascript'}));
+  await p.goto('https://badaiprompt.vercel.app/beli-premium.html');
+  if(enabled){
+   await p.locator('#payment:not(.hide)').waitFor();
+   assert.match(await p.locator('#status').innerText(),/Scan QRIS/);
+   assert.match(await p.locator('#total').innerText(),/199.000/);
+   assert(calls.includes('create'));
+  }else{
+   await p.locator('#regular:not(.hide)').waitFor();
+   assert.equal(calls.includes('create'),false);
+   assert.equal(await p.locator('#regular a').getAttribute('href'),'\/#form-premium');
+  }
+  assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+  assert.deepStrictEqual(errors,[]);
+  await p.screenshot({path:path.join(output,'website-premium-'+(enabled?'logged-in-qr-test':'disabled-fallback')+'.png')});
+  await p.close();
+ }
+ console.log('Independent website Buy Premium PASS: gated safe fallback, verified buyer QRIS display, mobile 390px. All simulated.');
  await browser.close();
 })().catch(e=>{console.error(e);process.exit(1)});
