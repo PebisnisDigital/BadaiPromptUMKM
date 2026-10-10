@@ -6,7 +6,7 @@ const SOURCES=new Set(['scene_prompts','prompts']);
 const CTA_TYPES=new Set(['premium','member','url']);
 const BASE='https://badaiprompt.vercel.app';
 const DEFAULT_OFFER='Suka prompt ini? Upgrade BADAI PROMPT Premium Rp199.000 untuk membuka seluruh koleksi dan rekomendasi prompt setiap hari selama 365 hari.';
-const DEFAULT_SETTINGS=Object.freeze({enabled:false,start_date:'',send_time:'06:00',timezone:'Asia/Jakarta',default_offer:DEFAULT_OFFER,default_cta_label:'BUKA PREMIUM',default_cta_type:'premium',default_cta_url:''});
+const DEFAULT_SETTINGS=Object.freeze({enabled:false,loop_campaign:false,start_date:'',send_time:'06:00',timezone:'Asia/Jakarta',default_offer:DEFAULT_OFFER,default_cta_label:'BUKA PREMIUM',default_cta_type:'premium',default_cta_url:''});
 const slotId=day=>'telegram-marketing-'+String(day).padStart(3,'0');
 const trim=(v,max)=>String(v??'').trim().slice(0,max);
 const validDay=day=>{const n=Number(day);if(!Number.isInteger(n)||n<1||n>365)throw fail('Hari harus antara 1 dan 365.',400);return n};
@@ -25,8 +25,9 @@ function sanitizeSettings(input,old=DEFAULT_SETTINGS){
   if(Object.hasOwn(input,key))s[key]=input[key];
  }
  if(typeof input.enabled==='boolean')s.enabled=input.enabled;
+ if(typeof input.loop_campaign==='boolean')s.loop_campaign=input.loop_campaign;
  if(s.start_date!==''&&!/^\d{4}-\d{2}-\d{2}$/.test(s.start_date))throw fail('Tanggal mulai tidak valid.');
- if(s.start_date&&new Date(s.start_date+'T00:00:00Z').toISOString().slice(0,10)!==s.start_date)throw fail('Tanggal mulai tidak valid.');
+ if(s.start_date){const date=Date.parse(s.start_date+'T00:00:00Z');if(!Number.isFinite(date)||new Date(date).toISOString().slice(0,10)!==s.start_date)throw fail('Tanggal mulai tidak valid.');}
  if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(s.send_time))throw fail('Jam kirim WIB tidak valid.');
  s.timezone='Asia/Jakarta';
  s.default_offer=trim(s.default_offer,850);
@@ -37,11 +38,12 @@ function sanitizeSettings(input,old=DEFAULT_SETTINGS){
  if(s.enabled&&!s.start_date)throw fail('Isi tanggal mulai sebelum mengaktifkan jadwal.',409);
  return s;
 }
-export function campaignDay(startDate,now){
+export function campaignDay(startDate,now,loop=false){
  if(!startDate)return 0;
  const today=jakartaDay(now);
  const day=Math.floor((Date.parse(today+'T00:00:00Z')-Date.parse(startDate+'T00:00:00Z'))/DAY)+1;
- return Number.isFinite(day)?day:0
+ if(!Number.isFinite(day))return 0;
+ return loop&&day>0?((day-1)%365)+1:day
 }
 export class Marketing{
  constructor(service){this.s=service}
@@ -57,7 +59,7 @@ export class Marketing{
  }
  async get(){
   const [settings,slots]=await Promise.all([this.config(),this.entries()]);
-  return {ok:true,settings,slots,stats:{filled:slots.length,empty:365-slots.length,target:365,active:settings.enabled&&this.s.marketingEnabled,campaign_day:campaignDay(settings.start_date,this.s.now())},server_gate:Boolean(this.s.marketingEnabled),note:'Pengiriman Free tetap mengikuti interval pada Telegram Manager. Kalender mengikuti tanggal kampanye global di zona WIB.'};
+  return {ok:true,settings,slots,stats:{filled:slots.length,empty:365-slots.length,target:365,active:settings.enabled&&this.s.marketingEnabled,campaign_day:campaignDay(settings.start_date,this.s.now(),settings.loop_campaign)},server_gate:Boolean(this.s.marketingEnabled),note:'Pengiriman Free tetap mengikuti interval pada Telegram Manager. Kalender mengikuti tanggal kampanye global di zona WIB.'};
  }
  async candidates({source='scene_prompts',cursor}={}){
   if(!SOURCES.has(source))throw fail('Sumber prompt tidak valid.');
@@ -120,7 +122,7 @@ export class Marketing{
  async forFree(now){
   const s=await this.config();
   if(!this.s.marketingEnabled||!s.enabled)return null;
-  const day=campaignDay(s.start_date,now);
+  const day=campaignDay(s.start_date,now,s.loop_campaign);
   if(day<1)return {skip:true,reason:'Kampanye belum dimulai',day};
   if(day>365)return {skip:true,reason:'Kampanye 365 hari telah berakhir',day};
   const slot=await this.s.store.state(slotId(day));
