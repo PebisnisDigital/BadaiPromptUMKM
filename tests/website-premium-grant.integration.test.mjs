@@ -4,7 +4,7 @@ import {id} from '../functions/activate-member/src/telegram/security.mjs';
 import {grantWebsitePremium} from '../functions/activate-member/src/telegram/website-premium-grant.mjs';
 
 function fixture({orderStatus='paid',telegramId='123456789',memberLinkedTo=null,membershipDenied=false,existingUser=false}={}){
- const userId=id('tg-user',telegramId),orderId=id('fake-website-order','integration-test');
+ const fallbackUserId=id('tg-user',telegramId),userId=memberLinkedTo||fallbackUserId,orderId=id('fake-website-order','integration-test');
  const now='2026-10-10T11:00:00.000Z',counts={createdUsers:0,memberships:0,profiles:0,notice:0};
  const db=new Map(),users=new Map(),members=new Map();
  const order={$id:orderId,kind:'website_order',status:orderStatus,data:{telegram_id:telegramId,transaction_id:'fake-tx-nonpaid',paid_at:now,amount:199000,first_name:'Test Buyer'}};
@@ -63,11 +63,17 @@ test('missing teams.write refuses Premium grant; missing membership cannot produ
  assert.equal(t.counts.profiles,0);
  assert.equal(t.counts.notice,0);
 });
-test('already-linked Telegram account cannot switch to a stranger Appwrite user',async()=>{
- const t=fixture({memberLinkedTo:'different_existing_user'});
- await assert.rejects(()=>grantWebsitePremium(t.s,t.order),/tidak ditemukan|lain|terhubung/);
- assert.equal(t.counts.profiles,0);
- assert.equal(t.counts.notice,0);
+test('previously linked Telegram account with deleted Appwrite user is blocked, not silently recreated',async()=>{
+ const t=fixture({memberLinkedTo:'deleted_appwrite_user'});
+ await assert.rejects(()=>grantWebsitePremium(t.s,t.order),/Akun tertaut tidak ditemukan/);
+ assert.deepEqual(t.counts,{createdUsers:0,memberships:0,profiles:0,notice:0});
+});
+test('previously linked Telegram user with existing Appwrite account is reused safely',async()=>{
+ const t=fixture({memberLinkedTo:'existing_real_member',existingUser:true});
+ const result=await grantWebsitePremium(t.s,t.order,{sendNotice:true,send:t.send});
+ assert.equal(result.status,'activated');
+ assert.equal(result.data.user_id,'existing_real_member');
+ assert.deepEqual(t.counts,{createdUsers:0,memberships:1,profiles:1,notice:1});
 });
 test('a database write failure cannot mark a payment order activated',async()=>{
  const t=fixture();t.s.tables.createRow=async()=>{throw Error('DB temporarily unavailable')};
