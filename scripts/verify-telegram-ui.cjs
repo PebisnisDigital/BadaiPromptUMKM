@@ -143,6 +143,16 @@ const root=path.resolve(__dirname,'..'),output=process.env.UI_ARTIFACTS||path.jo
    if(action==='session')return r.fulfill({json:mode==='verified'?{ok:true,authenticated:true,name:'Tester Terverifikasi'}:{ok:true,authenticated:false}});
    return r.abort();
   });
+  await p.route('**/api/website-checkout**',r=>{
+   const action=new URL(r.request().url()).searchParams.get('action');calls.push('checkout:'+action);
+   if(action==='preflight')return r.fulfill({json:{
+    ok:true,telegram_verified:true,provider_ready:true,identity_linked:true,
+    account_exists:true,premium_already_active:false,account_review_needed:false,
+    safe_to_test:false,merchant_test_mode:false,checkout_enabled:false,
+    bot_notice_enabled:false,price:199000
+   }});
+   return r.abort();
+  });
   await p.goto('https://badaiprompt.vercel.app/uji-login-telegram.html');
   await p.waitForFunction(()=>!document.getElementById('status').textContent.includes('Memeriksa konfigurasi'));
   const status=await p.locator('#status').innerText();
@@ -150,6 +160,15 @@ const root=path.resolve(__dirname,'..'),output=process.env.UI_ARTIFACTS||path.jo
   if(mode==='ready'){assert.match(status,/Klik tombol/);assert.equal(await p.locator('#login').isVisible(),true);assert.match(await p.locator('#login').getAttribute('href'),/return=test/);}
   if(mode==='verified'){assert.match(status,/BERHASIL/);assert.match(status,/Tester Terverifikasi/);assert.equal(await p.locator('#login').isHidden(),true);}
   assert.deepStrictEqual(calls,['config','session']);
+  if(mode==='verified'){
+   await p.locator('#checkQris').click();
+   await p.waitForFunction(()=>document.getElementById('qrisReadiness').textContent.includes('LIVE (RIIL)'));
+   assert.match(await p.locator('#qrisReadiness').innerText(),/Merchant QRIS Rp199.000: TERKONFIGURASI/);
+   assert.match(await p.locator('#qrisReadiness').innerText(),/Checkout QRIS baru: BELUM DIAKTIFKAN/);
+   assert.deepStrictEqual(calls,['config','session','checkout:preflight']);
+  }else{
+   assert.equal(await p.locator('#checkQris').isHidden(),true);
+  }
   assert.deepStrictEqual(errors,[]);
   assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   await p.close();
