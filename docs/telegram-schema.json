@@ -132,6 +132,13 @@
           "kind",
           "user_id"
         ]
+      ],
+      [
+        "idx_stars_status",
+        [
+          "kind",
+          "status"
+        ]
       ]
     ],
     "telegram_deliveries": [
@@ -159,6 +166,30 @@
         [
           "dispatch_status",
           "sent_at"
+        ]
+      ],
+      [
+        "idx_delivery_member_prompt",
+        [
+          "telegram_id",
+          "prompt_id",
+          "kind",
+          "dispatch_status"
+        ]
+      ],
+      [
+        "idx_delivery_free_due",
+        [
+          "plan",
+          "delete_at"
+        ]
+      ],
+      [
+        "idx_free_cancel",
+        [
+          "telegram_id",
+          "plan",
+          "delete_at"
         ]
       ]
     ],
@@ -189,6 +220,15 @@
           "plan",
           "is_active",
           "premium_until"
+        ]
+      ]
+    ],
+    "member_profiles": [
+      [
+        "idx_profile_expiry",
+        [
+          "status",
+          "access_until"
         ]
       ]
     ]

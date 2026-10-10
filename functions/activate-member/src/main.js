@@ -41,29 +41,17 @@ async function listAll(tables,tableId,baseQueries=[]){
   return rows;
 }
 
-async function expireMemberAccess(tables,teams){
-  const now=Date.now();
-  const active=await listAll(tables,PROFILES,[Query.equal('status','active')]);
+// Bounded indexed expiration scan; legacy lifetime profiles have null access_until.
+async function expireMemberAccess(tables,teams,{budgetMs=5000}={}){
+  const start=Date.now(),now=new Date(start).toISOString();
+  const page=await tables.listRows({databaseId:DB,tableId:PROFILES,queries:[Query.equal('status','active'),Query.lessThanEqual('access_until',now),Query.limit(10),Query.orderAsc('access_until')]});
   let expired=0;
-  for(const profile of active){
-    if(!profile.access_until)continue;
-    const until=new Date(profile.access_until).getTime();
-    if(!Number.isFinite(until)||until>now)continue;
-
-    const memberships=await teams.listMemberships({
-      teamId:TEAM_ID,
-      queries:[Query.equal('userId',profile.user_id),Query.limit(10)]
-    });
-    for(const membership of (memberships.memberships||[])){
-      await teams.deleteMembership({teamId:TEAM_ID,membershipId:membership.$id});
-    }
-    await tables.updateRow({
-      databaseId:DB,
-      tableId:PROFILES,
-      rowId:profile.user_id,
-      data:{status:'blocked'}
-    });
-    expired++;
+  for(const raw of page.rows||[]){if(Date.now()-start>=budgetMs)break;const profile=unpack(raw);if(!profile.access_until||Date.parse(profile.access_until)>start)continue;
+    const latest=unpack(await tables.getRow({databaseId:DB,tableId:PROFILES,rowId:profile.user_id}));
+    if(latest.status!=='active'||!latest.access_until||Date.parse(latest.access_until)>Date.now())continue;
+    const memberships=await teams.listMemberships({teamId:TEAM_ID,queries:[Query.equal('userId',profile.user_id),Query.limit(10)]});
+    for(const membership of memberships.memberships||[])await teams.deleteMembership({teamId:TEAM_ID,membershipId:membership.$id});
+    await tables.updateRow({databaseId:DB,tableId:PROFILES,rowId:profile.user_id,data:{status:'blocked'}});expired++;
   }
   return expired;
 }
@@ -85,10 +73,10 @@ export default async ({req,res,log,error})=>{
     // Scheduled execution: expire time-limited access without adding another Function.
     if(path==='/' && !body?.$id){
       if(trigger!=='schedule')return res.json({ok:false,error:'Scheduler hanya menerima trigger terjadwal.'},403);
-      const expired=await expireMemberAccess(tables,teams);
+      const scheduledStart=Date.now();const expired=await expireMemberAccess(tables,teams);
       let telegram={paused:true};
       if(process.env.TELEGRAM_ENABLED==='true'){
-        try{telegram=await telegramRuntime({apiKey:req.headers['x-appwrite-key']}).scheduler()}
+        try{telegram=await telegramRuntime({apiKey:req.headers['x-appwrite-key']}).scheduler({budgetMs:Math.max(0,20000-(Date.now()-scheduledStart))})}
         catch{error?.('Telegram scheduler failed; secrets omitted.');telegram={ok:false,error:'Telegram scheduler belum selesai.'}}
       }
       return res.json({ok:true,expired,telegram});

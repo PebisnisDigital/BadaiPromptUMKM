@@ -1,9 +1,11 @@
+import {Stars} from './stars.mjs';
+import {Curation} from './curation.mjs';
 import {Delivery} from './delivery.mjs';
 import {fail,id,random,masterKey,seal,unseal,equal,numeric,privateIdentity,safeError} from './security.mjs';
 import {defaults,settings,entitlement,DAY,jakartaStart} from './policy.mjs';
 export class Service{
- constructor({store,telegram,key,now=()=>Date.now(),sendEnabled=false,webhookBase='https://badaiprompt.vercel.app/api/telegram/webhook',verifyUser,verifyAdmin,verifyPaidAccess=async()=>false}){
-  Object.assign(this,{store,telegram,key,now,sendEnabled,webhookBase,verifyUser,verifyAdmin,verifyPaidAccess});this.delivery=new Delivery(this);
+ constructor({store,telegram,key,now=()=>Date.now(),sendEnabled=false,webhookBase='https://badaiprompt.vercel.app/api/telegram/webhook',verifyUser,verifyAdmin,verifyPaidAccess=async()=>false,starsEnabled=false,grantPaidAccess=null}){
+  Object.assign(this,{store,telegram,key,now,sendEnabled,webhookBase,verifyUser,verifyAdmin,verifyPaidAccess,starsEnabled,grantPaidAccess});this.stars=new Stars(this);this.delivery=new Delivery(this);this.curation=new Curation(this);
  }
  async config(){return settings((await this.store.state('telegram-settings'))?.data||defaults)}
  token(bot){return unseal(bot.token_cipher,masterKey(this.key),'token:'+bot.$id)}
@@ -13,6 +15,7 @@ export class Service{
  async bot(botId){const b=await this.store.get('telegram_bots',botId);if(!b)throw fail('Bot tidak ditemukan.',404);return b}
  async main(){const setting=await this.config();return setting.main_bot_id?await this.store.get('telegram_bots',setting.main_bot_id):null}
  async sync(member){
+  const paid=await this.stars.entitlement(member);if(paid)return paid;
   if(!member.appwrite_user_id)return member;
   const profile=await this.store.get('member_profiles',member.appwrite_user_id),access=entitlement(profile,this.now());
   if(access.plan==='premium'&&!await this.verifyPaidAccess(member.appwrite_user_id))access.plan='free';
@@ -24,9 +27,15 @@ export class Service{
  async requireSend(test=false){if(!this.sendEnabled)throw fail('Pengiriman Telegram belum diizinkan pada server.',503);if(!test){const s=await this.config();if(s.dry_run)throw fail('Mode uji coba aktif; pesan sungguhan tidak dikirim.',409)}}
  async admin(action,body,jwt){
   const actor=await this.verifyAdmin(jwt);await this.store.rate(actor.$id,'admin',this.now(),20);
+  if(action==='stars-status')return this.stars.status();
+  if(action==='stars-settings'){const result=await this.stars.configure(body);await this.audit(actor.$id,action);return result}
   if(action==='overview')return this.overview();
+  if(action==='content-status')return {ok:true,content:await this.curation.status(),monitor:await this.monitor()};
+  if(action==='content-candidates')return this.curation.candidates(body);
+  if(action==='content-approve'){const result=await this.curation.approve(body,actor.$id);await this.audit(actor.$id,action,{source:body.source,prompt_id:body.prompt_id});return result}
+  if(action==='content-enable'){if(body.enabled!==true)throw fail('Kurasi hanya dapat diaktifkan melalui konfirmasi admin.');const state=await this.curation.status();if(!state.ready_days)throw fail('Setujui konten dengan preview terlebih dahulu.');await this.store.putState('telegram-content-plan',{enabled:true});await this.audit(actor.$id,action);return {ok:true}}
   if(action==='settings'){
-   const old=await this.config();const allowed=['enabled','paused','dry_run','premium_time','free_days','premium_days','delete_hours','term_days','batch_size'];const filtered=Object.fromEntries(allowed.filter(k=>k in body).map(k=>[k,body[k]]));const s=settings({...old,...filtered});
+   const old=await this.config();const allowed=['enabled','paused','dry_run','premium_time','free_days','premium_days','delete_hours','term_days','batch_size','max_members_per_run'];const filtered=Object.fromEntries(allowed.filter(k=>k in body).map(k=>[k,body[k]]));const s=settings({...old,...filtered});
    if(!this.sendEnabled&&(s.enabled||!s.paused||!s.dry_run))throw fail('Pengiriman belum diizinkan pada server. Pertahankan otomatisasi nonaktif, PAUSE, dan mode uji coba.',409);
    if(s.enabled&&!s.paused&&!s.dry_run){await this.requireSend(true);if(!await this.main())throw fail('Pilih bot utama dengan webhook valid terlebih dahulu.')}
    await this.store.putState('telegram-settings',s);await this.audit(actor.$id,action);return {ok:true,settings:s};
@@ -54,7 +63,7 @@ export class Service{
    const url=this.webhookBase+'?bot='+bot.$id;
    if(['install-webhook','prepare-switch'].includes(action)){
     const me=await this.telegram.call(this.token(bot),'getMe');if(String(me.id)!==bot.bot_user_id)throw fail('Identitas bot tidak cocok.');
-    await this.telegram.call(this.token(bot),'setWebhook',{url,secret_token:this.secret(bot),allowed_updates:['message','callback_query'],drop_pending_updates:false});
+    await this.telegram.call(this.token(bot),'setWebhook',{url,secret_token:this.secret(bot),allowed_updates:['message','callback_query','pre_checkout_query'],drop_pending_updates:false});
    }
    const info=await this.telegram.call(this.token(bot),'getWebhookInfo'),valid=info.url===url;
    await this.store.update('telegram_bots',bot.$id,{webhook_url:info.url||null,webhook_checked_at:new Date(this.now()).toISOString(),last_error:info.last_error_date?'Telegram melaporkan error webhook terbaru.':null});
@@ -85,7 +94,7 @@ export class Service{
   if(['test-message','test-prompt','test-delete'].includes(action)){
    await this.requireSend(true);const tg=numeric(body.telegram_id),tester=await this.store.state(id('tester',bot.$id,tg));if(!tester||tester.status!=='authorized')throw fail('Akun penguji belum diotorisasi.',403);
    const member=await this.store.get('telegram_members',id('member',tg));if(!member)throw fail('Member tidak ditemukan.');
-   if(action==='test-delete'){const row=await this.store.get('telegram_deliveries',String(body.delivery_id||''));if(!row||row.kind!=='test'||row.bot_id!==bot.$id||row.telegram_id!==tg)throw fail('Hanya pesan uji milik bot dan penguji ini yang dapat dihapus.',403);return this.delivery.remove(row)}
+   if(action==='test-delete'){const row=await this.store.get('telegram_deliveries',String(body.delivery_id||''));if(!row||row.kind!=='test'||row.bot_id!==bot.$id||row.telegram_id!==tg)throw fail('Hanya pesan uji milik bot dan penguji ini yang dapat dihapus.',403);return this.delivery.remove(row,{test:true})}
    const request=String(body.request_id||'');if(!/^[\w-]{16,64}$/.test(request))throw fail('Request ID pengujian wajib.');
    return action==='test-prompt'?this.delivery.prompt(member,bot,{key:id('test',bot.$id,tg,request),promptId:String(body.prompt_id||''),test:true}):this.delivery.text(member,bot,'Pesan uji BADAI PROMPT. Koneksi bot berhasil.',id('test',bot.$id,tg,request));
   }
@@ -101,7 +110,7 @@ export class Service{
   return {ok:true,bots:bots.rows.map(b=>this.publicBot(b)),settings:await this.config(),stats:Object.fromEntries(['users','free','premium','active','expired','today','sent','failed','deleted','blocked'].map((k,i)=>[k,numbers[i]])),errors:recentErrors.rows.map(r=>({id:r.$id,status:r.dispatch_status,error:r.error_code,at:r.sent_at})),members:members.rows.map(m=>({telegram_id:m.telegram_id,first_name:m.first_name,plan:m.plan})),testers:testers.rows.map(t=>({bot_id:t.bot_id,telegram_id:t.telegram_id})),prompts:prompts.rows.map(p=>({id:p.$id,title:p.title})),send_enabled:this.sendEnabled,scheduler_tolerance_minutes:15};
  }
  async linkToken(jwt){
-  const user=await this.verifyUser(jwt);await this.store.rate(user.$id,'link',this.now(),3);const profile=await this.store.get('member_profiles',user.$id);if(!profile)throw fail('Profil member belum tersedia.',403);
+  const user=await this.verifyUser(jwt);await this.store.rate(user.$id,'link',this.now(),3);const profile=await this.store.get('member_profiles',user.$id);if(!profile&&!this.grantPaidAccess)throw fail('Profil member belum tersedia.',403);
   const bot=await this.main();if(!bot)throw fail('Bot utama belum aktif.',503);const token=random();await this.store.putState(id('link',token),{user_id:user.$id},{kind:'link',user_id:user.$id,status:'pending',due_at:new Date(this.now()+10*60000).toISOString()});return {ok:true,url:'https://t.me/'+bot.username+'?start=link_'+token,expires_in:600};
  }
  async link(member,token){
@@ -111,11 +120,14 @@ export class Service{
   if(!await this.store.claim(id('link-used',token),{kind:'used',status:'used',due_at:new Date(this.now()+DAY).toISOString(),payload:'{}'}))throw fail('Link sudah digunakan.',409);
   if(!existing){const reserved=await this.store.claim(id('userlink',userId),{kind:'userlink',user_id:userId,telegram_id:member.telegram_id,status:'linked',payload:JSON.stringify({telegram_id:member.telegram_id})});if(!reserved){const concurrent=await this.store.state(id('userlink',userId));if(concurrent.data.telegram_id!==member.telegram_id)throw fail('Akun sudah terhubung.',409)}}
   if(!tgExisting){const reserved=await this.store.claim(id('tglink',member.telegram_id),{kind:'tglink',telegram_id:member.telegram_id,user_id:userId,status:'linked',payload:JSON.stringify({user_id:userId})});if(!reserved){const concurrent=await this.store.state(id('tglink',member.telegram_id));if(concurrent.data.user_id!==userId)throw fail('Telegram sudah terhubung.',409)}}
-  await this.store.update('telegram_state',key,{status:'used'});member=await this.store.update('telegram_members',member.$id,{appwrite_user_id:userId});return this.sync(member);
+  await this.store.update('telegram_state',key,{status:'used'});member=await this.store.update('telegram_members',member.$id,{appwrite_user_id:userId});await this.stars.grant(member,userId);return this.sync(member);
  }
  async webhook(botId,secret,update){
   const bot=await this.bot(botId);if(!equal(secret,this.secret(bot)))throw fail('Webhook tidak sah.',403);
   if(!Number.isSafeInteger(update.update_id)||update.update_id<0)throw fail('Update ID tidak valid.');
+  if(update.pre_checkout_query)return this.stars.precheckout(bot,update.pre_checkout_query);
+  if(update.message?.successful_payment){const identity=privateIdentity(update);return this.stars.payment(bot,identity,update.message.successful_payment)}
+  if(update.callback_query&&/^(upsell|stars):/.test(String(update.callback_query.data||'')))return this.stars.callback(bot,update.callback_query);
   if(update.callback_query){const c=update.callback_query;if(!['status','bantuan'].includes(c.data))return {ok:true,ignored:true};update={...update,message:{...c.message,from:c.from,text:'/'+c.data}}}
   if(!update.message||!update.message.text)return {ok:true,ignored:true};
   const identity=privateIdentity(update);
@@ -135,47 +147,56 @@ export class Service{
    if((fresh||!member.last_sent_at||Date.parse(member.next_send_at)<=this.now())&&member.is_active)return this.delivery.prompt(member,bot,{key:id('period',member.telegram_id,member.plan,member.next_send_at||'first'),welcome:fresh});
    return this.delivery.text(member,bot,'Selamat datang di BADAI PROMPT! Prompt berikutnya: '+new Date(member.next_send_at).toLocaleString('id-ID',{timeZone:'Asia/Jakarta'})+' WIB. Gunakan /status untuk melihat paket.',key,'reply');
   }
-  if(cmd==='/premium')return this.delivery.text(member,bot,'Premium memberi akses koleksi Member Area dan rekomendasi harian. Jika sudah berlangganan, hubungkan akun melalui menu Akun di Member Area. Pembelian produk digital di Telegram harus menggunakan Telegram Stars; checkout di bot belum diaktifkan.',key,'reply');
+  if(cmd==='/terms'||cmd==='/paysupport'||cmd==='/support')return this.delivery.text(member,bot,await this.stars.help(cmd),key,'reply');
+  if(cmd==='/premium'&&member.plan==='free')return this.stars.offer(member,bot,'command');
+  if(cmd==='/premium')return this.delivery.text(member,bot,'Premium kamu sudah aktif. Koleksi Member Area dan prompt pilihan harian mengikuti masa aksesmu. Gunakan /status untuk masa aktif dan /paysupport untuk bantuan pembelian. Jika akun belum terhubung, masuk melalui https://badaiprompt.vercel.app/telegram-access.',key,'reply');
   if(cmd==='/status')return this.delivery.text(member,bot,'Paket: '+member.plan.toUpperCase()+'\nMasa aktif: '+(member.plan==='premium'?(member.premium_until?new Date(member.premium_until).toLocaleDateString('id-ID',{timeZone:'Asia/Jakarta'}):'Mengikuti hak akses lama'):'Gratis')+'\nPrompt terkirim: '+(member.delivery_day||0),key,'reply');
-  return this.delivery.text(member,bot,'Panduan BADAI PROMPT\n/start — daftar gratis\n/prompt — prompt sesuai jadwal\n/premium — informasi premium\n/status — status akun\n/bantuan — panduan\nHubungkan langganan dari menu Akun di Member Area.',key,'reply');
+  return this.delivery.text(member,bot,'Panduan BADAI PROMPT\n/start — daftar gratis\n/prompt — prompt sesuai jadwal\n/premium — informasi premium\n/status — status akun\n/bantuan — panduan\n/terms — syarat pembelian\n/paysupport — bantuan pembayaran\nHubungkan langganan dari menu Akun di Member Area.',key,'reply');
+ }
+ async monitor(){
+  const now=this.now(),counts=async(table,filters)=>(await this.store.list(table,filters,1)).total;
+  const [due,deleteDue,retry,uncertain,failed,last]=await Promise.all([
+   counts('telegram_members',[['equal','is_active',true],['lessThanEqual','next_send_at',new Date(now).toISOString()]]),
+   counts('telegram_deliveries',[['equal','plan','free'],['lessThanEqual','delete_at',new Date(now).toISOString()]]),
+   counts('telegram_deliveries',[['equal','dispatch_status','retry']]),counts('telegram_deliveries',[['equal','dispatch_status',['uncertain','reserved','sending']]]),counts('telegram_deliveries',[['equal','dispatch_status',['failed','delete_failed']]]),this.store.state('telegram-scheduler-last')]);
+  const config=await this.config(),measured=last?.data?.sent||0;
+  return {due,delete_due:deleteDue,retry,uncertain,failed,last_run:last?.data||null,configured_daily_ceiling:config.max_members_per_run*96,measured_daily_estimate:measured*96,estimated_drain_hours:measured?Math.ceil(due/measured)*0.25:null,capacity_note:'Batas konfigurasi bukan jaminan throughput; ukur latency, kuota Appwrite dan batas Telegram sebelum skala 1.000–10.000.'};
  }
  async scheduler({forceDry=false,budgetMs=20000}={}){
-  const start=this.now(),setting=await this.config(),dry=forceDry||setting.dry_run||!this.sendEnabled,bot=await this.main();
-  if(!forceDry){const expired=await this.store.list('telegram_state',[['equal','kind',['rate','update','attempt','used','switch','run','link','audit']],['lessThanEqual','due_at',new Date(start).toISOString()]],20);for(const row of expired.rows)await this.store.remove('telegram_state',row.$id)}
-  let deleted=0;
-  if(!dry){
-   const cursor=(await this.store.state('telegram-delete-cursor'))?.data.cursor;
-   const deletions=await this.store.list('telegram_deliveries',[['lessThanEqual','delete_at',new Date(start).toISOString()]],setting.batch_size,cursor);let last=null;
-   for(const row of deletions.rows){if(this.now()-start>budgetMs)break;last=row.$id;if(row.plan!=='free'||row.dispatch_status==='delete_failed'&&Date.parse(row.retry_at)>start)continue;if((await this.delivery.remove(row)).ok)deleted++}
-   await this.store.putState('telegram-delete-cursor',{cursor:deletions.rows.length?last:null},{kind:'cursor'});
-  }
-  if(!bot)return {ok:true,paused:true,deleted,reason:'Bot utama belum dipilih.'};
-  if((!setting.enabled||setting.paused)&&!forceDry)return {ok:true,paused:true,deleted};
-  // A per-minute global claim prevents overlapping scheduled executions.
-  if(!dry&&!await this.store.claim(id('run',Math.floor(start/60000)),{kind:'run',status:'claimed',due_at:new Date(start+DAY).toISOString(),payload:'{}'}))return {ok:true,duplicate:true};
-  const result={ok:true,dry_run:dry,due:0,sent:0,failed:0,deleted,reminders:0};
-  const deliveryCursor=(await this.store.state('telegram-delivery-cursor'))?.data.cursor;
-  const due=await this.store.list('telegram_members',[['equal','is_active',true],['lessThanEqual','next_send_at',new Date(start).toISOString()]],setting.batch_size,deliveryCursor);
-  result.due=due.total;
-  let lastCursor=null;
-  for(let member of due.rows){if(this.now()-start>budgetMs)break;lastCursor=member.$id;member=await this.sync(member);if(dry)continue;
-   const consent=await this.consent(bot.$id,member.telegram_id);if(!consent||consent.status!=='allowed')continue;
-   const r=await this.delivery.prompt(member,bot,{key:id('period',member.telegram_id,member.plan,member.next_send_at||'first')});if(r.ok)result.sent++;else if(!r.duplicate)result.failed++;
-  }
-  if(dry)return result;
-  await this.store.putState('telegram-delivery-cursor',{cursor:due.rows.length?lastCursor:null},{kind:'cursor'});
-  const retries=await this.store.list('telegram_deliveries',[['equal','dispatch_status','retry'],['lessThanEqual','retry_at',new Date(start).toISOString()]],setting.batch_size);
-  for(const row of retries.rows){if(this.now()-start>budgetMs)break;if(row.attempts>=3){await this.store.update('telegram_deliveries',row.$id,{dispatch_status:'failed',retry_at:null});continue}if(row.bot_id!==bot.$id){await this.store.update('telegram_deliveries',row.$id,{dispatch_status:'failed',retry_at:null,error_code:'Bot utama berubah; kiriman ditahan untuk review.'});continue}const member=await this.store.get('telegram_members',id('member',row.telegram_id));if(member)await this.delivery.prompt(member,bot,{key:row.delivery_key,promptId:row.prompt_id})}
-  const premiumCursor=(await this.store.state('telegram-premium-cursor'))?.data.cursor;
-  const premium=await this.store.list('telegram_members',[['equal','plan','premium'],['lessThanEqual','premium_until',new Date(start+7*DAY).toISOString()]],setting.batch_size,premiumCursor);
-  let lastPremium=null;
-  for(let member of premium.rows){if(this.now()-start>budgetMs)break;lastPremium=member.$id;member=await this.sync(member);if(member.plan!=='premium'||!member.premium_until)continue;const consent=await this.consent(bot.$id,member.telegram_id);if(!consent||consent.status!=='allowed')continue;
-   const r=await this.delivery.text(member,bot,'Masa Premium berakhir pada '+new Date(member.premium_until).toLocaleDateString('id-ID',{timeZone:'Asia/Jakarta'})+'. Siapkan perpanjangan untuk melanjutkan akses.',id('renewal',member.telegram_id,member.premium_until),'reminder');if(r.ok)result.reminders++;
-  }
-  await this.store.putState('telegram-premium-cursor',{cursor:premium.rows.length?lastPremium:null},{kind:'cursor'});
-  const disposable=['rate','update','attempt','used','switch','run','link','audit'];
-  const expired=await this.store.list('telegram_state',[['equal','kind',disposable],['lessThanEqual','due_at',new Date(start).toISOString()]],20);
-  for(const row of expired.rows){if(this.now()-start>budgetMs)break;await this.store.remove('telegram_state',row.$id)}
-  return result;
+  const start=this.now(),wallStart=Date.now(),setting=await this.config(),dry=forceDry||setting.dry_run||!this.sendEnabled,bot=await this.main();
+  const remaining=()=>budgetMs-(Date.now()-wallStart),iso=new Date(start).toISOString();
+  // A real-time 30-second lease serializes scheduled workers across minute boundaries.
+  const leaseOwner=random();if(!dry&&!await this.store.acquireLease(start,leaseOwner))return {ok:true,duplicate:true};
+  if(!dry)this.telegram.setDeadline?.(Date.now()+budgetMs-1000);
+  const result={ok:true,dry_run:dry,due:0,sent:0,failed:0,deleted:0,reminders:0,processed:0};
+  try{
+   if(!dry){const cursor=(await this.store.state('telegram-delete-cursor'))?.data.cursor;let deletions=await this.store.list('telegram_deliveries',[['equal','plan','free'],['lessThanEqual','delete_at',iso]],setting.batch_size,cursor);if(cursor&&!deletions.rows.length)deletions=await this.store.list('telegram_deliveries',[['equal','plan','free'],['lessThanEqual','delete_at',iso]],setting.batch_size);let last=null;for(const row of deletions.rows){if(remaining()<9000)break;last=row.$id;try{if((await this.delivery.remove(row)).ok)result.deleted++}catch{result.failed++}}await this.store.putState('telegram-delete-cursor',{cursor:last},{kind:'cursor'});}
+   if(!bot)return {...result,paused:true,reason:'Bot utama belum dipilih.'};
+   if((!setting.enabled||setting.paused)&&!forceDry)return {...result,paused:true};
+   if(dry){result.due=(await this.store.list('telegram_members',[['equal','is_active',true],['lessThanEqual','next_send_at',iso]],1)).total;return result;}
+   // Reminders have their own cursor and budget priority, so a busy delivery queue cannot starve them.
+   if(remaining()>12000)await this.stars.recover(bot);
+   const premiumCursor=(await this.store.state('telegram-premium-cursor'))?.data.cursor;
+   const premium=await this.store.list('telegram_members',[['equal','plan','premium'],['lessThanEqual','premium_until',new Date(start+30*DAY).toISOString()],['greaterThan','premium_until',iso]],setting.batch_size,premiumCursor);let lastPremium=null;
+   for(let member of premium.rows){if(remaining()<9000)break;lastPremium=member.$id;member=await this.sync(member);if(member.plan!=='premium'||!member.premium_until)continue;const consent=await this.consent(bot.$id,member.telegram_id);if(!consent||consent.status!=='allowed')continue;const days=Math.ceil((Date.parse(member.premium_until)-start)/DAY);if(days<1||days>30)continue;const window=days<=7?7:30;
+    // Preserve the old seven-day reminder dedup key for already-sent reminders.
+    const key=window===7?id('renewal',member.telegram_id,member.premium_until):id('renewal-30',member.telegram_id,member.premium_until);
+    const r=await this.delivery.text(member,bot,'Masa Premium berakhir pada '+new Date(member.premium_until).toLocaleDateString('id-ID',{timeZone:'Asia/Jakarta'})+'. Pengingat '+window+' hari: siapkan perpanjangan untuk melanjutkan akses.',key,'reminder');if(r.ok)result.reminders++;
+   }
+   await this.store.putState('telegram-premium-cursor',{cursor:premium.rows.length<setting.batch_size?null:lastPremium},{kind:'cursor'});
+   // Only definitively rejected sends can retry; partial/ambiguous sends remain held for review.
+   const retries=await this.store.list('telegram_deliveries',[['equal','dispatch_status','retry'],['lessThanEqual','retry_at',iso]],setting.batch_size);
+   for(const row of retries.rows){if(remaining()<9000)break;if(row.attempts>=3||row.bot_id!==bot.$id){await this.store.update('telegram_deliveries',row.$id,{dispatch_status:'failed',retry_at:null,error_code:'Retry dibatasi atau bot berubah; review diperlukan.'});continue}const member=await this.store.get('telegram_members',id('member',row.telegram_id));if(member)try{await this.delivery.prompt(member,bot,{key:row.delivery_key,promptId:row.prompt_id})}catch{result.failed++}}
+   let cursor=(await this.store.state('telegram-delivery-cursor'))?.data.cursor,wrapped=false;
+   while(result.processed<setting.max_members_per_run&&remaining()>9000){
+    const page=await this.store.list('telegram_members',[['equal','is_active',true],['lessThanEqual','next_send_at',iso]],Math.min(setting.batch_size,setting.max_members_per_run-result.processed),cursor);if(result.processed===0)result.due=page.total;
+    if(!page.rows.length){if(cursor&&!wrapped&&result.processed===0){cursor=null;wrapped=true;continue}break}
+    const outcomes=await Promise.all(page.rows.map(async member=>{try{member=await this.sync(member);const consent=await this.consent(bot.$id,member.telegram_id);if(!consent||consent.status!=='allowed')return {};const r=await this.delivery.prompt(member,bot,{key:id('period',member.telegram_id,member.plan,member.next_send_at||'first')});return r}catch(e){return {ok:false,error:safeError(e)}}}));
+    for(const r of outcomes){if(r.ok)result.sent++;else if(r.ok===false)result.failed++}result.processed+=page.rows.length;cursor=page.rows.at(-1).$id;
+    await this.store.putState('telegram-delivery-cursor',{cursor},{kind:'cursor'});if(page.rows.length<setting.batch_size)break;
+   }
+   const expired=await this.store.list('telegram_state',[['equal','kind',['rate','update','attempt','used','switch','run','link','audit']],['lessThanEqual','due_at',iso]],20);for(const row of expired.rows){if(remaining()<1000)break;await this.store.remove('telegram_state',row.$id)}
+   await this.store.putState('telegram-scheduler-last',{...result,at:new Date(start).toISOString(),duration_ms:Date.now()-wallStart,budget_ms:budgetMs},{kind:'monitor'});return result;
+  }finally{if(!dry){this.telegram.setDeadline?.(null);await this.store.releaseLease(leaseOwner)}}
  }
 }

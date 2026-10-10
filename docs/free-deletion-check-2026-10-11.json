@@ -1,0 +1,10 @@
+{
+  "timezone": "Asia/Jakarta",
+  "earliest_check": "2026-10-11T00:50:00+07:00",
+  "note": "Check after 00:45 scheduler tick and queue tolerance. Never delete before due time or target other delivery IDs manually.",
+  "deliveries": [
+    {"id":"tg_1a7cf3e25426534991e08aa1dbe2d8a5","due_at":"2026-10-11T00:27:49.446+07:00","kind":"test"},
+    {"id":"tg_cbe7bd310b918a6179705fd3e56332ed","due_at":"2026-10-11T00:34:03.939+07:00","kind":"prompt"},
+    {"id":"tg_481937673065750e89e59918294c554c","due_at":"2026-10-11T00:34:06.216+07:00","kind":"prompt"}
+  ]
+}
