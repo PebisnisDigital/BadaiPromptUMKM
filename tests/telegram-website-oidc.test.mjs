@@ -44,7 +44,7 @@ for(const [label,claims,re] of [
  ['expired',{exp:now-2},/kedaluwarsa/],
  ['future iat',{iat:now+120},/kedaluwarsa/],
  ['bad subject',{sub:''},/Subjek/],
- ['bad Telegram ID',{id:'0'},/Telegram ID/]
+ ['bad Telegram ID',{id:'0'},/ID Telegram/]
 ])test('deny '+label,()=>assert.throws(()=>verify(jwt(claims)),re));
 test('reject algorithm substitution and unknown signing keys',()=>{
  assert.throws(()=>verify(jwt({}, {alg:'none'})),/Algoritma/);
