@@ -1,11 +1,12 @@
 import {Curation} from './curation.mjs';
 import {QrisChat} from './qris.mjs';
+import {TelegramLogin} from './login.mjs';
 import {Delivery} from './delivery.mjs';
 import {fail,id,random,masterKey,seal,unseal,equal,numeric,privateIdentity,safeError} from './security.mjs';
 import {defaults,settings,entitlement,DAY,jakartaStart} from './policy.mjs';
 export class Service{
- constructor({store,telegram,key,now=()=>Date.now(),sendEnabled=false,webhookBase='https://badaiprompt.vercel.app/api/telegram/webhook',verifyUser,verifyAdmin,verifyPaidAccess=async()=>false,qrisEnabled=false,grantPaidAccess=null,fetcher=fetch}){
-  Object.assign(this,{store,telegram,key,now,sendEnabled,webhookBase,verifyUser,verifyAdmin,verifyPaidAccess,qrisEnabled,grantPaidAccess,fetcher});this.delivery=new Delivery(this);this.curation=new Curation(this);this.qris=new QrisChat(this);
+ constructor({store,telegram,key,now=()=>Date.now(),sendEnabled=false,webhookBase='https://badaiprompt.vercel.app/api/telegram/webhook',verifyUser,verifyAdmin,verifyPaidAccess=async()=>false,qrisEnabled=false,grantPaidAccess=null,fetcher=fetch,passwordlessEnabled=false,users=null}){
+  Object.assign(this,{store,telegram,key,now,sendEnabled,webhookBase,verifyUser,verifyAdmin,verifyPaidAccess,qrisEnabled,grantPaidAccess,fetcher,passwordlessEnabled});this.delivery=new Delivery(this);this.curation=new Curation(this);this.qris=new QrisChat(this);this.login=new TelegramLogin(this,users);
  }
  async config(){return settings((await this.store.state('telegram-settings'))?.data||defaults)}
  token(bot){return unseal(bot.token_cipher,masterKey(this.key),'token:'+bot.$id)}
@@ -107,6 +108,7 @@ export class Service{
   ]);
   return {ok:true,bots:bots.rows.map(b=>this.publicBot(b)),settings:await this.config(),stats:Object.fromEntries(['users','free','premium','active','expired','today','sent','failed','deleted','blocked'].map((k,i)=>[k,numbers[i]])),errors:recentErrors.rows.map(r=>({id:r.$id,status:r.dispatch_status,error:r.error_code,at:r.sent_at})),members:members.rows.map(m=>({telegram_id:m.telegram_id,first_name:m.first_name,plan:m.plan})),testers:testers.rows.map(t=>({bot_id:t.bot_id,telegram_id:t.telegram_id})),prompts:prompts.rows.map(p=>({id:p.$id,title:p.title})),send_enabled:this.sendEnabled,scheduler_tolerance_minutes:15};
  }
+ async redeemLogin(code){return this.login.redeem(code)}
  async linkToken(jwt){
   const user=await this.verifyUser(jwt);await this.store.rate(user.$id,'link',this.now(),3);const profile=await this.store.get('member_profiles',user.$id);if(!profile)throw fail('Profil member belum tersedia.',403);
   const bot=await this.main();if(!bot)throw fail('Bot utama belum aktif.',503);const token=random();await this.store.putState(id('link',token),{user_id:user.$id},{kind:'link',user_id:user.$id,status:'pending',due_at:new Date(this.now()+10*60000).toISOString()});return {ok:true,url:'https://t.me/'+bot.username+'?start=link_'+token,expires_in:600};
@@ -143,11 +145,16 @@ export class Service{
    if((fresh||!member.last_sent_at||Date.parse(member.next_send_at)<=this.now())&&member.is_active)return this.delivery.prompt(member,bot,{key:id('period',member.telegram_id,member.plan,member.next_send_at||'first'),welcome:fresh});
    return this.delivery.text(member,bot,'Selamat datang di BADAI PROMPT! Prompt berikutnya: '+new Date(member.next_send_at).toLocaleString('id-ID',{timeZone:'Asia/Jakarta'})+' WIB. Gunakan /status untuk melihat paket.',key,'reply');
   }
+  if(cmd==='/login'||cmd==='/akses'){
+   if(member.plan!=='premium')return this.delivery.text(member,bot,'Login otomatis hanya untuk member Premium aktif.',id('login-not-premium',botId,update.update_id),'reply');
+   const link=await this.login.issue(member,bot);
+   return this.delivery.text(member,bot,'BUKA MEMBER AREA BADAI PROMPT\n\nTautan ini sekali pakai dan berlaku 5 menit. Jangan teruskan ke orang lain.',id('login-url',botId,update.update_id),'reply',{inline_keyboard:[[{text:'BUKA MEMBER AREA',url:link.url}]]});
+  }
   if(cmd==='/premium'&&member.plan==='free')return this.qris.offer(member,bot,'command');
   if(cmd==='/premium')return this.delivery.text(member,bot,'Premium sudah aktif. Gunakan /status untuk memeriksa masa aktif.',key,'reply');
   if(cmd==='/terms'||cmd==='/paysupport'||cmd==='/support')return this.delivery.text(member,bot,await this.qris.help(cmd),key,'reply');
   if(cmd==='/status')return this.delivery.text(member,bot,'Paket: '+member.plan.toUpperCase()+'\nMasa aktif: '+(member.plan==='premium'?(member.premium_until?new Date(member.premium_until).toLocaleDateString('id-ID',{timeZone:'Asia/Jakarta'}):'Mengikuti hak akses lama'):'Gratis')+'\nPrompt terkirim: '+(member.delivery_day||0),key,'reply');
-  return this.delivery.text(member,bot,'Panduan BADAI PROMPT\n/start — daftar gratis\n/prompt — prompt sesuai jadwal\n/premium — informasi premium\n/status — status akun\n/bantuan — panduan\nHubungkan langganan dari menu Akun di Member Area.',key,'reply');
+  return this.delivery.text(member,bot,'Panduan BADAI PROMPT\n/start — daftar gratis\n/prompt — prompt sesuai jadwal\n/premium — informasi premium\n/status — status akun\n/login — masuk Member Area\n/bantuan — panduan\nHubungkan langganan dari menu Akun di Member Area.',key,'reply');
  }
  async monitor(){
   const now=this.now(),counts=async(table,filters)=>(await this.store.list(table,filters,1)).total;
