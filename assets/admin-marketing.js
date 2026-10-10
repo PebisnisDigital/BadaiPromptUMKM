@@ -148,9 +148,39 @@
    statistics();renderCalendar();notice('Konten dari hari '+from+' berhasil '+(slots().has(from)?'ditukar':'dipindahkan')+' ke hari '+to+'.','success');
   });
  }
+
+ async function loadTesters(){
+  const selector=$('mktTestUser'),old=selector.value;
+  try{
+   const overview=await request('overview');
+   const main=overview.settings?.main_bot_id;
+   const tests=(overview.testers||[]).filter(x=>x.bot_id===main);
+   selector.innerHTML='<option value="">'+(tests.length?'Pilih penguji Telegram':'Belum ada tester. Daftarkan di menu Telegram')+'</option>'+
+     tests.map(x=>'<option value="'+escape(x.telegram_id)+'">Tester Telegram •••'+escape(String(x.telegram_id).slice(-4))+'</option>').join('');
+   if(tests.some(x=>String(x.telegram_id)===old))selector.value=old;
+   $('mktTestButton').disabled=!tests.length;
+  }catch(e){selector.innerHTML='<option value="">Penguji tidak dapat dimuat</option>';$('mktTestButton').disabled=true;$('mktTestStatus').textContent='Gagal membaca daftar tester: '+(e.message||'Server tidak tersedia');}
+ }
+ $('mktTestForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const day=Number($('mktTestDay').value),telegram_id=$('mktTestUser').value;
+  if(!telegram_id||!Number.isInteger(day)||day<1||day>365){$('mktTestStatus').textContent='Pilih hari terisi dan akun tester yang sudah diotorisasi.';return;}
+  if(!state?.slots?.some(slot=>slot.day===day)){$('mktTestStatus').textContent='Hari '+day+' masih kosong. Simpan promptnya dulu.';return;}
+  if(!confirm('Kirim gambar, prompt dan upselling hari '+day+' HANYA ke akun Telegram penguji? Ini akan mengirim pesan sungguhan.'))return;
+  void act(async()=>{
+   $('mktTestStatus').textContent='Mengirim kiriman tes ke Telegram…';
+   const request_id=crypto.randomUUID();
+   const result=await request('marketing-test-send',{day,telegram_id,request_id});
+   $('mktTestStatus').textContent=result.status==='sent'?
+     'Tes hari '+day+' berhasil dikirim. Periksa gambar, prompt, dan tombol CTA di Telegram penguji. Pesan tercatat untuk penghapusan.':
+     'Kiriman belum sepenuhnya berhasil (status: '+result.status+'). Periksa pengiriman sebelum mencoba lagi.';
+   notice(result.status==='sent'?'Pengiriman ke akun tester berhasil. Tidak ada broadcast ke member.':'Periksa hasil tes Marketing: '+result.status,result.status==='sent'?'success':'error');
+  });
+ });
  async function refresh(){
   state=await request('marketing-get');
   settingsForm();statistics();renderCalendar();
+  await loadTesters();
   if(!loaded){await loadCandidates(true);loaded=true}
   notice('Kalender termuat. '+state.slots.length+' dari 365 hari terisi. Jadwal '+(state.settings.enabled&&state.server_gate?'aktif':'masih draf')+'.','success');
  }

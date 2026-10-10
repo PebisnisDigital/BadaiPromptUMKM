@@ -43,6 +43,26 @@ export class Service{
     await this.audit(actor.$id,action,{day:Number(body.day)});
     return result;
   }
+  if(action==='marketing-test-send'){
+    // Explicit admin action, cannot send to an arbitrary Telegram account:
+    // receiver must have opted in and been authorized as tester for the active bot.
+    await this.requireSend(true);
+    const tg=numeric(body.telegram_id),bot=await this.main();
+    if(!bot||!bot.is_active)throw fail('Bot utama belum aktif.',409);
+    const tester=await this.store.state(id('tester',bot.$id,tg));
+    if(!tester||tester.status!=='authorized')throw fail('Akun belum disetujui sebagai penguji Telegram.',403);
+    const consent=await this.consent(bot.$id,tg);
+    if(!consent||consent.status!=='allowed')throw fail('Akun penguji belum START bot atau sudah memblokirnya.',403);
+    const member=await this.store.get('telegram_members',id('member',tg));
+    if(!member||!member.is_active)throw fail('Member penguji tidak tersedia atau nonaktif.',403);
+    const requestId=String(body.request_id||'');
+    if(!/^[\w-]{16,64}$/.test(requestId))throw fail('Request ID pengujian tidak valid.',400);
+    const plan=await this.marketing.previewTestSlot(body.day);
+    await this.store.rate(tg,'marketing-test',this.now(),2);
+    const result=await this.delivery.prompt(member,bot,{key:id('marketing-test',bot.$id,tg,requestId),promptId:plan.prompt_id,test:true,marketingTestOffer:plan.offer,marketingTestFingerprint:plan.fingerprint});
+    await this.audit(actor.$id,action,{marketing_day:plan.day,bot_id:bot.$id,delivery_id:result.delivery_id||null,outcome:result.status|| (result.ok?'sent':'duplicate')});
+    return {ok:Boolean(result.ok||result.duplicate),test:true,day:plan.day,delivery_id:result.delivery_id||null,status:result.status|| (result.ok?'sent':'duplicate'),warning:result.warning||null};
+  }
   if(action==='marketing-slot-move'){
     const result=await this.marketing.move(body.from,body.to,actor.$id);
     await this.audit(actor.$id,action,{from:result.from,to:result.to});

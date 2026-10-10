@@ -3,7 +3,7 @@ import {DAY,nextAt,promptChunks} from './policy.mjs';
 import {contentHash as contentHashMarketing} from './marketing.mjs';
 export class Delivery{
  constructor(service){this.s=service}
- async prompt(member,bot,{key,kind='prompt',promptId,test=false,welcome=false,now=this.s.now()}={}){
+ async prompt(member,bot,{key,kind='prompt',promptId,test=false,marketingTestOffer=null,marketingTestFingerprint=null,welcome=false,now=this.s.now()}={}){
   const s=this.s,setting=await s.config(),consent=await s.consent(bot.$id,member.telegram_id);
   if(!consent||consent.status!=='allowed')throw fail('Pengguna belum START bot ini atau telah memblokirnya.');
   const profile=await s.sync(member);member=profile;
@@ -27,6 +27,12 @@ export class Delivery{
    prompt=page.rows[0];
   }
   if(!prompt||!prompt.prompt_text)throw fail('Belum ada prompt published yang bisa dikirim.');
+  if(marketingTestOffer){
+   if(!test)throw fail('Pesan penguji tidak boleh dikirim sebagai broadcast.',403);
+   if(contentHashMarketing(prompt)!==marketingTestFingerprint)throw fail('Isi prompt pengujian berubah. Review ulang hari ini.',409);
+   prompt={...prompt,marketing_offer:marketingTestOffer};
+  }
+  const deliveryPlan=test&&marketingTestOffer?'free':member.plan;
   const deliveryKey=key||id(member.telegram_id,member.next_send_at||'first',kind),rowId=id('delivery',deliveryKey);
   let row=await s.store.get('telegram_deliveries',rowId);
   if(row&&row.dispatch_status!=='retry'){
@@ -34,7 +40,7 @@ export class Delivery{
    return {duplicate:true,delivery:row};
   }
   if(row&&row.bot_id!==bot.$id)return {duplicate:true,requires_review:true};
-  if(!row){try{row=await s.store.create('telegram_deliveries',rowId,{telegram_id:member.telegram_id,chat_id:consent.data.chat_id,bot_id:bot.$id,prompt_id:prompt.$id,message_id:'pending',message_ids:'[]',plan:member.plan,day_number:(member.delivery_day||0)+1,delivery_key:deliveryKey,sent_at:new Date(now).toISOString(),dispatch_status:'reserved',kind:test?'test':kind,attempts:0})}catch(e){if(e.code===409)return {duplicate:true};throw e}}
+  if(!row){try{row=await s.store.create('telegram_deliveries',rowId,{telegram_id:member.telegram_id,chat_id:consent.data.chat_id,bot_id:bot.$id,prompt_id:prompt.$id,message_id:'pending',message_ids:'[]',plan:deliveryPlan,day_number:(member.delivery_day||0)+1,delivery_key:deliveryKey,sent_at:new Date(now).toISOString(),dispatch_status:'reserved',kind:test?'test':kind,attempts:0})}catch(e){if(e.code===409)return {duplicate:true};throw e}}
   const marketingRefId=id('marketing-delivery',rowId);
   if(!test&&!promptId&&member.plan==='free'&&prompt.marketing_offer){
    await s.store.putState(marketingRefId,{source:prompt.content_source||'scene_prompts',fingerprint:contentHashMarketing(prompt),marketing_day:prompt.marketing_day,offer:prompt.marketing_offer},{kind:'marketing_delivery',telegram_id:member.telegram_id,status:'reserved'});
@@ -62,25 +68,25 @@ export class Delivery{
     const message=await s.telegram.call(token,'sendMessage',{chat_id:consent.data.chat_id,text,parse_mode:'HTML'});ids.push(String(message.message_id));
     await s.store.update('telegram_deliveries',rowId,{message_id:ids[0],message_ids:JSON.stringify(ids)});
    }
-   if(!test&&member.plan==='free'&&prompt.marketing_offer){
+   if((!test&&member.plan==='free'||test&&marketingTestOffer)&&prompt.marketing_offer){
     const offer=prompt.marketing_offer;
     const message=await s.telegram.call(token,'sendMessage',{
      chat_id:consent.data.chat_id,
-     text:(offer.text+'\n\nPesan gratis akan dihapus setelah '+setting.delete_hours+' jam. Prompt Free berikutnya dalam '+setting.free_days+' hari.').slice(0,1400),
+     text:((test?'[UJI MARKETING — HANYA TESTER]\n\n':'')+offer.text+'\n\nPesan gratis akan dihapus setelah '+setting.delete_hours+' jam. Prompt Free berikutnya dalam '+setting.free_days+' hari.').slice(0,1400),
      reply_markup:{inline_keyboard:[[{text:offer.label,url:offer.url}]]}
     });
     ids.push(String(message.message_id));
     await s.store.update('telegram_deliveries',rowId,{message_id:ids[0],message_ids:JSON.stringify(ids)});
    }
-   await s.store.update('telegram_deliveries',rowId,{dispatch_status:'sent',plan:member.plan,sent_at:new Date(now).toISOString(),error_code:warning,delete_at:member.plan==='free'?new Date(now+setting.delete_hours*3600000).toISOString():null});
+   await s.store.update('telegram_deliveries',rowId,{dispatch_status:'sent',plan:deliveryPlan,sent_at:new Date(now).toISOString(),error_code:warning,delete_at:deliveryPlan==='free'?new Date(now+setting.delete_hours*3600000).toISOString():null});
    if(!test){
     await s.store.putState(id('cursor',member.telegram_id),{prompt_id:prompt.$id},{kind:'cursor',telegram_id:member.telegram_id});
     await s.store.update('telegram_members',member.$id,{delivery_day:(member.delivery_day||0)+1,last_sent_at:new Date(now).toISOString(),next_send_at:nextAt(now,member.plan==='premium'?setting.premium_days:setting.free_days,member.plan==='free'?marketingTime:setting.premium_time)});
    }
    return {ok:true,message_ids:ids,delivery_id:rowId,prompt_id:prompt.$id,warning};
   }catch(e){
-   const uncertain=e.ambiguous||ids.length>0,status=uncertain?'uncertain':e.retryAfter?'retry':'failed';
-   await s.store.update('telegram_deliveries',rowId,{dispatch_status:status,error_code:safeError(e),message_ids:JSON.stringify(ids),message_id:ids[0]||'pending',retry_at:status==='retry'?new Date(now+Math.max(60,e.retryAfter)*1000).toISOString():null,delete_at:ids.length&&member.plan==='free'?new Date(now+setting.delete_hours*3600000).toISOString():null});
+   const uncertain=e.ambiguous||ids.length>0,status=uncertain?'uncertain':test?'failed':e.retryAfter?'retry':'failed';
+   await s.store.update('telegram_deliveries',rowId,{dispatch_status:status,error_code:safeError(e),message_ids:JSON.stringify(ids),message_id:ids[0]||'pending',retry_at:status==='retry'?new Date(now+Math.max(60,e.retryAfter)*1000).toISOString():null,delete_at:ids.length&&deliveryPlan==='free'?new Date(now+setting.delete_hours*3600000).toISOString():null});
    if(e.blocked)await s.store.putState(id('consent',bot.$id,member.telegram_id),consent.data,{kind:'consent',bot_id:bot.$id,telegram_id:member.telegram_id,status:'blocked'});
    return {ok:false,status,error:safeError(e),delivery_id:rowId};
   }
