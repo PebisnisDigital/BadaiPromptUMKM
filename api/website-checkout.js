@@ -208,8 +208,8 @@ async function preflight(req,res){
   const userLink=await s.store.state(id('userlink',userId));
   let conflict=false;
   try{assertAccountOwner({telegramId:tg,userId,telegramLink:websiteLink,userLink,botMember:member})}catch{conflict=true}
-  let providerReady=false;
-  try{await provider(s);providerReady=true}catch{}
+  let providerReady=false,providerTestMode=false;
+  try{const merchant=await provider(s);providerReady=true;providerTestMode=merchant.test_mode===true}catch{}
   let accountExists=false,profile=null;
   if(!conflict){
    try{await s.users.get({userId});accountExists=true}catch(e){
@@ -224,7 +224,8 @@ async function preflight(req,res){
    ok:true,telegram_verified:true,provider_ready:providerReady,
    identity_linked:connected,account_exists:accountExists,
    premium_already_active:premium,account_review_needed:conflict,
-   safe_to_test:providerReady&&!conflict&&!premium,
+   safe_to_test:providerReady&&providerTestMode&&!conflict&&!premium,
+   merchant_test_mode:providerTestMode,
    checkout_enabled:process.env.TELEGRAM_SITE_CHECKOUT_ENABLED==='true',
    bot_notice_enabled:process.env.TELEGRAM_WEBSITE_PAID_NOTICE_ENABLED==='true',
    price:PRICE
