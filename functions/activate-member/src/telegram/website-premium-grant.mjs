@@ -18,7 +18,7 @@ export async function grantWebsitePremium(s,row,{sendNotice=false,send=async()=>
  assertAccountOwner({telegramId:tg,userId,telegramLink:currentLink,userLink:owned,botMember});
  let user;try{user=await s.users.get({userId})}catch(e){if(Number(e.code)!==404)throw e}
  if(!user){
-  if(currentLink||owned)throw Error('Akun tertaut tidak ditemukan. Hubungi admin.');
+  if(currentLink||owned||botMember?.appwrite_user_id)throw Error('Akun tertaut tidak ditemukan. Hubungi admin.');
   try{user=await s.users.create({userId,name:String(data.first_name||'Member BADAI PROMPT').slice(0,128)})}
   catch(e){if(Number(e.code)!==409)throw e;throw Error('Identitas Appwrite sudah terdaftar; perlu pemeriksaan admin.')}
  }
