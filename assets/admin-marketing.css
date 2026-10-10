@@ -74,3 +74,6 @@ html:has(#v-marketing.on){scroll-padding-top:110px}
 @media(max-width:700px){.marketing-view{padding:0}.marketing-view .title h1{font-size:24px}.mkt-calendar-grid{grid-template-columns:repeat(5,minmax(0,1fr))}.mkt-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.mkt-fields,.mkt-fields-three{grid-template-columns:1fr 1fr}.mkt-fields label:nth-child(3){grid-column:1/-1}.mkt-caption{white-space:normal}nav.telegram-nav button{font-size:9px;padding-inline:0}}
 @media(max-width:450px){.mkt-calendar-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.mkt-calendar-toolbar{grid-template-columns:39px minmax(0,1fr) 39px}.mkt-display{grid-column:1/-1;text-align:center}.mkt-day{height:79px}.mkt-schedule,.mkt-calendar-panel,.mkt-library-panel,.mkt-editor{padding:12px}.mkt-fields,.mkt-fields-three{grid-template-columns:1fr}.mkt-fields label:nth-child(3){grid-column:auto}.mkt-stats{gap:6px}nav.telegram-nav button{font-size:8px}}
 @media(prefers-reduced-motion:reduce){.mkt-day,.mkt-prompt{transition:none!important}}
+
+.mkt-loop{font-size:12px;font-weight:700;display:flex;align-items:center;gap:9px;margin:10px 0;color:#66505e}
+.mkt-loop input{width:18px;min-height:18px;height:18px;margin:0;accent-color:#d91c68}
