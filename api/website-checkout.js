@@ -4,6 +4,7 @@ import {Store} from '../functions/activate-member/src/telegram/store.mjs';
 import {id} from '../functions/activate-member/src/telegram/security.mjs';
 import {runtime as telegramRuntime} from '../functions/activate-member/src/telegram/runtime.mjs';
 import {notifyVerifiedWebsitePurchase} from '../functions/activate-member/src/telegram/website-purchase-notice.mjs';
+import {assertProviderSettlement,assertAccountOwner,calculatePaidAccessUntil} from '../functions/activate-member/src/telegram/website-checkout-guards.mjs';
 
 export const config={api:{bodyParser:false}};
 const BASE='https://badaiprompt.vercel.app',PROJECT='badai-prompt-umkm',DB='badai_prompt_umkm',PRICE=199000,PERIOD=365*86400000;
@@ -92,6 +93,7 @@ async function reconcilePayment(s,r,p){
  const d=r.data;
  const checked=await callProvider(p,{action:'api_check_status',account_id:String(p.account_id),secret_token:String(p.secret_token),transaction_id:d.transaction_id});
  if(String(checked.status)==='success'){
+  assertProviderSettlement(checked,d);
   const now=new Date().toISOString();
   await s.store.update('telegram_state',r.$id,{status:'paid',payload:JSON.stringify({...d,paid_at:now})});
   return s.store.state(r.$id);
@@ -110,7 +112,8 @@ async function grant(s,row){
  const currentLink=await s.store.state(id('tglink',tg));
  const userId=currentLink?.data.user_id||id('tg-user',tg);
  const owned=await s.store.state(id('userlink',userId));
- if(currentLink&&currentLink.data.telegram_id&&currentLink.data.telegram_id!==tg||owned&&owned.data.telegram_id!==tg)throw Error('Akun terhubung ke identitas lain. Hubungi admin.');
+ const botMember=await s.store.get('telegram_members',id('member',tg));
+ assertAccountOwner({telegramId:tg,userId,telegramLink:currentLink,userLink:owned,botMember});
  let user;try{user=await s.users.get({userId})}catch(e){if(Number(e.code)!==404)throw e}
  if(!user){
   if(currentLink||owned)throw Error('Akun tertaut tidak ditemukan. Hubungi admin.');
@@ -133,17 +136,13 @@ async function grant(s,row){
   if(!verified.memberships?.some(m=>m.confirm===true))throw Error('Keanggotaan masih pending.');
  }
  const profile=await s.store.get('member_profiles',userId);
- const paidUntil=new Date(Date.parse(data.paid_at)+PERIOD).toISOString();
- const before=profile?.access_until&&Date.parse(profile.access_until)>0?Date.parse(profile.access_until):0;
- const until=profile?.status==='active'&&!profile?.access_until?null:new Date(Math.max(before,Date.parse(paidUntil))).toISOString();
+ const until=calculatePaidAccessUntil({paidAt:data.paid_at,profile});
  const fields={status:'active',access_until:until,role:'member'};
  if(profile)await s.store.update('member_profiles',userId,fields);
  else await s.tables.createRow({databaseId:process.env.APP_DB_ID||DB,tableId:'member_profiles',rowId:userId,data:{...fields,user_id:userId,name:String(user.name||data.first_name||'Member BADAI PROMPT').slice(0,128),email:null,whatsapp:null},permissions:[Permission.read(Role.user(userId))]});
  // Membership grant + profile above are authoritative. Only now finalize this paid order.
  await s.store.update('telegram_state',row.$id,{status:'activated',user_id:userId,payload:JSON.stringify({...data,user_id:userId,access_until:until,activated_at:new Date().toISOString()})});
- const botMember=await s.store.get('telegram_members',id('member',tg));
  if(botMember&&!botMember.appwrite_user_id)await s.store.update('telegram_members',botMember.$id,{appwrite_user_id:userId});
- if(botMember?.appwrite_user_id&&botMember.appwrite_user_id!==userId)throw Error('Telegram member telah terhubung dengan akun lain.');
  if(process.env.TELEGRAM_WEBSITE_PAID_NOTICE_ENABLED==='true'){
   try{const service=telegramRuntime();await notifyVerifiedWebsitePurchase({service,userId,orderId:row.$id})}catch{}
  }
@@ -170,6 +169,7 @@ async function webhook(req,res,s,raw){
  if(event!=='payment.success')return json(res,{ok:true,ignored:true});
  const check=await callProvider(p,{action:'api_check_status',account_id:String(p.account_id),secret_token:String(p.secret_token),transaction_id:tx});
  if(String(check.status)!=='success')return err(res,'Pembayaran belum dikonfirmasi penyedia.',409);
+ assertProviderSettlement(check,row.data);
  if(row.status==='activated')return json(res,{ok:true,already_activated:true});
  if(row.status!=='paid')await s.store.update('telegram_state',row.$id,{status:'paid',payload:JSON.stringify({...row.data,paid_at:row.data.paid_at||new Date().toISOString()})});
  const updated=await grant(s,await s.store.state(row.$id));
