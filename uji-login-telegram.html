@@ -47,12 +47,15 @@ footer{margin-top:20px;padding-top:13px;border-top:1px solid #483548}
     'Login Telegram: TERVERIFIKASI',
     'Merchant QRIS Rp199.000: '+(d.provider_ready?'TERKONFIGURASI':'BELUM SIAP'),
     'Tautan akun lama: '+(d.identity_linked?'TERHUBUNG':'BELUM TERHUBUNG'),
+    'Akses baca akun Appwrite: '+(d.account_permission_ready?'SIAP':'PERLU IZIN '+(d.missing_appwrite_scopes||[]).join(', ')),
+    'Pemeriksaan akun: '+(d.account_check_pending?'BELUM BISA DIPASTIKAN':d.account_exists?'AKUN ADA':'AKUN BARU'),
     'Akun Premium aktif: '+(d.premium_already_active?'YA':'BELUM'),
     'Bentrok identitas: '+(d.account_review_needed?'PERLU ADMIN':'TIDAK'),
     'Mode pembayaran merchant: '+(d.merchant_test_mode?'TEST':'LIVE (RIIL)'),
     'Checkout QRIS baru: '+(d.checkout_enabled?'AKTIF':'BELUM DIAKTIFKAN'),
     '',
     d.account_review_needed?'Akun memerlukan pemeriksaan Admin sebelum pembayaran.':
+    d.account_check_pending?'API key server memerlukan izin users.read di Appwrite. Jangan aktifkan checkout baru. Tambahkan izin minimal melalui Appwrite Console dan periksa ulang.':
     d.premium_already_active?'Akun ini sudah Premium. Jangan bayar lagi untuk uji coba.':
     !d.provider_ready?'Merchant QRIS belum siap. Jangan mencoba bayar.':
     d.merchant_test_mode?'Kesiapan dasar baik. Lanjut uji provider dan aktivasi dengan kontrol Admin.':
