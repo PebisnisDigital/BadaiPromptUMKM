@@ -1,4 +1,4 @@
-const ACTIONS=new Set(['overview','settings','save','tester','rename','connection','webhook','install-webhook','prepare-switch','activate','disable','delete','test-message','test-prompt','test-delete','dry-run']);
+const ACTIONS=new Set(['content-status','content-candidates','content-approve','content-enable','overview','settings','save','tester','rename','connection','webhook','install-webhook','prepare-switch','activate','disable','delete','test-message','test-prompt','test-delete','dry-run']);
 module.exports=async function handler(req,res){
  res.setHeader('Cache-Control','no-store');
  if(req.method!=='POST')return res.status(405).json({error:'Method not allowed'});

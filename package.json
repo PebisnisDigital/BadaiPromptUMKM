@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "test": "node --test tests/telegram.test.mjs tests/delete-sales.test.mjs",
+    "test": "node --test tests/telegram*.test.mjs tests/delete-sales.test.mjs",
     "test:telegram-ui": "node scripts/verify-telegram-ui.cjs",
     "test:workspace": "node scripts/verify-workspace-ui.cjs"
   },

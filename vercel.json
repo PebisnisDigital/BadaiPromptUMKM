@@ -29,5 +29,10 @@
       "destination": "/member",
       "permanent": false
     }
-  ]
+  ],
+  "git": {
+    "deploymentEnabled": {
+      "feature/freemium-curation-20261010": false
+    }
+  }
 }
