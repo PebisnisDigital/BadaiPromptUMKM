@@ -7,7 +7,7 @@
     "test": "node --test tests/telegram.test.mjs tests/delete-sales.test.mjs",
     "test:telegram-ui": "node scripts/verify-telegram-ui.cjs",
     "test:workspace": "node scripts/verify-workspace-ui.cjs",
-    "test:telegram-website": "node --test tests/telegram-web-identity.test.mjs tests/telegram-website-purchase-notice.test.mjs"
+    "test:telegram-website": "node --test tests/telegram-web-identity.test.mjs tests/telegram-website-oidc.test.mjs tests/telegram-website-purchase-notice.test.mjs"
   },
   "dependencies": {
     "node-appwrite": "29.2.0"
