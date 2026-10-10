@@ -1,12 +1,23 @@
-import crypto from 'node:crypto';
-import {Client,TablesDB,Users,Teams,Query,Permission,Role} from 'node-appwrite';
-import {Store} from '../functions/activate-member/src/telegram/store.mjs';
-import {id} from '../functions/activate-member/src/telegram/security.mjs';
-import {runtime as telegramRuntime} from '../functions/activate-member/src/telegram/runtime.mjs';
-import {notifyVerifiedWebsitePurchase} from '../functions/activate-member/src/telegram/website-purchase-notice.mjs';
-import {assertProviderSettlement,assertAccountOwner,calculatePaidAccessUntil,freezeOrderEntitlement} from '../functions/activate-member/src/telegram/website-checkout-guards.mjs';
+// Vercel /api/*.js handlers run as CJS. Defer loading ESM business modules,
+// avoiding require() of .mjs and keeping the config route payment-free.
+const crypto=require('node:crypto');
+const {Client,TablesDB,Users,Teams,Query,Permission,Role}=require('node-appwrite');
+let Store,id,telegramRuntime,notifyVerifiedWebsitePurchase;
+let assertProviderSettlement,assertAccountOwner,calculatePaidAccessUntil,freezeOrderEntitlement;
+async function loadEsmModules(){
+ const [store,security,runtime,notice,guards]=await Promise.all([
+  import('../functions/activate-member/src/telegram/store.mjs'),
+  import('../functions/activate-member/src/telegram/security.mjs'),
+  import('../functions/activate-member/src/telegram/runtime.mjs'),
+  import('../functions/activate-member/src/telegram/website-purchase-notice.mjs'),
+  import('../functions/activate-member/src/telegram/website-checkout-guards.mjs')
+ ]);
+ ({Store}=store);({id}=security);({runtime:telegramRuntime}=runtime);
+ ({notifyVerifiedWebsitePurchase}=notice);
+ ({assertProviderSettlement,assertAccountOwner,calculatePaidAccessUntil,freezeOrderEntitlement}=guards);
+}
 
-export const config={api:{bodyParser:false}};
+const config={api:{bodyParser:false}};
 const BASE='https://badaiprompt.vercel.app',PROJECT='badai-prompt-umkm',DB='badai_prompt_umkm',PRICE=199000,PERIOD=365*86400000;
 const json=(res,data,status=200)=>res.status(status).json(data);
 const err=(res,message,status=400)=>json(res,{ok:false,error:message},status);
@@ -181,7 +192,7 @@ async function webhook(req,res,s,raw){
  const updated=await grant(s,await s.store.state(row.$id));
  return json(res,{ok:true,status:updated.status});
 }
-export default async function handler(req,res){
+module.exports=async function handler(req,res){
  res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');
  const action=String(req.query?.action||'status');
  if(req.headers.origin&&req.headers.origin!==BASE)return err(res,'Origin tidak diizinkan.',403);
@@ -191,6 +202,7 @@ export default async function handler(req,res){
  try{
   if(req.method!=='POST')return err(res,'Method not allowed.',405);
   const raw=await read(req);
+  await loadEsmModules();
   const s=sentry({secret:process.env.APPWRITE_API_KEY});
   if(action==='webhook')return webhook(req,res,s,raw);
   if(req.headers.origin!==BASE)return err(res,'Asal permintaan tidak valid.',403);
@@ -210,3 +222,5 @@ export default async function handler(req,res){
   return err(res,safe(e.message||'Checkout belum dapat diproses.'),e.status===401?401:400);
  }
 }
+
+module.exports.config=config;
