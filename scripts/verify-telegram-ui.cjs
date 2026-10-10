@@ -83,7 +83,7 @@ const root=path.resolve(__dirname,'..'),output=process.env.UI_ARTIFACTS||path.jo
   await page.locator('[data-view="marketing"]').click();
   await page.locator('#mktPromptList .mkt-prompt').first().waitFor();
   assert.match(await page.locator('#mktStats').innerText(),/0\/365/);
-  assert.equal(await page.locator('#mktEnabled option[value="true"]').isDisabled(),true);
+  assert.equal(await page.locator('#mktEnabled option[value="true"]').evaluate(el=>el.disabled),true);
   await page.locator('[data-mkt-pick="scene_prompts:p1"]').click();
   await page.locator('[data-mkt-day="1"]').click();
   await page.locator('#mktEditOffer').fill('Coba prompt ini, lalu buka Premium Rp199.000 untuk 365 hari.');
