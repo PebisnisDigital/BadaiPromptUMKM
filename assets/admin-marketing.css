@@ -77,3 +77,9 @@ html:has(#v-marketing.on){scroll-padding-top:110px}
 
 .mkt-loop{font-size:12px;font-weight:700;display:flex;align-items:center;gap:9px;margin:10px 0;color:#66505e}
 .mkt-loop input{width:18px;min-height:18px;height:18px;margin:0;accent-color:#d91c68}
+
+.mkt-test-form{display:grid;grid-template-columns:minmax(110px,.6fr) minmax(230px,1.25fr) auto;gap:10px;align-items:end;margin-top:10px}
+.mkt-test-form label{display:grid;gap:6px;font-size:11px;font-weight:800}
+.mkt-test-form button{min-height:42px}
+#mktTestStatus{border-top:1px solid #eae2e7;padding-top:8px}
+@media(max-width:700px){.mkt-test-form{grid-template-columns:1fr}.mkt-test-form label,.mkt-test-form button{width:100%}}
