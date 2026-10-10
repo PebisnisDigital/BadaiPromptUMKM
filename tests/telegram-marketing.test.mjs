@@ -40,9 +40,9 @@ test('global WIB campaign day honors start date and optional loop',()=>{
  assert.equal(campaignDay('2026-10-10',Date.parse('2026-10-09T16:59:59Z')),0);
  assert.equal(campaignDay('2026-10-10',Date.parse('2026-10-09T17:00:00Z')),1);
  assert.equal(campaignDay('2026-10-10',Date.parse('2026-10-10T18:00:00Z')),2);
- assert.equal(campaignDay('2026-10-10',Date.parse('2027-10-09T17:00:00Z')),365);
- assert.equal(campaignDay('2026-10-10',Date.parse('2027-10-10T17:00:00Z')),366);
- assert.equal(campaignDay('2026-10-10',Date.parse('2027-10-10T17:00:00Z'),true),1);
+ assert.equal(campaignDay('2026-10-10',Date.parse('2027-10-08T17:00:00Z')),365);
+ assert.equal(campaignDay('2026-10-10',Date.parse('2027-10-09T17:00:00Z')),366);
+ assert.equal(campaignDay('2026-10-10',Date.parse('2027-10-09T17:00:00Z'),true),1);
 });
 test('calendar remains in DRAFT with no server gate and cannot arm delivery',async()=>{
  const x=setup();const original=await x.marketing.get();
