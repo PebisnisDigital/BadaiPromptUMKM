@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {assertProviderSettlement,assertAccountOwner,calculatePaidAccessUntil,freezeOrderEntitlement} from '../functions/activate-member/src/telegram/website-checkout-guards.mjs';
+import {assertProviderSettlement,assertAccountOwner,calculatePaidAccessUntil,freezeOrderEntitlement,selectVerifiedAccountId} from '../functions/activate-member/src/telegram/website-checkout-guards.mjs';
 
 const invoice={transaction_id:'invoice-ABC001',amount:199000,total_amount:200500};
 const good=()=>({transaction_id:'invoice-ABC001',status:'success',amount:199000,total_amount:200500});
@@ -67,4 +67,16 @@ test('simultaneous browser poll and verified webhook freeze ONE 365-day activati
  assert.equal(b,first);
  assert.equal(rows.size,1);
  await assert.rejects(()=>freezeOrderEntitlement({store,key,orderId:'order-01',userId:'userB',telegramId:'123',proposed:first}),/tidak konsisten/);
+});
+
+test('website QRIS resolves already-linked Appwrite member without a duplicate user',()=>{
+ const fallbackUserId='tg_new_hash_user';
+ const linked={data:{user_id:'existing_appwrite_user'}};
+ const member={appwrite_user_id:'existing_appwrite_user'};
+ assert.equal(selectVerifiedAccountId({telegramLink:linked,botMember:member,fallbackUserId}),'existing_appwrite_user');
+ assert.equal(selectVerifiedAccountId({telegramLink:null,botMember:member,fallbackUserId}),'existing_appwrite_user');
+ assert.equal(selectVerifiedAccountId({telegramLink:null,botMember:null,fallbackUserId}),fallbackUserId);
+ assert.throws(()=>selectVerifiedAccountId({
+  telegramLink:{data:{user_id:'wrong_appwrite_user'}},botMember:member,fallbackUserId
+ }),/dua akun Appwrite berbeda/);
 });
