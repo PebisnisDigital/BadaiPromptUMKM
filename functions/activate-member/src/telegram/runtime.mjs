@@ -1,4 +1,4 @@
-import {Client,Account,TablesDB,Teams,Query} from 'node-appwrite';
+import {Client,Account,TablesDB,Teams,Users,Query,Permission,Role} from 'node-appwrite';
 import {Store} from './store.mjs';
 import {paidAccessWriter} from './paid-access.mjs';
 import {Service} from './service.mjs';
