@@ -6,7 +6,7 @@ export function previewReady(p){try{const u=new URL(p?.preview_url);return p?.is
 const slotId=n=>'telegram-content-'+String(n).padStart(3,'0');
 export class Curation{
  constructor(service){this.s=service}
- async entries(){const rows=[];let cursor;do{const p=await this.s.store.list('telegram_state',[['equal','kind','content'],['equal','status','approved']],100,cursor);rows.push(...p.rows);cursor=p.rows.at(-1)?.$id;if(p.rows.length<100)break}while(rows.length<365);return rows.map(r=>({...r,data:JSON.parse(r.payload)}))}
+ async entries(){const rows=[];let cursor;do{const p=await this.s.store.list('telegram_state',[['equal','kind','content'],['equal','status','approved']],100,cursor);rows.push(...p.rows);cursor=p.rows.at(-1)?.$id;if(p.rows.length<100)break}while(rows.length<365);return rows.map(r=>({...r,data:JSON.parse(r.payload)})).sort((a,b)=>Number(a.data.position)-Number(b.data.position))}
  async candidates({source='scene_prompts',cursor}={}){if(!SOURCES.has(source))throw fail('Sumber kurasi tidak valid.');const page=await this.s.store.list(source,[],50,cursor);return {ok:true,total:page.total,next_cursor:page.rows.length===50?page.rows.at(-1).$id:null,rows:page.rows.map(p=>({id:p.$id,title:p.title,preview_url:p.preview_url||'',ready:previewReady(p),reason:previewReady(p)?null:'Wajib published, teks, dan preview HTTPS sebelum disetujui.'}))}}
  async approve({source,prompt_id,position,replace=false},actor){
   if(!SOURCES.has(source))throw fail('Sumber kurasi tidak valid.');const p=await this.s.store.get(source,prompt_id);if(!previewReady(p))throw fail('Konten wajib published, memiliki teks dan preview HTTPS.');const entries=await this.entries(),amend=position!==undefined;
@@ -19,7 +19,7 @@ export class Curation{
   const entries=await this.entries(),jobs=[];
   for(const source of SOURCES){const ids=entries.filter(e=>e.data.source===source).map(e=>e.data.prompt_id);for(let offset=0;offset<ids.length;offset+=100)jobs.push(this.s.store.list(source,[['equal','$id',ids.slice(offset,offset+100)]],100).then(r=>r.rows.map(p=>({source,p}))))}
   const current=new Map((await Promise.all(jobs)).flat().map(({source,p})=>[source+':'+p.$id,p]));let ready=0;
-  for(const entry of entries){const p=current.get(entry.data.source+':'+entry.data.prompt_id);if(!previewReady(p)||contentHash(p)!==entry.data.fingerprint||p.preview_url!==entry.data.preview_url)break;ready++}
+  for(const entry of entries){if(Number(entry.data.position)!==ready+1)break;const p=current.get(entry.data.source+':'+entry.data.prompt_id);if(!previewReady(p)||contentHash(p)!==entry.data.fingerprint||p.preview_url!==entry.data.preview_url)break;ready++}
   const [scene,prompts,plan]=await Promise.all([this.s.store.list('scene_prompts',[['equal','is_published',true]],100),this.s.store.list('prompts',[['equal','is_published',true]],1),this.s.store.state('telegram-content-plan')]);
   return {target:365,approved:entries.length,ready_days:ready,missing_days:365-ready,enabled:plan?.data.enabled===true,scene_candidates:scene.rows.filter(previewReady).length,prompt_candidates_total:prompts.total,entries:entries.map(r=>({position:r.data.position,source:r.data.source,prompt_id:r.data.prompt_id}))};
  }

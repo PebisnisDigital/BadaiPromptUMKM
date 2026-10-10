@@ -1,0 +1,355 @@
+{
+  "purpose": "Curated first 29 verified-unique prompt entries; BP021 withheld pending Cuanify rebrand",
+  "target_table": "telegram_state",
+  "requires_content_queue_enabled": false,
+  "rows": [
+    {
+      "$id": "telegram-content-001",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-005\",\"fingerprint\":\"92af0fae776d146681a20d0b4c2759d4227d2a9c600cb4f69ba43db72a5642fa\",\"preview_url\":\"https://www.dropbox.com/scl/fi/0yewpb3wewsja9zgu9qxy/BP005.png?rlkey=v6ijknfvuuhon0cerqifnbpf2&st=6994q3vd&raw=1\",\"position\":1,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_4a171222ae23a6a23bd037cb7499477c",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":1}"
+    },
+    {
+      "$id": "telegram-content-002",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-019\",\"fingerprint\":\"ac898e67164df9568be0b051c846e91b22b411e950b86fa332c51081bda211c2\",\"preview_url\":\"https://www.dropbox.com/scl/fi/rm7djr6rk7mnht4zmykv1/BP019.png?rlkey=6b3q5boaqs9up6hvwovry7aoj&st=vd07endl&raw=1\",\"position\":2,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_ae4a06fa9023da151af429ccf2280c94",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":2}"
+    },
+    {
+      "$id": "telegram-content-003",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-013\",\"fingerprint\":\"996a628d2e9f51de87c5da98c9f21042490b3bfe836f641510a9ad282201776a\",\"preview_url\":\"https://www.dropbox.com/scl/fi/c4f6vo4uw0yhj9u05vqa0/BP013.png?rlkey=ckuos1i4y8x2nni3pa1hjbj9q&st=9h42uxt4&raw=1\",\"position\":3,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_427f9c0744232ef0e657093f467af273",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":3}"
+    },
+    {
+      "$id": "telegram-content-004",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-003\",\"fingerprint\":\"d9e0d5faf6b91cf36e23b5673d56701b6676528762cbb399903972029d1ee896\",\"preview_url\":\"https://www.dropbox.com/scl/fi/ih6y5lyrf0q10cpxw3vn8/BP003.png?rlkey=0z6bjoygewm78r97h694cau5x&st=41qivbhk&raw=1\",\"position\":4,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_5bb22d87d1819ac576e284aa25e95d33",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":4}"
+    },
+    {
+      "$id": "telegram-content-005",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-014\",\"fingerprint\":\"ceb8c3a49cfe343340d3b75665a62b5716b525f5ab0bd0b4a3ecd92df51e705a\",\"preview_url\":\"https://www.dropbox.com/scl/fi/zmit3toof6hsncgngfutq/BP014.png?rlkey=vi13b7fj7iv5862s2nvancmcg&st=zg5k5by5&raw=1\",\"position\":5,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_602d943a66a5017b7c6889f9da16ba78",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":5}"
+    },
+    {
+      "$id": "telegram-content-006",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"S0001\",\"fingerprint\":\"0592a6a09970bdeb315c58d0179760fd868f8c370dc8d3accb2ce1e6b27c26fc\",\"preview_url\":\"https://www.dropbox.com/scl/fi/4vegv56x0peijbdh470jj/Model_posing_in_blue_studio_20261008210834.jpg?rlkey=mhy5zulpm2lzzgiso4arzchnw&st=g5i6dj06&raw=1\",\"position\":6,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_8393e65876a224d30687722491349b6c",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":6}"
+    },
+    {
+      "$id": "telegram-content-007",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-017\",\"fingerprint\":\"fa1549deb927db8c63c8b97fe68e29a8114d5072d8b5f2750e5a11a67ed19c2c\",\"preview_url\":\"https://www.dropbox.com/scl/fi/be2psrlwbgs4rk6g8ktui/BP017.png?rlkey=i53ru7ln4x0wkviehr51n04ku&st=vgkqawg4&raw=1\",\"position\":7,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_6e5104ecc457f8378ffd07dfaf2fe266",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":7}"
+    },
+    {
+      "$id": "telegram-content-008",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-012\",\"fingerprint\":\"749af2af6d85deeb10cb487299c0a8d219722f83a42163e60bde26d922874ba0\",\"preview_url\":\"https://www.dropbox.com/scl/fi/hgev9mo9pffjawj6f4fiq/BP012.png?rlkey=fg8uccojop5efj4rteje9elf0&st=xa2ziut7&raw=1\",\"position\":8,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_7c21200778a90da28b49084088705104",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":8}"
+    },
+    {
+      "$id": "telegram-content-009",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-023\",\"fingerprint\":\"7627c1769af6a2dd5bf8d2df33a2de2663797cc1eae7587fc24f3db13cdf00ee\",\"preview_url\":\"https://www.dropbox.com/scl/fi/c1jaeb30rwjr03zgf0tk9/BP023.png?rlkey=3lotqzyfodwts5ywn6g5prq2b&st=cv8izin4&raw=1\",\"position\":9,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_470255f1844c4de52324780ab26510f5",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":9}"
+    },
+    {
+      "$id": "telegram-content-010",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-020\",\"fingerprint\":\"e3d49577de150c1b222d9af796a830628180047b25c0712e34c43be3454c4346\",\"preview_url\":\"https://www.dropbox.com/scl/fi/n6salf26b4clv7951wz26/BP020.png?rlkey=moo9c28uj4ezi8q6xdjx2i39g&st=nwk6sfxn&raw=1\",\"position\":10,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_0240cddb19fe774ec3fc1b2044fd72c0",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":10}"
+    },
+    {
+      "$id": "telegram-content-011",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-007\",\"fingerprint\":\"7c314dc72ee6dac4cdb61efee85f64f1fa186eeccbde890ab05d2af94876806d\",\"preview_url\":\"https://www.dropbox.com/scl/fi/uadoighugf2uejcwxi83m/BP007.png?rlkey=wdo0lz8s2oqh7fwyqwlcsmmr1&st=ca2upmxl&raw=1\",\"position\":11,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_0da3fb7a8fadd284c1c7d4768236f665",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":11}"
+    },
+    {
+      "$id": "telegram-content-012",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-010\",\"fingerprint\":\"e55d043fbf251abf405ea95fae7a05546818620a4f1caf3850505c5b4a5df654\",\"preview_url\":\"https://www.dropbox.com/scl/fi/dxqpcq9ff1kq4idmzni0j/BP010.png?rlkey=4bhj1zpxxph37s1tgkxttri4f&st=2inzji5o&raw=1\",\"position\":12,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_a6480d3445ad412145d83b8f8ad77a8e",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":12}"
+    },
+    {
+      "$id": "telegram-content-013",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-028\",\"fingerprint\":\"59c2f50568231505bf7999aa069a8a709cb34500f702c8dfcdc25008392bd922\",\"preview_url\":\"https://www.dropbox.com/scl/fi/7pmka9kah620vaw6s675e/BP028.png?rlkey=qr6zrnp3anpxxat03obdkgm0l&st=xmujvmeb&raw=1\",\"position\":13,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_f2a123ca0715b5c37a2ac943670f18d9",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":13}"
+    },
+    {
+      "$id": "telegram-content-014",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-015\",\"fingerprint\":\"14525d3ba4d269ed2eb099b9a555069d789ffe6ec24e185d8ef19945e9d9418c\",\"preview_url\":\"https://www.dropbox.com/scl/fi/i8ghja5ac5axe7ashusdk/BP015.png?rlkey=h0ye0g4vaqcjxs0uiud77iukv&st=yiio4ms4&raw=1\",\"position\":14,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_233658c5480471e3d36aec9b224c7142",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":14}"
+    },
+    {
+      "$id": "telegram-content-015",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-004\",\"fingerprint\":\"714e9042ea4c0887a010fd73bfe4efa11dd9b73bd4b1ea2af6ca1f13ea868d2a\",\"preview_url\":\"https://www.dropbox.com/scl/fi/mkp8wdlqlm2z53ma7m9w3/BP004.png?rlkey=0tzr8irg0avlic02umv91i2ox&st=q5mbed7k&raw=1\",\"position\":15,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_93fa5176ec98df4bd6c436127acea3f2",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":15}"
+    },
+    {
+      "$id": "telegram-content-016",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-025\",\"fingerprint\":\"7686896e649be5734848a40060c4a071c2dca45d48c042bc804711edda1bdf5a\",\"preview_url\":\"https://www.dropbox.com/scl/fi/7skdxrywf36g53tdakzvh/BP025.png?rlkey=0paul69tmdyxu69qk0rgzncf3&st=6c16k60q&raw=1\",\"position\":16,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_d0d19a79bd1f8e632b7bea191caae716",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":16}"
+    },
+    {
+      "$id": "telegram-content-017",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-018\",\"fingerprint\":\"3596478c8fb79c1863f0fa485d4872d522813a35d43be6c259b67dcff16f7f7c\",\"preview_url\":\"https://www.dropbox.com/scl/fi/c50x203tifxh9t353b5b5/BP018.png?rlkey=ueitfi7xk6qw88xbts998ynvy&st=p2zcmzrv&raw=1\",\"position\":17,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_694d77c39d8f96ef469d6c6d741b8ab6",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":17}"
+    },
+    {
+      "$id": "telegram-content-018",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-009\",\"fingerprint\":\"87cba1beaeca8691ee303eb6c1ffce1d2d18df6c8b3a66791c7e6929ef571cb6\",\"preview_url\":\"https://www.dropbox.com/scl/fi/nssdyisoz1lrwj259tkaj/BP009.png?rlkey=7tm2hp87j9ibp5kqc4s8jsi3m&st=ttcpz2qd&raw=1\",\"position\":18,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_8933049d0f6c654c6c0b82ed961f260d",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":18}"
+    },
+    {
+      "$id": "telegram-content-019",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-022\",\"fingerprint\":\"27023ba910479be44eaea0b2117c33871fee4e00ea9cb5c00631dc1880f19039\",\"preview_url\":\"https://www.dropbox.com/scl/fi/44fonl29djn3k2jds22b6/BP022.png?rlkey=vuktmw01jd8oyzhm3lt1wjrn8&st=4yq7vrtd&raw=1\",\"position\":19,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_108f943dc910c24672035c065f7c61fc",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":19}"
+    },
+    {
+      "$id": "telegram-content-020",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-016\",\"fingerprint\":\"8ce8f5483f8fbc4ac7caabd28483268b24267c2a0f2224927f13a6b7501bf668\",\"preview_url\":\"https://www.dropbox.com/scl/fi/op8cazyozv6xennxjr8rg/BP016.png?rlkey=l4t3i187cipuxg1b4qddjo3tg&st=zs40tmu6&raw=1\",\"position\":20,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_7c183e0b6aa17d7253f1e2af7ea146ae",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":20}"
+    },
+    {
+      "$id": "telegram-content-021",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-026\",\"fingerprint\":\"b3a379151338f4b5f934a4afbb970904bcd115c923f4a455e1096b7fb8d1b58a\",\"preview_url\":\"https://www.dropbox.com/scl/fi/gspf3esebbegisvrc9y9y/BP026.png?rlkey=jgff5n6uvedj9tq2xh0bjwiha&st=n5t7ij5h&raw=1\",\"position\":21,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_b7aace01726f9b7a71cf4f88dbbff030",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":21}"
+    },
+    {
+      "$id": "telegram-content-022",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-024\",\"fingerprint\":\"a4d5a8bc7fa590d8104c9ab5dd2bae1bcdb6374ecb40b8a0ea92a281771d49f8\",\"preview_url\":\"https://www.dropbox.com/scl/fi/684sn4w89gecrzpuz98l1/BP024.png?rlkey=jsq04ilkdal0roagf07tigych&st=46ejq3i3&raw=1\",\"position\":22,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_87d5d0e72fe5916a96f7433d68ad7c2a",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":22}"
+    },
+    {
+      "$id": "telegram-content-023",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-006\",\"fingerprint\":\"53a387c28d324c5af211e0438d106a43c7c586596d40aa6980f59cdde8ac14d0\",\"preview_url\":\"https://www.dropbox.com/scl/fi/i6dy3a5rzyt193h410l1q/BP006.png?rlkey=neel0xv59csvtkmsi3s1ngn1c&st=ykj0khba&raw=1\",\"position\":23,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_b03c43ad13e90526fbb1808d6430f716",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":23}"
+    },
+    {
+      "$id": "telegram-content-024",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-008\",\"fingerprint\":\"a6fd68ed1a94f87d2435502ef4b2433a310b459816ce2316f6161a793cd7c0a0\",\"preview_url\":\"https://www.dropbox.com/scl/fi/6iy7tdi38zdge9pz10kz3/BP008.png?rlkey=1kzvhm06fc8l64vezcl4hbywm&st=z4ukbcxl&raw=1\",\"position\":24,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_7e55595c252ea830284c9bf6ccdbf976",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":24}"
+    },
+    {
+      "$id": "telegram-content-025",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-027\",\"fingerprint\":\"ed84114ea14d58c18efb4d8e24f594282bcfa5ed3a010bd8da63d23323fbeca9\",\"preview_url\":\"https://www.dropbox.com/scl/fi/efaahk8pwzupoorhtlr6k/BP027.png?rlkey=o2yv6i5gt4tuem5a1l9e9y0jn&st=t61cuy8e&raw=1\",\"position\":25,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_fb973cbc636f0030db861a70e3b96989",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":25}"
+    },
+    {
+      "$id": "telegram-content-026",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-031\",\"fingerprint\":\"2f908df22bc446d14a4bdeb36c1b75620e948e940db37775043c9daead1d1fad\",\"preview_url\":\"https://www.dropbox.com/scl/fi/mcvos3al7veu9j2g9wc2n/BP031.png?rlkey=qy3odnxyl5riub5kwf3luq0zc&st=omb98d9u&raw=1\",\"position\":26,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_53f534656ca6018df024870e58869f24",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":26}"
+    },
+    {
+      "$id": "telegram-content-027",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"S0002\",\"fingerprint\":\"1c9346f36cd8cf1eda9a056bca3896b7df0eca9f82c80cdb58cb739ea5dea218\",\"preview_url\":\"https://www.dropbox.com/scl/fi/rau5isxnhmyag2a4tjkn3/KitKat_advertising_poster_creation_20261008213329.jpg?rlkey=s6ovltkyx3puaqe9jnzjlo161&st=oe7ur2jn&raw=1\",\"position\":27,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_4fa31d9239facf16742cba7087e681cf",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":27}"
+    },
+    {
+      "$id": "telegram-content-028",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-032\",\"fingerprint\":\"1c3677f25c18732e7d55d5a7e014f0e7aa0dcb96eed372a6490ee876b717cb9a\",\"preview_url\":\"https://www.dropbox.com/scl/fi/zq1041gqvfye45nyzbgaa/BP032.png?rlkey=dpewo57yxq89rfe9v49mmma4b&st=bjz8ivu6&raw=1\",\"position\":28,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_ea70e9df880f0d40fad58b737ccc08da",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":28}"
+    },
+    {
+      "$id": "telegram-content-029",
+      "kind": "content",
+      "status": "approved",
+      "payload": "{\"source\":\"scene_prompts\",\"prompt_id\":\"cuanify-viral-011\",\"fingerprint\":\"d6f4e916ce6832f13fbab4f661c3fbdefc7280a8a9fb3041c5576b5e3645fc48\",\"preview_url\":\"https://www.dropbox.com/scl/fi/p1e79lv1gmqtwt1h1teyx/BP011.png?rlkey=jbb1un7y4t1jmxe678i5xms3f&st=ovx6iuo6&raw=1\",\"position\":29,\"approved_by\":\"owner-editorial-curation\",\"approved_at\":\"2026-10-10T00:57:00.000Z\"}"
+    },
+    {
+      "$id": "tg_4187454f3cc3e008c5684008dc0b4b23",
+      "kind": "content_hash",
+      "status": "approved",
+      "payload": "{\"position\":29}"
+    }
+  ]
+}

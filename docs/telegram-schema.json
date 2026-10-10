@@ -132,6 +132,13 @@
           "kind",
           "user_id"
         ]
+      ],
+      [
+        "idx_state_kind_status",
+        [
+          "kind",
+          "status"
+        ]
       ]
     ],
     "telegram_deliveries": [
