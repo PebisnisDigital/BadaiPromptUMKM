@@ -183,7 +183,7 @@ export class Service{
   let lastCursor=null;
   for(let member of due.rows){if(this.now()-start>budgetMs)break;lastCursor=member.$id;member=await this.sync(member);if(dry)continue;
    const consent=await this.consent(bot.$id,member.telegram_id);if(!consent||consent.status!=='allowed')continue;
-   const r=await this.delivery.prompt(member,bot,{key:id('period',member.telegram_id,member.plan,member.next_send_at||'first')});if(r.ok)result.sent++;else if(!r.duplicate)result.failed++;
+   const r=await this.delivery.prompt(member,bot,{key:id('period',member.telegram_id,member.plan,member.next_send_at||'first')});if(r.ok)result.sent++;else if(r.skipped)result.skipped=(result.skipped||0)+1;else if(!r.duplicate)result.failed++;
   }
   if(dry)return result;
   await this.store.putState('telegram-delivery-cursor',{cursor:due.rows.length?lastCursor:null},{kind:'cursor'});
