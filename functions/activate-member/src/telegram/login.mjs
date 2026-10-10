@@ -29,7 +29,13 @@ export class TelegramLogin {
     const userClaim=await this.s.store.state(id('userlink',userId));
     if(userClaim&&userClaim.data.telegram_id!==member.telegram_id)throw fail('Akun sudah terhubung ke identitas Telegram lain.',409);
     try{await this.users.create({userId,name:String(member.first_name||'Member BADAI PROMPT').slice(0,128)})}
-    catch(e){if(Number(e.code)!==409)throw e;await this.users.get({userId})}
+    catch(e){
+      if(Number(e.code)!==409)throw e;
+      // A predictable userId might have been registered by an unrelated account.
+      // Never claim it without the prior server-side ownership record.
+      if(!userClaim||userClaim.data.telegram_id!==member.telegram_id)throw fail('ID akun sudah digunakan. Hubungi bantuan untuk pemulihan aman.',409);
+      await this.users.get({userId});
+    }
     if(!claimed){
       const created=await this.s.store.claim(id('tglink',member.telegram_id),{kind:'tglink',telegram_id:member.telegram_id,user_id:userId,status:'linked',payload:JSON.stringify({user_id:userId})});
       if(!created){const other=await this.s.store.state(id('tglink',member.telegram_id));if(other?.data.user_id!==userId)throw fail('Identitas sudah terhubung ke akun lain.',409)}
