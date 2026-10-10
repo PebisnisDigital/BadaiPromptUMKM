@@ -126,7 +126,7 @@ export class Service{
   const bot=await this.bot(botId);if(!equal(secret,this.secret(bot)))throw fail('Webhook tidak sah.',403);
   if(!Number.isSafeInteger(update.update_id)||update.update_id<0)throw fail('Update ID tidak valid.');
   if(update.callback_query&&/^(upsell|qris):/.test(String(update.callback_query.data||'')))return this.qris.callback(bot,update.callback_query);
-  if(update.callback_query){const c=update.callback_query;if(!['status','bantuan'].includes(c.data))return {ok:true,ignored:true};update={...update,message:{...c.message,from:c.from,text:'/'+c.data}}}
+  if(update.callback_query){const c=update.callback_query;if(!['status','bantuan','login'].includes(c.data))return {ok:true,ignored:true};update={...update,message:{...c.message,from:c.from,text:'/'+c.data}}}
   if(!update.message||!update.message.text)return {ok:true,ignored:true};
   const identity=privateIdentity(update);
   if(update.callback_query&&this.sendEnabled){try{await this.telegram.call(this.token(bot),'answerCallbackQuery',{callback_query_id:String(update.callback_query.id)})}catch{}}
