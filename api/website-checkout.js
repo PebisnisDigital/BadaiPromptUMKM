@@ -136,7 +136,18 @@ async function grant(s,row){
   if(!verified.memberships?.some(m=>m.confirm===true))throw Error('Keanggotaan masih pending.');
  }
  const profile=await s.store.get('member_profiles',userId);
- const until=calculatePaidAccessUntil({paidAt:data.paid_at,profile});
+ // Freeze this order's entitlement duration before any profile write. Concurrent
+ // webhook and browser poll both reuse the SAME plan, avoiding double extensions.
+ const planKey=id('website-activation-plan',row.$id);
+ const proposed=calculatePaidAccessUntil({paidAt:data.paid_at,profile});
+ await s.store.claim(planKey,{
+  kind:'activation_plan',user_id:userId,telegram_id:tg,status:'fixed',
+  payload:JSON.stringify({user_id:userId,telegram_id:tg,access_until:proposed,order_id:row.$id})
+ });
+ const plan=await s.store.state(planKey);
+ if(!plan||plan.kind!=='activation_plan'||plan.data.user_id!==userId||plan.data.telegram_id!==tg||plan.data.order_id!==row.$id)
+  throw Error('Rencana aktivasi tidak konsisten; perlu pemeriksaan admin.');
+ const until=plan.data.access_until;
  const fields={status:'active',access_until:until,role:'member'};
  if(profile)await s.store.update('member_profiles',userId,fields);
  else await s.tables.createRow({databaseId:process.env.APP_DB_ID||DB,tableId:'member_profiles',rowId:userId,data:{...fields,user_id:userId,name:String(user.name||data.first_name||'Member BADAI PROMPT').slice(0,128),email:null,whatsapp:null},permissions:[Permission.read(Role.user(userId))]});
