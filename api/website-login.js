@@ -15,7 +15,8 @@ export default async function handler(req,res){
  res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');
  if(req.method!=='GET')return fail(res,'Method not allowed.',405);
  if(req.headers.origin&&req.headers.origin!==ORIGIN)return fail(res,'Origin tidak diizinkan.',403);
- const action=String(req.query?.action||'config');
+ const action=String(req.query?.action||(req.query?.code?'callback':'config'));
+ if(action==='callback'&&req.query?.error)return fail(res,'Login Telegram ditolak atau dibatalkan.',403);
  if(action==='config')return res.status(200).json({ok:true,enabled:active(),price:199000});
  if(!active())return fail(res,'Login Telegram website belum diaktifkan. Checkout biasa tetap tersedia.',503);
  try{
