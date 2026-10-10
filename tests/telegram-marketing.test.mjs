@@ -15,7 +15,7 @@ function setup({gate=false,globalSend=false,existing=[]}={}){
    const rows=table==='telegram_state'?[...db.values()]:[...sources.values()];
    let list=rows.filter(row=>filters.every(([op,key,value])=>op==='equal'?row[key]===value:true)).sort((a,b)=>a.$id.localeCompare(b.$id));
    if(cursor){const idx=list.findIndex(x=>x.$id===cursor);list=list.slice(idx+1)}
-   return {rows:list.slice(0,limit).map(x=>({...x,...(x.payload?{data:JSON.parse(x.payload)}:{})})),total:list.length};
+   return {rows:list.slice(0,limit).map(x=>({...x})),total:list.length};
   },
   async putState(key,data,meta={}){
    const row={$id:key,kind:meta.kind||'settings',status:meta.status||'ready',payload:JSON.stringify(data),...meta};
