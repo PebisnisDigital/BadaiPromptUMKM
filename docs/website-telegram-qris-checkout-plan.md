@@ -1,37 +1,38 @@
-# BADAI PROMPT — Independent Website QRIS with Telegram Confirmation
+# Website-only BADAI PROMPT — Telegram login + QRIS
 
-## Intent & compliance boundary
-Implement **website-first** sales originating independently at `https://badaiprompt.vercel.app`. This is not a Telegram Mini App, an in-bot third-party payment, or a workaround for Telegram's digital-goods Stars policy. Do not convert the Telegram bot's in-chat offer into an external QRIS transaction for in-Telegram digital sales. Purchases inside Telegram require Stars.
+## Policy and scope
+An independent website purchase at https://badaiprompt.vercel.app. Do not wire the bot's digital-goods purchase callback to external QRIS. Sales inside the Telegram bot require Stars.
 
-Website UI may say **BELI PREMIUM** while internally starting authentication, but the customer must see and approve any Telegram identity consent required on the first purchase.
+## Implementation as of 10 October 2026
+- Website Login OIDC code + PKCE: api/website-login.js. Single-use state, server-side token exchange, signed Telegram RS256 JWT + JWKS, short-lived secure cookies.
+- Website QRIS backend: api/website-checkout.js. Independent provider invoices in telegram_state, one-invoice-per-buyer protections, provider status verification, signature-verified callback, premium Appwrite account/team/profile activation, website session token.
+- Frontend: beli-premium.html. BELI, verified Telegram identity, QRIS, polling, premium confirmation, Appwrite custom-session login. Existing LP email/WA checkout stays available until rollout flag enabled.
+- Optional consent-based bot website purchase confirmation after verified Premium activation.
+- Unit and Playwright simulated tests included. No real payment made.
 
-## Status, 2026-10-10
-- DONE (draft only): `telegram/web-identity.mjs` verifies **legacy widget** HMAC signatures with a strict five-minute timestamp, data whitelist, and Telegram ID validation. Not an OAuth/OIDC verifier.
-- DONE (draft only): `telegram/website-purchase-notice.mjs` can notify a **previously linked** Telegram account once the existing website order worker has verified an order and granted paid access. It sends nothing without send permission, active bot, START consent, and Premium status. It is idempotent per order.
-- DONE (draft only): production event-worker hook behind `TELEGRAM_WEBSITE_PAID_NOTICE_ENABLED=true`; remains disabled if unset.
-- NOT DONE: Telegram Login setup at BotFather, site-specific OAuth/OIDC endpoint, no-form QRIS create & order persistence, verified identity→Appwrite custom session, complete payment→account activation for email-less buyers, live callback and delivery QA.
-- Existing production checkout remains **name + email + WhatsApp**. Do NOT bypass its validation using placeholder email addresses, guessed phone numbers, or unsigned Telegram query IDs.
+## All changes gated OFF by default
+- TELEGRAM_WEBSITE_LOGIN_ENABLED=false
+- TELEGRAM_SITE_CHECKOUT_ENABLED=false
+- TELEGRAM_WEBSITE_PAID_NOTICE_ENABLED=false
+Existing production payment flow continues unchanged without these flags.
 
-## Prerequisite requiring owner action
-For the currently supported official Telegram Web Login flow, open **@BotFather → bot @BadaiPromptBot → Login Widget**. Register `https://badaiprompt.vercel.app` and the future exact callback `https://badaiprompt.vercel.app/api/telegram/website-callback` under allowed URLs. Keep Client Secret private in Vercel environment variables; do not paste it into chat.
+## BotFather owner setup
+1. Open @BotFather → @BadaiPromptBot → Login Widget or Web Login.
+2. Register the allowed origin https://badaiprompt.vercel.app and callback https://badaiprompt.vercel.app/api/website-login.
+3. Obtain numeric Client ID and secret, and set in Vercel environment variables TELEGRAM_OIDC_CLIENT_ID and TELEGRAM_OIDC_CLIENT_SECRET. Do not paste secrets into chat.
+4. Redeploy, then enable TELEGRAM_WEBSITE_LOGIN_ENABLED only for controlled auth QA. Keep TELEGRAM_SITE_CHECKOUT_ENABLED and TELEGRAM_WEBSITE_PAID_NOTICE_ENABLED OFF.
 
-Modern Telegram Login uses OpenID Connect. Build Authorization Code + PKCE on the backend, validate ID token against Telegram JWKS, exact audience, issuer, expiry, nonce/state, and enforce one-time state. Legacy HMAC verifier above applies only to older Login Widget callbacks.
+## Security
+- Telegram ID in URL or bot callback is not enough; server requires signed OIDC identity.
+- Website-current tracks active provider transaction. Failures or uncertain provider creation block duplicate invoices pending manual review.
+- BuatQRIS webhook signature is checked, and provider status checked again for the known transaction ID.
+- Paid Appwrite entitlement derives only from verified paid order, with no fabricated email or WhatsApp. Existing unlinked email accounts must be linked explicitly, never silently merged.
+- Browser gets an Appwrite custom token only after backend activation; Telegram bot notification requires START consent and confirmed Premium.
+- Website notifications are best-effort and idempotent, not yet guaranteed to retry indefinitely.
 
-## Release milestones
-1. Site **BELI PREMIUM** button initializes consent as needed and resumes checkout for an authenticated Telegram session; if login is already valid, skip consent UI.
-2. Server creates or resolves a **single verified account mapping** (Telegram ID ↔ Appwrite user ID) and protects account-merge situations. No fabricated email or WhatsApp. Existing email-based accounts require the owner to authenticate once to link, not silently overwrite.
-3. Add dedicated order records with Telegram user ID and Appwrite user ID, transaction ID, amount = IDR 199000, callback signature verification, unique provider transaction and replay-proof order state. Reuse existing BuatQRIS merchant configuration; do not create duplicate charges on API timeouts.
-4. Show QRIS only on the independent website. Notify pending status without falsely indicating payment success.
-5. On authenticated BuatQRIS webhook + independent status verification, grant **365-day** Appwrite entitlement atomically and idempotently. Ensure member_profiles and paid-members eligibility are both valid before success screen. Support returning Premium customers and existing legacy paid access without reducing rights.
-6. Issue secure, short-lived Appwrite website session after buyer clicks BELI (requires verified identity); browser lands directly in Member Area when payment confirmed.
-7. If buyer opted into messaging and STARTed @BadaiPromptBot, send **separate informational confirmation** (not an invoice) with a Member Area link, once per paid website order.
-8. Test webhook replay, failed/pending/expired, duplicate checkout click, revoked Telegram consent, wrong token, existing Appwrite membership conflicts, disconnect/reconnect, and live zero-value provider test mode where supported. Only then turn on the server flag and deploy.
+## Not yet verified live
+- Actual BotFather allowed URLs and ID/secret are missing from Vercel project.
+- Real OIDC consent exchange, merchant sandbox transaction, paid membership for email-less accounts, webhook retries, end-to-end website session and bot receipt.
+- Current BuatQRIS merchant configuration is in live mode (test_mode:false). Arrange an authorized test method rather than making a real payment during development.
 
-## Current baseline observations
-- `functions/payment-api/src/main.js:createPayment` currently rejects missing full_name, email, and whatsapp and creates QRIS orders through BuatQRIS, with a signed webhook.
-- `functions/activate-member/src/main.js` activates successful paid orders using the **email** from the order, not Telegram ID; it only syncs an already-linked member and does not currently send confirmation.
-- Migrating to login-free checkout requires an independent user-bound order flow; replacing a button label alone is insufficient.
-- Telegram notification helper introduced in this draft is not an authorization source; it may never create an entitlement or alter payment status.
-
-## Required release bar
-No website auto-QRIS or Telegram confirmation should be described as live until provider test order, Appwrite entitlement, website session, bot receipt, and deletion/retry semantics have each been verified end-to-end. Production flags stay OFF meanwhile.
+Never enable the no-form website checkout until the end-to-end smoke test passes. Sources: https://core.telegram.org/bots/telegram-login and https://appwrite.io/docs/products/auth/custom-token
