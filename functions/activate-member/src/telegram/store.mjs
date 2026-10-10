@@ -11,6 +11,12 @@ export class Store{
  async claim(rowId,data){try{return await this.create('telegram_state',rowId,data)}catch(e){if(e.code===409)return null;throw e}}
  async state(rowId){const row=await this.get('telegram_state',rowId);return row?{...row,data:JSON.parse(row.payload||'{}')}:null}
  async putState(rowId,data,meta={}){const payload=JSON.stringify(data),old=await this.get('telegram_state',rowId);const row={kind:'settings',status:'ready',payload,...meta};return old?this.update('telegram_state',rowId,row):this.create('telegram_state',rowId,row)}
+ async transaction(fn){
+  const transaction=await this.tables.createTransaction({ttl:60}),transactionId=transaction.$id,base={databaseId:this.databaseId,transactionId};
+  const get=async(tableId,rowId)=>{try{return unwrap(await this.tables.getRow({...base,tableId,rowId}))}catch(e){if(Number(e.code)===404)return null;throw e}};
+  const tx={get,state:async rowId=>{const row=await get('telegram_state',rowId);return row?{...row,data:JSON.parse(row.payload||'{}')}:null},update:(tableId,rowId,data)=>this.tables.updateRow({...base,tableId,rowId,data}),put:async(rowId,data,meta={},exists=false)=>{const args={...base,tableId:'telegram_state',rowId,data:{payload:JSON.stringify(data),...meta}};return exists?this.tables.updateRow(args):this.tables.createRow({...args,permissions:[]})}};
+  try{const result=await fn(tx);await this.tables.updateTransaction({transactionId,commit:true});return result}catch(e){try{await this.tables.updateTransaction({transactionId,rollback:true})}catch{}if(Number(e.code)===409)throw fail('Transaksi pembayaran bentrok; coba ulang saat status terverifikasi.',503);throw e}
+ }
  async rate(userId,action,now,max=20){
   const bucket=Math.floor(now/60000),key=id('rate',userId,action,bucket);
   // One row per request slot gives a strict distributed limit without racy counters.
