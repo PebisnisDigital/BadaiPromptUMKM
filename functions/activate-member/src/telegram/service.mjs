@@ -1,9 +1,10 @@
 import {Delivery} from './delivery.mjs';
+import {Marketing} from './marketing.mjs';
 import {fail,id,random,masterKey,seal,unseal,equal,numeric,privateIdentity,safeError} from './security.mjs';
 import {defaults,settings,entitlement,DAY,jakartaStart} from './policy.mjs';
 export class Service{
- constructor({store,telegram,key,now=()=>Date.now(),sendEnabled=false,webhookBase='https://badaiprompt.vercel.app/api/telegram/webhook',verifyUser,verifyAdmin,verifyPaidAccess=async()=>false}){
-  Object.assign(this,{store,telegram,key,now,sendEnabled,webhookBase,verifyUser,verifyAdmin,verifyPaidAccess});this.delivery=new Delivery(this);
+ constructor({store,telegram,key,now=()=>Date.now(),sendEnabled=false,webhookBase='https://badaiprompt.vercel.app/api/telegram/webhook',verifyUser,verifyAdmin,verifyPaidAccess=async()=>false,marketingEnabled=false}){
+  Object.assign(this,{store,telegram,key,now,sendEnabled,webhookBase,verifyUser,verifyAdmin,verifyPaidAccess,marketingEnabled});this.delivery=new Delivery(this);this.marketing=new Marketing(this);
  }
  async config(){return settings((await this.store.state('telegram-settings'))?.data||defaults)}
  token(bot){return unseal(bot.token_cipher,masterKey(this.key),'token:'+bot.$id)}
@@ -25,6 +26,28 @@ export class Service{
  async admin(action,body,jwt){
   const actor=await this.verifyAdmin(jwt);await this.store.rate(actor.$id,'admin',this.now(),20);
   if(action==='overview')return this.overview();
+  if(action==='marketing-get')return this.marketing.get();
+  if(action==='marketing-candidates')return this.marketing.candidates(body);
+  if(action==='marketing-settings'){
+    const result=await this.marketing.saveSettings(body,actor.$id);
+    await this.audit(actor.$id,action,{enabled:result.settings.enabled,start_date:result.settings.start_date});
+    return result;
+  }
+  if(action==='marketing-slot-save'){
+    const result=await this.marketing.save(body,actor.$id);
+    await this.audit(actor.$id,action,{day:result.slot.day,source:result.slot.source,prompt_id:result.slot.prompt_id});
+    return result;
+  }
+  if(action==='marketing-slot-delete'){
+    const result=await this.marketing.remove(body.day,actor.$id);
+    await this.audit(actor.$id,action,{day:Number(body.day)});
+    return result;
+  }
+  if(action==='marketing-slot-move'){
+    const result=await this.marketing.move(body.from,body.to,actor.$id);
+    await this.audit(actor.$id,action,{from:result.from,to:result.to});
+    return result;
+  }
   if(action==='settings'){
    const old=await this.config();const allowed=['enabled','paused','dry_run','premium_time','free_days','premium_days','delete_hours','term_days','batch_size'];const filtered=Object.fromEntries(allowed.filter(k=>k in body).map(k=>[k,body[k]]));const s=settings({...old,...filtered});
    if(!this.sendEnabled&&(s.enabled||!s.paused||!s.dry_run))throw fail('Pengiriman belum diizinkan pada server. Pertahankan otomatisasi nonaktif, PAUSE, dan mode uji coba.',409);
@@ -160,7 +183,7 @@ export class Service{
   let lastCursor=null;
   for(let member of due.rows){if(this.now()-start>budgetMs)break;lastCursor=member.$id;member=await this.sync(member);if(dry)continue;
    const consent=await this.consent(bot.$id,member.telegram_id);if(!consent||consent.status!=='allowed')continue;
-   const r=await this.delivery.prompt(member,bot,{key:id('period',member.telegram_id,member.plan,member.next_send_at||'first')});if(r.ok)result.sent++;else if(!r.duplicate)result.failed++;
+   const r=await this.delivery.prompt(member,bot,{key:id('period',member.telegram_id,member.plan,member.next_send_at||'first')});if(r.ok)result.sent++;else if(r.skipped)result.skipped=(result.skipped||0)+1;else if(!r.duplicate)result.failed++;
   }
   if(dry)return result;
   await this.store.putState('telegram-delivery-cursor',{cursor:due.rows.length?lastCursor:null},{kind:'cursor'});

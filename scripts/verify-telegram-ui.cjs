@@ -23,10 +23,66 @@ const root=path.resolve(__dirname,'..'),output=process.env.UI_ARTIFACTS||path.jo
  }
  const member=await browser.newPage({viewport:{width:390,height:900}});await local(member);await member.route('**/assets/vendor/appwrite-28.1.0.js',r=>r.fulfill({body:fixture,contentType:'application/javascript'}));await member.route('**/api/telegram/link',r=>{assert.equal(r.request().headers().authorization,'Bearer verified-test-session');return r.fulfill({json:{ok:true,url:'https://t.me/TestBadaiBot?start=link_simulated',expires_in:600}})});await member.goto('https://badaiprompt.vercel.app/member');await member.waitForFunction(()=>!document.getElementById('loading').classList.contains('show'));await member.locator('#accountBtn').click();await member.locator('#tgLinkBtn').click();await member.locator('#tgLinkOpen').waitFor({state:'visible'});assert.match(await member.locator('#tgLinkOpen').getAttribute('href'),/^https:\/\/t.me\//);assert.match(await member.locator('#tgLinkMsg').innerText(),/10 menit/);await member.screenshot({path:path.join(output,'telegram-member-link.png')});await member.close();
  console.log('Member linking PASS: verified-session request, one-use deep link and expiry. Simulated.');
- for(const amount of [59000,159000,199000]){
+ for(const amount of [199000]){
   const p=await browser.newPage(),errors=[],calls=[];p.on('pageerror',e=>errors.push(e.message));await local(p);await p.route('**/assets/vendor/appwrite-28.1.0.js',r=>r.fulfill({body:fixture,contentType:'application/javascript'}));
-  await p.route('**/functions/payment-api/executions',r=>{const ex=r.request().postDataJSON(),body=JSON.parse(ex.body||'{}');calls.push({path:ex.path,body});let data=ex.path==='/config'?{minimum_price:30000,price:100000,registration_open:true}:ex.path==='/social-proof'?{enabled:false,items:[]}:ex.path==='/create'?{public_token:'test-order',amount,total_amount:amount,qr_url:'data:image/png;base64,iVBORw0KGgo=',expires_at:new Date(Date.now()+900000).toISOString()}:{status:'pending',access_ready:false};return r.fulfill({json:{responseStatusCode:200,responseBody:JSON.stringify(data)}})});
-  await p.goto('https://badaiprompt.vercel.app/');await p.locator('.price-choice[onclick="openCheckout('+amount+')"]').click();await p.locator('#buyerName').fill('Pembeli Simulasi');await p.locator('#buyerEmail').fill('checkout@example.com');await p.locator('#buyerWa').fill('081234567890');await p.locator('#payBtn').click();await p.waitForFunction(()=>document.getElementById('paymentWrap').style.display==='block');assert.equal(calls.find(x=>x.path==='/create').body.amount,amount);await p.locator('#checkNowBtn').click();await p.waitForFunction(()=>document.getElementById('payStatus').textContent.includes('Belum ada pembayaran'));assert(calls.some(x=>x.path==='/check'));assert.deepStrictEqual(errors,[]);await p.close();console.log('Existing QRIS checkout '+amount+' PASS: account, amount, QR and status polling. Simulated.');
+  await p.route('**/functions/payment-api/executions',r=>{const ex=r.request().postDataJSON(),body=JSON.parse(ex.body||'{}');calls.push({path:ex.path,body});let data=ex.path==='/config'?{minimum_price:199000,price:199000,price_mode:'fixed',registration_open:true}:ex.path==='/social-proof'?{enabled:false,items:[]}:ex.path==='/create'?{public_token:'test-order',amount,total_amount:amount,qr_url:'data:image/png;base64,iVBORw0KGgo=',expires_at:new Date(Date.now()+900000).toISOString()}:{status:'pending',access_ready:false};return r.fulfill({json:{responseStatusCode:200,responseBody:JSON.stringify(data)}})});
+  await p.goto('https://badaiprompt.vercel.app/');await p.locator('.offer-scroll-cta').click();assert.match((await p.locator('#selectedAmountLabel').innerText()).replace(/\s/g,''),/^Rp199\.000$/);await p.locator('#buyerName').fill('Pembeli Simulasi');await p.locator('#buyerEmail').fill('checkout@example.com');await p.locator('#buyerWa').fill('081234567890');await p.locator('#payBtn').click();await p.waitForFunction(()=>document.getElementById('paymentWrap').style.display==='block');assert.equal(calls.find(x=>x.path==='/create').body.amount,amount);await p.locator('#checkNowBtn').click();await p.waitForFunction(()=>document.getElementById('payStatus').textContent.includes('Belum ada pembayaran'));assert(calls.some(x=>x.path==='/check'));assert.deepStrictEqual(errors,[]);await p.close();console.log('Fixed-price Premium checkout Rp199.000 PASS: account, amount, QR and status polling. Simulated.');
+ }
+ // Marketing calendar: isolated browser simulation, no real messages or DB mutations.
+ for(const width of [1280,390]){
+  const page=await browser.newPage({viewport:{width,height:1000}}),pageErrors=[],calls=[],slots=new Map();
+  page.on('pageerror',e=>pageErrors.push(e.message));await local(page);
+  await page.route('**/assets/vendor/appwrite-28.1.0.js',r=>r.fulfill({body:fixture,contentType:'application/javascript'}));
+  let marketingSettings={enabled:false,loop_campaign:false,start_date:'2026-10-10',send_time:'06:00',timezone:'Asia/Jakarta',
+    default_offer:'Suka prompt ini? Buka semua prompt Premium Rp199.000.',default_cta_label:'BUKA PREMIUM',default_cta_type:'premium',default_cta_url:''};
+  await page.route('**/api/telegram/manager',async route=>{
+   const body=route.request().postDataJSON();calls.push(body);
+   let reply={ok:true};
+   if(body.action==='marketing-get')reply={ok:true,settings:marketingSettings,slots:[...slots.values()],stats:{filled:slots.size,empty:365-slots.size,target:365,active:false,campaign_day:1},server_gate:false};
+   if(body.action==='marketing-candidates')reply={ok:true,total:2,next_cursor:null,rows:[
+    {source:'scene_prompts',id:'p1',title:'BP001 • Foto Editorial',category:'Foto',preview_url:'https://example.com/p1.jpg',summary:'Prompt visual pertama'},
+    {source:'scene_prompts',id:'p2',title:'BP002 • Poster Produk',category:'Bisnis',preview_url:'https://example.com/p2.jpg',summary:'Prompt visual kedua'}]};
+   if(body.action==='marketing-slot-save'){const item={...body,title:body.prompt_id==='p1'?'BP001 • Foto Editorial':'BP002 • Poster Produk'};slots.set(body.day,item);reply={ok:true,slot:item}}
+   if(body.action==='marketing-slot-delete')slots.delete(body.day);
+   if(body.action==='marketing-slot-move'){
+     const from=slots.get(body.from),to=slots.get(body.to);
+     slots.delete(body.from);if(to)slots.set(body.from,{...to,day:body.from});
+     slots.set(body.to,{...from,day:body.to});
+   }
+   if(body.action==='marketing-settings'){marketingSettings={...marketingSettings,...body};reply={ok:true,settings:marketingSettings}}
+   await route.fulfill({json:reply});
+  });
+  await page.goto('https://badaiprompt.vercel.app/admin');
+  await page.waitForFunction(()=>!document.getElementById('loading').classList.contains('show'));
+  await page.locator('[data-view="marketing"]').click();
+  await page.locator('#mktPromptList .mkt-prompt').first().waitFor();
+  assert.match(await page.locator('#mktStats').innerText(),/0\/365/);
+  assert.equal(await page.locator('#mktEnabled option[value="true"]').evaluate(el=>el.disabled),true);
+  await page.locator('[data-mkt-pick="scene_prompts:p1"]').click();
+  await page.locator('[data-mkt-day="1"]').click();
+  await page.locator('#mktEditOffer').fill('Coba prompt ini, lalu buka Premium Rp199.000 untuk 365 hari.');
+  await page.locator('#mktEditLabel').fill('UPGRADE SEKARANG');
+  await page.locator('#mktEditForm button[type="submit"]').click();
+  await page.waitForFunction(()=>document.getElementById('mktNotice').textContent.includes('disimpan'));
+  assert.match(await page.locator('[data-mkt-day="1"]').innerText(),/Foto Editorial/);
+  assert.equal(slots.get(1).cta_label,'UPGRADE SEKARANG');
+  if(width===1280){
+   await page.locator('[data-mkt-day="1"]').dragTo(page.locator('[data-mkt-day="2"]'));
+   await page.waitForFunction(()=>document.getElementById('mktNotice').textContent.includes('dipindahkan'));
+   assert.match(await page.locator('[data-mkt-day="2"]').innerText(),/Foto Editorial/);
+   assert.equal(slots.get(2).prompt_id,'p1');
+  }
+  await page.locator('#mktLoop').check();
+  await page.locator('#mktSettingsForm button[type="submit"]').click();
+  await page.waitForFunction(()=>document.getElementById('mktNotice').textContent.includes('Pengaturan Marketing tersimpan'));
+  assert.equal(marketingSettings.loop_campaign,true);
+  assert.equal(marketingSettings.enabled,false);
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+  assert(calls.filter(x=>x.action?.startsWith('marketing-')).every(x=>x.action!=='marketing-broadcast'));
+  assert.deepStrictEqual(pageErrors,[]);
+  await page.screenshot({path:path.join(output,'marketing-calendar-'+width+'.png'),fullPage:true});
+  await page.close();
+  console.log('Marketing Admin '+width+' PASS: Free calendar, prompt select, upsell CTA editor, draft settings'+(width===1280?', drag-and-drop':'')+'. Simulated.');
  }
  await browser.close();
 })().catch(e=>{console.error(e);process.exit(1)});
