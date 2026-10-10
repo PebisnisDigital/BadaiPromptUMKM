@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {assertProviderSettlement,assertAccountOwner,calculatePaidAccessUntil} from '../functions/activate-member/src/telegram/website-checkout-guards.mjs';
+import {assertProviderSettlement,assertAccountOwner,calculatePaidAccessUntil,freezeOrderEntitlement} from '../functions/activate-member/src/telegram/website-checkout-guards.mjs';
 
 const invoice={transaction_id:'invoice-ABC001',amount:199000,total_amount:200500};
 const good=()=>({transaction_id:'invoice-ABC001',status:'success',amount:199000,total_amount:200500});
@@ -41,4 +41,30 @@ test('expired subscriptions renew from settlement date, lifetime remains lifetim
  assert.equal(Date.parse(expired)-Date.parse(paidAt),365*86400000);
  assert.equal(calculatePaidAccessUntil({paidAt,profile:{status:'active',access_until:null}}),null);
  assert.throws(()=>calculatePaidAccessUntil({paidAt:'bad date',profile:null}),/Tanggal/);
+});
+
+test('simultaneous browser poll and verified webhook freeze ONE 365-day activation plan',async()=>{
+ const rows=new Map();
+ const store={
+  async claim(key,meta){
+   // Emulates unique Appwrite document ID atomic creation.
+   if(rows.has(key))return null;
+   const row={kind:meta.kind,data:JSON.parse(meta.payload)};
+   rows.set(key,row);
+   return row;
+  },
+  async state(key){return rows.get(key)||null}
+ };
+ const key='activation-order-01',paidAt='2026-10-10T01:00:00Z';
+ const first=calculatePaidAccessUntil({paidAt,profile:{status:'pending'}});
+ const second=calculatePaidAccessUntil({paidAt,profile:{status:'active',access_until:first}});
+ assert.notEqual(first,second); // A race must NOT allow a second year's extension.
+ const [a,b]=await Promise.all([
+  freezeOrderEntitlement({store,key,orderId:'order-01',userId:'userA',telegramId:'123',proposed:first}),
+  freezeOrderEntitlement({store,key,orderId:'order-01',userId:'userA',telegramId:'123',proposed:second})
+ ]);
+ assert.equal(a,first);
+ assert.equal(b,first);
+ assert.equal(rows.size,1);
+ await assert.rejects(()=>freezeOrderEntitlement({store,key,orderId:'order-01',userId:'userB',telegramId:'123',proposed:first}),/tidak konsisten/);
 });
