@@ -13,7 +13,7 @@ h1{font-size:30px;line-height:1.2;letter-spacing:-.035em}
 p{color:#e4d7e1} .muted{color:#a99ca9;font-size:13px}
 .status{padding:15px;background:#2d2230;border-radius:12px;border:1px solid #634458;white-space:pre-wrap;margin:20px 0}
 a.button{display:block;text-align:center;text-decoration:none;background:#ff4a9b;color:#240815;border-radius:10px;font-weight:850;padding:13px 16px;margin-top:14px}
-a.button[hidden]{display:none}a.button.secondary{background:#3c2a39;color:#f5e2ee}
+a.button[hidden],button.action[hidden],.status[hidden]{display:none}a.button.secondary{background:#3c2a39;color:#f5e2ee}button.action{display:block;width:100%;margin:15px 0;border:0;border-radius:10px;background:#ff4a9b;color:#240815;cursor:pointer;padding:13px 16px;font-weight:850}button.action:disabled{opacity:.6}
 .success{border-color:#2f9c80;color:#baf9df}
 footer{margin-top:20px;padding-top:13px;border-top:1px solid #483548}
 </style>
@@ -25,12 +25,43 @@ footer{margin-top:20px;padding-top:13px;border-top:1px solid #483548}
 <p>Kita tes login dulu tanpa membayar, tanpa membuat QRIS, dan tanpa mengubah status Premium.</p>
 <div id="status" class="status" role="status" aria-live="polite">Memeriksa konfigurasi…</div>
 <a id="login" class="button" href="/api/website-login?action=start&amp;return=test" hidden>MASUK DENGAN TELEGRAM</a>
+<button class="action" id="checkQris" type="button" hidden>CEK KESIAPAN QRIS • TANPA BAYAR</button>
+<div id="qrisReadiness" class="status" hidden role="status" aria-live="polite"></div>
 <a class="button secondary" href="/beli-premium.html">KEMBALI KE HALAMAN BELI</a>
 <footer class="muted">Setelah memberi persetujuan di Telegram, kamu kembali ke halaman ini. Jangan kirim token, Client Secret, atau kode login ke siapa pun.</footer>
 </main>
 <script>
 (async()=>{
  const el=document.getElementById('status'),button=document.getElementById('login');
+ const check=document.getElementById('checkQris'),result=document.getElementById('qrisReadiness');
+ check.addEventListener('click',async()=>{
+  check.disabled=true;result.hidden=false;result.textContent='Mengecek merchant dan pengaitan akun secara aman…';
+  try{
+   const response=await fetch('/api/website-checkout?action=preflight',{
+    method:'POST',headers:{'content-type':'application/json'},
+    credentials:'same-origin',body:'{}',cache:'no-store'
+   });
+   const d=await response.json().catch(()=>({}));
+   if(!response.ok)throw Error(d.error||'Pemeriksaan belum tersedia.');
+   const rows=[
+    'Login Telegram: TERVERIFIKASI',
+    'Merchant QRIS Rp199.000: '+(d.provider_ready?'TERKONFIGURASI':'BELUM SIAP'),
+    'Tautan akun lama: '+(d.identity_linked?'TERHUBUNG':'BELUM TERHUBUNG'),
+    'Akun Premium aktif: '+(d.premium_already_active?'YA':'BELUM'),
+    'Bentrok identitas: '+(d.account_review_needed?'PERLU ADMIN':'TIDAK'),
+    'Mode pembayaran merchant: '+(d.merchant_test_mode?'TEST':'LIVE (RIIL)'),
+    'Checkout QRIS baru: '+(d.checkout_enabled?'AKTIF':'BELUM DIAKTIFKAN'),
+    '',
+    d.account_review_needed?'Akun memerlukan pemeriksaan Admin sebelum pembayaran.':
+    d.premium_already_active?'Akun ini sudah Premium. Jangan bayar lagi untuk uji coba.':
+    !d.provider_ready?'Merchant QRIS belum siap. Jangan mencoba bayar.':
+    d.merchant_test_mode?'Kesiapan dasar baik. Lanjut uji provider dan aktivasi dengan kontrol Admin.':
+    'Merchant masih LIVE. Jangan lakukan transfer uji tanpa konfirmasi rencana pembayaran.'
+   ];
+   result.textContent=rows.join('\n');
+  }catch(e){result.textContent='Gagal memeriksa kesiapan QRIS: '+(e.message||'Server tidak tersedia.')}
+  finally{check.disabled=false}
+ });
  try{
   const [cfg,session]=await Promise.all([
    fetch('/api/website-login?action=config',{credentials:'same-origin',cache:'no-store'}).then(r=>r.json()),
@@ -43,6 +74,7 @@ footer{margin-top:20px;padding-top:13px;border-top:1px solid #483548}
   if(session.authenticated){
    el.classList.add('success');
    el.textContent='BERHASIL! Identitas Telegram kamu sudah terverifikasi.\n\nAkun: '+String(session.name||'Member BADAI PROMPT')+'\n\nBelum ada pembayaran atau perubahan status Premium.';
+   check.hidden=false;
    return;
   }
   el.textContent=new URLSearchParams(location.search).has('login')

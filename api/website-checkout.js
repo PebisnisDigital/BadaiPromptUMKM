@@ -3,7 +3,7 @@
 const crypto=require('node:crypto');
 const {Client,TablesDB,Users,Teams,Query,Permission,Role}=require('node-appwrite');
 let Store,id,telegramRuntime,notifyVerifiedWebsitePurchase;
-let assertProviderSettlement,assertAccountOwner,calculatePaidAccessUntil,freezeOrderEntitlement;
+let assertProviderSettlement,assertAccountOwner,calculatePaidAccessUntil,freezeOrderEntitlement,selectVerifiedAccountId;
 async function loadEsmModules(){
  const [store,security,runtime,notice,guards]=await Promise.all([
   import('../functions/activate-member/src/telegram/store.mjs'),
@@ -14,7 +14,7 @@ async function loadEsmModules(){
  ]);
  ({Store}=store);({id}=security);({runtime:telegramRuntime}=runtime);
  ({notifyVerifiedWebsitePurchase}=notice);
- ({assertProviderSettlement,assertAccountOwner,calculatePaidAccessUntil,freezeOrderEntitlement}=guards);
+ ({assertProviderSettlement,assertAccountOwner,calculatePaidAccessUntil,freezeOrderEntitlement,selectVerifiedAccountId}=guards);
 }
 
 const config={api:{bodyParser:false}};
@@ -121,9 +121,9 @@ async function grant(s,row){
  const data=orderFrom(row),tg=data.telegram_id;
  if(!validId(tg)||data.amount!==PRICE||!data.transaction_id||!data.paid_at)throw Error('Transaksi memerlukan review manual.');
  const currentLink=await s.store.state(id('tglink',tg));
- const userId=currentLink?.data.user_id||id('tg-user',tg);
- const owned=await s.store.state(id('userlink',userId));
  const botMember=await s.store.get('telegram_members',id('member',tg));
+ const userId=selectVerifiedAccountId({telegramLink:currentLink,botMember,fallbackUserId:id('tg-user',tg)});
+ const owned=await s.store.state(id('userlink',userId));
  assertAccountOwner({telegramId:tg,userId,telegramLink:currentLink,userLink:owned,botMember});
  let user;try{user=await s.users.get({userId})}catch(e){if(Number(e.code)!==404)throw e}
  if(!user){
@@ -192,12 +192,53 @@ async function webhook(req,res,s,raw){
  const updated=await grant(s,await s.store.state(row.$id));
  return json(res,{ok:true,status:updated.status});
 }
+// Non-payment diagnostic: only a logged-in customer from our own HTTPS website
+// may see their own readiness result. No invoice, profile mutation or bot send.
+async function preflight(req,res){
+ if(req.method!=='POST')return err(res,'Method not allowed.',405);
+ if(process.env.TELEGRAM_WEBSITE_LOGIN_ENABLED!=='true')return err(res,'Login Telegram belum diaktifkan.',503);
+ if(req.headers.origin!==BASE)return err(res,'Asal permintaan tidak valid.',403);
+ try{
+  await loadEsmModules();
+  const s=sentry({secret:process.env.APPWRITE_API_KEY});
+  const who=await getSession(req,s),tg=who.telegram_id;
+  const websiteLink=await s.store.state(id('tglink',tg));
+  const member=await s.store.get('telegram_members',id('member',tg));
+  const userId=selectVerifiedAccountId({telegramLink:websiteLink,botMember:member,fallbackUserId:id('tg-user',tg)});
+  const userLink=await s.store.state(id('userlink',userId));
+  let conflict=false;
+  try{assertAccountOwner({telegramId:tg,userId,telegramLink:websiteLink,userLink,botMember:member})}catch{conflict=true}
+  let providerReady=false,providerTestMode=false;
+  try{const merchant=await provider(s);providerReady=true;providerTestMode=merchant.test_mode===true}catch{}
+  let accountExists=false,profile=null;
+  if(!conflict){
+   try{await s.users.get({userId});accountExists=true}catch(e){
+    if(Number(e?.code)!==404)throw e;
+   }
+   if(accountExists)profile=await s.store.get('member_profiles',userId);
+  }
+  const premium=Boolean(profile?.status==='active'&&
+    (!profile.access_until||Date.parse(profile.access_until)>Date.now()));
+  const connected=Boolean(websiteLink?.data?.user_id||member?.appwrite_user_id);
+  return json(res,{
+   ok:true,telegram_verified:true,provider_ready:providerReady,
+   identity_linked:connected,account_exists:accountExists,
+   premium_already_active:premium,account_review_needed:conflict,
+   safe_to_test:providerReady&&providerTestMode&&!conflict&&!premium,
+   merchant_test_mode:providerTestMode,
+   checkout_enabled:process.env.TELEGRAM_SITE_CHECKOUT_ENABLED==='true',
+   bot_notice_enabled:process.env.TELEGRAM_WEBSITE_PAID_NOTICE_ENABLED==='true',
+   price:PRICE
+  });
+ }catch(e){return err(res,'Pemeriksaan kesiapan tidak berhasil: '+safe(e.message||'Coba lagi.'),400)}
+}
 module.exports=async function handler(req,res){
  res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');
  const action=String(req.query?.action||'status');
  if(req.headers.origin&&req.headers.origin!==BASE)return err(res,'Origin tidak diizinkan.',403);
  const enabled=process.env.TELEGRAM_SITE_CHECKOUT_ENABLED==='true'&&process.env.TELEGRAM_WEBSITE_LOGIN_ENABLED==='true';
  if(action==='config'&&req.method==='GET')return json(res,{ok:true,enabled,price:PRICE});
+ if(action==='preflight')return preflight(req,res);
  if(!enabled)return err(res,'Checkout Telegram melalui website belum diaktifkan.',503);
  try{
   if(req.method!=='POST')return err(res,'Method not allowed.',405);
