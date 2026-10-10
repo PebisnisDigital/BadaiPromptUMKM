@@ -15,7 +15,26 @@
   const s=data.settings;el('tgEnabled').checked=s.enabled;el('tgDryRun').checked=s.dry_run;el('tgTime').value=s.premium_time;el('tgFreeDays').value=s.free_days;el('tgPremiumDays').value=s.premium_days;el('tgDeleteHours').value=s.delete_hours;el('tgTermDays').value=s.term_days;el('tgBatch').value=s.batch_size;el('tgMaxRun').value=s.max_members_per_run||100;el('tgAutomationState').textContent=(!s.enabled?'NONAKTIF':s.paused?'PAUSE':'BERJALAN')+' · '+(s.dry_run?'SIMULASI':'PESAN SUNGGUHAN')+' · Izin kirim server: '+(data.send_enabled?'AKTIF':'NONAKTIF');
  }
  async function load(){data=await request('overview');render();notice('Data aktual dimuat. Pilih bot untuk mengelola atau menguji.');}
- async function loadContent(){const {content:c,monitor:m}=await request('content-status');contentState=c;el('tgContentStatus').textContent=c.ready_days+' / '+c.target+' hari siap kirim · '+c.approved+' disetujui · '+c.missing_days+' hari belum siap · '+(c.enabled?'KURASI AKTIF':'KURASI BELUM AKTIF')+'. Kandidat visual dengan preview: '+c.scene_candidates+'; koleksi lain: '+c.prompt_candidates_total+'.';el('tgSchedulerMonitor').textContent='Antrean jatuh tempo: '+m.due+' · Hapus jatuh tempo: '+m.delete_due+' · Retry: '+m.retry+' · Perlu review: '+m.uncertain+' · Gagal: '+m.failed+'. '+(m.last_run?'Eksekusi terakhir: '+m.last_run.sent+' kiriman dalam '+m.last_run.duration_ms+' ms. ':'Belum ada pengukuran worker baru. ')+' Batas teoritis / hari: '+(m.configured_daily_ceiling??'—')+'; estimasi dari run terakhir: '+(m.measured_daily_estimate??'—')+'. '+m.capacity_note;el('tgContentEnable').disabled=!c.ready_days||c.enabled;}
+
+ function renderLaunch(l){
+  const title=el('tgLaunchStatus'),metrics=el('tgLaunchMetrics'),checks=el('tgLaunchChecklist');
+  if(!l){title.textContent='Audit launching belum tersedia dari server.';metrics.textContent='Perbarui backend untuk melihat status.';checks.textContent='';return;}
+  title.textContent=(l.status==='NOT_READY'?'BELUM SIAP SOFT LAUNCH':'MEMERLUKAN REVIEW MANUAL')+' • '+(l.blockers?.length||0)+' penghambat';
+  const stock=l.stock||{};
+  metrics.innerHTML=[
+   [stock.curated,'Prompt siap dikirim'],
+   [stock.visual_candidates,'Kandidat visual'],
+   [stock.needed_for_365,'Masih perlu untuk 365 hari']
+  ].map(([value,label])=>'<div class="tg-launch-metric"><b>'+escape(value??'—')+'</b><span>'+escape(label)+'</span></div>').join('');
+  const items=[
+   ...(l.blockers||[]).map(c=>({...c,level:'WAJIB DIPERBAIKI'})),
+   ...(l.warnings||[]).map(c=>({...c,level:'PERINGATAN'})),
+   ...(l.next||[]).map(c=>({...c,level:'LANGKAH BERIKUTNYA'}))
+  ];
+  checks.innerHTML=items.map(x=>'<div class="tg-launch-check" data-status="'+(x.level==='LANGKAH BERIKUTNYA'?'info':'warning')+'"><strong>'+escape(x.level)+'</strong>'+escape(x.message)+'</div>').join('')||'Tidak ada temuan otomatis. Tetap wajib uji manual.';
+ }
+
+ async function loadContent(){const {content:c,monitor:m,launch:l}=await request('content-status');renderLaunch(l);contentState=c;el('tgContentStatus').textContent=c.ready_days+' / '+c.target+' hari siap kirim · '+c.approved+' disetujui · '+c.missing_days+' hari belum siap · '+(c.enabled?'KURASI AKTIF':'KURASI BELUM AKTIF')+'. Kandidat visual dengan preview: '+c.scene_candidates+'; koleksi lain: '+c.prompt_candidates_total+'.';el('tgSchedulerMonitor').textContent='Antrean jatuh tempo: '+m.due+' · Hapus jatuh tempo: '+m.delete_due+' · Retry: '+m.retry+' · Perlu review: '+m.uncertain+' · Gagal: '+m.failed+'. '+(m.last_run?'Eksekusi terakhir: '+m.last_run.sent+' kiriman dalam '+m.last_run.duration_ms+' ms. ':'Belum ada pengukuran worker baru. ')+' Batas teoritis / hari: '+(m.configured_daily_ceiling??'—')+'; estimasi dari run terakhir: '+(m.measured_daily_estimate??'—')+'. '+m.capacity_note;el('tgContentEnable').disabled=!c.ready_days||c.enabled;}
  async function loadCandidates(cursor){const source=el('tgContentSource').value,r=await request('content-candidates',{source,...(cursor?{cursor}:{})});contentCursor=r.next_cursor;el('tgContentNext').disabled=!contentCursor;el('tgContentCandidates').innerHTML=r.rows.map(p=>'<div><strong>'+escape(p.title)+'</strong><br>'+escape(p.id)+(p.ready?'<br><a href="'+escape(p.preview_url)+'" target="_blank" rel="noopener noreferrer">LIHAT PREVIEW</a><br><button type="button" class="btn dark" data-content-approve="'+escape(p.id)+'">SETUJUI KE ANTREAN</button>':'<br>'+escape(p.reason))+'</div>').join('')||'Tidak ada kandidat.';}
  async function run(task){if(busy)return;busy=true;const buttons=[...el('v-telegram').querySelectorAll('button')],states=buttons.map(b=>b.disabled);buttons.forEach(b=>b.disabled=true);notice('Memproses…');try{await task()}catch(e){notice(e.message)}finally{busy=false;buttons.forEach((b,i)=>{if(b.isConnected)b.disabled=states[i]});testerControls();if(contentState)el('tgContentEnable').disabled=!contentState.ready_days||contentState.enabled;el('tgContentNext').disabled=!contentCursor}}
  function selected(){const bot_id=el('tgBotSelect').value;if(!bot_id)throw Error('Pilih bot yang sudah disimpan.');return {bot_id}}
