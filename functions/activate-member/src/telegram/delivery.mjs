@@ -1,13 +1,24 @@
 import {id,safeError,fail} from './security.mjs';
 import {DAY,nextAt,promptChunks} from './policy.mjs';
+import {contentHash as contentHashMarketing} from './marketing.mjs';
 export class Delivery{
  constructor(service){this.s=service}
  async prompt(member,bot,{key,kind='prompt',promptId,test=false,welcome=false,now=this.s.now()}={}){
   const s=this.s,setting=await s.config(),consent=await s.consent(bot.$id,member.telegram_id);
   if(!consent||consent.status!=='allowed')throw fail('Pengguna belum START bot ini atau telah memblokirnya.');
   const profile=await s.sync(member);member=profile;
-  let prompt=promptId?await s.store.get('scene_prompts',promptId):null;
+  let prompt=promptId?(await s.store.get('scene_prompts',promptId)||await s.store.get('prompts',promptId)):null;
   if(promptId&&!prompt?.is_published)throw fail('Prompt belum dipublikasikan.');
+  const campaignCfg=!test&&member.plan==='free'&&s.marketingEnabled?await s.marketing.config():null;
+  const marketingTime=campaignCfg?.enabled?campaignCfg.send_time:setting.premium_time;
+  if(!prompt&&!promptId&&!test&&member.plan==='free'&&campaignCfg?.enabled){
+   const planned=await s.marketing.forFree(now);
+   if(planned?.skip){
+    await s.store.update('telegram_members',member.$id,{next_send_at:nextAt(now,setting.free_days,marketingTime)});
+    return {skipped:true,reason:planned.reason,marketing_day:planned.day};
+   }
+   if(planned?.prompt)prompt=planned.prompt;
+  }
   if(!prompt){
    const cursor=(await s.store.state(id('cursor',member.telegram_id)))?.data.prompt_id;
    const validCursor=cursor&&await s.store.get('scene_prompts',cursor)?cursor:null;
@@ -19,11 +30,21 @@ export class Delivery{
   const deliveryKey=key||id(member.telegram_id,member.next_send_at||'first',kind),rowId=id('delivery',deliveryKey);
   let row=await s.store.get('telegram_deliveries',rowId);
   if(row&&row.dispatch_status!=='retry'){
-   if(!test&&row.dispatch_status==='sent'&&row.kind==='prompt'&&Number(member.delivery_day||0)<Number(row.day_number)){await s.store.update('telegram_members',member.$id,{delivery_day:row.day_number,last_sent_at:row.sent_at,next_send_at:nextAt(Date.parse(row.sent_at),row.plan==='premium'?setting.premium_days:setting.free_days,setting.premium_time)})}
+   if(!test&&row.dispatch_status==='sent'&&row.kind==='prompt'&&Number(member.delivery_day||0)<Number(row.day_number)){await s.store.update('telegram_members',member.$id,{delivery_day:row.day_number,last_sent_at:row.sent_at,next_send_at:nextAt(Date.parse(row.sent_at),row.plan==='premium'?setting.premium_days:setting.free_days,row.plan==='free'?marketingTime:setting.premium_time)})}
    return {duplicate:true,delivery:row};
   }
   if(row&&row.bot_id!==bot.$id)return {duplicate:true,requires_review:true};
   if(!row){try{row=await s.store.create('telegram_deliveries',rowId,{telegram_id:member.telegram_id,chat_id:consent.data.chat_id,bot_id:bot.$id,prompt_id:prompt.$id,message_id:'pending',message_ids:'[]',plan:member.plan,day_number:(member.delivery_day||0)+1,delivery_key:deliveryKey,sent_at:new Date(now).toISOString(),dispatch_status:'reserved',kind:test?'test':kind,attempts:0})}catch(e){if(e.code===409)return {duplicate:true};throw e}}
+  const marketingRefId=id('marketing-delivery',rowId);
+  if(!test&&!promptId&&member.plan==='free'&&prompt.marketing_offer){
+   await s.store.putState(marketingRefId,{source:prompt.content_source||'scene_prompts',fingerprint:contentHashMarketing(prompt),marketing_day:prompt.marketing_day,offer:prompt.marketing_offer},{kind:'marketing_delivery',telegram_id:member.telegram_id,status:'reserved'});
+  }else if(!test&&promptId&&member.plan==='free'){
+   const remembered=await s.store.state(marketingRefId);
+   if(remembered?.status==='reserved'){
+    if(contentHashMarketing(prompt)!==remembered.data.fingerprint)throw fail('Konten Marketing berubah sejak kiriman sebelumnya; tahan retry untuk review.',409);
+    prompt={...prompt,marketing_offer:remembered.data.offer,content_source:remembered.data.source,marketing_day:remembered.data.marketing_day};
+   }
+  }
   const lock=await s.store.claim(id('attempt',rowId,row.attempts||0),{kind:'attempt',bot_id:bot.$id,status:'claimed',due_at:new Date(now+7*DAY).toISOString(),payload:'{}'});
   if(!lock)return {duplicate:true};
   const ids=JSON.parse(row.message_ids||'[]');
@@ -41,10 +62,20 @@ export class Delivery{
     const message=await s.telegram.call(token,'sendMessage',{chat_id:consent.data.chat_id,text,parse_mode:'HTML'});ids.push(String(message.message_id));
     await s.store.update('telegram_deliveries',rowId,{message_id:ids[0],message_ids:JSON.stringify(ids)});
    }
+   if(!test&&member.plan==='free'&&prompt.marketing_offer){
+    const offer=prompt.marketing_offer;
+    const message=await s.telegram.call(token,'sendMessage',{
+     chat_id:consent.data.chat_id,
+     text:(offer.text+'\n\nPesan gratis akan dihapus setelah '+setting.delete_hours+' jam. Prompt Free berikutnya dalam '+setting.free_days+' hari.').slice(0,1400),
+     reply_markup:{inline_keyboard:[[{text:offer.label,url:offer.url}]]}
+    });
+    ids.push(String(message.message_id));
+    await s.store.update('telegram_deliveries',rowId,{message_id:ids[0],message_ids:JSON.stringify(ids)});
+   }
    await s.store.update('telegram_deliveries',rowId,{dispatch_status:'sent',plan:member.plan,sent_at:new Date(now).toISOString(),error_code:warning,delete_at:member.plan==='free'?new Date(now+setting.delete_hours*3600000).toISOString():null});
    if(!test){
     await s.store.putState(id('cursor',member.telegram_id),{prompt_id:prompt.$id},{kind:'cursor',telegram_id:member.telegram_id});
-    await s.store.update('telegram_members',member.$id,{delivery_day:(member.delivery_day||0)+1,last_sent_at:new Date(now).toISOString(),next_send_at:nextAt(now,member.plan==='premium'?setting.premium_days:setting.free_days,setting.premium_time)});
+    await s.store.update('telegram_members',member.$id,{delivery_day:(member.delivery_day||0)+1,last_sent_at:new Date(now).toISOString(),next_send_at:nextAt(now,member.plan==='premium'?setting.premium_days:setting.free_days,member.plan==='free'?marketingTime:setting.premium_time)});
    }
    return {ok:true,message_ids:ids,delivery_id:rowId,prompt_id:prompt.$id,warning};
   }catch(e){
