@@ -23,6 +23,7 @@
   const s=state.settings;
   $('mktStartDate').value=s.start_date||'';
   $('mktTime').value=s.send_time||'06:00';
+  $('mktLoop').checked=s.loop_campaign===true;
   $('mktEnabled').value=String(Boolean(s.enabled));
   $('mktEnabled').querySelector('option[value="true"]').disabled=!state.server_gate;
   $('mktDefaultOffer').value=s.default_offer||'';
@@ -162,7 +163,7 @@
  $('mktRefresh').addEventListener('click',()=>void act(refresh));
  $('mktDefaultType').addEventListener('change',()=>{$('mktDefaultUrl').disabled=$('mktDefaultType').value!=='url'});
  $('mktSettingsForm').addEventListener('submit',e=>{e.preventDefault();void act(async()=>{
-  const body={start_date:$('mktStartDate').value,send_time:$('mktTime').value,enabled:$('mktEnabled').value==='true',default_offer:$('mktDefaultOffer').value,default_cta_label:$('mktDefaultLabel').value,default_cta_type:$('mktDefaultType').value,default_cta_url:$('mktDefaultUrl').value};
+  const body={start_date:$('mktStartDate').value,send_time:$('mktTime').value,enabled:$('mktEnabled').value==='true',loop_campaign:$('mktLoop').checked,default_offer:$('mktDefaultOffer').value,default_cta_label:$('mktDefaultLabel').value,default_cta_type:$('mktDefaultType').value,default_cta_url:$('mktDefaultUrl').value};
   const r=await request('marketing-settings',body);state.settings=r.settings;statistics();renderCalendar();
   notice('Pengaturan Marketing tersimpan. Menyimpan tidak otomatis mengirim pesan.','success');
  })});
