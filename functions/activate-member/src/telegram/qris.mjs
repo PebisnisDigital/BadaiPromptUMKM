@@ -24,7 +24,7 @@ export class QrisChat{
  }
  async ready(){
   const cfg=await this.s.config();
-  return Boolean(this.s.qrisEnabled&&this.s.sendEnabled&&!cfg.dry_run&&cfg.enabled&&!cfg.paused&&this.s.grantPaidAccess);
+  return Boolean(this.s.qrisEnabled&&this.s.sendEnabled&&!cfg.dry_run&&cfg.enabled&&!cfg.paused&&this.s.grantPaidAccess&&this.s.passwordlessEnabled);
  }
  freeMessage(setting,deliveryId){
   return {text:'Pesan gratis ini akan dihapus setelah '+setting.delete_hours+' jam.\nPrompt gratis berikutnya dikirim '+setting.free_days+' hari lagi.\nMau semua koleksi Premium + rekomendasi setiap hari selama 365 hari?',reply_markup:{inline_keyboard:[[{text:'MAU',callback_data:'upsell:'+deliveryId}]]}};
@@ -108,7 +108,7 @@ export class QrisChat{
   return member;
  }
  async complete(invoice,bot){
-  if(!invoice||invoice.status!=='paid'||invoice.kind!=='bot_qris_invoice'||invoice.bot_id!==bot.$id)return {ignored:true};
+  if(!invoice||!['paid','activated'].includes(invoice.status)||invoice.kind!=='bot_qris_invoice'||invoice.bot_id!==bot.$id)return {ignored:true};
   const memberId=id('member',invoice.telegram_id),accessId=id('qris-access',invoice.telegram_id);
   let member=await this.s.store.get('telegram_members',memberId);
   if(!member)throw fail('Member untuk QRIS ini tidak ditemukan.',503);
@@ -123,8 +123,11 @@ export class QrisChat{
    await tx.update('telegram_state',invoice.$id,{status:'activated',payload:JSON.stringify({...state.data,activated_at:new Date(this.s.now()).toISOString(),until})});
   });
   member=await this.s.store.get('telegram_members',memberId);
-  if(member.appwrite_user_id&&this.s.grantPaidAccess)await this.grant(member,member.appwrite_user_id);
-  await this.s.delivery.text(member,bot,'Pembayaran QRIS terverifikasi. PREMIUM aktif! Koleksi Member Area tersedia setelah akun Telegram terhubung aman. Gunakan /status untuk melihat masa aktif.',id('qris-paid-notice',invoice.$id),'reply');
+  // A successful payment first provisions/reconciles a verified Telegram identity.
+  member=await this.s.login.ensureAccount(member);
+  await this.grant(member,member.appwrite_user_id);
+  const link=await this.s.login.issue(member,bot);
+  await this.s.delivery.text(member,bot,'Pembayaran QRIS terverifikasi! Premium aktif 365 hari. Tekan BUKA MEMBER AREA untuk masuk tanpa formulir. Tautan berlaku 5 menit.',id('qris-paid-notice',invoice.$id),'reply',{inline_keyboard:[[{text:'BUKA MEMBER AREA',url:link.url}]]});
   try{await this.s.delivery.prompt(member,bot,{key:id('qris-first',invoice.$id)})}catch{}
   return {ok:true};
  }
@@ -132,12 +135,12 @@ export class QrisChat{
   const access=await this.s.store.state(id('qris-access',member.telegram_id));
   if(!userId||!access||access.status!=='active')return;
   if(!this.s.grantPaidAccess)throw fail('Sinkronisasi Member Area belum tersedia.',503);
-  await this.s.grantPaidAccess(userId,access.data.until);
+  await this.s.grantPaidAccess(userId,access.data.until,member.telegram_id);
   await this.s.store.putState(id('qris-linked',member.telegram_id),{user_id:userId,until:access.data.until},{kind:'qris_linked',telegram_id:member.telegram_id,user_id:userId,status:'synced'});
  }
  async recover(bot,budget=5){
   if(!this.s.qrisEnabled||!this.s.grantPaidAccess)return {processed:0};
-  const page=await this.s.store.list('telegram_state',[['equal','kind','bot_qris_invoice'],['equal','bot_id',bot.$id],['equal','status','paid']],budget);
+  const page=await this.s.store.list('telegram_state',[['equal','kind','bot_qris_invoice'],['equal','bot_id',bot.$id],['equal','status',['paid','activated']]],budget);
   let processed=0;
   for(const raw of page.rows){
    const invoice=await this.s.store.state(raw.$id);
