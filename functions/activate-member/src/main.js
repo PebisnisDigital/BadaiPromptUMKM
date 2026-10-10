@@ -1,4 +1,5 @@
 import { runtime as telegramRuntime } from './telegram/runtime.mjs';
+import {notifyVerifiedWebsitePurchase} from './telegram/website-purchase-notice.mjs';
 import { commitPaidAccess } from './telegram/renewal.mjs';
 import { deleteSalesData } from './delete-sales.js';
 import { Client, TablesDB, Users, Teams, ID, Query, Permission, Role } from 'node-appwrite';
@@ -771,7 +772,14 @@ export default async ({req,res,log,error})=>{
     const activation=await commitPaidAccess({tables,databaseId:DB,profileTable:PROFILES,ordersTable:ORDERS,orderId:order.$id,user,Permission,Role});
 
     if(process.env.TELEGRAM_ENABLED==='true'){
-      try{const telegram=telegramRuntime({apiKey:req.headers['x-appwrite-key']});const linked=await telegram.store.list('telegram_members',[['equal','appwrite_user_id',user.$id]],2);for(const member of linked.rows)await telegram.sync(member)}catch{error?.('Telegram access sync pending; scheduler will retry.')}
+      try{
+        const telegram=telegramRuntime({apiKey:req.headers['x-appwrite-key']});
+        const linked=await telegram.store.list('telegram_members',[['equal','appwrite_user_id',user.$id]],2);
+        for(const member of linked.rows)await telegram.sync(member);
+        if(process.env.TELEGRAM_WEBSITE_PAID_NOTICE_ENABLED==='true'){
+          await notifyVerifiedWebsitePurchase({service:telegram,userId:user.$id,orderId:order.$id});
+        }
+      }catch{error?.('Telegram payment confirmation pending; secrets omitted.')}
     }
     log?.('Activated paid member '+user.$id);
     return res.json({ok:true,user_id:user.$id,...activation});
