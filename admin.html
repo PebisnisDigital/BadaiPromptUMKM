@@ -299,6 +299,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
         <label>JAM KAMPANYE<input id="mktTime" type="time" value="06:00" required></label>
         <label>MODE PENGIRIMAN<select id="mktEnabled"><option value="false">DRAF — Tidak mengirim</option><option value="true">AKTIF — Memerlukan izin server</option></select></label>
       </div>
+      <label class="mkt-loop"><input id="mktLoop" type="checkbox"> Ulangi kalender mulai Hari 1 setelah Hari 365</label>
       <p class="mkt-footnote">Hari 1 adalah tanggal mulai di WIB. Kalender berjalan global selama 365 hari. Member Free hanya menerima slot pada hari jatuh tempo menurut interval di Telegram Manager (saat ini 3 hari); hari tanpa konten akan dilewati, tidak diganti prompt acak. Pesan Free dijadwalkan dihapus setelah 24 jam.</p>
       <div class="mkt-subhead">TEMPLATE UPSELLING DEFAULT</div>
       <textarea id="mktDefaultOffer" rows="3" maxlength="850" placeholder="Pesan upselling setelah prompt terkirim…" required></textarea>
