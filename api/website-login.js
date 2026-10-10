@@ -1,7 +1,16 @@
-import {Client,TablesDB,Query} from 'node-appwrite';
-import {Store} from '../functions/activate-member/src/telegram/store.mjs';
-import {id} from '../functions/activate-member/src/telegram/security.mjs';
-import {randomSecret,loginUrl,exchangeAuthorizationCode,validateToken} from '../functions/activate-member/src/telegram/website-oidc.mjs';
+// Vercel bundles /api/*.js as CommonJS. Import the existing .mjs modules at
+// runtime rather than compiling their imports to require() (ERR_REQUIRE_ESM).
+const {Client,TablesDB,Query}=require('node-appwrite');
+let Store,id,randomSecret,loginUrl,exchangeAuthorizationCode,validateToken;
+async function loadEsmModules(){
+ const [store,security,oidc]=await Promise.all([
+  import('../functions/activate-member/src/telegram/store.mjs'),
+  import('../functions/activate-member/src/telegram/security.mjs'),
+  import('../functions/activate-member/src/telegram/website-oidc.mjs')
+ ]);
+ ({Store}=store);({id}=security);
+ ({randomSecret,loginUrl,exchangeAuthorizationCode,validateToken}=oidc);
+}
 
 const ORIGIN='https://badaiprompt.vercel.app',REDIRECT=ORIGIN+'/api/website-login';
 const TTL=600,SESSION_TTL=1800;
@@ -11,7 +20,7 @@ const setCookie=(key,value,maxAge,path='/')=>key+'='+value+'; Max-Age='+maxAge+'
 const store=()=>{const key=process.env.APPWRITE_API_KEY;if(!key)throw new Error('Appwrite belum dikonfigurasi.');const client=new Client().setEndpoint(process.env.APPWRITE_ENDPOINT||'https://sgp.cloud.appwrite.io/v1').setProject(process.env.APPWRITE_PROJECT_ID||'badai-prompt-umkm').setKey(key);return new Store(new TablesDB(client),Query,process.env.APP_DB_ID||'badai_prompt_umkm')};
 const active=()=>process.env.TELEGRAM_WEBSITE_LOGIN_ENABLED==='true'&&/^[1-9]\d{4,19}$/.test(String(process.env.TELEGRAM_OIDC_CLIENT_ID||''))&&Boolean(process.env.TELEGRAM_OIDC_CLIENT_SECRET);
 const fail=(res,message,code=400)=>res.status(code).json({ok:false,error:message});
-export default async function handler(req,res){
+module.exports=async function handler(req,res){
  res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');
  if(req.method!=='GET')return fail(res,'Method not allowed.',405);
  if(req.headers.origin&&req.headers.origin!==ORIGIN)return fail(res,'Origin tidak diizinkan.',403);
@@ -20,6 +29,7 @@ export default async function handler(req,res){
  if(action==='config')return res.status(200).json({ok:true,enabled:active(),price:199000});
  if(!active())return fail(res,'Login Telegram website belum diaktifkan. Checkout biasa tetap tersedia.',503);
  try{
+  await loadEsmModules();
   const db=store();
   if(action==='start'){
    const state=randomSecret(),verifier=randomSecret()+randomSecret().slice(0,20);

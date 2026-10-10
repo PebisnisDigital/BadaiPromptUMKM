@@ -16,6 +16,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
+      - run: npm run test:website-vercel
       - run: npm run test:telegram-website
       - run: node --check api/website-login.js && node --check api/website-checkout.js && node --check functions/activate-member/src/telegram/website-oidc.mjs
       - run: node --check scripts/verify-safe-release.cjs
