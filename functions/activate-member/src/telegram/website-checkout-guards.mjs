@@ -48,3 +48,16 @@ export async function freezeOrderEntitlement({store,key,orderId,userId,telegramI
  if(value!==null&&(!value||!Number.isFinite(Date.parse(value))))throw Error('Masa akses aktivasi tidak valid.');
  return value;
 }
+
+
+// Prefer an account already explicitly linked through the authenticated Telegram
+// bot. Never silently create a fresh Appwrite user for a known linked member.
+export function selectVerifiedAccountId({telegramLink,botMember,fallbackUserId}){
+ const website=telegramLink?.data?.user_id;
+ const telegram=botMember?.appwrite_user_id;
+ if(website&&telegram&&String(website)!==String(telegram))
+  throw Error('Akun Telegram terhubung dengan dua akun Appwrite berbeda. Hubungi admin.');
+ const selected=website||telegram||fallbackUserId;
+ if(!selected||!String(selected).trim())throw Error('Identitas akun belum tersedia.');
+ return String(selected);
+}
