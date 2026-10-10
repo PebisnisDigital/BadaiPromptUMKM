@@ -57,7 +57,7 @@ export class Marketing{
    result.push(...page.rows);if(page.rows.length<100)break;
    cursor=page.rows.at(-1)?.$id;
   }while(result.length<365);
-  return result.map(x=>({...x.data,$id:x.$id})).sort((a,b)=>a.day-b.day);
+  return result.map(x=>({...JSON.parse(x.payload||'{}'),$id:x.$id})).sort((a,b)=>a.day-b.day);
  }
  async get(){
   const [settings,slots]=await Promise.all([this.config(),this.entries()]);
