@@ -258,7 +258,7 @@ export default async ({req,res,error})=>{
       product_name:q(map.product_name)||'BADAI PROMPT UMKM',
       price:Number.isFinite(parsed)&&parsed>0?parsed:FALLBACK_PRICE,
       minimum_price:Number.isFinite(parsedMinimum)&&parsedMinimum>0?Math.floor(parsedMinimum):FALLBACK_MINIMUM_PRICE,
-      price_mode:'pay_what_you_want',
+      price_mode:Number.isFinite(parsed)&&parsed>0&&Number.isFinite(parsedMinimum)&&parsedMinimum===parsed?'fixed':'pay_what_you_want',
       registration_open:String(map.registration_open??'true')==='true',
       social_proof_enabled:String(map.social_proof_enabled??'true')==='true',
       social_proof_interval_seconds:Math.min(60,Math.max(10,Number(map.social_proof_interval_seconds||18)))
@@ -604,6 +604,7 @@ export default async ({req,res,error})=>{
     if(!Number.isFinite(requestedAmount)){
       throw Object.assign(new Error('Pilih nominal pembayaran dulu.'),{status:400});
     }
+    if(cfg.price_mode==='fixed'&&requestedAmount!==cfg.price)throw Object.assign(new Error('Paket Premium hanya tersedia dengan harga resmi.'),{status:400});
     if(requestedAmount<cfg.minimum_price){
       throw Object.assign(new Error('Nominal minimal adalah '+new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(cfg.minimum_price)+' untuk akses 1 tahun.'),{status:400});
     }
@@ -831,7 +832,26 @@ export default async ({req,res,error})=>{
     const transactionId=q(payload?.transaction_id||payload?.data?.transaction_id);
     if(!transactionId)throw Object.assign(new Error('transaction_id missing'),{status:400});
     const order=await getOrderByTransaction(transactionId);
-    if(!order?.$id)return {ok:true,ignored:true};
+
+    if(!order?.$id){
+      // Paid QRIS invoices originating from Telegram are held separately from
+      // website orders, because the bot never fabricates email/WA identities.
+      const rowId='tg_'+crypto.createHash('sha256').update(['qris-invoice',transactionId].join('\0')).digest('hex').slice(0,32);
+      let row;
+      try{row=rowData(await tables.getRow({databaseId:DB,tableId:'telegram_state',rowId}))}
+      catch(e){if(Number(e.code)===404)return {ok:true,ignored:true};throw e}
+      let data={};try{data=JSON.parse(row.payload||'{}')}catch{}
+      if(row.kind!=='bot_qris_invoice'||data.transaction_id!==transactionId)return {ok:true,ignored:true};
+      const providerAmount=Number(payload?.amount??payload?.data?.amount??0);
+      if(eventName==='payment.success'&&providerAmount>0&&![
+        Number(data.price),Number(data.total_amount)
+      ].includes(providerAmount))throw Object.assign(new Error('Jumlah pembayaran tidak sesuai invoice Telegram.'),{status:409});
+      if(row.status==='activated'||row.status==='paid')return {ok:true,duplicate:true};
+      if(!['pending','qr_delivery_uncertain'].includes(row.status))return {ok:true,ignored:true};
+      const next=eventName==='payment.success'?'paid':eventName==='payment.expired'?'expired':eventName==='payment.failed'?'failed':row.status;
+      if(next!==row.status)await tables.updateRow({databaseId:DB,tableId:'telegram_state',rowId,data:{status:next,payload:JSON.stringify({...data,...(next==='paid'?{paid_at:new Date().toISOString()}:{} )})}});
+      return {ok:true,telegram_qris:true,payment_status:next};
+    }
 
     let status=order.status;
     if(eventName==='payment.success')status='success';
@@ -879,6 +899,7 @@ export default async ({req,res,error})=>{
       const cfg=await getConfig();
       const supplied=Number(req.bodyJson?.amount);
       const basePrice=Number.isFinite(supplied)&&supplied>0?Math.floor(supplied):cfg.price;
+      if(cfg.price_mode==='fixed'&&basePrice!==cfg.price)return reply(res,{error:'Harga berbeda dari harga resmi Premium.'},400);
       if(basePrice<cfg.minimum_price){
         return reply(res,{error:'Nominal minimal adalah '+new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(cfg.minimum_price)+'.'},400);
       }

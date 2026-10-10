@@ -1,7 +1,7 @@
 name: Telegram checks
 on:
   pull_request:
-    paths: ['api/telegram/**', 'functions/**', 'assets/telegram-*', 'admin.html', 'member.html', 'tests/telegram*', 'tests/fixtures/telegram*', 'scripts/verify-telegram*', 'scripts/verify-safe-release.cjs', 'package*.json', '.github/workflows/telegram-checks.yml']
+    paths: ['api/telegram/**', 'functions/**', 'assets/telegram-*', 'admin.html', 'member.html', 'index.html', 'tests/telegram*', 'tests/fixtures/telegram*', 'scripts/verify-telegram*', 'scripts/verify-premium*', 'scripts/verify-safe-release.cjs', 'package*.json', '.github/workflows/telegram-checks.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -17,6 +17,7 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: node --check scripts/verify-safe-release.cjs
+      - run: node --check scripts/verify-premium-isolated.mjs
       - run: npx playwright install --with-deps chromium
       - run: npm run test:telegram-ui
         env:

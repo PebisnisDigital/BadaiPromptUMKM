@@ -1,10 +1,10 @@
 export const DAY=86400000;
-export const defaults=Object.freeze({enabled:false,paused:true,dry_run:true,premium_time:'06:00',free_days:3,premium_days:1,delete_hours:24,term_days:365,batch_size:5});
+export const defaults=Object.freeze({enabled:false,paused:true,dry_run:true,premium_time:'06:00',free_days:3,premium_days:1,delete_hours:24,term_days:365,batch_size:5,max_members_per_run:100});
 export function settings(input={}){
  const s={...defaults,...input};
  for(const k of ['enabled','paused','dry_run'])if(typeof s[k]!=='boolean')throw Error('Pengaturan boolean tidak valid.');
  if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(s.premium_time))throw Error('Jam kirim tidak valid.');
- for(const [k,min,max] of [['free_days',1,30],['premium_days',1,30],['delete_hours',1,47],['term_days',365,365],['batch_size',1,10]])if(!Number.isInteger(s[k])||s[k]<min||s[k]>max)throw Error('Pengaturan '+k+' tidak valid.');
+ for(const [k,min,max] of [['free_days',1,30],['premium_days',1,30],['delete_hours',1,47],['term_days',365,365],['batch_size',1,10],['max_members_per_run',1,200]])if(!Number.isInteger(s[k])||s[k]<min||s[k]>max)throw Error('Pengaturan '+k+' tidak valid.');
  return s;
 }
 export function nextAt(now,days,time){
