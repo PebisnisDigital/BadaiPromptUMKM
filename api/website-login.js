@@ -23,7 +23,7 @@ export default async function handler(req,res){
   const db=store();
   if(action==='start'){
    const state=randomSecret(),verifier=randomSecret()+randomSecret().slice(0,20);
-   await db.putState(id('website-oidc-flow',state),{verifier},{kind:'site_login',status:'pending',due_at:new Date(Date.now()+TTL*1000).toISOString()});
+   await db.putState(id('website-oidc-flow',state),{verifier,return_to:req.query?.return==='test'?'test':'buy'},{kind:'site_login',status:'pending',due_at:new Date(Date.now()+TTL*1000).toISOString()});
    res.setHeader('Set-Cookie',setCookie(flow,state,TTL,'/api/website-login'));
    return res.redirect(302,loginUrl({clientId:process.env.TELEGRAM_OIDC_CLIENT_ID,redirectUri:REDIRECT,state,verifier}));
   }
@@ -47,7 +47,7 @@ export default async function handler(req,res){
    const secret=randomSecret();
    await db.putState(id('website-session',secret),identity,{kind:'site_session',status:'active',telegram_id:identity.telegram_id,due_at:new Date(Date.now()+SESSION_TTL*1000).toISOString()});
    res.setHeader('Set-Cookie',[setCookie(flow,'',0,'/api/website-login'),setCookie(name,secret,SESSION_TTL)]);
-   return res.redirect(303,'/beli-premium.html');
+   return res.redirect(303,item.data.return_to==='test'?'/uji-login-telegram.html?login=success':'/beli-premium.html');
   }
   return fail(res,'Aksi login tidak ditemukan.',404);
  }catch(e){

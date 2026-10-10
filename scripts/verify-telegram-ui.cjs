@@ -131,5 +131,29 @@ const root=path.resolve(__dirname,'..'),output=process.env.UI_ARTIFACTS||path.jo
   await p.close();
  }
  console.log('Independent website Buy Premium PASS: gated safe fallback, verified buyer QRIS display, mobile 390px. All simulated.');
+
+ // Telegram Login-only QA: no QRIS, no Appwrite purchases, no member updates.
+ for(const mode of ['disabled','ready','verified']){
+  const p=await browser.newPage({viewport:{width:390,height:830}}),errors=[],calls=[];
+  p.on('pageerror',e=>errors.push(e.message));
+  await local(p);
+  await p.route('**/api/website-login**',r=>{
+   const action=new URL(r.request().url()).searchParams.get('action');calls.push(action);
+   if(action==='config')return r.fulfill({json:{ok:true,enabled:mode!=='disabled'}});
+   if(action==='session')return r.fulfill({json:mode==='verified'?{ok:true,authenticated:true,name:'Tester Terverifikasi'}:{ok:true,authenticated:false}});
+   return r.abort();
+  });
+  await p.goto('https://badaiprompt.vercel.app/uji-login-telegram.html');
+  await p.waitForFunction(()=>!document.getElementById('status').textContent.includes('Memeriksa konfigurasi'));
+  const status=await p.locator('#status').innerText();
+  if(mode==='disabled'){assert.match(status,/belum aktif/);assert.equal(await p.locator('#login').isHidden(),true);}
+  if(mode==='ready'){assert.match(status,/Klik tombol/);assert.equal(await p.locator('#login').isVisible(),true);assert.match(await p.locator('#login').getAttribute('href'),/return=test/);}
+  if(mode==='verified'){assert.match(status,/BERHASIL/);assert.match(status,/Tester Terverifikasi/);assert.equal(await p.locator('#login').isHidden(),true);}
+  assert.deepStrictEqual(calls,['config','session']);
+  assert.deepStrictEqual(errors,[]);
+  assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+  await p.close();
+ }
+ console.log('Telegram OIDC Login-only page PASS: safe disabled state, first-login action and verified identity. No payment calls. Simulated.');
  await browser.close();
 })().catch(e=>{console.error(e);process.exit(1)});
