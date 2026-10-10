@@ -121,6 +121,17 @@ export class Marketing{
   });
   return {ok:true,from,to};
  }
+ async previewTestSlot(day){
+  day=validDay(day);
+  const state=await this.s.store.state(slotId(day));
+  if(!state||state.status!=='scheduled')throw fail('Hari '+day+' belum memiliki konten Marketing.',409);
+  const data=state.data,source=data.source;
+  if(!SOURCES.has(source))throw fail('Sumber konten tidak dikenal.',409);
+  const prompt=await this.s.store.get(source,data.prompt_id);
+  if(!previewReady(prompt)||contentHash(prompt)!==data.fingerprint||prompt.preview_url!==data.preview_url)throw fail('Prompt atau preview telah berubah. Simpan ulang slot sebelum uji.',409);
+  const cta={text:data.offer_text,label:data.cta_label,url:link(data)};
+  return {day,source,prompt_id:prompt.$id,offer:cta,title:prompt.title,fingerprint:data.fingerprint};
+ }
  async forFree(now){
   const s=await this.config();
   if(!this.s.marketingEnabled||!s.enabled)return null;
