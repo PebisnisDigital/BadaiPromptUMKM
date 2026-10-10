@@ -306,6 +306,17 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
       <div class="mkt-actions"><button class="btn pink" type="submit">SIMPAN PENGATURAN</button><span id="mktGate" class="mkt-gate"></span></div>
     </form>
   </section>
+
+  <section class="mkt-schedule" aria-labelledby="mktTestTitle">
+    <div class="mkt-head"><h2 id="mktTestTitle">Uji Kirim Marketing ke Telegram</h2><span class="mkt-caption">HANYA AKUN PENGUJI • TIDAK BROADCAST</span></div>
+    <p class="mkt-footnote">Uji gambar, prompt lengkap, pesan upselling dan tombol CTA. Akun tujuan harus sudah diberi izin sebagai penguji di menu Telegram. Pengiriman ini tidak mengubah jadwal member Free dan tidak memerlukan aktivasi otomatisasi Marketing.</p>
+    <form id="mktTestForm" class="mkt-test-form">
+      <label>HARI KONTEN <input id="mktTestDay" type="number" min="1" max="365" value="1" required></label>
+      <label>AKUN TELEGRAM PENGUJI <select id="mktTestUser" required><option value="">Memuat daftar penguji…</option></select></label>
+      <button class="btn pink" id="mktTestButton" type="submit">KIRIM TES MARKETING</button>
+    </form>
+    <p class="mkt-footnote" id="mktTestStatus" role="status" aria-live="polite">Pilih akun penguji, lalu kirim satu kali. Pesan uji akan dijadwalkan untuk dihapus setelah 24 jam sesuai pengaturan bot.</p>
+  </section>
   <div class="mkt-workspace">
     <section class="mkt-calendar-panel" aria-labelledby="mktCalendarTitle">
       <div class="mkt-panel-header"><div><span class="eyebrow">RENCANA DISTRIBUSI</span><h2 id="mktCalendarTitle">Susunan 365 Hari</h2><p>Pindahkan kartu antarslot. Di HP, pilih prompt lalu ketuk harinya.</p></div><span id="mktSelection" class="mkt-selection">Belum memilih prompt</span></div>
