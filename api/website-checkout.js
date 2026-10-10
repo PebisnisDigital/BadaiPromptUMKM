@@ -52,6 +52,7 @@ async function findIntent(s,tg){
 async function checkout(req,res,s){
  const who=await getSession(req,s),tg=who.telegram_id,p=await provider(s),{key,row}=await findIntent(s,tg);
  const already=row;
+ if(already&&!already.data?.transaction_id)return err(res,'Pembuatan transaksi sebelumnya belum pasti. Jangan mencoba membayar dua kali sebelum menghubungi bantuan.',409);
  if(already?.data?.transaction_id){
   let purchase=await orderByTransaction(s,already.data.transaction_id);
   if(purchase?.status==='pending')purchase=await reconcilePayment(s,purchase,p);
@@ -64,11 +65,13 @@ async function checkout(req,res,s){
  }
  const claimed=await s.store.claim(key,{kind:'site_intent',telegram_id:tg,status:'creating',due_at:new Date(Date.now()+1800000).toISOString(),payload:JSON.stringify({created_at:new Date().toISOString()})});
  if(!claimed)return err(res,'Transaksi sedang dibuat. Tunggu sebentar.',409);
+ await s.store.putState(id('website-current',tg),{intent_id:key,started_at:new Date().toISOString()},{kind:'site_current',telegram_id:tg,status:'creating',due_at:new Date(Date.now()+86400000).toISOString()});
  let created;
  try{
   created=await callProvider(p,{action:'api_create_qris',account_id:String(p.account_id),secret_token:String(p.secret_token),amount:String(PRICE),description:'BADAI PROMPT Premium Website 365 Hari',fee_by:String(p.fee_by||'merchant'),callback_url:BASE+'/api/website-checkout?action=webhook',qris_method:String(p.qris_method||'qris_two'),...(p.umkm_name?{umkm_name:String(p.umkm_name).slice(0,15)}:{}),...(p.test_mode?{test:'1'}:{})});
  }catch(e){
   await s.store.update('telegram_state',key,{status:'uncertain'});
+  await s.store.update('telegram_state',id('website-current',tg),{status:'uncertain'});
   throw Error('BuatQRIS belum dapat dipastikan. Jangan ulangi pembayaran dulu, hubungi bantuan.');
  }
  if(!created.transaction_id||!created.qr_url&&!created.qris_image)throw Error('QRIS belum berhasil dibuat. Hubungi bantuan, jangan ulangi dulu.');
@@ -87,15 +90,14 @@ async function reconcilePayment(s,r,p){
  if(['activated','paid'].includes(r.status))return r;
  if(['expired','failed'].includes(r.status))return r;
  const d=r.data;
- if(Date.parse(d.expires_at)<=Date.now()&&r.status==='pending'){await s.store.update('telegram_state',r.$id,{status:'expired'});return s.store.state(r.$id)}
  const checked=await callProvider(p,{action:'api_check_status',account_id:String(p.account_id),secret_token:String(p.secret_token),transaction_id:d.transaction_id});
  if(String(checked.status)==='success'){
   const now=new Date().toISOString();
   await s.store.update('telegram_state',r.$id,{status:'paid',payload:JSON.stringify({...d,paid_at:now})});
   return s.store.state(r.$id);
  }
- if(['expired','failed'].includes(String(checked.status))){
-  await s.store.update('telegram_state',r.$id,{status:String(checked.status)});
+ if(['expired','failed'].includes(String(checked.status))||Date.parse(d.expires_at)<=Date.now()){
+  await s.store.update('telegram_state',r.$id,{status:['expired','failed'].includes(String(checked.status))?String(checked.status):'expired'});
   return s.store.state(r.$id);
  }
  return r;
