@@ -130,7 +130,9 @@ export class Marketing{
   const data=slot.data;
   const prompt=await this.s.store.get(data.source,data.prompt_id);
   if(!previewReady(prompt)||contentHash(prompt)!==data.fingerprint||prompt.preview_url!==data.preview_url)throw fail('Prompt kalender berubah. Review ulang hari '+day+' sebelum kirim.',409);
-  return {day,prompt:{...prompt,content_source:data.source,marketing_day:day,marketing_offer:{text:data.offer_text,label:data.cta_label,url:link(data)}}};
+  const elapsed=campaignDay(s.start_date,now,false);
+  const cycle=s.loop_campaign?Math.floor((elapsed-1)/365):0;
+  return {day,prompt:{...prompt,content_source:data.source,marketing_day:day,marketing_cycle:cycle,marketing_offer:{text:data.offer_text,label:data.cta_label,url:link(data)}}};
  }
 }
 export {DEFAULT_SETTINGS,validateUrl,slotId};
