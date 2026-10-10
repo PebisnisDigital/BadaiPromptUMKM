@@ -1,10 +1,11 @@
 import {Curation} from './curation.mjs';
+import {QrisChat} from './qris.mjs';
 import {Delivery} from './delivery.mjs';
 import {fail,id,random,masterKey,seal,unseal,equal,numeric,privateIdentity,safeError} from './security.mjs';
 import {defaults,settings,entitlement,DAY,jakartaStart} from './policy.mjs';
 export class Service{
- constructor({store,telegram,key,now=()=>Date.now(),sendEnabled=false,webhookBase='https://badaiprompt.vercel.app/api/telegram/webhook',verifyUser,verifyAdmin,verifyPaidAccess=async()=>false}){
-  Object.assign(this,{store,telegram,key,now,sendEnabled,webhookBase,verifyUser,verifyAdmin,verifyPaidAccess});this.delivery=new Delivery(this);this.curation=new Curation(this);
+ constructor({store,telegram,key,now=()=>Date.now(),sendEnabled=false,webhookBase='https://badaiprompt.vercel.app/api/telegram/webhook',verifyUser,verifyAdmin,verifyPaidAccess=async()=>false,qrisEnabled=false,grantPaidAccess=null,fetcher=fetch}){
+  Object.assign(this,{store,telegram,key,now,sendEnabled,webhookBase,verifyUser,verifyAdmin,verifyPaidAccess,qrisEnabled,grantPaidAccess,fetcher});this.delivery=new Delivery(this);this.curation=new Curation(this);this.qris=new QrisChat(this);
  }
  async config(){return settings((await this.store.state('telegram-settings'))?.data||defaults)}
  token(bot){return unseal(bot.token_cipher,masterKey(this.key),'token:'+bot.$id)}
@@ -14,6 +15,7 @@ export class Service{
  async bot(botId){const b=await this.store.get('telegram_bots',botId);if(!b)throw fail('Bot tidak ditemukan.',404);return b}
  async main(){const setting=await this.config();return setting.main_bot_id?await this.store.get('telegram_bots',setting.main_bot_id):null}
  async sync(member){
+  const directPaid=await this.qris.entitlement(member);if(directPaid)return directPaid;
   if(!member.appwrite_user_id)return member;
   const profile=await this.store.get('member_profiles',member.appwrite_user_id),access=entitlement(profile,this.now());
   if(access.plan==='premium'&&!await this.verifyPaidAccess(member.appwrite_user_id))access.plan='free';
@@ -116,11 +118,12 @@ export class Service{
   if(!await this.store.claim(id('link-used',token),{kind:'used',status:'used',due_at:new Date(this.now()+DAY).toISOString(),payload:'{}'}))throw fail('Link sudah digunakan.',409);
   if(!existing){const reserved=await this.store.claim(id('userlink',userId),{kind:'userlink',user_id:userId,telegram_id:member.telegram_id,status:'linked',payload:JSON.stringify({telegram_id:member.telegram_id})});if(!reserved){const concurrent=await this.store.state(id('userlink',userId));if(concurrent.data.telegram_id!==member.telegram_id)throw fail('Akun sudah terhubung.',409)}}
   if(!tgExisting){const reserved=await this.store.claim(id('tglink',member.telegram_id),{kind:'tglink',telegram_id:member.telegram_id,user_id:userId,status:'linked',payload:JSON.stringify({user_id:userId})});if(!reserved){const concurrent=await this.store.state(id('tglink',member.telegram_id));if(concurrent.data.user_id!==userId)throw fail('Telegram sudah terhubung.',409)}}
-  await this.store.update('telegram_state',key,{status:'used'});member=await this.store.update('telegram_members',member.$id,{appwrite_user_id:userId});return this.sync(member);
+  await this.store.update('telegram_state',key,{status:'used'});member=await this.store.update('telegram_members',member.$id,{appwrite_user_id:userId});await this.qris.grant(member,userId);return this.sync(member);
  }
  async webhook(botId,secret,update){
   const bot=await this.bot(botId);if(!equal(secret,this.secret(bot)))throw fail('Webhook tidak sah.',403);
   if(!Number.isSafeInteger(update.update_id)||update.update_id<0)throw fail('Update ID tidak valid.');
+  if(update.callback_query&&/^(upsell|qris):/.test(String(update.callback_query.data||'')))return this.qris.callback(bot,update.callback_query);
   if(update.callback_query){const c=update.callback_query;if(!['status','bantuan'].includes(c.data))return {ok:true,ignored:true};update={...update,message:{...c.message,from:c.from,text:'/'+c.data}}}
   if(!update.message||!update.message.text)return {ok:true,ignored:true};
   const identity=privateIdentity(update);
@@ -140,7 +143,9 @@ export class Service{
    if((fresh||!member.last_sent_at||Date.parse(member.next_send_at)<=this.now())&&member.is_active)return this.delivery.prompt(member,bot,{key:id('period',member.telegram_id,member.plan,member.next_send_at||'first'),welcome:fresh});
    return this.delivery.text(member,bot,'Selamat datang di BADAI PROMPT! Prompt berikutnya: '+new Date(member.next_send_at).toLocaleString('id-ID',{timeZone:'Asia/Jakarta'})+' WIB. Gunakan /status untuk melihat paket.',key,'reply');
   }
-  if(cmd==='/premium')return this.delivery.text(member,bot,'Premium memberi akses koleksi Member Area dan rekomendasi harian. Jika sudah berlangganan, hubungkan akun melalui menu Akun di Member Area. Pembelian produk digital di Telegram harus menggunakan Telegram Stars; checkout di bot belum diaktifkan.',key,'reply');
+  if(cmd==='/premium'&&member.plan==='free')return this.qris.offer(member,bot,'command');
+  if(cmd==='/premium')return this.delivery.text(member,bot,'Premium sudah aktif. Gunakan /status untuk memeriksa masa aktif.',key,'reply');
+  if(cmd==='/terms'||cmd==='/paysupport'||cmd==='/support')return this.delivery.text(member,bot,await this.qris.help(cmd),key,'reply');
   if(cmd==='/status')return this.delivery.text(member,bot,'Paket: '+member.plan.toUpperCase()+'\nMasa aktif: '+(member.plan==='premium'?(member.premium_until?new Date(member.premium_until).toLocaleDateString('id-ID',{timeZone:'Asia/Jakarta'}):'Mengikuti hak akses lama'):'Gratis')+'\nPrompt terkirim: '+(member.delivery_day||0),key,'reply');
   return this.delivery.text(member,bot,'Panduan BADAI PROMPT\n/start — daftar gratis\n/prompt — prompt sesuai jadwal\n/premium — informasi premium\n/status — status akun\n/bantuan — panduan\nHubungkan langganan dari menu Akun di Member Area.',key,'reply');
  }
@@ -164,6 +169,7 @@ export class Service{
    if(!dry){const cursor=(await this.store.state('telegram-delete-cursor'))?.data.cursor;let deletions=await this.store.list('telegram_deliveries',[['equal','plan','free'],['lessThanEqual','delete_at',iso]],setting.batch_size,cursor);if(cursor&&!deletions.rows.length)deletions=await this.store.list('telegram_deliveries',[['equal','plan','free'],['lessThanEqual','delete_at',iso]],setting.batch_size);let last=null;for(const row of deletions.rows){if(remaining()<9000)break;last=row.$id;try{if((await this.delivery.remove(row)).ok)result.deleted++}catch{result.failed++}}await this.store.putState('telegram-delete-cursor',{cursor:last},{kind:'cursor'});}
    if(!bot)return {...result,paused:true,reason:'Bot utama belum dipilih.'};
    if((!setting.enabled||setting.paused)&&!forceDry)return {...result,paused:true};
+   if(!dry&&remaining()>10000){const settled=await this.qris.recover(bot,Math.min(5,setting.batch_size));result.paid_activated=settled.processed}
    if(dry){result.due=(await this.store.list('telegram_members',[['equal','is_active',true],['lessThanEqual','next_send_at',iso]],1)).total;return result;}
    // Reminders have their own cursor and budget priority, so a busy delivery queue cannot starve them.
    const premiumCursor=(await this.store.state('telegram-premium-cursor'))?.data.cursor;
