@@ -4,7 +4,7 @@ import {id} from './security.mjs';
 const digest=value=>createHash('sha256').update(String(value)).digest('hex');
 const tokenId=token=>id('purchase-activation',token);
 const validToken=token=>/^[A-Za-z0-9_-]{32,90}$/.test(String(token||''));
-const validTelegram=value=>/^[1-9]\\d{0,15}$/.test(String(value||''))&&Number.isSafeInteger(Number(value));
+const validTelegram=value=>/^[1-9]\d{0,15}$/.test(String(value||''))&&Number.isSafeInteger(Number(value));
 const rejected=()=>{throw Error('Tautan aktivasi tidak sah, telah digunakan, atau sudah kedaluwarsa.');};
 const eligible=order=>order?.$id&&order.kind==='website_order'&&order.status==='paid'&&order.data?.transaction_id&&order.data?.paid_at;
 const matches=(row,order,now)=> {
