@@ -46,19 +46,21 @@ async function orderByTransaction(s,tx){
 }
 async function findIntent(s,tg){
  const epoch=Math.floor(Date.now()/900000),key=id('website-intent',tg,epoch);
- const row=await s.store.state(key);
+ const row=await s.store.state(id('website-current',tg));
  return {key,row};
 }
 async function checkout(req,res,s){
  const who=await getSession(req,s),tg=who.telegram_id,p=await provider(s),{key,row}=await findIntent(s,tg);
  const already=row;
- if(already){
-  if(already.status==='pending'&&already.data?.transaction_id){
-   const purchase=await orderByTransaction(s,already.data.transaction_id);
-   if(purchase?.status==='pending'&&Date.parse(purchase.data.expires_at)>Date.now())
-    return json(res,{ok:true,status:'pending',qr_url:purchase.data.qr_url,total_amount:purchase.data.total_amount,expires_at:purchase.data.expires_at});
-  }
-  return err(res,'Checkout baru saja dibuat atau status transaksi belum pasti. Tunggu 15 menit atau hubungi bantuan agar tidak tertagih dua kali.',409);
+ if(already?.data?.transaction_id){
+  let purchase=await orderByTransaction(s,already.data.transaction_id);
+  if(purchase?.status==='pending')purchase=await reconcilePayment(s,purchase,p);
+  if(purchase?.status==='pending'&&Date.parse(purchase.data.expires_at)>Date.now())
+   return json(res,{ok:true,status:'pending',qr_url:purchase.data.qr_url,total_amount:purchase.data.total_amount,expires_at:purchase.data.expires_at});
+  if(['paid','activated'].includes(purchase?.status))
+   return json(res,{ok:true,status:purchase.status});
+  if(!['expired','failed'].includes(purchase?.status))
+   return err(res,'Status transaksi sebelumnya belum pasti. Hubungi bantuan sebelum membuat tagihan baru.',409);
  }
  const claimed=await s.store.claim(key,{kind:'site_intent',telegram_id:tg,status:'creating',due_at:new Date(Date.now()+1800000).toISOString(),payload:JSON.stringify({created_at:new Date().toISOString()})});
  if(!claimed)return err(res,'Transaksi sedang dibuat. Tunggu sebentar.',409);
@@ -77,6 +79,7 @@ async function checkout(req,res,s){
  const stored=await s.store.claim(invoiceId(tx),{kind:'website_order',telegram_id:tg,status:'pending',due_at:new Date(expiry+86400000).toISOString(),payload:JSON.stringify(payload)});
  if(!stored)throw Error('ID transaksi duplikat; hubungi bantuan.');
  await s.store.update('telegram_state',key,{status:'pending',payload:JSON.stringify({transaction_id:tx})});
+ await s.store.putState(id('website-current',tg),{transaction_id:tx},{kind:'site_current',status:'pending',telegram_id:tg,due_at:new Date(expiry+86400000).toISOString()});
  return json(res,{ok:true,status:'pending',qr_url:payload.qr_url,total_amount:total,expires_at:payload.expires_at});
 }
 async function reconcilePayment(s,r,p){
