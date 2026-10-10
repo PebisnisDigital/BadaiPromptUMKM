@@ -77,7 +77,7 @@ export class Marketing{
   const day=validDay(body.day),source=String(body.source||''),prompt_id=String(body.prompt_id||'');
   if(!SOURCES.has(source)||!prompt_id||prompt_id.length>80)throw fail('Pilih prompt valid dari Member Area.');
   const offer_text=trim(body.offer_text??base.default_offer,850),cta_label=trim(body.cta_label??base.default_cta_label,40);
-  const cta_type=String(body.cta_type||base.default_cta_type),cta_url=String(body.cta_url??base.default_cta_url||'').trim();
+  const cta_type=String(body.cta_type||base.default_cta_type),cta_url=String((body.cta_url??base.default_cta_url)||'').trim();
   if(!offer_text||!cta_label||!CTA_TYPES.has(cta_type))throw fail('Lengkapi pesan upselling dan tombol CTA.');
   const data={day,source,prompt_id,offer_text,cta_label,cta_type,cta_url:cta_type==='url'?validateUrl(cta_url):''};
   link(data);return data;
