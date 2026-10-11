@@ -6,7 +6,7 @@ const tokenId=token=>id('purchase-activation',token);
 const validToken=token=>/^[A-Za-z0-9_-]{32,90}$/.test(String(token||''));
 const validTelegram=value=>/^[1-9]\d{0,15}$/.test(String(value||''))&&Number.isSafeInteger(Number(value));
 const rejected=()=>{throw Error('Tautan aktivasi tidak sah, telah digunakan, atau sudah kedaluwarsa.');};
-const eligible=order=>order?.$id&&order.kind==='website_order'&&order.status==='paid'&&order.data?.transaction_id&&order.data?.paid_at;
+const eligible=order=>order?.$id&&order.kind==='website_order'&&(order.status==='paid'||(order.status==='activated'&&order.data?.checkout_type==='guest'))&&order.data?.transaction_id&&order.data?.paid_at;
 const matches=(row,order,now)=> {
  if(!row||row.kind!=='purchase_activation'||row.status!=='pending'||!(Date.parse(row.due_at)>now))rejected();
  if(!eligible(order)||order.$id!==row.data?.order_id)rejected();
@@ -42,9 +42,11 @@ export async function reservePurchaseActivation(store,token,order,telegramId,{no
  if(typeof store.transaction!=='function')throw Error('Appwrite transactions wajib tersedia untuk aktivasi.');
  return store.transaction(async tx=>{
   const row=await tx.state(tokenId(token));
-  matches(row,order,now);
   const bindingId=id('purchase-binding',order.$id);
-  if(await tx.state(bindingId))rejected();
+  const prior=await tx.state(bindingId);
+  if(prior&&prior.data?.telegram_id===String(telegramId)&&prior.data?.activation_id===row?.$id&&row?.kind==='purchase_activation'&&row?.status==='used')return prior.data;
+  matches(row,order,now);
+  if(prior)rejected();
   const data={order_id:order.$id,telegram_id:String(telegramId),activation_id:row.$id,reserved_at:new Date(now).toISOString()};
   await tx.put(bindingId,data,{kind:'purchase_binding',status:'reserved'},false);
   await tx.put(row.$id,{...row.data,telegram_id:String(telegramId),used_at:new Date(now).toISOString()},{kind:'purchase_activation',status:'used',due_at:row.due_at},true);
