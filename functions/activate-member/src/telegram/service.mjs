@@ -3,9 +3,10 @@ import {Marketing} from './marketing.mjs';
 import {fail,id,random,masterKey,seal,unseal,equal,numeric,privateIdentity,safeError} from './security.mjs';
 import {defaults,settings,entitlement,DAY,jakartaStart} from './policy.mjs';
 import {reservePurchaseActivation} from './telegram-purchase-activation.mjs';
+import {BotQris} from './bot-qris.mjs';
 export class Service{
- constructor({store,telegram,key,now=()=>Date.now(),sendEnabled=false,webhookBase='https://badaiprompt.vercel.app/api/telegram/webhook',verifyUser,verifyAdmin,verifyPaidAccess=async()=>false,marketingEnabled=false}){
-  Object.assign(this,{store,telegram,key,now,sendEnabled,webhookBase,verifyUser,verifyAdmin,verifyPaidAccess,marketingEnabled});this.delivery=new Delivery(this);this.marketing=new Marketing(this);
+ constructor({store,telegram,key,now=()=>Date.now(),sendEnabled=false,webhookBase='https://badaiprompt.vercel.app/api/telegram/webhook',verifyUser,verifyAdmin,verifyPaidAccess=async()=>false,marketingEnabled=false,qrisDeps={}}){
+  Object.assign(this,{store,telegram,key,now,sendEnabled,webhookBase,verifyUser,verifyAdmin,verifyPaidAccess,marketingEnabled});this.delivery=new Delivery(this);this.marketing=new Marketing(this);this.qris=new BotQris(this,qrisDeps);
  }
  async config(){return settings((await this.store.state('telegram-settings'))?.data||defaults)}
  token(bot){return unseal(bot.token_cipher,masterKey(this.key),'token:'+bot.$id)}
@@ -189,7 +190,7 @@ export class Service{
  async webhook(botId,secret,update){
   const bot=await this.bot(botId);if(!equal(secret,this.secret(bot)))throw fail('Webhook tidak sah.',403);
   if(!Number.isSafeInteger(update.update_id)||update.update_id<0)throw fail('Update ID tidak valid.');
-  if(update.callback_query){const c=update.callback_query;if(!['status','bantuan'].includes(c.data))return {ok:true,ignored:true};update={...update,message:{...c.message,from:c.from,text:'/'+c.data}}}
+  if(update.callback_query){const c=update.callback_query;if(!['status','bantuan','beli','cek_qris'].includes(c.data))return {ok:true,ignored:true};update={...update,message:{...c.message,from:c.from,text:c.data==='cek_qris'?'/cek':'/'+c.data}}}
   if(!update.message||!update.message.text)return {ok:true,ignored:true};
   const identity=privateIdentity(update);
   if(update.callback_query&&this.sendEnabled){try{await this.telegram.call(this.token(bot),'answerCallbackQuery',{callback_query_id:String(update.callback_query.id)})}catch{}}
@@ -208,9 +209,15 @@ export class Service{
    if((fresh||!member.last_sent_at||Date.parse(member.next_send_at)<=this.now())&&member.is_active)return this.delivery.prompt(member,bot,{key:id('period',member.telegram_id,member.plan,member.next_send_at||'first'),welcome:fresh});
    return this.delivery.text(member,bot,'Selamat datang di BADAI PROMPT! Prompt berikutnya: '+new Date(member.next_send_at).toLocaleString('id-ID',{timeZone:'Asia/Jakarta'})+' WIB. Gunakan /status untuk melihat paket.',key,'reply');
   }
-  if(cmd==='/premium')return this.delivery.text(member,bot,'Premium memberi akses koleksi Member Area dan rekomendasi harian. Jika sudah berlangganan, hubungkan akun melalui menu Akun di Member Area. Pembelian produk digital di Telegram harus menggunakan Telegram Stars; checkout di bot belum diaktifkan.',key,'reply');
+  if(cmd==='/beli'||cmd==='/cek'){
+   if(!main||main.$id!==botId)return this.delivery.text(member,bot,'Pembayaran hanya tersedia di bot utama.',key,'reply');
+   if(!this.qris.enabled)return this.delivery.text(member,bot,'Checkout QRIS uji belum diaktifkan.',key,'reply');
+   try{return cmd==='/beli'?await this.qris.buy(member,bot):await this.qris.check(member,bot)}
+   catch(e){return this.delivery.text(member,bot,e.status===409?e.message:'Pembayaran belum bisa diproses. Coba /cek atau hubungi admin.',key,'reply')}
+  }
+  if(cmd==='/premium')return this.delivery.text(member,bot,this.qris.enabled?'Premium 365 hari, Rp199.000. Uji QRIS sandbox tersedia melalui /beli. Jangan bayar dengan uang asli.':'Premium memberi akses koleksi Member Area dan rekomendasi harian. Jika sudah berlangganan, hubungkan akun melalui menu Akun di Member Area. Checkout bot belum diaktifkan.',key,'reply');
   if(cmd==='/status')return this.delivery.text(member,bot,'Paket: '+member.plan.toUpperCase()+'\nMasa aktif: '+(member.plan==='premium'?(member.premium_until?new Date(member.premium_until).toLocaleDateString('id-ID',{timeZone:'Asia/Jakarta'}):'Mengikuti hak akses lama'):'Gratis')+'\nPrompt terkirim: '+(member.delivery_day||0),key,'reply');
-  return this.delivery.text(member,bot,'Panduan BADAI PROMPT\n/start — daftar gratis\n/prompt — prompt sesuai jadwal\n/premium — informasi premium\n/status — status akun\n/bantuan — panduan\nHubungkan langganan dari menu Akun di Member Area.',key,'reply');
+  return this.delivery.text(member,bot,'Panduan BADAI PROMPT\n/start — daftar gratis\n/prompt — prompt sesuai jadwal\n/premium — informasi premium\n/status — status akun\n/bantuan — panduan\nHubungkan langganan dari menu Akun di Member Area.'+(this.qris.enabled?'\n/beli — coba checkout QRIS sandbox\n/cek — cek status invoice':''),key,'reply');
  }
  async scheduler({forceDry=false,budgetMs=20000}={}){
   const start=this.now(),setting=await this.config(),dry=forceDry||setting.dry_run||!this.sendEnabled,bot=await this.main();
@@ -249,6 +256,10 @@ export class Service{
   const disposable=['rate','update','attempt','used','switch','run','link','audit'];
   const expired=await this.store.list('telegram_state',[['equal','kind',disposable],['lessThanEqual','due_at',new Date(start).toISOString()]],20);
   for(const row of expired.rows){if(this.now()-start>budgetMs)break;await this.store.remove('telegram_state',row.$id)}
+  // Invoice callback is primary; cron is a bounded fallback when BuatQRIS webhook is delayed.
+  if(this.qris.enabled&&this.now()-start<budgetMs-3000){
+   result.qris=await this.qris.recover(1).catch(()=>({checked:0,failed:1}));
+  }
   return result;
  }
 }
