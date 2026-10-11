@@ -7,7 +7,7 @@ const isGuest=order=>order?.kind==='website_order'&&order.data?.checkout_type===
 export function assertGuestSettlement(order){
  if(!isGuest(order)||!['paid','activated'].includes(order.status)||!order.data?.paid_at||
     !order.data?.transaction_id||Number(order.data?.amount)!==PRICE||
-    !order.data?.guest_session_id||!order.data?.first_name||!order.data?.whatsapp)
+    !order.data?.guest_session_id||!order.data?.first_name||!order.data?.whatsapp||order.data?.is_test!==true)
    throw Error('Transaksi tamu belum lunas atau tidak lengkap.');
  return order.data;
 }
