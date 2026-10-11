@@ -2,6 +2,7 @@ import {Delivery} from './delivery.mjs';
 import {Marketing} from './marketing.mjs';
 import {fail,id,random,masterKey,seal,unseal,equal,numeric,privateIdentity,safeError} from './security.mjs';
 import {defaults,settings,entitlement,DAY,jakartaStart} from './policy.mjs';
+import {reservePurchaseActivation} from './telegram-purchase-activation.mjs';
 export class Service{
  constructor({store,telegram,key,now=()=>Date.now(),sendEnabled=false,webhookBase='https://badaiprompt.vercel.app/api/telegram/webhook',verifyUser,verifyAdmin,verifyPaidAccess=async()=>false,marketingEnabled=false}){
   Object.assign(this,{store,telegram,key,now,sendEnabled,webhookBase,verifyUser,verifyAdmin,verifyPaidAccess,marketingEnabled});this.delivery=new Delivery(this);this.marketing=new Marketing(this);
@@ -156,6 +157,35 @@ export class Service{
   if(!tgExisting){const reserved=await this.store.claim(id('tglink',member.telegram_id),{kind:'tglink',telegram_id:member.telegram_id,user_id:userId,status:'linked',payload:JSON.stringify({user_id:userId})});if(!reserved){const concurrent=await this.store.state(id('tglink',member.telegram_id));if(concurrent.data.user_id!==userId)throw fail('Telegram sudah terhubung.',409)}}
   await this.store.update('telegram_state',key,{status:'used'});member=await this.store.update('telegram_members',member.$id,{appwrite_user_id:userId});return this.sync(member);
  }
+ async linkPurchase(member,token){
+  const activation=await this.store.state(id('purchase-activation',token));
+  if(!activation||activation.kind!=='purchase_activation'||!activation.data?.order_id)throw fail('Tautan aktivasi tidak berlaku.',403);
+  const order=await this.store.state(activation.data.order_id);
+  if(!order||order.kind!=='website_order'||order.data?.checkout_type!=='guest'||order.status!=='activated'||order.data?.is_test!==true)
+   throw fail('Transaksi belum sah atau bukan pembelian sandbox.',403);
+  const userId=String(order.data.user_id||'');
+  if(userId!==id('guest-user',order.$id))throw fail('Identitas pembayaran tidak cocok.',409);
+  const profile=await this.store.get('member_profiles',userId);
+  if(!profile||profile.status!=='active'||!await this.verifyPaidAccess(userId))throw fail('Keanggotaan belum aktif.',403);
+  const currentUser=await this.store.state(id('userlink',userId));
+  const currentTelegram=await this.store.state(id('tglink',member.telegram_id));
+  if(currentUser&&currentUser.data?.telegram_id!==member.telegram_id||
+     currentTelegram&&currentTelegram.data?.user_id!==userId||
+     member.appwrite_user_id&&member.appwrite_user_id!==userId)
+   throw fail('Akun sudah terhubung ke identitas lain.',409);
+  // Atomic order binding prevents two separate Telegram accounts claiming the same QRIS.
+  await reservePurchaseActivation(this.store,token,order,member.telegram_id,{now:this.now()});
+  if(!currentUser){
+   const claimed=await this.store.claim(id('userlink',userId),{kind:'userlink',user_id:userId,telegram_id:member.telegram_id,status:'linked',payload:JSON.stringify({telegram_id:member.telegram_id})});
+   if(!claimed){const row=await this.store.state(id('userlink',userId));if(row?.data?.telegram_id!==member.telegram_id)throw fail('Akun sedang diklaim akun lain.',409);}
+  }
+  if(!currentTelegram){
+   const claimed=await this.store.claim(id('tglink',member.telegram_id),{kind:'tglink',telegram_id:member.telegram_id,user_id:userId,status:'linked',payload:JSON.stringify({user_id:userId})});
+   if(!claimed){const row=await this.store.state(id('tglink',member.telegram_id));if(row?.data?.user_id!==userId)throw fail('Telegram sudah terhubung ke akun lain.',409);}
+  }
+  member=await this.store.update('telegram_members',member.$id,{appwrite_user_id:userId});
+  return this.sync(member);
+ }
  async webhook(botId,secret,update){
   const bot=await this.bot(botId);if(!equal(secret,this.secret(bot)))throw fail('Webhook tidak sah.',403);
   if(!Number.isSafeInteger(update.update_id)||update.update_id<0)throw fail('Update ID tidak valid.');
@@ -170,7 +200,7 @@ export class Service{
   if(!member){if(cmd!=='/start')return {ok:true,ignored:true};try{member=await this.store.create('telegram_members',memberId,{telegram_id:identity.telegram_id,chat_id:identity.chat_id,first_name:identity.first_name,username:identity.username,plan:'free',is_active:true,joined_at:new Date(this.now()).toISOString(),delivery_day:0,next_send_at:new Date(this.now()).toISOString(),source:'telegram'}) ;fresh=true}catch(e){if(e.code!==409)throw e;member=await this.store.get('telegram_members',memberId)}}
   if(cmd==='/start')await this.store.putState(id('consent',botId,identity.telegram_id),{chat_id:identity.chat_id},{kind:'consent',bot_id:botId,telegram_id:identity.telegram_id,status:'allowed'});
   const consent=await this.consent(botId,identity.telegram_id);if(!consent||consent.status!=='allowed')return {ok:true,ignored:true};
-  if(cmd==='/start'&&arg?.startsWith('link_')){try{member=await this.link(member,arg.slice(5))}catch(e){if(this.sendEnabled&&!(await this.config()).dry_run)return this.delivery.text(member,bot,e.status?e.message:'Belum dapat menghubungkan akun. Buat link baru dari Member Area.',id('reply',botId,update.update_id),'reply');return {ok:true,link_failed:true}}}else member=await this.sync(member);
+  if(cmd==='/start'&&(arg?.startsWith('link_')||arg?.startsWith('purchase_'))){try{member=arg.startsWith('purchase_')?await this.linkPurchase(member,arg.slice(9)):await this.link(member,arg.slice(5))}catch(e){if(this.sendEnabled&&!(await this.config()).dry_run)return this.delivery.text(member,bot,e.status?e.message:'Belum dapat menghubungkan akun. Buat link baru dari Member Area.',id('reply',botId,update.update_id),'reply');return {ok:true,link_failed:true}}}else member=await this.sync(member);
   const setting=await this.config(),main=await this.main();if(!this.sendEnabled||setting.dry_run)return {ok:true,dry_run:true};
   const key=id('reply',botId,update.update_id);
   if(cmd==='/prompt'||cmd==='/start'){
