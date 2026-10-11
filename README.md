@@ -1,6 +1,6 @@
-# BADAI PROMPT UMKM
+# PROMPTIONAL
 
-Source terpisah untuk produk BADAI PROMPT UMKM.
+Source terpisah untuk produk PROMPTIONAL.
 
 ## Routes
 - `/` — Landing Page
