@@ -9,7 +9,7 @@ const botUserId=tg=>id('bot-qris-user',tg),adminUserId=tg=>id('telegram-admin-us
 const dataDate=date=>{
  if(!/^\d{4}-\d{2}-\d{2}$/.test(String(date||'')))throw fail('Isi tanggal akhir Premium.',400);
  const value=new Date(date+'T16:59:59.999Z');
- if(!Number.isFinite(value.getTime())||value.toISOString().slice(0,10)!==date&&value.toISOString().slice(0,10)!==new Date(date+'T00:00:00Z').toISOString().slice(0,10))throw fail('Tanggal tidak valid.',400);
+ if(!Number.isFinite(value.getTime())||new Date(date+'T00:00:00Z').toISOString().slice(0,10)!==date)throw fail('Tanggal tidak valid.',400);
  if(value.getTime()<Date.now()-DAY||value.getTime()>Date.now()+10*365*DAY)throw fail('Tanggal di luar rentang yang diizinkan.',400);
  return value.toISOString();
 };
@@ -90,10 +90,21 @@ export async function deleteTelegramBuyer(s,body={},actorId){
  if(!member)return {ok:true,already_removed:true};
  const uid=member.appwrite_user_id||'',allowed=[botUserId(tg),adminUserId(tg)];
  if(uid&&!allowed.includes(uid))throw fail('Member ini terkait checkout website. Hapus lewat order website pada halaman Penjualan.',409);
+ if(uid){
+  const admins=await s.qris.teams.listMemberships({teamId:'admin-users',queries:[Query.equal('userId',uid),Query.limit(10)]});
+  if(admins.memberships?.length)throw fail('Akun admin tidak boleh dihapus.',403);
+  const websiteOrders=await s.store.list(stateTable,[['equal','kind','website_order'],['equal','user_id',uid]],1);
+  if(websiteOrders.rows.length)throw fail('Ada transaksi website terkait. Gunakan kelola member pada order website di Penjualan agar tidak menghapus akses pembelian lain.',409);
+ }
  // Remove entitlement before detaching Telegram identity. Fail closed if any
  // Appwrite operation fails, so an incomplete deletion can be safely retried.
  if(uid){
   for(const m of await teamMemberships(s,uid))await s.qris.teams.deleteMembership({teamId:'paid-members',membershipId:m.$id});
+  // Remove related personal usage data before deleting the Appwrite account.
+  for(const table of ['favorites','prompt_history','prompt_usage_events']){
+   try{await removePage(s,table,[['equal','user_id',uid]])}
+   catch(e){if(Number(e.code)!==404)throw e}
+  }
   await s.store.remove('member_profiles',uid);
   try{await s.qris.users.delete({userId:uid})}catch(e){if(Number(e.code)!==404)throw e}
   await s.store.remove(stateTable,id('userlink',uid));
