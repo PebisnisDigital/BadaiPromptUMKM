@@ -1,21 +1,29 @@
-# BADAI PROMPT — QRIS sandbox release gate
+# QRIS Sandbox pada database BADAI PROMPT yang sudah ada
 
-## Isolation required before using BuatQRIS test_pay
-- Vercel Preview must use a separate Appwrite project/database and test bot, NOT shared production credentials.
-- Only use test=1 on BuatQRIS QR creation in Preview.
-- Never allow is_test=true callback to grant a production Appwrite membership.
-- Verify webhook HMAC signature, then independently confirm provider settlement status and exact transaction/amount.
-- Sandbox transaction must remain identifiable as test; keep it out of revenue reporting and live delivery schedules.
-- Test link issuance, one-time redemption, recovery of lost/expired links, double callbacks and simultaneous Telegram identities.
-- Require explicit test readiness in Preview environment; never run test_pay through the production domain.
+Owner memilih pengujian menggunakan Appwrite produksi karena aplikasi belum diluncurkan. Pengujian tetap **sandbox BuatQRIS**, bukan transaksi uang asli.
 
-## Execution sequence
-1. Configure isolated Appwrite Preview project with equivalent schema and restricted service API key.
-2. Configure Preview branch env and separate webhook callback URL; verify no production writes.
-3. Deploy Preview branch only (not production).
-4. Create a test QRIS transaction with test=1, then mark it paid from the authorized BuatQRIS owner session using test_pay.
-5. Confirm webhook signature, check provider status, mark test order paid, create test membership and token, and link test Telegram user.
-6. Repeat with invalid signature, pending payment, expired token, repeated webhook, and two different Telegram users.
-7. Inspect Appwrite Preview records and bot events. Do not promote until end-to-end tests pass.
+## Pengamanan yang diterapkan
+- Endpoint terpisah `/api/guest-checkout`, tidak mengubah checkout Telegram lama.
+- Feature flag `BADAI_GUEST_SANDBOX_ENABLED=true` wajib sebelum halaman uji bisa digunakan.
+- Pembuatan invoice selalu mengirim `test=1`, tanpa opsi invoice live.
+- Order sandbox diberi `is_test:true` dan `checkout_type:'guest'`.
+- Webhook wajib HMAC valid dan status pembayaran dikonfirmasi lagi ke provider.
+- Akun Appwrite sandbox memakai ID turunan order, tidak mengambil alih akun existing.
+- Pengaktifan Telegram menggunakan token acak sekali pakai dengan atomic binding order.
+- Halaman pengujian `/uji-qris.html` tidak dipromosikan ke pengunjung.
+- Member uji ditandai dari order uji; catat agar dapat dibersihkan sebelum rilis.
+- Jangan gunakan `test_pay` untuk invoice biasa (tanpa test=1).
+- Perintah `test_pay` hanya boleh dilakukan dengan sesi dashboard BuatQRIS pemilik akun.
 
-**Current status:** sandbox run NOT performed; staging credentials and end-to-end QRIS guest checkout integration remain incomplete.
+## Uji minimum
+1. Jalankan `npm test` dan `npm run test:telegram-website` (GitHub CI).
+2. Deploy produksi dengan endpoint tetap nonaktif sampai feature flag terpasang.
+3. Akses `/uji-qris.html`; buat invoice sandbox.
+4. Di dashboard BuatQRIS, lunasi invoice **uji** dengan `test_pay`.
+5. Cek status berubah ke activated, satu profil dan team paid dibuat di Appwrite.
+6. Klik tautan aktivasi Telegram, tekan START, akun tertaut dan Premium.
+7. Coba gunakan token kedua melalui akun Telegram lain; harus ditolak.
+8. Pastikan statistik pendapatan asli tidak memasukkan invoice sandbox.
+
+## Batasan
+Ini merupakan pengujian sandbox pada database produksi yang dipilih owner, bukan sistem staging. Belum boleh dipakai sebagai checkout pembeli umum sampai uji end-to-end lulus.
