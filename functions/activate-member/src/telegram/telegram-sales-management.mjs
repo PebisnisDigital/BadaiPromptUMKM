@@ -53,7 +53,7 @@ export async function updateTelegramBuyer(s,body={},actorId){
   throw fail('Member terhubung pembelian website. Ubah status/masa akses dari order website di Penjualan.',409);
  let until=null,userId=uid;
  if(plan==='premium'){
-  until=dataDate(body.access_until);
+  until=external?(member.premium_until||null):dataDate(body.access_until);
   if(!external)userId=await ensurePremium(s,{...member,first_name:name},until);
  }else if(uid&&!external){
   for(const membership of await teamMemberships(s,uid))await s.qris.teams.deleteMembership({teamId:'paid-members',membershipId:membership.$id});
