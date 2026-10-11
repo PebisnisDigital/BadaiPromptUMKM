@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#101013">
+<title>BADAI PROMPT — QRIS Premium</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{font-family:Nunito,system-ui,sans-serif;color-scheme:dark;background:#0c0b10;color:#fbf8fb;--pink:#ff398d}
+*{box-sizing:border-box}body{margin:0;padding:18px 16px 44px;background:#0c0b10}
+main{max-width:510px;margin:auto}.tag{font-size:11px;letter-spacing:.17em;font-weight:900;color:#ff83b7}
+h1{font-size:30px;letter-spacing:-.06em;line-height:1.13;margin:12px 0}
+p{line-height:1.65;color:#b9b5c0}.panel{border:1px solid #343038;background:#18151c;border-radius:18px;padding:24px;margin-top:24px}
+.price{font-size:32px;font-weight:900;letter-spacing:-.05em;color:var(--pink)}
+button{border:0;border-radius:12px;padding:16px;background:var(--pink);color:#100b10;font-weight:900;font-size:15px;min-height:50px;width:100%;margin-top:14px}
+button:disabled{opacity:.48}#qr{display:block;width:min(100%,260px);aspect-ratio:1;margin:18px auto;object-fit:contain;background:white;border-radius:12px;padding:10px}
+.ok{color:#62d9a1}#message{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px}
+.hint{font-size:12px}.hide{display:none!important}.line{height:1px;background:#343038;margin:20px 0}
+</style></head><body><main>
+<div class="tag">KOMUNITAS BADAI • PREMIUM</div><h1>Seluruh Prompt AI,<br>langsung di Telegram.</h1>
+<p>Buka akses Premium 365 hari. Bayar menggunakan QRIS dan dapatkan prompt setiap pagi pukul 06.00 WIB.</p>
+<section class="panel" id="start">
+ <div class="tag">AKSES PREMIUM 365 HARI</div><div class="price">Rp199.000</div>
+ <p>Untuk uji internal: invoice memakai <strong>Sandbox BuatQRIS</strong>. Tidak boleh dibayar memakai uang sungguhan.</p>
+ <button id="pay">TAMPILKAN QRIS UJI</button>
+</section>
+<section class="panel hide" id="invoice">
+ <div class="tag">QRIS SANDBOX</div><div class="price" id="amount">Rp199.000</div>
+ <img id="qr" alt="Kode QRIS uji">
+ <p class="hint">Transaksi uji ini dilunasi dengan test_pay dari dashboard BuatQRIS. Jangan scan memakai aplikasi pembayaran asli.</p>
+ <button id="check">CEK PEMBAYARAN</button>
+ <p class="hint" id="expires"></p>
+</section>
+<section class="panel hide" id="success">
+ <h1 class="ok">PREMIUM AKTIF!</h1>
+ <p>Pembayaran terverifikasi. Telegram sudah otomatis menjadi Premium. Tidak perlu START ulang.</p>
+ <p class="hint" id="until"></p>
+ <button id="close">KEMBALI KE TELEGRAM</button>
+</section>
+<section class="panel"><strong>Informasi pembayaran</strong><div class="line"></div><p id="message" role="status">Memeriksa koneksi Telegram…</p></section>
+</main><script>
+(()=>{'use strict';
+const app=window.Telegram?.WebApp,el=id=>document.getElementById(id),api='/api/bot-qris';
+const tell=s=>el('message').textContent=s;
+const show=name=>{['start','invoice','success'].forEach(id=>el(id).classList.toggle('hide',id!==name))};
+if(!app?.initData){tell('Buka halaman ini dari tombol BELI PREMIUM pada chat pribadi bot BADAI PROMPT.');el('pay').disabled=true;return}
+app.ready();app.expand();
+async function request(action){
+ const res=await fetch(api+'?action='+encodeURIComponent(action),{method:'POST',
+  headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({init_data:app.initData})});
+ const data=await res.json();if(!res.ok||!data.ok)throw Error(data.error||'Permintaan gagal.');return data;
+}
+async function render(d){
+ if(d.status==='activated'){show('success');el('until').textContent=d.access_until?'Masa aktif sampai '+new Date(d.access_until).toLocaleDateString('id-ID',{timeZone:'Asia/Jakarta'}):'Paket Premium telah aktif.';tell('Pembayaran terverifikasi. Telegram Premium aktif.');return}
+ if(d.status==='pending'){show('invoice');el('qr').src=d.qr_url||'';el('amount').textContent='Rp'+Number(d.total_amount||199000).toLocaleString('id-ID');el('expires').textContent=d.expires_at?'Invoice berlaku sampai '+new Date(d.expires_at).toLocaleTimeString('id-ID',{timeZone:'Asia/Jakarta'}):'';tell('Invoice uji siap. Status pembayaran: MENUNGGU.');return}
+ if(d.status==='paid'){tell('Pembayaran diterima. Aktivasi Premium sedang diproses.');return}
+ if(d.status==='expired'||d.status==='failed'){show('start');tell('Invoice '+d.status+'. Silakan buat transaksi sandbox baru dari bot.');return}
+ if(d.status==='none'){show('start');tell('Siap membuat QRIS sandbox dari BuatQRIS.');return}
+ if(d.already_premium){show('success');tell('Akun Telegram sudah Premium.');return}
+ tell('Status: '+d.status);
+}
+let busy=false;
+async function execute(action){if(busy)return;busy=true;el('pay').disabled=true;el('check').disabled=true;
+ try{await render(await request(action))}catch(e){tell(e.message)}finally{busy=false;el('pay').disabled=false;el('check').disabled=false}}
+el('pay').onclick=()=>execute('create');el('check').onclick=()=>execute('status');el('close').onclick=()=>app.close();
+execute('status');
+let count=0;const poll=()=>{if(document.visibilityState==='visible'&&++count<=120)execute('status')};const timer=setInterval(poll,10000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')poll()});
+})();
+</script></body></html>
