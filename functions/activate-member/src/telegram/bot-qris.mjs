@@ -183,9 +183,9 @@ export class BotQris{
   await this.store.create('telegram_deliveries',msgId,{telegram_id:current.telegram_id,chat_id:consent.data.chat_id,
    bot_id:bot.$id,prompt_id:'invoice',message_id:'pending',message_ids:'[]',plan:'free',day_number:0,
    delivery_key:key,sent_at:new Date(this.service.now()).toISOString(),dispatch_status:'sending',kind:'reply',attempts:1});
-  const caption='UJI QRIS BADAI PROMPT\\nPremium 365 hari — Rp'+order.data.total_amount.toLocaleString('id-ID')+
-   '\\n\\nIni invoice SANDBOX. Jangan bayar dengan uang asli. Gunakan test_pay di dashboard BuatQRIS.'+
-   '\\n\\nSetelah pembayaran uji, tekan CEK PEMBAYARAN di bawah ini.';
+  const caption='UJI QRIS BADAI PROMPT\nPremium 365 hari — Rp'+order.data.total_amount.toLocaleString('id-ID')+
+   '\n\nIni invoice SANDBOX. Jangan bayar dengan uang asli. Gunakan test_pay di dashboard BuatQRIS.'+
+   '\n\nSetelah pembayaran uji, tekan CEK PEMBAYARAN di bawah ini.';
   try{
    const result=await this.service.telegram.call(this.service.token(bot),'sendPhoto',{
     chat_id:consent.data.chat_id,photo:order.data.qr_url,caption,
@@ -204,7 +204,7 @@ export class BotQris{
   if(!order)return this.service.delivery.text(member,bot,'Belum ada invoice QRIS. Ketik /beli untuk mulai.',id('qris-check',member.telegram_id,Math.floor(this.service.now()/60000)),'reply');
   const row=await this.reconcile(order);
   const status=row.status==='activated'?'LUNAS — PREMIUM AKTIF':row.status==='pending'?'BELUM LUNAS':row.status==='paid'?'LUNAS — AKTIVASI DIPROSES':row.status.toUpperCase();
-  const message='Status QRIS: '+status+(row.status==='activated'?'\\nPrompt otomatis pukul 06.00 WIB.':'\\nKetik /cek untuk memeriksa lagi.');
+  const message='Status QRIS: '+status+(row.status==='activated'?'\nPrompt otomatis pukul 06.00 WIB.':'\nKetik /cek untuk memeriksa lagi.');
   return this.service.delivery.text(await this.store.get('telegram_members',member.$id),bot,message,
    id('qris-check',bot.$id,member.telegram_id,Math.floor(this.service.now()/30000)),'reply');
  }
