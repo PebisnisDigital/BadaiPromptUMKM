@@ -321,7 +321,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
       <p class="mkt-footnote">Hari 1 adalah tanggal mulai di WIB. Kalender berjalan global selama 365 hari. Member Free hanya menerima slot pada hari jatuh tempo menurut interval di Telegram Manager (saat ini 3 hari); hari tanpa konten akan dilewati, tidak diganti prompt acak. Pesan Free dijadwalkan dihapus setelah 24 jam.</p>
       <div class="mkt-subhead">TEMPLATE UPSELLING DEFAULT</div>
       <textarea id="mktDefaultOffer" rows="3" maxlength="850" placeholder="Pesan upselling setelah prompt terkirim…" required></textarea>
-      <div class="mkt-fields mkt-fields-three"><label>TEKS TOMBOL CTA<input id="mktDefaultLabel" maxlength="40" required></label><label>TUJUAN CTA<select id="mktDefaultType"><option value="premium">Penawaran Premium</option><option value="member">Member Area</option><option value="url">Link PROMPTIONAL</option></select></label><label>LINK (OPSIONAL)<input id="mktDefaultUrl" type="url" placeholder="https://badaiprompt.vercel.app/#harga"></label></div>
+      <div class="mkt-fields mkt-fields-three"><label>TEKS TOMBOL CTA<input id="mktDefaultLabel" maxlength="40" required></label><label>TUJUAN CTA<select id="mktDefaultType"><option value="premium">Penawaran Premium</option><option value="member">Member Area</option><option value="url">Link PROMPTIONAL</option></select></label><label>LINK (OPSIONAL)<input id="mktDefaultUrl" type="url" placeholder="https://promptional.vercel.app/#harga"></label></div>
       <div class="mkt-actions"><button class="btn pink" type="submit">SIMPAN PENGATURAN</button><span id="mktGate" class="mkt-gate"></span></div>
     </form>
   </section>
@@ -364,7 +364,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
       <div class="mkt-fields mkt-fields-three">
        <label>TEKS TOMBOL<input id="mktEditLabel" maxlength="40" required></label>
        <label>AKSI TOMBOL<select id="mktEditType"><option value="premium">Beli / Upgrade Premium</option><option value="member">Masuk Member Area</option><option value="url">URL PROMPTIONAL</option></select></label>
-       <label>URL TUJUAN<input id="mktEditUrl" type="url" placeholder="https://badaiprompt.vercel.app/#harga"></label>
+       <label>URL TUJUAN<input id="mktEditUrl" type="url" placeholder="https://promptional.vercel.app/#harga"></label>
       </div>
       <div class="mkt-actions"><button type="submit" class="btn pink">SIMPAN KONTEN HARI INI</button><button type="button" id="mktDeleteSlot" class="btn dark">KOSONGKAN HARI</button></div>
       <div class="mkt-mock-chat"><b>PREVIEW CHAT TELEGRAM</b><p id="mktMockContent"></p><p id="mktMockOffer"></p><span id="mktMockButton" class="mkt-mock-cta">BUKA PREMIUM →</span><small>Simulasi teks saja; tidak mengirim pesan.</small></div>
@@ -1035,7 +1035,7 @@ const qp=new URLSearchParams(location.search),resetUserId=qp.get('userId')||'',r
 if(qp.get('reset')==='1'&&resetUserId&&resetSecret){$('loginBox').classList.add('hide');$('resetBox').classList.add('show');}
 $('forgotBtn').onclick=async()=>{
   const email=$('loginEmail').value.trim().toLowerCase()||localStorage.getItem('badai_admin_email')||'';if(!email){msg($('loginMsg'),'Isi email admin dulu.','bad');return}
-  try{await account.createRecovery({email,url:'https://badaiprompt.vercel.app/admin?reset=1'});msg($('loginMsg'),'Link reset sudah dikirim ke '+email+'.','good')}catch(e){msg($('loginMsg'),e.message||'Gagal mengirim reset.','bad')}
+  try{await account.createRecovery({email,url:'https://promptional.vercel.app/admin?reset=1'});msg($('loginMsg'),'Link reset sudah dikirim ke '+email+'.','good')}catch(e){msg($('loginMsg'),e.message||'Gagal mengirim reset.','bad')}
 };
 $('resetForm').onsubmit=async e=>{
   e.preventDefault();const p=$('newPassword').value,c=$('confirmPassword').value;if(p.length<10){msg($('resetMsg'),'Minimal 10 karakter.','bad');return}if(p!==c){msg($('resetMsg'),'Password tidak sama.','bad');return}
