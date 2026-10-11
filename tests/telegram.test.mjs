@@ -60,3 +60,23 @@ test('disabled server locks automation paused and dry-run until owner release ap
  const config=await f.s.config();assert.equal(config.enabled,false);assert.equal(config.paused,true);assert.equal(config.dry_run,true);assert.equal(f.telegram.calls.length,before);
  await assert.rejects(f.s.requireSend(true),e=>e.status===503);
 });
+
+test('guest sandbox QRIS START activates one Telegram identity and blocks a second identity',async()=>{
+ const {issuePurchaseActivation}=await import('../functions/activate-member/src/telegram/telegram-purchase-activation.mjs');
+ const f=await fixture();
+ const orderId=id('website-qris','fake-sandbox-tx'),userId=id('guest-user',orderId);
+ const issuedAt=new Date(Date.now()).toISOString();
+ await f.store.claim(orderId,{kind:'website_order',status:'activated',user_id:userId,payload:JSON.stringify({
+  checkout_type:'guest',is_test:true,transaction_id:'fake-sandbox-tx',amount:199000,
+  paid_at:issuedAt,user_id:userId,guest_session_id:'session-A',first_name:'Ibu Rina',whatsapp:'081234567890'})});
+ await f.store.create('member_profiles',userId,{user_id:userId,status:'active',access_until:new Date(NOW+365*DAY).toISOString(),role:'member'});
+ const order=await f.store.state(orderId),token=(await issuePurchaseActivation(f.store,order)).token;
+ await f.s.webhook(f.bot.$id,f.s.secret(f.bot),update(777,'/start purchase_'+token,777));
+ const linked=await f.store.get('telegram_members',id('member',777));
+ assert.equal(linked.appwrite_user_id,userId);
+ assert.equal(linked.plan,'premium');
+ await f.s.webhook(f.bot.$id,f.s.secret(f.bot),update(888,'/start purchase_'+token,888));
+ const second=await f.store.get('telegram_members',id('member',888));
+ assert.equal(second.appwrite_user_id??null,null);
+ assert.equal(second.plan,'free');
+});
