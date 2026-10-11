@@ -4,6 +4,7 @@ import {fail,id,random,masterKey,seal,unseal,equal,numeric,privateIdentity,safeE
 import {defaults,settings,entitlement,DAY,jakartaStart} from './policy.mjs';
 import {reservePurchaseActivation} from './telegram-purchase-activation.mjs';
 import {BotQris} from './bot-qris.mjs';
+import {listTelegramSales,listTelegramBuyers,resetSandboxBuyer} from './telegram-orders-admin.mjs';
 export class Service{
  constructor({store,telegram,key,now=()=>Date.now(),sendEnabled=false,webhookBase='https://badaiprompt.vercel.app/api/telegram/webhook',verifyUser,verifyAdmin,verifyPaidAccess=async()=>false,marketingEnabled=false,qrisDeps={}}){
   Object.assign(this,{store,telegram,key,now,sendEnabled,webhookBase,verifyUser,verifyAdmin,verifyPaidAccess,marketingEnabled});this.delivery=new Delivery(this);this.marketing=new Marketing(this);this.qris=new BotQris(this,qrisDeps);
@@ -28,6 +29,9 @@ export class Service{
  async admin(action,body,jwt){
   const actor=await this.verifyAdmin(jwt);await this.store.rate(actor.$id,'admin',this.now(),20);
   if(action==='overview')return this.overview();
+  if(action==='telegram-orders-list')return listTelegramSales(this,body);
+  if(action==='telegram-buyers-list')return listTelegramBuyers(this,body);
+  if(action==='telegram-tester-reset')return resetSandboxBuyer(this,body,actor.$id);
   if(action==='marketing-get')return this.marketing.get();
   if(action==='marketing-candidates')return this.marketing.candidates(body);
   if(action==='marketing-settings'){

@@ -356,6 +356,21 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
  <div class="title"><div><div class="eyebrow">DISTRIBUSI PROMPT</div><h1>Telegram Manager</h1><p>Kelola bot, uji koneksi, dan atur pengiriman member.</p></div><button class="btn pink" id="tgRefresh" type="button">PERBARUI</button></div>
  <div id="tgStatus" class="tg-notice" role="status">Data Telegram belum dimuat.</div>
  <div id="tgStats" class="tg-stats" aria-label="Statistik Telegram"></div>
+ <section class="tg-panel" id="tgOrdersPanel" aria-label="Kelola order dan pembeli Telegram">
+  <div class="tg-sales-head"><div><h2>Order & Pembeli Telegram</h2><p>Semua tagihan QRIS bot dan checkout website tersimpan di Appwrite. Status pembayaran bersifat hasil verifikasi server, bukan isian manual.</p></div><button class="btn pink" type="button" id="tgOrdersReload">PERBARUI ORDER</button></div>
+  <div class="tg-sales-filters">
+   <label for="tgOrdersChannel">SUMBER ORDER <select id="tgOrdersChannel"><option value="all">Semua kanal</option><option value="bot">Bot Telegram</option><option value="website">Checkout Website</option></select></label>
+   <label for="tgOrdersSearch">CARI ORDER <input id="tgOrdersSearch" type="search" placeholder="Nama, Telegram ID, atau invoice"></label>
+  </div>
+  <div class="tg-sales-meta" id="tgOrdersSummary">Buka menu Telegram untuk memuat data.</div>
+  <div class="tg-sales-list" id="tgOrdersList" aria-live="polite">Belum dimuat.</div>
+  <button class="btn dark tg-sales-more" id="tgOrdersMore" type="button" hidden>MUAT ORDER LAINNYA</button>
+  <div class="tg-sales-head tg-sales-sub"><div><h3>Akun Telegram</h3><p>Identitas, paket Free/Premium, masa aktif, dan akses Appwrite. Reset khusus tester sandbox tidak menghapus riwayat pembayaran.</p></div><button class="btn dark" id="tgBuyersReload" type="button">PERBARUI MEMBER</button></div>
+  <div class="tg-sales-list" id="tgBuyersList" aria-live="polite">Belum dimuat.</div>
+  <button class="btn dark tg-sales-more" id="tgBuyersMore" type="button" hidden>MUAT MEMBER LAINNYA</button>
+  <p class="tg-sales-note">Untuk reset, otorisasi dulu akun melalui <b>Testing Center</b> di halaman ini. Hanya Premium yang berasal dari transaksi QRIS sandbox bot boleh dikembalikan ke Free; transaksi asli tidak dapat direset dari sini.</p>
+ </section>
+
  <div class="tg-layout">
   <section class="tg-panel"><h2>Koneksi bot</h2><p>Token hanya dikirim ke server, divalidasi melalui Telegram, lalu disimpan terenkripsi.</p>
    <form id="tgBotForm"><div class="field"><label for="tgBotSelect">KONFIGURASI BOT</label><select id="tgBotSelect"><option value="">+ Tambah bot</option></select></div>
@@ -1026,7 +1041,34 @@ $('resetForm').onsubmit=async e=>{
 $('loginEmail').value=localStorage.getItem('badai_admin_email')||'';
 boot();
 </script>
+
+<style>
+.tg-sales-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.tg-sales-head h2,.tg-sales-head h3{margin:0 0 6px}
+.tg-sales-head p{margin:0;color:var(--muted,#6c6470);line-height:1.5;font-size:.85rem}
+.tg-sales-filters{display:grid;grid-template-columns:minmax(140px,1fr) minmax(190px,2fr);gap:12px;margin:16px 0}
+.tg-sales-filters label{font-size:.73rem;font-weight:800;letter-spacing:.06em}
+.tg-sales-filters input,.tg-sales-filters select{display:block;width:100%;min-height:42px;border:1px solid #d8d5df;border-radius:10px;padding:9px;margin-top:6px;background:#fff;color:#111}
+.tg-sales-meta,.tg-sales-note{color:#716d78;font-size:.84rem;margin:12px 0}
+.tg-sales-list{display:grid;gap:10px;margin:14px 0}
+.tg-sales-item{border:1px solid #e4e0e9;background:#fff;padding:13px;border-radius:14px;overflow-wrap:anywhere}
+.tg-sales-item-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.tg-sales-item-head strong{font-size:.98rem}
+.tg-sales-item-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:9px;margin-top:10px}
+.tg-sales-item-body div{font-size:.85rem;min-width:0}
+.tg-sales-item-body small{display:block;font-size:.7rem;color:#817985;margin-bottom:2px}
+.tg-sales-item-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.tg-sales-item-actions button{font-size:.75rem;padding:9px 12px}
+.tg-sales-chip{background:#f4f0f6;border-radius:100px;padding:5px 10px;font-size:.72rem;font-weight:800}
+.tg-sales-chip.paid{background:#daf5e7;color:#075d37}
+.tg-sales-chip.wait{background:#fff0cf;color:#885900}
+.tg-sales-chip.free{background:#f0ecf2;color:#635b67}
+.tg-sales-more{margin:12px 0 22px}
+.tg-sales-sub{border-top:1px solid #e8e4eb;margin-top:25px;padding-top:22px}
+@media(max-width:520px){.tg-sales-filters{grid-template-columns:1fr}.tg-sales-head .btn{width:100%}}
+</style>
 <script src="/assets/telegram-manager.js"></script>
+<script src="/assets/telegram-orders.js"></script>
 <script src="/assets/admin-marketing.js?v=1"></script>
 <script src="/assets/workspace-ui.js?v=2"></script>
 </body>
