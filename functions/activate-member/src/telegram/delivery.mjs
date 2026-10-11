@@ -64,8 +64,10 @@ export class Delivery{
     catch(e){if(e.ambiguous||e.blocked||e.retryAfter)throw e;warning='Preview tidak dapat dikirim.'}
    }
    if(!ids.length){const intro=await s.telegram.call(token,'sendMessage',{chat_id:consent.data.chat_id,text:(welcome?'Selamat datang di BADAI PROMPT!\n\n':'')+String(prompt.title||'Prompt BADAI PROMPT').slice(0,200)});ids.push(String(intro.message_id));await s.store.update('telegram_deliveries',rowId,{message_id:ids[0],message_ids:JSON.stringify(ids)})}
-   for(const text of promptChunks(prompt.prompt_text)){
-    const message=await s.telegram.call(token,'sendMessage',{chat_id:consent.data.chat_id,text,parse_mode:'HTML'});ids.push(String(message.message_id));
+   const chunks=promptChunks(prompt.prompt_text);
+   for(const [index,text] of chunks.entries()){
+    const showBuy=!test&&member.plan==='free'&&s.qris?.enabled&&index===chunks.length-1;
+    const message=await s.telegram.call(token,'sendMessage',{chat_id:consent.data.chat_id,text,parse_mode:'HTML',...(showBuy?{reply_markup:{inline_keyboard:[[{text:'BELI PREMIUM — Rp199.000',callback_data:'beli'}]]}}:{})});ids.push(String(message.message_id));
     await s.store.update('telegram_deliveries',rowId,{message_id:ids[0],message_ids:JSON.stringify(ids)});
    }
    if((!test&&member.plan==='free'||test&&marketingTestOffer)&&prompt.marketing_offer){
