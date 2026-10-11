@@ -72,6 +72,10 @@ export async function resetSandboxBuyer(service,{order_id,confirmation}={},actor
  if(active?.$id!==order.$id)throw fail('Order yang dipilih bukan invoice aktif pengguna.',409);
  const profile=await service.store.get('member_profiles',expectedUser);
  if(!profile||profile.status!=='active'||profile.access_until==null)throw fail('Akses Premium tidak dapat direset secara aman.',409);
+ // Never revoke a later website renewal or manually modified paid entitlement.
+ if(!d.access_until||Date.parse(profile.access_until)!==Date.parse(d.access_until)||
+   Date.parse(member.premium_until)!==Date.parse(d.access_until))
+  throw fail('Masa Premium berbeda dari invoice sandbox. Mungkin ada perpanjangan lain; reset ditolak.',409);
  // Keep transaction records immutable. Deactivate test entitlement only.
  const memberships=await service.qris.teams.listMemberships({teamId:'paid-members',
    queries:[service.store.Query.equal('userId',expectedUser),service.store.Query.limit(10)]});
