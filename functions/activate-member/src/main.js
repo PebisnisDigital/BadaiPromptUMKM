@@ -101,7 +101,7 @@ export default async ({req,res,log,error})=>{
       const route=path.slice('/admin'.length);
 
       if(route==='/health'){
-        return res.json({ok:true,service:'BADAI PROMPT UMKM admin-api'});
+        return res.json({ok:true,service:'PROMPTIONAL admin-api'});
       }
 
       if(route==='/dashboard'){
@@ -509,13 +509,13 @@ export default async ({req,res,log,error})=>{
           ok:true,
           payment:{
             provider:'buatqris',
-            merchant_label:row?.merchant_label||'BADAI PROMPT UMKM',
+            merchant_label:row?.merchant_label||'PROMPTIONAL',
             account_id:row?.account_id||'',
             qris_method:row?.qris_method||'qris_two',
             fee_by:row?.fee_by||'user',
             umkm_name:row?.umkm_name||'',
             test_mode:row?.test_mode!==false,
-            callback_url:row?.callback_url||'https://badaiprompt.vercel.app/api/buatqris-webhook',
+            callback_url:row?.callback_url||'https://promptional.vercel.app/api/buatqris-webhook',
             api_url:row?.api_url||'https://app.buatqris.site/api',
             is_active:row?.is_active!==false,
             has_secret_token:Boolean(row?.secret_token),
@@ -540,7 +540,7 @@ export default async ({req,res,log,error})=>{
         const accountId=q(body.account_id);
         const secretToken=q(body.secret_token)||existing?.secret_token||null;
         const signingSecret=q(body.signing_secret)||existing?.signing_secret||null;
-        const callbackUrl=q(body.callback_url)||'https://badaiprompt.vercel.app/api/buatqris-webhook';
+        const callbackUrl=q(body.callback_url)||'https://promptional.vercel.app/api/buatqris-webhook';
         const apiUrl=q(body.api_url)||'https://app.buatqris.site/api';
 
         if(!accountId)return res.json({error:'Account ID BuatQRIS wajib diisi.'},400);
@@ -548,7 +548,7 @@ export default async ({req,res,log,error})=>{
 
         const data={
           provider:'buatqris',
-          merchant_label:q(body.merchant_label)||'BADAI PROMPT UMKM',
+          merchant_label:q(body.merchant_label)||'PROMPTIONAL',
           account_id:accountId,
           secret_token:secretToken,
           signing_secret:signingSecret,
@@ -603,7 +603,7 @@ export default async ({req,res,log,error})=>{
           account_id:String(row.account_id),
           secret_token:String(row.secret_token),
           amount:'1000',
-          description:'Tes koneksi BADAI PROMPT UMKM',
+          description:'Tes koneksi PROMPTIONAL',
           qris_method:String(row.qris_method||'qris_two'),
           fee_by:String(row.fee_by||'user'),
           test:'1'
@@ -755,7 +755,7 @@ export default async ({req,res,log,error})=>{
       user=await users.create({
         userId:ID.unique(),
         email,
-        name:String(order.full_name||'Member BADAI PROMPT UMKM').slice(0,128)
+        name:String(order.full_name||'Member PROMPTIONAL').slice(0,128)
       });
     }
 

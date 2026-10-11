@@ -912,7 +912,7 @@ function renderPaymentSettings(){
   $('buatQrisMode').value=paymentAdmin.test_mode===false?'real':'sandbox';
   $('buatQrisMethod').value=paymentAdmin.qris_method||'qris_two';
   $('buatQrisFeeBy').value=paymentAdmin.fee_by||'user';
-  $('buatQrisUmkmName').value=paymentAdmin.umkm_name||'';
+  $('buatQrisUmkmName').value=paymentAdmin.umkm_name||'PROMPTIONAL';
   $('buatQrisCallbackUrl').value=paymentAdmin.callback_url||'https://promptional.vercel.app/api/buatqris-webhook';
   $('buatQrisApiUrl').value=paymentAdmin.api_url||'https://app.buatqris.site/api';
   $('buatQrisSecretToken').value='';$('buatQrisSigningSecret').value='';

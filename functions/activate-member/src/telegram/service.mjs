@@ -7,7 +7,7 @@ import {BotQris} from './bot-qris.mjs';
 import {listTelegramSales,listTelegramBuyers,resetSandboxBuyer} from './telegram-orders-admin.mjs';
 import {updateTelegramBuyer,deleteTelegramBuyer} from './telegram-sales-management.mjs';
 export class Service{
- constructor({store,telegram,key,now=()=>Date.now(),sendEnabled=false,webhookBase='https://badaiprompt.vercel.app/api/telegram/webhook',verifyUser,verifyAdmin,verifyPaidAccess=async()=>false,marketingEnabled=false,qrisDeps={}}){
+ constructor({store,telegram,key,now=()=>Date.now(),sendEnabled=false,webhookBase='https://promptional.vercel.app/api/telegram/webhook',verifyUser,verifyAdmin,verifyPaidAccess=async()=>false,marketingEnabled=false,qrisDeps={}}){
   Object.assign(this,{store,telegram,key,now,sendEnabled,webhookBase,verifyUser,verifyAdmin,verifyPaidAccess,marketingEnabled});this.delivery=new Delivery(this);this.marketing=new Marketing(this);this.qris=new BotQris(this,qrisDeps);
  }
  async config(){return settings((await this.store.state('telegram-settings'))?.data||defaults)}

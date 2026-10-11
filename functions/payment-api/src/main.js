@@ -13,7 +13,7 @@ const ADMIN_TEAM='admin-users';
 const FALLBACK_PRICE=Number(process.env.PRODUCT_PRICE || 100000);
 const FALLBACK_MINIMUM_PRICE=Number(process.env.MINIMUM_PRICE || 30000);
 const MAX_PAY_WHAT_YOU_WANT=5000000;
-const APP_URL='https://badaiprompt.vercel.app';
+const APP_URL='https://promptional.vercel.app';
 
 function corsHeaders(extra={}){
   return {
@@ -86,7 +86,7 @@ export default async ({req,res,error})=>{
     const userId=q(req.headers['x-appwrite-user-id']);
     if(!userId)throw Object.assign(new Error('Sesi admin tidak terbaca.'),{status:401});
     const r=await teams.listMemberships({teamId:ADMIN_TEAM,queries:[Query.equal('userId',userId),Query.limit(1)]});
-    if(!(r.memberships||[]).length)throw Object.assign(new Error('Akun ini bukan admin BADAI PROMPT.'),{status:403});
+    if(!(r.memberships||[]).length)throw Object.assign(new Error('Akun ini bukan admin PROMPTIONAL.'),{status:403});
     return userId;
   }
   async function adminUpsertSetting(key,value,isPublic=false){
@@ -153,7 +153,7 @@ export default async ({req,res,error})=>{
 
     if(path==='/settings/get'){
       const s=await adminSettingsMap();return {ok:true,settings:{
-        product_name:q(s.product_name)||'BADAI PROMPT',
+        product_name:q(s.product_name)||'PROMPTIONAL',
         product_price:Number(s.product_price||100000),
         minimum_price:Number(s.minimum_price||30000),
         registration_open:String(s.registration_open??'true')==='true',
@@ -181,13 +181,13 @@ export default async ({req,res,error})=>{
       let row=null;try{row=rowData(await tables.getRow({databaseId:DB,tableId:PAYMENT_SETTINGS,rowId:'buatqris'}))}catch(e){if(Number(e?.code)!==404)throw e}
       return {ok:true,payment:{
         provider:'buatqris',
-        merchant_label:q(row?.merchant_label)||'BADAI PROMPT',
+        merchant_label:q(row?.merchant_label)||'PROMPTIONAL',
         account_id:q(row?.account_id),
         qris_method:q(row?.qris_method)||'qris_two',
         fee_by:q(row?.fee_by)||'user',
         umkm_name:q(row?.umkm_name),
         test_mode:row?row.test_mode!==false:true,
-        callback_url:q(row?.callback_url)||'https://badaiprompt.vercel.app/api/buatqris-webhook',
+        callback_url:q(row?.callback_url)||'https://promptional.vercel.app/api/buatqris-webhook',
         api_url:q(row?.api_url)||'https://app.buatqris.site/api',
         is_active:row?row.is_active!==false:false,
         has_secret_token:Boolean(q(row?.secret_token)),
@@ -200,13 +200,13 @@ export default async ({req,res,error})=>{
       const fee=['user','buyer'].includes(q(body.fee_by))?q(body.fee_by):'user';
       const data={
         provider:'buatqris',
-        merchant_label:q(body.merchant_label)||q(existing?.merchant_label)||'BADAI PROMPT',
+        merchant_label:q(body.merchant_label)||q(existing?.merchant_label)||'PROMPTIONAL',
         account_id:q(body.account_id)||q(existing?.account_id)||null,
         qris_method:method,
         fee_by:fee,
         umkm_name:(q(body.umkm_name)||q(existing?.umkm_name)||'').slice(0,15)||null,
         test_mode:body.test_mode!==false,
-        callback_url:q(body.callback_url)||q(existing?.callback_url)||'https://badaiprompt.vercel.app/api/buatqris-webhook',
+        callback_url:q(body.callback_url)||q(existing?.callback_url)||'https://promptional.vercel.app/api/buatqris-webhook',
         api_url:q(body.api_url)||q(existing?.api_url)||'https://app.buatqris.site/api',
         is_active:body.is_active===true,
         secret_token:q(body.secret_token)||q(existing?.secret_token)||null,
@@ -255,7 +255,7 @@ export default async ({req,res,error})=>{
     const parsed=Number(map.product_price);
     const parsedMinimum=Number(map.minimum_price);
     return {
-      product_name:q(map.product_name)||'BADAI PROMPT UMKM',
+      product_name:q(map.product_name)||'PROMPTIONAL',
       price:Number.isFinite(parsed)&&parsed>0?parsed:FALLBACK_PRICE,
       minimum_price:Number.isFinite(parsedMinimum)&&parsedMinimum>0?Math.floor(parsedMinimum):FALLBACK_MINIMUM_PRICE,
       price_mode:'pay_what_you_want',
@@ -282,7 +282,7 @@ export default async ({req,res,error})=>{
       fee_by:q(row?.fee_by)||'user',
       umkm_name:q(row?.umkm_name),
       test_mode:row?row.test_mode!==false:true,
-      callback_url:q(row?.callback_url)||'https://badaiprompt.vercel.app/api/buatqris-webhook',
+      callback_url:q(row?.callback_url)||'https://promptional.vercel.app/api/buatqris-webhook',
       api_url:q(row?.api_url)||'https://app.buatqris.site/api',
       is_active:row?row.is_active!==false:false,
       configured:Boolean(row&&accountId&&secretToken)
@@ -598,7 +598,7 @@ export default async ({req,res,error})=>{
   async function createPayment(body){
     const cfg=await getConfig();
     if(!cfg.registration_open){
-      throw Object.assign(new Error('Pendaftaran BADAI PROMPT UMKM sedang ditutup.'),{status:423});
+      throw Object.assign(new Error('Pendaftaran PROMPTIONAL sedang ditutup.'),{status:423});
     }
     const requestedAmount=Math.floor(Number(body.amount));
     if(!Number.isFinite(requestedAmount)){
@@ -856,7 +856,7 @@ export default async ({req,res,error})=>{
       const cfg=await getConfig();
       return reply(res,{
         ok:true,
-        service:'BADAI PROMPT UMKM payment-api',
+        service:'PROMPTIONAL payment-api',
         product_name:cfg.product_name,
         price:cfg.price,
         minimum_price:cfg.minimum_price,

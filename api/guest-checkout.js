@@ -90,7 +90,7 @@ async function create(req,res,s){
  if(!claimed)return error(res,'QRIS sedang dibuat.',409);
  let invoice;
  try{
-  invoice=await call(p,{action:'api_create_qris',account_id:String(p.account_id),secret_token:String(p.secret_token),amount:String(PRICE),description:'BADAI PROMPT SANDBOX 365 hari',callback_url:BASE+'/api/guest-checkout?action=webhook',fee_by:String(p.fee_by||'merchant'),qris_method:String(p.qris_method||'qris_two'),test:'1'});
+  invoice=await call(p,{action:'api_create_qris',account_id:String(p.account_id),secret_token:String(p.secret_token),amount:String(PRICE),description:'PROMPTIONAL SANDBOX 365 hari',callback_url:BASE+'/api/guest-checkout?action=webhook',fee_by:String(p.fee_by||'merchant'),qris_method:String(p.qris_method||'qris_two'),test:'1'});
  }catch(e){await s.store.update('telegram_state',curKey,{status:'uncertain'});throw Error('Status pembuatan QRIS tidak pasti. Hubungi admin; jangan ulangi pembayaran.');}
  if(!invoice.transaction_id||!(invoice.qr_url||invoice.qris_image))throw Error('QRIS belum tersedia.');
  const amount=Number(invoice.amount??PRICE),total=Number(invoice.total_amount??amount);

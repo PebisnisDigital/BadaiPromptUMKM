@@ -83,7 +83,7 @@ async function checkout(req,res,s){
  await s.store.putState(id('website-current',tg),{intent_id:key,started_at:new Date().toISOString()},{kind:'site_current',telegram_id:tg,status:'creating',due_at:new Date(Date.now()+86400000).toISOString()});
  let created;
  try{
-  created=await callProvider(p,{action:'api_create_qris',account_id:String(p.account_id),secret_token:String(p.secret_token),amount:String(PRICE),description:'BADAI PROMPT Premium Website 365 Hari',fee_by:String(p.fee_by||'merchant'),callback_url:BASE+'/api/website-checkout?action=webhook',qris_method:String(p.qris_method||'qris_two'),...(p.umkm_name?{umkm_name:String(p.umkm_name).slice(0,15)}:{}),...(p.test_mode?{test:'1'}:{})});
+  created=await callProvider(p,{action:'api_create_qris',account_id:String(p.account_id),secret_token:String(p.secret_token),amount:String(PRICE),description:'PROMPTIONAL Premium Website 365 Hari',fee_by:String(p.fee_by||'merchant'),callback_url:BASE+'/api/website-checkout?action=webhook',qris_method:String(p.qris_method||'qris_two'),...(p.umkm_name?{umkm_name:String(p.umkm_name).slice(0,15)}:{}),...(p.test_mode?{test:'1'}:{})});
  }catch(e){
   await s.store.update('telegram_state',key,{status:'uncertain'});
   await s.store.update('telegram_state',id('website-current',tg),{status:'uncertain'});

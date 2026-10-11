@@ -11,7 +11,7 @@ export default async function handler(req,res){
     return res.status(200).json({
       ok:true,
       relay:true,
-      endpoint:'BADAI PROMPT UMKM BuatQRIS webhook'
+      endpoint:'PROMPTIONAL BuatQRIS webhook'
     });
   }
   if(req.method!=='POST')return res.status(405).json({error:'Method not allowed'});

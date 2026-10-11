@@ -4,7 +4,7 @@ import {Query,Permission,Role} from 'node-appwrite';
 import {id,fail,numeric,safeError} from './security.mjs';
 import {calculatePaidAccessUntil,assertProviderSettlement} from './website-checkout-guards.mjs';
 
-const PRICE=199000,BASE='https://badaiprompt.vercel.app';
+const PRICE=199000,BASE='https://promptional.vercel.app';
 const unpack=r=>r?({...r,...r.data}):null;
 const orderId=tx=>id('bot-qris-order',tx);
 const currentId=(botId,telegramId)=>id('bot-qris-current',botId,telegramId);
@@ -103,7 +103,7 @@ export class BotQris{
   if(!lock)throw fail('QRIS sedang diproses. Cek dengan /cek.',409);
   let invoice;
   try{invoice=await this.call(p,{action:'api_create_qris',amount:String(PRICE),
-   description:'BADAI PROMPT 365 hari - SANDBOX',callback_url:BASE+'/api/bot-qris-webhook',
+   description:'PROMPTIONAL 365 hari - SANDBOX',callback_url:BASE+'/api/bot-qris-webhook',
    fee_by:String(p.fee_by||'merchant'),qris_method:String(p.qris_method||'qris_two'),test:'1'})}
   catch(e){await this.store.update('telegram_state',lockId,{status:'uncertain'});throw e}
   const tx=String(invoice.transaction_id||''),image=String(invoice.qr_url||invoice.qris_image||'');
@@ -148,7 +148,7 @@ export class BotQris{
    try{
     const bot=await this.service.bot(order.data.bot_id),
       member=await this.store.get('telegram_members',id('member',order.data.telegram_id));
-    await this.service.delivery.text(member,bot,'Pembayaran sudah LUNAS. BADAI PROMPT Premium aktif 365 hari! Prompt berikutnya dikirim otomatis pukul 06.00 WIB. Gunakan /status untuk melihat paket.',id('bot-qris-success',order.$id),'reply');
+    await this.service.delivery.text(member,bot,'Pembayaran sudah LUNAS. PROMPTIONAL Premium aktif 365 hari! Prompt berikutnya dikirim otomatis pukul 06.00 WIB. Gunakan /status untuk melihat paket.',id('bot-qris-success',order.$id),'reply');
    }catch{/* Membership must remain activated if confirmation message delivery fails. */}
   }
   return activated;
@@ -183,7 +183,7 @@ export class BotQris{
   await this.store.create('telegram_deliveries',msgId,{telegram_id:current.telegram_id,chat_id:consent.data.chat_id,
    bot_id:bot.$id,prompt_id:'invoice',message_id:'pending',message_ids:'[]',plan:'free',day_number:0,
    delivery_key:key,sent_at:new Date(this.service.now()).toISOString(),dispatch_status:'sending',kind:'reply',attempts:1});
-  const caption='UJI QRIS BADAI PROMPT\nPremium 365 hari — Rp'+order.data.total_amount.toLocaleString('id-ID')+
+  const caption='UJI QRIS PROMPTIONAL\nPremium 365 hari — Rp'+order.data.total_amount.toLocaleString('id-ID')+
    '\n\nIni invoice SANDBOX. Jangan bayar dengan uang asli. Gunakan test_pay di dashboard BuatQRIS.'+
    '\n\nSetelah pembayaran uji, tekan CEK PEMBAYARAN di bawah ini.';
   try{
