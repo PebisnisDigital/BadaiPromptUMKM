@@ -153,6 +153,19 @@ export class BotQris{
   }
   return activated;
  }
+ async recover(limit=2){
+  this.ensure();
+  const due=await this.store.list('telegram_state',[
+   ['equal','kind','bot_qris_order'],['equal','status',['pending','paid']]
+  ],limit);
+  const result={checked:0,activated:0,failed:0};
+  for(const order of due.rows){
+   result.checked++;
+   try{const after=await this.reconcile(await this.store.state(order.$id));if(after?.status==='activated')result.activated++}
+   catch{result.failed++}
+  }
+  return result;
+ }
  async buy(member,bot){
   this.ensure();
   const current=await this.service.sync(member);
