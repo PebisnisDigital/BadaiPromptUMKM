@@ -217,7 +217,7 @@ export class Service{
   }
   if(cmd==='/premium')return this.delivery.text(member,bot,this.qris.enabled?'Premium 365 hari, Rp199.000. Uji QRIS sandbox tersedia melalui /beli. Jangan bayar dengan uang asli.':'Premium memberi akses koleksi Member Area dan rekomendasi harian. Jika sudah berlangganan, hubungkan akun melalui menu Akun di Member Area. Checkout bot belum diaktifkan.',key,'reply');
   if(cmd==='/status')return this.delivery.text(member,bot,'Paket: '+member.plan.toUpperCase()+'\nMasa aktif: '+(member.plan==='premium'?(member.premium_until?new Date(member.premium_until).toLocaleDateString('id-ID',{timeZone:'Asia/Jakarta'}):'Mengikuti hak akses lama'):'Gratis')+'\nPrompt terkirim: '+(member.delivery_day||0),key,'reply');
-  return this.delivery.text(member,bot,'Panduan BADAI PROMPT\n/start — daftar gratis\n/prompt — prompt sesuai jadwal\n/premium — informasi premium\n/status — status akun\n/bantuan — panduan\nHubungkan langganan dari menu Akun di Member Area.'+(this.qris.enabled?'\\n/beli — coba checkout QRIS sandbox\\n/cek — cek status invoice':''),key,'reply');
+  return this.delivery.text(member,bot,'Panduan BADAI PROMPT\n/start — daftar gratis\n/prompt — prompt sesuai jadwal\n/premium — informasi premium\n/status — status akun\n/bantuan — panduan\nHubungkan langganan dari menu Akun di Member Area.'+(this.qris.enabled?'\n/beli — coba checkout QRIS sandbox\n/cek — cek status invoice':''),key,'reply');
  }
  async scheduler({forceDry=false,budgetMs=20000}={}){
   const start=this.now(),setting=await this.config(),dry=forceDry||setting.dry_run||!this.sendEnabled,bot=await this.main();
