@@ -8,7 +8,8 @@
     "test:telegram-ui": "node scripts/verify-telegram-ui.cjs",
     "test:workspace": "node scripts/verify-workspace-ui.cjs",
     "test:telegram-website": "node --test tests/telegram-web-identity.test.mjs tests/telegram-website-oidc.test.mjs tests/telegram-website-purchase-notice.test.mjs tests/website-checkout-guards.test.mjs tests/website-premium-grant.integration.test.mjs",
-    "test:website-vercel": "node --test tests/website-vercel-module.test.cjs tests/website-preflight-scopes.test.cjs"
+    "test:website-vercel": "node --test tests/website-vercel-module.test.cjs tests/website-preflight-scopes.test.cjs",
+    "test:telegram-first": "node --test tests/guest-checkout.test.mjs tests/telegram-purchase-activation.test.mjs tests/guest-payment-activation.test.mjs"
   },
   "dependencies": {
     "node-appwrite": "29.2.0"
