@@ -256,6 +256,10 @@ export class Service{
   const disposable=['rate','update','attempt','used','switch','run','link','audit'];
   const expired=await this.store.list('telegram_state',[['equal','kind',disposable],['lessThanEqual','due_at',new Date(start).toISOString()]],20);
   for(const row of expired.rows){if(this.now()-start>budgetMs)break;await this.store.remove('telegram_state',row.$id)}
+  // Invoice callback is primary; cron is a bounded fallback when BuatQRIS webhook is delayed.
+  if(this.qris.enabled&&this.now()-start<budgetMs-3000){
+   result.qris=await this.qris.recover(1).catch(()=>({checked:0,failed:1}));
+  }
   return result;
  }
 }
