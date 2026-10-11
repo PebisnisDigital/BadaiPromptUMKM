@@ -1,4 +1,4 @@
-const ACTIONS=new Set(['marketing-get','marketing-candidates','marketing-settings','marketing-slot-save','marketing-slot-delete','marketing-slot-move','marketing-test-send','overview','settings','save','tester','rename','connection','webhook','install-webhook','prepare-switch','activate','disable','delete','test-message','test-prompt','test-delete','dry-run','telegram-orders-list','telegram-buyers-list','telegram-tester-reset']);
+const ACTIONS=new Set(['marketing-get','marketing-candidates','marketing-settings','marketing-slot-save','marketing-slot-delete','marketing-slot-move','marketing-test-send','overview','settings','save','tester','rename','connection','webhook','install-webhook','prepare-switch','activate','disable','delete','test-message','test-prompt','test-delete','dry-run','telegram-orders-list','telegram-buyers-list','telegram-tester-reset','telegram-member-edit','telegram-member-delete']);
 module.exports=async function handler(req,res){
  res.setHeader('Cache-Control','no-store');
  if(req.method!=='POST')return res.status(405).json({error:'Method not allowed'});

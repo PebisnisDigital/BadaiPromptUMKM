@@ -47,6 +47,7 @@ export async function listTelegramBuyers(service,{cursor='',limit=25}={}){
    is_active:m.is_active,premium_until:m.premium_until||null,
    next_send_at:m.next_send_at||null,appwrite_linked:Boolean(m.appwrite_user_id),
    tester_authorized:Boolean(tester?.status==='authorized'),
+   can_manage:!m.appwrite_user_id||[id('bot-qris-user',m.telegram_id),id('telegram-admin-user',m.telegram_id)].includes(m.appwrite_user_id),
    sandbox_order_id:order?.kind==='bot_qris_order'&&order.data?.is_test===true?order.$id:null,
    can_reset:Boolean(tester?.status==='authorized'&&order?.kind==='bot_qris_order'&&
      order?.status==='activated'&&order?.data?.is_test===true&&
