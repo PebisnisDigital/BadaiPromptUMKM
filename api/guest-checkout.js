@@ -2,7 +2,7 @@
 // No live QRIS can be generated from this endpoint.
 const crypto=require('node:crypto');
 const {Client,TablesDB,Users,Teams,Query}=require('node-appwrite');
-const BASE='https://badaiprompt.vercel.app',PRICE=199000,DB='badai_prompt_umkm',PROJECT='badai-prompt-umkm';
+const BASE='https://promptional.vercel.app',PRICE=199000,DB='badai_prompt_umkm',PROJECT='badai-prompt-umkm';
 const json=(res,v,s=200)=>res.status(s).json(v);
 const error=(res,message,s=400)=>json(res,{ok:false,error:message},s);
 const cookie=(req,name)=>String(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(name+'='))?.slice(name.length+1)||'';

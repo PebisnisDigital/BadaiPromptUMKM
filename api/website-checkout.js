@@ -21,7 +21,7 @@ async function loadEsmModules(){
 }
 
 const config={api:{bodyParser:false}};
-const BASE='https://badaiprompt.vercel.app',PROJECT='badai-prompt-umkm',DB='badai_prompt_umkm',PRICE=199000,PERIOD=365*86400000;
+const BASE='https://promptional.vercel.app',PROJECT='badai-prompt-umkm',DB='badai_prompt_umkm',PRICE=199000,PERIOD=365*86400000;
 const json=(res,data,status=200)=>res.status(status).json(data);
 const err=(res,message,status=400)=>json(res,{ok:false,error:message},status);
 const unpack=r=>r?{...r,...(r.data||{})}:null;

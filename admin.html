@@ -233,7 +233,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
           <div class="field"><label>METODE QRIS</label><select id="buatQrisMethod"><option value="qris_one">QRIS 1</option><option value="qris_two">QRIS 2</option><option value="qris_three">QRIS 3</option><option value="qris_four">QRIS 4</option></select></div>
           <div class="field"><label>BIAYA QRIS</label><select id="buatQrisFeeBy"><option value="user">Dipotong dari saldo</option><option value="buyer">Ditambahkan ke pembeli</option></select></div>
           <div class="field"><label>NAMA QRIS / UMKM</label><input id="buatQrisUmkmName" maxlength="15" placeholder="PROMPTIONAL"></div>
-          <div class="field full"><label>CALLBACK URL</label><input id="buatQrisCallbackUrl" type="url" placeholder="https://badaiprompt.vercel.app/api/buatqris-webhook"></div>
+          <div class="field full"><label>CALLBACK URL</label><input id="buatQrisCallbackUrl" type="url" placeholder="https://promptional.vercel.app/api/buatqris-webhook"></div>
           <div class="field full"><label>API URL</label><input id="buatQrisApiUrl" type="url" placeholder="https://app.buatqris.site/api"></div>
         </div>
         <button class="btn pink" id="saveBuatQrisBtn" style="width:100%;margin-top:10px">SIMPAN PENGATURAN BUATQRIS</button>
@@ -913,7 +913,7 @@ function renderPaymentSettings(){
   $('buatQrisMethod').value=paymentAdmin.qris_method||'qris_two';
   $('buatQrisFeeBy').value=paymentAdmin.fee_by||'user';
   $('buatQrisUmkmName').value=paymentAdmin.umkm_name||'';
-  $('buatQrisCallbackUrl').value=paymentAdmin.callback_url||'https://badaiprompt.vercel.app/api/buatqris-webhook';
+  $('buatQrisCallbackUrl').value=paymentAdmin.callback_url||'https://promptional.vercel.app/api/buatqris-webhook';
   $('buatQrisApiUrl').value=paymentAdmin.api_url||'https://app.buatqris.site/api';
   $('buatQrisSecretToken').value='';$('buatQrisSigningSecret').value='';
   $('buatQrisSecretState').textContent=paymentAdmin.has_secret_token?'Sudah tersimpan · isi hanya jika ingin mengganti':'Belum tersimpan';

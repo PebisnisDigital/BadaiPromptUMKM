@@ -20,6 +20,28 @@
   ],
   "redirects": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "badaiprompt.vercel.app"
+        }
+      ],
+      "destination": "https://promptional.vercel.app/",
+      "permanent": true
+    },
+    {
+      "source": "/:path((?!api/).*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "badaiprompt.vercel.app"
+        }
+      ],
+      "destination": "https://promptional.vercel.app/:path*",
+      "permanent": true
+    },
+    {
       "source": "/akses",
       "destination": "/member",
       "permanent": false
