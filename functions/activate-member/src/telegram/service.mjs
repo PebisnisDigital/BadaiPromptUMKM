@@ -5,6 +5,7 @@ import {defaults,settings,entitlement,DAY,jakartaStart} from './policy.mjs';
 import {reservePurchaseActivation} from './telegram-purchase-activation.mjs';
 import {BotQris} from './bot-qris.mjs';
 import {listTelegramSales,listTelegramBuyers,resetSandboxBuyer} from './telegram-orders-admin.mjs';
+import {updateTelegramBuyer,deleteTelegramBuyer} from './telegram-sales-management.mjs';
 export class Service{
  constructor({store,telegram,key,now=()=>Date.now(),sendEnabled=false,webhookBase='https://badaiprompt.vercel.app/api/telegram/webhook',verifyUser,verifyAdmin,verifyPaidAccess=async()=>false,marketingEnabled=false,qrisDeps={}}){
   Object.assign(this,{store,telegram,key,now,sendEnabled,webhookBase,verifyUser,verifyAdmin,verifyPaidAccess,marketingEnabled});this.delivery=new Delivery(this);this.marketing=new Marketing(this);this.qris=new BotQris(this,qrisDeps);
@@ -31,6 +32,8 @@ export class Service{
   if(action==='overview')return this.overview();
   if(action==='telegram-orders-list')return listTelegramSales(this,body);
   if(action==='telegram-buyers-list')return listTelegramBuyers(this,body);
+  if(action==='telegram-member-edit')return updateTelegramBuyer(this,body,actor.$id);
+  if(action==='telegram-member-delete')return deleteTelegramBuyer(this,body,actor.$id);
   if(action==='telegram-tester-reset')return resetSandboxBuyer(this,body,actor.$id);
   if(action==='marketing-get')return this.marketing.get();
   if(action==='marketing-candidates')return this.marketing.candidates(body);
