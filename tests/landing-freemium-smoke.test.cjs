@@ -56,6 +56,23 @@ test('Roboto and Nunito are the only landing typefaces, and START instructions a
  assert.match(html,/tombol START\/MULAI ada di bawah chat/);
  assert.match(html,/class="get-guide"/);
 });
+test('headline stamp reveals each line once with fade and zoom',()=>{
+ assert.equal([...html.matchAll(/class="stamp-line"/g)].length,3);
+ assert.match(html,/@keyframes headlineStamp/);
+ assert.match(html,/scale\(1\.16\)/);
+ assert.match(html,/opacity:0;transform:translateY\(18px\)/);
+ assert.match(html,/.stamp-line:nth-child\(2\)\{animation-delay:330ms\}/);
+ assert.match(html,/.stamp-line:nth-child\(3\)\{animation-delay:520ms\}/);
+});
+test('Telegram CTA pulses and shines automatically, with reduced motion fallback',()=>{
+ assert.match(html,/animation:ctaGlowBreath/);
+ assert.match(html,/@keyframes ctaGlowBreath/);
+ assert.match(html,/animation:ctaShineSweep/);
+ assert.match(html,/@keyframes ctaShineSweep/);
+ assert.match(html,/\.cta:hover,\.cta:focus-visible/);
+ assert.match(html,/\.stamp-line\{opacity:1!important;transform:none!important;filter:none!important\}/);
+ assert.match(html, /\.cta::after\{display:none\}/);
+});
 test('public feed exposes only published images, never premium prompt text',()=>{
  assert.match(api,/Query\.equal\('is_published',true\)/);
  assert.match(api,/Query\.orderAsc\('sort_order'\)/);
