@@ -38,6 +38,11 @@ test('marketing is dedicated to Telegram content, with scheduling, preview and t
  assert.match(marketing,/MARKETING • KONTEN BOT TELEGRAM/);
  assert.match(marketing,/Konten Telegram 365 Hari/);
  assert.match(marketing,/Atur isi pesan yang dikirim oleh bot/);
+ const contentOrder=['id="mktCalendar"','id="mktEditForm"','id="mktSettingsForm"','id="mktTestForm"'].map(id=>marketing.indexOf(id));
+ assert.ok(contentOrder.every(n=>n>=0),'all content tools are visible');
+ assert.deepEqual(contentOrder.slice().sort((a,b)=>a-b),contentOrder,'content editor is shown before schedule and test');
+ assert.match(marketing,/1 · KELOLA KONTEN/);
+ assert.match(marketing,/2 · JADWAL & PENGUJIAN/);
  for(const id of ['mktSettingsForm','mktTestForm','mktCalendar','mktPromptList','mktEditForm','mktMockContent']){
   assert.match(marketing,new RegExp('id="'+id+'"'));
  }
