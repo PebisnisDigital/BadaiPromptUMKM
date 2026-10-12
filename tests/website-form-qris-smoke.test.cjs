@@ -75,7 +75,7 @@ test('mobile sticky CTA leads to same checkout form and disappears at QR payment
  assert.match(html,/\.sticky-buy\{display:flex;position:fixed/);
  assert.match(html,/href="#checkoutPanel"/);
  assert.match(script,/const setQuickVisibility=id=>\{if\(quickBuy\)quickBuy\.hidden=id!=='formStage';\}/);
- assert.match(script,/refresh/gi);
+ assert.match(script,/setQuickVisibility\(id\)/);
  assert.equal([...html.matchAll(/id="checkoutForm"/g)].length,1);
  assert.equal([...html.matchAll(/<input[^>]+required/g)].length,3);
 });
