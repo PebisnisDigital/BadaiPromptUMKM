@@ -12,7 +12,7 @@ async function loadEsmModules(){
  ({randomSecret,loginUrl,exchangeAuthorizationCode,validateToken}=oidc);
 }
 
-const ORIGIN='https://badaiprompt.vercel.app',REDIRECT=ORIGIN+'/api/website-login';
+const ORIGIN='https://promptional.vercel.app',REDIRECT=ORIGIN+'/api/website-login';
 const TTL=600,SESSION_TTL=1800;
 const name='badai_website_session',flow='badai_oidc_state';
 const parseCookie=(req,key)=>String(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(key+'='))?.slice(key.length+1)||'';
