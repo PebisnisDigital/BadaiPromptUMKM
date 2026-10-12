@@ -74,6 +74,7 @@ test('moving a calendar slot swaps atomically and clears source for empty target
  assert.deepEqual((await x.marketing.get()).slots.map(x=>x.day),[1,10]);
 });
 test('custom CTA is limited to verified HTTPS site and never Telegram in-chat QRIS',()=>{
+ assert.equal(validateUrl('https://promptional.vercel.app/beli-premium.html'),'https://promptional.vercel.app/beli-premium.html');
  assert.equal(validateUrl('https://badaiprompt.vercel.app/#harga'),'https://badaiprompt.vercel.app/#harga');
  for(const url of ['https://evil.example/checkout','http://badaiprompt.vercel.app','javascript:alert(1)','https://user:pass@badaiprompt.vercel.app/','#harga','https://badaiprompt.vercel.app:444/'])
   assert.throws(()=>validateUrl(url),/tujuan|Tujuan/);
@@ -84,7 +85,7 @@ test('Free campaign reads scheduled day only, refuses updated source and never s
  assert.equal((await x.marketing.forFree(NOW)).skip,true);
  await x.marketing.save({day:1,source:'scene_prompts',prompt_id:'p1'},'admin');
  let chosen=await x.marketing.forFree(NOW);assert.equal(chosen.prompt.$id,'p1');
- assert.match(chosen.prompt.marketing_offer.url,/#harga$/);
+ assert.equal(chosen.prompt.marketing_offer.url,'https://promptional.vercel.app/beli-premium.html');
  assert.ok(chosen.prompt.marketing_offer.text.length>15);
  x.sources.get('p1').prompt_text='changed after scheduling';
  await assert.rejects(()=>x.marketing.forFree(NOW),/berubah/);
