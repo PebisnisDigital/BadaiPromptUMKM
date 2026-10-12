@@ -74,39 +74,49 @@ h1 em{color:var(--orange);font-style:normal}
 .lightbox-close{border:1px solid #e8d7ca80;color:white;background:none;border-radius:100px;min-height:40px;padding:8px 17px}
 .lightbox-close:hover{background:#fff2}
 
-/* Floating gallery autoplay runs natively even on touch devices without pointer input. */
-.float-card{animation:galleryAutoplay var(--duration,7.6s) ease-in-out var(--delay,-1.8s) infinite alternate both;animation-play-state:running}
-.float-card:nth-child(4n+1){--duration:7.1s;--delay:-2.4s}
-.float-card:nth-child(4n+2){--duration:9.4s;--delay:-4.5s}
-.float-card:nth-child(4n+3){--duration:6.6s;--delay:-1.6s}
-.float-card:nth-child(4n){--duration:8.8s;--delay:-6.2s}
-@keyframes galleryAutoplay{
-0%{transform:translate3d(calc(var(--px,0px) - 10px),calc(var(--py,0px) + 13px),0) rotateY(var(--ry,0deg)) rotateZ(var(--rz,0deg)) scale(.95)}
-50%{transform:translate3d(calc(var(--px,0px) + 12px),calc(var(--py,0px) - 15px),0) rotateY(calc(var(--ry,0deg) + 3deg)) rotateZ(calc(var(--rz,0deg) + 1deg)) scale(1.03)}
-100%{transform:translate3d(calc(var(--px,0px) + 23px),calc(var(--py,0px) - 25px),0) rotateY(calc(var(--ry,0deg) - 3deg)) rotateZ(calc(var(--rz,0deg) - 2deg)) scale(1.055)}
+/* Orbit carousel: photos loop around the central model with real depth. */
+.gallery-back{z-index:4}
+.gallery-front{z-index:10}
+.gallery .float-card{
+  left:50%;top:55%;--orb-bright:1;--orb-blur:0px;
+  animation:none;opacity:1;
+  transform-origin:50% 50%;
+  filter:brightness(var(--orb-bright)) blur(var(--orb-blur));
+  will-change:transform,filter;
+  touch-action:manipulation;
 }
-.float-card img{transition:opacity .55s ease,transform .6s ease}
-.float-card img.changing{opacity:.1!important}
-@media(max-width:700px){.float-card{animation-duration:6.6s}.float-card:nth-child(even){animation-duration:8.1s}}
+.gallery .float-card.back,.gallery .float-card.distant{filter:brightness(var(--orb-bright)) blur(var(--orb-blur));pointer-events:auto}
+.gallery .float-card:hover,.gallery .float-card:focus-visible{filter:brightness(1.18) blur(0px);border-color:#ffe1b9}
+.gallery .float-card img{transition:opacity .55s ease,transform .6s ease}
+.gallery .float-card img.changing{opacity:.1!important}
+@media(max-width:700px){
+  .gallery .float-card{width:clamp(72px,21.6vw,98px);top:55%;left:50%}
+  .gallery .float-card.hide-mobile{display:block}
+}
 
-/* Premium one-time stamp reveal. Animate the lines, never the parent, so centering stays stable. */
-.stamp-line{display:block;white-space:nowrap;transform-origin:50% 52%;opacity:0;animation:headlineStamp 900ms cubic-bezier(.16,1,.3,1) both;will-change:opacity,transform}
-.stamp-line:nth-child(1){animation-delay:140ms}
-.stamp-line:nth-child(2){animation-delay:330ms}
-.stamp-line:nth-child(3){animation-delay:520ms}
+/* Recurring cinematic stamp: short punch in, a long readable hold, then repeat. */
+.stamp-line{display:block;white-space:nowrap;transform-origin:50% 52%;opacity:0;animation:headlineStamp 6.6s ease-in-out infinite both;will-change:opacity,transform}
+.stamp-line:nth-child(1){animation-delay:0ms}
+.stamp-line:nth-child(2){animation-delay:170ms}
+.stamp-line:nth-child(3){animation-delay:340ms}
 @keyframes headlineStamp{
-  0%{opacity:0;transform:translateY(18px) scale(1.16);filter:blur(7px)}
-  56%{opacity:1;transform:translateY(-2px) scale(.973);filter:blur(0)}
-  78%{opacity:1;transform:translateY(0) scale(1.016);filter:blur(0)}
-  100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+  0%,3%{opacity:0;transform:translateY(16px) scale(1.19);filter:blur(7px)}
+  13%{opacity:1;transform:translateY(-2px) scale(.97);filter:blur(0)}
+  19%{opacity:1;transform:translateY(0) scale(1.027);filter:blur(0)}
+  26%,78%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+  91%,100%{opacity:0;transform:translateY(-3px) scale(.96);filter:blur(3px)}
 }
-/* Animated conversion button: subtle breathing halo, periodic sweeping reflection. */
-.cta{position:relative;isolation:isolate;overflow:hidden;animation:ctaGlowBreath 3.7s ease-in-out 1.1s infinite;will-change:box-shadow}
+
+/* Push-to-click: the button visibly presses down and rebounds every few seconds. */
+.cta{position:relative;isolation:isolate;overflow:hidden;animation:ctaPush 3.8s ease-in-out infinite;transform-origin:50% 50%;will-change:transform,box-shadow}
 .cta::after{content:"";position:absolute;z-index:1;pointer-events:none;top:-55%;bottom:-55%;left:-35%;width:35%;background:linear-gradient(105deg,transparent 7%,rgba(255,255,255,.06) 24%,rgba(255,255,255,.62) 51%,rgba(255,255,255,.08) 77%,transparent);transform:skewX(-23deg) translateX(-200%);animation:ctaShineSweep 4.7s ease-in-out 1.5s infinite}
-.cta:hover,.cta:focus-visible{transform:translateY(-3px) scale(1.025);animation-play-state:paused}
-@keyframes ctaGlowBreath{
-  0%,100%{box-shadow:0 0 0 1px #ffefb24d inset,0 0 18px #ff861d65,0 14px 40px #000b}
-  48%{box-shadow:0 0 0 1px #ffefb29a inset,0 0 44px #ff8e2db7,0 20px 54px #000d}
+.cta:hover,.cta:focus-visible{animation-play-state:paused;transform:translateY(-3px) scale(1.04);box-shadow:0 0 36px #ff8f2b,0 22px 55px #000d}
+.cta:active{animation-play-state:paused;transform:translateY(4px) scale(.94);box-shadow:0 0 8px #ff861d6e,0 5px 14px #000a}
+@keyframes ctaPush{
+  0%,59%,100%{transform:translateY(0) scale(1);box-shadow:0 0 0 1px #ffefb24d inset,0 0 24px #ff861d73,0 18px 50px #000c}
+  66%{transform:translateY(4px) scale(.945);box-shadow:0 0 0 1px #ffefb285 inset,0 0 11px #ff861d65,0 5px 14px #000d}
+  76%{transform:translateY(-3px) scale(1.055);box-shadow:0 0 0 1px #ffefb29a inset,0 0 47px #ff8f2bd0,0 23px 54px #000d}
+  84%{transform:translateY(0) scale(.986);box-shadow:0 0 0 1px #ffefb24d inset,0 0 29px #ff861d96,0 16px 43px #000c}
 }
 @keyframes ctaShineSweep{
   0%,17%{transform:skewX(-23deg) translateX(-200%);opacity:0}
@@ -163,7 +173,7 @@ h1 em{color:var(--orange);font-style:normal}
   <span class="kicker">PROMPT AI GRATIS · SETIAP HARI</span>
  </header>
  <div class="stage" aria-label="Contoh visual prompt AI dari PROMPTIONAL">
-  <div class="gallery" id="gallery">
+  <div class="gallery gallery-back" id="gallery">
    <button type="button" class="float-card mobile-left mobile-top" style="--x:3%;--y:15%;--mobile-x:-6%;--mobile-y:44%;--ry:18deg;--rz:-7deg;--ratio:1.02;--depth:1" data-code="BP001" aria-label="Lihat preview BP001"><img src="https://www.dropbox.com/scl/fi/4vegv56x0peijbdh470jj/Model_posing_in_blue_studio_20261008210834.jpg?rlkey=mhy5zulpm2lzzgiso4arzchnw&amp;st=g5i6dj06&amp;raw=1" loading="eager" alt="Contoh visual BP001"><span>BP001</span></button>
    <button type="button" class="float-card hide-mobile back" style="--x:19%;--y:21%;--ry:9deg;--rz:5deg;--ratio:1.45;--depth:.5" data-code="BP002" aria-label="Lihat preview BP002"><img src="https://www.dropbox.com/scl/fi/rau5isxnhmyag2a4tjkn3/KitKat_advertising_poster_creation_20261008213329.jpg?rlkey=s6ovltkyx3puaqe9jnzjlo161&amp;st=oe7ur2jn&amp;raw=1" loading="lazy" alt="Contoh visual BP002"><span>BP002</span></button>
    <button type="button" class="float-card mobile-left mobile-low" style="--x:-2%;--y:41%;--mobile-x:-8%;--mobile-y:62%;--ry:22deg;--rz:5deg;--ratio:1.3;--depth:1.2" data-code="BP003" aria-label="Lihat preview BP003"><img src="https://www.dropbox.com/scl/fi/ih6y5lyrf0q10cpxw3vn8/BP003.png?rlkey=0z6bjoygewm78r97h694cau5x&amp;st=41qivbhk&amp;raw=1" loading="lazy" alt="Contoh visual BP003"><span>BP003</span></button>
@@ -174,9 +184,10 @@ h1 em{color:var(--orange);font-style:normal}
    <button type="button" class="float-card mobile-right mobile-top" style="--x:88%;--y:40%;--mobile-x:79%;--mobile-y:44%;--ry:-19deg;--rz:-6deg;--ratio:1.2;--depth:1" data-code="BP008" aria-label="Lihat preview BP008"><img src="https://www.dropbox.com/scl/fi/6iy7tdi38zdge9pz10kz3/BP008.png?rlkey=1kzvhm06fc8l64vezcl4hbywm&amp;st=z4ukbcxl&amp;raw=1" loading="eager" alt="Contoh visual BP008"><span>BP008</span></button>
    <button type="button" class="float-card hide-mobile back" style="--x:63%;--y:31%;--ry:-16deg;--rz:-8deg;--ratio:1.45;--depth:.5" data-code="BP009" aria-label="Lihat preview BP009"><img src="https://www.dropbox.com/scl/fi/nssdyisoz1lrwj259tkaj/BP009.png?rlkey=7tm2hp87j9ibp5kqc4s8jsi3m&amp;st=ttcpz2qd&amp;raw=1" loading="lazy" alt="Contoh visual BP009"><span>BP009</span></button>
    <button type="button" class="float-card mobile-right mobile-low" style="--x:79%;--y:70%;--mobile-x:78%;--mobile-y:65%;--ry:-14deg;--rz:4deg;--ratio:1.3;--depth:1.1" data-code="BP010" aria-label="Lihat preview BP010"><img src="https://www.dropbox.com/scl/fi/dxqpcq9ff1kq4idmzni0j/BP010.png?rlkey=4bhj1zpxxph37s1tgkxttri4f&amp;st=2inzji5o&amp;raw=1" loading="lazy" alt="Contoh visual BP010"><span>BP010</span></button>
-   <button type="button" class="float-card hide-mobile distant" style="--x:56%;--y:49%;--ry:-8deg;--rz:-6deg;--ratio:1.45;--depth:.3" data-code="BP011" aria-label="Lihat preview BP011"><img src="https://www.dropbox.com/scl/fi/p1e79lv1gmqtwt1h1teyx/BP011.png?rlkey=jbb1un7y4t1jmxe678i5xms3f&amp;st=ovx6iuo6&amp;raw=1" loading="lazy" alt="Contoh visual BP533"><span>BP533</span></button>
-   <button type="button" class="float-card hide-mobile" style="--x:92%;--y:77%;--ry:-15deg;--rz:-7deg;--ratio:1.28;--depth:.95" data-code="BP012" aria-label="Lihat preview BP012"><img src="https://www.dropbox.com/scl/fi/hgev9mo9pffjawj6f4fiq/BP012.png?rlkey=fg8uccojop5efj4rteje9elf0&amp;st=xa2ziut7&amp;raw=1" loading="lazy" alt="Contoh visual BP011"><span>BP011</span></button>
+   <button type="button" class="float-card hide-mobile distant" style="--x:56%;--y:49%;--ry:-8deg;--rz:-6deg;--ratio:1.45;--depth:.3" data-code="BP011" aria-label="Lihat preview BP011"><img src="https://www.dropbox.com/scl/fi/p1e79lv1gmqtwt1h1teyx/BP011.png?rlkey=jbb1un7y4t1jmxe678i5xms3f&amp;st=ovx6iuo6&amp;raw=1" loading="lazy" alt="Contoh visual BP011"><span>BP011</span></button>
+   <button type="button" class="float-card hide-mobile" style="--x:92%;--y:77%;--ry:-15deg;--rz:-7deg;--ratio:1.28;--depth:.95" data-code="BP012" aria-label="Lihat preview BP012"><img src="https://www.dropbox.com/scl/fi/hgev9mo9pffjawj6f4fiq/BP012.png?rlkey=fg8uccojop5efj4rteje9elf0&amp;st=xa2ziut7&amp;raw=1" loading="lazy" alt="Contoh visual BP012"><span>BP012</span></button>
   </div>
+  <div class="gallery gallery-front" id="gallery-front" aria-label="Gambar prompt yang lewat di depan model"></div>
   <div class="model-aura" aria-hidden="true"></div>
   <div class="model-wrap" aria-hidden="true"><img class="model" src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp009/view?project=badai-prompt-umkm" alt=""></div>
  </div>
@@ -209,18 +220,58 @@ h1 em{color:var(--orange);font-style:normal}
  const hero=document.querySelector(".hero"),lightbox=document.getElementById("lightbox"),preview=document.getElementById("preview-image"),title=document.getElementById("preview-title"),close=document.getElementById("close-preview");
  const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
- let targetX=0,targetY=0,mx=0,my=0,lastFocus=null;
+ let lastFocus=null;
+ const backRing=document.getElementById("gallery"),frontRing=document.getElementById("gallery-front");
  const fine=window.matchMedia("(hover:hover) and (pointer:fine)").matches;
- // Extra mouse parallax; continuous card motion is handled by CSS (also on phones).
- if(fine&&!reduced){
-  hero.addEventListener("pointermove",e=>{targetX=(e.clientX/innerWidth-.5)*2;targetY=(e.clientY/innerHeight-.5)*2},{passive:true});
-  hero.addEventListener("pointerleave",()=>{targetX=targetY=0});
-  (function parallax(){
-   mx+=(targetX-mx)*.05;my+=(targetY-my)*.05;
-   cards.forEach(c=>{const depth=Number(c.style.getPropertyValue("--depth"))||1;c.style.setProperty("--px",(mx*depth*18).toFixed(2)+"px");c.style.setProperty("--py",(my*depth*11).toFixed(2)+"px")});
-   requestAnimationFrame(parallax);
-  })();
+ // Orbit is clock-driven, never dependent on mouse movement or hover.
+ // Cards move across an ellipse around the model, with rear and foreground layers.
+ let orbitPhase=0,lastFrame=0,orbitMobile=null;
+ let orbitCards=cards;
+ function setupOrbit(){
+  const mobile=hero.clientWidth<=700;
+  if(orbitMobile===mobile)return;
+  orbitMobile=mobile;
+  orbitCards=cards.filter((c,i)=>!mobile||i<8);
+  cards.forEach((c,i)=>{
+   const visible=!mobile||i<8;
+   c.style.display=visible?"block":"none";
+   c.tabIndex=visible?0:-1;
+   c.style.left="50%";c.style.top="55%";
+  });
  }
+ function drawOrbit(t){
+  setupOrbit();
+  const mobile=!!orbitMobile;
+  if(!lastFrame)lastFrame=t;
+  const dt=Math.min(50,Math.max(0,t-lastFrame));lastFrame=t;
+  const paused=!lightbox.hidden || (fine&&cards.some(c=>c.matches(":hover")||c.matches(":focus-visible")));
+  if(!reduced&&!paused)orbitPhase+=(dt/(mobile?22000:27000))*Math.PI*2;
+  const w=hero.clientWidth,h=hero.clientHeight;
+  const radiusX=mobile?Math.min(w*.345,190):Math.min(w*.34,520);
+  const radiusY=mobile?Math.min(h*.15,140):Math.min(h*.182,220);
+  const count=orbitCards.length;
+  orbitCards.forEach((c,i)=>{
+   const angle=orbitPhase+i/count*Math.PI*2;
+   const frontDepth=Math.cos(angle);
+   const x=Math.sin(angle)*radiusX;
+   const y=frontDepth*radiusY;
+   const depth=(frontDepth+1)/2;
+   const scale=(.74+depth*.33).toFixed(3);
+   const ry=(Math.sin(angle)*-16).toFixed(2);
+   const rz=(Math.sin(angle+.8)*4).toFixed(2);
+   const xPos=x.toFixed(2),yPos=y.toFixed(2);
+   c.style.transform="translate3d(calc(-50% + "+xPos+"px),calc(-50% + "+yPos+"px),0) rotateY("+ry+"deg) rotateZ("+rz+"deg) scale("+scale+")";
+   c.style.setProperty("--orb-bright",(.66+depth*.34).toFixed(3));
+   c.style.setProperty("--orb-blur",(1-depth)*.7+"px");
+   // The same orbit passes behind and in front of the model.
+   const layer=frontDepth>.1?frontRing:backRing;
+   if(c.parentElement!==layer && c!==document.activeElement)layer.appendChild(c);
+  });
+  requestAnimationFrame(drawOrbit);
+ }
+ setupOrbit();
+ requestAnimationFrame(drawOrbit);
+ window.addEventListener("resize",setupOrbit,{passive:true});
  let galleryFeed=FALLBACK_PREVIEWS,rotation=cards.length,slot=0;
  function updateCard(card,item){
   if(!item||item.code===card.dataset.code)return;
