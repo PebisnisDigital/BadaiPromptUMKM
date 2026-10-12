@@ -14,18 +14,42 @@
 :root{--bg:#080809;--panel:#151517;--ink:#f8f5f2;--muted:#b7b4b2;--line:#333134;--accent:#ff8a2a;--glow:#ff9c39;--heading:Roboto,Arial,sans-serif;--body:Nunito,Arial,sans-serif}
 *{box-sizing:border-box}
 html{background:var(--bg)}
-body{margin:0;min-height:100svh;color:var(--ink);background:radial-gradient(ellipse 70% 33% at 52% -7%,#a94c1f32,transparent 85%),var(--bg);font:500 14px/1.65 var(--body);-webkit-font-smoothing:antialiased;padding:19px 18px 34px}
+body{margin:0;min-height:100svh;color:var(--ink);background:radial-gradient(ellipse 70% 33% at 52% -7%,#a94c1f32,transparent 85%),var(--bg);font:500 14px/1.65 var(--body);-webkit-font-smoothing:antialiased;padding:19px 18px 34px;overflow-x:hidden}
 a{color:#ffbd85}
 button,input{font:inherit}
 button{cursor:pointer}
 button:disabled{opacity:.5;cursor:wait}
 :focus-visible{outline:3px solid #ffe0b2;outline-offset:3px}
-.topbar{width:min(100%,565px);margin:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.topbar{width:min(100%,1020px);margin:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .brand{display:flex;gap:9px;align-items:center;color:#fff;text-decoration:none;font:900 15px/1 var(--heading);letter-spacing:.12em}
 .brand img{width:27px;height:27px}
 .brand em{color:var(--accent);font-style:normal}
 .topbar>a:last-child{color:#e2cdc0;text-decoration:none;font-size:12px;font-weight:800}
-main{width:min(100%,565px);margin:23px auto 0;border:1px solid #3c3430;border-radius:24px;padding:clamp(20px,4vw,35px);background:linear-gradient(145deg,#1d1715 0%,#121214 48%,#101012 100%);box-shadow:0 30px 90px #0008}
+main{width:min(100%,1040px);margin:32px auto 0}
+.intro{width:min(100%,630px);margin:0 auto 21px;text-align:center}
+.intro .desc{max-width:550px;margin:13px auto 0}
+.checkout-panel{width:min(100%,565px);margin:24px auto 0;border:1px solid #3c3430;border-radius:24px;padding:clamp(20px,4vw,35px);background:linear-gradient(145deg,#211912 0%,#121214 48%,#101012 100%);box-shadow:0 30px 90px #0008;scroll-margin-top:20px}
+.checkout-panel .price-row{margin-bottom:0}
+.checkout-panel .benefits{margin-bottom:18px}
+.preview-showcase{position:relative;margin:0 auto;width:100%;min-width:0;padding:17px 0 18px;border-radius:19px;background:linear-gradient(160deg,#1d1510cb,#0c0c0cee);border:1px solid #503524a6;box-shadow:0 14px 60px #0006;overflow:hidden}
+.preview-heading{text-align:center;padding:0 15px 13px}
+.preview-heading .eyebrow{margin:0 0 5px;color:#ffb46e}
+.preview-heading h2{font:900 clamp(16px,3vw,23px)/1.17 var(--heading);letter-spacing:-.035em;margin:0}
+.preview-heading p{font-size:11px;color:#c8b1a0;margin:4px 0 0}
+.marquee-stack{display:grid;gap:9px}
+.marquee-row{width:100%;overflow:hidden;position:relative;min-height:clamp(92px,15vw,142px);mask-image:linear-gradient(90deg,transparent 0%,#000 7%,#000 93%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 7%,#000 93%,transparent 100%)}
+.marquee-track{display:flex;align-items:stretch;gap:10px;width:max-content;animation:previewSlide var(--speed,38s) linear infinite;animation-delay:var(--offset,0s);will-change:transform}
+.marquee-row.reverse .marquee-track{animation-direction:reverse}
+.marquee-row:nth-child(1){--speed:43s;--offset:-7s}
+.marquee-row:nth-child(2){--speed:49s;--offset:-20s}
+.marquee-row:nth-child(3){--speed:45s;--offset:-13s}
+.marquee-set{display:flex;flex:none;gap:10px}
+.preview-tile{position:relative;flex:none;width:clamp(126px,17.5vw,196px);aspect-ratio:1.4;overflow:hidden;border:1px solid #946345b3;border-radius:10px;background:linear-gradient(135deg,#493124,#221916);box-shadow:0 7px 18px #000a}
+.preview-tile img{display:block;width:100%;height:100%;object-fit:cover}
+.preview-tile figcaption{position:absolute;bottom:0;left:0;right:0;padding:17px 9px 6px;background:linear-gradient(transparent,#000a);color:#fff;font:900 10px/1.25 var(--body);text-shadow:0 1px 3px #000}
+.preview-showcase .gallery-foot{text-align:center;color:#e2bf9b;font:800 10px/1.4 var(--body);letter-spacing:.03em;margin:10px 0 0;padding:0 12px}
+@keyframes previewSlide{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
+
 .eyebrow{color:#ffae68;letter-spacing:.15em;font:900 10px/1.3 var(--body);text-transform:uppercase;margin:0 0 14px}
 h1{font:900 clamp(30px,7.3vw,43px)/1.07 var(--heading);letter-spacing:-.045em;margin:0}
 h1 em{color:var(--accent);font-style:normal}
@@ -66,8 +90,32 @@ form{display:grid;gap:13px}
 #done p{font-size:13px;color:#e4d6cd}
 #done .check{display:grid;place-items:center;font-size:36px;font-weight:900;background:#174a32;color:#9ff4ba;width:72px;height:72px;border-radius:50%;margin:0 auto 11px}
 #done{text-align:center}
-@media(max-width:400px){body{padding:12px 12px 24px}main{padding:20px 18px}.benefits{font-size:10px}.brand{letter-spacing:.06em;font-size:13px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media(max-width:650px){
+ main{margin-top:26px}
+ .intro{margin-bottom:17px}
+ .intro h1{font-size:clamp(30px,8vw,39px)}
+ .preview-showcase{border-radius:15px;padding:14px 0 15px}
+ .marquee-stack{gap:7px}
+ .marquee-row{min-height:91px}
+ .marquee-track,.marquee-set{gap:8px}
+ .preview-tile{width:130px;border-radius:8px}
+ .preview-heading{padding-bottom:10px}
+ .preview-heading h2{font-size:17px}
+ .preview-heading p{font-size:10px}
+ .checkout-panel{margin-top:19px;padding:22px 19px}
+}
+@media(max-width:400px){
+ body{padding:12px 12px 24px}
+ main{margin-top:24px}
+ .checkout-panel{padding:20px 16px}
+ .benefits{font-size:10px}
+ .brand{letter-spacing:.06em;font-size:13px}
+ .preview-tile{width:116px}
+ .preview-heading h2{font-size:16px}
+ .marquee-row{min-height:83px}
+}
+
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.marquee-track{transform:none!important}}
 </style>
 </head>
 <body>
@@ -76,15 +124,27 @@ form{display:grid;gap:13px}
  <a href="/member">Sudah beli? Masuk →</a>
 </header>
 <main>
- <p class="eyebrow">PROMPTIONAL PREMIUM • AKSES LANGSUNG</p>
- <h1>Prompt AI lengkap.<br><em>Langsung punya akses.</em></h1>
- <p class="desc">Nggak perlu menunggu prompt dikirim satu per satu. Selesaikan pembayaran QRIS dan buka semua koleksi di Member Area.</p>
+ <section class="intro" aria-labelledby="premium-title">
+  <p class="eyebrow">PROMPTIONAL PREMIUM • AKSES LANGSUNG</p>
+  <h1 id="premium-title">Prompt AI lengkap.<br><em>Langsung punya akses.</em></h1>
+  <p class="desc">Lihat hasil karya dari prompt di Member Area. Pilih yang kamu suka, salin promptnya, lalu buat kreasi sendiri.</p>
+ </section>
+ <section class="preview-showcase" aria-labelledby="preview-heading">
+  <div class="preview-heading"><p class="eyebrow">GALERI HASIL PROMPTIONAL</p><h2 id="preview-heading">Satu prompt, banyak kemungkinan.</h2><p>Cuplikan gambar dari koleksi yang tersedia di Member Area.</p></div>
+  <div class="marquee-stack" aria-label="Galeri tiga baris hasil gambar AI">
+   <div class="marquee-row" data-preview-row="0"><div class="marquee-track" id="previewTrack0"></div></div>
+   <div class="marquee-row reverse" data-preview-row="1"><div class="marquee-track" id="previewTrack1"></div></div>
+   <div class="marquee-row" data-preview-row="2"><div class="marquee-track" id="previewTrack2"></div></div>
+  </div>
+  <p class="gallery-foot">✦ Lihat contoh hasilnya dulu, baru pilih akses lengkapnya. ✦</p>
+ </section>
+ <div class="checkout-panel" id="checkoutPanel">
  <div class="price-row"><span class="price">Rp199.000</span><span class="price-info">Sekali bayar · akses 365 hari</span></div>
  <div class="benefits"><span>Koleksi lengkap</span><span>Preview + salin prompt</span><span>Tanpa langganan otomatis</span></div>
  <p id="status" class="message" role="status" aria-live="polite" hidden></p>
 
  <section class="stage" id="formStage" aria-labelledby="formHeading">
-  <h2 id="formHeading">Isi data sebentar, Kak.</h2>
+  <h2 id="formHeading">Mau akses lengkapnya? Yuk, isi data dulu.</h2>
   <form id="checkoutForm" novalidate>
    <div class="field"><label for="fullName">NAMA LENGKAP</label><input id="fullName" name="full_name" autocomplete="name" maxlength="120" placeholder="Contoh: Bunda Rina" required></div>
    <div class="field"><label for="whatsapp">NOMOR WHATSAPP AKTIF</label><input id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" maxlength="23" placeholder="Contoh: 081234567890" required></div>
@@ -116,6 +176,7 @@ form{display:grid;gap:13px}
   <button class="action" id="enterButton" type="button">BUKA MEMBER AREA →</button>
   <p class="security">Gunakan email yang tadi diisi untuk mengelola akun.</p>
  </section>
+ </div>
 </main>
 <footer class="footer">Butuh bantuan? <a href="/support.html">Hubungi Admin</a> · <a href="/terms.html">Syarat</a> · <a href="/privacy.html">Privasi</a></footer>
 <script src="/assets/vendor/appwrite-28.1.0.js"></script>
@@ -124,6 +185,46 @@ form{display:grid;gap:13px}
  "use strict";
  const $=id=>document.getElementById(id);
  const status=$('status'), stages=['formStage','paymentStage','done'];
+ // Read-only Member Area preview feed. The published snapshot below keeps all
+ // three sliders populated even if the feed is briefly unavailable.
+ const previewSnapshot=[{"code":"BP001","src":"https://www.dropbox.com/scl/fi/4vegv56x0peijbdh470jj/Model_posing_in_blue_studio_20261008210834.jpg?rlkey=mhy5zulpm2lzzgiso4arzchnw&st=g5i6dj06&raw=1"},{"code":"BP002","src":"https://www.dropbox.com/scl/fi/rau5isxnhmyag2a4tjkn3/KitKat_advertising_poster_creation_20261008213329.jpg?rlkey=s6ovltkyx3puaqe9jnzjlo161&st=oe7ur2jn&raw=1"},{"code":"BP003","src":"https://www.dropbox.com/scl/fi/ih6y5lyrf0q10cpxw3vn8/BP003.png?rlkey=0z6bjoygewm78r97h694cau5x&st=41qivbhk&raw=1"},{"code":"BP004","src":"https://www.dropbox.com/scl/fi/mkp8wdlqlm2z53ma7m9w3/BP004.png?rlkey=0tzr8irg0avlic02umv91i2ox&st=q5mbed7k&raw=1"},{"code":"BP005","src":"https://www.dropbox.com/scl/fi/0yewpb3wewsja9zgu9qxy/BP005.png?rlkey=v6ijknfvuuhon0cerqifnbpf2&st=6994q3vd&raw=1"},{"code":"BP006","src":"https://www.dropbox.com/scl/fi/i6dy3a5rzyt193h410l1q/BP006.png?rlkey=neel0xv59csvtkmsi3s1ngn1c&st=ykj0khba&raw=1"},{"code":"BP007","src":"https://www.dropbox.com/scl/fi/uadoighugf2uejcwxi83m/BP007.png?rlkey=wdo0lz8s2oqh7fwyqwlcsmmr1&st=ca2upmxl&raw=1"},{"code":"BP008","src":"https://www.dropbox.com/scl/fi/6iy7tdi38zdge9pz10kz3/BP008.png?rlkey=1kzvhm06fc8l64vezcl4hbywm&st=z4ukbcxl&raw=1"},{"code":"BP009","src":"https://www.dropbox.com/scl/fi/nssdyisoz1lrwj259tkaj/BP009.png?rlkey=7tm2hp87j9ibp5kqc4s8jsi3m&st=ttcpz2qd&raw=1"},{"code":"BP010","src":"https://www.dropbox.com/scl/fi/dxqpcq9ff1kq4idmzni0j/BP010.png?rlkey=4bhj1zpxxph37s1tgkxttri4f&st=2inzji5o&raw=1"},{"code":"BP011","src":"https://www.dropbox.com/scl/fi/p1e79lv1gmqtwt1h1teyx/BP011.png?rlkey=jbb1un7y4t1jmxe678i5xms3f&st=ovx6iuo6&raw=1"},{"code":"BP012","src":"https://www.dropbox.com/scl/fi/hgev9mo9pffjawj6f4fiq/BP012.png?rlkey=fg8uccojop5efj4rteje9elf0&st=xa2ziut7&raw=1"},{"code":"BP013","src":"https://www.dropbox.com/scl/fi/c4f6vo4uw0yhj9u05vqa0/BP013.png?rlkey=ckuos1i4y8x2nni3pa1hjbj9q&st=9h42uxt4&raw=1"},{"code":"BP014","src":"https://www.dropbox.com/scl/fi/zmit3toof6hsncgngfutq/BP014.png?rlkey=vi13b7fj7iv5862s2nvancmcg&st=zg5k5by5&raw=1"},{"code":"BP015","src":"https://www.dropbox.com/scl/fi/i8ghja5ac5axe7ashusdk/BP015.png?rlkey=h0ye0g4vaqcjxs0uiud77iukv&st=yiio4ms4&raw=1"},{"code":"BP016","src":"https://www.dropbox.com/scl/fi/op8cazyozv6xennxjr8rg/BP016.png?rlkey=l4t3i187cipuxg1b4qddjo3tg&st=zs40tmu6&raw=1"},{"code":"BP017","src":"https://www.dropbox.com/scl/fi/be2psrlwbgs4rk6g8ktui/BP017.png?rlkey=i53ru7ln4x0wkviehr51n04ku&st=vgkqawg4&raw=1"},{"code":"BP018","src":"https://www.dropbox.com/scl/fi/c50x203tifxh9t353b5b5/BP018.png?rlkey=ueitfi7xk6qw88xbts998ynvy&st=p2zcmzrv&raw=1"},{"code":"BP019","src":"https://www.dropbox.com/scl/fi/rm7djr6rk7mnht4zmykv1/BP019.png?rlkey=6b3q5boaqs9up6hvwovry7aoj&st=vd07endl&raw=1"},{"code":"BP020","src":"https://www.dropbox.com/scl/fi/n6salf26b4clv7951wz26/BP020.png?rlkey=moo9c28uj4ezi8q6xdjx2i39g&st=nwk6sfxn&raw=1"},{"code":"BP021","src":"https://www.dropbox.com/scl/fi/vxu7jzbz7mq459smw2udg/BP021.png?rlkey=j1hnxu2sw8sopm40xjiw8rfl6&st=fzljxeeo&raw=1"},{"code":"BP022","src":"https://www.dropbox.com/scl/fi/44fonl29djn3k2jds22b6/BP022.png?rlkey=vuktmw01jd8oyzhm3lt1wjrn8&st=4yq7vrtd&raw=1"},{"code":"BP023","src":"https://www.dropbox.com/scl/fi/c1jaeb30rwjr03zgf0tk9/BP023.png?rlkey=3lotqzyfodwts5ywn6g5prq2b&st=cv8izin4&raw=1"},{"code":"BP024","src":"https://www.dropbox.com/scl/fi/684sn4w89gecrzpuz98l1/BP024.png?rlkey=jsq04ilkdal0roagf07tigych&st=46ejq3i3&raw=1"}];
+ const galleryTracks=[0,1,2].map(i=>$('previewTrack'+i));
+ const allowedPreviewUrl=value=>{
+  try{
+   const u=new URL(String(value));
+   return u.protocol==='https:'&&['www.dropbox.com','dropbox.com','sgp.cloud.appwrite.io','i.ibb.co'].includes(u.hostname);
+  }catch{return false}
+ };
+ function fillPreviewSliders(collection){
+  const clean=collection.filter(x=>x&&/^BP\d{1,6}$/.test(x.code)&&allowedPreviewUrl(x.src)).slice(0,24);
+  if(clean.length<18)return;
+  const perRow=8;
+  galleryTracks.forEach((track,row)=>{
+   const chosen=clean.slice(row*perRow,row*perRow+perRow);
+   if(chosen.length<6)return;
+   track.replaceChildren();
+   function makeSet(duplicate){
+    const set=document.createElement('div');set.className='marquee-set';
+    if(duplicate)set.setAttribute('aria-hidden','true');
+    chosen.forEach((item,j)=>{
+     const figure=document.createElement('figure');figure.className='preview-tile';figure.style.margin='0';
+     const img=document.createElement('img');
+     img.src=item.src;img.alt=duplicate?'':'Contoh gambar hasil prompt '+item.code;
+     img.width=196;img.height=140;img.decoding='async';img.loading=(row===0&&j<4)?'eager':'lazy';
+     const caption=document.createElement('figcaption');caption.textContent=item.code;
+     figure.append(img,caption);set.append(figure);
+    });
+    return set;
+   }
+   track.append(makeSet(false),makeSet(true));
+  });
+ }
+ fillPreviewSliders(previewSnapshot);
+ fetch('/api/public-previews',{cache:'default'})
+  .then(res=>{if(!res.ok)throw Error('Preview feed unavailable');return res.json()})
+  .then(data=>{if(data.ok&&Array.isArray(data.previews))fillPreviewSliders(data.previews)})
+  .catch(()=>{/* Keep the published snapshot; checkout remains fully functional. */});
+
  const api=async(action,data={})=>{
   const url='/api/form-checkout?action='+encodeURIComponent(action);
   const res=await fetch(url,{method:action==='config'?'GET':'POST',credentials:'same-origin',
@@ -134,7 +235,7 @@ form{display:grid;gap:13px}
   return json;
  };
  let receipt='',timer=null,expiry=0,ready=false,entering=false;
- function show(id){stages.forEach(k=>$(k).hidden=k!==id);window.scrollTo({top:0,behavior:'smooth'});}
+ function show(id){stages.forEach(k=>$(k).hidden=k!==id);if(id!=='formStage')$('checkoutPanel').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});}
  function say(msg,kind=''){status.hidden=!msg;status.textContent=msg||'';status.className='message'+(kind?' '+kind:'');}
  function amount(n){return 'Rp'+Number(n||0).toLocaleString('id-ID')}
  function setQr(url){
