@@ -218,8 +218,11 @@ export class Service{
    return this.delivery.text(member,bot,'Selamat datang di PROMPTIONAL! Prompt gratis berikutnya: '+new Date(member.next_send_at).toLocaleString('id-ID',{timeZone:'Asia/Jakarta'})+' WIB. Gunakan /status untuk melihat paket.',key,'reply');
   }
   if(cmd==='/beli'||cmd==='/cek'){
-   if(!main||main.$id!==botId)return this.delivery.text(member,bot,'Pembayaran hanya tersedia di bot utama.',key,'reply');
-   if(!this.qris.enabled)return this.delivery.text(member,bot,'Checkout QRIS uji belum diaktifkan.',key,'reply');
+   if(!main||main.$id!==botId)return this.delivery.text(member,bot,'Gunakan bot utama untuk informasi Premium.',key,'reply');
+   // Never expose in-bot QRIS sandbox to ordinary users. Public QRIS belongs to website checkout.
+   const tester=await this.store.state(id('tester',bot.$id,member.telegram_id));
+   if(tester?.status!=='authorized')return this.delivery.text(member,bot,'Untuk akses PROMPTIONAL Premium, pembayaran QRIS dilakukan di website resmi: https://promptional.vercel.app/beli-premium.html\n\nSesudah lunas diverifikasi, seluruh koleksi terbuka langsung di Member Area. Pembayaran QRIS dalam bot ini tidak tersedia.',key,'reply');
+   if(!this.qris.enabled)return this.delivery.text(member,bot,'QRIS sandbox untuk penguji belum aktif. Checkout publik hanya melalui website resmi.',key,'reply');
    try{return cmd==='/beli'?await this.qris.buy(member,bot):await this.qris.check(member,bot)}
    catch(e){return this.delivery.text(member,bot,e.status===409?e.message:'Pembayaran belum bisa diproses. Coba /cek atau hubungi admin.',key,'reply')}
   }
