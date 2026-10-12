@@ -137,8 +137,8 @@ h1 em{color:var(--orange);font-style:normal}
    <button type="button" class="float-card mobile-right mobile-top" style="--x:88%;--y:40%;--mobile-x:79%;--mobile-y:44%;--ry:-19deg;--rz:-6deg;--ratio:1.2;--depth:1" data-code="BP008" aria-label="Lihat preview BP008"><img src="https://www.dropbox.com/scl/fi/6iy7tdi38zdge9pz10kz3/BP008.png?rlkey=1kzvhm06fc8l64vezcl4hbywm&amp;st=z4ukbcxl&amp;raw=1" loading="eager" alt="Contoh visual BP008"><span>BP008</span></button>
    <button type="button" class="float-card hide-mobile back" style="--x:63%;--y:31%;--ry:-16deg;--rz:-8deg;--ratio:1.45;--depth:.5" data-code="BP009" aria-label="Lihat preview BP009"><img src="https://www.dropbox.com/scl/fi/nssdyisoz1lrwj259tkaj/BP009.png?rlkey=7tm2hp87j9ibp5kqc4s8jsi3m&amp;st=ttcpz2qd&amp;raw=1" loading="lazy" alt="Contoh visual BP009"><span>BP009</span></button>
    <button type="button" class="float-card mobile-right mobile-low" style="--x:79%;--y:70%;--mobile-x:78%;--mobile-y:65%;--ry:-14deg;--rz:4deg;--ratio:1.3;--depth:1.1" data-code="BP010" aria-label="Lihat preview BP010"><img src="https://www.dropbox.com/scl/fi/dxqpcq9ff1kq4idmzni0j/BP010.png?rlkey=4bhj1zpxxph37s1tgkxttri4f&amp;st=2inzji5o&amp;raw=1" loading="lazy" alt="Contoh visual BP010"><span>BP010</span></button>
-   <button type="button" class="float-card hide-mobile distant" style="--x:56%;--y:49%;--ry:-8deg;--rz:-6deg;--ratio:1.45;--depth:.3" data-code="BP011" aria-label="Lihat preview BP533"><img src="https://www.dropbox.com/scl/fi/p1e79lv1gmqtwt1h1teyx/BP011.png?rlkey=jbb1un7y4t1jmxe678i5xms3f&amp;st=ovx6iuo6&amp;raw=1" loading="lazy" alt="Contoh visual BP533"><span>BP533</span></button>
-   <button type="button" class="float-card hide-mobile" style="--x:92%;--y:77%;--ry:-15deg;--rz:-7deg;--ratio:1.28;--depth:.95" data-code="BP012" aria-label="Lihat preview BP011"><img src="https://www.dropbox.com/scl/fi/hgev9mo9pffjawj6f4fiq/BP012.png?rlkey=fg8uccojop5efj4rteje9elf0&amp;st=xa2ziut7&amp;raw=1" loading="lazy" alt="Contoh visual BP011"><span>BP011</span></button>
+   <button type="button" class="float-card hide-mobile distant" style="--x:56%;--y:49%;--ry:-8deg;--rz:-6deg;--ratio:1.45;--depth:.3" data-code="BP011" aria-label="Lihat preview BP011"><img src="https://www.dropbox.com/scl/fi/p1e79lv1gmqtwt1h1teyx/BP011.png?rlkey=jbb1un7y4t1jmxe678i5xms3f&amp;st=ovx6iuo6&amp;raw=1" loading="lazy" alt="Contoh visual BP533"><span>BP533</span></button>
+   <button type="button" class="float-card hide-mobile" style="--x:92%;--y:77%;--ry:-15deg;--rz:-7deg;--ratio:1.28;--depth:.95" data-code="BP012" aria-label="Lihat preview BP012"><img src="https://www.dropbox.com/scl/fi/hgev9mo9pffjawj6f4fiq/BP012.png?rlkey=fg8uccojop5efj4rteje9elf0&amp;st=xa2ziut7&amp;raw=1" loading="lazy" alt="Contoh visual BP011"><span>BP011</span></button>
   </div>
   <div class="model-aura" aria-hidden="true"></div>
   <div class="model-wrap" aria-hidden="true"><img class="model" src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp009/view?project=badai-prompt-umkm" alt=""></div>
@@ -205,7 +205,7 @@ h1 em{color:var(--orange);font-style:normal}
    const img=c.querySelector("img");
    if(img.getAttribute("src")!==item.src)img.src=item.src;
    img.alt="Contoh visual "+item.code+" dari Member Area PROMPTIONAL";
-   c.dataset.code=item.code;c.querySelector("span").textContent=item.code;
+   c.dataset.code=item.code;c.setAttribute("aria-label","Lihat preview "+item.code);c.querySelector("span").textContent=item.code;
   });
   rotation=galleryFeed.findIndex(x=>!cards.some(c=>c.dataset.code===x.code));
   if(rotation<0)rotation=0;
