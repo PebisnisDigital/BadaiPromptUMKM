@@ -185,9 +185,9 @@ const {Client,Account,TablesDB,Functions,Query,ID,Permission,Role}=Appwrite;
 const client=new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
 const account=new Account(client),tables=new TablesDB(client),functions=new Functions(client);
 const DB='badai_prompt_umkm',TABLE='scene_prompts',FUNC='payment-api';
-let currentUser=null,currentProfile=null,all=[],favorites=new Set(),favoriteRows=new Map(),current=null,category='',mode='all',currentPage=1,totalPrompts=0,totalPages=1,openLatestPage=true;
+let currentUser=null,currentProfile=null,all=[],favorites=new Set(),favoriteRows=new Map(),current=null,category='',mode='all',currentPage=1,totalPrompts=0,totalPages=1,openLatestPage=false;
 let cardCarouselTimers=[],detailCarouselTimer=null;
-const PAGE_SIZE=10;
+const PAGE_SIZE=12;
 let libraryRequest=0;
 const CATEGORIES=['Prompt Viral','Spontan','Keseharian','Kerja','Bisnis','Pemimpin Bisnis','Perjalanan','Jalanan','Kafe','Rumah','Keluarga','Pasangan','Olahraga','Mode','Hijab','Sinematik','Film','Sejarah','Fantasi','Miniatur','Mainan','LEGO','Film Analog','iPhone','Studio','Perayaan','Ramadan','Lebaran','Indonesia','Jepang','Korea','Nyeleneh','Tren Viral'];
 
@@ -250,7 +250,7 @@ async function loadPrompts(requestId=++libraryRequest){
   if(mode==='favorites'&&!favorites.size){all=[];totalPrompts=0;totalPages=1;openLatestPage=false;return true}
   const queries=[
     Query.equal('is_published',true),
-    Query.orderAsc('sort_order'),
+    Query.orderDesc('sort_order'),
     Query.limit(PAGE_SIZE),
     Query.offset((currentPage-1)*PAGE_SIZE)
   ];
@@ -298,7 +298,7 @@ async function applyCategory(value,scroll=true){
   mode=value==='__saved'?'favorites':'all';
   category=mode==='favorites'?'':value;
   categorySelect.value=mode==='favorites'?'__saved':category;
-  currentPage=1;openLatestPage=true;
+  currentPage=1;openLatestPage=false;
   syncLibraryChoices();
   await refreshPrompts(scroll);
 }
@@ -393,7 +393,7 @@ function renderPagination(){
   const p=$('pagination');
   p.classList.toggle('show',totalPages>1);
   if(totalPages<=1){p.innerHTML='';return}
-  p.innerHTML='<button class="pageback" data-page="'+(currentPage+1)+'" '+(currentPage===totalPages?'disabled':'')+'>Lebih baru</button><span>Halaman '+currentPage+' / '+totalPages+'</span><button class="pagenext" data-page="'+(currentPage-1)+'" '+(currentPage===1?'disabled':'')+'>Lebih lama</button>';
+  p.innerHTML='<button class="pageback" data-page="'+(currentPage+1)+'" '+(currentPage===totalPages?'disabled':'')+'>Lebih lama</button><span>Halaman '+currentPage+' / '+totalPages+'</span><button class="pagenext" data-page="'+(currentPage-1)+'" '+(currentPage===1?'disabled':'')+'>Lebih baru</button>';
   p.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>{const n=Number(b.dataset.page);if(!b.disabled&&n>=1&&n<=totalPages){currentPage=n;refreshPrompts(true)}});
 }
 function render(){
@@ -517,7 +517,7 @@ if(search){
   search.oninput=()=>{
     clearTimeout(searchTimer);
     const length=search.value.trim().length;$('searchHelp').hidden=length===0||length>=3;
-    searchTimer=setTimeout(()=>{currentPage=1;openLatestPage=true;refreshPrompts(false)},350);
+    searchTimer=setTimeout(()=>{currentPage=1;openLatestPage=false;refreshPrompts(false)},350);
   };
 }
 $('detailCopy').onclick=()=>current&&safeCopy(current.prompt_text);
