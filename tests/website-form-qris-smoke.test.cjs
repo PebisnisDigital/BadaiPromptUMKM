@@ -15,22 +15,29 @@ test('one-step cross-channel checkout has three visible data fields, no Telegram
  assert.equal([...html.matchAll(/<input[^>]+required/g)].length,3);
  assert.doesNotMatch(html,/api\/website-login|login Telegram untuk membayar/i);
  assert.match(html,/Rp199\.000/);
- assert.match(html,/Pembayaran QRIS resmi BuatQRIS/);
+ assert.match(html,/LANJUT BAYAR QRIS/);
  assert.match(html,/BUKA MEMBER AREA/);
  assert.match(html,/https:\/\/fonts\.googleapis\.com\/css2\?family=Nunito/);
  assert.match(html,/family=Roboto/);
 });
 
-test('checkout is one screen-focused card without sliders, FAQ or sticky footer',()=>{
+test('checkout stays one card with one small looping row, no FAQ or sticky footer',()=>{
  assert.match(html,/class="checkout-card" id="checkoutPanel"/);
  assert.match(html,/class="order-brief"/);
- assert.match(html,/class="product-preview"/);
+ assert.match(html,/class="example-strip"/);
+ assert.match(html,/class="example-track"/);
  assert.match(html,/Rp199\.000/);
  assert.match(html,/min-height:100svh/);
  assert.match(html,/display:flex;flex-direction:column/);
  assert.match(html,/@media\(max-height:670px\)/);
  assert.match(html,/@media\(max-width:400px\)/);
  assert.doesNotMatch(html,/preview-showcase|marquee-row|marquee-track|previewTrack|@keyframes previewSlide/i);
+ assert.equal([...html.matchAll(/class="example-strip"/g)].length,1);
+ assert.equal([...html.matchAll(/class="example-set"/g)].length,2);
+ assert.match(html,/@keyframes exampleLoop/);
+ assert.match(html,/animation:exampleLoop 30s linear infinite/);
+ assert.match(html,/aria-hidden="true"/);
+ assert.equal([...html.matchAll(/alt="Hasil prompt BP\d+"/g)].length,8);
  assert.doesNotMatch(html,/checkout-faq|<details|id="faqHeading"/i);
  assert.doesNotMatch(html,/sticky-buy|stickyCheckout|setQuickVisibility|position:fixed/i);
  assert.doesNotMatch(html,/<footer\b/i);
@@ -44,11 +51,12 @@ test('the first screen shows concise price, 3 fields and one primary QRIS action
  assert.equal([...html.matchAll(/<form\b/g)].length,1);
  assert.equal([...html.matchAll(/<input[^>]+required/g)].length,3);
  assert.equal([...html.matchAll(/id="payButton"/g)].length,1);
- assert.match(html,/Salin prompt/);
- assert.match(html,/Galeri contoh hasil/);
- assert.match(html,/Bantuan Admin/);
- assert.match(html,/Syarat/);
- assert.match(html,/Privasi/);
+ assert.match(html,/Isi Data Member/);
+ assert.match(html,/Akses 365 Hari/);
+ assert.match(html,/NAMA LENGKAP/);
+ assert.match(html,/NOMOR WHATSAPP/);
+ assert.match(html,/EMAIL AKSES MEMBER/);
+ assert.doesNotMatch(html,/kicker|subtitle|support-links|perks|form-helper|security|<footer/i);
 });
 test('payment remains in the same card and creates a member session when verified',()=>{
  assert.match(html,/id="paymentStage"/);
@@ -58,6 +66,7 @@ test('payment remains in the same card and creates a member session when verifie
  assert.match(html,/id="done"/);
  assert.match(script,/document\.body\.dataset\.step=id/);
  assert.match(html,/body\[data-step="paymentStage"\]/);
+ assert.match(html,/body\[data-step="paymentStage"\] \.example-strip/);
  assert.match(script,/api\('create',\{full_name:name,whatsapp,email\}\)/);
  assert.match(script,/api\('check',\{public_token:receipt\}\)/);
  assert.match(script,/api\('session-token',\{public_token:receipt\}\)/);
