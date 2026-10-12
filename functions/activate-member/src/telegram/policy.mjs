@@ -1,5 +1,5 @@
 export const DAY=86400000;
-export const defaults=Object.freeze({enabled:false,paused:true,dry_run:true,premium_time:'06:00',free_days:3,premium_days:1,delete_hours:24,term_days:365,batch_size:5});
+export const defaults=Object.freeze({enabled:false,paused:true,dry_run:true,premium_time:'06:00',free_days:1,premium_days:1,delete_hours:24,term_days:365,batch_size:5});
 export function settings(input={}){
  const s={...defaults,...input};
  for(const k of ['enabled','paused','dry_run'])if(typeof s[k]!=='boolean')throw Error('Pengaturan boolean tidak valid.');
