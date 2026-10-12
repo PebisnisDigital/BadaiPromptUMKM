@@ -9,7 +9,7 @@ const api=fs.readFileSync(path.join(root,'api/public-previews.js'),'utf8');
 const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1]||'';
 const snapshotMatch=script.match(/const FALLBACK_PREVIEWS=(\[[^\n]+\]);/);
 
-test('single free Telegram hero with interactive floating preview cards',()=>{
+test('hero contains exactly five equal platform choices with no oversized Telegram CTA',()=>{
  assert.equal([...html.matchAll(/<section\b/gi)].length,1);
  assert.match(html,/<section class="hero" id="hero"/);
  assert.match(html,/class="model-wrap"/);
@@ -17,27 +17,28 @@ test('single free Telegram hero with interactive floating preview cards',()=>{
  assert.equal([...html.matchAll(/class="float-card /g)].length,12);
  assert.match(html,/id="lightbox"/);
  assert.match(script,/card\.addEventListener\("click"/);
- assert.equal([...html.matchAll(/href="https:\/\/t\.me\/BadaiPromptBot\?start=landing_free"/g)].length,1);
+ assert.equal([...html.matchAll(/class="platform-btn"/g)].length,5);
+ assert.doesNotMatch(html,/class="cta"|class="social-link"|class="social-grid"/);
  assert.doesNotMatch(html,/<form\b|checkout|LOGIN MEMBER|Rp199\.000/i);
 });
-test('five social channel choices route to the @promptional profiles and the Telegram bot',()=>{
- const socials=[
-  ['Instagram','https://www.instagram.com/promptional/'],
-  ['TikTok','https://www.tiktok.com/@promptional'],
-  ['Facebook','https://www.facebook.com/promptional'],
-  ['Threads','https://www.threads.com/@promptional']
+test('five equal clickable channel buttons, with responsive equal-sized last centered button',()=>{
+ const channels=[
+  ['telegram','https://t.me/BadaiPromptBot?start=landing_free'],
+  ['instagram','https://www.instagram.com/promptional/'],
+  ['tiktok','https://www.tiktok.com/@promptional'],
+  ['facebook','https://www.facebook.com/promptional'],
+  ['threads','https://www.threads.com/@promptional']
  ];
- assert.match(html,/aria-label="Ikuti media sosial PROMPTIONAL"/);
- assert.match(html,/IKUTI JUGA @PROMPTIONAL/);
- assert.equal([...html.matchAll(/class="social-link"/g)].length,4);
- for(const [name,url] of socials){
-  assert.ok(html.includes('href="'+url+'"'),name+' profile link');
-  assert.ok(html.includes('aria-label="Buka '+name+' @promptional"'),name+' accessible label');
+ assert.match(html,/PILIH PLATFORM FAVORITMU/);
+ assert.match(html,/aria-labelledby="platform-heading"/);
+ for(const [key,url] of channels){
+  assert.ok(html.includes('href="'+url+'"'),key+' destination');
+  assert.ok(html.includes('data-platform="'+key+'"'),key+' matching identity');
  }
- assert.match(html,/class="social-grid"/);
- assert.match(html,/\.social-grid\{display:grid;grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
- assert.match(html,/\.social-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
- assert.match(html,/href="https:\/\/t\.me\/BadaiPromptBot\?start=landing_free"/);
+ assert.match(html,/\.platform-grid\{width:100%;display:grid;grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
+ assert.match(html,/\.platform-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+ assert.match(html,/\.platform-btn:nth-child\(5\)\{grid-column:1\/-1;width:calc\(\(100% - 7px\)\/2\);justify-self:center\}/);
+ assert.match(html,/\.platform-btn\{position:relative;isolation:isolate;overflow:hidden;display:flex/);
  assert.equal([...html.matchAll(/href="\/beli-premium\.html"/g)].length,2);
 });
 test('every card starts with a published member preview, and 32 previews can cycle',()=>{
@@ -72,16 +73,14 @@ test('orbit moves automatically around the model and layers photos in front and 
  assert.match(html,/@media\(prefers-reduced-motion:reduce\)/);
  assert.doesNotThrow(()=>new vm.Script(script));
 });
-test('Roboto and Nunito are the only landing typefaces, and START instructions are visible',()=>{
+test('Roboto and Nunito remain in use and platform instructions are accurate',()=>{
  assert.match(html,/family=Nunito:wght@/);
  assert.match(html,/family=Roboto:wght@/);
  assert.match(html,/--heading:"Roboto"/);
  assert.match(html,/--body:"Nunito"/);
  assert.doesNotMatch(html,/Playfair|DM\+Sans|--serif|--sans/);
- assert.match(html,/CARA MENDAPATKANNYA/);
- assert.match(html,/Klik tombol di atas/);
- assert.match(html,/Tekan <strong>START<\/strong> di bot Telegram/);
- assert.match(html,/tombol START\/MULAI ada di bawah chat/);
+ assert.match(html,/Telegram:<\/strong> tekan START\/MULAI di bot/);
+ assert.match(html,/Media sosial:<\/strong> ikuti @promptional/);
  assert.match(html,/class="get-guide"/);
 });
 test('headline stamp loops continuously with readable hold and staggered lines',()=>{
@@ -93,15 +92,19 @@ test('headline stamp loops continuously with readable hold and staggered lines',
  assert.match(html,/.stamp-line:nth-child\(2\)\{animation-delay:170ms\}/);
  assert.match(html,/.stamp-line:nth-child\(3\)\{animation-delay:340ms\}/);
 });
-test('Telegram button pushes automatically and retains shine with motion safety',()=>{
- assert.match(html,/animation:ctaPush 3\.8s ease-in-out infinite/);
- assert.match(html,/@keyframes ctaPush/);
- assert.match(html,/translateY\(4px\) scale\(\.945\)/);
- assert.match(html,/translateY\(-3px\) scale\(1\.055\)/);
- assert.match(html,/animation:ctaShineSweep/);
- assert.match(html,/\.cta:active\{animation-play-state:paused/);
+test('all five buttons have identical recurring push, glow and shine with sequential timing',()=>{
+ assert.match(html,/animation:platformPush 5\.5s ease-in-out var\(--phase,0s\) infinite/);
+ assert.match(html,/@keyframes platformPush/);
+ assert.match(html,/translateY\(4px\) scale\(\.95\)/);
+ assert.match(html,/translateY\(-3px\) scale\(1\.065\)/);
+ assert.match(html,/@keyframes platformShine/);
+ assert.match(html,/animation:platformShine 5\.5s ease-in-out var\(--phase,0s\) infinite/);
+ for(const [n,delay] of [[1,'0s'],[2,'1.1s'],[3,'2.2s'],[4,'3.3s'],[5,'4.4s']]){
+  assert.ok(html.includes('.platform-btn:nth-child('+n+'){--phase:'+delay+'}'));
+ }
+ assert.match(html,/\.platform-btn:active\{animation-play-state:paused/);
  assert.match(html,/\.stamp-line\{opacity:1!important;transform:none!important;filter:none!important\}/);
- assert.match(html,/\.cta::after\{display:none\}/);
+ assert.match(html,/\.platform-btn::after\{display:none\}/);
 });
 test('public feed exposes only published images, never premium prompt text',()=>{
  assert.match(api,/Query\.equal\('is_published',true\)/);
