@@ -213,8 +213,9 @@ export class Service{
   const key=id('reply',botId,update.update_id);
   if(cmd==='/prompt'||cmd==='/start'){
    if(!main||main.$id!==botId)return this.delivery.text(member,bot,'Kamu sudah terdaftar di bot ini. Pengiriman rutin mengikuti bot utama yang dipilih admin.',key,'reply');
+   if(member.plan==='premium')return this.delivery.text(member,bot,'PROMPTIONAL Premium kamu sudah aktif. Semua prompt lengkap bisa langsung dibuka di Member Area: https://promptional.vercel.app/member\n\nPremium tidak dikirim harian lewat bot. Gunakan /status untuk melihat masa aktif.',key,'reply');
    if((fresh||!member.last_sent_at||Date.parse(member.next_send_at)<=this.now())&&member.is_active)return this.delivery.prompt(member,bot,{key:id('period',member.telegram_id,member.plan,member.next_send_at||'first'),welcome:fresh});
-   return this.delivery.text(member,bot,'Selamat datang di BADAI PROMPT! Prompt berikutnya: '+new Date(member.next_send_at).toLocaleString('id-ID',{timeZone:'Asia/Jakarta'})+' WIB. Gunakan /status untuk melihat paket.',key,'reply');
+   return this.delivery.text(member,bot,'Selamat datang di PROMPTIONAL! Prompt gratis berikutnya: '+new Date(member.next_send_at).toLocaleString('id-ID',{timeZone:'Asia/Jakarta'})+' WIB. Gunakan /status untuk melihat paket.',key,'reply');
   }
   if(cmd==='/beli'||cmd==='/cek'){
    if(!main||main.$id!==botId)return this.delivery.text(member,bot,'Pembayaran hanya tersedia di bot utama.',key,'reply');
@@ -222,9 +223,9 @@ export class Service{
    try{return cmd==='/beli'?await this.qris.buy(member,bot):await this.qris.check(member,bot)}
    catch(e){return this.delivery.text(member,bot,e.status===409?e.message:'Pembayaran belum bisa diproses. Coba /cek atau hubungi admin.',key,'reply')}
   }
-  if(cmd==='/premium')return this.delivery.text(member,bot,this.qris.enabled?'Premium 365 hari, Rp199.000. Uji QRIS sandbox tersedia melalui /beli. Jangan bayar dengan uang asli.':'Premium memberi akses koleksi Member Area dan rekomendasi harian. Jika sudah berlangganan, hubungkan akun melalui menu Akun di Member Area. Checkout bot belum diaktifkan.',key,'reply');
+  if(cmd==='/premium')return this.delivery.text(member,bot,'PROMPTIONAL Premium: bayar QRIS sekali melalui website resmi, lalu langsung akses semua prompt di Member Area setelah pembayaran terverifikasi. Tidak ada kiriman Premium harian.\n\nLihat paket: https://promptional.vercel.app/beli-premium.html\n\nJika sudah membeli, buka https://promptional.vercel.app/member',key,'reply');
   if(cmd==='/status')return this.delivery.text(member,bot,'Paket: '+member.plan.toUpperCase()+'\nMasa aktif: '+(member.plan==='premium'?(member.premium_until?new Date(member.premium_until).toLocaleDateString('id-ID',{timeZone:'Asia/Jakarta'}):'Mengikuti hak akses lama'):'Gratis')+'\nPrompt terkirim: '+(member.delivery_day||0),key,'reply');
-  return this.delivery.text(member,bot,'Panduan BADAI PROMPT\n/start — daftar gratis\n/prompt — prompt sesuai jadwal\n/premium — informasi premium\n/status — status akun\n/bantuan — panduan\nHubungkan langganan dari menu Akun di Member Area.'+(this.qris.enabled?'\n/beli — coba checkout QRIS sandbox\n/cek — cek status invoice':''),key,'reply');
+  return this.delivery.text(member,bot,'Panduan PROMPTIONAL\n/start — terima prompt gratis harian\n/prompt — prompt gratis sesuai jadwal\n/premium — cara mendapatkan Member Area lengkap\n/status — status akun\n/bantuan — panduan\nPrompt gratis dihapus otomatis setelah 24 jam. Member Premium membuka seluruh koleksi langsung di website.'+(this.qris.enabled?'\n/beli — coba checkout QRIS sandbox\n/cek — cek status invoice':''),key,'reply');
  }
  async scheduler({forceDry=false,budgetMs=20000}={}){
   const start=this.now(),setting=await this.config(),dry=forceDry||setting.dry_run||!this.sendEnabled,bot=await this.main();
@@ -242,17 +243,17 @@ export class Service{
   if(!dry&&!await this.store.claim(id('run',Math.floor(start/60000)),{kind:'run',status:'claimed',due_at:new Date(start+DAY).toISOString(),payload:'{}'}))return {ok:true,duplicate:true};
   const result={ok:true,dry_run:dry,due:0,sent:0,failed:0,deleted,reminders:0};
   const deliveryCursor=(await this.store.state('telegram-delivery-cursor'))?.data.cursor;
-  const due=await this.store.list('telegram_members',[['equal','is_active',true],['lessThanEqual','next_send_at',new Date(start).toISOString()]],setting.batch_size,deliveryCursor);
+  const due=await this.store.list('telegram_members',[['equal','is_active',true],['equal','plan','free'],['lessThanEqual','next_send_at',new Date(start).toISOString()]],setting.batch_size,deliveryCursor);
   result.due=due.total;
   let lastCursor=null;
-  for(let member of due.rows){if(this.now()-start>budgetMs)break;lastCursor=member.$id;member=await this.sync(member);if(dry)continue;
+  for(let member of due.rows){if(this.now()-start>budgetMs)break;lastCursor=member.$id;member=await this.sync(member);if(member.plan!=='free')continue;if(dry)continue;
    const consent=await this.consent(bot.$id,member.telegram_id);if(!consent||consent.status!=='allowed')continue;
    const r=await this.delivery.prompt(member,bot,{key:id('period',member.telegram_id,member.plan,member.next_send_at||'first')});if(r.ok)result.sent++;else if(r.skipped)result.skipped=(result.skipped||0)+1;else if(!r.duplicate)result.failed++;
   }
   if(dry)return result;
   await this.store.putState('telegram-delivery-cursor',{cursor:due.rows.length?lastCursor:null},{kind:'cursor'});
   const retries=await this.store.list('telegram_deliveries',[['equal','dispatch_status','retry'],['lessThanEqual','retry_at',new Date(start).toISOString()]],setting.batch_size);
-  for(const row of retries.rows){if(this.now()-start>budgetMs)break;if(row.attempts>=3){await this.store.update('telegram_deliveries',row.$id,{dispatch_status:'failed',retry_at:null});continue}if(row.bot_id!==bot.$id){await this.store.update('telegram_deliveries',row.$id,{dispatch_status:'failed',retry_at:null,error_code:'Bot utama berubah; kiriman ditahan untuk review.'});continue}const member=await this.store.get('telegram_members',id('member',row.telegram_id));if(member)await this.delivery.prompt(member,bot,{key:row.delivery_key,promptId:row.prompt_id})}
+  for(const row of retries.rows){if(this.now()-start>budgetMs)break;if(row.attempts>=3){await this.store.update('telegram_deliveries',row.$id,{dispatch_status:'failed',retry_at:null});continue}if(row.bot_id!==bot.$id){await this.store.update('telegram_deliveries',row.$id,{dispatch_status:'failed',retry_at:null,error_code:'Bot utama berubah; kiriman ditahan untuk review.'});continue}const member=await this.store.get('telegram_members',id('member',row.telegram_id));if(member){const current=await this.sync(member);if(current.plan==='free')await this.delivery.prompt(current,bot,{key:row.delivery_key,promptId:row.prompt_id})}}
   const premiumCursor=(await this.store.state('telegram-premium-cursor'))?.data.cursor;
   const premium=await this.store.list('telegram_members',[['equal','plan','premium'],['lessThanEqual','premium_until',new Date(start+7*DAY).toISOString()]],setting.batch_size,premiumCursor);
   let lastPremium=null;
