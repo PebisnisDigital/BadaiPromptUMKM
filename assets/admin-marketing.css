@@ -15,6 +15,9 @@ nav.telegram-nav{grid-template-columns:repeat(5,minmax(0,1fr))}
 .mkt-stat:first-child{background:#fff6f2;border-color:#f2c3af}
 .mkt-stat:first-child b{color:var(--mkt-pink)}
 .mkt-schedule,.mkt-calendar-panel,.mkt-library-panel,.mkt-editor{border:1px solid var(--mkt-border);background:#fff;border-radius:13px;padding:17px;min-width:0}
+.mkt-content-heading{display:flex;align-items:flex-start;margin:16px 0 10px;padding:4px 1px}
+.mkt-content-heading h2{margin:3px 0 0;font-size:17px;line-height:1.4;letter-spacing:-.04em}
+.mkt-content-heading p{margin:3px 0 0;color:var(--mkt-muted);font-size:11px;line-height:1.5}
 .mkt-schedule{margin-bottom:14px}
 .mkt-head,.mkt-panel-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
 .marketing-view h2{font-size:17px;letter-spacing:-.04em;font-weight:800;margin:0 0 3px}
