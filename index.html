@@ -68,6 +68,21 @@ h1 em{color:var(--orange);font-style:normal}
 .lightbox-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;color:#e8d7ca;font-weight:600;font-size:12px}
 .lightbox-close{border:1px solid #e8d7ca80;color:white;background:none;border-radius:100px;min-height:40px;padding:8px 17px}
 .lightbox-close:hover{background:#fff2}
+
+/* Floating gallery autoplay runs natively even on touch devices without pointer input. */
+.float-card{animation:galleryAutoplay var(--duration,7.6s) ease-in-out var(--delay,-1.8s) infinite alternate both;animation-play-state:running}
+.float-card:nth-child(4n+1){--duration:7.1s;--delay:-2.4s}
+.float-card:nth-child(4n+2){--duration:9.4s;--delay:-4.5s}
+.float-card:nth-child(4n+3){--duration:6.6s;--delay:-1.6s}
+.float-card:nth-child(4n){--duration:8.8s;--delay:-6.2s}
+@keyframes galleryAutoplay{
+0%{transform:translate3d(calc(var(--px,0px) - 10px),calc(var(--py,0px) + 13px),0) rotateY(var(--ry,0deg)) rotateZ(var(--rz,0deg)) scale(.95)}
+50%{transform:translate3d(calc(var(--px,0px) + 12px),calc(var(--py,0px) - 15px),0) rotateY(calc(var(--ry,0deg) + 3deg)) rotateZ(calc(var(--rz,0deg) + 1deg)) scale(1.03)}
+100%{transform:translate3d(calc(var(--px,0px) + 23px),calc(var(--py,0px) - 25px),0) rotateY(calc(var(--ry,0deg) - 3deg)) rotateZ(calc(var(--rz,0deg) - 2deg)) scale(1.055)}
+}
+.float-card img{transition:opacity .55s ease,transform .6s ease}
+.float-card img.changing{opacity:.1!important}
+@media(max-width:700px){.float-card{animation-duration:6.6s}.float-card:nth-child(even){animation-duration:8.1s}}
 @media(max-width:1000px){
  .float-card{width:clamp(90px,16vw,160px)}
  .hero-copy{top:13%}
@@ -112,18 +127,18 @@ h1 em{color:var(--orange);font-style:normal}
  </header>
  <div class="stage" aria-label="Contoh visual prompt AI dari PROMPTIONAL">
   <div class="gallery" id="gallery">
-   <button type="button" class="float-card mobile-left mobile-top" style="--x:3%;--y:15%;--mobile-x:-6%;--mobile-y:44%;--ry:18deg;--rz:-7deg;--ratio:1.02;--depth:1" data-code="BP001" aria-label="Lihat preview BP001"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp001/view?project=badai-prompt-umkm" loading="eager" alt="Contoh visual BP001"><span>BP001</span></button>
-   <button type="button" class="float-card hide-mobile back" style="--x:19%;--y:21%;--ry:9deg;--rz:5deg;--ratio:1.45;--depth:.5" data-code="BP002" aria-label="Lihat preview BP002"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp002/view?project=badai-prompt-umkm" loading="lazy" alt="Contoh visual BP002"><span>BP002</span></button>
-   <button type="button" class="float-card mobile-left mobile-low" style="--x:-2%;--y:41%;--mobile-x:-8%;--mobile-y:62%;--ry:22deg;--rz:5deg;--ratio:1.3;--depth:1.2" data-code="BP003" aria-label="Lihat preview BP003"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp003/view?project=badai-prompt-umkm" loading="lazy" alt="Contoh visual BP003"><span>BP003</span></button>
-   <button type="button" class="float-card hide-mobile" style="--x:11%;--y:63%;--ry:12deg;--rz:-5deg;--ratio:1.28;--depth:1.1" data-code="BP004" aria-label="Lihat preview BP004"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp004/view?project=badai-prompt-umkm" loading="lazy" alt="Contoh visual BP004"><span>BP004</span></button>
-   <button type="button" class="float-card hide-mobile distant" style="--x:30%;--y:42%;--ry:12deg;--rz:7deg;--ratio:1.5;--depth:.3" data-code="BP005" aria-label="Lihat preview BP005"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp005/view?project=badai-prompt-umkm" loading="lazy" alt="Contoh visual BP005"><span>BP005</span></button>
-   <button type="button" class="float-card hide-mobile back" style="--x:21%;--y:83%;--ry:10deg;--rz:6deg;--ratio:1.6;--depth:.45" data-code="BP006" aria-label="Lihat preview BP006"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp006/view?project=badai-prompt-umkm" loading="lazy" alt="Contoh visual BP006"><span>BP006</span></button>
-   <button type="button" class="float-card hide-mobile" style="--x:77%;--y:14%;--ry:-19deg;--rz:7deg;--ratio:1.11;--depth:1.2" data-code="BP007" aria-label="Lihat preview BP007"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp007/view?project=badai-prompt-umkm" loading="lazy" alt="Contoh visual BP007"><span>BP007</span></button>
-   <button type="button" class="float-card mobile-right mobile-top" style="--x:88%;--y:40%;--mobile-x:79%;--mobile-y:44%;--ry:-19deg;--rz:-6deg;--ratio:1.2;--depth:1" data-code="BP008" aria-label="Lihat preview BP008"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp008/view?project=badai-prompt-umkm" loading="eager" alt="Contoh visual BP008"><span>BP008</span></button>
-   <button type="button" class="float-card hide-mobile back" style="--x:63%;--y:31%;--ry:-16deg;--rz:-8deg;--ratio:1.45;--depth:.5" data-code="BP009" aria-label="Lihat preview BP009"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp009/view?project=badai-prompt-umkm" loading="lazy" alt="Contoh visual BP009"><span>BP009</span></button>
-   <button type="button" class="float-card mobile-right mobile-low" style="--x:79%;--y:70%;--mobile-x:78%;--mobile-y:65%;--ry:-14deg;--rz:4deg;--ratio:1.3;--depth:1.1" data-code="BP010" aria-label="Lihat preview BP010"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp010/view?project=badai-prompt-umkm" loading="lazy" alt="Contoh visual BP010"><span>BP010</span></button>
-   <button type="button" class="float-card hide-mobile distant" style="--x:56%;--y:49%;--ry:-8deg;--rz:-6deg;--ratio:1.45;--depth:.3" data-code="BP533" aria-label="Lihat preview BP533"><img src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp533/view?project=badai-prompt-umkm" loading="lazy" alt="Contoh visual BP533"><span>BP533</span></button>
-   <button type="button" class="float-card hide-mobile" style="--x:92%;--y:77%;--ry:-15deg;--rz:-7deg;--ratio:1.28;--depth:.95" data-code="BP011" aria-label="Lihat preview BP011"><img src="https://www.dropbox.com/scl/fi/p1e79lv1gmqtwt1h1teyx/BP011.png?rlkey=jbb1un7y4t1jmxe678i5xms3f&raw=1" loading="lazy" alt="Contoh visual BP011"><span>BP011</span></button>
+   <button type="button" class="float-card mobile-left mobile-top" style="--x:3%;--y:15%;--mobile-x:-6%;--mobile-y:44%;--ry:18deg;--rz:-7deg;--ratio:1.02;--depth:1" data-code="BP001" aria-label="Lihat preview BP001"><img src="https://www.dropbox.com/scl/fi/4vegv56x0peijbdh470jj/Model_posing_in_blue_studio_20261008210834.jpg?rlkey=mhy5zulpm2lzzgiso4arzchnw&amp;st=g5i6dj06&amp;raw=1" loading="eager" alt="Contoh visual BP001"><span>BP001</span></button>
+   <button type="button" class="float-card hide-mobile back" style="--x:19%;--y:21%;--ry:9deg;--rz:5deg;--ratio:1.45;--depth:.5" data-code="BP002" aria-label="Lihat preview BP002"><img src="https://www.dropbox.com/scl/fi/rau5isxnhmyag2a4tjkn3/KitKat_advertising_poster_creation_20261008213329.jpg?rlkey=s6ovltkyx3puaqe9jnzjlo161&amp;st=oe7ur2jn&amp;raw=1" loading="lazy" alt="Contoh visual BP002"><span>BP002</span></button>
+   <button type="button" class="float-card mobile-left mobile-low" style="--x:-2%;--y:41%;--mobile-x:-8%;--mobile-y:62%;--ry:22deg;--rz:5deg;--ratio:1.3;--depth:1.2" data-code="BP003" aria-label="Lihat preview BP003"><img src="https://www.dropbox.com/scl/fi/ih6y5lyrf0q10cpxw3vn8/BP003.png?rlkey=0z6bjoygewm78r97h694cau5x&amp;st=41qivbhk&amp;raw=1" loading="lazy" alt="Contoh visual BP003"><span>BP003</span></button>
+   <button type="button" class="float-card hide-mobile" style="--x:11%;--y:63%;--ry:12deg;--rz:-5deg;--ratio:1.28;--depth:1.1" data-code="BP004" aria-label="Lihat preview BP004"><img src="https://www.dropbox.com/scl/fi/mkp8wdlqlm2z53ma7m9w3/BP004.png?rlkey=0tzr8irg0avlic02umv91i2ox&amp;st=q5mbed7k&amp;raw=1" loading="lazy" alt="Contoh visual BP004"><span>BP004</span></button>
+   <button type="button" class="float-card hide-mobile distant" style="--x:30%;--y:42%;--ry:12deg;--rz:7deg;--ratio:1.5;--depth:.3" data-code="BP005" aria-label="Lihat preview BP005"><img src="https://www.dropbox.com/scl/fi/0yewpb3wewsja9zgu9qxy/BP005.png?rlkey=v6ijknfvuuhon0cerqifnbpf2&amp;st=6994q3vd&amp;raw=1" loading="lazy" alt="Contoh visual BP005"><span>BP005</span></button>
+   <button type="button" class="float-card hide-mobile back" style="--x:21%;--y:83%;--ry:10deg;--rz:6deg;--ratio:1.6;--depth:.45" data-code="BP006" aria-label="Lihat preview BP006"><img src="https://www.dropbox.com/scl/fi/i6dy3a5rzyt193h410l1q/BP006.png?rlkey=neel0xv59csvtkmsi3s1ngn1c&amp;st=ykj0khba&amp;raw=1" loading="lazy" alt="Contoh visual BP006"><span>BP006</span></button>
+   <button type="button" class="float-card hide-mobile" style="--x:77%;--y:14%;--ry:-19deg;--rz:7deg;--ratio:1.11;--depth:1.2" data-code="BP007" aria-label="Lihat preview BP007"><img src="https://www.dropbox.com/scl/fi/uadoighugf2uejcwxi83m/BP007.png?rlkey=wdo0lz8s2oqh7fwyqwlcsmmr1&amp;st=ca2upmxl&amp;raw=1" loading="lazy" alt="Contoh visual BP007"><span>BP007</span></button>
+   <button type="button" class="float-card mobile-right mobile-top" style="--x:88%;--y:40%;--mobile-x:79%;--mobile-y:44%;--ry:-19deg;--rz:-6deg;--ratio:1.2;--depth:1" data-code="BP008" aria-label="Lihat preview BP008"><img src="https://www.dropbox.com/scl/fi/6iy7tdi38zdge9pz10kz3/BP008.png?rlkey=1kzvhm06fc8l64vezcl4hbywm&amp;st=z4ukbcxl&amp;raw=1" loading="eager" alt="Contoh visual BP008"><span>BP008</span></button>
+   <button type="button" class="float-card hide-mobile back" style="--x:63%;--y:31%;--ry:-16deg;--rz:-8deg;--ratio:1.45;--depth:.5" data-code="BP009" aria-label="Lihat preview BP009"><img src="https://www.dropbox.com/scl/fi/nssdyisoz1lrwj259tkaj/BP009.png?rlkey=7tm2hp87j9ibp5kqc4s8jsi3m&amp;st=ttcpz2qd&amp;raw=1" loading="lazy" alt="Contoh visual BP009"><span>BP009</span></button>
+   <button type="button" class="float-card mobile-right mobile-low" style="--x:79%;--y:70%;--mobile-x:78%;--mobile-y:65%;--ry:-14deg;--rz:4deg;--ratio:1.3;--depth:1.1" data-code="BP010" aria-label="Lihat preview BP010"><img src="https://www.dropbox.com/scl/fi/dxqpcq9ff1kq4idmzni0j/BP010.png?rlkey=4bhj1zpxxph37s1tgkxttri4f&amp;st=2inzji5o&amp;raw=1" loading="lazy" alt="Contoh visual BP010"><span>BP010</span></button>
+   <button type="button" class="float-card hide-mobile distant" style="--x:56%;--y:49%;--ry:-8deg;--rz:-6deg;--ratio:1.45;--depth:.3" data-code="BP011" aria-label="Lihat preview BP533"><img src="https://www.dropbox.com/scl/fi/p1e79lv1gmqtwt1h1teyx/BP011.png?rlkey=jbb1un7y4t1jmxe678i5xms3f&amp;st=ovx6iuo6&amp;raw=1" loading="lazy" alt="Contoh visual BP533"><span>BP533</span></button>
+   <button type="button" class="float-card hide-mobile" style="--x:92%;--y:77%;--ry:-15deg;--rz:-7deg;--ratio:1.28;--depth:.95" data-code="BP012" aria-label="Lihat preview BP011"><img src="https://www.dropbox.com/scl/fi/hgev9mo9pffjawj6f4fiq/BP012.png?rlkey=fg8uccojop5efj4rteje9elf0&amp;st=xa2ziut7&amp;raw=1" loading="lazy" alt="Contoh visual BP011"><span>BP011</span></button>
   </div>
   <div class="model-aura" aria-hidden="true"></div>
   <div class="model-wrap" aria-hidden="true"><img class="model" src="https://sgp.cloud.appwrite.io/v1/storage/buckets/prompt-previews/files/bp009/view?project=badai-prompt-umkm" alt=""></div>
@@ -148,22 +163,68 @@ h1 em{color:var(--orange);font-style:normal}
 <script>
 (()=>{
  "use strict";
+ const FALLBACK_PREVIEWS=[{"code":"BP001","src":"https://www.dropbox.com/scl/fi/4vegv56x0peijbdh470jj/Model_posing_in_blue_studio_20261008210834.jpg?rlkey=mhy5zulpm2lzzgiso4arzchnw&st=g5i6dj06&raw=1"},{"code":"BP002","src":"https://www.dropbox.com/scl/fi/rau5isxnhmyag2a4tjkn3/KitKat_advertising_poster_creation_20261008213329.jpg?rlkey=s6ovltkyx3puaqe9jnzjlo161&st=oe7ur2jn&raw=1"},{"code":"BP003","src":"https://www.dropbox.com/scl/fi/ih6y5lyrf0q10cpxw3vn8/BP003.png?rlkey=0z6bjoygewm78r97h694cau5x&st=41qivbhk&raw=1"},{"code":"BP004","src":"https://www.dropbox.com/scl/fi/mkp8wdlqlm2z53ma7m9w3/BP004.png?rlkey=0tzr8irg0avlic02umv91i2ox&st=q5mbed7k&raw=1"},{"code":"BP005","src":"https://www.dropbox.com/scl/fi/0yewpb3wewsja9zgu9qxy/BP005.png?rlkey=v6ijknfvuuhon0cerqifnbpf2&st=6994q3vd&raw=1"},{"code":"BP006","src":"https://www.dropbox.com/scl/fi/i6dy3a5rzyt193h410l1q/BP006.png?rlkey=neel0xv59csvtkmsi3s1ngn1c&st=ykj0khba&raw=1"},{"code":"BP007","src":"https://www.dropbox.com/scl/fi/uadoighugf2uejcwxi83m/BP007.png?rlkey=wdo0lz8s2oqh7fwyqwlcsmmr1&st=ca2upmxl&raw=1"},{"code":"BP008","src":"https://www.dropbox.com/scl/fi/6iy7tdi38zdge9pz10kz3/BP008.png?rlkey=1kzvhm06fc8l64vezcl4hbywm&st=z4ukbcxl&raw=1"},{"code":"BP009","src":"https://www.dropbox.com/scl/fi/nssdyisoz1lrwj259tkaj/BP009.png?rlkey=7tm2hp87j9ibp5kqc4s8jsi3m&st=ttcpz2qd&raw=1"},{"code":"BP010","src":"https://www.dropbox.com/scl/fi/dxqpcq9ff1kq4idmzni0j/BP010.png?rlkey=4bhj1zpxxph37s1tgkxttri4f&st=2inzji5o&raw=1"},{"code":"BP011","src":"https://www.dropbox.com/scl/fi/p1e79lv1gmqtwt1h1teyx/BP011.png?rlkey=jbb1un7y4t1jmxe678i5xms3f&st=ovx6iuo6&raw=1"},{"code":"BP012","src":"https://www.dropbox.com/scl/fi/hgev9mo9pffjawj6f4fiq/BP012.png?rlkey=fg8uccojop5efj4rteje9elf0&st=xa2ziut7&raw=1"},{"code":"BP013","src":"https://www.dropbox.com/scl/fi/c4f6vo4uw0yhj9u05vqa0/BP013.png?rlkey=ckuos1i4y8x2nni3pa1hjbj9q&st=9h42uxt4&raw=1"},{"code":"BP014","src":"https://www.dropbox.com/scl/fi/zmit3toof6hsncgngfutq/BP014.png?rlkey=vi13b7fj7iv5862s2nvancmcg&st=zg5k5by5&raw=1"},{"code":"BP015","src":"https://www.dropbox.com/scl/fi/i8ghja5ac5axe7ashusdk/BP015.png?rlkey=h0ye0g4vaqcjxs0uiud77iukv&st=yiio4ms4&raw=1"},{"code":"BP016","src":"https://www.dropbox.com/scl/fi/op8cazyozv6xennxjr8rg/BP016.png?rlkey=l4t3i187cipuxg1b4qddjo3tg&st=zs40tmu6&raw=1"},{"code":"BP017","src":"https://www.dropbox.com/scl/fi/be2psrlwbgs4rk6g8ktui/BP017.png?rlkey=i53ru7ln4x0wkviehr51n04ku&st=vgkqawg4&raw=1"},{"code":"BP018","src":"https://www.dropbox.com/scl/fi/c50x203tifxh9t353b5b5/BP018.png?rlkey=ueitfi7xk6qw88xbts998ynvy&st=p2zcmzrv&raw=1"},{"code":"BP019","src":"https://www.dropbox.com/scl/fi/rm7djr6rk7mnht4zmykv1/BP019.png?rlkey=6b3q5boaqs9up6hvwovry7aoj&st=vd07endl&raw=1"},{"code":"BP020","src":"https://www.dropbox.com/scl/fi/n6salf26b4clv7951wz26/BP020.png?rlkey=moo9c28uj4ezi8q6xdjx2i39g&st=nwk6sfxn&raw=1"},{"code":"BP021","src":"https://www.dropbox.com/scl/fi/vxu7jzbz7mq459smw2udg/BP021.png?rlkey=j1hnxu2sw8sopm40xjiw8rfl6&st=fzljxeeo&raw=1"},{"code":"BP022","src":"https://www.dropbox.com/scl/fi/44fonl29djn3k2jds22b6/BP022.png?rlkey=vuktmw01jd8oyzhm3lt1wjrn8&st=4yq7vrtd&raw=1"},{"code":"BP023","src":"https://www.dropbox.com/scl/fi/c1jaeb30rwjr03zgf0tk9/BP023.png?rlkey=3lotqzyfodwts5ywn6g5prq2b&st=cv8izin4&raw=1"},{"code":"BP024","src":"https://www.dropbox.com/scl/fi/684sn4w89gecrzpuz98l1/BP024.png?rlkey=jsq04ilkdal0roagf07tigych&st=46ejq3i3&raw=1"},{"code":"BP025","src":"https://www.dropbox.com/scl/fi/7skdxrywf36g53tdakzvh/BP025.png?rlkey=0paul69tmdyxu69qk0rgzncf3&st=6c16k60q&raw=1"},{"code":"BP026","src":"https://www.dropbox.com/scl/fi/gspf3esebbegisvrc9y9y/BP026.png?rlkey=jgff5n6uvedj9tq2xh0bjwiha&st=n5t7ij5h&raw=1"},{"code":"BP027","src":"https://www.dropbox.com/scl/fi/efaahk8pwzupoorhtlr6k/BP027.png?rlkey=o2yv6i5gt4tuem5a1l9e9y0jn&st=t61cuy8e&raw=1"},{"code":"BP028","src":"https://www.dropbox.com/scl/fi/7pmka9kah620vaw6s675e/BP028.png?rlkey=qr6zrnp3anpxxat03obdkgm0l&st=xmujvmeb&raw=1"},{"code":"BP029","src":"https://www.dropbox.com/scl/fi/fr13kgh0gii6f7uw7s4gb/BP029.png?rlkey=3dycmdpgmv45fez28yg7uh77p&st=4bd216q0&raw=1"},{"code":"BP030","src":"https://www.dropbox.com/scl/fi/42td2xwphww0vw32sy2i6/BP030.png?rlkey=oro4t8bd3599cwkygyy5jwxzb&st=k9vm2hdm&raw=1"},{"code":"BP031","src":"https://www.dropbox.com/scl/fi/mcvos3al7veu9j2g9wc2n/BP031.png?rlkey=qy3odnxyl5riub5kwf3luq0zc&st=omb98d9u&raw=1"},{"code":"BP032","src":"https://www.dropbox.com/scl/fi/zq1041gqvfye45nyzbgaa/BP032.png?rlkey=dpewo57yxq89rfe9v49mmma4b&st=bjz8ivu6&raw=1"}];
  const cards=[...document.querySelectorAll(".float-card")];
  const hero=document.querySelector(".hero"),lightbox=document.getElementById("lightbox"),preview=document.getElementById("preview-image"),title=document.getElementById("preview-title"),close=document.getElementById("close-preview");
  const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
- let targetX=0,targetY=0,mx=0,my=0,raf=0,lastFocus=null;
- function tick(t){
-  mx+=(targetX-mx)*.05;my+=(targetY-my)*.05;
-  cards.forEach((c,i)=>{
-   const depth=Number(c.style.getPropertyValue("--depth"))||1;
-   const dx=mx*depth*19,dy=my*depth*12;
-   const floatY=Math.sin(t*.00065+i*1.5)*5*depth;
-   c.style.setProperty("--px",dx.toFixed(2)+"px");
-   c.style.setProperty("--py",(dy+floatY).toFixed(2)+"px");
-  });
-  raf=requestAnimationFrame(tick);
+
+ let targetX=0,targetY=0,mx=0,my=0,lastFocus=null;
+ const fine=window.matchMedia("(hover:hover) and (pointer:fine)").matches;
+ // Extra mouse parallax; continuous card motion is handled by CSS (also on phones).
+ if(fine&&!reduced){
+  hero.addEventListener("pointermove",e=>{targetX=(e.clientX/innerWidth-.5)*2;targetY=(e.clientY/innerHeight-.5)*2},{passive:true});
+  hero.addEventListener("pointerleave",()=>{targetX=targetY=0});
+  (function parallax(){
+   mx+=(targetX-mx)*.05;my+=(targetY-my)*.05;
+   cards.forEach(c=>{const depth=Number(c.style.getPropertyValue("--depth"))||1;c.style.setProperty("--px",(mx*depth*18).toFixed(2)+"px");c.style.setProperty("--py",(my*depth*11).toFixed(2)+"px")});
+   requestAnimationFrame(parallax);
+  })();
  }
- if(!reduced){hero.addEventListener("pointermove",e=>{if(e.pointerType==="touch")return;targetX=(e.clientX/Math.max(1,innerWidth)-.5)*2;targetY=(e.clientY/Math.max(1,innerHeight)-.5)*2;},{passive:true});hero.addEventListener("pointerleave",()=>{targetX=targetY=0});raf=requestAnimationFrame(tick)}
+ let galleryFeed=FALLBACK_PREVIEWS,rotation=cards.length,slot=0;
+ function updateCard(card,item){
+  if(!item||item.code===card.dataset.code)return;
+  const img=card.querySelector("img"),probe=new Image();
+  probe.onload=()=>{
+   if(!reduced)img.classList.add("changing");
+   setTimeout(()=>{
+    img.src=item.src;img.alt="Contoh visual "+item.code+" dari Member Area PROMPTIONAL";
+    card.dataset.code=item.code;card.setAttribute("aria-label","Lihat preview "+item.code);
+    card.querySelector("span").textContent=item.code;
+    requestAnimationFrame(()=>img.classList.remove("changing"));
+   },reduced?0:200);
+  };
+  probe.onerror=()=>{};
+  probe.src=item.src;
+ }
+ function refreshGallery(list){
+  const valid=list.filter(x=>x&&/^BP\d{1,6}$/.test(x.code)&&/^https:\/\//.test(x.src));
+  if(valid.length<4)return;
+  galleryFeed=valid;
+  cards.forEach((c,i)=>{
+   const matching=galleryFeed.find(x=>x.code===c.dataset.code),item=matching||galleryFeed[i%galleryFeed.length];
+   const img=c.querySelector("img");
+   if(img.getAttribute("src")!==item.src)img.src=item.src;
+   img.alt="Contoh visual "+item.code+" dari Member Area PROMPTIONAL";
+   c.dataset.code=item.code;c.querySelector("span").textContent=item.code;
+  });
+  rotation=galleryFeed.findIndex(x=>!cards.some(c=>c.dataset.code===x.code));
+  if(rotation<0)rotation=0;
+ }
+ refreshGallery(FALLBACK_PREVIEWS);
+ // Autoplay swaps real published previews as well as continuously floating them.
+ setInterval(()=>{
+  if(document.hidden||!lightbox.hidden||galleryFeed.length<=cards.length)return;
+  const visible=cards.filter(c=>getComputedStyle(c).display!=="none");
+  if(!visible.length)return;
+  const c=visible[slot++%visible.length];
+  for(let i=0;i<galleryFeed.length;i++){
+   const item=galleryFeed[rotation++%galleryFeed.length];
+   if(!visible.some(card=>card.dataset.code===item.code)){updateCard(c,item);break}
+  }
+ },2400);
+ fetch("/api/public-previews",{cache:"default"}).then(r=>{if(!r.ok)throw Error("Preview feed unavailable");return r.json()})
+ .then(data=>{if(data.ok&&Array.isArray(data.previews))refreshGallery(data.previews)})
+ .catch(()=>{/* Static published preview snapshot remains available. */});
  function shut(){lightbox.hidden=true;document.body.style.overflow="";if(lastFocus)lastFocus.focus({preventScroll:true})}
  cards.forEach(card=>{
   card.addEventListener("click",()=>{
