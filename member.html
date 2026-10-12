@@ -59,12 +59,12 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
 <div class="firstpass" id="firstPasswordOverlay">
   <div class="firstpasscard">
     <div class="brand">PROMPTIONAL<b>.</b><small>AKTIFKAN PASSWORD</small></div>
-    <h2>Buat password kamu dulu.</h2>
-    <p>Pembayaran sudah berhasil dan akses member sudah aktif. Sebelum masuk ke perpustakaan prompt, buat password pribadi untuk login berikutnya.</p>
+    <h2>Buat password untuk login berikutnya.</h2>
+    <p>Akses Member Area sudah bisa dipakai. Buat password pribadi agar nanti mudah login lagi dari perangkat lain.</p>
     <form id="firstPasswordForm">
       <div class="field"><label>PASSWORD BARU</label><input id="firstPassword" type="password" autocomplete="new-password" minlength="10" required placeholder="minimal 10 karakter"></div>
       <div class="field"><label>ULANGI PASSWORD</label><input id="firstPasswordConfirm" type="password" autocomplete="new-password" minlength="10" required placeholder="ulangi password"></div>
-      <button class="loginbtn" id="firstPasswordBtn" type="submit">SIMPAN & MASUK MEMBER AREA</button>
+      <button class="loginbtn" id="firstPasswordBtn" type="submit">SIMPAN PASSWORD</button>
       <div class="msg" id="firstPasswordMsg"></div>
     </form>
     <div class="firstpassnote">Email login tetap memakai email yang digunakan saat pembayaran.</div>
@@ -81,6 +81,11 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
   </header>
   <main>
     <section class="member-welcome"><h1>Pilih gambar yang kamu suka.</h1><p>Buka gambar, lalu salin prompt-nya.</p></section>
+    <div id="passwordReminder" hidden style="display:none;padding:12px;margin:12px 0 8px;border:1px solid #ff9c50;background:#332117;border-radius:14px;align-items:center;flex-wrap:wrap;gap:9px">
+      <span style="flex:1 1 210px;font:700 12px/1.5 Nunito,Arial,sans-serif;color:#ffe5d2">Akses sudah aktif! Supaya besok gampang login, buat password saat senggang, ya Kak.</span>
+      <button id="setupPasswordNow" type="button" style="border:0;border-radius:9px;background:#ff8d32;color:#180d05;font-weight:900;padding:8px 11px">BUAT PASSWORD</button>
+      <button id="dismissPassword" type="button" style="border:1px solid #895a38;border-radius:9px;background:transparent;color:#fff;padding:8px 11px">NANTI</button>
+    </div>
     <label class="member-search" for="search"><span>Cari gambar</span><input id="search" type="search" placeholder="Misalnya: hijab, kafe, jualan" autocomplete="off"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg></label>
     <p class="search-help" id="searchHelp" role="status" hidden>Ketik minimal 3 huruf untuk mencari gambar.</p>
     <div class="browsebar">
@@ -393,12 +398,14 @@ async function enterLibrary(){
 async function boot(){
   try{
     busy(true);currentUser=await account.get();await loadProfile();gate.classList.add('hide');$('accountBtn').textContent=(currentUser.name||currentUser.email||'V').trim().charAt(0).toUpperCase();
-    if(currentProfile.must_change_password===true){firstPasswordOverlay.classList.add('show');return}
+    if(currentProfile.must_change_password===true){$('passwordReminder').hidden=false;$('passwordReminder').style.display='flex'}
     await enterLibrary();
   }catch(e){
     gate.classList.remove('hide');if(e?.code&&Number(e.code)!==401)setMsg(e.message||'Akses belum bisa dibuka.','bad');
   }finally{busy(false)}
 }
+$('setupPasswordNow').addEventListener('click',()=>firstPasswordOverlay.classList.add('show'));
+$('dismissPassword').addEventListener('click',()=>{$('passwordReminder').hidden=true;$('passwordReminder').style.display='none'});
 $('firstPasswordForm').addEventListener('submit',async e=>{
   e.preventDefault();
   const p=$('firstPassword').value,c=$('firstPasswordConfirm').value,m=$('firstPasswordMsg'),b=$('firstPasswordBtn');
@@ -412,12 +419,12 @@ $('firstPasswordForm').addEventListener('submit',async e=>{
     currentUser=await account.get();
     currentProfile.must_change_password=false;
     sessionStorage.removeItem('bpu_checkout_password');sessionStorage.removeItem('bpu_checkout_email');
-    firstPasswordOverlay.classList.remove('show');
+    firstPasswordOverlay.classList.remove('show');$('passwordReminder').hidden=true;$('passwordReminder').style.display='none';
     history.replaceState({},'',location.pathname);
     busy(true);await enterLibrary();
     showToast('Password tersimpan ✓');
   }catch(err){m.textContent=err?.message||'Password belum bisa disimpan.';m.className='msg bad'}
-  finally{busy(false);b.disabled=false;b.textContent='SIMPAN & MASUK MEMBER AREA'}
+  finally{busy(false);b.disabled=false;b.textContent='SIMPAN PASSWORD'}
 });
 
 const qp=new URLSearchParams(location.search);
