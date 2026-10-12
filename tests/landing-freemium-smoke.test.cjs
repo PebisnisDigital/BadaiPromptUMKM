@@ -44,6 +44,18 @@ test('autoplay is CSS native and runs without pointermove, including on mobile',
  assert.match(html, /@media\(prefers-reduced-motion:reduce\)/);
  assert.doesNotThrow(()=>new vm.Script(script));
 });
+test('Roboto and Nunito are the only landing typefaces, and START instructions are visible',()=>{
+ assert.match(html,/family=Nunito:wght@/);
+ assert.match(html,/family=Roboto:wght@/);
+ assert.match(html,/--heading:"Roboto"/);
+ assert.match(html,/--body:"Nunito"/);
+ assert.doesNotMatch(html,/Playfair|DM\+Sans|--serif|--sans/);
+ assert.match(html,/CARA MENDAPATKANNYA/);
+ assert.match(html,/Klik tombol di atas/);
+ assert.match(html,/Tekan <strong>START<\/strong> di bot Telegram/);
+ assert.match(html,/Setelah START, prompt gratis dikirim otomatis ke chat sesuai jadwal/);
+ assert.match(html,/class="get-guide"/);
+});
 test('public feed exposes only published images, never premium prompt text',()=>{
  assert.match(api,/Query\.equal\('is_published',true\)/);
  assert.match(api,/Query\.orderAsc\('sort_order'\)/);
