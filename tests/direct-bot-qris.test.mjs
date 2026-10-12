@@ -44,7 +44,7 @@ test('direct bot: free prompt → /beli QR sandbox → /cek verified → Premium
  await store.create('scene_prompts','first',{is_published:true,title:'Foto produk',prompt_text:'Prompt gratis'});
  const message=(n,text)=>({update_id:n,message:{chat:{id:2001,type:'private'},from:{id:2001,first_name:'Ibu Test'},text}});
  await s.webhook(bot.$id,s.secret(bot),message(1,'/start'));
- assert(telegram.calls.some(c=>c.method==='sendMessage'&&c.body.reply_markup?.inline_keyboard?.[0]?.[0]?.callback_data==='beli'));
+ assert.equal(telegram.calls.some(c=>c.method==='sendMessage'&&c.body.reply_markup?.inline_keyboard?.[0]?.[0]?.callback_data==='beli'),false,'Free delivery does not advertise in-bot digital-goods QRIS');
  await s.webhook(bot.$id,s.secret(bot),message(2,'/beli'));
  assert(telegram.calls.some(c=>c.method==='sendPhoto'&&c.body.reply_markup?.inline_keyboard?.[0]?.[0]?.callback_data==='cek_qris'));
  const order=await store.state(botQrisIds.orderId('test-invoice-01'));
