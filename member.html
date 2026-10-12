@@ -189,7 +189,7 @@ let currentUser=null,currentProfile=null,all=[],favorites=new Set(),favoriteRows
 let cardCarouselTimers=[],detailCarouselTimer=null;
 const PAGE_SIZE=10;
 let libraryRequest=0;
-const CATEGORIES=['Spontan','Keseharian','Kerja','Bisnis','Pemimpin Bisnis','Perjalanan','Jalanan','Kafe','Rumah','Keluarga','Pasangan','Olahraga','Mode','Hijab','Sinematik','Film','Sejarah','Fantasi','Miniatur','Mainan','LEGO','Film Analog','iPhone','Studio','Perayaan','Ramadan','Lebaran','Indonesia','Jepang','Korea','Nyeleneh','Tren Viral'];
+const CATEGORIES=['Prompt Viral','Spontan','Keseharian','Kerja','Bisnis','Pemimpin Bisnis','Perjalanan','Jalanan','Kafe','Rumah','Keluarga','Pasangan','Olahraga','Mode','Hijab','Sinematik','Film','Sejarah','Fantasi','Miniatur','Mainan','LEGO','Film Analog','iPhone','Studio','Perayaan','Ramadan','Lebaran','Indonesia','Jepang','Korea','Nyeleneh','Tren Viral'];
 
 const $=id=>document.getElementById(id);
 const gate=$('gate'),loading=$('loading'),loginMsg=$('loginMsg'),grid=$('grid'),search=$('search'),categorySelect=$('categorySelect');
@@ -274,7 +274,7 @@ async function refreshPrompts(scrollToGallery=false){
     if(await loadPrompts(requestId)===false)return;
     render();
     if(scrollToGallery){
-      const y=document.querySelector('.pagination')?.getBoundingClientRect().top+window.scrollY-110;
+      const y=document.querySelector('.library-heading')?.getBoundingClientRect().top+window.scrollY-125;
       if(Number.isFinite(y))window.scrollTo({top:y,behavior:'smooth'});
     }
   }catch(e){
@@ -282,15 +282,31 @@ async function refreshPrompts(scrollToGallery=false){
     stopCardCarousels();grid.innerHTML='<div class="empty"><b>Gambar belum bisa dimuat.</b><p>Cek koneksi internet, lalu coba lagi.</p><button class="btn btn-dark" id="retryLibrary" type="button">Coba lagi</button></div>';$('retryLibrary').onclick=()=>refreshPrompts();
   }finally{if(requestId===libraryRequest){grid.setAttribute('aria-busy','false')}}
 }
+function syncLibraryChoices(){
+  document.body.dataset.memberMode=mode;
+  document.querySelectorAll('[data-category-shortcut]').forEach(button=>{
+    const chosen=button.dataset.categoryShortcut;
+    const active=chosen==='__saved'?mode==='favorites':mode==='all'&&chosen===category;
+    button.classList.toggle('on',active);
+    button.setAttribute('aria-pressed',String(active));
+  });
+  $('nav').querySelectorAll('[data-mode="all"],[data-mode="favorites"]').forEach(button=>{
+    button.classList.toggle('on',button.dataset.mode===mode);
+  });
+}
+async function applyCategory(value,scroll=true){
+  mode=value==='__saved'?'favorites':'all';
+  category=mode==='favorites'?'':value;
+  categorySelect.value=mode==='favorites'?'__saved':category;
+  currentPage=1;openLatestPage=true;
+  syncLibraryChoices();
+  await refreshPrompts(scroll);
+}
 function fillFilters(){
   categorySelect.innerHTML='<option value="">Semua kategori</option><option value="__saved">Gambar tersimpan</option>'+CATEGORIES.map(c=>'<option value="'+esc(c)+'">'+esc(c)+'</option>').join('');
   categorySelect.value=mode==='favorites'?'__saved':category;
-  categorySelect.onchange=async()=>{
-    mode=categorySelect.value==='__saved'?'favorites':'all';
-    category=mode==='favorites'?'':categorySelect.value;
-    currentPage=1;openLatestPage=true;
-    await refreshPrompts(true);
-  };
+  categorySelect.onchange=()=>applyCategory(categorySelect.value,true);
+  syncLibraryChoices();
 }
 function filteredRows(){
   return all.filter(x=>mode!=='favorites'||favorites.has(x.$id));
@@ -385,6 +401,8 @@ function render(){
   $('accFav').textContent=favorites.size+' prompt';
   renderPagination();
   $('libraryCount').textContent=totalPrompts+' gambar';
+  $('featureCount').textContent=String(totalPrompts);
+  syncLibraryChoices();
   $('libraryTitle').textContent=mode==='favorites'?'Gambar tersimpan':category||'Koleksi gambar';
   if(!rows.length){stopCardCarousels();grid.innerHTML='<div class="empty"><b>'+(mode==='favorites'?'Belum ada gambar tersimpan.':'Gambar belum ditemukan.')+'</b><p>'+(mode==='favorites'?'Buka gambar, lalu pilih Simpan agar mudah ditemukan lagi.':'Coba kata lain atau pilih Semua kategori.')+'</p></div>';return}
   grid.innerHTML=rows.map(x=>'<article class="card"><button class="visual" type="button" data-open="'+esc(x.$id)+'" aria-label="Lihat '+esc(x.title)+'"><span class="promptcode">'+esc(promptCode(x))+'</span>'+cardVisual(x)+'</button><div class="body"><h3>'+esc(x.title||promptCode(x))+'</h3><p>'+esc(x.category||'Prompt')+'</p><button class="btn btn-pink codebtn" type="button" data-open="'+esc(x.$id)+'">Lihat &amp; salin</button></div></article>').join('');
@@ -415,9 +433,13 @@ function openAccount(){
 async function enterLibrary(){
   await loadFavorites();fillFilters();await refreshPrompts();
 }
+function refreshGreeting(){
+  const name=String(currentProfile?.name||currentUser?.name||'Kak').trim().split(/\s+/)[0].slice(0,20)||'Kak';
+  $('memberName').textContent=name;
+}
 async function boot(){
   try{
-    busy(true);currentUser=await account.get();await loadProfile();gate.classList.add('hide');$('accountBtn').textContent=(currentUser.name||currentUser.email||'V').trim().charAt(0).toUpperCase();
+    busy(true);currentUser=await account.get();await loadProfile();gate.classList.add('hide');$('accountBtn').textContent=(currentUser.name||currentUser.email||'V').trim().charAt(0).toUpperCase();refreshGreeting();
     if(currentProfile.must_change_password===true){$('passwordReminder').hidden=false;$('passwordReminder').style.display='flex'}
     await enterLibrary();
   }catch(e){
@@ -513,7 +535,7 @@ $('accountForm').addEventListener('submit',async e=>{
     currentUser={...(currentUser||{}),...(d.user||{})};
     currentProfile={...(currentProfile||{}),...(d.profile||{})};
     try{currentUser=await account.get()}catch{}
-    await loadProfile();
+    await loadProfile();refreshGreeting();
     $('accountBtn').textContent=(currentUser.name||currentUser.email||'V').trim().charAt(0).toUpperCase();
     $('accPasswordInput').value='';$('accPasswordConfirm').value='';
     m.textContent='Data akun berhasil diperbarui ✓';m.className='msg good';
@@ -526,10 +548,18 @@ $('logoutBtn').onclick=async()=>{try{await account.deleteSession({sessionId:'cur
 function clearDetailCarousel(){if(detailCarouselTimer){detailCarouselTimer.stop();detailCarouselTimer=null}}
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>{detailOverlay.classList.remove('show');affiliateOverlay.classList.remove('show');accountOverlay.classList.remove('show');clearDetailCarousel()});
 [detailOverlay,affiliateOverlay,accountOverlay].forEach(o=>o.onclick=e=>{if(e.target===o){o.classList.remove('show');if(o===detailOverlay)clearDetailCarousel()}});
+document.querySelectorAll('[data-category-shortcut]').forEach(button=>{
+  button.addEventListener('click',()=>{void applyCategory(button.dataset.categoryShortcut,true)});
+});
+$('allCategoriesBtn').addEventListener('click',()=>{
+  categorySelect.focus({preventScroll:true});
+  try{if(categorySelect.showPicker)categorySelect.showPicker();else categorySelect.click()}catch{categorySelect.click()}
+});
 $('nav').querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{
   if(b.dataset.mode==='account'){openAccount();return}
   if(b.dataset.mode==='affiliate'){affiliateOverlay.classList.add('show');return}
-  mode=b.dataset.mode;category='';categorySelect.value='';currentPage=1;openLatestPage=true;refreshPrompts();$('nav').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));window.scrollTo({top:0,behavior:'smooth'});
+  void applyCategory(b.dataset.mode==='favorites'?'__saved':'',false);
+  window.scrollTo({top:0,behavior:'smooth'});
 });
 boot();
 </script>
