@@ -810,7 +810,7 @@ export default async ({req,res,error})=>{
     const raw=await qrRes.text();
     let payload={};try{payload=JSON.parse(raw)}catch{}
     if(qrRes.status===429||payload?.error==='rate_limited'){
-      return {success:true,status:'pending',retry_after:Number(payload?.retry_after||20)};
+      return {success:true,status:'pending',qr_url:order.qr_url,total_amount:order.total_amount,expires_at:order.expires_at,retry_after:Number(payload?.retry_after||20)};
     }
     if(!qrRes.ok||payload?.success===false){
       throw Object.assign(new Error(String(payload?.message||payload?.error||'Gagal mengecek status BuatQris')),{status:502});
@@ -823,7 +823,7 @@ export default async ({req,res,error})=>{
     const updated=rowData(await updateOrder(order.$id,patch));
     if(status==='success')await countCouponUsage(updated);
     if(status==='expired'||status==='failed')await releaseCouponClaim(updated);
-    return {success:true,status,email:updated.email,access_ready:Boolean(updated.access_issued)};
+    return {success:true,status,email:updated.email,access_ready:Boolean(updated.access_issued),...(status==='pending'?{qr_url:updated.qr_url,total_amount:updated.total_amount,expires_at:updated.expires_at}:{})};
   }
 
   // After verified settlement and order-event activation, a 48-char random receipt
