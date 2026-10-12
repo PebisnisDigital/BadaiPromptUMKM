@@ -21,10 +21,10 @@ a{color:#ffbfa3}footer{margin-top:22px;border-top:1px solid #423040;padding-top:
 <body>
 <main>
 <div class="top">PROMPTIONAL • AKSES PREMIUM</div>
-<h1 class="heading">Beli Premium.<br>Selesai dalam beberapa klik.</h1>
-<p class="sub">Checkout QRIS melalui website resmi PROMPTIONAL. Tidak perlu mengisi formulir panjang jika identitas Telegram sudah terverifikasi.</p>
+<h1 class="heading">Beli Sekali.<br>Akses Semua Prompt.</h1>
+<p class="sub">Bayar QRIS sekali di website resmi PROMPTIONAL. Setelah lunas terverifikasi, Member Area langsung terbuka otomatis. Tidak perlu menunggu kiriman Premium harian.</p>
 <div class="price">Rp199.000 <span style="font-size:12px;color:#bfa7b5;letter-spacing:0">/ 365 hari</span></div>
-<ul><li>Buka koleksi prompt AI di Member Area</li><li>Lihat contoh gambar dan salin prompt</li><li>Rekomendasi prompt baru setiap hari</li><li>Tanpa perpanjangan otomatis</li></ul>
+<ul><li>Buka koleksi prompt AI di Member Area</li><li>Lihat contoh gambar dan salin prompt</li><li>Akses seluruh koleksi langsung tanpa menunggu kiriman harian</li><li>Tanpa perpanjangan otomatis</li></ul>
 <p id="status" class="notice" role="status" aria-live="polite"><span class="spinner"></span>Memeriksa koneksi checkout…</p>
 <section id="authorize" class="hide">
   <p class="note">Pertama kali membeli, Telegram akan meminta persetujuan identitas. Setelah itu QRIS ditampilkan otomatis tanpa harus mengisi nama, email, atau nomor WhatsApp.</p>
@@ -36,8 +36,8 @@ a{color:#ffbfa3}footer{margin-top:22px;border-top:1px solid #423040;padding-top:
   <button type="button" class="secondary" id="check">CEK PEMBAYARAN</button>
   <p class="note">Setelah bayar, sistem akan memeriksa status transaksi. Jangan membuat tagihan baru saat QRIS sebelumnya masih aktif.</p>
 </section>
-<section id="success" class="hide"><p class="notice status-good">Pembayaran terverifikasi dan akun Premium sudah aktif!</p><button id="memberBtn" type="button">BUKA MEMBER AREA</button></section>
-<section id="regular" class="hide"><a class="button secondary" href="/#form-premium">LANJUT CHECKOUT WEBSITE BIASA</a><p class="note">Pembelian dengan formulir lama tetap tersedia selama login Telegram belum diaktifkan.</p></section>
+<section id="success" class="hide"><p class="notice status-good">QRIS berhasil diverifikasi! Member Area Premium kamu sudah aktif.</p><button id="memberBtn" type="button">BUKA MEMBER AREA</button></section>
+<section id="regular" class="hide"><p class="note">Checkout QRIS otomatis sedang dipersiapkan. Pembayaran belum bisa dilakukan dari halaman ini. Jangan transfer sebelum QRIS resmi muncul.</p><a class="button secondary" href="/support.html">BUTUH BANTUAN? HUBUNGI ADMIN</a></section>
 <footer><a href="/terms.html">Syarat Layanan</a> · <a href="/refund.html">Refund</a> · <a href="/support.html">Bantuan</a><p>Pembelian ini berasal dari website mandiri. Telegram dipakai untuk verifikasi identitas dan pemberitahuan bagi pengguna yang mengizinkan bot.</p></footer>
 </main>
 <script src="/assets/vendor/appwrite-28.1.0.js"></script>
@@ -95,7 +95,7 @@ a{color:#ffbfa3}footer{margin-top:22px;border-top:1px solid #423040;padding-top:
    const [login,checkout]=await Promise.all([
     fetch('/api/website-login?action=config',{cache:'no-store'}).then(r=>r.json()),
     fetch('/api/website-checkout?action=config',{cache:'no-store'}).then(r=>r.json())]);
-   if(!login.enabled||!checkout.enabled){set('Checkout Telegram tanpa formulir belum diaktifkan. Gunakan checkout website biasa untuk sementara.');show('regular');return}
+   if(!login.enabled||!checkout.enabled){set('Checkout QRIS otomatis belum diaktifkan untuk pembeli umum. Jangan melakukan transfer sebelum QRIS resmi muncul.');show('regular');return}
    const session=await fetch('/api/website-login?action=session',{cache:'no-store'}).then(r=>r.json());
    if(!session.authenticated){show('authorize');set('Klik BELI PREMIUM untuk mengonfirmasi identitas Telegram satu kali.');return}
    hasSession=true;$('name').textContent=session.name||'Member PROMPTIONAL';await beginPayment();
