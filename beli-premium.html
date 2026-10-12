@@ -12,59 +12,51 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Roboto:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 <title>Checkout Premium — PROMPTIONAL</title>
 <style>
-:root{--bg:#080809;--ink:#f9f6f3;--orange:#ff9b3d;--body:Nunito,Arial,sans-serif;--head:Roboto,Arial,sans-serif}
+:root{--bg:#080809;--ink:#fff7f0;--orange:#ff9838;--body:Nunito,Arial,sans-serif;--head:Roboto,Arial,sans-serif}
 *{box-sizing:border-box}
 html{background:var(--bg)}
-body{margin:0;min-height:100svh;display:flex;flex-direction:column;overflow-x:hidden;background:radial-gradient(ellipse 70% 50% at 50% 16%,#6b2d1229,transparent 80%),#080809;color:var(--ink);font:600 13px/1.45 var(--body);-webkit-font-smoothing:antialiased;padding:12px 16px 14px}
-a{color:#ffc28a}
-button,input{font:inherit}
-button{cursor:pointer}
-button:disabled{opacity:.6;cursor:wait}
+body{margin:0;min-height:100svh;display:flex;flex-direction:column;overflow-x:hidden;background:radial-gradient(ellipse 78% 44% at 50% 16%,#743a192a,transparent 80%),#080809;color:var(--ink);font:650 13px/1.45 var(--body);padding:10px 15px 13px;-webkit-font-smoothing:antialiased}
+a{color:#ffbf85}button,input{font:inherit}
+button{cursor:pointer}button:disabled{opacity:.6;cursor:wait}
 :focus-visible{outline:2px solid #ffc483;outline-offset:3px}
 [hidden]{display:none!important}
-.topbar{width:min(100%,510px);margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:37px}
+.topbar{width:min(100%,495px);margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:35px}
 .brand{display:flex;align-items:center;gap:8px;color:white;text-decoration:none;font:900 15px/1 var(--head);letter-spacing:.07em}
-.brand img{width:25px;height:25px}
-.brand em{font-style:normal;color:var(--orange)}
-.topbar .login{color:#ddc8ba;text-decoration:none;font-size:11px;font-weight:800}
+.brand img{width:25px;height:25px}.brand em{font-style:normal;color:var(--orange)}
+.topbar .login{font:800 11px/1.2 var(--body);color:#dfcbbd;text-decoration:none}
 main{display:flex;justify-content:center;align-items:center;flex:1;width:100%;min-height:0;margin:auto}
-.checkout-card{width:min(100%,510px);border:1px solid #574034;border-radius:19px;padding:clamp(16px,3vw,24px);background:linear-gradient(145deg,#211913,#131315 56%,#111113);box-shadow:0 24px 80px #0009}
-.checkout-heading{text-align:center;padding:0 2px 11px}
-.kicker{font:900 10px/1.3 var(--body);letter-spacing:.12em;color:#ffb268;margin:0 0 5px}
-.checkout-heading h1{font:900 clamp(23px,5.7vw,30px)/1.07 var(--head);letter-spacing:-.035em;margin:0}
+.checkout-card{width:min(100%,495px);overflow:hidden;border:1px solid #62422f;border-radius:18px;padding:clamp(15px,3vw,23px);background:linear-gradient(145deg,#231811,#131314 58%,#111112);box-shadow:0 24px 78px #0009}
+.checkout-heading{text-align:center;margin:0 0 9px}
+.checkout-heading h1{font:900 clamp(24px,5.9vw,30px)/1.08 var(--head);letter-spacing:-.04em;margin:0}
 .checkout-heading h1 em{font-style:normal;color:var(--orange)}
-.checkout-heading .subtitle{margin:6px 0 0;font:700 11px/1.45 var(--body);color:#d3bdae}
-.order-brief{display:flex;gap:12px;align-items:center;border:1px solid #58402f;background:#302119;min-height:84px;padding:9px;border-radius:13px;margin:0 0 12px}
-.product-preview{width:80px;height:67px;object-fit:cover;flex:none;border-radius:9px;background:#2c2019}
-.order-info{display:grid;gap:3px;min-width:0;flex:1}
-.order-info strong{font:900 13px/1.25 var(--head);color:#fff4e9}
-.order-info small{font:700 10px/1.3 var(--body);color:#d2b4a1}
-.order-info b{font:900 clamp(21px,5.5vw,26px)/1 var(--head);color:#ffb167;letter-spacing:-.04em}
-.perks{display:flex;flex-wrap:wrap;gap:5px 12px;justify-content:center;margin:0 0 11px;color:#e5d4c5;font:800 10px/1.4 var(--body)}
-.perks span:before{content:'✓';color:#ffac58;margin-right:5px}
-.stage{display:grid;gap:10px}
-.stage h2{font:900 16px/1.25 var(--head);margin:0}
-.form-helper{margin:-6px 0 0;color:#c4b4a8;font-size:10px}
-form{display:grid;gap:9px}
+.order-brief{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #59402f;background:#302117;border-radius:11px;padding:11px 13px;margin:0 0 11px}
+.order-info{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-width:0}
+.order-info strong{font:900 13px/1.2 var(--head);color:#f8e9df}
+.order-info b{font:900 clamp(22px,5.5vw,27px)/1 var(--head);letter-spacing:-.045em;color:#ffb169;white-space:nowrap}
+.example-strip{overflow:hidden;margin:0 0 12px;border-radius:10px;mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.example-track{display:flex;width:max-content;animation:exampleLoop 30s linear infinite;will-change:transform}
+.example-set{display:flex;flex:none;gap:7px;padding-right:7px}
+.example-set img{display:block;flex:none;width:112px;height:73px;object-fit:cover;border:1px solid #865d3f;border-radius:7px;background:#281d16}
+@keyframes exampleLoop{to{transform:translate3d(-50%,0,0)}}
+.stage{display:grid;gap:9px}
+.stage h2{font:900 16px/1.3 var(--head);margin:0}
+form{display:grid;gap:8px}
 .field{display:grid;gap:4px}
-.field label{color:#f5e7dc;font:900 10px/1.2 var(--body);letter-spacing:.03em}
-.field input{width:100%;min-height:43px;border:1px solid #514239;border-radius:10px;padding:10px 12px;color:#fff;background:#0c0c0d;outline:none;font-size:14px}
-.field input:focus{border-color:#ffa95a;box-shadow:0 0 0 2px #ff99311f}
-.field input::placeholder{color:#817c7a}
-.action{min-height:50px;width:100%;border:1px solid #ffc47d;border-radius:12px;padding:11px 14px;background:linear-gradient(110deg,#ffbd60,#ff8a27 54%,#ffb353);color:#201006;font:900 14px/1.25 var(--head);box-shadow:0 9px 27px #f4792e46;transition:transform .2s,filter .2s}
-.action:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.06)}
+.field label{font:900 10px/1.2 var(--body);letter-spacing:.02em;color:#f3e2d5}
+.field input{width:100%;min-height:43px;border:1px solid #574439;border-radius:10px;padding:10px 12px;color:white;background:#0b0b0c;outline:none;font-size:14px}
+.field input:focus{border-color:#ffa759;box-shadow:0 0 0 2px #f9952b21}
+.field input::placeholder{color:#827b77}
+.action{min-height:49px;width:100%;border:1px solid #ffc47d;border-radius:11px;background:linear-gradient(110deg,#ffbc5e,#ff8827 55%,#ffb252);color:#211007;font:900 14px/1.25 var(--head);box-shadow:0 9px 24px #ef77293f;padding:11px 13px;transition:filter .2s,transform .2s}
+.action:hover:not(:disabled){filter:brightness(1.07);transform:translateY(-2px)}
 .action:active{transform:translateY(2px) scale(.99)}
-.security{color:#c0aa9b;font:700 10px/1.4 var(--body);text-align:center;margin:0}
-.support-links{text-align:center;color:#978e89;font-size:10px;margin:9px 0 0}
-.support-links a{text-decoration:underline;text-underline-offset:3px;color:#d2c0b2}
-.message{padding:9px 11px;border-radius:9px;background:#322115;border:1px solid #875534;color:#ffe0cc;margin:0 0 11px;font-size:11px}
+.message{padding:9px 11px;border-radius:9px;background:#322115;border:1px solid #875534;color:#ffe0cc;margin:0 0 10px;font-size:11px}
 .message.error{background:#351f21;border-color:#9b4c4c;color:#ffd6d6}
 .message.good{background:#193329;border-color:#3e8060;color:#bbfbd2}
-.qr-panel{padding:12px;border-radius:12px;background:#fff;color:#181818;text-align:center}
-.qr-panel img{display:block;width:min(100%,250px);max-height:245px;object-fit:contain;margin:0 auto}
+.qr-panel{padding:11px;border-radius:12px;background:#fff;color:#181818;text-align:center}
+.qr-panel img{display:block;width:min(100%,250px);max-height:245px;object-fit:contain;margin:auto}
 .qr-panel strong{display:block;font:900 19px/1.2 var(--head)}
 .qr-panel p{font:700 10px/1.3 var(--body);color:#4c4c4c;margin:4px 0}
-.qr-instruction{font:700 11px/1.45 var(--body);color:#d0bbad;margin:0}
+.qr-instruction{font:750 11px/1.4 var(--body);color:#ddc5b4;margin:0}
 .secondary{display:flex;justify-content:center;align-items:center;min-height:41px;border:1px solid #996544;border-radius:10px;background:#191615;color:#ffc58e;padding:8px 10px;font-weight:900;font-size:11px;text-decoration:none}
 .waiting{display:inline-block;width:14px;height:14px;border:2px solid #9f6844;border-top-color:#ffc083;border-radius:50%;animation:rotate 1s linear infinite;vertical-align:middle;margin-right:5px}
 @keyframes rotate{to{transform:rotate(360deg)}}
@@ -74,36 +66,29 @@ form{display:grid;gap:9px}
 #done p{font-size:12px;color:#ddcbbd;margin:0}
 body[data-step="paymentStage"] .checkout-heading,
 body[data-step="paymentStage"] .order-brief,
-body[data-step="paymentStage"] .perks,
+body[data-step="paymentStage"] .example-strip,
 body[data-step="done"] .checkout-heading,
 body[data-step="done"] .order-brief,
-body[data-step="done"] .perks{display:none}
+body[data-step="done"] .example-strip{display:none}
 @media(max-width:400px){
- body{padding:8px 12px 11px}
- .checkout-card{padding:14px 14px;border-radius:14px}
- .topbar{min-height:34px}
- .checkout-heading{padding-bottom:9px}
- .checkout-heading h1{font-size:23px}
- .order-brief{padding:7px;min-height:72px;margin-bottom:9px}
- .product-preview{width:70px;height:57px}
- .perks{margin-bottom:9px}
- .stage{gap:8px}
- .field input{min-height:41px}
- form{gap:8px}
- .action{min-height:46px}
+ body{padding:7px 11px 8px}.topbar{min-height:33px}
+ .checkout-card{padding:13px;border-radius:13px}
+ .checkout-heading h1{font-size:24px}
+ .order-brief{padding:9px 11px;margin-bottom:9px}
+ .example-strip{margin-bottom:9px}
+ .example-set img{width:102px;height:66px}
+ .stage{gap:8px}form{gap:7px}
+ .field input{min-height:41px}.action{min-height:46px}
 }
-@media(max-height:670px){
- body{padding-top:6px;padding-bottom:7px}
- .checkout-heading{padding-bottom:7px}
- .checkout-heading .subtitle{display:none}
- .order-brief{min-height:65px;margin-bottom:8px}
- .product-preview{height:55px}
- .perks{margin-bottom:8px}
- .checkout-card{padding-top:12px;padding-bottom:12px}
- form{gap:7px}
- .field input{min-height:39px}
- .stage{gap:8px}
- .support-links{margin-top:7px}
+@media(max-height:640px){
+ body{padding-top:5px;padding-bottom:6px}
+ .checkout-card{padding-top:11px;padding-bottom:11px}
+ .checkout-heading{margin-bottom:6px}.checkout-heading h1{font-size:22px}
+ .order-brief{padding:8px 10px;margin-bottom:7px}
+ .example-strip{margin-bottom:7px}
+ .example-set img{height:56px;width:88px}
+ .stage{gap:7px}form{gap:6px}.field input{min-height:38px}
+ .action{min-height:44px}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 </style>
@@ -115,46 +100,39 @@ body[data-step="done"] .perks{display:none}
 </header>
 <main>
  <div class="checkout-card" id="checkoutPanel">
-  <div class="checkout-heading">
-   <p class="kicker">CHECKOUT PREMIUM • 1 LANGKAH</p>
-   <h1>Langsung Punya <em>Akses Prompt AI.</em></h1>
-   <p class="subtitle">Bayar sekali, akses koleksi lengkap di Member Area selama 365 hari.</p>
-  </div>
+  <div class="checkout-heading"><h1>Prompt AI <em>Premium.</em></h1></div>
   <div class="order-brief" aria-label="Ringkasan produk">
-   <img class="product-preview" src="https://www.dropbox.com/scl/fi/rau5isxnhmyag2a4tjkn3/KitKat_advertising_poster_creation_20261008213329.jpg?rlkey=s6ovltkyx3puaqe9jnzjlo161&amp;st=oe7ur2jn&amp;raw=1" alt="Contoh visual hasil prompt PROMPTIONAL" width="80" height="67">
-   <div class="order-info"><strong>PROMPTIONAL Premium</strong><small>Produk digital · akses 365 hari</small><b>Rp199.000</b></div>
+   <div class="order-info"><strong>Akses 365 Hari</strong><b>Rp199.000</b></div>
   </div>
-  <div class="perks"><span>Salin prompt</span><span>Galeri contoh hasil</span><span>Aktif setelah QRIS lunas</span></div>
+  <div class="example-strip" aria-label="Contoh gambar hasil prompt PROMPTIONAL">
+   <div class="example-track"><div class="example-set"><img src="https://www.dropbox.com/scl/fi/4vegv56x0peijbdh470jj/Model_posing_in_blue_studio_20261008210834.jpg?rlkey=mhy5zulpm2lzzgiso4arzchnw&amp;st=g5i6dj06&amp;raw=1" alt="Hasil prompt BP001" width="112" height="81" loading="eager" decoding="async"><img src="https://www.dropbox.com/scl/fi/rau5isxnhmyag2a4tjkn3/KitKat_advertising_poster_creation_20261008213329.jpg?rlkey=s6ovltkyx3puaqe9jnzjlo161&amp;st=oe7ur2jn&amp;raw=1" alt="Hasil prompt BP002" width="112" height="81" loading="eager" decoding="async"><img src="https://www.dropbox.com/scl/fi/ih6y5lyrf0q10cpxw3vn8/BP003.png?rlkey=0z6bjoygewm78r97h694cau5x&amp;st=41qivbhk&amp;raw=1" alt="Hasil prompt BP003" width="112" height="81" loading="eager" decoding="async"><img src="https://www.dropbox.com/scl/fi/i6dy3a5rzyt193h410l1q/BP006.png?rlkey=neel0xv59csvtkmsi3s1ngn1c&amp;st=ykj0khba&amp;raw=1" alt="Hasil prompt BP006" width="112" height="81" loading="eager" decoding="async"><img src="https://www.dropbox.com/scl/fi/nssdyisoz1lrwj259tkaj/BP009.png?rlkey=7tm2hp87j9ibp5kqc4s8jsi3m&amp;st=ttcpz2qd&amp;raw=1" alt="Hasil prompt BP009" width="112" height="81" loading="eager" decoding="async"><img src="https://www.dropbox.com/scl/fi/c4f6vo4uw0yhj9u05vqa0/BP013.png?rlkey=ckuos1i4y8x2nni3pa1hjbj9q&amp;st=9h42uxt4&amp;raw=1" alt="Hasil prompt BP013" width="112" height="81" loading="eager" decoding="async"><img src="https://www.dropbox.com/scl/fi/be2psrlwbgs4rk6g8ktui/BP017.png?rlkey=i53ru7ln4x0wkviehr51n04ku&amp;st=vgkqawg4&amp;raw=1" alt="Hasil prompt BP017" width="112" height="81" loading="eager" decoding="async"><img src="https://www.dropbox.com/scl/fi/vxu7jzbz7mq459smw2udg/BP021.png?rlkey=j1hnxu2sw8sopm40xjiw8rfl6&amp;st=fzljxeeo&amp;raw=1" alt="Hasil prompt BP021" width="112" height="81" loading="eager" decoding="async"></div><div class="example-set" aria-hidden="true"><img src="https://www.dropbox.com/scl/fi/4vegv56x0peijbdh470jj/Model_posing_in_blue_studio_20261008210834.jpg?rlkey=mhy5zulpm2lzzgiso4arzchnw&amp;st=g5i6dj06&amp;raw=1" alt="" width="112" height="81" loading="lazy" decoding="async"><img src="https://www.dropbox.com/scl/fi/rau5isxnhmyag2a4tjkn3/KitKat_advertising_poster_creation_20261008213329.jpg?rlkey=s6ovltkyx3puaqe9jnzjlo161&amp;st=oe7ur2jn&amp;raw=1" alt="" width="112" height="81" loading="lazy" decoding="async"><img src="https://www.dropbox.com/scl/fi/ih6y5lyrf0q10cpxw3vn8/BP003.png?rlkey=0z6bjoygewm78r97h694cau5x&amp;st=41qivbhk&amp;raw=1" alt="" width="112" height="81" loading="lazy" decoding="async"><img src="https://www.dropbox.com/scl/fi/i6dy3a5rzyt193h410l1q/BP006.png?rlkey=neel0xv59csvtkmsi3s1ngn1c&amp;st=ykj0khba&amp;raw=1" alt="" width="112" height="81" loading="lazy" decoding="async"><img src="https://www.dropbox.com/scl/fi/nssdyisoz1lrwj259tkaj/BP009.png?rlkey=7tm2hp87j9ibp5kqc4s8jsi3m&amp;st=ttcpz2qd&amp;raw=1" alt="" width="112" height="81" loading="lazy" decoding="async"><img src="https://www.dropbox.com/scl/fi/c4f6vo4uw0yhj9u05vqa0/BP013.png?rlkey=ckuos1i4y8x2nni3pa1hjbj9q&amp;st=9h42uxt4&amp;raw=1" alt="" width="112" height="81" loading="lazy" decoding="async"><img src="https://www.dropbox.com/scl/fi/be2psrlwbgs4rk6g8ktui/BP017.png?rlkey=i53ru7ln4x0wkviehr51n04ku&amp;st=vgkqawg4&amp;raw=1" alt="" width="112" height="81" loading="lazy" decoding="async"><img src="https://www.dropbox.com/scl/fi/vxu7jzbz7mq459smw2udg/BP021.png?rlkey=j1hnxu2sw8sopm40xjiw8rfl6&amp;st=fzljxeeo&amp;raw=1" alt="" width="112" height="81" loading="lazy" decoding="async"></div></div>
+  </div>
   <p id="status" class="message" role="status" aria-live="polite" hidden></p>
   <section class="stage" id="formStage" aria-labelledby="formHeading">
-   <h2 id="formHeading">Isi Data untuk Akses Member</h2>
-   <p class="form-helper">Cukup 3 kolom, nggak perlu login atau bikin password dulu.</p>
+   <h2 id="formHeading">Isi Data Member</h2>
    <form id="checkoutForm" novalidate>
     <div class="field"><label for="fullName">NAMA LENGKAP</label><input id="fullName" name="full_name" autocomplete="name" maxlength="120" placeholder="Contoh: Bunda Rina" required></div>
-    <div class="field"><label for="whatsapp">NOMOR WHATSAPP AKTIF</label><input id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" maxlength="23" placeholder="Contoh: 081234567890" required></div>
-    <div class="field"><label for="email">EMAIL UNTUK AKSES MEMBER</label><input id="email" name="email" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="160" placeholder="Contoh: bunda@email.com" required></div>
+    <div class="field"><label for="whatsapp">NOMOR WHATSAPP</label><input id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" maxlength="23" placeholder="Contoh: 081234567890" required></div>
+    <div class="field"><label for="email">EMAIL AKSES MEMBER</label><input id="email" name="email" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="160" placeholder="Contoh: bunda@email.com" required></div>
     <input name="website_url" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;pointer-events:none" value="">
     <button class="action" id="payButton" type="submit">LANJUT BAYAR QRIS →</button>
-    <p class="security">🔒 Pembayaran QRIS resmi BuatQRIS · Akun aktif setelah pembayaran terverifikasi.</p>
    </form>
   </section>
   <section class="stage" id="paymentStage" hidden aria-labelledby="paymentHeading">
    <h2 id="paymentHeading">Scan QRIS untuk Membayar</h2>
-   <p class="qr-instruction">Buka aplikasi bank/e-wallet. Di HP yang sama, simpan gambar QR dan pilih scan dari galeri.</p>
+   <p class="qr-instruction">Buka aplikasi bank/e-wallet. Di HP yang sama, simpan QR lalu pindai dari galeri.</p>
    <div class="qr-panel"><img id="qrImage" alt="QRIS pembayaran PROMPTIONAL" width="250" height="250"><strong id="qrTotal">Rp199.000</strong><p id="qrExpire"></p></div>
    <a id="downloadQr" href="#" download="PROMPTIONAL-QRIS.png" class="secondary">LIHAT / SIMPAN QRIS</a>
    <div class="payment-wait"><span class="waiting" aria-hidden="true"></span><span id="pollStatus">Menunggu pembayaran otomatis terverifikasi…</span></div>
    <button id="checkButton" type="button" class="secondary">SAYA SUDAH BAYAR — CEK SEKARANG</button>
-   <p class="security">Jangan transfer dua kali jika status belum berubah.</p>
+   <p class="qr-instruction">Jangan membayar dua kali jika status belum berubah.</p>
   </section>
   <section class="stage" id="done" hidden aria-labelledby="doneHeading">
    <span class="check" aria-hidden="true">✓</span>
    <h2 id="doneHeading">Pembayaran Berhasil!</h2>
    <p>Member Area Premium sudah aktif. Kamu akan masuk secara otomatis.</p>
    <button class="action" id="enterButton" type="button">BUKA MEMBER AREA →</button>
-   <p class="security">Gunakan email yang tadi diisi untuk mengelola akun.</p>
   </section>
-  <p class="support-links"><a href="/support.html">Bantuan Admin</a> · <a href="/terms.html">Syarat</a> · <a href="/privacy.html">Privasi</a></p>
  </div>
 </main>
 <script src="/assets/vendor/appwrite-28.1.0.js"></script>
