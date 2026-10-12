@@ -621,6 +621,13 @@ export default async ({req,res,error})=>{
     if(!/^62\d{8,13}$/.test(whatsapp))throw Object.assign(new Error('Nomor WhatsApp belum valid'),{status:400});
     if(!Number.isFinite(basePrice)||basePrice<=0)throw new Error('Harga produk belum valid');
 
+    // A public receipt must never become a login token for somebody else's existing account.
+    // Existing accounts must use verified recovery/login rather than an anonymous new checkout.
+    const existingAccount=await users.list({queries:[Query.equal('email',email),Query.limit(1)]});
+    if((existingAccount.users||[]).length){
+      throw Object.assign(new Error('Email ini sudah terdaftar. Silakan masuk Member Area, gunakan Lupa Password, atau hubungi Admin sebelum membeli lagi.'),{status:409});
+    }
+
     const paid=await tables.listRows({
       databaseId:DB,tableId:ORDERS,
       queries:[Query.equal('email',email),Query.equal('status','success'),Query.limit(1)]
@@ -819,6 +826,31 @@ export default async ({req,res,error})=>{
     return {success:true,status,email:updated.email,access_ready:Boolean(updated.access_issued)};
   }
 
+  // After verified settlement and order-event activation, a 48-char random receipt
+  // authorizes one short-lived member login session. Never issue a session on pending QRIS.
+  async function memberSessionFromReceipt(body){
+    const publicToken=q(body.public_token);
+    if(!/^[a-f0-9]{48}$/.test(publicToken))throw Object.assign(new Error('Bukti pembelian tidak valid.'),{status:403});
+    const order=await getOrderByToken(publicToken);
+    if(!order||order.status!=='success'||order.access_issued!==true||!order.user_id||
+      !['qris','coupon_free'].includes(String(order.payment_method||'')))
+      throw Object.assign(new Error('Pembayaran atau aktivasi Member Area masih diproses. Tunggu sebentar.'),{status:409});
+    const paidTime=Date.parse(String(order.paid_at||''));
+    if(!Number.isFinite(paidTime)||Date.now()-paidTime>72*3600000)
+      throw Object.assign(new Error('Tautan akses otomatis sudah kedaluwarsa. Gunakan Lupa Password di Member Area.'),{status:403});
+    const user=await users.get({userId:order.user_id});
+    const profile=rowData(await tables.getRow({databaseId:DB,tableId:PROFILES,rowId:user.$id}));
+    if(user.$id!==order.user_id||String(user.email).toLowerCase()!==String(order.email).toLowerCase()||
+       profile.status!=='active'||profile.user_id!==user.$id||
+       (profile.access_until&&Date.parse(profile.access_until)<=Date.now()))
+      throw Object.assign(new Error('Akses member belum siap. Hubungi Admin jika status belum berubah.'),{status:403});
+    const memberships=await teams.listMemberships({teamId:PAID_TEAM,queries:[Query.equal('userId',user.$id),Query.limit(10)]});
+    if(!(memberships.memberships||[]).some(m=>m.confirm===true))
+      throw Object.assign(new Error('Aktivasi keanggotaan masih diproses. Tunggu sebentar.'),{status:409});
+    const token=await users.createToken({userId:user.$id,length:32,expire:180});
+    return {ok:true,userId:token.userId,secret:token.secret,expires_in:180,email:user.email};
+  }
+
   async function webhook(){
     const payCfg=await getPaymentSettings();
     const secret=payCfg.signing_secret||'';
@@ -892,6 +924,7 @@ export default async ({req,res,error})=>{
         minimum_price:cfg.minimum_price
       });
     }
+    if(path==='/session-token')return reply(res,await memberSessionFromReceipt(req.bodyJson||{}));
     if(path==='/create')return reply(res,await createPayment(req.bodyJson||{}));
     if(path==='/check')return reply(res,await checkPayment(req.bodyJson||{}));
     if(path==='/webhook')return reply(res,await webhook());
