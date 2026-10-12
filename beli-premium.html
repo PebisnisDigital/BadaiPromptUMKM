@@ -115,6 +115,63 @@ form{display:grid;gap:13px}
  .marquee-row{min-height:83px}
 }
 
+
+/* Marketplace-style digital product checkout */
+.product-market{display:grid;grid-template-columns:minmax(0,.44fr) minmax(0,.56fr);gap:22px;padding:20px;border-radius:20px;background:#fffaf5;color:#211913;border:1px solid #eadfda;box-shadow:0 18px 62px #0009;margin:0 auto 21px}
+.product-media,.product-details{min-width:0}
+.product-shot{height:clamp(220px,26vw,330px);border-radius:12px;overflow:hidden;background:#33241c}
+.product-shot img{width:100%;height:100%;display:block;object-fit:cover}
+.product-thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:8px}
+.product-thumbs img{width:100%;height:clamp(53px,7vw,80px);object-fit:cover;border:1px solid #eedbc8;border-radius:8px}
+.product-source{font:800 10px/1.4 var(--body);color:#876855;text-align:center;margin:9px 0 0}
+.product-category{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.product-mini{font:900 10px/1.2 var(--body);letter-spacing:.04em;color:#a45222;background:#fff0df;border-radius:6px;padding:5px 8px}
+.product-mini.subtle{color:#645246;background:#f1ebe6}
+.product-market h1{font:900 clamp(27px,3.6vw,43px)/1.05 var(--heading);letter-spacing:-.045em;color:#23160f}
+.product-market h1 em{color:#db6717}
+.product-subtitle{font:650 13px/1.6 var(--body);color:#62564d;margin:12px 0 10px}
+.product-verified{display:inline-flex;flex-wrap:wrap;align-items:center;gap:5px;font:800 11px/1.4 var(--body);color:#744a33;background:#f9ede4;border:1px solid #edd8c9;border-radius:9px;padding:7px 9px}
+.product-verified strong{font:900 13px/1 var(--heading);color:#342217}
+.proof-dot{display:inline-block;background:#2b9268;width:7px;height:7px;border-radius:50%;margin-right:3px}
+.market-price{display:flex;flex-wrap:wrap;align-items:baseline;gap:7px 13px;margin:13px 0;padding:12px 14px;background:#ffeee0;border-radius:9px}
+.market-price strong{font:900 clamp(29px,3.7vw,36px)/1 var(--heading);letter-spacing:-.05em;color:#d76217}
+.market-price span{font:800 11px/1.4 var(--body);color:#865d43}
+.market-benefits{display:grid;gap:6px;list-style:none;padding:0;margin:0 0 16px;font:800 12px/1.4 var(--body);color:#5b4a3c}
+.market-action{display:flex;align-items:center;justify-content:center;min-height:48px;width:100%;border-radius:10px;background:linear-gradient(105deg,#ffae54,#ff8526);color:#201007;text-decoration:none;font:900 14px/1 var(--heading);box-shadow:0 9px 22px #ff94344a;transition:transform .2s}
+.market-action:hover{transform:translateY(-2px)}
+.market-assurance{font:800 10px/1.4 var(--body);color:#8b6a51;margin:8px 0 0;text-align:center}
+.checkout-title .eyebrow{margin:0 0 6px}
+.checkout-title h2{font:900 22px/1.3 var(--heading);margin:0}
+.checkout-title p:last-child{font:650 12px/1.5 var(--body);color:#cab6aa;margin:4px 0 0}
+.checkout-line{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#221b18;border:1px solid #49372d;border-radius:12px;padding:11px 13px;margin:14px 0 9px}
+.checkout-line span{display:grid;font:900 13px/1.3 var(--body);gap:3px}
+.checkout-line small{font:700 10px/1.3 var(--body);color:#c3aa98}
+.checkout-line strong{font:900 15px/1.2 var(--heading);white-space:nowrap}
+.form-helper{font:700 12px/1.5 var(--body);color:#cdb8a8;margin:-4px 0 2px}
+.checkout-faq{width:min(100%,565px);margin:20px auto 0;padding:18px 20px;border:1px solid #3b2c26;background:#151210;border-radius:18px}
+.checkout-faq>.eyebrow{margin:0 0 6px}
+.checkout-faq h2{font:900 19px/1.25 var(--heading);margin:0 0 12px}
+.checkout-faq details{padding:11px 0;border-top:1px solid #3c2c25}
+.checkout-faq summary{font:850 12px/1.4 var(--body);cursor:pointer}
+.checkout-faq details p{font:650 12px/1.5 var(--body);color:#d6c3b3;margin:7px 0 2px}
+.sticky-buy{display:none}
+@media(max-width:680px){
+ .product-market{grid-template-columns:1fr;gap:14px;padding:12px;border-radius:15px}
+ .product-shot{height:clamp(185px,51vw,260px)}
+ .product-thumbs img{height:clamp(45px,13vw,70px)}
+ .product-market h1{font-size:clamp(28px,7vw,34px)}
+ .product-details{padding:0 3px 4px}
+ .product-subtitle{margin:8px 0}
+ .market-price{margin:11px 0}
+ .market-action{display:none}
+ body{padding-bottom:92px}
+ .sticky-buy{display:flex;position:fixed;z-index:90;left:0;right:0;bottom:0;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:#fffaf5;border-top:1px solid #eedbcb;color:#23160f;box-shadow:0 -8px 24px #0007}
+ .sticky-buy span{display:grid;gap:2px}
+ .sticky-buy small{font:900 9px/1.2 var(--body);letter-spacing:.08em;color:#8b7669}
+ .sticky-buy strong{font:900 21px/1.1 var(--heading);color:#d8661a}
+ .sticky-buy a{display:flex;align-items:center;justify-content:center;min-height:44px;padding:9px 12px;background:#ff8c2a;border-radius:10px;text-decoration:none;color:#211008;font:900 12px/1.2 var(--heading);white-space:nowrap}
+}
+
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.marquee-track{transform:none!important}}
 </style>
 </head>
@@ -124,10 +181,30 @@ form{display:grid;gap:13px}
  <a href="/member">Sudah beli? Masuk →</a>
 </header>
 <main>
- <section class="intro" aria-labelledby="premium-title">
-  <p class="eyebrow">PROMPTIONAL PREMIUM • AKSES LANGSUNG</p>
-  <h1 id="premium-title">Prompt AI lengkap.<br><em>Langsung punya akses.</em></h1>
-  <p class="desc">Lihat hasil karya dari prompt di Member Area. Pilih yang kamu suka, salin promptnya, lalu buat kreasi sendiri.</p>
+ <section class="product-market" aria-labelledby="premium-title">
+  <div class="product-media">
+   <div class="product-shot"><img src="https://www.dropbox.com/scl/fi/rau5isxnhmyag2a4tjkn3/KitKat_advertising_poster_creation_20261008213329.jpg?rlkey=s6ovltkyx3puaqe9jnzjlo161&amp;st=oe7ur2jn&amp;raw=1" alt="Contoh visual BP002 dari koleksi PROMPTIONAL" width="600" height="600" fetchpriority="high"></div>
+   <div class="product-thumbs" aria-label="Contoh gambar dari Member Area">
+    <img src="https://www.dropbox.com/scl/fi/ih6y5lyrf0q10cpxw3vn8/BP003.png?rlkey=0z6bjoygewm78r97h694cau5x&amp;st=41qivbhk&amp;raw=1" alt="Contoh prompt BP003" loading="lazy">
+    <img src="https://www.dropbox.com/scl/fi/6iy7tdi38zdge9pz10kz3/BP008.png?rlkey=1kzvhm06fc8l64vezcl4hbywm&amp;st=z4ukbcxl&amp;raw=1" alt="Contoh prompt BP008" loading="lazy">
+    <img src="https://www.dropbox.com/scl/fi/c4f6vo4uw0yhj9u05vqa0/BP013.png?rlkey=ckuos1i4y8x2nni3pa1hjbj9q&amp;st=9h42uxt4&amp;raw=1" alt="Contoh prompt BP013" loading="lazy">
+   </div>
+   <p class="product-source">✓ Cuplikan gambar asli dari Member Area</p>
+  </div>
+  <div class="product-details">
+   <div class="product-category"><span class="product-mini">PRODUK DIGITAL</span><span class="product-mini subtle">PROMPTIONAL PREMIUM</span></div>
+   <h1 id="premium-title">Koleksi Prompt AI <em>Siap Pakai.</em></h1>
+   <p class="product-subtitle">Pilih contoh gambar yang kamu suka, lalu salin prompt untuk membuat kreasi sendiri.</p>
+   <div class="product-verified"><span class="proof-dot" aria-hidden="true"></span><strong id="publishedPreviewCount">24</strong> contoh visual dari koleksi Member Area</div>
+   <div class="market-price"><strong>Rp199.000</strong><span>Sekali bayar · akses 365 hari</span></div>
+   <ul class="market-benefits">
+    <li>✓ Akses koleksi gambar dan prompt</li>
+    <li>✓ Salin prompt kapan saja selama masa akses</li>
+    <li>✓ Akses diaktifkan setelah QRIS terverifikasi</li>
+   </ul>
+   <a class="market-action" href="#checkoutPanel">LANJUT CHECKOUT ↓</a>
+   <p class="market-assurance">Tidak perlu menunggu kiriman Premium harian.</p>
+  </div>
  </section>
  <section class="preview-showcase" aria-labelledby="preview-heading">
   <div class="preview-heading"><p class="eyebrow">GALERI HASIL PROMPTIONAL</p><h2 id="preview-heading">Satu prompt, banyak kemungkinan.</h2><p>Cuplikan gambar dari koleksi yang tersedia di Member Area.</p></div>
@@ -136,15 +213,17 @@ form{display:grid;gap:13px}
    <div class="marquee-row reverse" data-preview-row="1"><div class="marquee-track" id="previewTrack1"></div></div>
    <div class="marquee-row" data-preview-row="2"><div class="marquee-track" id="previewTrack2"></div></div>
   </div>
-  <p class="gallery-foot">✦ Lihat contoh hasilnya dulu, baru pilih akses lengkapnya. ✦</p>
+  <p class="gallery-foot">Semua preview bersumber dari koleksi Member Area, bukan gambar contoh acak.</p>
  </section>
  <div class="checkout-panel" id="checkoutPanel">
+ <div class="checkout-title"><p class="eyebrow">CHECKOUT MUDAH & AMAN</p><h2>Ringkasan Pesanan</h2><p>Pastikan email dan WhatsApp aktif supaya aksesmu lancar.</p></div>
+ <div class="checkout-line"><span>PROMPTIONAL Premium <small>Akses 365 hari</small></span><strong>Rp199.000</strong></div>
  <div class="price-row"><span class="price">Rp199.000</span><span class="price-info">Sekali bayar · akses 365 hari</span></div>
  <div class="benefits"><span>Koleksi lengkap</span><span>Preview + salin prompt</span><span>Tanpa langganan otomatis</span></div>
  <p id="status" class="message" role="status" aria-live="polite" hidden></p>
 
  <section class="stage" id="formStage" aria-labelledby="formHeading">
-  <h2 id="formHeading">Mau akses lengkapnya? Yuk, isi data dulu.</h2>
+  <h2 id="formHeading">Data Penerima Akses</h2><p class="form-helper">Cukup 3 data saja. Tidak perlu login Telegram.</p>
   <form id="checkoutForm" novalidate>
    <div class="field"><label for="fullName">NAMA LENGKAP</label><input id="fullName" name="full_name" autocomplete="name" maxlength="120" placeholder="Contoh: Bunda Rina" required></div>
    <div class="field"><label for="whatsapp">NOMOR WHATSAPP AKTIF</label><input id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" maxlength="23" placeholder="Contoh: 081234567890" required></div>
@@ -177,7 +256,15 @@ form{display:grid;gap:13px}
   <p class="security">Gunakan email yang tadi diisi untuk mengelola akun.</p>
  </section>
  </div>
+ <section class="checkout-faq" aria-labelledby="faqHeading">
+  <p class="eyebrow">MASIH ADA PERTANYAAN?</p><h2 id="faqHeading">Biar lebih yakin sebelum bayar</h2>
+  <details><summary>Setelah bayar, langsung dapat akses?</summary><p>Setelah pembayaran QRIS terverifikasi dan akun selesai diaktifkan, halaman akan mengarahkanmu ke Member Area secara otomatis.</p></details>
+  <details><summary>Harus punya Telegram dulu?</summary><p>Tidak. Cukup isi nama, WhatsApp, dan email, lalu bayar lewat QRIS di website.</p></details>
+  <details><summary>Apakah Premium dikirim tiap hari?</summary><p>Tidak. Semua koleksi yang tersedia dibuka langsung di Member Area selama 365 hari.</p></details>
+  <details><summary>Sudah bayar tapi belum masuk?</summary><p>Jangan bayar dua kali. Tunggu pembaruan status atau hubungi Admin melalui tautan bantuan di bawah.</p></details>
+ </section>
 </main>
+<div class="sticky-buy" id="stickyCheckout"><span><small>TOTAL PEMBAYARAN</small><strong>Rp199.000</strong></span><a href="#checkoutPanel">LANJUT CHECKOUT ↓</a></div>
 <footer class="footer">Butuh bantuan? <a href="/support.html">Hubungi Admin</a> · <a href="/terms.html">Syarat</a> · <a href="/privacy.html">Privasi</a></footer>
 <script src="/assets/vendor/appwrite-28.1.0.js"></script>
 <script>
@@ -185,6 +272,9 @@ form{display:grid;gap:13px}
  "use strict";
  const $=id=>document.getElementById(id);
  const status=$('status'), stages=['formStage','paymentStage','done'];
+ const quickBuy=$('stickyCheckout');
+ const setQuickVisibility=id=>{if(quickBuy)quickBuy.hidden=id!=='formStage';};
+ setQuickVisibility('formStage');
  // Read-only Member Area preview feed. The published snapshot below keeps all
  // three sliders populated even if the feed is briefly unavailable.
  const previewSnapshot=[{"code":"BP001","src":"https://www.dropbox.com/scl/fi/4vegv56x0peijbdh470jj/Model_posing_in_blue_studio_20261008210834.jpg?rlkey=mhy5zulpm2lzzgiso4arzchnw&st=g5i6dj06&raw=1"},{"code":"BP002","src":"https://www.dropbox.com/scl/fi/rau5isxnhmyag2a4tjkn3/KitKat_advertising_poster_creation_20261008213329.jpg?rlkey=s6ovltkyx3puaqe9jnzjlo161&st=oe7ur2jn&raw=1"},{"code":"BP003","src":"https://www.dropbox.com/scl/fi/ih6y5lyrf0q10cpxw3vn8/BP003.png?rlkey=0z6bjoygewm78r97h694cau5x&st=41qivbhk&raw=1"},{"code":"BP004","src":"https://www.dropbox.com/scl/fi/mkp8wdlqlm2z53ma7m9w3/BP004.png?rlkey=0tzr8irg0avlic02umv91i2ox&st=q5mbed7k&raw=1"},{"code":"BP005","src":"https://www.dropbox.com/scl/fi/0yewpb3wewsja9zgu9qxy/BP005.png?rlkey=v6ijknfvuuhon0cerqifnbpf2&st=6994q3vd&raw=1"},{"code":"BP006","src":"https://www.dropbox.com/scl/fi/i6dy3a5rzyt193h410l1q/BP006.png?rlkey=neel0xv59csvtkmsi3s1ngn1c&st=ykj0khba&raw=1"},{"code":"BP007","src":"https://www.dropbox.com/scl/fi/uadoighugf2uejcwxi83m/BP007.png?rlkey=wdo0lz8s2oqh7fwyqwlcsmmr1&st=ca2upmxl&raw=1"},{"code":"BP008","src":"https://www.dropbox.com/scl/fi/6iy7tdi38zdge9pz10kz3/BP008.png?rlkey=1kzvhm06fc8l64vezcl4hbywm&st=z4ukbcxl&raw=1"},{"code":"BP009","src":"https://www.dropbox.com/scl/fi/nssdyisoz1lrwj259tkaj/BP009.png?rlkey=7tm2hp87j9ibp5kqc4s8jsi3m&st=ttcpz2qd&raw=1"},{"code":"BP010","src":"https://www.dropbox.com/scl/fi/dxqpcq9ff1kq4idmzni0j/BP010.png?rlkey=4bhj1zpxxph37s1tgkxttri4f&st=2inzji5o&raw=1"},{"code":"BP011","src":"https://www.dropbox.com/scl/fi/p1e79lv1gmqtwt1h1teyx/BP011.png?rlkey=jbb1un7y4t1jmxe678i5xms3f&st=ovx6iuo6&raw=1"},{"code":"BP012","src":"https://www.dropbox.com/scl/fi/hgev9mo9pffjawj6f4fiq/BP012.png?rlkey=fg8uccojop5efj4rteje9elf0&st=xa2ziut7&raw=1"},{"code":"BP013","src":"https://www.dropbox.com/scl/fi/c4f6vo4uw0yhj9u05vqa0/BP013.png?rlkey=ckuos1i4y8x2nni3pa1hjbj9q&st=9h42uxt4&raw=1"},{"code":"BP014","src":"https://www.dropbox.com/scl/fi/zmit3toof6hsncgngfutq/BP014.png?rlkey=vi13b7fj7iv5862s2nvancmcg&st=zg5k5by5&raw=1"},{"code":"BP015","src":"https://www.dropbox.com/scl/fi/i8ghja5ac5axe7ashusdk/BP015.png?rlkey=h0ye0g4vaqcjxs0uiud77iukv&st=yiio4ms4&raw=1"},{"code":"BP016","src":"https://www.dropbox.com/scl/fi/op8cazyozv6xennxjr8rg/BP016.png?rlkey=l4t3i187cipuxg1b4qddjo3tg&st=zs40tmu6&raw=1"},{"code":"BP017","src":"https://www.dropbox.com/scl/fi/be2psrlwbgs4rk6g8ktui/BP017.png?rlkey=i53ru7ln4x0wkviehr51n04ku&st=vgkqawg4&raw=1"},{"code":"BP018","src":"https://www.dropbox.com/scl/fi/c50x203tifxh9t353b5b5/BP018.png?rlkey=ueitfi7xk6qw88xbts998ynvy&st=p2zcmzrv&raw=1"},{"code":"BP019","src":"https://www.dropbox.com/scl/fi/rm7djr6rk7mnht4zmykv1/BP019.png?rlkey=6b3q5boaqs9up6hvwovry7aoj&st=vd07endl&raw=1"},{"code":"BP020","src":"https://www.dropbox.com/scl/fi/n6salf26b4clv7951wz26/BP020.png?rlkey=moo9c28uj4ezi8q6xdjx2i39g&st=nwk6sfxn&raw=1"},{"code":"BP021","src":"https://www.dropbox.com/scl/fi/vxu7jzbz7mq459smw2udg/BP021.png?rlkey=j1hnxu2sw8sopm40xjiw8rfl6&st=fzljxeeo&raw=1"},{"code":"BP022","src":"https://www.dropbox.com/scl/fi/44fonl29djn3k2jds22b6/BP022.png?rlkey=vuktmw01jd8oyzhm3lt1wjrn8&st=4yq7vrtd&raw=1"},{"code":"BP023","src":"https://www.dropbox.com/scl/fi/c1jaeb30rwjr03zgf0tk9/BP023.png?rlkey=3lotqzyfodwts5ywn6g5prq2b&st=cv8izin4&raw=1"},{"code":"BP024","src":"https://www.dropbox.com/scl/fi/684sn4w89gecrzpuz98l1/BP024.png?rlkey=jsq04ilkdal0roagf07tigych&st=46ejq3i3&raw=1"}];
@@ -199,6 +289,7 @@ form{display:grid;gap:13px}
   const clean=collection.filter(x=>x&&/^BP\d{1,6}$/.test(x.code)&&allowedPreviewUrl(x.src)).slice(0,24);
   if(clean.length<18)return;
   const perRow=8;
+  $('publishedPreviewCount').textContent=String(clean.length);
   galleryTracks.forEach((track,row)=>{
    const chosen=clean.slice(row*perRow,row*perRow+perRow);
    if(chosen.length<6)return;
@@ -235,7 +326,7 @@ form{display:grid;gap:13px}
   return json;
  };
  let receipt='',timer=null,expiry=0,ready=false,entering=false;
- function show(id){stages.forEach(k=>$(k).hidden=k!==id);if(id!=='formStage')$('checkoutPanel').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});}
+ function show(id){stages.forEach(k=>$(k).hidden=k!==id);setQuickVisibility(id);if(id!=='formStage')$('checkoutPanel').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});}
  function say(msg,kind=''){status.hidden=!msg;status.textContent=msg||'';status.className='message'+(kind?' '+kind:'');}
  function amount(n){return 'Rp'+Number(n||0).toLocaleString('id-ID')}
  function setQr(url){
