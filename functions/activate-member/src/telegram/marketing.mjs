@@ -6,8 +6,8 @@ import {DAY, jakartaDay} from './policy.mjs';
 
 const SOURCES=new Set(['scene_prompts','prompts']);
 const CTA_TYPES=new Set(['premium','member','url']);
-const BASE='https://badaiprompt.vercel.app';
-const DEFAULT_OFFER='Suka prompt ini? Upgrade BADAI PROMPT Premium Rp199.000 untuk membuka seluruh koleksi dan rekomendasi prompt setiap hari selama 365 hari.';
+const BASE='https://promptional.vercel.app';
+const DEFAULT_OFFER='Suka prompt gratis hari ini? Buka seluruh koleksi PROMPTIONAL langsung di Member Area Premium. Bayar sekali melalui QRIS di website resmi, tanpa menunggu kiriman prompt Premium harian.';
 const DEFAULT_SETTINGS=Object.freeze({enabled:false,loop_campaign:false,start_date:'',send_time:'06:00',timezone:'Asia/Jakarta',default_offer:DEFAULT_OFFER,default_cta_label:'BUKA PREMIUM',default_cta_type:'premium',default_cta_url:''});
 const slotId=day=>'telegram-marketing-'+String(day).padStart(3,'0');
 const trim=(v,max)=>String(v??'').trim().slice(0,max);
@@ -15,12 +15,12 @@ const validDay=day=>{const n=Number(day);if(!Number.isInteger(n)||n<1||n>365)thr
 function validateUrl(url){
  try{
   const u=new URL(String(url));
-  if(u.protocol!=='https:'||u.username||u.password||u.port||u.hostname!=='badaiprompt.vercel.app')throw Error('not allowed');
+  if(u.protocol!=='https:'||u.username||u.password||u.port||!['promptional.vercel.app','badaiprompt.vercel.app'].includes(u.hostname))throw Error('not allowed');
   if(url.length>500)throw Error('too long');
   return u.toString()
- }catch{throw fail('Tujuan CTA harus HTTPS pada domain BADAI PROMPT resmi.',400)}
+ }catch{throw fail('Tujuan CTA harus HTTPS pada domain resmi PROMPTIONAL.',400)}
 }
-const link=slot=>slot.cta_type==='member'?BASE+'/member':slot.cta_type==='premium'?BASE+'/#harga':validateUrl(slot.cta_url);
+const link=slot=>slot.cta_type==='member'?BASE+'/member':slot.cta_type==='premium'?BASE+'/beli-premium.html':validateUrl(slot.cta_url);
 function sanitizeSettings(input,old=DEFAULT_SETTINGS){
  const s={...old};
  for(const key of ['start_date','send_time','default_offer','default_cta_label','default_cta_type','default_cta_url']){
