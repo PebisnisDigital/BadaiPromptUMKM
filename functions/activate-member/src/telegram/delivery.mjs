@@ -7,6 +7,8 @@ export class Delivery{
   const s=this.s,setting=await s.config(),consent=await s.consent(bot.$id,member.telegram_id);
   if(!consent||consent.status!=='allowed')throw fail('Pengguna belum START bot ini atau telah memblokirnya.');
   const profile=await s.sync(member);member=profile;
+   // A paid customer owns Member Area access, never a recurring Premium prompt subscription.
+   if(!test&&member.plan==='premium')return {skipped:true,reason:'Akses Premium tersedia di Member Area, bukan kiriman harian.'};
   let prompt=promptId?(await s.store.get('scene_prompts',promptId)||await s.store.get('prompts',promptId)):null;
   if(promptId&&!prompt?.is_published)throw fail('Prompt belum dipublikasikan.');
   const campaignCfg=!test&&member.plan==='free'&&s.marketingEnabled?await s.marketing.config():null;
@@ -60,13 +62,13 @@ export class Delivery{
   try{
    const image=String(prompt.preview_url||'');
    if(image&&/^https:\/\//.test(image)){
-    try{const photo=await s.telegram.call(token,'sendPhoto',{chat_id:consent.data.chat_id,photo:image,caption:((welcome?'Selamat datang di BADAI PROMPT! Kamu sudah terdaftar.\n\n':'')+String(prompt.title||'Prompt BADAI PROMPT')).slice(0,900)});ids.push(String(photo.message_id));await s.store.update('telegram_deliveries',rowId,{message_id:ids[0],message_ids:JSON.stringify(ids)})}
+    try{const photo=await s.telegram.call(token,'sendPhoto',{chat_id:consent.data.chat_id,photo:image,caption:((welcome?'Selamat datang di PROMPTIONAL! Prompt gratis ini akan dihapus otomatis.\n\n':'')+String(prompt.title||'Prompt PROMPTIONAL')).slice(0,900)});ids.push(String(photo.message_id));await s.store.update('telegram_deliveries',rowId,{message_id:ids[0],message_ids:JSON.stringify(ids)})}
     catch(e){if(e.ambiguous||e.blocked||e.retryAfter)throw e;warning='Preview tidak dapat dikirim.'}
    }
-   if(!ids.length){const intro=await s.telegram.call(token,'sendMessage',{chat_id:consent.data.chat_id,text:(welcome?'Selamat datang di BADAI PROMPT!\n\n':'')+String(prompt.title||'Prompt BADAI PROMPT').slice(0,200)});ids.push(String(intro.message_id));await s.store.update('telegram_deliveries',rowId,{message_id:ids[0],message_ids:JSON.stringify(ids)})}
+   if(!ids.length){const intro=await s.telegram.call(token,'sendMessage',{chat_id:consent.data.chat_id,text:(welcome?'Selamat datang di PROMPTIONAL!\n\n':'')+String(prompt.title||'Prompt PROMPTIONAL').slice(0,200)});ids.push(String(intro.message_id));await s.store.update('telegram_deliveries',rowId,{message_id:ids[0],message_ids:JSON.stringify(ids)})}
    const chunks=promptChunks(prompt.prompt_text);
    for(const [index,text] of chunks.entries()){
-    const showBuy=!test&&member.plan==='free'&&s.qris?.enabled&&index===chunks.length-1;
+    const showBuy=false; // Digital-goods checkout never runs inside Telegram via QRIS.
     const message=await s.telegram.call(token,'sendMessage',{chat_id:consent.data.chat_id,text,parse_mode:'HTML',...(showBuy?{reply_markup:{inline_keyboard:[[{text:'BELI PREMIUM — Rp199.000',callback_data:'beli'}]]}}:{})});ids.push(String(message.message_id));
     await s.store.update('telegram_deliveries',rowId,{message_id:ids[0],message_ids:JSON.stringify(ids)});
    }
@@ -83,7 +85,7 @@ export class Delivery{
    await s.store.update('telegram_deliveries',rowId,{dispatch_status:'sent',plan:deliveryPlan,sent_at:new Date(now).toISOString(),error_code:warning,delete_at:deliveryPlan==='free'?new Date(now+setting.delete_hours*3600000).toISOString():null});
    if(!test){
     await s.store.putState(id('cursor',member.telegram_id),{prompt_id:prompt.$id},{kind:'cursor',telegram_id:member.telegram_id});
-    await s.store.update('telegram_members',member.$id,{delivery_day:(member.delivery_day||0)+1,last_sent_at:new Date(now).toISOString(),next_send_at:nextAt(now,member.plan==='premium'?setting.premium_days:setting.free_days,member.plan==='free'?marketingTime:setting.premium_time)});
+    await s.store.update('telegram_members',member.$id,{delivery_day:(member.delivery_day||0)+1,last_sent_at:new Date(now).toISOString(),next_send_at:nextAt(now,setting.free_days,marketingTime)});
    }
    return {ok:true,message_ids:ids,delivery_id:rowId,prompt_id:prompt.$id,warning};
   }catch(e){
