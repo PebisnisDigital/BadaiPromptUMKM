@@ -30,7 +30,7 @@
   $('mktDefaultLabel').value=s.default_cta_label||'BUKA PREMIUM';
   $('mktDefaultType').value=s.default_cta_type||'premium';
   $('mktDefaultUrl').value=s.default_cta_url||'';
-  $('mktGate').textContent=state.server_gate?'Izin server aktif. Pengiriman tetap memerlukan konfirmasi jadwal dan konfigurasi Telegram Manager.':'PENGIRIMAN MARKETING TIDAK AKTIF: memerlukan izin server terpisah sesudah tes QA.';
+  $('mktGate').textContent=state.server_gate?'Izin server aktif. Pengiriman tetap memerlukan konfirmasi jadwal dan konfigurasi Pengaturan → Telegram.':'PENGIRIMAN MARKETING TIDAK AKTIF: memerlukan izin server terpisah sesudah tes QA.';
   $('mktDefaultUrl').disabled=$('mktDefaultType').value!=='url';
  }
  function statistics(){
