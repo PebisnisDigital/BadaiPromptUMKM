@@ -36,12 +36,20 @@ test('every card starts with a published member preview, and 32 previews can cyc
  assert.match(script,/setInterval\(\(\)=>/);
  assert.match(script,/probe\.onload/);
 });
-test('autoplay is CSS native and runs without pointermove, including on mobile',()=>{
- assert.match(html,/@keyframes galleryAutoplay/);
- assert.match(html, /animation:galleryAutoplay/);
- assert.match(html, /animation-play-state:running/);
- assert.match(html, /@media\(max-width:700px\)/);
- assert.match(html, /@media\(prefers-reduced-motion:reduce\)/);
+test('orbit moves automatically around the model and layers photos in front and behind',()=>{
+ assert.match(html,/id="gallery-front"/);
+ assert.match(html,/class="gallery gallery-back"/);
+ assert.match(html,/class="gallery gallery-front"/);
+ assert.match(script,/requestAnimationFrame\(drawOrbit\)/);
+ assert.match(script,/orbitPhase\+=/);
+ assert.match(script,/Math\.sin\(angle\)\*radiusX/);
+ assert.match(script,/frontDepth\*radiusY/);
+ assert.match(script,/frontDepth>\.1\?frontRing:backRing/);
+ assert.match(script,/layer\.appendChild\(c\)/);
+ assert.match(script,/i<8/);
+ assert.match(script,/mobile\?22000:27000/);
+ assert.match(html,/@media\(max-width:700px\)/);
+ assert.match(html,/@media\(prefers-reduced-motion:reduce\)/);
  assert.doesNotThrow(()=>new vm.Script(script));
 });
 test('Roboto and Nunito are the only landing typefaces, and START instructions are visible',()=>{
@@ -56,22 +64,24 @@ test('Roboto and Nunito are the only landing typefaces, and START instructions a
  assert.match(html,/tombol START\/MULAI ada di bawah chat/);
  assert.match(html,/class="get-guide"/);
 });
-test('headline stamp reveals each line once with fade and zoom',()=>{
+test('headline stamp loops continuously with readable hold and staggered lines',()=>{
  assert.equal([...html.matchAll(/class="stamp-line"/g)].length,3);
  assert.match(html,/@keyframes headlineStamp/);
- assert.match(html,/scale\(1\.16\)/);
- assert.match(html,/opacity:0;transform:translateY\(18px\)/);
- assert.match(html,/.stamp-line:nth-child\(2\)\{animation-delay:330ms\}/);
- assert.match(html,/.stamp-line:nth-child\(3\)\{animation-delay:520ms\}/);
+ assert.match(html,/animation:headlineStamp 6\.6s ease-in-out infinite both/);
+ assert.match(html,/scale\(1\.19\)/);
+ assert.match(html,/26%,78%\{opacity:1/);
+ assert.match(html,/.stamp-line:nth-child\(2\)\{animation-delay:170ms\}/);
+ assert.match(html,/.stamp-line:nth-child\(3\)\{animation-delay:340ms\}/);
 });
-test('Telegram CTA pulses and shines automatically, with reduced motion fallback',()=>{
- assert.match(html,/animation:ctaGlowBreath/);
- assert.match(html,/@keyframes ctaGlowBreath/);
+test('Telegram button pushes automatically and retains shine with motion safety',()=>{
+ assert.match(html,/animation:ctaPush 3\.8s ease-in-out infinite/);
+ assert.match(html,/@keyframes ctaPush/);
+ assert.match(html,/translateY\(4px\) scale\(\.945\)/);
+ assert.match(html,/translateY\(-3px\) scale\(1\.055\)/);
  assert.match(html,/animation:ctaShineSweep/);
- assert.match(html,/@keyframes ctaShineSweep/);
- assert.match(html,/\.cta:hover,\.cta:focus-visible/);
+ assert.match(html,/\.cta:active\{animation-play-state:paused/);
  assert.match(html,/\.stamp-line\{opacity:1!important;transform:none!important;filter:none!important\}/);
- assert.match(html, /\.cta::after\{display:none\}/);
+ assert.match(html,/\.cta::after\{display:none\}/);
 });
 test('public feed exposes only published images, never premium prompt text',()=>{
  assert.match(api,/Query\.equal\('is_published',true\)/);
