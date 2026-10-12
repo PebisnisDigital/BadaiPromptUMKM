@@ -41,7 +41,7 @@ test('standalone CSS and JavaScript, accessible reduced-motion fallback', () => 
   assert.equal([...html.matchAll(/<script\b/g)].length, 1);
   assert.doesNotMatch(html, /<script[^>]+src=/);
   assert.match(html, /@media\(prefers-reduced-motion:reduce\)/);
-  assert.match(html, /aria-label="Buka preview visual/);
+  assert.match(script, /setAttribute\("aria-label","Buka preview visual "/);
   assert.match(html, /<a class="skip-link"/);
   assert.doesNotThrow(() => new vm.Script(script));
 });
