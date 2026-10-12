@@ -171,12 +171,13 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
   </section>
 
   <section class="view" id="v-settings">
-    <div class="title"><div><div class="eyebrow">PENGATURAN</div><h1>Pengaturan</h1><p>Harga, pembayaran, pesan, dan akun admin.</p></div></div>
+    <div class="title"><div><div class="eyebrow">PENGATURAN</div><h1>Pengaturan</h1><p>Kelola harga, pembayaran, Telegram, notifikasi, dan akses admin.</p></div></div>
 
     <div class="settings-tabs" id="settingsTabs">
       <button class="settings-tab on" type="button" data-settings-tab="pricing">HARGA & KUPON</button>
       <button class="settings-tab" type="button" data-settings-tab="payments">PEMBAYARAN</button>
       <button class="settings-tab" type="button" data-settings-tab="notifications">NOTIFIKASI</button>
+      <button class="settings-tab" type="button" data-settings-tab="telegram" aria-controls="v-telegram">TELEGRAM</button>
       <button class="settings-tab" type="button" data-settings-tab="admin">ADMIN</button>
     </div>
 
@@ -304,9 +305,42 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
         <div class="row" style="margin-top:7px"><div class="rowtop"><div><h3>Storage Preview</h3><div class="muted">Dropbox → /BADAI PROMPT (folder penyimpanan lama)</div></div><span class="tag live">AKTIF</span></div></div>
       </div>
     </div>
+    <div class="settings-panel" data-settings-panel="telegram" aria-label="Pengaturan dan koneksi bot Telegram">
+<div class="telegram-view" id="v-telegram">
+ <div class="title"><div><div class="eyebrow">PENGATURAN → TELEGRAM</div><h1>Pengaturan Telegram</h1><p>Kelola koneksi bot, interval pengiriman, otomatisasi, dan akun penguji. Konten harian dikelola di menu Marketing.</p></div><button class="btn pink" id="tgRefresh" type="button">PERBARUI</button></div>
+ <div id="tgStatus" class="tg-notice" role="status">Data Telegram belum dimuat.</div>
+ <div id="tgStats" class="tg-stats" aria-label="Statistik Telegram"></div>
+ <div class="tg-layout">
+  <section class="tg-panel"><h2>Koneksi bot</h2><p>Token hanya dikirim ke server, divalidasi melalui Telegram, lalu disimpan terenkripsi.</p>
+   <form id="tgBotForm"><div class="field"><label for="tgBotSelect">KONFIGURASI BOT</label><select id="tgBotSelect"><option value="">+ Tambah bot</option></select></div>
+    <div class="field"><label for="tgBotName">NAMA KONFIGURASI</label><input id="tgBotName" maxlength="128" placeholder="Bot utama / cadangan"></div>
+    <div class="field"><label for="tgToken">API TOKEN TELEGRAM</label><input id="tgToken" type="password" autocomplete="off" spellcheck="false" placeholder="Masukkan token untuk menyimpan atau mengganti"></div>
+    <div class="tg-actions"><button class="btn pink" type="submit">SIMPAN BOT</button><button class="btn dark" id="tgRename" type="button">SIMPAN NAMA</button></div>
+   </form>
+   <dl id="tgBotInfo" class="tg-info"></dl>
+   <div class="tg-actions"><button class="btn dark" data-tg-action="connection">TEST KONEKSI</button><button class="btn dark" data-tg-action="webhook">TEST WEBHOOK</button><button class="btn dark" data-tg-action="install-webhook">PASANG ULANG WEBHOOK</button><button class="btn pink" id="tgActivate">AKTIFKAN / PILIH UTAMA</button><button class="btn dark" data-tg-action="disable">NONAKTIFKAN BOT</button><button class="btn tg-danger" id="tgDelete">HAPUS KONFIGURASI</button></div>
+   <p>Bot pengganti hanya dapat mengirim ke pengguna yang sudah START bot tersebut. Pergantian tidak menghapus member atau langganan.</p>
+  </section>
+  <section class="tg-panel"><h2>Pengiriman otomatis</h2><p>Jadwal memakai WIB. Scheduler setiap 15 menit memiliki toleransi keterlambatan hingga 15 menit, ditambah waktu antrean.</p>
+   <form id="tgSettingsForm"><div class="tg-check"><label><input type="checkbox" id="tgEnabled"> Aktifkan otomatisasi</label><label><input type="checkbox" id="tgDryRun" checked> Mode uji coba tanpa kirim sungguhan</label></div>
+    <div class="formgrid"><div class="field"><label for="tgTime">JAM PREMIUM (WIB)</label><input type="time" id="tgTime" value="06:00" required></div><div class="field"><label for="tgFreeDays">INTERVAL FREE (HARI)</label><input type="number" id="tgFreeDays" value="3" min="1" max="30" required></div><div class="field"><label for="tgPremiumDays">INTERVAL PREMIUM (HARI)</label><input type="number" id="tgPremiumDays" value="1" min="1" max="30" required></div><div class="field"><label for="tgDeleteHours">HAPUS FREE (JAM)</label><input type="number" id="tgDeleteHours" value="24" min="1" max="47" required></div><div class="field"><label for="tgTermDays">MASA PREMIUM (HARI)</label><input type="number" id="tgTermDays" value="365" readonly></div><div class="field"><label for="tgBatch">MEMBER PER BATCH</label><input type="number" id="tgBatch" value="5" min="1" max="10" required></div></div>
+    <div class="tg-actions"><button class="btn pink" type="submit">SIMPAN PENGATURAN</button><button class="btn dark" id="tgPause" type="button">PAUSE</button><button class="btn dark" id="tgResume" type="button">RESUME</button><button class="btn dark" id="tgDryTest" type="button">UJI SCHEDULER TANPA KIRIM</button></div>
+   </form><p id="tgAutomationState">Status belum dimuat.</p>
+  </section>
+  <section class="tg-panel"><h2>Testing Center</h2><p>Penguji harus START bot terpilih dan mendapat otorisasi admin. Tes kirim memakai pesan sungguhan hanya ke akun penguji.</p>
+   <p id="tgTesterHelp" role="status">Pilih bot, pasang webhook, lalu START bot dari akun penguji.</p><a id="tgStartBot" class="btn dark" target="_blank" rel="noopener noreferrer" hidden>BUKA BOT / START</a>
+   <div class="field"><label for="tgTester">AKUN PENGUJI</label><select id="tgTester"><option value="">Pilih member terdaftar</option></select></div><button class="btn dark" id="tgAuthorizeTester">OTORISASI AKUN PENGUJI</button>
+   <div class="field"><label for="tgPrompt">PROMPT PUBLISHED</label><select id="tgPrompt"><option value="">Pilih prompt</option></select></div>
+   <div class="tg-actions"><button class="btn pink" data-tg-test="test-message">TEST KIRIM PESAN</button><button class="btn dark" data-tg-test="test-prompt">TEST PROMPT + PREVIEW</button><button class="btn tg-danger" id="tgTestDelete">TEST HAPUS PESAN UJI</button></div>
+   <pre id="tgTestResult" class="tg-result" role="status">Belum ada pengujian.</pre>
+  </section>
+  <section class="tg-panel"><h2>Bot tersimpan & riwayat error</h2><div id="tgBotList" class="tg-list">Belum dimuat.</div><h3>Pengiriman yang perlu diperiksa</h3><div id="tgErrors" class="tg-list">Belum dimuat.</div><p>Kiriman dengan hasil tidak pasti ditahan agar tidak terkirim ganda. Riwayat error ditampilkan berdasarkan data server.</p></section>
+ </div>
+</div>
+    </div>
   </section>
 <section class="view marketing-view" id="v-marketing" aria-labelledby="marketing-title">
-  <div class="title"><div><div class="eyebrow">MARKETING • KONTEN FREE → PREMIUM</div><h1 id="marketing-title">Kalender Konten 365 Hari</h1><p>Ambil prompt asli dari Member Area, susun dengan drag & drop, dan atur teks upselling serta CTA untuk member Free. Premium tetap memakai sistem pengirimannya sendiri.</p></div><button class="btn dark" id="mktRefresh" type="button">SEGARKAN</button></div>
+  <div class="title"><div><div class="eyebrow">MARKETING • KONTEN BOT TELEGRAM</div><h1 id="marketing-title">Konten Telegram 365 Hari</h1><p>Atur isi pesan yang dikirim oleh bot: pilih gambar dan prompt dari Member Area, susun kalender 365 hari, edit pesan serta tombol CTA, lalu uji kirim sebelum diaktifkan.</p></div><button class="btn dark" id="mktRefresh" type="button">SEGARKAN</button></div>
   <div class="mkt-notice" id="mktNotice" role="status">Memuat kalender…</div>
   <div class="mkt-stats" id="mktStats" aria-label="Ringkasan kalender"></div>
   <section class="mkt-schedule" aria-labelledby="mktSettingsHeading">
@@ -318,7 +352,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
         <label>MODE PENGIRIMAN<select id="mktEnabled"><option value="false">DRAF — Tidak mengirim</option><option value="true">AKTIF — Memerlukan izin server</option></select></label>
       </div>
       <label class="mkt-loop"><input id="mktLoop" type="checkbox"> Ulangi kalender mulai Hari 1 setelah Hari 365</label>
-      <p class="mkt-footnote">Hari 1 adalah tanggal mulai di WIB. Kalender berjalan global selama 365 hari. Member Free hanya menerima slot pada hari jatuh tempo menurut interval di Telegram Manager (saat ini 3 hari); hari tanpa konten akan dilewati, tidak diganti prompt acak. Pesan Free dijadwalkan dihapus setelah 24 jam.</p>
+      <p class="mkt-footnote">Hari 1 mengikuti tanggal mulai di WIB. Kalender berjalan global selama 365 hari. Waktu dan interval pengiriman bot diatur melalui Pengaturan → Telegram. Hanya hari yang memiliki konten yang akan diproses; hari kosong dilewati. Penghapusan pesan Free mengikuti pengaturan Telegram.</p>
       <div class="mkt-subhead">TEMPLATE UPSELLING DEFAULT</div>
       <textarea id="mktDefaultOffer" rows="3" maxlength="850" placeholder="Pesan upselling setelah prompt terkirim…" required></textarea>
       <div class="mkt-fields mkt-fields-three"><label>TEKS TOMBOL CTA<input id="mktDefaultLabel" maxlength="40" required></label><label>TUJUAN CTA<select id="mktDefaultType"><option value="premium">Penawaran Premium</option><option value="member">Member Area</option><option value="url">Link PROMPTIONAL</option></select></label><label>LINK (OPSIONAL)<input id="mktDefaultUrl" type="url" placeholder="https://promptional.vercel.app/#harga"></label></div>
@@ -328,7 +362,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
 
   <section class="mkt-schedule" aria-labelledby="mktTestTitle">
     <div class="mkt-head"><h2 id="mktTestTitle">Uji Kirim Marketing ke Telegram</h2><span class="mkt-caption">HANYA AKUN PENGUJI • TIDAK BROADCAST</span></div>
-    <p class="mkt-footnote">Uji gambar, prompt lengkap, pesan upselling dan tombol CTA. Akun tujuan harus sudah diberi izin sebagai penguji di menu Telegram. Pengiriman ini tidak mengubah jadwal member Free dan tidak memerlukan aktivasi otomatisasi Marketing.</p>
+    <p class="mkt-footnote">Uji gambar, prompt lengkap, pesan upselling dan tombol CTA. Akun tujuan harus diberi izin sebagai penguji di Pengaturan → Telegram. Pengiriman ini tidak mengubah jadwal member Free dan tidak memerlukan aktivasi otomatisasi Marketing.</p>
     <form id="mktTestForm" class="mkt-test-form">
       <label>HARI KONTEN <input id="mktTestDay" type="number" min="1" max="365" value="1" required></label>
       <label>AKUN TELEGRAM PENGUJI <select id="mktTestUser" required><option value="">Memuat daftar penguji…</option></select></label>
@@ -371,37 +405,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
     </form>
   </section>
 </section>
-<section class="view telegram-view" id="v-telegram">
- <div class="title"><div><div class="eyebrow">DISTRIBUSI PROMPT</div><h1>Telegram Manager</h1><p>Kelola bot, uji koneksi, dan atur pengiriman member.</p></div><button class="btn pink" id="tgRefresh" type="button">PERBARUI</button></div>
- <div id="tgStatus" class="tg-notice" role="status">Data Telegram belum dimuat.</div>
- <div id="tgStats" class="tg-stats" aria-label="Statistik Telegram"></div>
- <div class="tg-layout">
-  <section class="tg-panel"><h2>Koneksi bot</h2><p>Token hanya dikirim ke server, divalidasi melalui Telegram, lalu disimpan terenkripsi.</p>
-   <form id="tgBotForm"><div class="field"><label for="tgBotSelect">KONFIGURASI BOT</label><select id="tgBotSelect"><option value="">+ Tambah bot</option></select></div>
-    <div class="field"><label for="tgBotName">NAMA KONFIGURASI</label><input id="tgBotName" maxlength="128" placeholder="Bot utama / cadangan"></div>
-    <div class="field"><label for="tgToken">API TOKEN TELEGRAM</label><input id="tgToken" type="password" autocomplete="off" spellcheck="false" placeholder="Masukkan token untuk menyimpan atau mengganti"></div>
-    <div class="tg-actions"><button class="btn pink" type="submit">SIMPAN BOT</button><button class="btn dark" id="tgRename" type="button">SIMPAN NAMA</button></div>
-   </form>
-   <dl id="tgBotInfo" class="tg-info"></dl>
-   <div class="tg-actions"><button class="btn dark" data-tg-action="connection">TEST KONEKSI</button><button class="btn dark" data-tg-action="webhook">TEST WEBHOOK</button><button class="btn dark" data-tg-action="install-webhook">PASANG ULANG WEBHOOK</button><button class="btn pink" id="tgActivate">AKTIFKAN / PILIH UTAMA</button><button class="btn dark" data-tg-action="disable">NONAKTIFKAN BOT</button><button class="btn tg-danger" id="tgDelete">HAPUS KONFIGURASI</button></div>
-   <p>Bot pengganti hanya dapat mengirim ke pengguna yang sudah START bot tersebut. Pergantian tidak menghapus member atau langganan.</p>
-  </section>
-  <section class="tg-panel"><h2>Pengiriman otomatis</h2><p>Jadwal memakai WIB. Scheduler setiap 15 menit memiliki toleransi keterlambatan hingga 15 menit, ditambah waktu antrean.</p>
-   <form id="tgSettingsForm"><div class="tg-check"><label><input type="checkbox" id="tgEnabled"> Aktifkan otomatisasi</label><label><input type="checkbox" id="tgDryRun" checked> Mode uji coba tanpa kirim sungguhan</label></div>
-    <div class="formgrid"><div class="field"><label for="tgTime">JAM PREMIUM (WIB)</label><input type="time" id="tgTime" value="06:00" required></div><div class="field"><label for="tgFreeDays">INTERVAL FREE (HARI)</label><input type="number" id="tgFreeDays" value="3" min="1" max="30" required></div><div class="field"><label for="tgPremiumDays">INTERVAL PREMIUM (HARI)</label><input type="number" id="tgPremiumDays" value="1" min="1" max="30" required></div><div class="field"><label for="tgDeleteHours">HAPUS FREE (JAM)</label><input type="number" id="tgDeleteHours" value="24" min="1" max="47" required></div><div class="field"><label for="tgTermDays">MASA PREMIUM (HARI)</label><input type="number" id="tgTermDays" value="365" readonly></div><div class="field"><label for="tgBatch">MEMBER PER BATCH</label><input type="number" id="tgBatch" value="5" min="1" max="10" required></div></div>
-    <div class="tg-actions"><button class="btn pink" type="submit">SIMPAN PENGATURAN</button><button class="btn dark" id="tgPause" type="button">PAUSE</button><button class="btn dark" id="tgResume" type="button">RESUME</button><button class="btn dark" id="tgDryTest" type="button">UJI SCHEDULER TANPA KIRIM</button></div>
-   </form><p id="tgAutomationState">Status belum dimuat.</p>
-  </section>
-  <section class="tg-panel"><h2>Testing Center</h2><p>Penguji harus START bot terpilih dan mendapat otorisasi admin. Tes kirim memakai pesan sungguhan hanya ke akun penguji.</p>
-   <p id="tgTesterHelp" role="status">Pilih bot, pasang webhook, lalu START bot dari akun penguji.</p><a id="tgStartBot" class="btn dark" target="_blank" rel="noopener noreferrer" hidden>BUKA BOT / START</a>
-   <div class="field"><label for="tgTester">AKUN PENGUJI</label><select id="tgTester"><option value="">Pilih member terdaftar</option></select></div><button class="btn dark" id="tgAuthorizeTester">OTORISASI AKUN PENGUJI</button>
-   <div class="field"><label for="tgPrompt">PROMPT PUBLISHED</label><select id="tgPrompt"><option value="">Pilih prompt</option></select></div>
-   <div class="tg-actions"><button class="btn pink" data-tg-test="test-message">TEST KIRIM PESAN</button><button class="btn dark" data-tg-test="test-prompt">TEST PROMPT + PREVIEW</button><button class="btn tg-danger" id="tgTestDelete">TEST HAPUS PESAN UJI</button></div>
-   <pre id="tgTestResult" class="tg-result" role="status">Belum ada pengujian.</pre>
-  </section>
-  <section class="tg-panel"><h2>Bot tersimpan & riwayat error</h2><div id="tgBotList" class="tg-list">Belum dimuat.</div><h3>Pengiriman yang perlu diperiksa</h3><div id="tgErrors" class="tg-list">Belum dimuat.</div><p>Kiriman dengan hasil tidak pasti ditahan agar tidak terkirim ganda. Riwayat error ditampilkan berdasarkan data server.</p></section>
- </div>
-</section>
+
 
 </main>
 </div>
@@ -411,7 +415,6 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
   <button data-view="sales"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2V3Z"/><path d="M8 8h8M8 12h8"/></svg></b>Penjualan</button>
   <button data-view="affiliate"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></b>Affiliate</button>
   <button data-view="marketing"><b>▦</b>Marketing</button>
-  <button data-view="telegram"><b>✈</b>Telegram</button>
   <button data-view="settings"><b><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3"/></svg></b>Pengaturan</button>
 </nav>
 
@@ -897,6 +900,7 @@ function initSettingsTabs(){
   document.querySelectorAll('[data-settings-tab]').forEach(b=>b.onclick=()=>{
     document.querySelectorAll('[data-settings-tab]').forEach(x=>x.classList.toggle('on',x===b));
     document.querySelectorAll('[data-settings-panel]').forEach(p=>p.classList.toggle('on',p.dataset.settingsPanel===b.dataset.settingsTab));
+    b.setAttribute('aria-selected','true');document.querySelectorAll('[data-settings-tab]').forEach(x=>{if(x!==b)x.setAttribute('aria-selected','false')});
   });
 }
 function renderPaymentSettings(){
