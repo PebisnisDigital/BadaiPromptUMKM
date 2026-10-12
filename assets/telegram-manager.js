@@ -29,5 +29,9 @@
  el('tgAuthorizeTester').onclick=()=>run(async()=>{const body=tester();if(!confirm('Otorisasi akun ini untuk menerima pesan uji?'))return;await request('tester',body);notice('Akun penguji telah diotorisasi.')});
  el('v-telegram').querySelectorAll('[data-tg-test]').forEach(b=>b.onclick=()=>run(async()=>{const recipient=tester();if(b.dataset.tgTest==='test-prompt'&&!el('tgPrompt').value)throw Error('Pilih prompt yang sudah published.');if(!confirm('Kirim pesan uji sungguhan hanya ke akun penguji terpilih?'))return;const body={...recipient,prompt_id:el('tgPrompt').value,request_id:crypto.randomUUID()},r=await request(b.dataset.tgTest,body);lastTest={...body,delivery_id:r.delivery_id};el('tgTestResult').textContent=JSON.stringify(r,null,2);notice(r.ok?'Pesan uji berhasil dikirim.':'Pengiriman belum berhasil; periksa hasil pengujian.')}));
  el('tgTestDelete').onclick=()=>run(async()=>{if(!lastTest?.delivery_id)throw Error('Kirim pesan uji terlebih dahulu.');if(!confirm('Hapus pesan uji terakhir?'))return;const r=await request('test-delete',lastTest);el('tgTestResult').textContent=JSON.stringify(r,null,2);notice(r.ok?'Pesan uji berhasil dihapus.':'Penghapusan belum selesai.')});
- document.querySelector('[data-view=telegram]').addEventListener('click',()=>run(load));
+ const settingsTelegramTab=document.querySelector('[data-settings-tab="telegram"]');
+ let telegramLoaded=false;
+ if(settingsTelegramTab){
+  settingsTelegramTab.addEventListener('click',()=>{if(!telegramLoaded){telegramLoaded=true;run(load).then(()=>{if(!data)telegramLoaded=false})}});
+ }
 })();
