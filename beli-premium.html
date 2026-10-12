@@ -20,15 +20,26 @@ a{color:#ffbf85}button,input{font:inherit}
 button{cursor:pointer}button:disabled{opacity:.6;cursor:wait}
 :focus-visible{outline:2px solid #ffc483;outline-offset:3px}
 [hidden]{display:none!important}
-.topbar{width:min(100%,495px);margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:35px}
-.brand{display:flex;align-items:center;gap:8px;color:white;text-decoration:none;font:900 15px/1 var(--head);letter-spacing:.07em}
-.brand img{width:25px;height:25px}.brand em{font-style:normal;color:var(--orange)}
-.topbar .login{font:800 11px/1.2 var(--body);color:#dfcbbd;text-decoration:none}
 main{display:flex;justify-content:center;align-items:center;flex:1;width:100%;min-height:0;margin:auto}
 .checkout-card{width:min(100%,495px);overflow:hidden;border:1px solid #62422f;border-radius:18px;padding:clamp(15px,3vw,23px);background:linear-gradient(145deg,#231811,#131314 58%,#111112);box-shadow:0 24px 78px #0009}
-.checkout-heading{text-align:center;margin:0 0 9px}
-.checkout-heading h1{font:900 clamp(24px,5.9vw,30px)/1.08 var(--head);letter-spacing:-.04em;margin:0}
-.checkout-heading h1 em{font-style:normal;color:var(--orange)}
+.checkout-heading{text-align:center;margin:0 0 10px}
+.checkout-heading h1{position:relative;display:block;min-height:39px;height:39px;line-height:39px;overflow:hidden;margin:0;font:900 clamp(16px,4.95vw,27px)/39px var(--head);letter-spacing:-.048em}
+.stamp-phrase{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;white-space:nowrap;opacity:0;transform-origin:50% 55%;transform:scale(1.4) translateY(-10px);filter:blur(7px);animation:checkoutStamp 20.4s both infinite;will-change:opacity,transform,filter}
+.stamp-phrase:nth-child(1){animation-delay:0s}
+.stamp-phrase:nth-child(2){animation-delay:3.4s}
+.stamp-phrase:nth-child(3){animation-delay:6.8s}
+.stamp-phrase:nth-child(4){animation-delay:10.2s}
+.stamp-phrase:nth-child(5){animation-delay:13.6s}
+.stamp-phrase:nth-child(6){animation-delay:17s}
+.stamp-phrase strong{font:inherit;color:var(--orange)}
+.stamp-phrase.mau{font-size:1.25em;letter-spacing:.015em;text-shadow:0 0 19px #ff963a77}
+@keyframes checkoutStamp{
+  0%{opacity:0;transform:scale(1.4) translateY(-11px);filter:blur(7px)}
+  1.5%{opacity:1;transform:scale(.89) translateY(3px);filter:blur(0)}
+  3.4%{opacity:1;transform:scale(1.065) translateY(-2px);filter:blur(0)}
+  5.1%,13.1%{opacity:1;transform:scale(1) translateY(0);filter:blur(0)}
+  15.5%,100%{opacity:0;transform:scale(.96) translateY(5px);filter:blur(2px)}
+}
 .order-brief{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid #59402f;background:#302117;border-radius:11px;padding:11px 13px;margin:0 0 11px}
 .order-info{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-width:0}
 .order-info strong{font:900 13px/1.2 var(--head);color:#f8e9df}
@@ -71,9 +82,9 @@ body[data-step="done"] .checkout-heading,
 body[data-step="done"] .order-brief,
 body[data-step="done"] .example-strip{display:none}
 @media(max-width:400px){
- body{padding:7px 11px 8px}.topbar{min-height:33px}
+ body{padding:7px 11px 8px}
  .checkout-card{padding:13px;border-radius:13px}
- .checkout-heading h1{font-size:24px}
+ .checkout-heading h1{font-size:clamp(16px,4.55vw,23px);height:36px;min-height:36px;line-height:36px}
  .order-brief{padding:9px 11px;margin-bottom:9px}
  .example-strip{margin-bottom:9px}
  .example-set img{width:102px;height:66px}
@@ -83,24 +94,35 @@ body[data-step="done"] .example-strip{display:none}
 @media(max-height:640px){
  body{padding-top:5px;padding-bottom:6px}
  .checkout-card{padding-top:11px;padding-bottom:11px}
- .checkout-heading{margin-bottom:6px}.checkout-heading h1{font-size:22px}
+ .checkout-heading{margin-bottom:6px}.checkout-heading h1{font-size:clamp(15px,4.4vw,21px);height:32px;min-height:32px;line-height:32px}
  .order-brief{padding:8px 10px;margin-bottom:7px}
  .example-strip{margin-bottom:7px}
  .example-set img{height:56px;width:88px}
  .stage{gap:7px}form{gap:6px}.field input{min-height:38px}
  .action{min-height:44px}
 }
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{animation:none!important;transition:none!important}
+ .stamp-phrase{opacity:0!important;transform:none!important;filter:none!important}
+ .stamp-phrase:first-child{opacity:1!important}
+}
 </style>
 </head>
 <body data-step="formStage">
-<header class="topbar">
- <a class="brand" href="/" aria-label="PROMPTIONAL beranda"><img src="/assets/promptional-icon.svg" alt=""><span>PROMPT<em>IONAL</em></span></a>
- <a class="login" href="/member">Sudah beli? Masuk →</a>
-</header>
 <main>
  <div class="checkout-card" id="checkoutPanel">
-  <div class="checkout-heading"><h1>Prompt AI <em>Premium.</em></h1></div>
+  <div class="checkout-heading">
+   <h1 aria-label="PROMPTIONAL Premium, akses prompt AI lengkap dan Member Area">
+    <span class="stamp-phrase"><strong>DIKASIH</strong>&nbsp; semua prompt?</span>
+    <span class="stamp-phrase"><strong>DIKASIH</strong>&nbsp; update juga?</span>
+    <span class="stamp-phrase"><strong>DIKASIH</strong>&nbsp; Member Area?</span>
+    <span class="stamp-phrase mau">Mau?</span>
+    <span class="stamp-phrase mau"><strong>MAU?</strong></span>
+    <span class="stamp-phrase mau"><strong>MAU?</strong></span>
+   </h1>
+   <!-- Hold this offer claim until affiliate_enabled is true and commission=50%. -->
+   <template id="pendingAffiliateStamp">DIKASIH komisi 50%?</template>
+  </div>
   <div class="order-brief" aria-label="Ringkasan produk">
    <div class="order-info"><strong>Akses 365 Hari</strong><b>Rp199.000</b></div>
   </div>
