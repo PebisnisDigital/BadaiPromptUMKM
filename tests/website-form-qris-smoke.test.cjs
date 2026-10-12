@@ -21,6 +21,39 @@ test('one-step cross-channel checkout has three visible data fields, no Telegram
  assert.match(html,/family=Roboto/);
 });
 
+test('checkout visually showcases three seamlessly looping published Member Area preview rows before the form',()=>{
+ const intro=html.indexOf('class="intro"');
+ const gallery=html.indexOf('class="preview-showcase"');
+ const formPanel=html.indexOf('id="checkoutPanel"');
+ const form=html.indexOf('id="checkoutForm"');
+ assert.ok(intro>=0 && gallery>intro && formPanel>gallery && form>formPanel);
+ assert.equal([...html.matchAll(/class="marquee-row(?: reverse)?"/g)].length,3);
+ assert.match(html,/id="previewTrack0"/);
+ assert.match(html,/id="previewTrack1"/);
+ assert.match(html,/id="previewTrack2"/);
+ assert.match(html,/@keyframes previewSlide/);
+ assert.match(html,/animation:previewSlide var\(--speed,38s\) linear infinite/);
+ assert.match(html,/\.marquee-row\.reverse \.marquee-track\{animation-direction:reverse\}/);
+ assert.match(html,/track\.append\(makeSet\(false\),makeSet\(true\)\)/);
+ assert.match(html,/set\.setAttribute\('aria-hidden','true'\)/);
+ assert.match(html,/fetch\('\/api\/public-previews'/);
+ assert.match(html,/fillPreviewSliders\(previewSnapshot\)/);
+ const snapshot=script.match(/const previewSnapshot=(\[[^\n]+\]);/);
+ assert.ok(snapshot,'published image fallback is bundled');
+ const previews=JSON.parse(snapshot[1]);
+ assert.equal(previews.length,24);
+ assert.ok(previews.every(x=>/^BP\d{3}$/.test(x.code)&&x.src.startsWith('https://')));
+ assert.match(html,/@media\(prefers-reduced-motion:reduce\)/);
+ assert.doesNotThrow(()=>new vm.Script(script));
+});
+test('payment stage scrolls into view and buyer fields remain the only required fields',()=>{
+ assert.equal([...html.matchAll(/<input[^>]+required/g)].length,3);
+ assert.match(script,/checkoutPanel'\)\.scrollIntoView/);
+ assert.match(script,/api\('create',\{full_name:name,whatsapp,email\}\)/);
+ assert.match(script,/api\('check',\{public_token:receipt\}\)/);
+ assert.match(script,/api\('session-token',\{public_token:receipt\}\)/);
+ assert.match(script,/location\.replace\('\/member\?first=1'\)/);
+});
 test('BuatQRIS is server-side and the buyer cannot choose price or payment outcome',()=>{
  assert.match(server,/data=\{full_name:name,email,whatsapp:wa,amount:199000\}/);
  assert.match(server,/new Set\(\['config','create','check','session-token'\]\)/);
