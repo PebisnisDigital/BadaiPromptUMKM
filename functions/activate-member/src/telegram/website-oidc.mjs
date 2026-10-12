@@ -7,7 +7,7 @@ export const pkceChallenge=verifier=>createHash('sha256').update(String(verifier
 export const safeIdentifier=id=>{const str=String(id??'');if(!/^[1-9]\d{0,15}$/.test(str)||!Number.isSafeInteger(Number(str)))throw new Error('ID Telegram tidak valid.');return str};
 export function loginUrl({clientId,redirectUri,state,verifier}){
  if(!/^[1-9]\d{4,19}$/.test(String(clientId)))throw new Error('Client Telegram belum dikonfigurasi.');
- if(!/^https:\/\/badaiprompt\.vercel\.app\/api\/website-login$/.test(String(redirectUri)))throw new Error('Redirect website harus domain resmi.');
+ if(!/^https:\/\/(?:promptional|badaiprompt)\.vercel\.app\/api\/website-login$/.test(String(redirectUri)))throw new Error('Redirect website harus domain resmi.');
  if(!/^[\w-]{32,90}$/.test(state)||!/^[\w-]{43,128}$/.test(verifier))throw new Error('Parameter login tidak valid.');
  const url=new URL('https://oauth.telegram.org/auth');
  Object.entries({client_id:String(clientId),redirect_uri:redirectUri,response_type:'code',scope:'openid profile',state,code_challenge:pkceChallenge(verifier),code_challenge_method:'S256'}).forEach(([k,v])=>url.searchParams.set(k,v));
@@ -27,7 +27,7 @@ export function verifyTelegramIdToken(jwt,{clientId,keys,nonce,now=Math.floor(Da
  if(!verifySignature('RSA-SHA256',Buffer.from(parts[0]+'.'+parts[1]),key,Buffer.from(parts[2],'base64url')))throw new Error('Tanda tangan Telegram tidak valid.');
  const tg=safeIdentifier(payload.id??payload.sub);
  if(!payload.sub||typeof payload.sub!=='string')throw new Error('Subjek Telegram kosong.');
- return {telegram_id:tg,sub:payload.sub,name:String(payload.name||payload.given_name||'Member BADAI PROMPT').slice(0,120),username:String(payload.preferred_username||'').slice(0,64)};
+ return {telegram_id:tg,sub:payload.sub,name:String(payload.name||payload.given_name||'Member PROMPTIONAL').slice(0,120),username:String(payload.preferred_username||'').slice(0,64)};
 }
 export async function validateToken(jwt,opts,{fetcher=fetch}={}){
  const response=await fetcher(JWKS_URL,{signal:AbortSignal.timeout(6000)});
