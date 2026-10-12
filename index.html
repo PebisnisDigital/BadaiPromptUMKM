@@ -57,31 +57,39 @@ button{font:inherit;cursor:pointer}
 h1{font:800 clamp(38px,5.4vw,76px)/1.01 var(--heading);letter-spacing:-.045em;margin:0;text-wrap:balance}
 h1 em{color:var(--orange);font-style:normal}
 .description{font-size:clamp(12px,1.1vw,16px);line-height:1.6;color:#e9d9ce;max-width:560px;margin:18px auto 0;text-wrap:pretty}
-.bottom-action{position:absolute;z-index:45;bottom:calc(6.4% + var(--safe));left:50%;transform:translateX(-50%);display:grid;justify-items:center;width:min(580px,calc(100% - 30px))}
-.cta{display:flex;align-items:center;justify-content:center;gap:17px;width:min(100%,465px);min-height:65px;padding:14px 22px;border-radius:100px;border:1px solid #ffc47b;background:linear-gradient(106deg,#ffbd61,#ff8e27 53%,#ffb85e);color:#160b03;font-size:clamp(12px,1.2vw,16px);font-weight:800;letter-spacing:.02em;box-shadow:0 0 0 1px #ffefb24d inset,0 0 28px #ff861d80,0 18px 50px #000c;transition:transform .3s ease,box-shadow .3s ease}
-.cta:hover{transform:translateY(-3px);box-shadow:0 0 38px #ff8f2b,0 23px 56px #000d}
-.cta svg{width:22px;height:22px;flex:none}
 
-/* Five-way channel navigation: Telegram remains the main free-prompt action. */
-.social-links{display:grid;gap:7px;width:100%;max-width:548px;margin-top:12px;justify-items:stretch}
-.social-label{font:900 10px/1.35 var(--body);letter-spacing:.14em;color:#ffdbbd;text-align:center;text-shadow:0 2px 8px #000a}
-.social-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
-.social-link{display:flex;align-items:center;justify-content:center;gap:7px;min-width:0;min-height:49px;padding:8px 5px;background:linear-gradient(155deg,#301d16de,#0e0c0dee);border:1px solid #c58a5885;border-radius:12px;color:#fff1e7;box-shadow:inset 0 1px #f0b27f15,0 6px 22px #0008;transition:transform .2s ease,border-color .2s ease,background .2s ease;backdrop-filter:blur(9px)}
-.social-link:hover,.social-link:focus-visible{transform:translateY(-3px);border-color:#ffb26c;background:linear-gradient(155deg,#50301b,#191010)}
-.social-link:active{transform:translateY(1px) scale(.97)}
-.social-link svg{width:19px;height:19px;flex:none;color:#ffad69}
-.social-copy{display:grid;gap:2px;min-width:0;text-align:left}
-.social-copy strong{font:900 11px/1.2 var(--body);white-space:nowrap}
-.social-copy small{font:600 9px/1.2 var(--body);color:#ccad97;white-space:nowrap}
+.bottom-action{position:absolute;z-index:45;bottom:calc(5.2% + var(--safe));left:50%;transform:translateX(-50%);display:grid;justify-items:center;width:min(890px,calc(100% - 34px));gap:0}
+.platform-label{font:900 11px/1.5 var(--body);letter-spacing:.17em;color:#ffcf9b;text-align:center;text-shadow:0 2px 15px #000;display:block;margin:0 0 10px}
+.platform-grid{width:100%;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.platform-btn{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-width:0;min-height:86px;padding:12px 7px;border-radius:15px;border:1px solid #f2b073b5;background:linear-gradient(148deg,#3d2417eb 0%,#23140fef 56%,#120d0bea 100%);color:#fff3e9;text-decoration:none;box-shadow:inset 0 1px #fff2dc25,0 0 0 1px #f8a24c15,0 12px 36px #000c;backdrop-filter:blur(13px);transform-origin:50% 65%;animation:platformPush 5.5s ease-in-out var(--phase,0s) infinite;will-change:transform,box-shadow}
+.platform-btn:nth-child(1){--phase:0s}
+.platform-btn:nth-child(2){--phase:1.1s}
+.platform-btn:nth-child(3){--phase:2.2s}
+.platform-btn:nth-child(4){--phase:3.3s}
+.platform-btn:nth-child(5){--phase:4.4s}
+.platform-btn::after{content:"";position:absolute;top:-60%;bottom:-60%;left:-40%;width:31%;z-index:1;pointer-events:none;background:linear-gradient(100deg,transparent,rgba(255,255,255,.06) 20%,rgba(255,237,198,.48) 50%,rgba(255,255,255,.07) 78%,transparent);transform:translateX(-220%) skewX(-20deg);animation:platformShine 5.5s ease-in-out var(--phase,0s) infinite}
+.platform-btn svg{width:22px;height:22px;flex:none;color:#ffb665}
+.platform-name{font:900 13px/1.2 var(--heading);white-space:nowrap}
+.platform-handle{font:700 10px/1.2 var(--body);color:#dbba9f;white-space:nowrap}
+.platform-btn:hover,.platform-btn:focus-visible{animation-play-state:paused;transform:translateY(-4px) scale(1.035);border-color:#ffcf9a;box-shadow:inset 0 1px #ffffff44,0 0 30px #ff96345c,0 18px 45px #000d}
+.platform-btn:active{animation-play-state:paused;transform:translateY(3px) scale(.96)}
+@keyframes platformPush{
+  0%,16%,100%{transform:translateY(0) scale(1);box-shadow:inset 0 1px #fff2dc25,0 0 0 1px #f8a24c15,0 12px 36px #000c}
+  19%{transform:translateY(4px) scale(.95);box-shadow:inset 0 1px #fff2dc30,0 0 9px #ff9a3970,0 5px 17px #000d}
+  23%{transform:translateY(-3px) scale(1.065);box-shadow:inset 0 1px #fff2dc60,0 0 29px #ff9634ad,0 20px 43px #000d}
+  29%{transform:translateY(0) scale(.99);box-shadow:inset 0 1px #fff2dc30,0 0 17px #ff9a395d,0 12px 36px #000c}
+}
+@keyframes platformShine{
+  0%,16%{transform:translateX(-220%) skewX(-20deg);opacity:0}
+  19%{opacity:1}
+  32%{transform:translateX(850%) skewX(-20deg);opacity:1}
+  33%,100%{transform:translateX(850%) skewX(-20deg);opacity:0}
+}
+.get-guide{margin-top:12px;display:grid;justify-items:center;gap:4px;max-width:640px;text-align:center}
+.guide-title{font:800 10px/1.5 var(--body);color:#ffbb79;letter-spacing:.11em}
+.guide-note{margin:0;color:#e0cbb8;font:700 11px/1.45 var(--body);text-shadow:0 2px 10px #000d}
+.guide-note strong{color:#ffc184;font-weight:900}
 
-.get-guide{margin-top:9px;display:grid;justify-items:center;gap:4px;max-width:530px;text-align:center}
-.guide-title{font:800 10px/1.5 var(--body);color:#ffbb79;letter-spacing:.13em}
-.guide-steps{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:7px 9px;color:#fff4e6;font:700 12px/1.5 var(--body)}
-.guide-steps span:not(.guide-arrow){display:inline-flex;align-items:center;gap:6px}
-.guide-steps b{display:inline-grid;place-items:center;width:21px;height:21px;border-radius:50%;background:#ff9f3c;color:#201005;font:900 11px/1 var(--heading)}
-.guide-steps strong{font:900 13px/1 var(--heading);color:#ffb15b;letter-spacing:.04em}
-.guide-arrow{color:#ff9d4e;font-weight:900}
-.guide-note{margin:2px 0 0;color:#d2bfb1;font:600 10px/1.45 var(--body)}
 .hint{position:absolute;z-index:17;top:52%;left:50%;transform:translateX(-50%);color:#cbb9a9;font-size:10px;letter-spacing:.16em;opacity:.65;pointer-events:none;white-space:nowrap;display:none}
 .lightbox{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:24px;background:#000e;backdrop-filter:blur(16px)}
 .lightbox[hidden]{display:none}
@@ -124,24 +132,6 @@ h1 em{color:var(--orange);font-style:normal}
   91%,100%{opacity:0;transform:translateY(-3px) scale(.96);filter:blur(3px)}
 }
 
-/* Push-to-click: the button visibly presses down and rebounds every few seconds. */
-.cta{position:relative;isolation:isolate;overflow:hidden;animation:ctaPush 3.8s ease-in-out infinite;transform-origin:50% 50%;will-change:transform,box-shadow}
-.cta::after{content:"";position:absolute;z-index:1;pointer-events:none;top:-55%;bottom:-55%;left:-35%;width:35%;background:linear-gradient(105deg,transparent 7%,rgba(255,255,255,.06) 24%,rgba(255,255,255,.62) 51%,rgba(255,255,255,.08) 77%,transparent);transform:skewX(-23deg) translateX(-200%);animation:ctaShineSweep 4.7s ease-in-out 1.5s infinite}
-.cta:hover,.cta:focus-visible{animation-play-state:paused;transform:translateY(-3px) scale(1.04);box-shadow:0 0 36px #ff8f2b,0 22px 55px #000d}
-.cta:active{animation-play-state:paused;transform:translateY(4px) scale(.94);box-shadow:0 0 8px #ff861d6e,0 5px 14px #000a}
-@keyframes ctaPush{
-  0%,59%,100%{transform:translateY(0) scale(1);box-shadow:0 0 0 1px #ffefb24d inset,0 0 24px #ff861d73,0 18px 50px #000c}
-  66%{transform:translateY(4px) scale(.945);box-shadow:0 0 0 1px #ffefb285 inset,0 0 11px #ff861d65,0 5px 14px #000d}
-  76%{transform:translateY(-3px) scale(1.055);box-shadow:0 0 0 1px #ffefb29a inset,0 0 47px #ff8f2bd0,0 23px 54px #000d}
-  84%{transform:translateY(0) scale(.986);box-shadow:0 0 0 1px #ffefb24d inset,0 0 29px #ff861d96,0 16px 43px #000c}
-}
-@keyframes ctaShineSweep{
-  0%,17%{transform:skewX(-23deg) translateX(-200%);opacity:0}
-  23%{opacity:1}
-  46%{transform:skewX(-23deg) translateX(1250%);opacity:1}
-  48%,100%{transform:skewX(-23deg) translateX(1250%);opacity:0}
-}
-
 @media(max-width:1000px){
  .float-card{width:clamp(90px,16vw,160px)}
  .hero-copy{top:13%}
@@ -167,24 +157,22 @@ h1 em{color:var(--orange);font-style:normal}
  .float-card.mobile-top{top:var(--mobile-y,43%)}
  .float-card.mobile-low{top:var(--mobile-y,66%)}
  .float-card.back{filter:blur(1px) brightness(.74)}
- .bottom-action{bottom:calc(3% + var(--safe));width:calc(100% - 34px)}
- .cta{min-height:55px;font-size:12px;width:100%;max-width:360px;gap:12px}
- .cta svg{width:19px;height:19px}
- .social-links{max-width:365px;margin-top:9px;gap:5px}
- .social-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
- .social-link{min-height:41px;padding:6px 8px}
- .social-link svg{width:18px;height:18px}
- .social-label{font-size:9px;letter-spacing:.11em}
- .get-guide{margin-top:8px;gap:4px}
- .guide-title{font-size:9px}
- .guide-steps{font-size:10px;gap:5px 7px}
- .guide-steps b{width:19px;height:19px;font-size:10px}
- .guide-steps strong{font-size:11px}
- .guide-note{font-size:9px;max-width:330px}
+ .bottom-action{bottom:calc(2.3% + var(--safe));width:min(375px,calc(100% - 28px))}
+ .platform-label{font-size:9px;letter-spacing:.11em;margin-bottom:7px}
+ .platform-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ .platform-btn{min-height:51px;padding:7px 9px;flex-direction:row;gap:8px;border-radius:12px}
+ .platform-btn svg{width:19px;height:19px}
+ .platform-name{font-size:11px}
+ .platform-handle{font-size:9px}
+ .platform-btn .platform-copy{display:grid;gap:2px;min-width:0;text-align:left}
+ .platform-btn:nth-child(5){grid-column:1/-1;width:calc((100% - 7px)/2);justify-self:center}
+ .get-guide{margin-top:8px;gap:3px;max-width:365px}
+ .guide-title{font-size:9px;letter-spacing:.08em}
+ .guide-note{font-size:9px;max-width:350px;line-height:1.35}
 }
-@media(max-width:380px){h1{font-size:29px}.description{font-size:10px}.kicker{display:none}.float-card{width:92px}.guide-steps{font-size:9px}.guide-note{font-size:8.5px}}
+@media(max-width:380px){h1{font-size:29px}.description{font-size:10px}.kicker{display:none}.float-card{width:92px}.platform-grid{gap:6px}.platform-btn{min-height:48px;padding:6px 5px;gap:6px}.platform-btn:nth-child(5){width:calc((100% - 6px)/2)}.platform-name{font-size:10px}.platform-handle{font-size:8px}.guide-note{font-size:8.5px}}
 @media(max-height:650px) and (min-width:700px){.hero-copy{top:10%}h1{font-size:clamp(35px,5vw,55px)}.model-wrap{height:67%}.bottom-action{bottom:3%}}
-@media(prefers-reduced-motion:reduce){.float-card,.float-card img,.cta,.stamp-line,.cta::after{transition:none!important;animation:none!important}.stamp-line{opacity:1!important;transform:none!important;filter:none!important}.cta::after{display:none}}
+@media(prefers-reduced-motion:reduce){.float-card,.float-card img,.platform-btn,.stamp-line,.platform-btn::after{transition:none!important;animation:none!important}.stamp-line{opacity:1!important;transform:none!important;filter:none!important}.platform-btn::after{display:none}}
 </style>
 </head>
 <body>
@@ -218,27 +206,35 @@ h1 em{color:var(--orange);font-style:normal}
  </div>
  <div class="hero-copy">
   <p class="eyebrow">Ribuan ide visual dalam genggaman</p>
-  <h1 id="hero-title"><span class="stamp-line">PROMPT AI <em>GRATIS.</em></span><span class="stamp-line">SETIAP HARI.</span><span class="stamp-line"><em>DI TELEGRAM.</em></span></h1>
-  <p class="description">Lihat contoh gambarnya, salin promptnya, lalu bikin sendiri. Inspirasi baru dikirim gratis langsung ke Telegram kamu.</p>
+  <h1 id="hero-title"><span class="stamp-line">PROMPT AI <em>GRATIS.</em></span><span class="stamp-line">SETIAP HARI.</span><span class="stamp-line"><em>PILIH PLATFORM.</em></span></h1>
+  <p class="description">Dapatkan prompt gratis harian di bot Telegram, dan ikuti inspirasi visual PROMPTIONAL lewat platform favoritmu.</p>
  </div>
  <div class="bottom-action">
-  <a class="cta" href="https://t.me/BadaiPromptBot?start=landing_free" target="_blank" rel="noopener noreferrer" aria-label="Buka Telegram, lalu tekan START pada bot untuk menerima prompt gratis">
-   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 3.2a1.3 1.3 0 0 0-1.4-.2L2.1 10.7a1.2 1.2 0 0 0 .1 2.2l5.3 1.8 1.8 5.4a1.2 1.2 0 0 0 2.1.4l2.9-3.6 4.6 3.4a1.2 1.2 0 0 0 1.9-.8L22 4.5a1.4 1.4 0 0 0-.2-1.3ZM9.2 14l9.6-7.5-7.7 10.3-.8 1.1L9.2 14Z"/></svg>
-   AMBIL PROMPT GRATIS <span aria-hidden="true">→</span>
-  </a>
-  <nav class="social-links" aria-label="Ikuti media sosial PROMPTIONAL">
-   <span class="social-label">IKUTI JUGA @PROMPTIONAL</span>
-   <div class="social-grid">
-    <a class="social-link" href="https://www.instagram.com/promptional/" target="_blank" rel="noopener noreferrer" aria-label="Buka Instagram @promptional"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg><span class="social-copy"><strong>Instagram</strong><small>@promptional</small></span></a>
-    <a class="social-link" href="https://www.tiktok.com/@promptional" target="_blank" rel="noopener noreferrer" aria-label="Buka TikTok @promptional"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.5 2h-3.2v13.3a3.2 3.2 0 1 1-2.7-3.15V8.9a6.5 6.5 0 1 0 6 6.45V8.6a9.5 9.5 0 0 0 5.25 1.5V6.8A6 6 0 0 1 16.5 2Z"/></svg><span class="social-copy"><strong>TikTok</strong><small>@promptional</small></span></a>
-    <a class="social-link" href="https://www.facebook.com/promptional" target="_blank" rel="noopener noreferrer" aria-label="Buka Facebook @promptional"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 21v-8h2.8l.45-3.5H14V7.3c0-1 .27-1.7 1.72-1.7h1.83V2.5c-.32-.05-1.42-.15-2.7-.15-2.67 0-4.5 1.63-4.5 4.63V9.5H7.5V13h2.85v8H14Z"/></svg><span class="social-copy"><strong>Facebook</strong><small>@promptional</small></span></a>
-    <a class="social-link" href="https://www.threads.com/@promptional" target="_blank" rel="noopener noreferrer" aria-label="Buka Threads @promptional"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M15.9 8.9c-.65-1.2-1.9-1.95-3.8-1.95-2.9 0-4.5 2.2-4.5 5.2 0 3 1.6 5 4.45 5 2.55 0 4.2-1.35 4.2-3.25 0-1.52-1.23-2.63-3.1-2.63-2.65 0-4.15 1.05-4.15 2.35 0 1.05.78 1.55 1.72 1.55 1.42 0 2.33-1.57 2.33-3.9 0-2.35-1.23-3.95-3.95-3.95"/></svg><span class="social-copy"><strong>Threads</strong><small>@promptional</small></span></a>
-   </div>
+  <span class="platform-label" id="platform-heading">PILIH PLATFORM FAVORITMU ↓</span>
+  <nav class="platform-grid" aria-labelledby="platform-heading">
+   <a class="platform-btn" href="https://t.me/BadaiPromptBot?start=landing_free" target="_blank" rel="noopener noreferrer" aria-label="Buka bot Telegram untuk mendapatkan prompt gratis" data-platform="telegram">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 3.2a1.3 1.3 0 0 0-1.4-.2L2.1 10.7a1.2 1.2 0 0 0 .1 2.2l5.3 1.8 1.8 5.4a1.2 1.2 0 0 0 2.1.4l2.9-3.6 4.6 3.4a1.2 1.2 0 0 0 1.9-.8L22 4.5a1.4 1.4 0 0 0-.2-1.3ZM9.2 14l9.6-7.5-7.7 10.3-.8 1.1L9.2 14Z"/></svg>
+    <span class="platform-copy"><span class="platform-name">Telegram</span><span class="platform-handle">Bot · tekan START</span></span>
+   </a>
+   <a class="platform-btn" href="https://www.instagram.com/promptional/" target="_blank" rel="noopener noreferrer" aria-label="Buka Instagram @promptional" data-platform="instagram">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    <span class="platform-copy"><span class="platform-name">Instagram</span><span class="platform-handle">@promptional</span></span>
+   </a>
+   <a class="platform-btn" href="https://www.tiktok.com/@promptional" target="_blank" rel="noopener noreferrer" aria-label="Buka TikTok @promptional" data-platform="tiktok">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.5 2h-3.2v13.3a3.2 3.2 0 1 1-2.7-3.15V8.9a6.5 6.5 0 1 0 6 6.45V8.6a9.5 9.5 0 0 0 5.25 1.5V6.8A6 6 0 0 1 16.5 2Z"/></svg>
+    <span class="platform-copy"><span class="platform-name">TikTok</span><span class="platform-handle">@promptional</span></span>
+   </a>
+   <a class="platform-btn" href="https://www.facebook.com/promptional" target="_blank" rel="noopener noreferrer" aria-label="Buka Facebook @promptional" data-platform="facebook">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 21v-8h2.8l.45-3.5H14V7.3c0-1 .27-1.7 1.72-1.7h1.83V2.5c-.32-.05-1.42-.15-2.7-.15-2.67 0-4.5 1.63-4.5 4.63V9.5H7.5V13h2.85v8H14Z"/></svg>
+    <span class="platform-copy"><span class="platform-name">Facebook</span><span class="platform-handle">@promptional</span></span>
+   </a>
+   <a class="platform-btn" href="https://www.threads.com/@promptional" target="_blank" rel="noopener noreferrer" aria-label="Buka Threads @promptional" data-platform="threads">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.2"/><path d="M15.9 8.9c-.65-1.2-1.9-1.95-3.8-1.95-2.9 0-4.5 2.2-4.5 5.2 0 3 1.6 5 4.45 5 2.55 0 4.2-1.35 4.2-3.25 0-1.52-1.23-2.63-3.1-2.63-2.65 0-4.15 1.05-4.15 2.35 0 1.05.78 1.55 1.72 1.55 1.42 0 2.33-1.57 2.33-3.9 0-2.35-1.23-3.95-3.95-3.95"/></svg>
+    <span class="platform-copy"><span class="platform-name">Threads</span><span class="platform-handle">@promptional</span></span>
+   </a>
   </nav>
-  <div class="get-guide" role="group" aria-label="Cara mendapatkan prompt gratis">
-   <span class="guide-title">CARA MENDAPATKANNYA</span>
-   <div class="guide-steps"><span><b>1</b> Klik tombol di atas</span><span class="guide-arrow" aria-hidden="true">→</span><span><b>2</b> Tekan <strong>START</strong> di bot Telegram</span></div>
-   <p class="guide-note">Di Telegram, tombol START/MULAI ada di bawah chat. Prompt dikirim otomatis sesuai jadwal.</p>
+  <div class="get-guide" role="group" aria-label="Petunjuk memilih platform">
+   <p class="guide-note">Pilih salah satu tombol. <strong>Telegram:</strong> tekan START/MULAI di bot. <strong>Media sosial:</strong> ikuti @promptional.</p>
    <a class="premium-quick" href="/beli-premium.html">MAU KOLEKSI LENGKAP? <b>BUKA PREMIUM →</b></a>
   </div>
  </div>
