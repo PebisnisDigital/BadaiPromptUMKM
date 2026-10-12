@@ -1,5 +1,5 @@
 /* PROMPTIONAL MARKETING – calm, premium operational calendar. */
-nav.telegram-nav{grid-template-columns:repeat(6,minmax(0,1fr))}
+nav.telegram-nav{grid-template-columns:repeat(5,minmax(0,1fr))}
 .marketing-view{--mkt-pink:#ff6b35;--mkt-border:#e4e3e7;--mkt-ink:#242027;--mkt-muted:#706b73;color:var(--mkt-ink);background:#faf9fa}
 .marketing-view .title{margin-bottom:15px;gap:12px}
 .marketing-view .title h1{font-size:28px;letter-spacing:-.05em}
