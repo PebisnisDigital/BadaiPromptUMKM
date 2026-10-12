@@ -88,6 +88,33 @@ h1 em{color:var(--orange);font-style:normal}
 .float-card img{transition:opacity .55s ease,transform .6s ease}
 .float-card img.changing{opacity:.1!important}
 @media(max-width:700px){.float-card{animation-duration:6.6s}.float-card:nth-child(even){animation-duration:8.1s}}
+
+/* Premium one-time stamp reveal. Animate the lines, never the parent, so centering stays stable. */
+.stamp-line{display:block;white-space:nowrap;transform-origin:50% 52%;opacity:0;animation:headlineStamp 900ms cubic-bezier(.16,1,.3,1) both;will-change:opacity,transform}
+.stamp-line:nth-child(1){animation-delay:140ms}
+.stamp-line:nth-child(2){animation-delay:330ms}
+.stamp-line:nth-child(3){animation-delay:520ms}
+@keyframes headlineStamp{
+  0%{opacity:0;transform:translateY(18px) scale(1.16);filter:blur(7px)}
+  56%{opacity:1;transform:translateY(-2px) scale(.973);filter:blur(0)}
+  78%{opacity:1;transform:translateY(0) scale(1.016);filter:blur(0)}
+  100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+}
+/* Animated conversion button: subtle breathing halo, periodic sweeping reflection. */
+.cta{position:relative;isolation:isolate;overflow:hidden;animation:ctaGlowBreath 3.7s ease-in-out 1.1s infinite;will-change:box-shadow}
+.cta::after{content:"";position:absolute;z-index:1;pointer-events:none;top:-55%;bottom:-55%;left:-35%;width:35%;background:linear-gradient(105deg,transparent 7%,rgba(255,255,255,.06) 24%,rgba(255,255,255,.62) 51%,rgba(255,255,255,.08) 77%,transparent);transform:skewX(-23deg) translateX(-200%);animation:ctaShineSweep 4.7s ease-in-out 1.5s infinite}
+.cta:hover,.cta:focus-visible{transform:translateY(-3px) scale(1.025);animation-play-state:paused}
+@keyframes ctaGlowBreath{
+  0%,100%{box-shadow:0 0 0 1px #ffefb24d inset,0 0 18px #ff861d65,0 14px 40px #000b}
+  48%{box-shadow:0 0 0 1px #ffefb29a inset,0 0 44px #ff8e2db7,0 20px 54px #000d}
+}
+@keyframes ctaShineSweep{
+  0%,17%{transform:skewX(-23deg) translateX(-200%);opacity:0}
+  23%{opacity:1}
+  46%{transform:skewX(-23deg) translateX(1250%);opacity:1}
+  48%,100%{transform:skewX(-23deg) translateX(1250%);opacity:0}
+}
+
 @media(max-width:1000px){
  .float-card{width:clamp(90px,16vw,160px)}
  .hero-copy{top:13%}
@@ -123,7 +150,7 @@ h1 em{color:var(--orange);font-style:normal}
 }
 @media(max-width:380px){h1{font-size:29px}.description{font-size:10px}.kicker{display:none}.float-card{width:92px}.guide-steps{font-size:9px}.guide-note{font-size:8.5px}}
 @media(max-height:650px) and (min-width:700px){.hero-copy{top:10%}h1{font-size:clamp(35px,5vw,55px)}.model-wrap{height:67%}.bottom-action{bottom:3%}}
-@media(prefers-reduced-motion:reduce){.float-card,.float-card img,.cta{transition:none!important;animation:none!important}}
+@media(prefers-reduced-motion:reduce){.float-card,.float-card img,.cta,.stamp-line,.cta::after{transition:none!important;animation:none!important}.stamp-line{opacity:1!important;transform:none!important;filter:none!important}.cta::after{display:none}}
 </style>
 </head>
 <body>
@@ -155,7 +182,7 @@ h1 em{color:var(--orange);font-style:normal}
  </div>
  <div class="hero-copy">
   <p class="eyebrow">Ribuan ide visual dalam genggaman</p>
-  <h1 id="hero-title">PROMPT AI <em>GRATIS.</em><br>SETIAP HARI.<br><em>DI TELEGRAM.</em></h1>
+  <h1 id="hero-title"><span class="stamp-line">PROMPT AI <em>GRATIS.</em></span><span class="stamp-line">SETIAP HARI.</span><span class="stamp-line"><em>DI TELEGRAM.</em></span></h1>
   <p class="description">Lihat contoh gambarnya, salin promptnya, lalu bikin sendiri. Inspirasi baru dikirim gratis langsung ke Telegram kamu.</p>
  </div>
  <div class="bottom-action">
