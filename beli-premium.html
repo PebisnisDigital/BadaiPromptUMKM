@@ -1,107 +1,238 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="icon" type="image/svg+xml" href="/assets/promptional-icon.svg">
-<meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#130e14">
-<title>Beli Premium • PROMPTIONAL</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080809"><meta name="robots" content="index,follow">
+<meta name="description" content="PROMPTIONAL Premium. Bayar QRIS Rp199.000 sekali, langsung dapat akses Member Area 365 hari. Form simpel: nama, email, dan WhatsApp.">
+<link rel="canonical" href="https://promptional.vercel.app/beli-premium.html">
+<link rel="icon" href="/assets/promptional-icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Roboto:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Beli Premium — PROMPTIONAL</title>
 <style>
-*{box-sizing:border-box}body{background:#130e14;color:#fff;font:15px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif;margin:0;min-height:100vh;display:grid;place-items:center;padding:25px 12px}
-main{width:min(100%,510px);background:#1e1721;border:1px solid #3c2a38;border-radius:22px;padding:28px 23px;box-shadow:0 30px 90px #0006}
-.top{font-size:12px;letter-spacing:.17em;color:#f3aa8a;font-weight:850}.heading{margin:8px 0 4px;font-size:34px;line-height:1.1;letter-spacing:-.065em;font-weight:950}.sub{color:#b8a7b8;font-size:13px;margin:8px 0 20px}.price{font-size:32px;letter-spacing:-.04em;font-weight:900;margin:18px 0 6px}
-ul{margin:12px 0 22px;padding:0;list-style:none}li{padding:7px 0;color:#e7dfdb}li:before{content:"✓";color:#ff8e5d;margin-right:11px}
-button,.button{border:0;border-radius:11px;padding:15px 17px;display:block;text-align:center;width:100%;background:#ff814b;color:#1b0d07;font:inherit;font-weight:850;text-decoration:none;cursor:pointer}
-button:disabled{opacity:.5;cursor:wait}.secondary{background:#342630;color:#eee;border:1px solid #604359;margin-top:10px}.note{font-size:12px;color:#b9aab8;margin:13px 0;line-height:1.6}.notice{background:#2b222d;border:1px solid #5b453b;border-radius:10px;padding:12px;margin:12px 0;white-space:pre-wrap;font-size:13px;color:#f5dfd6}
-.payment{background:#fff;color:#291d18;border-radius:13px;text-align:center;padding:19px;margin:15px 0}.payment img{max-width:100%;height:auto;width:min(100%,300px);min-height:200px;object-fit:contain}
-.hide{display:none!important}.smalltitle{font-weight:800;font-size:12px;color:#bd9b8c}.spinner{display:inline-block;width:14px;height:14px;border:2px solid #dcc3b8;border-top-color:#ff814b;border-radius:50%;animation:spin 1s linear infinite;vertical-align:middle;margin-right:7px}@keyframes spin{to{transform:rotate(360deg)}}
-a{color:#ffbfa3}footer{margin-top:22px;border-top:1px solid #423040;padding-top:15px;font-size:11px;color:#ac9ba7}.status-good{color:#6fe4b3}#name{color:#ffd6c5;font-weight:850}button:focus-visible,a:focus-visible{outline:3px solid #fff;outline-offset:3px}
+:root{--bg:#080809;--panel:#151517;--ink:#f8f5f2;--muted:#b7b4b2;--line:#333134;--accent:#ff8a2a;--glow:#ff9c39;--heading:Roboto,Arial,sans-serif;--body:Nunito,Arial,sans-serif}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;min-height:100svh;color:var(--ink);background:radial-gradient(ellipse 70% 33% at 52% -7%,#a94c1f32,transparent 85%),var(--bg);font:500 14px/1.65 var(--body);-webkit-font-smoothing:antialiased;padding:19px 18px 34px}
+a{color:#ffbd85}
+button,input{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.5;cursor:wait}
+:focus-visible{outline:3px solid #ffe0b2;outline-offset:3px}
+.topbar{width:min(100%,565px);margin:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{display:flex;gap:9px;align-items:center;color:#fff;text-decoration:none;font:900 15px/1 var(--heading);letter-spacing:.12em}
+.brand img{width:27px;height:27px}
+.brand em{color:var(--accent);font-style:normal}
+.topbar>a:last-child{color:#e2cdc0;text-decoration:none;font-size:12px;font-weight:800}
+main{width:min(100%,565px);margin:23px auto 0;border:1px solid #3c3430;border-radius:24px;padding:clamp(20px,4vw,35px);background:linear-gradient(145deg,#1d1715 0%,#121214 48%,#101012 100%);box-shadow:0 30px 90px #0008}
+.eyebrow{color:#ffae68;letter-spacing:.15em;font:900 10px/1.3 var(--body);text-transform:uppercase;margin:0 0 14px}
+h1{font:900 clamp(30px,7.3vw,43px)/1.07 var(--heading);letter-spacing:-.045em;margin:0}
+h1 em{color:var(--accent);font-style:normal}
+.desc{color:#ded3cc;line-height:1.6;margin:12px 0 17px;font-size:13px}
+.price-row{display:flex;align-items:end;gap:12px;flex-wrap:wrap;padding:15px 17px;border:1px solid #85552a;background:#2b1c13;border-radius:15px}
+.price{font:900 clamp(29px,8vw,37px)/1 var(--heading);letter-spacing:-.05em}
+.price-info{font-size:12px;color:#f2cbad}
+.benefits{display:flex;flex-wrap:wrap;gap:6px 13px;margin:15px 0 20px;font-size:11px;font-weight:800;color:#f1e3d9}
+.benefits span:before{content:"✓";color:var(--accent);margin-right:5px}
+form{display:grid;gap:13px}
+.field{display:grid;gap:5px}
+.field label{font-size:11px;font-weight:900;letter-spacing:.04em}
+.field input{border:1px solid #4b4140;border-radius:12px;background:#09090a;color:#fff;min-height:51px;width:100%;padding:13px 14px;outline:none;font-size:14px;transition:border-color .2s}
+.field input:focus{border-color:#ffa657}
+.field input::placeholder{color:#868184}
+.action{position:relative;width:100%;min-height:58px;padding:13px 15px;border:1px solid #ffc77e;border-radius:15px;background:linear-gradient(115deg,#ffb45a,#ff8829 55%,#ffac4a);box-shadow:0 11px 32px #f6762945;color:#1e1005;font:900 15px/1.2 var(--heading);letter-spacing:.01em}
+.action:hover:not(:disabled){filter:brightness(1.08);transform:translateY(-2px)}
+.action:active{transform:translateY(2px) scale(.99)}
+.security{font-size:11px;color:#c7b8b0;text-align:center;margin:0}
+.message{padding:11px 13px;border:1px solid #8f5939;background:#332016;border-radius:10px;margin:0;font-size:12px;color:#ffe7d8}
+.message.error{border-color:#b35151;background:#321c20;color:#ffdad8}
+.message.good{border-color:#477e62;background:#102d25;color:#bdf9d9}
+[hidden]{display:none!important}
+.stage{display:grid;gap:14px}
+.stage h2{font:900 23px/1.2 var(--heading);margin:2px 0 0}
+.qr-panel{border-radius:15px;background:#fff;color:#151515;padding:19px;text-align:center}
+.qr-panel img{display:block;width:min(100%,300px);max-height:310px;object-fit:contain;margin:5px auto}
+.qr-panel strong{display:block;font:900 21px/1.2 var(--heading);margin:9px auto 0}
+.qr-panel p{font-size:11px;margin:6px auto;color:#454545}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.secondary{background:transparent;color:#ffbd88;border:1px solid #936037;border-radius:11px;padding:12px;font-weight:900;min-height:46px}
+.step{display:flex;gap:10px;align-items:center;color:#ece0d8;font-size:12px}
+.step b{display:grid;place-items:center;border-radius:999px;background:#ff8c30;color:#211005;width:25px;height:25px;flex:none}
+.waiting{display:inline-block;width:16px;height:16px;border:2px solid #88603d;border-top-color:#ffa24f;border-radius:50%;animation:rotate 1s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes rotate{to{transform:rotate(360deg)}}
+.footer{width:min(100%,565px);margin:18px auto 0;text-align:center;color:#aba6a3;font-size:11px}
+.footer a{color:#d9c8bb}
+#done p{font-size:13px;color:#e4d6cd}
+#done .check{display:grid;place-items:center;font-size:36px;font-weight:900;background:#174a32;color:#9ff4ba;width:72px;height:72px;border-radius:50%;margin:0 auto 11px}
+#done{text-align:center}
+@media(max-width:400px){body{padding:12px 12px 24px}main{padding:20px 18px}.benefits{font-size:10px}.brand{letter-spacing:.06em;font-size:13px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
-<style>/* PROMPTIONAL Checkout */body{background:#0b0b0d}main{background:#141416;border-color:#353538}.top{color:#ffad88}.sub,li,.note{color:#bcbcc0}li:before{color:#ff6b35}button,.button{background:#ff6b35;color:#101010}.secondary{background:#27272b;color:#f6f6f6;border-color:#434347}</style>
 </head>
 <body>
+<header class="topbar">
+ <a class="brand" href="/" aria-label="PROMPTIONAL beranda"><img src="/assets/promptional-icon.svg" alt=""><span>PROMPT<em>IONAL</em></span></a>
+ <a href="/member">Sudah beli? Masuk →</a>
+</header>
 <main>
-<div class="top">PROMPTIONAL • AKSES PREMIUM</div>
-<h1 class="heading">Beli Sekali.<br>Akses Semua Prompt.</h1>
-<p class="sub">Bayar QRIS sekali di website resmi PROMPTIONAL. Setelah lunas terverifikasi, Member Area langsung terbuka otomatis. Tidak perlu menunggu kiriman Premium harian.</p>
-<div class="price">Rp199.000 <span style="font-size:12px;color:#bfa7b5;letter-spacing:0">/ 365 hari</span></div>
-<ul><li>Buka koleksi prompt AI di Member Area</li><li>Lihat contoh gambar dan salin prompt</li><li>Akses seluruh koleksi langsung tanpa menunggu kiriman harian</li><li>Tanpa perpanjangan otomatis</li></ul>
-<p id="status" class="notice" role="status" aria-live="polite"><span class="spinner"></span>Memeriksa koneksi checkout…</p>
-<section id="authorize" class="hide">
-  <p class="note">Pertama kali membeli, Telegram akan meminta persetujuan identitas. Setelah itu QRIS ditampilkan otomatis tanpa harus mengisi nama, email, atau nomor WhatsApp.</p>
-  <button type="button" id="start">BELI PREMIUM • LANJUTKAN</button>
-</section>
-<section id="payment" class="hide">
-  <p class="smalltitle">TERVERIFIKASI: <span id="name"></span></p>
-  <div class="payment"><strong>SCAN QRIS UNTUK MEMBAYAR</strong><div><img id="qr" alt="Kode QRIS tagihan resmi PROMPTIONAL"></div><b id="total"></b><p id="expiry" style="font-size:12px"></p></div>
-  <button type="button" class="secondary" id="check">CEK PEMBAYARAN</button>
-  <p class="note">Setelah bayar, sistem akan memeriksa status transaksi. Jangan membuat tagihan baru saat QRIS sebelumnya masih aktif.</p>
-</section>
-<section id="success" class="hide"><p class="notice status-good">QRIS berhasil diverifikasi! Member Area Premium kamu sudah aktif.</p><button id="memberBtn" type="button">BUKA MEMBER AREA</button></section>
-<section id="regular" class="hide"><p class="note">Checkout QRIS otomatis sedang dipersiapkan. Pembayaran belum bisa dilakukan dari halaman ini. Jangan transfer sebelum QRIS resmi muncul.</p><a class="button secondary" href="/support.html">BUTUH BANTUAN? HUBUNGI ADMIN</a></section>
-<footer><a href="/terms.html">Syarat Layanan</a> · <a href="/refund.html">Refund</a> · <a href="/support.html">Bantuan</a><p>Pembelian ini berasal dari website mandiri. Telegram dipakai untuk verifikasi identitas dan pemberitahuan bagi pengguna yang mengizinkan bot.</p></footer>
+ <p class="eyebrow">PROMPTIONAL PREMIUM • AKSES LANGSUNG</p>
+ <h1>Prompt AI lengkap.<br><em>Langsung punya akses.</em></h1>
+ <p class="desc">Nggak perlu menunggu prompt dikirim satu per satu. Selesaikan pembayaran QRIS dan buka semua koleksi di Member Area.</p>
+ <div class="price-row"><span class="price">Rp199.000</span><span class="price-info">Sekali bayar · akses 365 hari</span></div>
+ <div class="benefits"><span>Koleksi lengkap</span><span>Preview + salin prompt</span><span>Tanpa langganan otomatis</span></div>
+ <p id="status" class="message" role="status" aria-live="polite" hidden></p>
+
+ <section class="stage" id="formStage" aria-labelledby="formHeading">
+  <h2 id="formHeading">Isi data sebentar, Kak.</h2>
+  <form id="checkoutForm" novalidate>
+   <div class="field"><label for="fullName">NAMA LENGKAP</label><input id="fullName" name="full_name" autocomplete="name" maxlength="120" placeholder="Contoh: Bunda Rina" required></div>
+   <div class="field"><label for="whatsapp">NOMOR WHATSAPP AKTIF</label><input id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" maxlength="23" placeholder="Contoh: 081234567890" required></div>
+   <div class="field"><label for="email">EMAIL UNTUK AKSES MEMBER</label><input id="email" name="email" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="160" placeholder="Contoh: bunda@email.com" required></div>
+   <input name="website_url" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;pointer-events:none" value="">
+   <button class="action" id="payButton" type="submit">LANJUT BAYAR QRIS →</button>
+   <p class="security">🔒 QRIS resmi BuatQRIS · Akun otomatis aktif setelah pembayaran terverifikasi.</p>
+  </form>
+ </section>
+
+ <section class="stage" id="paymentStage" hidden aria-labelledby="paymentHeading">
+  <h2 id="paymentHeading">Scan QRIS untuk membayar</h2>
+  <p class="desc" style="margin:0">Gunakan aplikasi bank atau e-wallet. Kalau membuka dari HP yang sama, simpan gambar QR untuk dipindai dari galeri aplikasi pembayaran.</p>
+  <div class="qr-panel">
+   <img id="qrImage" alt="QRIS pembayaran PROMPTIONAL" width="300" height="300">
+   <strong id="qrTotal">Rp199.000</strong>
+   <p id="qrExpire"></p>
+  </div>
+  <a id="downloadQr" href="#" download="PROMPTIONAL-QRIS.png" class="secondary" style="text-decoration:none;text-align:center">LIHAT / SIMPAN GAMBAR QRIS</a>
+  <div class="step"><span class="waiting" aria-hidden="true"></span><span id="pollStatus">Menunggu pembayaran otomatis terverifikasi…</span></div>
+  <button id="checkButton" type="button" class="secondary">SAYA SUDAH BAYAR — CEK SEKARANG</button>
+  <p class="security">Jangan transfer dua kali jika status belum berubah. Setelah lunas, akses Member Area diproses otomatis.</p>
+ </section>
+
+ <section class="stage" id="done" hidden aria-labelledby="doneHeading">
+  <span class="check" aria-hidden="true">✓</span>
+  <h2 id="doneHeading">Pembayaran berhasil!</h2>
+  <p>Member Area Premium sudah aktif. Kamu akan masuk secara otomatis.</p>
+  <button class="action" id="enterButton" type="button">BUKA MEMBER AREA →</button>
+  <p class="security">Gunakan email yang tadi diisi untuk mengelola akun.</p>
+ </section>
 </main>
+<footer class="footer">Butuh bantuan? <a href="/support.html">Hubungi Admin</a> · <a href="/terms.html">Syarat</a> · <a href="/privacy.html">Privasi</a></footer>
 <script src="/assets/vendor/appwrite-28.1.0.js"></script>
 <script>
 (()=>{
- const $=id=>document.getElementById(id),set=(msg)=>{$('status').textContent=msg},
- show=id=>['authorize','payment','success','regular'].forEach(k=>$(k).classList.toggle('hide',k!==id));
- const api=async(action,body)=>{
-  const r=await fetch('/api/website-checkout?action='+encodeURIComponent(action),{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify(body||{}),cache:'no-store'});
-  const d=await r.json();if(!r.ok)throw Error(d.error||'Checkout belum dapat diproses.');return d;
+ "use strict";
+ const $=id=>document.getElementById(id);
+ const status=$('status'), stages=['formStage','paymentStage','done'];
+ const api=async(action,data={})=>{
+  const url='/api/form-checkout?action='+encodeURIComponent(action);
+  const res=await fetch(url,{method:action==='config'?'GET':'POST',credentials:'same-origin',
+   headers:action==='config'?{}:{'Content-Type':'application/json'},
+   body:action==='config'?undefined:JSON.stringify(data),cache:'no-store'});
+  let json={};try{json=await res.json()}catch{}
+  if(!res.ok)throw Object.assign(Error(json.error||'Koneksi pembayaran belum berhasil.'),{status:res.status});
+  return json;
  };
- let timer=null,expiry=0,hasSession=false;
- const setImage=(value)=>{
-  const u=String(value||'');if(!/^https:\/\//.test(u)&&!/^data:image\/(png|jpeg|webp);base64,/.test(u))throw Error('Kode QRIS tidak valid.');
-  $('qr').src=u;
- };
- async function beginPayment(){
-  set('Identitas terverifikasi. Menyiapkan QRIS…');
-  const order=await api('create');
-  if(order.status==='activated'||order.status==='paid'){return await poll(true)}
-  if(order.status!=='pending')throw Error('Checkout belum dapat membuat QRIS.');
-  setImage(order.qr_url);$('total').textContent='Total tagihan Rp'+Number(order.total_amount).toLocaleString('id-ID');
-  expiry=Date.parse(order.expires_at)||Date.now()+900000;
-  show('payment');set('Scan QRIS lalu tunggu konfirmasi otomatis.');
-  const countdown=()=>{$('expiry').textContent=expiry>Date.now()?'Berlaku sampai '+new Date(expiry).toLocaleString('id-ID',{timeZone:'Asia/Jakarta'})+' WIB':'Masa QRIS telah berakhir. Periksa status pembayaran atau hubungi bantuan.'};
-  countdown();timer=setInterval(()=>{countdown();void poll(false)},20000);
+ let receipt='',timer=null,expiry=0,ready=false,entering=false;
+ function show(id){stages.forEach(k=>$(k).hidden=k!==id);window.scrollTo({top:0,behavior:'smooth'});}
+ function say(msg,kind=''){status.hidden=!msg;status.textContent=msg||'';status.className='message'+(kind?' '+kind:'');}
+ function amount(n){return 'Rp'+Number(n||0).toLocaleString('id-ID')}
+ function setQr(url){
+  const valid=String(url||'');
+  if(!/^https:\/\//.test(valid)&&!/^data:image\/(?:png|jpeg|webp);base64,/.test(valid))throw Error('Gambar QRIS belum valid. Hubungi Admin.');
+  $('qrImage').src=valid;$('downloadQr').href=valid;
  }
- async function enter(){
-  const d=await api('session-token');
-  const client=new Appwrite.Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
-  const account=new Appwrite.Account(client);
-  try{
-   const old=await account.get().catch(()=>null);
-   if(old&&old.$id!==d.userId)await account.deleteSession({sessionId:'current'});
-   if(!old||old.$id!==d.userId)await account.createSession({userId:d.userId,secret:d.secret});
-   location.assign('/member?first=1');
-  }catch(e){set('Akses Premium aktif, tetapi sesi website belum berhasil dibuka. Hubungi Admin melalui Bantuan.')}
+ function paymentStage(data){
+  if(data.qr_url)setQr(data.qr_url);
+  if(data.total_amount)$('qrTotal').textContent=amount(data.total_amount);
+  expiry=Date.parse(data.expires_at||'')||Date.now()+15*60000;
+  $('qrExpire').textContent='Berlaku sampai '+new Date(expiry).toLocaleString('id-ID',{timeZone:'Asia/Jakarta'})+' WIB';
+  show('paymentStage');say('QRIS sudah tersedia. Scan dan bayar sesuai total tagihan.');
+  if(timer)clearInterval(timer);timer=setInterval(()=>void poll(),9000);void poll();
  }
- async function poll(manual){
+ async function openMember(){
+  if(!receipt||entering)return;
+  entering=true;$('enterButton').disabled=true;
+  say('Membuka akun Member Area…');
   try{
-   const d=await api('status');
-   if(d.status==='activated'){
-    if(timer)clearInterval(timer);
-    show('success');set('Pembayaran berhasil! Premium sudah aktif.');await enter();return;
+   const access=await api('session-token',{public_token:receipt});
+   if(!window.Appwrite)throw Error('Layanan login Member Area belum termuat. Muat ulang halaman.');
+   const client=new Appwrite.Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
+   const account=new Appwrite.Account(client);
+   const existing=await account.get().catch(()=>null);
+   if(existing&&existing.$id!==access.userId)await account.deleteSession({sessionId:'current'});
+   if(!existing||existing.$id!==access.userId)await account.createSession({userId:access.userId,secret:access.secret});
+   sessionStorage.removeItem('promptional_checkout_receipt');
+   location.replace('/member?first=1');
+  }catch(err){
+   say(err.message||'Akun aktif, tetapi sesi belum berhasil. Coba tombol sekali lagi.','error');
+   $('enterButton').disabled=false;
+  }finally{entering=false}
+ }
+ async function poll(manual=false){
+  if(!receipt||ready)return;
+  try{
+   const result=await api('check',{public_token:receipt});
+   if(result.status==='success'){
+    if(timer){clearInterval(timer);timer=null}
+    if(result.access_ready){
+     ready=true;show('done');say('Pembayaran lunas dan akun sudah aktif!','good');void openMember();
+    }else{
+     $('pollStatus').textContent='Pembayaran sudah lunas. Sedang menyiapkan akun Member Area…';
+     say('Pembayaran berhasil! Aktivasi akun sedang diproses.','good');
+     if(!timer)timer=setInterval(()=>void poll(),4500);
+    }
+    return;
    }
-   if(['expired','failed'].includes(d.status)){if(timer)clearInterval(timer);set('QRIS '+(d.status==='expired'?'kedaluwarsa':'tidak berhasil')+'. Hubungi bantuan jika sudah melakukan transfer.');return}
-   if(manual)set('Belum tercatat lunas. Jangan bayar dua kali; tunggu sebentar.');
-  }catch(e){if(manual)set(e.message)}
+   if(result.status==='expired'||result.status==='failed'){
+    if(timer)clearInterval(timer);timer=null;
+    $('pollStatus').textContent='QRIS sudah tidak aktif. Hubungi Admin jika uang sudah terpotong.';
+    say('QRIS kedaluwarsa atau gagal. Jangan bayar dua kali; hubungi Admin jika sudah transfer.','error');
+    return;
+   }
+   if(manual)say('Pembayaran belum tercatat lunas. Tunggu sebentar, jangan bayar dua kali.');
+  }catch(err){if(manual)say(err.message,'error')}
  }
- $('start').addEventListener('click',()=>{location.assign('/api/website-login?action=start')});
- $('check').addEventListener('click',()=>void poll(true));
- $('memberBtn').addEventListener('click',()=>void enter());
+ $('checkoutForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const btn=$('payButton');if(btn.disabled)return;
+  const name=$('fullName').value.trim(),whatsapp=$('whatsapp').value.trim(),email=$('email').value.trim().toLowerCase();
+  if(name.length<2||!/^(\+?62|0)?8[\d\s-]{8,14}$/.test(whatsapp.replace(/\s/g,''))||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+   say('Periksa lagi nama, nomor WhatsApp, dan email, ya Kak.','error');return;
+  }
+  btn.disabled=true;btn.textContent='MENYIAPKAN QRIS…';say('Membuat QRIS resmi, mohon tunggu…');
+  try{
+   const data=await api('create',{full_name:name,whatsapp,email});
+   if(!data.public_token||!data.success)throw Error('Invoice belum berhasil dibuat.');
+   receipt=data.public_token;sessionStorage.setItem('promptional_checkout_receipt',receipt);
+   if(data.status==='success'){await poll();return}
+   paymentStage(data);
+  }catch(err){
+   say(err.message||'QRIS belum dapat dibuat. Coba beberapa saat lagi.','error');
+   btn.disabled=false;btn.textContent='LANJUT BAYAR QRIS →';
+  }
+ });
+ $('checkButton').addEventListener('click',()=>void poll(true));
+ $('enterButton').addEventListener('click',()=>void openMember());
  (async()=>{
   try{
-   const [login,checkout]=await Promise.all([
-    fetch('/api/website-login?action=config',{cache:'no-store'}).then(r=>r.json()),
-    fetch('/api/website-checkout?action=config',{cache:'no-store'}).then(r=>r.json())]);
-   if(!login.enabled||!checkout.enabled){set('Checkout QRIS otomatis belum diaktifkan untuk pembeli umum. Jangan melakukan transfer sebelum QRIS resmi muncul.');show('regular');return}
-   const session=await fetch('/api/website-login?action=session',{cache:'no-store'}).then(r=>r.json());
-   if(!session.authenticated){show('authorize');set('Klik BELI PREMIUM untuk mengonfirmasi identitas Telegram satu kali.');return}
-   hasSession=true;$('name').textContent=session.name||'Member PROMPTIONAL';await beginPayment();
-  }catch(e){set('Checkout belum tersedia: '+e.message);show('regular')}
+   const cfg=await api('config');
+   if(!cfg.registration_open||!cfg.payment_active||!cfg.payment_configured||cfg.test_mode!==false||Number(cfg.price)!==199000){
+    $('payButton').disabled=true;say('Checkout QRIS belum siap dibuka untuk umum. Hubungi Admin untuk pembelian.','error');return;
+   }
+   // Resume an already-created invoice without generating another paid transaction.
+   const saved=sessionStorage.getItem('promptional_checkout_receipt');
+   if(saved&&/^[a-f0-9]{48}$/.test(saved)){
+    receipt=saved;
+    try{
+     const x=await api('check',{public_token:receipt});
+     if(x.status==='pending'&&x.qr_url)paymentStage(x);
+     else if(x.status==='success'){show('paymentStage');void poll();}
+     else sessionStorage.removeItem('promptional_checkout_receipt');
+    }catch{/* A temporary upstream error must not erase the payment receipt. */}
+   }
+  }catch(err){$('payButton').disabled=true;say('Layanan pembayaran belum tersedia. Silakan hubungi Admin.','error')}
  })();
 })();
 </script>
-</body>
-</html>
+</body></html>
