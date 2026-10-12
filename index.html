@@ -13,13 +13,13 @@
 <link rel="icon" type="image/svg+xml" href="/assets/promptional-icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Roboto:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <title>PROMPTIONAL — Prompt AI Gratis Setiap Hari</title>
 <style>
-:root{--orange:#ff852a;--cream:#faf3eb;--serif:"Playfair Display",Georgia,serif;--sans:"DM Sans",Arial,sans-serif;--safe:env(safe-area-inset-bottom,0px)}
+:root{--orange:#ff852a;--cream:#faf3eb;--heading:"Roboto",Arial,sans-serif;--body:"Nunito",Arial,sans-serif;--safe:env(safe-area-inset-bottom,0px)}
 *,*:before,*:after{box-sizing:border-box}
 html{background:#050404;scroll-behavior:smooth}
-body{margin:0;background:#050404;color:var(--cream);font:400 14px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{margin:0;background:#050404;color:var(--cream);font:400 14px/1.6 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 button{font:inherit;cursor:pointer}
 :focus-visible{outline:3px solid #ffd1a1;outline-offset:4px}
@@ -50,16 +50,21 @@ button{font:inherit;cursor:pointer}
 .model{width:100%;height:100%;object-fit:cover;object-position:center 24%;display:block;filter:sepia(.09) saturate(.76) contrast(1.11) brightness(.83)}
 .hero-copy{position:absolute;z-index:20;top:13.5%;left:50%;transform:translateX(-50%);width:min(880px,88vw);text-align:center;pointer-events:none;text-shadow:0 2px 28px #000a}
 .eyebrow{color:#ffb26b;letter-spacing:.21em;font-size:10px;font-weight:800;text-transform:uppercase;margin:0 0 10px}
-h1{font:500 clamp(38px,5.4vw,76px)/.99 var(--serif);letter-spacing:-.045em;margin:0;text-wrap:balance}
+h1{font:800 clamp(38px,5.4vw,76px)/1.01 var(--heading);letter-spacing:-.045em;margin:0;text-wrap:balance}
 h1 em{color:var(--orange);font-style:normal}
 .description{font-size:clamp(12px,1.1vw,16px);line-height:1.6;color:#e9d9ce;max-width:560px;margin:18px auto 0;text-wrap:pretty}
 .bottom-action{position:absolute;z-index:45;bottom:calc(6.4% + var(--safe));left:50%;transform:translateX(-50%);display:grid;justify-items:center;width:min(580px,calc(100% - 30px))}
 .cta{display:flex;align-items:center;justify-content:center;gap:17px;width:min(100%,465px);min-height:65px;padding:14px 22px;border-radius:100px;border:1px solid #ffc47b;background:linear-gradient(106deg,#ffbd61,#ff8e27 53%,#ffb85e);color:#160b03;font-size:clamp(12px,1.2vw,16px);font-weight:800;letter-spacing:.02em;box-shadow:0 0 0 1px #ffefb24d inset,0 0 28px #ff861d80,0 18px 50px #000c;transition:transform .3s ease,box-shadow .3s ease}
 .cta:hover{transform:translateY(-3px);box-shadow:0 0 38px #ff8f2b,0 23px 56px #000d}
 .cta svg{width:22px;height:22px;flex:none}
-.benefits{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px 18px;margin:18px 0 0;color:#f3dbbd;font-size:11px;letter-spacing:.02em;text-align:center}
-.benefits span{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
-.benefits b{color:#ffad44;font-size:15px}
+.get-guide{margin-top:13px;display:grid;justify-items:center;gap:6px;max-width:530px;text-align:center}
+.guide-title{font:800 10px/1.5 var(--body);color:#ffbb79;letter-spacing:.13em}
+.guide-steps{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:7px 9px;color:#fff4e6;font:700 12px/1.5 var(--body)}
+.guide-steps span:not(.guide-arrow){display:inline-flex;align-items:center;gap:6px}
+.guide-steps b{display:inline-grid;place-items:center;width:21px;height:21px;border-radius:50%;background:#ff9f3c;color:#201005;font:900 11px/1 var(--heading)}
+.guide-steps strong{font:900 13px/1 var(--heading);color:#ffb15b;letter-spacing:.04em}
+.guide-arrow{color:#ff9d4e;font-weight:900}
+.guide-note{margin:2px 0 0;color:#d2bfb1;font:600 10px/1.45 var(--body)}
 .hint{position:absolute;z-index:17;top:52%;left:50%;transform:translateX(-50%);color:#cbb9a9;font-size:10px;letter-spacing:.16em;opacity:.65;pointer-events:none;white-space:nowrap;display:none}
 .lightbox{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:24px;background:#000e;backdrop-filter:blur(16px)}
 .lightbox[hidden]{display:none}
@@ -109,9 +114,14 @@ h1 em{color:var(--orange);font-style:normal}
  .bottom-action{bottom:calc(5% + var(--safe));width:calc(100% - 34px)}
  .cta{min-height:55px;font-size:12px;width:100%;max-width:360px;gap:12px}
  .cta svg{width:19px;height:19px}
- .benefits{font-size:9px;gap:5px 10px;margin-top:11px}
+ .get-guide{margin-top:12px;gap:5px}
+ .guide-title{font-size:9px}
+ .guide-steps{font-size:10px;gap:5px 7px}
+ .guide-steps b{width:19px;height:19px;font-size:10px}
+ .guide-steps strong{font-size:11px}
+ .guide-note{font-size:9px;max-width:330px}
 }
-@media(max-width:380px){h1{font-size:29px}.description{font-size:10px}.kicker{display:none}.float-card{width:92px}.benefits{font-size:8px}}
+@media(max-width:380px){h1{font-size:29px}.description{font-size:10px}.kicker{display:none}.float-card{width:92px}.guide-steps{font-size:9px}.guide-note{font-size:8.5px}}
 @media(max-height:650px) and (min-width:700px){.hero-copy{top:10%}h1{font-size:clamp(35px,5vw,55px)}.model-wrap{height:67%}.bottom-action{bottom:3%}}
 @media(prefers-reduced-motion:reduce){.float-card,.float-card img,.cta{transition:none!important;animation:none!important}}
 </style>
@@ -149,11 +159,15 @@ h1 em{color:var(--orange);font-style:normal}
   <p class="description">Lihat contoh gambarnya, salin promptnya, lalu bikin sendiri. Inspirasi baru dikirim gratis langsung ke Telegram kamu.</p>
  </div>
  <div class="bottom-action">
-  <a class="cta" href="https://t.me/BadaiPromptBot?start=landing_free" target="_blank" rel="noopener noreferrer">
+  <a class="cta" href="https://t.me/BadaiPromptBot?start=landing_free" target="_blank" rel="noopener noreferrer" aria-label="Buka Telegram, lalu tekan START pada bot untuk menerima prompt gratis">
    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 3.2a1.3 1.3 0 0 0-1.4-.2L2.1 10.7a1.2 1.2 0 0 0 .1 2.2l5.3 1.8 1.8 5.4a1.2 1.2 0 0 0 2.1.4l2.9-3.6 4.6 3.4a1.2 1.2 0 0 0 1.9-.8L22 4.5a1.4 1.4 0 0 0-.2-1.3ZM9.2 14l9.6-7.5-7.7 10.3-.8 1.1L9.2 14Z"/></svg>
    AMBIL PROMPT GRATIS <span aria-hidden="true">→</span>
   </a>
-  <div class="benefits" aria-label="Keunggulan"><span><b>✓</b> Gratis</span><span><b>✓</b> Setiap Hari</span><span><b>✓</b> Langsung di Telegram</span></div>
+  <div class="get-guide" role="group" aria-label="Cara mendapatkan prompt gratis">
+   <span class="guide-title">CARA MENDAPATKANNYA</span>
+   <div class="guide-steps"><span><b>1</b> Klik tombol di atas</span><span class="guide-arrow" aria-hidden="true">→</span><span><b>2</b> Tekan <strong>START</strong> di bot Telegram</span></div>
+   <p class="guide-note">Setelah START, prompt gratis dikirim otomatis ke chat sesuai jadwal.</p>
+  </div>
  </div>
 </section>
 </main>
