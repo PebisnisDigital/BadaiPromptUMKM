@@ -22,11 +22,11 @@ test('one-step cross-channel checkout has three visible data fields, no Telegram
 });
 
 test('checkout visually showcases three seamlessly looping published Member Area preview rows before the form',()=>{
- const intro=html.indexOf('class="intro"');
+ const product=html.indexOf('class="product-market"');
  const gallery=html.indexOf('class="preview-showcase"');
  const formPanel=html.indexOf('id="checkoutPanel"');
  const form=html.indexOf('id="checkoutForm"');
- assert.ok(intro>=0 && gallery>intro && formPanel>gallery && form>formPanel);
+ assert.ok(product>=0 && gallery>product && formPanel>gallery && form>formPanel);
  assert.equal([...html.matchAll(/class="marquee-row(?: reverse)?"/g)].length,3);
  assert.match(html,/id="previewTrack0"/);
  assert.match(html,/id="previewTrack1"/);
@@ -53,6 +53,38 @@ test('payment stage scrolls into view and buyer fields remain the only required 
  assert.match(script,/api\('check',\{public_token:receipt\}\)/);
  assert.match(script,/api\('session-token',\{public_token:receipt\}\)/);
  assert.match(script,/location\.replace\('\/member\?first=1'\)/);
+});
+test('marketplace product clarity and honest social proof use real published previews',()=>{
+ assert.match(html,/class="product-market"/);
+ assert.match(html,/id="premium-title"/);
+ assert.match(html,/class="product-shot"/);
+ assert.equal([...html.matchAll(/class="product-thumbs"/g)].length,1);
+ assert.match(html,/id="publishedPreviewCount"/);
+ assert.match(script,/fetch\('\/api\/public-previews'/);
+ assert.match(script,/\$\('publishedPreviewCount'\)\.textContent=String\(published\.length\)/);
+ assert.match(html,/Cuplikan gambar asli dari Member Area/);
+ assert.match(html,/class="checkout-line"/);
+ assert.match(html,/class="checkout-title"/);
+ assert.match(html,/Rp199\.000/);
+ assert.doesNotMatch(html,/baru saja membeli|orang membeli|5\.0|⭐⭐⭐⭐⭐|sisa \d+ slot/i);
+ assert.doesNotMatch(html,/testimoni dari.*Bunda Rina/i);
+});
+test('mobile sticky CTA leads to same checkout form and disappears at QR payment',()=>{
+ assert.match(html,/id="stickyCheckout"/);
+ assert.match(html,/@media\(max-width:680px\)/);
+ assert.match(html,/\.sticky-buy\{display:flex;position:fixed/);
+ assert.match(html,/href="#checkoutPanel"/);
+ assert.match(script,/const setQuickVisibility=id=>\{if\(quickBuy\)quickBuy\.hidden=id!=='formStage';\}/);
+ assert.match(script,/refresh/gi);
+ assert.equal([...html.matchAll(/id="checkoutForm"/g)].length,1);
+ assert.equal([...html.matchAll(/<input[^>]+required/g)].length,3);
+});
+test('helpful checkout FAQ has grounded answers and does not pressure customers',()=>{
+ assert.match(html,/id="faqHeading"/);
+ assert.equal([...html.matchAll(/<details>/g)].length,4);
+ assert.match(html,/Jangan bayar dua kali/);
+ assert.match(html,/Tidak perlu.*Telegram/);
+ assert.match(html,/pembayaran QRIS terverifikasi/);
 });
 test('BuatQRIS is server-side and the buyer cannot choose price or payment outcome',()=>{
  assert.match(server,/data=\{full_name:name,email,whatsapp:wa,amount:199000\}/);
