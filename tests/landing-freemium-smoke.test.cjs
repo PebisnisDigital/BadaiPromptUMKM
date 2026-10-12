@@ -20,6 +20,26 @@ test('single free Telegram hero with interactive floating preview cards',()=>{
  assert.equal([...html.matchAll(/href="https:\/\/t\.me\/BadaiPromptBot\?start=landing_free"/g)].length,1);
  assert.doesNotMatch(html,/<form\b|checkout|LOGIN MEMBER|Rp199\.000/i);
 });
+test('five social channel choices route to the @promptional profiles and the Telegram bot',()=>{
+ const socials=[
+  ['Instagram','https://www.instagram.com/promptional/'],
+  ['TikTok','https://www.tiktok.com/@promptional'],
+  ['Facebook','https://www.facebook.com/promptional'],
+  ['Threads','https://www.threads.com/@promptional']
+ ];
+ assert.match(html,/aria-label="Ikuti media sosial PROMPTIONAL"/);
+ assert.match(html,/IKUTI JUGA @PROMPTIONAL/);
+ assert.equal([...html.matchAll(/class="social-link"/g)].length,4);
+ for(const [name,url] of socials){
+  assert.ok(html.includes('href="'+url+'"'),name+' profile link');
+  assert.ok(html.includes('aria-label="Buka '+name+' @promptional"'),name+' accessible label');
+ }
+ assert.match(html,/class="social-grid"/);
+ assert.match(html,/\.social-grid\{display:grid;grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
+ assert.match(html,/\.social-grid\{grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+ assert.match(html,/href="https:\/\/t\.me\/BadaiPromptBot\?start=landing_free"/);
+ assert.equal([...html.matchAll(/href="\/beli-premium\.html"/g)].length,2);
+});
 test('every card starts with a published member preview, and 32 previews can cycle',()=>{
  assert.ok(snapshotMatch,'published preview snapshot found');
  const previews=JSON.parse(snapshotMatch[1]);
