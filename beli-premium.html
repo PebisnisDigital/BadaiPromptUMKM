@@ -286,10 +286,11 @@ form{display:grid;gap:13px}
   }catch{return false}
  };
  function fillPreviewSliders(collection){
-  const clean=collection.filter(x=>x&&/^BP\d{1,6}$/.test(x.code)&&allowedPreviewUrl(x.src)).slice(0,24);
+  const published=collection.filter(x=>x&&/^BP\d{1,6}$/.test(x.code)&&allowedPreviewUrl(x.src));
+  const clean=published.slice(0,24);
   if(clean.length<18)return;
   const perRow=8;
-  $('publishedPreviewCount').textContent=String(clean.length);
+  $('publishedPreviewCount').textContent=String(published.length);
   galleryTracks.forEach((track,row)=>{
    const chosen=clean.slice(row*perRow,row*perRow+perRow);
    if(chosen.length<6)return;
