@@ -58,6 +58,28 @@ test('the first screen shows concise price, 3 fields and one primary QRIS action
  assert.match(html,/EMAIL AKSES MEMBER/);
  assert.doesNotMatch(html,/kicker|subtitle|support-links|perks|form-helper|security|<footer/i);
 });
+test('checkout top header is removed and all rotating stamp lines share one horizontal heading',()=>{
+ assert.doesNotMatch(html,/<header\b|class="topbar"|class="brand"|class="login"/);
+ assert.match(html,/class="checkout-heading"/);
+ assert.match(html,/aria-label="PROMPTIONAL Premium, akses prompt AI lengkap dan Member Area"/);
+ assert.equal([...html.matchAll(/class="stamp-phrase(?: mau)?"/g)].length,6);
+ assert.match(html,/@keyframes checkoutStamp/);
+ assert.match(html,/animation:checkoutStamp 20\.4s both infinite/);
+ assert.match(html,/\.stamp-phrase:nth-child\(6\)\{animation-delay:17s\}/);
+ assert.match(html,/\.stamp-phrase\{position:absolute;inset:0;display:flex/);
+ assert.match(html,/white-space:nowrap/);
+ for(const line of ['semua prompt?','update juga?','Member Area?','Mau?','MAU?']){
+  assert.ok(html.includes(line),'Stamp line '+line);
+ }
+ assert.match(html,/\.stamp-phrase:first-child\{opacity:1!important\}/);
+ assert.match(html,/@media\(prefers-reduced-motion:reduce\)/);
+});
+test('50% affiliate commission claim remains withheld until actually configured',()=>{
+ const pending=html.match(/<template id="pendingAffiliateStamp">([\s\S]*?)<\/template>/);
+ assert.ok(pending);
+ assert.equal(pending[1],'DIKASIH komisi 50%?');
+ assert.doesNotMatch(html,/<span class="stamp-phrase[^"]*">DIKASIH komisi 50%/);
+});
 test('payment remains in the same card and creates a member session when verified',()=>{
  assert.match(html,/id="paymentStage"/);
  assert.match(html,/id="qrImage"/);
