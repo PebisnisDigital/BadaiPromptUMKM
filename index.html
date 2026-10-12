@@ -34,6 +34,10 @@ button{font:inherit;cursor:pointer}
 .brand img{width:29px;height:29px;border-radius:7px}
 .brand strong{color:var(--orange);font-weight:800}
 .kicker{font-weight:600;font-size:10px;letter-spacing:.22em;color:#e8d2c6}
+.premium-top{color:#ffbb79;border:1px solid #ffbc7977;padding:7px 11px;border-radius:50px;font:900 10px/1.3 var(--body);letter-spacing:.08em;white-space:nowrap;transition:background .2s,transform .2s}
+.premium-top:hover{background:#ff882a24;transform:translateY(-2px)}
+.premium-quick{display:inline-block;margin-top:3px;padding:8px 15px;border-radius:30px;color:#ffe5d0;background:#23140e88;border:1px solid #98603c9a;font:800 10px/1.4 var(--body);letter-spacing:.03em}
+.premium-quick b{color:#ffb268}
 .stage{position:absolute;inset:0;perspective:1100px;overflow:hidden;pointer-events:none}
 .gallery{position:absolute;inset:0;transform-style:preserve-3d;z-index:4;pointer-events:none}
 .float-card{position:absolute;top:var(--y);left:var(--x);width:clamp(115px,13vw,215px);aspect-ratio:var(--ratio,1.35);border:1px solid rgba(255,205,152,.58);border-radius:6px;overflow:hidden;padding:0;background:#251b16;box-shadow:0 20px 62px #000b,0 0 18px #df722225;transform:translate3d(var(--px,0px),var(--py,0px),0) rotateY(var(--ry,0deg)) rotateZ(var(--rz,0deg));transform-style:preserve-3d;pointer-events:auto;will-change:transform;transition:border-color .3s,box-shadow .3s,filter .3s;filter:brightness(var(--bright,1));opacity:var(--opacity,1)}
@@ -134,7 +138,9 @@ h1 em{color:var(--orange);font-style:normal}
  .hero{height:100svh;height:100dvh;min-height:655px;max-height:1000px}
  .topbar{height:62px;padding:16px 18px}
  .brand{letter-spacing:.1em;font-size:15px;gap:7px}.brand img{width:24px;height:24px}
- .kicker{font-size:8px;letter-spacing:.07em}
+ .kicker{display:none}
+ .premium-top{font-size:9px;padding:7px 10px}
+ .premium-quick{font-size:9px;margin-top:3px}
  .hero-copy{top:14.5%;width:calc(100% - 20px)}
  .eyebrow{font-size:8px;letter-spacing:.15em;margin-bottom:9px}
  h1{font-size:clamp(30px,8.4vw,48px);line-height:1.04}
@@ -171,6 +177,7 @@ h1 em{color:var(--orange);font-style:normal}
  <header class="topbar">
   <a href="#hero" class="brand" aria-label="PROMPTIONAL beranda"><img src="/assets/promptional-icon.svg" alt="" width="29" height="29"><span>PROMPT<strong>IONAL</strong></span></a>
   <span class="kicker">PROMPT AI GRATIS · SETIAP HARI</span>
+  <a href="/beli-premium.html" class="premium-top">BELI PREMIUM ↗</a>
  </header>
  <div class="stage" aria-label="Contoh visual prompt AI dari PROMPTIONAL">
   <div class="gallery gallery-back" id="gallery">
@@ -205,6 +212,7 @@ h1 em{color:var(--orange);font-style:normal}
    <span class="guide-title">CARA MENDAPATKANNYA</span>
    <div class="guide-steps"><span><b>1</b> Klik tombol di atas</span><span class="guide-arrow" aria-hidden="true">→</span><span><b>2</b> Tekan <strong>START</strong> di bot Telegram</span></div>
    <p class="guide-note">Di Telegram, tombol START/MULAI ada di bawah chat. Prompt dikirim otomatis sesuai jadwal.</p>
+   <a class="premium-quick" href="/beli-premium.html">MAU KOLEKSI LENGKAP? <b>BUKA PREMIUM →</b></a>
   </div>
  </div>
 </section>
