@@ -1,322 +1,168 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#080809"><meta name="robots" content="index,follow">
-<meta name="description" content="PROMPTIONAL Premium. Bayar QRIS Rp199.000 sekali, langsung dapat akses Member Area 365 hari. Form simpel: nama, email, dan WhatsApp.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080809">
+<meta name="description" content="Checkout PROMPTIONAL Premium Rp199.000. Cukup nama, WhatsApp dan email, lalu bayar QRIS untuk akses Member Area 365 hari.">
 <link rel="canonical" href="https://promptional.vercel.app/beli-premium.html">
 <link rel="icon" href="/assets/promptional-icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Roboto:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-<title>Beli Premium — PROMPTIONAL</title>
+<title>Checkout Premium — PROMPTIONAL</title>
 <style>
-:root{--bg:#080809;--panel:#151517;--ink:#f8f5f2;--muted:#b7b4b2;--line:#333134;--accent:#ff8a2a;--glow:#ff9c39;--heading:Roboto,Arial,sans-serif;--body:Nunito,Arial,sans-serif}
+:root{--bg:#080809;--ink:#f9f6f3;--orange:#ff9b3d;--body:Nunito,Arial,sans-serif;--head:Roboto,Arial,sans-serif}
 *{box-sizing:border-box}
 html{background:var(--bg)}
-body{margin:0;min-height:100svh;color:var(--ink);background:radial-gradient(ellipse 70% 33% at 52% -7%,#a94c1f32,transparent 85%),var(--bg);font:500 14px/1.65 var(--body);-webkit-font-smoothing:antialiased;padding:19px 18px 34px;overflow-x:hidden}
-a{color:#ffbd85}
+body{margin:0;min-height:100svh;display:flex;flex-direction:column;overflow-x:hidden;background:radial-gradient(ellipse 70% 50% at 50% 16%,#6b2d1229,transparent 80%),#080809;color:var(--ink);font:600 13px/1.45 var(--body);-webkit-font-smoothing:antialiased;padding:12px 16px 14px}
+a{color:#ffc28a}
 button,input{font:inherit}
 button{cursor:pointer}
-button:disabled{opacity:.5;cursor:wait}
-:focus-visible{outline:3px solid #ffe0b2;outline-offset:3px}
-.topbar{width:min(100%,1020px);margin:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.brand{display:flex;gap:9px;align-items:center;color:#fff;text-decoration:none;font:900 15px/1 var(--heading);letter-spacing:.12em}
-.brand img{width:27px;height:27px}
-.brand em{color:var(--accent);font-style:normal}
-.topbar>a:last-child{color:#e2cdc0;text-decoration:none;font-size:12px;font-weight:800}
-main{width:min(100%,1040px);margin:32px auto 0}
-.intro{width:min(100%,630px);margin:0 auto 21px;text-align:center}
-.intro .desc{max-width:550px;margin:13px auto 0}
-.checkout-panel{width:min(100%,565px);margin:24px auto 0;border:1px solid #3c3430;border-radius:24px;padding:clamp(20px,4vw,35px);background:linear-gradient(145deg,#211912 0%,#121214 48%,#101012 100%);box-shadow:0 30px 90px #0008;scroll-margin-top:20px}
-.checkout-panel .price-row{margin-bottom:0}
-.checkout-panel .benefits{margin-bottom:18px}
-.preview-showcase{position:relative;margin:0 auto;width:100%;min-width:0;padding:17px 0 18px;border-radius:19px;background:linear-gradient(160deg,#1d1510cb,#0c0c0cee);border:1px solid #503524a6;box-shadow:0 14px 60px #0006;overflow:hidden}
-.preview-heading{text-align:center;padding:0 15px 13px}
-.preview-heading .eyebrow{margin:0 0 5px;color:#ffb46e}
-.preview-heading h2{font:900 clamp(16px,3vw,23px)/1.17 var(--heading);letter-spacing:-.035em;margin:0}
-.preview-heading p{font-size:11px;color:#c8b1a0;margin:4px 0 0}
-.marquee-stack{display:grid;gap:9px}
-.marquee-row{width:100%;overflow:hidden;position:relative;min-height:clamp(92px,15vw,142px);mask-image:linear-gradient(90deg,transparent 0%,#000 7%,#000 93%,transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 7%,#000 93%,transparent 100%)}
-.marquee-track{display:flex;align-items:stretch;gap:10px;width:max-content;animation:previewSlide var(--speed,38s) linear infinite;animation-delay:var(--offset,0s);will-change:transform}
-.marquee-row.reverse .marquee-track{animation-direction:reverse}
-.marquee-row:nth-child(1){--speed:43s;--offset:-7s}
-.marquee-row:nth-child(2){--speed:49s;--offset:-20s}
-.marquee-row:nth-child(3){--speed:45s;--offset:-13s}
-.marquee-set{display:flex;flex:none;gap:10px}
-.preview-tile{position:relative;flex:none;width:clamp(126px,17.5vw,196px);aspect-ratio:1.4;overflow:hidden;border:1px solid #946345b3;border-radius:10px;background:linear-gradient(135deg,#493124,#221916);box-shadow:0 7px 18px #000a}
-.preview-tile img{display:block;width:100%;height:100%;object-fit:cover}
-.preview-tile figcaption{position:absolute;bottom:0;left:0;right:0;padding:17px 9px 6px;background:linear-gradient(transparent,#000a);color:#fff;font:900 10px/1.25 var(--body);text-shadow:0 1px 3px #000}
-.preview-showcase .gallery-foot{text-align:center;color:#e2bf9b;font:800 10px/1.4 var(--body);letter-spacing:.03em;margin:10px 0 0;padding:0 12px}
-@keyframes previewSlide{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
-
-.eyebrow{color:#ffae68;letter-spacing:.15em;font:900 10px/1.3 var(--body);text-transform:uppercase;margin:0 0 14px}
-h1{font:900 clamp(30px,7.3vw,43px)/1.07 var(--heading);letter-spacing:-.045em;margin:0}
-h1 em{color:var(--accent);font-style:normal}
-.desc{color:#ded3cc;line-height:1.6;margin:12px 0 17px;font-size:13px}
-.price-row{display:flex;align-items:end;gap:12px;flex-wrap:wrap;padding:15px 17px;border:1px solid #85552a;background:#2b1c13;border-radius:15px}
-.price{font:900 clamp(29px,8vw,37px)/1 var(--heading);letter-spacing:-.05em}
-.price-info{font-size:12px;color:#f2cbad}
-.benefits{display:flex;flex-wrap:wrap;gap:6px 13px;margin:15px 0 20px;font-size:11px;font-weight:800;color:#f1e3d9}
-.benefits span:before{content:"✓";color:var(--accent);margin-right:5px}
-form{display:grid;gap:13px}
-.field{display:grid;gap:5px}
-.field label{font-size:11px;font-weight:900;letter-spacing:.04em}
-.field input{border:1px solid #4b4140;border-radius:12px;background:#09090a;color:#fff;min-height:51px;width:100%;padding:13px 14px;outline:none;font-size:14px;transition:border-color .2s}
-.field input:focus{border-color:#ffa657}
-.field input::placeholder{color:#868184}
-.action{position:relative;width:100%;min-height:58px;padding:13px 15px;border:1px solid #ffc77e;border-radius:15px;background:linear-gradient(115deg,#ffb45a,#ff8829 55%,#ffac4a);box-shadow:0 11px 32px #f6762945;color:#1e1005;font:900 15px/1.2 var(--heading);letter-spacing:.01em}
-.action:hover:not(:disabled){filter:brightness(1.08);transform:translateY(-2px)}
-.action:active{transform:translateY(2px) scale(.99)}
-.security{font-size:11px;color:#c7b8b0;text-align:center;margin:0}
-.message{padding:11px 13px;border:1px solid #8f5939;background:#332016;border-radius:10px;margin:0;font-size:12px;color:#ffe7d8}
-.message.error{border-color:#b35151;background:#321c20;color:#ffdad8}
-.message.good{border-color:#477e62;background:#102d25;color:#bdf9d9}
+button:disabled{opacity:.6;cursor:wait}
+:focus-visible{outline:2px solid #ffc483;outline-offset:3px}
 [hidden]{display:none!important}
-.stage{display:grid;gap:14px}
-.stage h2{font:900 23px/1.2 var(--heading);margin:2px 0 0}
-.qr-panel{border-radius:15px;background:#fff;color:#151515;padding:19px;text-align:center}
-.qr-panel img{display:block;width:min(100%,300px);max-height:310px;object-fit:contain;margin:5px auto}
-.qr-panel strong{display:block;font:900 21px/1.2 var(--heading);margin:9px auto 0}
-.qr-panel p{font-size:11px;margin:6px auto;color:#454545}
-.row{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
-.secondary{background:transparent;color:#ffbd88;border:1px solid #936037;border-radius:11px;padding:12px;font-weight:900;min-height:46px}
-.step{display:flex;gap:10px;align-items:center;color:#ece0d8;font-size:12px}
-.step b{display:grid;place-items:center;border-radius:999px;background:#ff8c30;color:#211005;width:25px;height:25px;flex:none}
-.waiting{display:inline-block;width:16px;height:16px;border:2px solid #88603d;border-top-color:#ffa24f;border-radius:50%;animation:rotate 1s linear infinite;vertical-align:middle;margin-right:6px}
+.topbar{width:min(100%,510px);margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:37px}
+.brand{display:flex;align-items:center;gap:8px;color:white;text-decoration:none;font:900 15px/1 var(--head);letter-spacing:.07em}
+.brand img{width:25px;height:25px}
+.brand em{font-style:normal;color:var(--orange)}
+.topbar .login{color:#ddc8ba;text-decoration:none;font-size:11px;font-weight:800}
+main{display:flex;justify-content:center;align-items:center;flex:1;width:100%;min-height:0;margin:auto}
+.checkout-card{width:min(100%,510px);border:1px solid #574034;border-radius:19px;padding:clamp(16px,3vw,24px);background:linear-gradient(145deg,#211913,#131315 56%,#111113);box-shadow:0 24px 80px #0009}
+.checkout-heading{text-align:center;padding:0 2px 11px}
+.kicker{font:900 10px/1.3 var(--body);letter-spacing:.12em;color:#ffb268;margin:0 0 5px}
+.checkout-heading h1{font:900 clamp(23px,5.7vw,30px)/1.07 var(--head);letter-spacing:-.035em;margin:0}
+.checkout-heading h1 em{font-style:normal;color:var(--orange)}
+.checkout-heading .subtitle{margin:6px 0 0;font:700 11px/1.45 var(--body);color:#d3bdae}
+.order-brief{display:flex;gap:12px;align-items:center;border:1px solid #58402f;background:#302119;min-height:84px;padding:9px;border-radius:13px;margin:0 0 12px}
+.product-preview{width:80px;height:67px;object-fit:cover;flex:none;border-radius:9px;background:#2c2019}
+.order-info{display:grid;gap:3px;min-width:0;flex:1}
+.order-info strong{font:900 13px/1.25 var(--head);color:#fff4e9}
+.order-info small{font:700 10px/1.3 var(--body);color:#d2b4a1}
+.order-info b{font:900 clamp(21px,5.5vw,26px)/1 var(--head);color:#ffb167;letter-spacing:-.04em}
+.perks{display:flex;flex-wrap:wrap;gap:5px 12px;justify-content:center;margin:0 0 11px;color:#e5d4c5;font:800 10px/1.4 var(--body)}
+.perks span:before{content:'✓';color:#ffac58;margin-right:5px}
+.stage{display:grid;gap:10px}
+.stage h2{font:900 16px/1.25 var(--head);margin:0}
+.form-helper{margin:-6px 0 0;color:#c4b4a8;font-size:10px}
+form{display:grid;gap:9px}
+.field{display:grid;gap:4px}
+.field label{color:#f5e7dc;font:900 10px/1.2 var(--body);letter-spacing:.03em}
+.field input{width:100%;min-height:43px;border:1px solid #514239;border-radius:10px;padding:10px 12px;color:#fff;background:#0c0c0d;outline:none;font-size:14px}
+.field input:focus{border-color:#ffa95a;box-shadow:0 0 0 2px #ff99311f}
+.field input::placeholder{color:#817c7a}
+.action{min-height:50px;width:100%;border:1px solid #ffc47d;border-radius:12px;padding:11px 14px;background:linear-gradient(110deg,#ffbd60,#ff8a27 54%,#ffb353);color:#201006;font:900 14px/1.25 var(--head);box-shadow:0 9px 27px #f4792e46;transition:transform .2s,filter .2s}
+.action:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.06)}
+.action:active{transform:translateY(2px) scale(.99)}
+.security{color:#c0aa9b;font:700 10px/1.4 var(--body);text-align:center;margin:0}
+.support-links{text-align:center;color:#978e89;font-size:10px;margin:9px 0 0}
+.support-links a{text-decoration:underline;text-underline-offset:3px;color:#d2c0b2}
+.message{padding:9px 11px;border-radius:9px;background:#322115;border:1px solid #875534;color:#ffe0cc;margin:0 0 11px;font-size:11px}
+.message.error{background:#351f21;border-color:#9b4c4c;color:#ffd6d6}
+.message.good{background:#193329;border-color:#3e8060;color:#bbfbd2}
+.qr-panel{padding:12px;border-radius:12px;background:#fff;color:#181818;text-align:center}
+.qr-panel img{display:block;width:min(100%,250px);max-height:245px;object-fit:contain;margin:0 auto}
+.qr-panel strong{display:block;font:900 19px/1.2 var(--head)}
+.qr-panel p{font:700 10px/1.3 var(--body);color:#4c4c4c;margin:4px 0}
+.qr-instruction{font:700 11px/1.45 var(--body);color:#d0bbad;margin:0}
+.secondary{display:flex;justify-content:center;align-items:center;min-height:41px;border:1px solid #996544;border-radius:10px;background:#191615;color:#ffc58e;padding:8px 10px;font-weight:900;font-size:11px;text-decoration:none}
+.waiting{display:inline-block;width:14px;height:14px;border:2px solid #9f6844;border-top-color:#ffc083;border-radius:50%;animation:rotate 1s linear infinite;vertical-align:middle;margin-right:5px}
 @keyframes rotate{to{transform:rotate(360deg)}}
-.footer{width:min(100%,565px);margin:18px auto 0;text-align:center;color:#aba6a3;font-size:11px}
-.footer a{color:#d9c8bb}
-#done p{font-size:13px;color:#e4d6cd}
-#done .check{display:grid;place-items:center;font-size:36px;font-weight:900;background:#174a32;color:#9ff4ba;width:72px;height:72px;border-radius:50%;margin:0 auto 11px}
+.payment-wait{font:700 11px/1.4 var(--body);color:#d3bbad}
 #done{text-align:center}
-@media(max-width:650px){
- main{margin-top:26px}
- .intro{margin-bottom:17px}
- .intro h1{font-size:clamp(30px,8vw,39px)}
- .preview-showcase{border-radius:15px;padding:14px 0 15px}
- .marquee-stack{gap:7px}
- .marquee-row{min-height:91px}
- .marquee-track,.marquee-set{gap:8px}
- .preview-tile{width:130px;border-radius:8px}
- .preview-heading{padding-bottom:10px}
- .preview-heading h2{font-size:17px}
- .preview-heading p{font-size:10px}
- .checkout-panel{margin-top:19px;padding:22px 19px}
-}
+#done .check{display:grid;place-items:center;font-size:30px;font-weight:900;background:#194931;color:#9df4b7;width:55px;height:55px;border-radius:50%;margin:0 auto}
+#done p{font-size:12px;color:#ddcbbd;margin:0}
+body[data-step="paymentStage"] .checkout-heading,
+body[data-step="paymentStage"] .order-brief,
+body[data-step="paymentStage"] .perks,
+body[data-step="done"] .checkout-heading,
+body[data-step="done"] .order-brief,
+body[data-step="done"] .perks{display:none}
 @media(max-width:400px){
- body{padding:12px 12px 24px}
- main{margin-top:24px}
- .checkout-panel{padding:20px 16px}
- .benefits{font-size:10px}
- .brand{letter-spacing:.06em;font-size:13px}
- .preview-tile{width:116px}
- .preview-heading h2{font-size:16px}
- .marquee-row{min-height:83px}
+ body{padding:8px 12px 11px}
+ .checkout-card{padding:14px 14px;border-radius:14px}
+ .topbar{min-height:34px}
+ .checkout-heading{padding-bottom:9px}
+ .checkout-heading h1{font-size:23px}
+ .order-brief{padding:7px;min-height:72px;margin-bottom:9px}
+ .product-preview{width:70px;height:57px}
+ .perks{margin-bottom:9px}
+ .stage{gap:8px}
+ .field input{min-height:41px}
+ form{gap:8px}
+ .action{min-height:46px}
 }
-
-
-/* Marketplace-style digital product checkout */
-.product-market{display:grid;grid-template-columns:minmax(0,.44fr) minmax(0,.56fr);gap:22px;padding:20px;border-radius:20px;background:#fffaf5;color:#211913;border:1px solid #eadfda;box-shadow:0 18px 62px #0009;margin:0 auto 21px}
-.product-media,.product-details{min-width:0}
-.product-shot{height:clamp(220px,26vw,330px);border-radius:12px;overflow:hidden;background:#33241c}
-.product-shot img{width:100%;height:100%;display:block;object-fit:cover}
-.product-thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:8px}
-.product-thumbs img{width:100%;height:clamp(53px,7vw,80px);object-fit:cover;border:1px solid #eedbc8;border-radius:8px}
-.product-source{font:800 10px/1.4 var(--body);color:#876855;text-align:center;margin:9px 0 0}
-.product-category{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
-.product-mini{font:900 10px/1.2 var(--body);letter-spacing:.04em;color:#a45222;background:#fff0df;border-radius:6px;padding:5px 8px}
-.product-mini.subtle{color:#645246;background:#f1ebe6}
-.product-market h1{font:900 clamp(27px,3.6vw,43px)/1.05 var(--heading);letter-spacing:-.045em;color:#23160f}
-.product-market h1 em{color:#db6717}
-.product-subtitle{font:650 13px/1.6 var(--body);color:#62564d;margin:12px 0 10px}
-.product-verified{display:inline-flex;flex-wrap:wrap;align-items:center;gap:5px;font:800 11px/1.4 var(--body);color:#744a33;background:#f9ede4;border:1px solid #edd8c9;border-radius:9px;padding:7px 9px}
-.product-verified strong{font:900 13px/1 var(--heading);color:#342217}
-.proof-dot{display:inline-block;background:#2b9268;width:7px;height:7px;border-radius:50%;margin-right:3px}
-.market-price{display:flex;flex-wrap:wrap;align-items:baseline;gap:7px 13px;margin:13px 0;padding:12px 14px;background:#ffeee0;border-radius:9px}
-.market-price strong{font:900 clamp(29px,3.7vw,36px)/1 var(--heading);letter-spacing:-.05em;color:#d76217}
-.market-price span{font:800 11px/1.4 var(--body);color:#865d43}
-.market-benefits{display:grid;gap:6px;list-style:none;padding:0;margin:0 0 16px;font:800 12px/1.4 var(--body);color:#5b4a3c}
-.market-action{display:flex;align-items:center;justify-content:center;min-height:48px;width:100%;border-radius:10px;background:linear-gradient(105deg,#ffae54,#ff8526);color:#201007;text-decoration:none;font:900 14px/1 var(--heading);box-shadow:0 9px 22px #ff94344a;transition:transform .2s}
-.market-action:hover{transform:translateY(-2px)}
-.market-assurance{font:800 10px/1.4 var(--body);color:#8b6a51;margin:8px 0 0;text-align:center}
-.checkout-title .eyebrow{margin:0 0 6px}
-.checkout-title h2{font:900 22px/1.3 var(--heading);margin:0}
-.checkout-title p:last-child{font:650 12px/1.5 var(--body);color:#cab6aa;margin:4px 0 0}
-.checkout-line{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#221b18;border:1px solid #49372d;border-radius:12px;padding:11px 13px;margin:14px 0 9px}
-.checkout-line span{display:grid;font:900 13px/1.3 var(--body);gap:3px}
-.checkout-line small{font:700 10px/1.3 var(--body);color:#c3aa98}
-.checkout-line strong{font:900 15px/1.2 var(--heading);white-space:nowrap}
-.form-helper{font:700 12px/1.5 var(--body);color:#cdb8a8;margin:-4px 0 2px}
-.checkout-faq{width:min(100%,565px);margin:20px auto 0;padding:18px 20px;border:1px solid #3b2c26;background:#151210;border-radius:18px}
-.checkout-faq>.eyebrow{margin:0 0 6px}
-.checkout-faq h2{font:900 19px/1.25 var(--heading);margin:0 0 12px}
-.checkout-faq details{padding:11px 0;border-top:1px solid #3c2c25}
-.checkout-faq summary{font:850 12px/1.4 var(--body);cursor:pointer}
-.checkout-faq details p{font:650 12px/1.5 var(--body);color:#d6c3b3;margin:7px 0 2px}
-.sticky-buy{display:none}
-@media(max-width:680px){
- .product-market{grid-template-columns:1fr;gap:14px;padding:12px;border-radius:15px}
- .product-shot{height:clamp(185px,51vw,260px)}
- .product-thumbs img{height:clamp(45px,13vw,70px)}
- .product-market h1{font-size:clamp(28px,7vw,34px)}
- .product-details{padding:0 3px 4px}
- .product-subtitle{margin:8px 0}
- .market-price{margin:11px 0}
- .market-action{display:none}
- body{padding-bottom:92px}
- .sticky-buy{display:flex;position:fixed;z-index:90;left:0;right:0;bottom:0;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:#fffaf5;border-top:1px solid #eedbcb;color:#23160f;box-shadow:0 -8px 24px #0007}
- .sticky-buy span{display:grid;gap:2px}
- .sticky-buy small{font:900 9px/1.2 var(--body);letter-spacing:.08em;color:#8b7669}
- .sticky-buy strong{font:900 21px/1.1 var(--heading);color:#d8661a}
- .sticky-buy a{display:flex;align-items:center;justify-content:center;min-height:44px;padding:9px 12px;background:#ff8c2a;border-radius:10px;text-decoration:none;color:#211008;font:900 12px/1.2 var(--heading);white-space:nowrap}
+@media(max-height:670px){
+ body{padding-top:6px;padding-bottom:7px}
+ .checkout-heading{padding-bottom:7px}
+ .checkout-heading .subtitle{display:none}
+ .order-brief{min-height:65px;margin-bottom:8px}
+ .product-preview{height:55px}
+ .perks{margin-bottom:8px}
+ .checkout-card{padding-top:12px;padding-bottom:12px}
+ form{gap:7px}
+ .field input{min-height:39px}
+ .stage{gap:8px}
+ .support-links{margin-top:7px}
 }
-
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.marquee-track{transform:none!important}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 </style>
 </head>
-<body>
+<body data-step="formStage">
 <header class="topbar">
  <a class="brand" href="/" aria-label="PROMPTIONAL beranda"><img src="/assets/promptional-icon.svg" alt=""><span>PROMPT<em>IONAL</em></span></a>
- <a href="/member">Sudah beli? Masuk →</a>
+ <a class="login" href="/member">Sudah beli? Masuk →</a>
 </header>
 <main>
- <section class="product-market" aria-labelledby="premium-title">
-  <div class="product-media">
-   <div class="product-shot"><img src="https://www.dropbox.com/scl/fi/rau5isxnhmyag2a4tjkn3/KitKat_advertising_poster_creation_20261008213329.jpg?rlkey=s6ovltkyx3puaqe9jnzjlo161&amp;st=oe7ur2jn&amp;raw=1" alt="Contoh visual BP002 dari koleksi PROMPTIONAL" width="600" height="600" fetchpriority="high"></div>
-   <div class="product-thumbs" aria-label="Contoh gambar dari Member Area">
-    <img src="https://www.dropbox.com/scl/fi/ih6y5lyrf0q10cpxw3vn8/BP003.png?rlkey=0z6bjoygewm78r97h694cau5x&amp;st=41qivbhk&amp;raw=1" alt="Contoh prompt BP003" loading="lazy">
-    <img src="https://www.dropbox.com/scl/fi/6iy7tdi38zdge9pz10kz3/BP008.png?rlkey=1kzvhm06fc8l64vezcl4hbywm&amp;st=z4ukbcxl&amp;raw=1" alt="Contoh prompt BP008" loading="lazy">
-    <img src="https://www.dropbox.com/scl/fi/c4f6vo4uw0yhj9u05vqa0/BP013.png?rlkey=ckuos1i4y8x2nni3pa1hjbj9q&amp;st=9h42uxt4&amp;raw=1" alt="Contoh prompt BP013" loading="lazy">
-   </div>
-   <p class="product-source">✓ Cuplikan gambar asli dari Member Area</p>
+ <div class="checkout-card" id="checkoutPanel">
+  <div class="checkout-heading">
+   <p class="kicker">CHECKOUT PREMIUM • 1 LANGKAH</p>
+   <h1>Langsung Punya <em>Akses Prompt AI.</em></h1>
+   <p class="subtitle">Bayar sekali, akses koleksi lengkap di Member Area selama 365 hari.</p>
   </div>
-  <div class="product-details">
-   <div class="product-category"><span class="product-mini">PRODUK DIGITAL</span><span class="product-mini subtle">PROMPTIONAL PREMIUM</span></div>
-   <h1 id="premium-title">Koleksi Prompt AI <em>Siap Pakai.</em></h1>
-   <p class="product-subtitle">Pilih contoh gambar yang kamu suka, lalu salin prompt untuk membuat kreasi sendiri.</p>
-   <div class="product-verified"><span class="proof-dot" aria-hidden="true"></span><strong id="publishedPreviewCount">24</strong> contoh visual dari koleksi Member Area</div>
-   <div class="market-price"><strong>Rp199.000</strong><span>Sekali bayar · akses 365 hari</span></div>
-   <ul class="market-benefits">
-    <li>✓ Akses koleksi gambar dan prompt</li>
-    <li>✓ Salin prompt kapan saja selama masa akses</li>
-    <li>✓ Akses diaktifkan setelah QRIS terverifikasi</li>
-   </ul>
-   <a class="market-action" href="#checkoutPanel">LANJUT CHECKOUT ↓</a>
-   <p class="market-assurance">Tidak perlu menunggu kiriman Premium harian.</p>
+  <div class="order-brief" aria-label="Ringkasan produk">
+   <img class="product-preview" src="https://www.dropbox.com/scl/fi/rau5isxnhmyag2a4tjkn3/KitKat_advertising_poster_creation_20261008213329.jpg?rlkey=s6ovltkyx3puaqe9jnzjlo161&amp;st=oe7ur2jn&amp;raw=1" alt="Contoh visual hasil prompt PROMPTIONAL" width="80" height="67">
+   <div class="order-info"><strong>PROMPTIONAL Premium</strong><small>Produk digital · akses 365 hari</small><b>Rp199.000</b></div>
   </div>
- </section>
- <section class="preview-showcase" aria-labelledby="preview-heading">
-  <div class="preview-heading"><p class="eyebrow">GALERI HASIL PROMPTIONAL</p><h2 id="preview-heading">Satu prompt, banyak kemungkinan.</h2><p>Cuplikan gambar dari koleksi yang tersedia di Member Area.</p></div>
-  <div class="marquee-stack" aria-label="Galeri tiga baris hasil gambar AI">
-   <div class="marquee-row" data-preview-row="0"><div class="marquee-track" id="previewTrack0"></div></div>
-   <div class="marquee-row reverse" data-preview-row="1"><div class="marquee-track" id="previewTrack1"></div></div>
-   <div class="marquee-row" data-preview-row="2"><div class="marquee-track" id="previewTrack2"></div></div>
-  </div>
-  <p class="gallery-foot">Semua preview bersumber dari koleksi Member Area, bukan gambar contoh acak.</p>
- </section>
- <div class="checkout-panel" id="checkoutPanel">
- <div class="checkout-title"><p class="eyebrow">CHECKOUT MUDAH & AMAN</p><h2>Ringkasan Pesanan</h2><p>Pastikan email dan WhatsApp aktif supaya aksesmu lancar.</p></div>
- <div class="checkout-line"><span>PROMPTIONAL Premium <small>Akses 365 hari</small></span><strong>Rp199.000</strong></div>
- <div class="price-row"><span class="price">Rp199.000</span><span class="price-info">Sekali bayar · akses 365 hari</span></div>
- <div class="benefits"><span>Koleksi lengkap</span><span>Preview + salin prompt</span><span>Tanpa langganan otomatis</span></div>
- <p id="status" class="message" role="status" aria-live="polite" hidden></p>
-
- <section class="stage" id="formStage" aria-labelledby="formHeading">
-  <h2 id="formHeading">Data Penerima Akses</h2><p class="form-helper">Cukup 3 data saja. Tidak perlu login Telegram.</p>
-  <form id="checkoutForm" novalidate>
-   <div class="field"><label for="fullName">NAMA LENGKAP</label><input id="fullName" name="full_name" autocomplete="name" maxlength="120" placeholder="Contoh: Bunda Rina" required></div>
-   <div class="field"><label for="whatsapp">NOMOR WHATSAPP AKTIF</label><input id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" maxlength="23" placeholder="Contoh: 081234567890" required></div>
-   <div class="field"><label for="email">EMAIL UNTUK AKSES MEMBER</label><input id="email" name="email" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="160" placeholder="Contoh: bunda@email.com" required></div>
-   <input name="website_url" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;pointer-events:none" value="">
-   <button class="action" id="payButton" type="submit">LANJUT BAYAR QRIS →</button>
-   <p class="security">🔒 QRIS resmi BuatQRIS · Akun otomatis aktif setelah pembayaran terverifikasi.</p>
-  </form>
- </section>
-
- <section class="stage" id="paymentStage" hidden aria-labelledby="paymentHeading">
-  <h2 id="paymentHeading">Scan QRIS untuk membayar</h2>
-  <p class="desc" style="margin:0">Gunakan aplikasi bank atau e-wallet. Kalau membuka dari HP yang sama, simpan gambar QR untuk dipindai dari galeri aplikasi pembayaran.</p>
-  <div class="qr-panel">
-   <img id="qrImage" alt="QRIS pembayaran PROMPTIONAL" width="300" height="300">
-   <strong id="qrTotal">Rp199.000</strong>
-   <p id="qrExpire"></p>
-  </div>
-  <a id="downloadQr" href="#" download="PROMPTIONAL-QRIS.png" class="secondary" style="text-decoration:none;text-align:center">LIHAT / SIMPAN GAMBAR QRIS</a>
-  <div class="step"><span class="waiting" aria-hidden="true"></span><span id="pollStatus">Menunggu pembayaran otomatis terverifikasi…</span></div>
-  <button id="checkButton" type="button" class="secondary">SAYA SUDAH BAYAR — CEK SEKARANG</button>
-  <p class="security">Jangan transfer dua kali jika status belum berubah. Setelah lunas, akses Member Area diproses otomatis.</p>
- </section>
-
- <section class="stage" id="done" hidden aria-labelledby="doneHeading">
-  <span class="check" aria-hidden="true">✓</span>
-  <h2 id="doneHeading">Pembayaran berhasil!</h2>
-  <p>Member Area Premium sudah aktif. Kamu akan masuk secara otomatis.</p>
-  <button class="action" id="enterButton" type="button">BUKA MEMBER AREA →</button>
-  <p class="security">Gunakan email yang tadi diisi untuk mengelola akun.</p>
- </section>
+  <div class="perks"><span>Salin prompt</span><span>Galeri contoh hasil</span><span>Aktif setelah QRIS lunas</span></div>
+  <p id="status" class="message" role="status" aria-live="polite" hidden></p>
+  <section class="stage" id="formStage" aria-labelledby="formHeading">
+   <h2 id="formHeading">Isi Data untuk Akses Member</h2>
+   <p class="form-helper">Cukup 3 kolom, nggak perlu login atau bikin password dulu.</p>
+   <form id="checkoutForm" novalidate>
+    <div class="field"><label for="fullName">NAMA LENGKAP</label><input id="fullName" name="full_name" autocomplete="name" maxlength="120" placeholder="Contoh: Bunda Rina" required></div>
+    <div class="field"><label for="whatsapp">NOMOR WHATSAPP AKTIF</label><input id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" inputmode="tel" maxlength="23" placeholder="Contoh: 081234567890" required></div>
+    <div class="field"><label for="email">EMAIL UNTUK AKSES MEMBER</label><input id="email" name="email" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="160" placeholder="Contoh: bunda@email.com" required></div>
+    <input name="website_url" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;pointer-events:none" value="">
+    <button class="action" id="payButton" type="submit">LANJUT BAYAR QRIS →</button>
+    <p class="security">🔒 Pembayaran QRIS resmi BuatQRIS · Akun aktif setelah pembayaran terverifikasi.</p>
+   </form>
+  </section>
+  <section class="stage" id="paymentStage" hidden aria-labelledby="paymentHeading">
+   <h2 id="paymentHeading">Scan QRIS untuk Membayar</h2>
+   <p class="qr-instruction">Buka aplikasi bank/e-wallet. Di HP yang sama, simpan gambar QR dan pilih scan dari galeri.</p>
+   <div class="qr-panel"><img id="qrImage" alt="QRIS pembayaran PROMPTIONAL" width="250" height="250"><strong id="qrTotal">Rp199.000</strong><p id="qrExpire"></p></div>
+   <a id="downloadQr" href="#" download="PROMPTIONAL-QRIS.png" class="secondary">LIHAT / SIMPAN QRIS</a>
+   <div class="payment-wait"><span class="waiting" aria-hidden="true"></span><span id="pollStatus">Menunggu pembayaran otomatis terverifikasi…</span></div>
+   <button id="checkButton" type="button" class="secondary">SAYA SUDAH BAYAR — CEK SEKARANG</button>
+   <p class="security">Jangan transfer dua kali jika status belum berubah.</p>
+  </section>
+  <section class="stage" id="done" hidden aria-labelledby="doneHeading">
+   <span class="check" aria-hidden="true">✓</span>
+   <h2 id="doneHeading">Pembayaran Berhasil!</h2>
+   <p>Member Area Premium sudah aktif. Kamu akan masuk secara otomatis.</p>
+   <button class="action" id="enterButton" type="button">BUKA MEMBER AREA →</button>
+   <p class="security">Gunakan email yang tadi diisi untuk mengelola akun.</p>
+  </section>
+  <p class="support-links"><a href="/support.html">Bantuan Admin</a> · <a href="/terms.html">Syarat</a> · <a href="/privacy.html">Privasi</a></p>
  </div>
- <section class="checkout-faq" aria-labelledby="faqHeading">
-  <p class="eyebrow">MASIH ADA PERTANYAAN?</p><h2 id="faqHeading">Biar lebih yakin sebelum bayar</h2>
-  <details><summary>Setelah bayar, langsung dapat akses?</summary><p>Setelah pembayaran QRIS terverifikasi dan akun selesai diaktifkan, halaman akan mengarahkanmu ke Member Area secara otomatis.</p></details>
-  <details><summary>Harus punya Telegram dulu?</summary><p>Tidak. Cukup isi nama, WhatsApp, dan email, lalu bayar lewat QRIS di website.</p></details>
-  <details><summary>Apakah Premium dikirim tiap hari?</summary><p>Tidak. Semua koleksi yang tersedia dibuka langsung di Member Area selama 365 hari.</p></details>
-  <details><summary>Sudah bayar tapi belum masuk?</summary><p>Jangan bayar dua kali. Tunggu pembaruan status atau hubungi Admin melalui tautan bantuan di bawah.</p></details>
- </section>
 </main>
-<div class="sticky-buy" id="stickyCheckout"><span><small>TOTAL PEMBAYARAN</small><strong>Rp199.000</strong></span><a href="#checkoutPanel">LANJUT CHECKOUT ↓</a></div>
-<footer class="footer">Butuh bantuan? <a href="/support.html">Hubungi Admin</a> · <a href="/terms.html">Syarat</a> · <a href="/privacy.html">Privasi</a></footer>
 <script src="/assets/vendor/appwrite-28.1.0.js"></script>
 <script>
 (()=>{
  "use strict";
  const $=id=>document.getElementById(id);
  const status=$('status'), stages=['formStage','paymentStage','done'];
- const quickBuy=$('stickyCheckout');
- const setQuickVisibility=id=>{if(quickBuy)quickBuy.hidden=id!=='formStage';};
- setQuickVisibility('formStage');
- // Read-only Member Area preview feed. The published snapshot below keeps all
- // three sliders populated even if the feed is briefly unavailable.
- const previewSnapshot=[{"code":"BP001","src":"https://www.dropbox.com/scl/fi/4vegv56x0peijbdh470jj/Model_posing_in_blue_studio_20261008210834.jpg?rlkey=mhy5zulpm2lzzgiso4arzchnw&st=g5i6dj06&raw=1"},{"code":"BP002","src":"https://www.dropbox.com/scl/fi/rau5isxnhmyag2a4tjkn3/KitKat_advertising_poster_creation_20261008213329.jpg?rlkey=s6ovltkyx3puaqe9jnzjlo161&st=oe7ur2jn&raw=1"},{"code":"BP003","src":"https://www.dropbox.com/scl/fi/ih6y5lyrf0q10cpxw3vn8/BP003.png?rlkey=0z6bjoygewm78r97h694cau5x&st=41qivbhk&raw=1"},{"code":"BP004","src":"https://www.dropbox.com/scl/fi/mkp8wdlqlm2z53ma7m9w3/BP004.png?rlkey=0tzr8irg0avlic02umv91i2ox&st=q5mbed7k&raw=1"},{"code":"BP005","src":"https://www.dropbox.com/scl/fi/0yewpb3wewsja9zgu9qxy/BP005.png?rlkey=v6ijknfvuuhon0cerqifnbpf2&st=6994q3vd&raw=1"},{"code":"BP006","src":"https://www.dropbox.com/scl/fi/i6dy3a5rzyt193h410l1q/BP006.png?rlkey=neel0xv59csvtkmsi3s1ngn1c&st=ykj0khba&raw=1"},{"code":"BP007","src":"https://www.dropbox.com/scl/fi/uadoighugf2uejcwxi83m/BP007.png?rlkey=wdo0lz8s2oqh7fwyqwlcsmmr1&st=ca2upmxl&raw=1"},{"code":"BP008","src":"https://www.dropbox.com/scl/fi/6iy7tdi38zdge9pz10kz3/BP008.png?rlkey=1kzvhm06fc8l64vezcl4hbywm&st=z4ukbcxl&raw=1"},{"code":"BP009","src":"https://www.dropbox.com/scl/fi/nssdyisoz1lrwj259tkaj/BP009.png?rlkey=7tm2hp87j9ibp5kqc4s8jsi3m&st=ttcpz2qd&raw=1"},{"code":"BP010","src":"https://www.dropbox.com/scl/fi/dxqpcq9ff1kq4idmzni0j/BP010.png?rlkey=4bhj1zpxxph37s1tgkxttri4f&st=2inzji5o&raw=1"},{"code":"BP011","src":"https://www.dropbox.com/scl/fi/p1e79lv1gmqtwt1h1teyx/BP011.png?rlkey=jbb1un7y4t1jmxe678i5xms3f&st=ovx6iuo6&raw=1"},{"code":"BP012","src":"https://www.dropbox.com/scl/fi/hgev9mo9pffjawj6f4fiq/BP012.png?rlkey=fg8uccojop5efj4rteje9elf0&st=xa2ziut7&raw=1"},{"code":"BP013","src":"https://www.dropbox.com/scl/fi/c4f6vo4uw0yhj9u05vqa0/BP013.png?rlkey=ckuos1i4y8x2nni3pa1hjbj9q&st=9h42uxt4&raw=1"},{"code":"BP014","src":"https://www.dropbox.com/scl/fi/zmit3toof6hsncgngfutq/BP014.png?rlkey=vi13b7fj7iv5862s2nvancmcg&st=zg5k5by5&raw=1"},{"code":"BP015","src":"https://www.dropbox.com/scl/fi/i8ghja5ac5axe7ashusdk/BP015.png?rlkey=h0ye0g4vaqcjxs0uiud77iukv&st=yiio4ms4&raw=1"},{"code":"BP016","src":"https://www.dropbox.com/scl/fi/op8cazyozv6xennxjr8rg/BP016.png?rlkey=l4t3i187cipuxg1b4qddjo3tg&st=zs40tmu6&raw=1"},{"code":"BP017","src":"https://www.dropbox.com/scl/fi/be2psrlwbgs4rk6g8ktui/BP017.png?rlkey=i53ru7ln4x0wkviehr51n04ku&st=vgkqawg4&raw=1"},{"code":"BP018","src":"https://www.dropbox.com/scl/fi/c50x203tifxh9t353b5b5/BP018.png?rlkey=ueitfi7xk6qw88xbts998ynvy&st=p2zcmzrv&raw=1"},{"code":"BP019","src":"https://www.dropbox.com/scl/fi/rm7djr6rk7mnht4zmykv1/BP019.png?rlkey=6b3q5boaqs9up6hvwovry7aoj&st=vd07endl&raw=1"},{"code":"BP020","src":"https://www.dropbox.com/scl/fi/n6salf26b4clv7951wz26/BP020.png?rlkey=moo9c28uj4ezi8q6xdjx2i39g&st=nwk6sfxn&raw=1"},{"code":"BP021","src":"https://www.dropbox.com/scl/fi/vxu7jzbz7mq459smw2udg/BP021.png?rlkey=j1hnxu2sw8sopm40xjiw8rfl6&st=fzljxeeo&raw=1"},{"code":"BP022","src":"https://www.dropbox.com/scl/fi/44fonl29djn3k2jds22b6/BP022.png?rlkey=vuktmw01jd8oyzhm3lt1wjrn8&st=4yq7vrtd&raw=1"},{"code":"BP023","src":"https://www.dropbox.com/scl/fi/c1jaeb30rwjr03zgf0tk9/BP023.png?rlkey=3lotqzyfodwts5ywn6g5prq2b&st=cv8izin4&raw=1"},{"code":"BP024","src":"https://www.dropbox.com/scl/fi/684sn4w89gecrzpuz98l1/BP024.png?rlkey=jsq04ilkdal0roagf07tigych&st=46ejq3i3&raw=1"}];
- const galleryTracks=[0,1,2].map(i=>$('previewTrack'+i));
- const allowedPreviewUrl=value=>{
-  try{
-   const u=new URL(String(value));
-   return u.protocol==='https:'&&['www.dropbox.com','dropbox.com','sgp.cloud.appwrite.io','i.ibb.co'].includes(u.hostname);
-  }catch{return false}
- };
- function fillPreviewSliders(collection){
-  const published=collection.filter(x=>x&&/^BP\d{1,6}$/.test(x.code)&&allowedPreviewUrl(x.src));
-  const clean=published.slice(0,24);
-  if(clean.length<18)return;
-  const perRow=8;
-  $('publishedPreviewCount').textContent=String(published.length);
-  galleryTracks.forEach((track,row)=>{
-   const chosen=clean.slice(row*perRow,row*perRow+perRow);
-   if(chosen.length<6)return;
-   track.replaceChildren();
-   function makeSet(duplicate){
-    const set=document.createElement('div');set.className='marquee-set';
-    if(duplicate)set.setAttribute('aria-hidden','true');
-    chosen.forEach((item,j)=>{
-     const figure=document.createElement('figure');figure.className='preview-tile';figure.style.margin='0';
-     const img=document.createElement('img');
-     img.src=item.src;img.alt=duplicate?'':'Contoh gambar hasil prompt '+item.code;
-     img.width=196;img.height=140;img.decoding='async';img.loading=(row===0&&j<4)?'eager':'lazy';
-     const caption=document.createElement('figcaption');caption.textContent=item.code;
-     figure.append(img,caption);set.append(figure);
-    });
-    return set;
-   }
-   track.append(makeSet(false),makeSet(true));
-  });
- }
- fillPreviewSliders(previewSnapshot);
- fetch('/api/public-previews',{cache:'default'})
-  .then(res=>{if(!res.ok)throw Error('Preview feed unavailable');return res.json()})
-  .then(data=>{if(data.ok&&Array.isArray(data.previews))fillPreviewSliders(data.previews)})
-  .catch(()=>{/* Keep the published snapshot; checkout remains fully functional. */});
-
  const api=async(action,data={})=>{
   const url='/api/form-checkout?action='+encodeURIComponent(action);
   const res=await fetch(url,{method:action==='config'?'GET':'POST',credentials:'same-origin',
@@ -327,7 +173,7 @@ form{display:grid;gap:13px}
   return json;
  };
  let receipt='',timer=null,expiry=0,ready=false,entering=false;
- function show(id){stages.forEach(k=>$(k).hidden=k!==id);setQuickVisibility(id);if(id!=='formStage')$('checkoutPanel').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});}
+ function show(id){stages.forEach(k=>$(k).hidden=k!==id);document.body.dataset.step=id;}
  function say(msg,kind=''){status.hidden=!msg;status.textContent=msg||'';status.className='message'+(kind?' '+kind:'');}
  function amount(n){return 'Rp'+Number(n||0).toLocaleString('id-ID')}
  function setQr(url){
@@ -428,4 +274,5 @@ form{display:grid;gap:13px}
  })();
 })();
 </script>
-</body></html>
+</body>
+</html>
