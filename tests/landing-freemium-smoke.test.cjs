@@ -53,7 +53,7 @@ test('Roboto and Nunito are the only landing typefaces, and START instructions a
  assert.match(html,/CARA MENDAPATKANNYA/);
  assert.match(html,/Klik tombol di atas/);
  assert.match(html,/Tekan <strong>START<\/strong> di bot Telegram/);
- assert.match(html,/Setelah START, prompt gratis dikirim otomatis ke chat sesuai jadwal/);
+ assert.match(html,/tombol START\/MULAI ada di bawah chat/);
  assert.match(html,/class="get-guide"/);
 });
 test('public feed exposes only published images, never premium prompt text',()=>{
