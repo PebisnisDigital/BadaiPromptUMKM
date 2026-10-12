@@ -40,6 +40,8 @@ test('real category shortcuts include currently published Prompt Viral category'
  assert.match(script,/categorySelect\.onchange=\(\)=>applyCategory\(categorySelect\.value,true\)/);
  assert.match(script,/Query\.equal\('category',category\)/);
  assert.match(script,/Query\.equal\('is_published',true\)/);
+ assert.match(script,/Query\.orderDesc\('sort_order'\)/);
+ assert.match(script,/const PAGE_SIZE=12/);
  assert.match(script,/categorySelect\.value=mode==='favorites'\?'__saved':category/);
 });
 test('four bottom app tabs preserve working saved, affiliate and account actions',()=>{
