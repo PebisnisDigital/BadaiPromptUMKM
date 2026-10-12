@@ -123,7 +123,7 @@ const root=path.resolve(__dirname,'..'),output=process.env.UI_ARTIFACTS||path.jo
   }else{
    await p.locator('#regular:not(.hide)').waitFor();
    assert.equal(calls.includes('create'),false);
-   assert.equal(await p.locator('#regular a').getAttribute('href'),'\/#form-premium');
+   assert.equal(await p.locator('#regular a').getAttribute('href'),'/support.html');
   }
   assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   assert.deepStrictEqual(errors,[]);
