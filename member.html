@@ -32,6 +32,7 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
 <link rel="stylesheet" href="/assets/telegram-manager.css">
 <style>/* PROMPTIONAL identity */ .brand{letter-spacing:-.055em}.brand b{color:#ff6b35}.brand small{letter-spacing:.09em}</style>
 <link rel="stylesheet" href="/assets/member-app-home.css?v=mobile1">
+<style>.switch-account{width:100%;min-height:44px;margin-top:8px;padding:10px 12px;border:1px solid #ffb26e;border-radius:11px;background:#fff2e7;color:#af500f;font:900 12px/1.4 Nunito,Arial,sans-serif}.switch-account:focus-visible{outline:2px solid #da6c1a;outline-offset:2px}</style>
 </head>
 <body class="member-app">
 <div class="gate" id="gate">
@@ -45,6 +46,7 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
         <div class="field"><label>PASSWORD</label><input id="loginPassword" type="password" autocomplete="current-password" required placeholder="password"></div>
         <button class="loginbtn" id="loginBtn" type="submit">MASUK MEMBER AREA</button>
         <button class="resetlink" id="forgotBtn" type="button">LUPA / RESET PASSWORD</button>
+        <button class="switch-account" id="switchMemberAccount" type="button" hidden>GANTI AKUN YANG SEDANG LOGIN</button>
         <div class="msg" id="loginMsg"></div>
       </form>
     </div>
@@ -438,13 +440,33 @@ function refreshGreeting(){
   const name=String(currentProfile?.name||currentUser?.name||'Kak').trim().split(/\s+/)[0].slice(0,20)||'Kak';
   $('memberName').textContent=name;
 }
+function showExistingMemberSession(user,reason=''){
+  $('switchMemberAccount').hidden=false;
+  const label=String(user?.email||'akun lain');
+  setMsg((reason?reason+' ':'')+'Browser ini masih login sebagai '+label+'. Klik GANTI AKUN untuk masuk sebagai member lain, atau gunakan tab Samaran agar sesi admin tetap aktif.','bad');
+}
 async function boot(){
+  let activeSession=false;
   try{
-    busy(true);currentUser=await account.get();await loadProfile();gate.classList.add('hide');$('accountBtn').textContent=(currentUser.name||currentUser.email||'V').trim().charAt(0).toUpperCase();refreshGreeting();
+    busy(true);
+    currentUser=await account.get();
+    activeSession=true;
+    await loadProfile();
+    gate.classList.add('hide');
+    $('switchMemberAccount').hidden=true;
+    $('accountBtn').textContent=(currentUser.name||currentUser.email||'V').trim().charAt(0).toUpperCase();
+    refreshGreeting();
     if(currentProfile.must_change_password===true){$('passwordReminder').hidden=false;$('passwordReminder').style.display='flex'}
     await enterLibrary();
+    return true;
   }catch(e){
-    gate.classList.remove('hide');if(e?.code&&Number(e.code)!==401)setMsg(e.message||'Akses belum bisa dibuka.','bad');
+    gate.classList.remove('hide');
+    if(activeSession){
+      showExistingMemberSession(currentUser,'Akun yang sedang login belum bisa membuka koleksi Premium.');
+    }else if(e?.code&&Number(e.code)!==401){
+      setMsg(e.message||'Akses belum bisa dibuka.','bad');
+    }
+    return false;
   }finally{busy(false)}
 }
 $('setupPasswordNow').addEventListener('click',()=>firstPasswordOverlay.classList.add('show'));
@@ -507,11 +529,50 @@ $('resetForm').addEventListener('submit',async e=>{
   }finally{btn.disabled=false;btn.textContent='SIMPAN PASSWORD BARU'}
 });
 
+$('switchMemberAccount').addEventListener('click',async()=>{
+  const button=$('switchMemberAccount');
+  button.disabled=true;button.textContent='MENGGANTI AKUN…';
+  try{
+    await account.deleteSession({sessionId:'current'});
+    currentUser=null;currentProfile=null;
+    button.hidden=true;
+    $('loginPassword').value='';
+    setMsg('Sesi akun sebelumnya sudah ditutup. Silakan masuk dengan email member dan password terbarunya.','good');
+    $('loginEmail').focus();
+  }catch(e){
+    setMsg('Sesi belum dapat ditutup. Coba gunakan tab Samaran Chrome, atau keluar dari admin lebih dulu.','bad');
+  }finally{
+    button.disabled=false;button.textContent='GANTI AKUN YANG SEDANG LOGIN';
+  }
+});
 $('loginForm').addEventListener('submit',async e=>{
-  e.preventDefault();const btn=$('loginBtn');btn.disabled=true;btn.textContent='MEMERIKSA…';setMsg('Memeriksa akun…');
-  try{await account.createEmailPasswordSession({email:$('loginEmail').value.trim().toLowerCase(),password:$('loginPassword').value});await boot();setMsg('')}
-  catch(err){setMsg(Number(err?.code)===401?'Email atau password belum cocok.':(err?.message||'Login gagal.'),'bad')}
-  finally{btn.disabled=false;btn.textContent='MASUK MEMBER AREA'}
+  e.preventDefault();
+  const btn=$('loginBtn'),email=$('loginEmail').value.trim().toLowerCase();
+  btn.disabled=true;btn.textContent='MEMERIKSA…';setMsg('Memeriksa akun…');
+  try{
+    // Admin and Member Area share one Appwrite browser session.
+    let previous=null;
+    try{previous=await account.get()}catch{}
+    if(previous){
+      if(previous.email?.toLowerCase()===email){
+        if(await boot())setMsg('');
+      }else{
+        showExistingMemberSession(previous);
+      }
+      return;
+    }
+    await account.createEmailPasswordSession({email,password:$('loginPassword').value});
+    if(await boot())setMsg('');
+  }catch(err){
+    if(err?.type==='user_session_already_exists'||/session is active/i.test(String(err?.message||''))){
+      let previous=null;try{previous=await account.get()}catch{}
+      showExistingMemberSession(previous);
+    }else if(err?.type==='user_invalid_credentials'||err?.type==='user_not_found'){
+      setMsg('Email atau password belum cocok. Periksa kembali email dan password terbaru.','bad');
+    }else{
+      setMsg((err?.message||'Login belum berhasil.')+' Jika admin masih terbuka di browser ini, coba tab Samaran.','bad');
+    }
+  }finally{btn.disabled=false;btn.textContent='MASUK MEMBER AREA'}
 });
 let searchTimer=null;
 if(search){
