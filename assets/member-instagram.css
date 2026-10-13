@@ -140,3 +140,23 @@ body.member-app.insta-member{background:#f3f4f6}
  .insta-member .ig-tile-code{font-size:8px}
 }
 @media(prefers-reduced-motion:reduce){.insta-member .ig-tile img{transition:none}}
+
+/* Post detail: full uncropped image, prompt as always-visible Instagram-like caption. */
+.insta-member #detailOverlay .sheet{height:100dvh;max-height:100dvh;min-height:0}
+.insta-member #detailOverlay .detailimage{flex:1 1 auto;min-height:140px;max-height:none;margin:0;border-radius:0;background:#121214;overflow:hidden}
+.insta-member #detailOverlay .detailimage>.singlepreview,
+.insta-member #detailOverlay .detailimage .carouselslide img{display:block;width:100%;height:100%;object-fit:contain;background:#121214}
+.insta-member #detailOverlay .ig-post-caption{display:flex;flex-direction:column;flex:0 1 auto;min-height:104px;max-height:min(33dvh,280px);overflow:hidden;padding:12px 15px 10px;background:#fff;border-top:1px solid #ededf0;color:#28282c}
+.insta-member #detailOverlay .ig-caption-account{display:flex;align-items:center;gap:8px;flex:none;padding-bottom:8px}
+.insta-member #detailOverlay .ig-caption-account img{width:28px;height:28px;border-radius:50%;background:#17171b;object-fit:cover}
+.insta-member #detailOverlay .ig-caption-account strong{font:900 13px/1.25 Nunito,Arial,sans-serif;letter-spacing:.01em;color:#252529}
+.insta-member #detailOverlay .ig-caption-account span{margin-left:auto;padding:4px 7px;border-radius:7px;background:#f5f5f7;color:#74747d;font:900 10px/1.1 Nunito,Arial,sans-serif}
+.insta-member #detailOverlay .ig-caption-text{flex:1 1 auto;min-height:36px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:2px 1px 5px;background:none;border:0;color:#3f3f45;font:650 13px/1.65 Nunito,Arial,sans-serif;white-space:pre-wrap;overflow-wrap:anywhere;user-select:text;-webkit-user-select:text}
+.insta-member #detailOverlay .ig-caption-text::-webkit-scrollbar{width:4px}
+.insta-member #detailOverlay .ig-caption-text::-webkit-scrollbar-thumb{border-radius:9px;background:#d7d7dc}
+.insta-member #detailOverlay .sheetactions{flex:none;display:block;position:static;padding:10px 14px calc(12px + env(safe-area-inset-bottom));border-top:1px solid #ededf0;margin:0}
+.insta-member #detailOverlay .sheetactions #detailCopy{display:block;width:100%;min-height:48px;border-radius:12px;background:#eb7830;color:#fff;font:900 13px/1.15 Nunito,Arial,sans-serif;letter-spacing:.02em}
+.insta-member #detailOverlay .sheetactions #detailCopy:active{transform:scale(.995)}
+@media(min-width:760px){.insta-member #detailOverlay .sheet{height:min(92dvh,850px);max-height:min(92dvh,850px)}}
+@media(max-height:620px){.insta-member #detailOverlay .ig-post-caption{max-height:31dvh;min-height:85px;padding-top:8px;padding-bottom:6px}.insta-member #detailOverlay .ig-caption-account{padding-bottom:4px}.insta-member #detailOverlay .detailimage{min-height:120px}}
+@media(max-height:470px){.insta-member #detailOverlay .ig-post-caption{max-height:29dvh;min-height:75px}.insta-member #detailOverlay .detailimage{min-height:100px}.insta-member #detailOverlay .sheetactions{padding-top:7px;padding-bottom:calc(7px + env(safe-area-inset-bottom))}}
