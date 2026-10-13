@@ -49,3 +49,14 @@
 .telegram-hub #tgTabContent .mkt-notice{order:0}
 .telegram-hub #tgTabContent .mkt-stats{order:0}
 @media(max-width:600px){.telegram-hub .tg-main-tabs{top:0;gap:5px}.telegram-hub .tg-main-tabs button{font-size:10px;padding:11px 3px}.telegram-hub .tg-feature-card{padding:12px}.telegram-hub .tg-feature-head h2{font-size:18px}}
+
+/* Match existing dark bot controls while keeping Content forms legible. */
+.telegram-hub .telegram-view>.title h2{color:#222027;font-size:20px;margin:0}
+.telegram-hub .telegram-view>.title .eyebrow,.telegram-hub .telegram-view>.title p{color:#68636e}
+.telegram-hub #tgTabContent>.tg-panel{background:#111116;color:#f7f7f9;border-color:#34343b}
+.telegram-hub #tgTabContent>.tg-panel h2{color:#fff}
+.telegram-hub #tgTabContent>.tg-panel p,.telegram-hub #tgTabContent>.tg-panel .field label{color:#c4c4d0}
+.telegram-hub #tgTabContent>.tg-panel input,.telegram-hub #tgTabContent>.tg-panel select{background:#18181e;border:1px solid #41414b;color:#fff}
+.telegram-hub #tgTabContent>.tg-panel .tg-check{color:#f2edf1}
+.telegram-hub .tg-feature-card textarea:focus,.telegram-hub .tg-feature-card input:focus{border-color:#ff8d56}
+.telegram-hub .tg-mock-preview a{color:#bb5523;text-decoration:underline}
