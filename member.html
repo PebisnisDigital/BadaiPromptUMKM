@@ -32,7 +32,7 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
 <link rel="stylesheet" href="/assets/telegram-manager.css">
 <style>/* PROMPTIONAL identity */ .brand{letter-spacing:-.055em}.brand b{color:#ff6b35}.brand small{letter-spacing:.09em}</style>
 <link rel="stylesheet" href="/assets/member-app-home.css?v=mobile1">
-<link rel="stylesheet" href="/assets/member-instagram.css?v=2">
+<link rel="stylesheet" href="/assets/member-instagram.css?v=3">
 <style>.switch-account{width:100%;min-height:44px;margin-top:8px;padding:10px 12px;border:1px solid #ffb26e;border-radius:11px;background:#fff2e7;color:#af500f;font:900 12px/1.4 Nunito,Arial,sans-serif}.switch-account:focus-visible{outline:2px solid #da6c1a;outline-offset:2px}</style>
 </head>
 <body class="member-app insta-member">
@@ -161,8 +161,11 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
     </div>
     <div class="detail-swipe-tip" aria-hidden="true">↑ ↓ Geser untuk ganti gambar</div>
     <div class="detailimage" id="detailImage"></div>
-    <details class="prompt-disclosure" open><summary>Teks prompt · ketuk untuk sembunyikan</summary><div class="promptbox" id="detailPrompt"></div></details>
-    <div class="sheetactions"><button class="btn btn-pink" id="detailCopy">Salin prompt</button><button class="btn btn-dark" id="detailFav" aria-label="Simpan gambar">Simpan</button></div>
+    <section class="ig-post-caption" aria-label="Caption postingan dan prompt">
+      <div class="ig-caption-account"><img src="/assets/promptional-icon.svg" alt="" width="28" height="28"><strong>PROMPTIONAL</strong><span id="detailCaptionCode">BP001</span></div>
+      <div class="ig-caption-text" id="detailPrompt" role="article"></div>
+    </section>
+    <div class="sheetactions"><button class="btn btn-pink" id="detailCopy" type="button">SALIN PROMPT</button></div>
     <div class="use-guide"><b>Setelah disalin, lanjut ke ChatGPT atau Gemini.</b><p>Unggah foto kamu, tempel prompt, lalu kirim. Hasil gambar bisa berbeda di setiap AI.</p></div>
   </div>
 </div>
@@ -245,8 +248,8 @@ async function safeCopy(text){
   try{await navigator.clipboard.writeText(text)}catch(e){
     const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();const copied=document.execCommand('copy');ta.remove();if(!copied){showToast('Belum tersalin. Buka teks prompt dan salin manual.');return}
   }
-  $('detailCopy').textContent='Sudah disalin ✓';
-  setTimeout(()=>{$('detailCopy').textContent='Salin prompt'},2400);
+  $('detailCopy').textContent='SUDAH DISALIN ✓';
+  setTimeout(()=>{$('detailCopy').textContent='SALIN PROMPT'},2400);
 }
 async function loadProfile(){
   const r=await tables.getRow({databaseId:DB,tableId:'member_profiles',rowId:currentUser.$id});
@@ -273,7 +276,7 @@ async function removeFavorite(id){
   favorites.delete(id);favoriteRows.delete(id);
 }
 async function toggleFavorite(id){
-  try{favorites.has(id)?await removeFavorite(id):await addFavorite(id);if(mode==='favorites')await refreshPrompts();else render();if(current&&current.$id===id)updateDetailFav()}catch(e){showToast('Favorit gagal disimpan')}
+  try{favorites.has(id)?await removeFavorite(id):await addFavorite(id);if(mode==='favorites')await refreshPrompts();else render()}catch(e){showToast('Favorit gagal disimpan')}
 }
 async function loadPrompts(requestId=++libraryRequest){
   if(mode==='favorites'&&!favorites.size){all=[];totalPrompts=0;totalPages=1;openLatestPage=false;return true}
@@ -470,12 +473,12 @@ function showPromptDetail(x){
   current=x;
   $('detailCategory').textContent=promptCode(current)+' · '+(current.category||'Prompt');
   $('detailTitle').textContent=current.title||promptCode(current);
-  $('detailCopy').textContent='Salin prompt';
-  detailOverlay.querySelector('details').open=true;
+  $('detailCopy').textContent='SALIN PROMPT';
+  $('detailCaptionCode').textContent=promptCode(current);
   $('detailPrompt').textContent=current.prompt_text||'';
   $('detailPrompt').scrollTop=0;
   $('detailImage').innerHTML=carouselMarkup(current,true);
-  updateDetailFav();updateDetailNavState();
+  updateDetailNavState();
   startDetailCarousel();
 }
 function openDetail(id){
@@ -510,7 +513,6 @@ async function navigateDetail(direction){
     showToast('Belum bisa membuka gambar berikutnya. Coba lagi.');
   }finally{detailNavigating=false}
 }
-function updateDetailFav(){const saved=!!current&&favorites.has(current.$id);$('detailFav').textContent=saved?'Tersimpan':'Simpan';$('detailFav').setAttribute('aria-pressed',String(saved))}
 function openAccount(){
   $('accStatus').textContent=currentProfile?.status==='active'?'AKTIF':'-';
   $('accFav').textContent=favorites.size+' prompt';
@@ -700,7 +702,6 @@ document.addEventListener('keydown',e=>{
   else if(e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();void navigateDetail(-1)}
 });
 $('detailCopy').onclick=()=>current&&safeCopy(current.prompt_text);
-$('detailFav').onclick=()=>current&&toggleFavorite(current.$id);
 $('accountForm').addEventListener('submit',async e=>{
   e.preventDefault();
   const name=$('accNameInput').value.trim(),email=$('accEmailInput').value.trim().toLowerCase(),whatsapp=$('accWaInput').value.trim();
