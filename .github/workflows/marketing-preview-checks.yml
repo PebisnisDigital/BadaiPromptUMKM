@@ -2,7 +2,8 @@ name: Marketing preview checks
 on:
   pull_request:
     paths:
-      - 'api/marketing-public-prompt.js'
+      - 'api/public-previews.js'
+      - 'lib/marketing-public-handler.js'
       - 'lib/marketing-public.js'
       - 'prompt-free.html'
       - 'assets/prompt-free.*'
@@ -21,7 +22,8 @@ jobs:
         with:
           node-version: '22'
       - run: node --check lib/marketing-public.js
-      - run: node --check api/marketing-public-prompt.js
+      - run: node --check lib/marketing-public-handler.js
+      - run: node --check api/public-previews.js
       - run: node --check assets/prompt-free.js
       - run: node --test tests/marketing-public.test.cjs
       - run: node -e "const c=require('./vercel.json'); if(!c.rewrites.some(x=>x.source==='/c/:client/p/:bp'&&x.destination==='/prompt-free.html')) process.exit(1);"
