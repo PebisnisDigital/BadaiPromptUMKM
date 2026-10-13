@@ -1,6 +1,7 @@
 import {id,safeError,fail} from './security.mjs';
 import {DAY,nextAt,promptChunks} from './policy.mjs';
 import {contentHash as contentHashMarketing} from './marketing.mjs';
+import {telegramHtml} from './engagement.mjs';
 export class Delivery{
  constructor(service){this.s=service}
  async prompt(member,bot,{key,kind='prompt',promptId,test=false,marketingTestOffer=null,marketingTestFingerprint=null,welcome=false,now=this.s.now()}={}){
@@ -76,7 +77,8 @@ export class Delivery{
     const offer=prompt.marketing_offer;
     const message=await s.telegram.call(token,'sendMessage',{
      chat_id:consent.data.chat_id,
-     text:((test?'[UJI MARKETING — HANYA TESTER]\n\n':'')+offer.text+'\n\nPesan gratis akan dihapus setelah '+setting.delete_hours+' jam. Prompt Free berikutnya dalam '+setting.free_days+' hari.').slice(0,1400),
+     text:telegramHtml((test?'[UJI MARKETING — HANYA TESTER]\n\n':'')+offer.text+'\n\nPesan gratis akan dihapus setelah '+setting.delete_hours+' jam. Prompt Free berikutnya dalam '+setting.free_days+' hari.',{max:1800}),
+     parse_mode:'HTML',
      reply_markup:{inline_keyboard:[[{text:offer.label,url:offer.url}]]}
     });
     ids.push(String(message.message_id));
