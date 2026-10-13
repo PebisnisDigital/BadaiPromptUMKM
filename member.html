@@ -83,10 +83,6 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
 <div class="toast" id="toast">Prompt tersalin ✓</div>
 
 <div class="shell">
-  <header class="topbar">
-    <div class="app-brand"><span class="app-logo-mark" aria-hidden="true">P<span>.</span></span><div class="app-wordmark"><strong>PROMPT<em>IONAL</em></strong><small>MEMBER AREA</small></div></div>
-    <button class="avatar" id="accountBtn" aria-label="Buka profil dan akun">V</button>
-  </header>
   <main>
     <section class="ig-profile" aria-label="Profil PROMPTIONAL">
       <div class="ig-profile-main">
@@ -105,19 +101,11 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
         <p>Inspirasi visual premium setiap hari.<br>Ketuk gambar → salin prompt → buat karya sendiri.</p>
         <div class="ig-bio-member">Hai, <span id="memberName">Kak</span>! <span>✦ Member Premium</span></div>
       </div>
-      <button class="ig-search-toggle" id="igSearchToggle" type="button" aria-expanded="false" aria-controls="searchArea">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg>
-        Cari prompt
-      </button>
     </section>
     <div id="passwordReminder" hidden style="display:none;padding:12px;margin:12px 0 8px;border:1px solid #ff9c50;background:#332117;border-radius:14px;align-items:center;flex-wrap:wrap;gap:9px">
       <span style="flex:1 1 210px;font:700 12px/1.5 Nunito,Arial,sans-serif;color:#ffe5d2">Akses sudah aktif! Supaya besok gampang login, buat password saat senggang, ya Kak.</span>
       <button id="setupPasswordNow" type="button" style="border:0;border-radius:9px;background:#ff8d32;color:#180d05;font-weight:900;padding:8px 11px">BUAT PASSWORD</button>
       <button id="dismissPassword" type="button" style="border:1px solid #895a38;border-radius:9px;background:transparent;color:#fff;padding:8px 11px">NANTI</button>
-    </div>
-    <div class="ig-search-area" id="searchArea" hidden>
-      <label class="member-search" for="search"><span>Cari prompt atau gambar</span><input id="search" type="search" placeholder="Cari prompt, foto, produk..." autocomplete="off"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg></label>
-      <p class="search-help" id="searchHelp" role="status" hidden>Ketik minimal 3 huruf untuk mencari gambar.</p>
     </div>
     <section class="member-feature" aria-label="Akses Premium">
       <span class="feature-eyebrow"><i aria-hidden="true"></i> PROMPTIONAL PREMIUM</span>
@@ -142,7 +130,7 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
     </div>
     <div class="library-heading"><h2 id="libraryTitle">Koleksi gambar</h2><span id="libraryCount" role="status"></span></div>
     <section class="grid" id="grid" aria-label="Koleksi gambar"></section>
-    <div class="pagination" id="pagination" aria-label="Navigasi halaman prompt"></div>
+    <div class="ig-feed-sentinel" id="feedSentinel" role="status" aria-live="polite" hidden><span id="feedLoadLabel">Memuat gambar berikutnya…</span><button id="feedRetry" type="button" hidden>Coba lagi</button></div>
   </main>
 </div>
 
@@ -217,14 +205,14 @@ const {Client,Account,TablesDB,Functions,Query,ID,Permission,Role}=Appwrite;
 const client=new Client().setEndpoint('https://sgp.cloud.appwrite.io/v1').setProject('badai-prompt-umkm');
 const account=new Account(client),tables=new TablesDB(client),functions=new Functions(client);
 const DB='badai_prompt_umkm',TABLE='scene_prompts',FUNC='payment-api';
-let currentUser=null,currentProfile=null,all=[],favorites=new Set(),favoriteRows=new Map(),current=null,category='',mode='all',currentPage=1,totalPrompts=0,totalPages=1,openLatestPage=false;
+let currentUser=null,currentProfile=null,all=[],favorites=new Set(),favoriteRows=new Map(),current=null,category='',mode='all',currentPage=1,totalPrompts=0,totalPages=1;
 let cardCarouselTimers=[],detailCarouselTimer=null;
-const PAGE_SIZE=12;
+const PAGE_SIZE=9;
 let libraryRequest=0;
 const CATEGORIES=['Prompt Viral','Spontan','Keseharian','Kerja','Bisnis','Pemimpin Bisnis','Perjalanan','Jalanan','Kafe','Rumah','Keluarga','Pasangan','Olahraga','Mode','Hijab','Sinematik','Film','Sejarah','Fantasi','Miniatur','Mainan','LEGO','Film Analog','iPhone','Studio','Perayaan','Ramadan','Lebaran','Indonesia','Jepang','Korea','Nyeleneh','Tren Viral'];
 
 const $=id=>document.getElementById(id);
-const gate=$('gate'),loading=$('loading'),loginMsg=$('loginMsg'),grid=$('grid'),search=$('search'),categorySelect=$('categorySelect');
+const gate=$('gate'),loading=$('loading'),loginMsg=$('loginMsg'),grid=$('grid'),categorySelect=$('categorySelect');
 const detailOverlay=$('detailOverlay'),affiliateOverlay=$('affiliateOverlay'),accountOverlay=$('accountOverlay'),toast=$('toast'),firstPasswordOverlay=$('firstPasswordOverlay');
 
 function esc(v=''){return String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
@@ -330,7 +318,7 @@ async function applyCategory(value,scroll=true){
   mode=value==='__saved'?'favorites':'all';
   category=mode==='favorites'?'':value;
   categorySelect.value=mode==='favorites'?'__saved':category;
-  currentPage=1;openLatestPage=false;
+  currentPage=1;
   syncLibraryChoices();
   await refreshPrompts(scroll);
 }
