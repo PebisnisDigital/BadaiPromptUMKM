@@ -10,7 +10,8 @@
   const match = location.pathname.match(/^\/c\/([a-z0-9-]+)\/p\/(BP\d{3})\/?$/);
   if (!match) { error('Alamat prompt tidak ditemukan.'); return; }
   const [,client,bp] = match;
-  const url = new URL('/api/marketing-public-prompt', location.origin);
+  const url = new URL('/api/public-previews', location.origin);
+  url.searchParams.set('mode', 'marketing');
   url.searchParams.set('client', client);
   url.searchParams.set('bp', bp);
   fetch(url, {credentials:'omit', cache:'no-store'})
