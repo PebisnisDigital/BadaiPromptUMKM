@@ -33,4 +33,4 @@ jobs:
       - run: node --test tests/marketing-public.test.cjs tests/marketing-public-handler.test.cjs tests/repliz-dry-run.test.cjs tests/prompt-free-ui.test.cjs
       - run: node scripts/repliz-dry-run.cjs --days=3 --brand=demo-rose > /tmp/repliz-dry-run.json
       - run: node -e "const p=require('/tmp/repliz-dry-run.json'); if(p.count!==3 || !p.matched || !p.noNetworkOperations || p.entries.some(x=>x.canPublish)) process.exit(1);"
-      - run: node -e "const c=require('./vercel.json'); if(!c.rewrites.some(x=>x.source==='/c/:client/p/:bp'&&x.destination==='/prompt-free.html')) process.exit(1);"
+      - run: node -e "const c=require('./vercel.json'); if(!c.rewrites.some(x=>x.source==='/c/:client/p/:bp'&&['/prompt-free','/prompt-free.html'].includes(x.destination))) process.exit(1);"
