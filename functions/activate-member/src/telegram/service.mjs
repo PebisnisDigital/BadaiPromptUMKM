@@ -1,5 +1,6 @@
 import {Delivery} from './delivery.mjs';
 import {Marketing} from './marketing.mjs';
+import {Engagement} from './engagement.mjs';
 import {fail,id,random,masterKey,seal,unseal,equal,numeric,privateIdentity,safeError} from './security.mjs';
 import {defaults,settings,entitlement,DAY,jakartaStart} from './policy.mjs';
 import {reservePurchaseActivation} from './telegram-purchase-activation.mjs';
@@ -8,7 +9,7 @@ import {listTelegramSales,listTelegramBuyers,resetSandboxBuyer} from './telegram
 import {updateTelegramBuyer,deleteTelegramBuyer} from './telegram-sales-management.mjs';
 export class Service{
  constructor({store,telegram,key,now=()=>Date.now(),sendEnabled=false,webhookBase='https://promptional.vercel.app/api/telegram/webhook',verifyUser,verifyAdmin,verifyPaidAccess=async()=>false,marketingEnabled=false,qrisDeps={}}){
-  Object.assign(this,{store,telegram,key,now,sendEnabled,webhookBase,verifyUser,verifyAdmin,verifyPaidAccess,marketingEnabled});this.delivery=new Delivery(this);this.marketing=new Marketing(this);this.qris=new BotQris(this,qrisDeps);
+  Object.assign(this,{store,telegram,key,now,sendEnabled,webhookBase,verifyUser,verifyAdmin,verifyPaidAccess,marketingEnabled});this.delivery=new Delivery(this);this.marketing=new Marketing(this);this.engagement=new Engagement(this);this.qris=new BotQris(this,qrisDeps);
  }
  async config(){return settings((await this.store.state('telegram-settings'))?.data||defaults)}
  token(bot){return unseal(bot.token_cipher,masterKey(this.key),'token:'+bot.$id)}
@@ -35,6 +36,12 @@ export class Service{
   if(action==='telegram-member-edit')return updateTelegramBuyer(this,body,actor.$id);
   if(action==='telegram-member-delete')return deleteTelegramBuyer(this,body,actor.$id);
   if(action==='telegram-tester-reset')return resetSandboxBuyer(this,body,actor.$id);
+  if(action==='autoreply-list')return this.engagement.rules();
+  if(action==='autoreply-save'){const v=await this.engagement.saveRule(body,actor.$id);await this.audit(actor.$id,action,{keyword:String(body.keyword).slice(0,40)});return v}
+  if(action==='autoreply-delete'){const v=await this.engagement.deleteRule(body,actor.$id);await this.audit(actor.$id,action,{keyword:String(body.keyword).slice(0,40)});return v}
+  if(action==='broadcast-get')return this.engagement.current();
+  if(action==='broadcast-draft'){const v=await this.engagement.draft(body,actor.$id);await this.audit(actor.$id,action,{id:v.campaign.id});return v}
+  if(action==='broadcast-send-batch'){const v=await this.engagement.sendBatch(body,actor.$id);await this.audit(actor.$id,action,{id:v.campaign.id,count:v.batch.sent});return v}
   if(action==='marketing-get')return this.marketing.get();
   if(action==='marketing-candidates')return this.marketing.candidates(body);
   if(action==='marketing-settings'){
@@ -228,6 +235,8 @@ export class Service{
   }
   if(cmd==='/premium')return this.delivery.text(member,bot,'PROMPTIONAL Premium: bayar QRIS sekali melalui website resmi, lalu langsung akses semua prompt di Member Area setelah pembayaran terverifikasi. Tidak ada kiriman Premium harian.\n\nLihat paket: https://promptional.vercel.app/beli-premium.html\n\nJika sudah membeli, buka https://promptional.vercel.app/member',key,'reply');
   if(cmd==='/status')return this.delivery.text(member,bot,'Paket: '+member.plan.toUpperCase()+'\nMasa aktif: '+(member.plan==='premium'?(member.premium_until?new Date(member.premium_until).toLocaleDateString('id-ID',{timeZone:'Asia/Jakarta'}):'Mengikuti hak akses lama'):'Gratis')+'\nPrompt terkirim: '+(member.delivery_day||0),key,'reply');
+  const autoreply=await this.engagement.respond(member,bot,identity.text,key);
+  if(autoreply)return autoreply;
   return this.delivery.text(member,bot,'Panduan PROMPTIONAL\n/start — terima prompt gratis harian\n/prompt — prompt gratis sesuai jadwal\n/premium — cara mendapatkan Member Area lengkap\n/status — status akun\n/bantuan — panduan\nPrompt gratis dihapus otomatis setelah 24 jam. Member Premium membuka seluruh koleksi langsung di website.'+(this.qris.enabled?'\n/beli — coba checkout QRIS sandbox\n/cek — cek status invoice':''),key,'reply');
  }
  async scheduler({forceDry=false,budgetMs=20000}={}){
