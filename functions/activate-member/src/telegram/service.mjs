@@ -235,8 +235,11 @@ export class Service{
   }
   if(cmd==='/premium')return this.delivery.text(member,bot,'PROMPTIONAL Premium: bayar QRIS sekali melalui website resmi, lalu langsung akses semua prompt di Member Area setelah pembayaran terverifikasi. Tidak ada kiriman Premium harian.\n\nLihat paket: https://promptional.vercel.app/beli-premium.html\n\nJika sudah membeli, buka https://promptional.vercel.app/member',key,'reply');
   if(cmd==='/status')return this.delivery.text(member,bot,'Paket: '+member.plan.toUpperCase()+'\nMasa aktif: '+(member.plan==='premium'?(member.premium_until?new Date(member.premium_until).toLocaleDateString('id-ID',{timeZone:'Asia/Jakarta'}):'Mengikuti hak akses lama'):'Gratis')+'\nPrompt terkirim: '+(member.delivery_day||0),key,'reply');
-  const autoreply=await this.engagement.respond(member,bot,identity.text,key);
-  if(autoreply)return autoreply;
+  // Keyword campaigns belong to the active bot, never to an old/standby bot.
+  if(main&&main.$id===botId){
+   const autoreply=await this.engagement.respond(member,bot,identity.text,key);
+   if(autoreply)return autoreply;
+  }
   return this.delivery.text(member,bot,'Panduan PROMPTIONAL\n/start — terima prompt gratis harian\n/prompt — prompt gratis sesuai jadwal\n/premium — cara mendapatkan Member Area lengkap\n/status — status akun\n/bantuan — panduan\nPrompt gratis dihapus otomatis setelah 24 jam. Member Premium membuka seluruh koleksi langsung di website.'+(this.qris.enabled?'\n/beli — coba checkout QRIS sandbox\n/cek — cek status invoice':''),key,'reply');
  }
  async scheduler({forceDry=false,budgetMs=20000}={}){
