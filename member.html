@@ -411,10 +411,24 @@ function render(){
   $('libraryCount').textContent=totalPrompts+' gambar';
   $('featureCount').textContent=String(totalPrompts);
   syncLibraryChoices();
-  $('libraryTitle').textContent=mode==='favorites'?'Gambar tersimpan':category||'Koleksi gambar';
-  if(!rows.length){stopCardCarousels();grid.innerHTML='<div class="empty"><b>'+(mode==='favorites'?'Belum ada gambar tersimpan.':'Gambar belum ditemukan.')+'</b><p>'+(mode==='favorites'?'Buka gambar, lalu pilih Simpan agar mudah ditemukan lagi.':'Coba kata lain atau pilih Semua kategori.')+'</p></div>';return}
-  grid.innerHTML=rows.map(x=>'<article class="card"><button class="visual" type="button" data-open="'+esc(x.$id)+'" aria-label="Lihat '+esc(x.title)+'"><span class="promptcode">'+esc(promptCode(x))+'</span>'+cardVisual(x)+'</button><div class="body"><h3>'+esc(x.title||promptCode(x))+'</h3><p>'+esc(x.category||'Prompt')+'</p><button class="btn btn-pink codebtn" type="button" data-open="'+esc(x.$id)+'">Lihat &amp; salin</button></div></article>').join('');
+  $('libraryTitle').textContent=mode==='favorites'?'Gambar tersimpan':category||'Feed Prompt';
+  if(!rows.length){
+    stopCardCarousels();
+    grid.innerHTML='<div class="empty"><b>'+(mode==='favorites'?'Belum ada prompt tersimpan.':'Gambar belum ditemukan.')+'</b><p>'+(mode==='favorites'?'Ketuk ikon hati di bawah foto untuk menyimpan.':'Coba kata lain atau pilih Semua kategori.')+'</p></div>';
+    return;
+  }
+  const heart='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.9a5.5 5.5 0 0 0-7.8 0L12 6l-1-1.1a5.5 5.5 0 1 0-7.8 7.8L12 21l8.8-8.3a5.5 5.5 0 0 0 0-7.8Z"/></svg>';
+  const speech='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-8.5 8.5c-1.4 0-2.6-.2-3.7-.8L3 21l1.7-4.9C4.2 15 4 13.8 4 12.5A8 8 0 0 1 12.5 4 7.6 7.6 0 0 1 20 11.5Z"/></svg>';
+  grid.innerHTML=rows.map(x=>
+    '<article class="card insta-post">'+
+      '<div class="post-head"><span class="post-avatar" aria-hidden="true">P<em>.</em></span><span class="post-author"><strong>PROMPTIONAL</strong><small>'+esc(promptCode(x))+' · '+esc(x.category||'Prompt')+'</small></span>'+(x.is_featured===true?'<span class="post-badge">Pilihan</span>':'')+'</div>'+
+      '<button class="visual" type="button" data-open="'+esc(x.$id)+'" aria-label="Buka detail '+esc(x.title||promptCode(x))+'"><span class="promptcode">'+esc(promptCode(x))+'</span>'+cardVisual(x)+'</button>'+
+      '<div class="post-actions"><button type="button" class="post-icon-button '+(favorites.has(x.$id)?'saved':'')+'" data-save="'+esc(x.$id)+'" aria-label="'+(favorites.has(x.$id)?'Hapus dari tersimpan':'Simpan prompt')+'" aria-pressed="'+favorites.has(x.$id)+'">'+heart+'</button><button type="button" class="post-icon-button" data-open="'+esc(x.$id)+'" aria-label="Buka teks prompt">'+speech+'</button><button type="button" class="post-open" data-open="'+esc(x.$id)+'">Lihat prompt →</button></div>'+
+      '<div class="body"><h3>'+esc(x.title||promptCode(x))+'</h3><p>'+esc(x.category||'Prompt')+' · Ketuk foto untuk melihat detail &amp; menyalin prompt</p></div>'+
+    '</article>'
+  ).join('');
   grid.querySelectorAll('[data-open]').forEach(el=>el.onclick=()=>openDetail(el.dataset.open));
+  grid.querySelectorAll('[data-save]').forEach(el=>el.onclick=()=>toggleFavorite(el.dataset.save));
   startCardCarousels();
 }
 function openDetail(id){
