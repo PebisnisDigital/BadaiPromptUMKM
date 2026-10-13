@@ -202,6 +202,10 @@ el('curPublish').addEventListener('click',()=>void withLock(['curSaveDraft','cur
  if(state.selected.stage!=='review')throw Error('Klik SIAP REVIEW setelah menyimpan hasil kurasi sebelum diterbitkan.');
  if(!el('curRightsConfirm').checked)throw Error('Centang konfirmasi izin, originalitas dan kualitas dahulu.');
  const data=editorRaw(),id=state.selected.$id;
+ const latestRef=rowDataCur(await tables.getRow({databaseId:DB,tableId:TABLE_REF,rowId:id}));
+ if(latestRef.stage!=='review')throw Error('Status referensi berubah. Muat ulang dan review kembali.');
+ const reviewedFields=['title','category','source_url','source_license','adapted_prompt','preview_url','score'];
+ if(reviewedFields.some(key=>String(latestRef[key]??'')!==String(data[key]??'')))throw Error('Ada perubahan sejak review. Simpan ulang, lalu tandai SIAP REVIEW kembali sebelum terbit.');
  if(data.source_license==='inspiration'&&data.reference_prompt&&samePrompt(data.reference_prompt,data.adapted_prompt))throw Error('Prompt kurasi harus karya baru, bukan salinan sumber.');
  if(el('curPreviewImage').naturalWidth<1)throw Error('Preview belum berhasil ditampilkan. Pastikan URL gambar valid.');
  if(data.score<80||!data.preview_url||data.adapted_prompt.length<40||data.source_license==='unknown')
