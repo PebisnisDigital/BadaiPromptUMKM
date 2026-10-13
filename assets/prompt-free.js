@@ -8,8 +8,13 @@
     $('error').hidden = false;
   };
   const match = location.pathname.match(/^\/c\/([a-z0-9-]+)\/p\/(BP\d{3})\/?$/);
-  if (!match) { error('Alamat prompt tidak ditemukan.'); return; }
-  const [,client,bp] = match;
+  // Query fallback for deployments where dynamic rewrites respond with NOT_FOUND.
+  const query = new URLSearchParams(location.search || '');
+  const client = match?.[1] || query.get('client');
+  const bp = match?.[2] || query.get('bp');
+  if (!client || !/^[a-z0-9-]+$/.test(client) || !/^BP\d{3}$/.test(bp || '')) {
+    error('Alamat prompt tidak ditemukan.'); return;
+  }
   const url = new URL('/api/public-previews', location.origin);
   url.searchParams.set('mode', 'marketing');
   url.searchParams.set('client', client);
