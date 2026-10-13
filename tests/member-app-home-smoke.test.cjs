@@ -11,17 +11,17 @@ const script=html.match(/<script>\s*([\s\S]*?)<\/script>/)?.[1]||'';
 
 test('member has clean Instagram profile, story highlights, and 3-column gallery',()=>{
  assert.match(html,/meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/);
- assert.match(html,/member-instagram\.css\?v=4/);
+ assert.match(html,/member-instagram\.css\?v=5/);
  assert.match(base,/\.member-app \.shell\{width:min\(100%,560px\)/);
  assert.match(profile,/\.insta-member \.grid\{display:grid;grid-template-columns:repeat\(3,minmax\(0,1fr\)\);gap:2px/);
  assert.match(profile,/\.insta-member \.ig-tile\{position:relative;display:block;width:100%;min-width:0;aspect-ratio:1\/1/);
  assert.doesNotMatch(html,/<header class="topbar">/);
  assert.doesNotMatch(html,/id="igSearchToggle"/);
- assert.doesNotMatch(html,/id="pagination"/);
+ assert.match(html,/id="pagination"/);
  assert.match(profile,/safe-area-inset-bottom/);
 });
 test('profile statistics, greeting, and login keep working without a topbar avatar',()=>{
- for(const id of ['memberName','featureCount','igPromptCount','igCategoryCount','igSavedCount','passwordReminder','grid','feedSentinel','feedLoadLabel','feedRetry']){
+ for(const id of ['memberName','featureCount','igPromptCount','igCategoryCount','igSavedCount','passwordReminder','grid','pagination','pageSelect','pagePrev','pageNext']){
   assert.ok(html.includes('id="'+id+'"'),id+' exists');
  }
  assert.match(html,/src="\/assets\/promptional-icon\.svg"/);
@@ -51,13 +51,13 @@ test('three bottom tabs still lead to Prompt, Affiliate and Account',()=>{
  assert.match(script,/if\(b\.dataset\.mode==='account'\)\{openAccount\(\)/);
  assert.match(script,/function syncLibraryChoices\(\)/);
 });
-test('Appwrite login, swipe detail, copy, favorites and infinite scroll remain functional',()=>{
+test('Appwrite login, swipe detail, copy, favorites and manual pagination remain functional',()=>{
  for(const id of ['loginForm','detailOverlay','detailCopy','detailPrompt','detailCaptionCode','accountForm','tgLinkBtn','firstPasswordOverlay'])
   assert.ok(html.includes('id="'+id+'"'));
  assert.match(script,/async function loadFavorites\(\)/);
  assert.match(script,/async function toggleFavorite\(id\)/);
- assert.match(script,/async function loadNextBatch\(\)/);
- assert.match(script,/function initInfiniteScroll\(\)/);
+ assert.match(script,/async function goToPage\(page,scroll=true\)/);
+ assert.match(script,/function renderPagination\(\)/);
  assert.match(script,/function carouselMarkup\(x,detail=false\)/);
  assert.match(script,/async function safeCopy/);
  assert.match(script,/await loadProfile\(\)/);
