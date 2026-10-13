@@ -88,21 +88,44 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
     <button class="avatar" id="accountBtn" aria-label="Buka profil dan akun">V</button>
   </header>
   <main>
-    <section class="member-welcome" aria-label="Beranda member"><div><span class="hello-eyebrow">Selamat datang kembali 👋</span><h1>Hai, <span id="memberName">Kak</span>!</h1></div><span class="member-status"><i aria-hidden="true"></i> PREMIUM AKTIF</span></section>
+    <section class="ig-profile" aria-label="Profil PROMPTIONAL">
+      <div class="ig-profile-main">
+        <div class="ig-profile-photo"><img src="/assets/promptional-icon.svg" alt="Foto profil PROMPTIONAL" width="86" height="86"></div>
+        <div class="ig-profile-overview">
+          <div class="ig-profile-handle"><strong>@promptional</strong><span class="ig-verified" aria-label="Akun resmi PROMPTIONAL">✓</span></div>
+          <div class="ig-profile-stats" aria-label="Statistik koleksi">
+            <div><strong id="igPromptCount">—</strong><span>Prompt</span></div>
+            <div><strong id="igCategoryCount">—</strong><span>Kategori</span></div>
+            <div><strong id="igSavedCount">0</strong><span>Tersimpan</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="ig-profile-bio">
+        <strong>PROMPTIONAL · Prompt Gambar AI</strong>
+        <p>Inspirasi visual premium setiap hari.<br>Ketuk gambar → salin prompt → buat karya sendiri.</p>
+        <div class="ig-bio-member">Hai, <span id="memberName">Kak</span>! <span>✦ Member Premium</span></div>
+      </div>
+      <button class="ig-search-toggle" id="igSearchToggle" type="button" aria-expanded="false" aria-controls="searchArea">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg>
+        Cari prompt
+      </button>
+    </section>
     <div id="passwordReminder" hidden style="display:none;padding:12px;margin:12px 0 8px;border:1px solid #ff9c50;background:#332117;border-radius:14px;align-items:center;flex-wrap:wrap;gap:9px">
       <span style="flex:1 1 210px;font:700 12px/1.5 Nunito,Arial,sans-serif;color:#ffe5d2">Akses sudah aktif! Supaya besok gampang login, buat password saat senggang, ya Kak.</span>
       <button id="setupPasswordNow" type="button" style="border:0;border-radius:9px;background:#ff8d32;color:#180d05;font-weight:900;padding:8px 11px">BUAT PASSWORD</button>
       <button id="dismissPassword" type="button" style="border:1px solid #895a38;border-radius:9px;background:transparent;color:#fff;padding:8px 11px">NANTI</button>
     </div>
-    <label class="member-search" for="search"><span>Cari prompt atau gambar</span><input id="search" type="search" placeholder="Cari prompt, foto, produk..." autocomplete="off"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg></label>
-    <p class="search-help" id="searchHelp" role="status" hidden>Ketik minimal 3 huruf untuk mencari gambar.</p>
+    <div class="ig-search-area" id="searchArea" hidden>
+      <label class="member-search" for="search"><span>Cari prompt atau gambar</span><input id="search" type="search" placeholder="Cari prompt, foto, produk..." autocomplete="off"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg></label>
+      <p class="search-help" id="searchHelp" role="status" hidden>Ketik minimal 3 huruf untuk mencari gambar.</p>
+    </div>
     <section class="member-feature" aria-label="Akses Premium">
       <span class="feature-eyebrow"><i aria-hidden="true"></i> PROMPTIONAL PREMIUM</span>
       <h2>Ide visual tanpa batas <em>kreasi.</em></h2>
       <div class="feature-footer"><strong id="featureCount">—</strong> prompt di kategori pilihanmu <span aria-hidden="true">·</span> Salin &amp; pakai</div>
     </section>
     <section class="shortcut-panel" aria-label="Pintasan kategori">
-      <div class="app-section-title"><h2>Jelajahi kategori</h2><button class="view-all-cats" id="allCategoriesBtn" type="button">Lihat semua ↗</button></div>
+      <div class="app-section-title"><h2>Sorotan</h2><button class="view-all-cats" id="allCategoriesBtn" type="button" aria-expanded="false" aria-controls="categoryPanel">Kategori lain ↓</button></div>
       <div class="quick-categories" id="quickCategories">
         <button class="quick-category on" type="button" data-category-shortcut="" aria-pressed="true"><span class="quick-icon" style="--cat-bg:#fff0e5" aria-hidden="true">◈</span><span>Semua</span></button>
         <button class="quick-category" type="button" data-category-shortcut="Prompt Viral" aria-pressed="false"><span class="quick-icon" style="--cat-bg:#fff0ef" aria-hidden="true">🔥</span><span>Viral</span></button>
@@ -111,17 +134,15 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
         <button class="quick-category" type="button" data-category-shortcut="__saved" aria-pressed="false"><span class="quick-icon" style="--cat-bg:#f5efff" aria-hidden="true">♡</span><span>Tersimpan</span></button>
       </div>
     </section>
-    <div class="browsebar">
+    <div class="browsebar ig-category-panel" id="categoryPanel" hidden>
       <div class="filterbar">
-        <div class="filterlabel">KATEGORI</div>
-        <div class="categoryselect">
-          <select id="categorySelect" aria-label="Pilih kategori prompt Bahasa Indonesia"></select>
-        </div>
+        <div class="filterlabel">PILIH KATEGORI LAIN</div>
+        <div class="categoryselect"><select id="categorySelect" aria-label="Pilih kategori prompt Bahasa Indonesia"></select></div>
       </div>
-      <div class="pagination" id="pagination" aria-label="Navigasi halaman prompt"></div>
     </div>
     <div class="library-heading"><h2 id="libraryTitle">Koleksi gambar</h2><span id="libraryCount" role="status"></span></div>
     <section class="grid" id="grid" aria-label="Koleksi gambar"></section>
+    <div class="pagination" id="pagination" aria-label="Navigasi halaman prompt"></div>
   </main>
 </div>
 
