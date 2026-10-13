@@ -1,0 +1,27 @@
+name: Marketing preview checks
+on:
+  pull_request:
+    paths:
+      - 'api/marketing-public-prompt.js'
+      - 'lib/marketing-public.js'
+      - 'prompt-free.html'
+      - 'assets/prompt-free.*'
+      - 'vercel.json'
+      - 'tests/marketing-public.test.cjs'
+      - '.github/workflows/marketing-preview-checks.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check lib/marketing-public.js
+      - run: node --check api/marketing-public-prompt.js
+      - run: node --check assets/prompt-free.js
+      - run: node --test tests/marketing-public.test.cjs
+      - run: node -e "const c=require('./vercel.json'); if(!c.rewrites.some(x=>x.source==='/c/:client/p/:bp'&&x.destination==='/prompt-free.html')) process.exit(1);"
