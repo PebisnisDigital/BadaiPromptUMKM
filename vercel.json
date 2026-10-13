@@ -3,11 +3,11 @@
   "rewrites": [
     {
       "source": "/c/:client/p/:bp",
-      "destination": "/prompt-free.html"
+      "destination": "/prompt-free"
     },
     {
       "source": "/c/:client/p/:bp/",
-      "destination": "/prompt-free.html"
+      "destination": "/prompt-free"
     },
     {
       "source": "/member",
