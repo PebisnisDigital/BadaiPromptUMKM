@@ -32,7 +32,7 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
 <link rel="stylesheet" href="/assets/telegram-manager.css">
 <style>/* PROMPTIONAL identity */ .brand{letter-spacing:-.055em}.brand b{color:#ff6b35}.brand small{letter-spacing:.09em}</style>
 <link rel="stylesheet" href="/assets/member-app-home.css?v=mobile1">
-<link rel="stylesheet" href="/assets/member-instagram.css?v=4">
+<link rel="stylesheet" href="/assets/member-instagram.css?v=5">
 <style>.switch-account{width:100%;min-height:44px;margin-top:8px;padding:10px 12px;border:1px solid #ffb26e;border-radius:11px;background:#fff2e7;color:#af500f;font:900 12px/1.4 Nunito,Arial,sans-serif}.switch-account:focus-visible{outline:2px solid #da6c1a;outline-offset:2px}</style>
 </head>
 <body class="member-app insta-member">
@@ -130,7 +130,16 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
     </div>
     <div class="library-heading"><h2 id="libraryTitle">Koleksi gambar</h2><span id="libraryCount" role="status"></span></div>
     <section class="grid" id="grid" aria-label="Koleksi gambar"></section>
-    <div class="ig-feed-sentinel" id="feedSentinel" role="status" aria-live="polite" hidden><span id="feedLoadLabel">Memuat gambar berikutnya…</span><button id="feedRetry" type="button" hidden>Coba lagi</button></div>
+    <nav class="ig-page-control" id="pagination" aria-label="Navigasi halaman prompt" hidden>
+      <button class="ig-page-step" id="pagePrev" type="button" aria-label="Halaman sebelumnya">‹ <span>Sebelumnya</span></button>
+      <label class="ig-page-picker" for="pageSelect"><span>HALAMAN</span><select id="pageSelect" aria-label="Pilih halaman prompt"></select><small id="pageTotalLabel">dari 1</small></label>
+      <button class="ig-page-step" id="pageNext" type="button" aria-label="Halaman berikutnya"><span>Berikutnya</span> ›</button>
+    </nav>
+    <form class="ig-page-jump" id="pageJump" hidden>
+      <label for="pageJumpInput">Lompat ke halaman</label>
+      <input id="pageJumpInput" type="number" min="1" step="1" inputmode="numeric" aria-label="Nomor halaman tujuan">
+      <button type="submit">BUKA</button>
+    </form>
   </main>
 </div>
 
