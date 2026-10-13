@@ -431,15 +431,56 @@ function render(){
   grid.querySelectorAll('[data-save]').forEach(el=>el.onclick=()=>toggleFavorite(el.dataset.save));
   startCardCarousels();
 }
-function openDetail(id){
-  current=all.find(x=>x.$id===id);if(!current)return;
+function updateDetailNavState(){
+  const rows=filteredRows(),index=rows.findIndex(x=>x.$id===current?.$id);
+  const position=(currentPage-1)*PAGE_SIZE+index+1;
+  $('detailPosition').textContent=(index>=0?position:'—')+' / '+totalPrompts;
+  $('detailPrev').disabled=index<=0&&currentPage<=1;
+  $('detailNext').disabled=index>=rows.length-1&&currentPage>=totalPages;
+}
+function showPromptDetail(x){
+  current=x;
   $('detailCategory').textContent=promptCode(current)+' · '+(current.category||'Prompt');
   $('detailTitle').textContent=current.title||promptCode(current);
   $('detailCopy').textContent='Salin prompt';
-  detailOverlay.querySelector('details').open=false;
-  $('detailPrompt').textContent=current.prompt_text;
+  detailOverlay.querySelector('details').open=true;
+  $('detailPrompt').textContent=current.prompt_text||'';
+  $('detailPrompt').scrollTop=0;
   $('detailImage').innerHTML=carouselMarkup(current,true);
-  updateDetailFav();detailOverlay.classList.add('show');startDetailCarousel();
+  updateDetailFav();updateDetailNavState();
+  startDetailCarousel();
+}
+function openDetail(id){
+  const selected=all.find(x=>x.$id===id);
+  if(!selected)return;
+  showPromptDetail(selected);
+  detailOverlay.classList.add('show');
+}
+let detailNavigating=false;
+async function navigateDetail(direction){
+  if(!current||detailNavigating||!detailOverlay.classList.contains('show'))return;
+  const rows=filteredRows(),index=rows.findIndex(x=>x.$id===current.$id);
+  if(index<0)return;
+  const adjacent=rows[index+direction];
+  if(adjacent){showPromptDetail(adjacent);return}
+  const nextPage=currentPage+direction;
+  if(nextPage<1||nextPage>totalPages)return;
+  detailNavigating=true;
+  const oldPage=currentPage,oldRows=all,oldTotal=totalPrompts,oldPages=totalPages;
+  $('detailPrev').disabled=true;$('detailNext').disabled=true;
+  try{
+    currentPage=nextPage;
+    const requestId=++libraryRequest;
+    if(await loadPrompts(requestId)===false)throw new Error('Daftar gambar berubah, coba lagi.');
+    const nextRows=filteredRows();
+    if(!nextRows.length)throw new Error('Belum ada gambar di halaman berikutnya.');
+    render();
+    showPromptDetail(direction>0?nextRows[0]:nextRows[nextRows.length-1]);
+  }catch(err){
+    currentPage=oldPage;all=oldRows;totalPrompts=oldTotal;totalPages=oldPages;
+    render();updateDetailNavState();
+    showToast('Belum bisa membuka gambar berikutnya. Coba lagi.');
+  }finally{detailNavigating=false}
 }
 function updateDetailFav(){const saved=!!current&&favorites.has(current.$id);$('detailFav').textContent=saved?'Tersimpan':'Simpan';$('detailFav').setAttribute('aria-pressed',String(saved))}
 function openAccount(){
