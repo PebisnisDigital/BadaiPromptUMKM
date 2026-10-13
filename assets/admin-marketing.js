@@ -195,7 +195,7 @@
  $('mktSettingsForm').addEventListener('submit',e=>{e.preventDefault();void act(async()=>{
   const body={start_date:$('mktStartDate').value,send_time:$('mktTime').value,enabled:$('mktEnabled').value==='true',loop_campaign:$('mktLoop').checked,default_offer:$('mktDefaultOffer').value,default_cta_label:$('mktDefaultLabel').value,default_cta_type:$('mktDefaultType').value,default_cta_url:$('mktDefaultUrl').value};
   const r=await request('marketing-settings',body);state.settings=r.settings;statistics();renderCalendar();
-  notice('Pengaturan Marketing tersimpan. Menyimpan tidak otomatis mengirim pesan.','success');
+  notice('Pengaturan Konten Telegram tersimpan. Menyimpan tidak otomatis mengirim pesan.','success');
  })});
  $('mktEditForm').addEventListener('submit',e=>{e.preventDefault();void act(async()=>{
   if(!selectedDay||!editing)throw Error('Pilih hari dan prompt dahulu.');
@@ -212,5 +212,5 @@
   state=await request('marketing-get');$('mktEditor').hidden=true;editing=null;selectedPrompt=null;statistics();renderCalendar();renderCandidates();notice('Hari '+selectedDay+' dikosongkan.','success');
  })});
  ['mktEditOffer','mktEditLabel','mktEditType','mktEditUrl'].forEach(id=>$(id).addEventListener('input',refreshMock));
- document.querySelector('[data-view="marketing"]')?.addEventListener('click',()=>{if(!loaded)void act(refresh)});
+ document.querySelector('[data-tg-tab="content"]')?.addEventListener('click',()=>{if(!loaded)void act(refresh)});
 })();
