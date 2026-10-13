@@ -15,6 +15,7 @@ function view({pathname='/c/demo-rose/p/BP033',search='',status=200,data}={}){
     append(el){this.children.push(el);}
   });
   const clipboard=[];
+  const calls=[];
   const root={style:{setProperty(key,val){root[key]=val}}};
   const document={
     title:'Preview',documentElement:root,
@@ -28,12 +29,12 @@ function view({pathname='/c/demo-rose/p/BP033',search='',status=200,data}={}){
   }};
   const context={
     document,location:{pathname,search,origin:'https://testpreview.vercel.app'},
-    fetch:async()=>({ok:status===200,status,json:async()=>response}),
+    fetch:async(url,options)=>{calls.push({url:url.toString(),options});return {ok:status===200,status,json:async()=>response}},
     navigator:{clipboard:{writeText:async t=>clipboard.push(t)}},
     URL,URLSearchParams,console
   };
   vm.runInNewContext(script,context,{filename:'prompt-free.js'});
-  return {nodes,clipboard,document,root,flush:()=>new Promise(resolve=>setImmediate(resolve))};
+  return {nodes,clipboard,calls,document,root,flush:()=>new Promise(resolve=>setImmediate(resolve))};
 }
 
 test('page is mobile-ready without any member login fields',()=>{
@@ -46,6 +47,8 @@ test('correct BP renders complete text and image and copies exact full prompt',a
   const w=view();
   await w.flush();
   const node=id=>w.nodes.get(id);
+  assert.equal(w.calls[0].options.credentials,'same-origin');
+  assert.match(w.calls[0].url,/mode=marketing/);
   assert.equal(node('code').textContent,'BP033');
   assert.equal(node('title').textContent,'Foto Burger');
   assert.equal(node('brand-name').textContent,'ROSE CREATIVE');
