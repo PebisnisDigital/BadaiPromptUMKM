@@ -95,11 +95,11 @@ export class Delivery{
    return {ok:false,status,error:safeError(e),delivery_id:rowId};
   }
  }
- async text(member,bot,text,key,kind='test'){
+ async text(member,bot,text,key,kind='test',options={}){
   const s=this.s,consent=await s.consent(bot.$id,member.telegram_id);if(!consent||consent.status!=='allowed')throw fail('Pengguna belum START bot ini.');
   const rowId=id('delivery',key);let row;
   try{row=await s.store.create('telegram_deliveries',rowId,{telegram_id:member.telegram_id,bot_id:bot.$id,chat_id:consent.data.chat_id,prompt_id:'notice',message_id:'pending',message_ids:'[]',plan:member.plan,day_number:member.delivery_day||0,delivery_key:key,sent_at:new Date(s.now()).toISOString(),dispatch_status:'sending',kind,attempts:1})}catch(e){if(e.code===409)return {duplicate:true};throw e}
-  try{const response=await s.telegram.call(s.token(bot),'sendMessage',{chat_id:consent.data.chat_id,text,reply_markup:{inline_keyboard:[[{text:'Status saya',callback_data:'status'}],[{text:'Bantuan',callback_data:'bantuan'}]]}});await s.store.update('telegram_deliveries',rowId,{dispatch_status:'sent',message_id:String(response.message_id),message_ids:JSON.stringify([String(response.message_id)])});return {ok:true,message_id:response.message_id,delivery_id:rowId}}
+  try{const response=await s.telegram.call(s.token(bot),'sendMessage',{chat_id:consent.data.chat_id,text,...(options.html?{parse_mode:'HTML'}:{}),...(options.noReplyButtons?{}:{reply_markup:{inline_keyboard:[[{text:'Status saya',callback_data:'status'}],[{text:'Bantuan',callback_data:'bantuan'}]]}})});await s.store.update('telegram_deliveries',rowId,{dispatch_status:'sent',message_id:String(response.message_id),message_ids:JSON.stringify([String(response.message_id)])});return {ok:true,message_id:response.message_id,delivery_id:rowId}}
   catch(e){await s.store.update('telegram_deliveries',rowId,{dispatch_status:e.ambiguous?'uncertain':'failed',error_code:safeError(e)});if(e.blocked)await s.store.putState(id('consent',bot.$id,member.telegram_id),consent.data,{kind:'consent',bot_id:bot.$id,telegram_id:member.telegram_id,status:'blocked'});return {ok:false,error:safeError(e)}}
  }
  async remove(row){
