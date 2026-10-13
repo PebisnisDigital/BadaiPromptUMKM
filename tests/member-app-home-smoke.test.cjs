@@ -52,7 +52,7 @@ test('three bottom tabs keep saved highlights, affiliate and account actions',()
  assert.ok(html.includes('data-category-shortcut="__saved"'));
 });
 test('gallery detail, copy, favorites, pagination and login are preserved',()=>{
- for(const id of ['loginForm','detailOverlay','detailCopy','detailFav','accountForm','tgLinkBtn','firstPasswordOverlay']){
+ for(const id of ['loginForm','detailOverlay','detailCopy','detailPrompt','detailCaptionCode','accountForm','tgLinkBtn','firstPasswordOverlay']){
   assert.ok(html.includes('id="'+id+'"'),id);
  }
  assert.match(script,/async function loadFavorites\(\)/);
