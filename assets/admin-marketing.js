@@ -30,7 +30,7 @@
   $('mktDefaultLabel').value=s.default_cta_label||'BUKA PREMIUM';
   $('mktDefaultType').value=s.default_cta_type||'premium';
   $('mktDefaultUrl').value=s.default_cta_url||'';
-  $('mktGate').textContent=state.server_gate?'Izin server aktif. Pengiriman tetap memerlukan konfirmasi jadwal dan konfigurasi Pengaturan → Telegram.':'PENGIRIMAN MARKETING TIDAK AKTIF: memerlukan izin server terpisah sesudah tes QA.';
+  $('mktGate').textContent=state.server_gate?'Izin server aktif. Pengiriman tetap memerlukan konfirmasi jadwal dan pengaturan pada tab KONTEN dan BOT.':'PENGIRIMAN KONTEN BELUM AKTIF: memerlukan izin server terpisah setelah pengujian.';
   $('mktDefaultUrl').disabled=$('mktDefaultType').value!=='url';
  }
  function statistics(){
@@ -135,7 +135,7 @@
  }
  function refreshMock(){
   $('mktMockContent').textContent='🖼 '+(editing?.title||'PROMPT')+'\n\nIsi prompt lengkap yang dipilih dari Member Area akan dikirim terlebih dahulu.';
-  $('mktMockOffer').textContent=$('mktEditOffer').value+'\n\nPesan Gratis akan dihapus 24 jam kemudian.';
+  $('mktMockOffer').textContent=$('mktEditOffer').value+'\n\nPesan gratis dihapus setelah '+Number($('tgDeleteHours')?.value||24)+' jam (sesuai pengaturan KONTEN).';
   $('mktMockButton').textContent=($('mktEditLabel').value||'BUKA PREMIUM')+' ↗';
   $('mktEditUrl').disabled=$('mktEditType').value!=='url';
  }
@@ -155,7 +155,7 @@
    const overview=await request('overview');
    const main=overview.settings?.main_bot_id;
    const tests=(overview.testers||[]).filter(x=>x.bot_id===main);
-   selector.innerHTML='<option value="">'+(tests.length?'Pilih penguji Telegram':'Belum ada tester. Daftarkan di menu Telegram')+'</option>'+
+   selector.innerHTML='<option value="">'+(tests.length?'Pilih penguji Telegram':'Belum ada tester. Atur akun penguji di tab BOT')+'</option>'+
      tests.map(x=>'<option value="'+escape(x.telegram_id)+'">Tester Telegram •••'+escape(String(x.telegram_id).slice(-4))+'</option>').join('');
    if(tests.some(x=>String(x.telegram_id)===old))selector.value=old;
    $('mktTestButton').disabled=!tests.length;
