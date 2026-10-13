@@ -266,41 +266,113 @@ async function removeFavorite(id){
 async function toggleFavorite(id){
   try{favorites.has(id)?await removeFavorite(id):await addFavorite(id);if(mode==='favorites')await refreshPrompts();else render()}catch(e){showToast('Favorit gagal disimpan')}
 }
-async function loadPrompts(requestId=++libraryRequest){
-  if(mode==='favorites'&&!favorites.size){all=[];totalPrompts=0;totalPages=1;openLatestPage=false;return true}
+let feedHasMore=true,feedRefreshing=false,feedLoadingMore=false,feedError=false,feedPendingPromise=null,feedObserver=null;
+function syncFeedSentinel(){
+  const node=$('feedSentinel'),retry=$('feedRetry'),label=$('feedLoadLabel');
+  node.hidden=!feedHasMore&&!feedError;
+  retry.hidden=!feedError;
+  label.textContent=feedError?'Gagal memuat gambar berikutnya.':(feedRefreshing||feedLoadingMore?'Memuat gambar berikutnya…':'');
+}
+function mayLoadMore(){
+  const target=$('feedSentinel');
+  if(!gate.classList.contains('hide')||feedRefreshing||feedLoadingMore||feedError||!feedHasMore||target.hidden)return;
+  if(detailOverlay.classList.contains('show')||affiliateOverlay.classList.contains('show')||accountOverlay.classList.contains('show'))return;
+  if(target.getBoundingClientRect().top<=window.innerHeight+300)void loadNextBatch();
+}
+function initInfiniteScroll(){
+  if(feedObserver)return;
+  if('IntersectionObserver' in window){
+    feedObserver=new IntersectionObserver(entries=>{
+      if(entries.some(entry=>entry.isIntersecting))mayLoadMore();
+    },{root:null,rootMargin:'300px 0px',threshold:0});
+    feedObserver.observe($('feedSentinel'));
+  }else{
+    window.addEventListener('scroll',mayLoadMore,{passive:true});
+  }
+  window.addEventListener('resize',mayLoadMore,{passive:true});
+  requestAnimationFrame(mayLoadMore);
+}
+async function loadPrompts(requestId=++libraryRequest,append=false){
+  const targetPage=append?currentPage+1:1;
+  if(mode==='favorites'&&!favorites.size){
+    if(requestId!==libraryRequest)return false;
+    all=[];totalPrompts=0;totalPages=1;currentPage=1;feedHasMore=false;return true;
+  }
   const queries=[
     Query.equal('is_published',true),
     Query.orderDesc('sort_order'),
     Query.limit(PAGE_SIZE),
-    Query.offset((currentPage-1)*PAGE_SIZE)
+    Query.offset((targetPage-1)*PAGE_SIZE)
   ];
   if(mode==='favorites')queries.push(Query.equal('$id',[...favorites]));
   if(category)queries.push(Query.equal('category',category));
-  const q=(search?.value||'').trim();
-  if(q.length>=3)queries.push(Query.search('title',q));
   const r=await tables.listRows({databaseId:DB,tableId:TABLE,queries});
   if(requestId!==libraryRequest)return false;
-  all=(r.rows||r.documents||[]).map(rowData);
-  totalPrompts=Number(r.total||0);
+  const rows=(r.rows||r.documents||[]).map(rowData);
+  if(append){
+    const known=new Set(all.map(item=>item.$id));
+    all.push(...rows.filter(item=>!known.has(item.$id)));
+  }else{
+    all=rows;
+  }
+  currentPage=targetPage;
+  totalPrompts=Number(r.total??rows.length);
   totalPages=Math.max(1,Math.ceil(totalPrompts/PAGE_SIZE));
-  // Newest prompt stays first in descending order.
-  if(currentPage>totalPages){currentPage=totalPages;return loadPrompts(requestId)}
+  feedHasMore=rows.length>0&&currentPage<totalPages;
   return true;
 }
 async function refreshPrompts(scrollToGallery=false){
   const requestId=++libraryRequest;
+  feedRefreshing=true;feedHasMore=false;feedError=false;
   grid.setAttribute('aria-busy','true');$('libraryCount').textContent='Memuat gambar…';
+  syncFeedSentinel();
   try{
-    if(await loadPrompts(requestId)===false)return;
+    if(await loadPrompts(requestId,false)===false)return;
     render();
     if(scrollToGallery){
-      const y=document.querySelector('.library-heading')?.getBoundingClientRect().top+window.scrollY-125;
-      if(Number.isFinite(y))window.scrollTo({top:y,behavior:'smooth'});
+      const top=document.querySelector('.library-heading')?.getBoundingClientRect().top+window.scrollY-12;
+      if(Number.isFinite(top))window.scrollTo({top,behavior:'smooth'});
     }
   }catch(e){
     if(requestId!==libraryRequest)return;
-    stopCardCarousels();grid.innerHTML='<div class="empty"><b>Gambar belum bisa dimuat.</b><p>Cek koneksi internet, lalu coba lagi.</p><button class="btn btn-dark" id="retryLibrary" type="button">Coba lagi</button></div>';$('retryLibrary').onclick=()=>refreshPrompts();
-  }finally{if(requestId===libraryRequest){grid.setAttribute('aria-busy','false')}}
+    feedHasMore=false;
+    stopCardCarousels();
+    grid.innerHTML='<div class="empty"><b>Gambar belum bisa dimuat.</b><p>Cek koneksi internet, lalu coba lagi.</p><button class="btn btn-dark" id="retryLibrary" type="button">Coba lagi</button></div>';
+    $('retryLibrary').onclick=()=>refreshPrompts();
+  }finally{
+    if(requestId===libraryRequest){
+      feedRefreshing=false;
+      grid.setAttribute('aria-busy','false');
+      syncFeedSentinel();
+      requestAnimationFrame(mayLoadMore);
+    }
+  }
+}
+async function loadNextBatch(){
+  if(feedPendingPromise)return feedPendingPromise;
+  if(feedRefreshing||feedError||!feedHasMore)return false;
+  const requestId=++libraryRequest;
+  feedLoadingMore=true;
+  syncFeedSentinel();
+  feedPendingPromise=(async()=>{
+    try{
+      const ok=await loadPrompts(requestId,true);
+      if(!ok)return false;
+      render();
+      return true;
+    }catch(e){
+      if(requestId===libraryRequest)feedError=true;
+      return false;
+    }finally{
+      feedLoadingMore=false;
+      if(requestId===libraryRequest){
+        syncFeedSentinel();
+        if(!feedError)requestAnimationFrame(mayLoadMore);
+      }
+    }
+  })();
+  try{return await feedPendingPromise}
+  finally{feedPendingPromise=null}
 }
 function syncLibraryChoices(){
   document.body.dataset.memberMode=mode;
@@ -412,23 +484,14 @@ document.addEventListener('visibilitychange',()=>{
   }
 });
 
-function renderPagination(){
-  const p=$('pagination');
-  p.classList.toggle('show',totalPages>1);
-  if(totalPages<=1){p.innerHTML='';return}
-  p.innerHTML='<button class="pageback" data-page="'+(currentPage+1)+'" '+(currentPage===totalPages?'disabled':'')+'>Lebih lama</button><span>Halaman '+currentPage+' / '+totalPages+'</span><button class="pagenext" data-page="'+(currentPage-1)+'" '+(currentPage===1?'disabled':'')+'>Lebih baru</button>';
-  p.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>{const n=Number(b.dataset.page);if(!b.disabled&&n>=1&&n<=totalPages){currentPage=n;refreshPrompts(true)}});
-}
 let profilePromptTotal=null;
 function render(){
   const rows=filteredRows();
-  const searching=String(search?.value||'').trim().length>=3;
-  if(mode==='all'&&!category&&!searching)profilePromptTotal=totalPrompts;
+  if(mode==='all'&&!category)profilePromptTotal=totalPrompts;
   $('accFav').textContent=favorites.size+' prompt';
   $('igSavedCount').textContent=String(favorites.size);
   $('igCategoryCount').textContent=String(CATEGORIES.length);
   $('igPromptCount').textContent=profilePromptTotal===null?'—':String(profilePromptTotal);
-  renderPagination();
   $('libraryCount').textContent=totalPrompts+' gambar';
   $('featureCount').textContent=String(totalPrompts);
   syncLibraryChoices();
