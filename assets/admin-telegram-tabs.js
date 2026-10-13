@@ -3,7 +3,7 @@
 const $=id=>document.getElementById(id);
 const hub=$('v-marketing');if(!hub)return;
 const esc=v=>String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-let draft=null,replyRules=[],busy=false,rulesLoaded=false,broadcastLoaded=false;
+let draft=null,replyRules=[],busy=false,rulesLoaded=false,broadcastLoaded=false,broadcastRunning=false,broadcastPause=false;
 const tabButtons=[...hub.querySelectorAll('[data-tg-tab]')];
 function showTab(id){
  for(const b of tabButtons){const on=b.dataset.tgTab===id;b.classList.toggle('on',on);b.setAttribute('aria-selected',String(on));$(b.getAttribute('aria-controls')).hidden=!on}
@@ -77,9 +77,10 @@ function renderDraft(){
   'Status: '+(draft.status==='completed'?'SELESAI':draft.status==='draft'?'DRAF':'SEDANG DIKIRIM'),
   'Terkirim: '+draft.sent,'Dilewati: '+draft.skipped,'Gagal: '+draft.failed,'Diproses: '+draft.processed
  ].join(' • ');
- const button=$('tgBroadcastSend');button.disabled=!draft||draft.status==='completed'||busy;
- if(draft?.status==='completed')button.textContent='BROADCAST SELESAI';
- else button.textContent='KIRIM BATCH BERIKUTNYA (MAKS. 5 AKUN)';
+ const send=$('tgBroadcastSend'),pause=$('tgBroadcastPause');
+ send.disabled=!draft||draft.status==='completed'||busy||broadcastRunning;
+ pause.disabled=!broadcastRunning||broadcastPause;
+ send.textContent=draft?.status==='completed'?'BROADCAST SELESAI':'MULAI / LANJUTKAN BROADCAST';
 }
 async function readBroadcast(){
  broadcastLoaded=true;
@@ -94,14 +95,28 @@ $('tgBroadcastForm').addEventListener('submit',async e=>{
  try{const r=await request('broadcast-draft',{message:$('tgBroadcastText').value});draft=r.campaign;renderDraft();$('tgBroadcastConfirm').value='';report('tgBroadcastNotice','Draf disimpan. BELUM ADA PESAN yang dikirim. Periksa preview dan ketik konfirmasi sebelum mengirim.')}
  catch(e){report('tgBroadcastNotice',e.message,true)}finally{busy=false;renderDraft()}
 });
+const broadcastWait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+$('tgBroadcastPause').addEventListener('click',()=>{
+ if(!broadcastRunning)return;
+ broadcastPause=true;renderDraft();
+ report('tgBroadcastNotice','Permintaan jeda diterima. Batch yang sedang berjalan akan diselesaikan, lalu proses berhenti.');
+});
 $('tgBroadcastSend').addEventListener('click',async()=>{
- if(busy||!draft)return;
+ if(busy||broadcastRunning||!draft)return;
  if($('tgBroadcastConfirm').value.trim()!=='KIRIM BROADCAST'){report('tgBroadcastNotice','Ketik KIRIM BROADCAST dahulu.',true);return}
- if(!confirm('KIRIM NYATA ke maksimal 5 akun bot yang sudah START? Pesan akan masuk ke chat Telegram mereka.'))return;
- busy=true;renderDraft();
- try{const r=await request('broadcast-send-batch',{id:draft.id,confirmation:'KIRIM BROADCAST'});draft=r.campaign;renderDraft();
- report('tgBroadcastNotice','Batch selesai: '+r.batch.sent+' terkirim, '+r.batch.skipped+' dilewati, '+r.batch.failed+' gagal. '+(r.done?'Broadcast selesai.':'Tekan KIRIM BATCH BERIKUTNYA untuk melanjutkan.'));
- }catch(e){report('tgBroadcastNotice',e.message,true)}finally{busy=false;renderDraft()}
+ if(!confirm('KIRIM NYATA ke seluruh akun yang sudah START bot utama, secara bertahap maksimal 5 pesan per batch? Biarkan tab ini terbuka hingga selesai.'))return;
+ busy=true;broadcastRunning=true;broadcastPause=false;renderDraft();
+ try{
+  while(draft&&draft.status!=='completed'&&!broadcastPause){
+   const r=await request('broadcast-send-batch',{id:draft.id,confirmation:'KIRIM BROADCAST'});
+   draft=r.campaign;renderDraft();
+   report('tgBroadcastNotice','Progres: '+draft.sent+' terkirim, '+draft.skipped+' dilewati, '+draft.failed+' gagal • '+draft.processed+' diproses. '+(r.done?'Selesai!':'Mengirim batch berikutnya…'));
+   if(r.done||broadcastPause)break;
+   await broadcastWait(3500); // under the protected admin API limit (20 requests/minute)
+  }
+  if(broadcastPause)report('tgBroadcastNotice','Broadcast DIJEDA. Klik MULAI / LANJUTKAN untuk melanjutkan tanpa mengirim ulang penerima yang sudah diproses.');
+ }catch(e){report('tgBroadcastNotice','Pengiriman berhenti: '+e.message+' Segarkan halaman lalu klik LANJUTKAN setelah memeriksa status.',true)}
+ finally{busy=false;broadcastRunning=false;renderDraft()}
 });
 function showRules(){
  const target=$('tgReplyList');target.replaceChildren();
