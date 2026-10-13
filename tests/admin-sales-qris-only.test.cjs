@@ -22,8 +22,11 @@ test('website checkout order search, revenue, export and member controls stay in
  for(const id of ['orderModal','managePassword','manageOrderId','manageUserId','deleteManagedOrderBtn','deleteManagedMemberBtn'])
   assert.ok(admin.includes('id="'+id+'"'),id);
 });
-test('Telegram Settings and Marketing remain independent from website QRIS Sales',()=>{
- assert.match(admin,/data-settings-panel="telegram"/);
+test('Telegram four-tab hub and bot manager remain independent of QRIS sales',()=>{
+ assert.match(admin,/id="tgTabBot"/);
+ assert.match(admin,/id="tgTabContent"/);
+ assert.match(admin,/id="tgTabBroadcast"/);
+ assert.match(admin,/id="tgTabAutoreply"/);
  assert.match(admin,/id="v-telegram"/);
  assert.match(admin,/id="v-marketing"/);
  assert.match(admin,/src="\/assets\/telegram-manager\.js"/);
