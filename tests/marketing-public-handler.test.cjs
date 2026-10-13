@@ -33,6 +33,8 @@ Module._load=function(id,parent,isMain){
   return orig.call(this,id,parent,isMain);
 };
 const handler=require('../api/public-previews.js');
+// Shared public handler is loaded lazily; preload it while node-appwrite is mocked.
+require('../lib/marketing-public-handler.js');
 Module._load=orig;
 
 const response=()=>{
