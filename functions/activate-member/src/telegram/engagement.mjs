@@ -90,8 +90,17 @@ export class Engagement{
     if(!bot||!bot.is_active||bot.$id!==campaign.bot_id)throw fail('Bot utama berubah; broadcast dihentikan.',409);
     // Single-writer claim prevents double sending when admin clicks twice or requests overlap.
     const lock=id('broadcast-batch',code,campaign.cursor||'first');
-    if(!await this.s.store.claim(lock,{kind:'broadcast_lock',status:'used',due_at:new Date(this.s.now()+30*24*3600000).toISOString(),payload:'{}'}))
-      throw fail('Batch ini sedang/ sudah diproses. Segarkan status dahulu.',409);
+    let claimed=await this.s.store.claim(lock,{kind:'broadcast_lock',status:'used',due_at:new Date(this.s.now()+120000).toISOString(),payload:'{}'});
+    if(!claimed){
+      // Timed-out server invocations can be resumed without duplicating Telegram sends:
+      // delivery.text reserves a unique delivery row per recipient/campaign.
+      const oldLock=await this.s.store.get('telegram_state',lock);
+      if(oldLock?.due_at&&Date.parse(oldLock.due_at)<this.s.now()){
+        await this.s.store.remove('telegram_state',lock);
+        claimed=await this.s.store.claim(lock,{kind:'broadcast_lock',status:'used',due_at:new Date(this.s.now()+120000).toISOString(),payload:'{}'});
+      }
+      if(!claimed)throw fail('Batch masih diproses. Tunggu 2 menit lalu segarkan status.',409);
+    }
     const size=Math.min(5,Math.max(1,Number(setting.batch_size)||5));
     const list=await this.s.store.list('telegram_state',[['equal','kind','consent'],['equal','bot_id',bot.$id],['equal','status','allowed']],size,campaign.cursor||undefined);
     let sent=0,skipped=0,failed=0;
