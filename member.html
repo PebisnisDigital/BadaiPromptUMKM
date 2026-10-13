@@ -334,7 +334,10 @@ async function applyCategory(value,scroll=true){
 function fillFilters(){
   categorySelect.innerHTML='<option value="">Semua kategori</option><option value="__saved">Gambar tersimpan</option>'+CATEGORIES.map(c=>'<option value="'+esc(c)+'">'+esc(c)+'</option>').join('');
   categorySelect.value=mode==='favorites'?'__saved':category;
-  categorySelect.onchange=()=>applyCategory(categorySelect.value,true);
+  categorySelect.onchange=()=>{
+    closeCategoryPanel();
+    void applyCategory(categorySelect.value,true);
+  };
   syncLibraryChoices();
 }
 function filteredRows(){
@@ -724,12 +727,33 @@ $('logoutBtn').onclick=async()=>{try{await account.deleteSession({sessionId:'cur
 function clearDetailCarousel(){if(detailCarouselTimer){detailCarouselTimer.stop();detailCarouselTimer=null}}
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>{detailOverlay.classList.remove('show');affiliateOverlay.classList.remove('show');accountOverlay.classList.remove('show');clearDetailCarousel()});
 [detailOverlay,affiliateOverlay,accountOverlay].forEach(o=>o.onclick=e=>{if(e.target===o){o.classList.remove('show');if(o===detailOverlay)clearDetailCarousel()}});
+function closeCategoryPanel(){
+  $('categoryPanel').hidden=true;
+  $('allCategoriesBtn').setAttribute('aria-expanded','false');
+}
 document.querySelectorAll('[data-category-shortcut]').forEach(button=>{
-  button.addEventListener('click',()=>{void applyCategory(button.dataset.categoryShortcut,true)});
+  button.addEventListener('click',()=>{
+    closeCategoryPanel();
+    void applyCategory(button.dataset.categoryShortcut,true);
+  });
 });
 $('allCategoriesBtn').addEventListener('click',()=>{
-  categorySelect.focus({preventScroll:true});
-  try{if(categorySelect.showPicker)categorySelect.showPicker();else categorySelect.click()}catch{categorySelect.click()}
+  const panel=$('categoryPanel'),open=panel.hidden;
+  panel.hidden=!open;
+  $('allCategoriesBtn').setAttribute('aria-expanded',String(open));
+  if(open)categorySelect.focus({preventScroll:true});
+});
+$('igSearchToggle').addEventListener('click',()=>{
+  const area=$('searchArea'),open=area.hidden;
+  area.hidden=!open;
+  $('igSearchToggle').setAttribute('aria-expanded',String(open));
+  if(open)search.focus({preventScroll:true});
+  else if(search.value){
+    search.value='';$('searchHelp').hidden=true;
+    clearTimeout(searchTimer);
+    currentPage=1;openLatestPage=false;
+    void refreshPrompts(false);
+  }
 });
 $('nav').querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{
   if(b.dataset.mode==='account'){openAccount();return}
