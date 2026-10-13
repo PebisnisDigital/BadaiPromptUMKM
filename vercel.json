@@ -6,10 +6,6 @@
       "destination": "/member.html"
     },
     {
-      "source": "/member-area",
-      "destination": "/member.html"
-    },
-    {
       "source": "/admin",
       "destination": "/admin.html"
     },
@@ -40,6 +36,21 @@
       ],
       "destination": "https://promptional.vercel.app/:path*",
       "permanent": true
+    },
+    {
+      "source": "/member-area",
+      "destination": "/member",
+      "permanent": false
+    },
+    {
+      "source": "/member-area.html",
+      "destination": "/member",
+      "permanent": false
+    },
+    {
+      "source": "/member.html",
+      "destination": "/member",
+      "permanent": false
     },
     {
       "source": "/akses",
