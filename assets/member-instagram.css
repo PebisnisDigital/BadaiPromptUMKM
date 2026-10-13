@@ -160,3 +160,14 @@ body.member-app.insta-member{background:#f3f4f6}
 @media(min-width:760px){.insta-member #detailOverlay .sheet{height:min(92dvh,850px);max-height:min(92dvh,850px)}}
 @media(max-height:620px){.insta-member #detailOverlay .ig-post-caption{max-height:31dvh;min-height:85px;padding-top:8px;padding-bottom:6px}.insta-member #detailOverlay .ig-caption-account{padding-bottom:4px}.insta-member #detailOverlay .detailimage{min-height:120px}}
 @media(max-height:470px){.insta-member #detailOverlay .ig-post-caption{max-height:29dvh;min-height:75px}.insta-member #detailOverlay .detailimage{min-height:100px}.insta-member #detailOverlay .sheetactions{padding-top:7px;padding-bottom:calc(7px + env(safe-area-inset-bottom))}}
+
+/* Immersive profile view: no top header, search, or numbered pagination. */
+.insta-member .shell>.topbar,
+.insta-member .ig-search-toggle,
+.insta-member .ig-search-area,
+.insta-member .pagination{display:none!important}
+.insta-member .shell>main{padding-top:0}
+.insta-member .ig-profile{padding-top:18px}
+.insta-member .ig-feed-sentinel{display:flex;min-height:58px;align-items:center;justify-content:center;gap:8px;margin:0 0 12px;padding:12px 15px 18px;color:#8e8e96;font:800 11px/1.4 Nunito,Arial,sans-serif;text-align:center}
+.insta-member .ig-feed-sentinel[hidden],.insta-member .ig-feed-sentinel #feedRetry[hidden]{display:none!important}
+.insta-member .ig-feed-sentinel #feedRetry{min-height:38px;padding:8px 15px;border:1px solid #edc3a4;border-radius:10px;background:#fff3eb;color:#ab5b24;font:900 11px/1.2 Nunito,Arial,sans-serif}
