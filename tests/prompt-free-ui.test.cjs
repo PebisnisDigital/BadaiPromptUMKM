@@ -10,7 +10,7 @@ const html=fs.readFileSync(path.join(__dirname,'../prompt-free.html'),'utf8');
 function view({pathname='/c/demo-rose/p/BP033',status=200,data}={}){
   const nodes=new Map();
   const ids=['error','loading','prompt-page','brand-name','code','title','category','prompt-text','cover-image','reference-info','offer-copy','checkout','checkout-pending','copy','copy-status','gallery'];
-  for(const id of ids)nodes.set(id,{id,hidden:id==='prompt-page'||id==='error'||id==='gallery',textContent:'',src:'',href:'',children:[],events:{},
+  for(const id of ids)nodes.set(id,{id,hidden:id==='prompt-page'||id==='error'||id==='gallery'||id==='checkout'||id==='reference-info',textContent:'',src:'',href:'',children:[],events:{},
     addEventListener(type,fn){this.events[type]=fn},
     append(el){this.children.push(el);}
   });
