@@ -275,68 +275,59 @@ async function removeFavorite(id){
 async function toggleFavorite(id){
   try{favorites.has(id)?await removeFavorite(id):await addFavorite(id);if(mode==='favorites')await refreshPrompts();else render()}catch(e){showToast('Favorit gagal disimpan')}
 }
-let feedHasMore=true,feedRefreshing=false,feedLoadingMore=false,feedError=false,feedPendingPromise=null,feedObserver=null;
-function syncFeedSentinel(){
-  const node=$('feedSentinel'),retry=$('feedRetry'),label=$('feedLoadLabel');
-  node.hidden=!feedHasMore&&!feedError;
-  retry.hidden=!feedError;
-  label.textContent=feedError?'Gagal memuat gambar berikutnya.':(feedRefreshing||feedLoadingMore?'Memuat gambar berikutnya…':'');
-}
-function mayLoadMore(){
-  const target=$('feedSentinel');
-  if(!gate.classList.contains('hide')||feedRefreshing||feedLoadingMore||feedError||!feedHasMore||target.hidden)return;
-  if(detailOverlay.classList.contains('show')||affiliateOverlay.classList.contains('show')||accountOverlay.classList.contains('show'))return;
-  if(target.getBoundingClientRect().top<=window.innerHeight+300)void loadNextBatch();
-}
-function initInfiniteScroll(){
-  if(feedObserver)return;
-  if('IntersectionObserver' in window){
-    feedObserver=new IntersectionObserver(entries=>{
-      if(entries.some(entry=>entry.isIntersecting))mayLoadMore();
-    },{root:null,rootMargin:'300px 0px',threshold:0});
-    feedObserver.observe($('feedSentinel'));
-  }else{
-    window.addEventListener('scroll',mayLoadMore,{passive:true});
+function renderPagination(){
+  const node=$('pagination'),select=$('pageSelect');
+  node.hidden=totalPages<=1;
+  $('pagePrev').disabled=currentPage<=1;
+  $('pageNext').disabled=currentPage>=totalPages;
+  $('pageTotalLabel').textContent='dari '+totalPages.toLocaleString('id-ID');
+  const jump=$('pageJump');
+  jump.hidden=totalPages<=300;
+  $('pageJumpInput').max=String(totalPages);
+  $('pageJumpInput').placeholder='1–'+totalPages.toLocaleString('id-ID');
+  if(totalPages<=1){select.innerHTML='';return}
+  // Limit dropdown DOM for very large libraries; direct numeric jump handles the rest.
+  const pages=totalPages<=300?Array.from({length:totalPages},(_,i)=>i+1):
+    [...new Set([...Array.from({length:12},(_,i)=>i+1),
+      ...Array.from({length:61},(_,i)=>Math.min(totalPages,Math.max(1,currentPage-30+i))),
+      ...Array.from({length:12},(_,i)=>totalPages-11+i)])]
+      .filter(n=>n>=1&&n<=totalPages).sort((a,b)=>a-b);
+  const opts=[];
+  for(let i=0;i<pages.length;i++){
+    if(i>0&&pages[i]>pages[i-1]+1)opts.push('<option disabled>────────</option>');
+    const n=pages[i];
+    opts.push('<option value="'+n+'" '+(n===currentPage?'selected':'')+'>Halaman '+n+'</option>');
   }
-  window.addEventListener('resize',mayLoadMore,{passive:true});
-  requestAnimationFrame(mayLoadMore);
+  select.innerHTML=opts.join('');
 }
-async function loadPrompts(requestId=++libraryRequest,append=false){
-  const targetPage=append?currentPage+1:1;
+async function loadPrompts(requestId=++libraryRequest){
   if(mode==='favorites'&&!favorites.size){
     if(requestId!==libraryRequest)return false;
-    all=[];totalPrompts=0;totalPages=1;currentPage=1;feedHasMore=false;return true;
+    all=[];totalPrompts=0;totalPages=1;currentPage=1;return true;
   }
   const queries=[
     Query.equal('is_published',true),
     Query.orderDesc('sort_order'),
     Query.limit(PAGE_SIZE),
-    Query.offset((targetPage-1)*PAGE_SIZE)
+    Query.offset((currentPage-1)*PAGE_SIZE)
   ];
   if(mode==='favorites')queries.push(Query.equal('$id',[...favorites]));
   if(category)queries.push(Query.equal('category',category));
   const r=await tables.listRows({databaseId:DB,tableId:TABLE,queries});
   if(requestId!==libraryRequest)return false;
-  const rows=(r.rows||r.documents||[]).map(rowData);
-  if(append){
-    const known=new Set(all.map(item=>item.$id));
-    all.push(...rows.filter(item=>!known.has(item.$id)));
-  }else{
-    all=rows;
-  }
-  currentPage=targetPage;
-  totalPrompts=Number(r.total??rows.length);
+  all=(r.rows||r.documents||[]).map(rowData);
+  totalPrompts=Number(r.total??all.length);
   totalPages=Math.max(1,Math.ceil(totalPrompts/PAGE_SIZE));
-  feedHasMore=rows.length>0&&currentPage<totalPages;
+  if(currentPage>totalPages){currentPage=totalPages;return loadPrompts(requestId)}
   return true;
 }
 async function refreshPrompts(scrollToGallery=false){
   const requestId=++libraryRequest;
-  feedRefreshing=true;feedHasMore=false;feedError=false;
-  grid.setAttribute('aria-busy','true');$('libraryCount').textContent='Memuat gambar…';
-  syncFeedSentinel();
+  grid.setAttribute('aria-busy','true');
+  $('libraryCount').textContent='Memuat gambar…';
+  $('pagination').setAttribute('aria-busy','true');
   try{
-    if(await loadPrompts(requestId,false)===false)return;
+    if(await loadPrompts(requestId)===false)return;
     render();
     if(scrollToGallery){
       const top=document.querySelector('.library-heading')?.getBoundingClientRect().top+window.scrollY-12;
@@ -344,44 +335,30 @@ async function refreshPrompts(scrollToGallery=false){
     }
   }catch(e){
     if(requestId!==libraryRequest)return;
-    feedHasMore=false;
     stopCardCarousels();
-    grid.innerHTML='<div class="empty"><b>Gambar belum bisa dimuat.</b><p>Cek koneksi internet, lalu coba lagi.</p><button class="btn btn-dark" id="retryLibrary" type="button">Coba lagi</button></div>';
+    grid.innerHTML='<div class="empty"><b>Gambar belum bisa dimuat.</b><p>Periksa koneksi internet lalu coba lagi.</p><button class="btn btn-dark" id="retryLibrary" type="button">Coba lagi</button></div>';
     $('retryLibrary').onclick=()=>refreshPrompts();
+    renderPagination();
   }finally{
     if(requestId===libraryRequest){
-      feedRefreshing=false;
       grid.setAttribute('aria-busy','false');
-      syncFeedSentinel();
-      requestAnimationFrame(mayLoadMore);
+      $('pagination').setAttribute('aria-busy','false');
     }
   }
 }
-async function loadNextBatch(){
-  if(feedPendingPromise)return feedPendingPromise;
-  if(feedRefreshing||feedError||!feedHasMore)return false;
-  const requestId=++libraryRequest;
-  feedLoadingMore=true;
-  syncFeedSentinel();
-  feedPendingPromise=(async()=>{
-    try{
-      const ok=await loadPrompts(requestId,true);
-      if(!ok)return false;
-      render();
-      return true;
-    }catch(e){
-      if(requestId===libraryRequest)feedError=true;
-      return false;
-    }finally{
-      feedLoadingMore=false;
-      if(requestId===libraryRequest){
-        syncFeedSentinel();
-        if(!feedError)requestAnimationFrame(mayLoadMore);
-      }
-    }
-  })();
-  try{return await feedPendingPromise}
-  finally{feedPendingPromise=null}
+async function goToPage(page,scroll=true){
+  const desired=Math.trunc(Number(page));
+  if(!Number.isFinite(desired)||desired<1||desired>totalPages){
+    showToast('Nomor halaman harus antara 1 dan '+totalPages);renderPagination();return;
+  }
+  if(desired===currentPage){renderPagination();return}
+  const previousPage=currentPage;
+  currentPage=desired;
+  await refreshPrompts(scroll);
+  if(grid.querySelector('#retryLibrary')){
+    currentPage=previousPage;
+    renderPagination();
+  }
 }
 function syncLibraryChoices(){
   document.body.dataset.memberMode=mode;
