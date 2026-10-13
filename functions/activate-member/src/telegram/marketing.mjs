@@ -2,6 +2,7 @@ import {createHash} from 'node:crypto';
 export const contentHash=p=>createHash('sha256').update(String(p?.prompt_text||'').normalize('NFKC').replace(/\s+/g,' ').trim()).digest('hex');
 export function previewReady(p){try{const u=new URL(p?.preview_url);return p?.is_published===true&&Boolean(p.prompt_text?.trim())&&u.protocol==='https:'&&!u.username&&!u.password}catch{return false}}
 import {fail} from './security.mjs';
+import {telegramHtml} from './engagement.mjs';
 import {DAY, jakartaDay} from './policy.mjs';
 
 const SOURCES=new Set(['scene_prompts','prompts']);
@@ -33,6 +34,7 @@ function sanitizeSettings(input,old=DEFAULT_SETTINGS){
  if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(s.send_time))throw fail('Jam kirim WIB tidak valid.');
  s.timezone='Asia/Jakarta';
  s.default_offer=trim(s.default_offer,850);
+ telegramHtml(s.default_offer,{max:850});
  s.default_cta_label=trim(s.default_cta_label,40);
  if(!CTA_TYPES.has(s.default_cta_type))throw fail('Tipe CTA tidak dikenal.');
  if(!s.default_offer||!s.default_cta_label)throw fail('Pesan penjualan dan tulisan tombol wajib diisi.');
@@ -83,6 +85,7 @@ export class Marketing{
   const offer_text=trim(body.offer_text??base.default_offer,850),cta_label=trim(body.cta_label??base.default_cta_label,40);
   const cta_type=String(body.cta_type||base.default_cta_type),cta_url=String((body.cta_url??base.default_cta_url)||'').trim();
   if(!offer_text||!cta_label||!CTA_TYPES.has(cta_type))throw fail('Lengkapi pesan upselling dan tombol CTA.');
+  telegramHtml(offer_text,{max:850});
   const data={day,source,prompt_id,offer_text,cta_label,cta_type,cta_url:cta_type==='url'?validateUrl(cta_url):''};
   link(data);return data;
  }
