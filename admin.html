@@ -111,25 +111,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
 
   <section class="view" id="v-sales">
     <div class="title"><div><div class="eyebrow">PENJUALAN & MEMBER</div><h1>Penjualan</h1><p>Lihat pembayaran dan kelola akses member.</p></div><button class="btn pink" id="addMemberBtn">+ MEMBER</button></div>
- <section class="tg-panel" id="tgOrdersPanel" aria-label="Kelola order dan pembeli Telegram">
-  <div class="tg-sales-head"><div><h2>Order Telegram & Member</h2><p>Pembelian dari bot serta akun Telegram tersedia di sini. Order website tetap terlihat pada tabel Penjualan di bawah.</p></div><button class="btn pink" type="button" id="tgOrdersReload">PERBARUI ORDER</button></div>
-  <div class="tg-sales-filters">
-   <label for="tgOrdersChannel">SUMBER ORDER <select id="tgOrdersChannel"><option value="bot">Bot Telegram</option></select></label>
-   <label for="tgOrdersSearch">CARI ORDER <input id="tgOrdersSearch" type="search" placeholder="Nama, Telegram ID, atau invoice"></label>
-  </div>
-  <div class="tg-sales-meta" id="tgOrdersSummary">Buka menu Penjualan untuk memuat data.</div>
-  <div class="tg-sales-list" id="tgOrdersList" aria-live="polite">Belum dimuat.</div>
-  <button class="btn dark tg-sales-more" id="tgOrdersMore" type="button" hidden>MUAT ORDER LAINNYA</button>
-  <div class="tg-sales-head tg-sales-sub"><div><h3>Akun Telegram</h3><p>Edit nama dan akses Telegram, atau hapus akun agar bisa mulai lagi. Jejak pembayaran lunas disimpan sebagai arsip.</p></div><button class="btn dark" id="tgBuyersReload" type="button">PERBARUI MEMBER</button></div>
-  <div class="tg-sales-list" id="tgBuyersList" aria-live="polite">Belum dimuat.</div>
-  <button class="btn dark tg-sales-more" id="tgBuyersMore" type="button" hidden>MUAT MEMBER LAINNYA</button>
-  <p class="tg-sales-note">Menghapus member Telegram mencabut aksesnya dan membebaskan akun untuk /start serta /beli lagi. Transaksi yang sudah lunas diarsipkan untuk pencatatan, bukan dianggap belum dibayar.</p>
- </section>
-
-
-
-    <div class="tg-sales-note">Ringkasan omzet di bawah berasal dari order website. Order Telegram ditampilkan terpisah di bagian atas agar tidak terhitung ganda.</div>
-    <div class="stats sales-revenue-stats">
+ <div class="stats sales-revenue-stats">
       <div class="stat success"><small>OMSET LUNAS</small><b id="salesPaidRevenue">Rp0</b></div>
       <div class="stat pending"><small>OMSET PENDING</small><b id="salesPendingRevenue">Rp0</b></div>
       <div class="stat orders"><small>TOTAL ORDER</small><b id="salesOrderTotal">0</b></div>
@@ -1053,59 +1035,8 @@ $('loginEmail').value=localStorage.getItem('badai_admin_email')||'';
 boot();
 </script>
 
-<style>
-.tg-sales-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
-.tg-sales-head h2,.tg-sales-head h3{margin:0 0 6px}
-.tg-sales-head p{margin:0;color:var(--muted,#6c6470);line-height:1.5;font-size:.85rem}
-.tg-sales-filters{display:grid;grid-template-columns:minmax(140px,1fr) minmax(190px,2fr);gap:12px;margin:16px 0}
-.tg-sales-filters label{font-size:.73rem;font-weight:800;letter-spacing:.06em}
-.tg-sales-filters input,.tg-sales-filters select{display:block;width:100%;min-height:42px;border:1px solid #d8d5df;border-radius:10px;padding:9px;margin-top:6px;background:#fff;color:#111}
-.tg-sales-meta,.tg-sales-note{color:#716d78;font-size:.84rem;margin:12px 0}
-.tg-sales-list{display:grid;gap:10px;margin:14px 0}
-.tg-sales-item{border:1px solid #e4e0e9;background:#fff;padding:13px;border-radius:14px;overflow-wrap:anywhere}
-.tg-sales-item-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.tg-sales-item-head strong{font-size:.98rem}
-.tg-sales-item-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:9px;margin-top:10px}
-.tg-sales-item-body div{font-size:.85rem;min-width:0}
-.tg-sales-item-body small{display:block;font-size:.7rem;color:#817985;margin-bottom:2px}
-.tg-sales-item-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.tg-sales-item-actions button{font-size:.75rem;padding:9px 12px}
-.tg-sales-chip{background:#f4f0f6;border-radius:100px;padding:5px 10px;font-size:.72rem;font-weight:800}
-.tg-sales-chip.paid{background:#daf5e7;color:#075d37}
-.tg-sales-chip.wait{background:#fff0cf;color:#885900}
-.tg-sales-chip.free{background:#f0ecf2;color:#635b67}
-.tg-sales-more{margin:12px 0 22px}
-.tg-sales-sub{border-top:1px solid #e8e4eb;margin-top:25px;padding-top:22px}
-@media(max-width:520px){.tg-sales-filters{grid-template-columns:1fr}.tg-sales-head .btn{width:100%}}
-</style>
 <script src="/assets/telegram-manager.js"></script>
 
-<style>
-.tg-sales-item-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.tg-member-editor{position:fixed;inset:0;background:#140d1bbd;display:none;align-items:center;justify-content:center;z-index:3500;padding:18px}
-.tg-member-editor.show{display:flex}
-.tg-member-editor-card{width:min(100%,460px);max-height:90vh;overflow-y:auto;background:#fff;color:#1b1620;border-radius:19px;padding:22px;box-shadow:0 20px 80px #0003}
-.tg-member-editor-card h2{margin:0 0 8px}
-.tg-member-editor-card label{font-weight:700;font-size:.79rem;display:block;margin:14px 0}
-.tg-member-editor-card input,.tg-member-editor-card select{display:block;width:100%;border:1px solid #ccc5d1;border-radius:10px;padding:12px;margin-top:5px;font:inherit;color:#1b1620;background:#fff}
-.tg-member-editor-buttons{display:flex;justify-content:end;gap:9px;flex-wrap:wrap;margin-top:20px}
-.tg-member-editor-buttons button{padding:11px 17px}
-.tg-member-editor-msg{font-size:.8rem;min-height:20px;margin:12px 0}
-</style>
-<div class="tg-member-editor" id="tgMemberEditor" role="dialog" aria-modal="true" aria-labelledby="tgMemberEditorTitle">
- <form class="tg-member-editor-card" id="tgMemberEditorForm">
-  <h2 id="tgMemberEditorTitle">Edit Member Telegram</h2>
-  <p>Perubahan akses berlaku untuk pengiriman prompt di bot dan Appwrite.</p>
-  <input type="hidden" id="tgEditId">
-  <label>NAMA MEMBER <input id="tgEditName" maxlength="128" required></label>
-  <label>PAKET <select id="tgEditPlan"><option value="free">FREE</option><option value="premium">PREMIUM</option></select></label>
-  <label>AKSES PREMIUM SAMPAI <input id="tgEditUntil" type="date"></label>
-  <label>STATUS PENERIMAAN PROMPT <select id="tgEditActive"><option value="true">AKTIF</option><option value="false">NONAKTIF</option></select></label>
-  <div id="tgMemberEditorMsg" class="tg-member-editor-msg"></div>
-  <div class="tg-member-editor-buttons"><button type="button" class="btn dark" id="tgEditCancel">BATAL</button><button type="submit" class="btn pink" id="tgEditSave">SIMPAN</button></div>
- </form>
-</div>
-<script src="/assets/telegram-orders.js"></script>
 <script src="/assets/admin-marketing.js?v=1"></script>
 <script src="/assets/workspace-ui.js?v=2"></script>
 </body>
