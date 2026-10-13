@@ -39,7 +39,8 @@
 .telegram-hub .tg-reply-row button{min-height:34px;padding:7px 11px;border:1px solid #ddd;border-radius:7px;background:#fff;font-size:11px;font-weight:800}
 .telegram-hub .tg-reply-row button[data-delete]{border-color:#f1c9cb;color:#ac2531}
 .telegram-hub .tg-content-title h2{font-size:20px}
-.telegram-hub #tgTabContent>.tg-panel{order:10}
+.telegram-hub #tgTabContent>.tg-content-title{order:-2}
+.telegram-hub #tgTabContent>.tg-panel{order:-1}
 .telegram-hub #tgTabContent .mkt-content-heading:nth-of-type(1){order:1}
 .telegram-hub #tgTabContent .mkt-workspace{order:2}
 .telegram-hub #tgTabContent .mkt-editor{order:3}
