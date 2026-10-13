@@ -32,7 +32,7 @@ test('profile statistics, greeting, and login keep working without a topbar avat
  assert.doesNotMatch(script,/accountBtn/);
 });
 test('highlights still filter published prompts and retain saved category',()=>{
- assert.match(script,/const CATEGORIES=\['Ad Creative','E-Commerce','Prompt Viral','Spontan'/);
+ assert.match(script,/const CATEGORIES=\['UI \/ Social','Ad Creative','E-Commerce','Prompt Viral','Spontan'/);
  for(const c of ['','Prompt Viral','Bisnis','Spontan','__saved'])
   assert.ok(html.includes('data-category-shortcut="'+c+'"'));
  assert.equal([...html.matchAll(/class="quick-category(?: on)?"/g)].length,5);
