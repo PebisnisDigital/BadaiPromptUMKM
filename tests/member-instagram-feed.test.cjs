@@ -22,17 +22,25 @@ test('Instagram-profile Member Area has bio, avatar, counts, highlights, grid an
  assert.match(css,/\.insta-member \.ig-tile\{position:relative;display:block;width:100%;min-width:0;aspect-ratio:1\/1/);
  assert.match(css,/\.insta-member \.bottomnav\{grid-template-columns:repeat\(3/);
 });
-test('gallery tiles open details; copy and favorite actions remain in the modal',()=>{
+test('gallery opens a full image with prompt as visible caption and only a copy action',()=>{
  assert.match(script,/function render\(\)/);
  assert.match(script,/class="ig-tile"/);
  assert.match(script,/data-open/);
  assert.match(script,/grid\.querySelectorAll\('\[data-open\]'\)/);
  assert.match(script,/detailOverlay\.classList\.add\('show'\)/);
- assert.match(script,/detailOverlay\.querySelector\('details'\)\.open=true/);
+ assert.match(script,/\$\('detailCaptionCode'\)\.textContent=promptCode\(current\)/);
+ assert.match(script,/\$\('detailPrompt'\)\.textContent=current\.prompt_text\|\|''/);
  assert.match(script,/safeCopy\(current\.prompt_text\)/);
- assert.match(script,/favorites\.has\(current\.\$id\)/);
- assert.match(html,/id="detailFav"/);
- assert.match(html,/id="detailCopy"/);
+ const modal=html.split('<div class="overlay" id="detailOverlay">')[1]?.split('<div class="overlay" id="affiliateOverlay">')[0]||'';
+ assert.match(modal,/class="detailimage" id="detailImage"/);
+ assert.match(modal,/class="ig-post-caption"/);
+ assert.match(modal,/class="ig-caption-text" id="detailPrompt"/);
+ assert.match(modal,/id="detailCopy"/);
+ assert.match(modal,/>SALIN PROMPT<\/button>/);
+ assert.doesNotMatch(modal,/detailFav|id="detailFav"|>Simpan<\/button>/);
+ assert.doesNotMatch(modal,/prompt-disclosure/);
+ assert.match(css,/\.insta-member #detailOverlay \.detailimage>\.singlepreview,[\s\S]*?object-fit:contain/);
+ assert.match(css,/\.insta-member #detailOverlay \.ig-caption-text\{[^}]*overflow-y:auto/);
 });
 test('highlights work and search and all-category selector are optional',()=>{
  assert.match(html,/id="searchArea" hidden/);
