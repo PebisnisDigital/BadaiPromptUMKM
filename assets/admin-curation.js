@@ -34,6 +34,19 @@ const scoreVals=()=>{
  },0);return {...values,score:total};
 };
 const showScore=()=>{try{el('curTotalScore').textContent=scoreVals().score+' / 100'}catch{el('curTotalScore').textContent='Skor tidak valid'}};
+function updatePreview(){
+ const box=el('curPreviewBox'),img=el('curPreviewImage'),status=el('curPreviewStatus');
+ let url=null;
+ try{url=urlValue(el('curPreview').value)}catch(e){box.hidden=false;img.removeAttribute('src');status.textContent=e.message;return}
+ if(!url){box.hidden=true;img.removeAttribute('src');return}
+ box.hidden=false;status.textContent='Memuat gambar…';
+ img.onload=()=>{status.textContent='Gambar terlihat. Periksa anatomi, teks, tekstur dan pencahayaan sebelum review.'};
+ img.onerror=()=>{status.textContent='Gambar tidak dapat ditampilkan. Perbaiki URL sebelum terbit.'};
+ if(img.src!==url)img.src=url;
+}
+el('curPreview').addEventListener('change',updatePreview);
+el('curPreview').addEventListener('blur',updatePreview);
+const samePrompt=(a,b)=>clean(a).normalize('NFKC').replace(/\s+/g,' ').toLowerCase()===clean(b).normalize('NFKC').replace(/\s+/g,' ').toLowerCase();
 qs.forEach(([key,id])=>el(id).addEventListener('input',showScore));
 const dataForCreate=async raw=>{
  const title=trim(raw.title,255),category=trim(raw.category,64);
@@ -117,7 +130,7 @@ function selectRow(row){
  set('curEditId',row.$id);set('curEditTitle',row.title);set('curEditCategory',row.category);
  set('curEditSource',row.source_url);set('curEditCreator',row.source_creator);
  set('curEditLicense',row.source_license||'unknown');set('curEditOriginal',row.reference_prompt);
- set('curAdapted',row.adapted_prompt);set('curPreview',row.preview_url);
+ set('curAdapted',row.adapted_prompt);set('curPreview',row.preview_url);updatePreview();
  set('curNotes',row.notes);
  qs.forEach(([key,id])=>set(id,Number(row[key])||0));
  el('curRightsConfirm').checked=false;
@@ -152,6 +165,8 @@ async function saveEditor(nextStage){
   if(!data.preview_url)throw Error('Siapkan URL preview gambar hasil baru sebelum review.');
   if(data.score<80)throw Error('Skor review harus minimal 80/100.');
   if(data.source_license==='unknown')throw Error('Periksa dulu hak penggunaan sumber.');
+  if(data.source_license==='inspiration'&&data.reference_prompt&&samePrompt(data.reference_prompt,data.adapted_prompt))throw Error('Prompt hasil kurasi tidak boleh sama dengan referensi pihak lain.');
+  if(el('curPreviewImage').naturalWidth<1)throw Error('Gambar preview belum berhasil ditampilkan. Periksa URL dan tunggu hingga termuat.');
  }
  data.stage=nextStage;
  const saved=await tables.updateRow({databaseId:DB,tableId:TABLE_REF,rowId:selected.$id,data});
@@ -187,6 +202,8 @@ el('curPublish').addEventListener('click',()=>void withLock(['curSaveDraft','cur
  if(state.selected.stage!=='review')throw Error('Klik SIAP REVIEW setelah menyimpan hasil kurasi sebelum diterbitkan.');
  if(!el('curRightsConfirm').checked)throw Error('Centang konfirmasi izin, originalitas dan kualitas dahulu.');
  const data=editorRaw(),id=state.selected.$id;
+ if(data.source_license==='inspiration'&&data.reference_prompt&&samePrompt(data.reference_prompt,data.adapted_prompt))throw Error('Prompt kurasi harus karya baru, bukan salinan sumber.');
+ if(el('curPreviewImage').naturalWidth<1)throw Error('Preview belum berhasil ditampilkan. Pastikan URL gambar valid.');
  if(data.score<80||!data.preview_url||data.adapted_prompt.length<40||data.source_license==='unknown')
   throw Error('Belum lolos review: skor 80+, prompt baru, URL gambar HTTPS dan izin wajib.');
  if(!window.confirm('Terbitkan prompt dan preview ini ke Member Area Premium? Ini akan terlihat oleh pembeli.'))return;
