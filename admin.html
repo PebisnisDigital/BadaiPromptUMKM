@@ -419,7 +419,9 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
      <div class="tg-feature-head"><h3>Konfirmasi & Pengiriman</h3><p id="tgBroadcastState">Belum ada draf broadcast.</p></div>
      <label class="tg-feature-label" for="tgBroadcastConfirm">KETIK KIRIM BROADCAST SEBELUM MENGIRIM</label>
      <input id="tgBroadcastConfirm" autocomplete="off" placeholder="KIRIM BROADCAST">
-     <button type="button" id="tgBroadcastSend" class="btn dark" disabled>KIRIM BATCH BERIKUTNYA (MAKS. 5 AKUN)</button>
+     <button type="button" id="tgBroadcastSend" class="btn dark" disabled>MULAI / LANJUTKAN BROADCAST</button>
+     <button type="button" id="tgBroadcastPause" class="btn dark" disabled>JEDA PENGIRIMAN</button>
+     <p class="tg-feature-help">Pengiriman berjalan bertahap maksimal 5 akun per batch. Biarkan halaman tetap terbuka hingga selesai; jika terputus, buka kembali untuk melanjutkan dari batch terakhir.</p>
      <div id="tgBroadcastNotice" class="tg-feature-notice" role="status" aria-live="polite">Pengiriman belum dijalankan.</div>
    </div>
   </section>
