@@ -7,7 +7,7 @@ const vm=require('node:vm');
 const script=fs.readFileSync(path.join(__dirname,'../assets/prompt-free.js'),'utf8');
 const html=fs.readFileSync(path.join(__dirname,'../prompt-free.html'),'utf8');
 
-function view({pathname='/c/demo-rose/p/BP033',status=200,data}={}){
+function view({pathname='/c/demo-rose/p/BP033',search='',status=200,data}={}){
   const nodes=new Map();
   const ids=['error','loading','prompt-page','brand-name','code','title','category','prompt-text','cover-image','reference-info','offer-copy','checkout','checkout-pending','copy','copy-status','gallery'];
   for(const id of ids)nodes.set(id,{id,hidden:id==='prompt-page'||id==='error'||id==='gallery'||id==='checkout'||id==='reference-info',textContent:'',src:'',href:'',children:[],events:{},
@@ -27,10 +27,10 @@ function view({pathname='/c/demo-rose/p/BP033',status=200,data}={}){
     needsReference:true,extraImages:['https://www.dropbox.com/extra.jpg?raw=1']
   }};
   const context={
-    document,location:{pathname,origin:'https://testpreview.vercel.app'},
+    document,location:{pathname,search,origin:'https://testpreview.vercel.app'},
     fetch:async()=>({ok:status===200,status,json:async()=>response}),
     navigator:{clipboard:{writeText:async t=>clipboard.push(t)}},
-    URL,console
+    URL,URLSearchParams,console
   };
   vm.runInNewContext(script,context,{filename:'prompt-free.js'});
   return {nodes,clipboard,document,root,flush:()=>new Promise(resolve=>setImmediate(resolve))};
@@ -73,4 +73,12 @@ test('backend refusal never reveals hidden paid prompt',async()=>{
   assert.equal(w.nodes.get('error').hidden,false);
   assert.equal(w.nodes.get('prompt-page').hidden,true);
   assert.equal(w.nodes.get('prompt-text').textContent,'');
+});
+
+test('direct query fallback opens BP033 when pretty URL is unavailable',async()=>{
+  const w=view({pathname:'/prompt-free',search:'?client=demo-rose&bp=BP033'});
+  await w.flush();
+  assert.equal(w.nodes.get('prompt-page').hidden,false);
+  assert.equal(w.nodes.get('code').textContent,'BP033');
+  assert.equal(w.nodes.get('prompt-text').textContent,'PROMPT ASLI LENGKAP\nLanjut baris kedua');
 });
