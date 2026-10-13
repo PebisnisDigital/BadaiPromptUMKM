@@ -515,10 +515,9 @@ function render(){
 }
 function updateDetailNavState(){
   const rows=filteredRows(),index=rows.findIndex(x=>x.$id===current?.$id);
-  const position=(currentPage-1)*PAGE_SIZE+index+1;
-  $('detailPosition').textContent=(index>=0?position:'—')+' / '+totalPrompts;
-  $('detailPrev').disabled=index<=0&&currentPage<=1;
-  $('detailNext').disabled=index>=rows.length-1&&currentPage>=totalPages;
+  $('detailPosition').textContent=(index>=0?index+1:'—')+' / '+totalPrompts;
+  $('detailPrev').disabled=index<=0;
+  $('detailNext').disabled=index>=rows.length-1&&!feedHasMore;
 }
 function showPromptDetail(x){
   current=x;
@@ -545,24 +544,15 @@ async function navigateDetail(direction){
   if(index<0)return;
   const adjacent=rows[index+direction];
   if(adjacent){showPromptDetail(adjacent);return}
-  const nextPage=currentPage+direction;
-  if(nextPage<1||nextPage>totalPages)return;
+  if(direction!==1||!feedHasMore)return;
   detailNavigating=true;
-  const oldPage=currentPage,oldRows=all,oldTotal=totalPrompts,oldPages=totalPages;
-  $('detailPrev').disabled=true;$('detailNext').disabled=true;
+  $('detailNext').disabled=true;
   try{
-    currentPage=nextPage;
-    const requestId=++libraryRequest;
-    if(await loadPrompts(requestId)===false)throw new Error('Daftar gambar berubah, coba lagi.');
-    const nextRows=filteredRows();
-    if(!nextRows.length)throw new Error('Belum ada gambar di halaman berikutnya.');
-    render();
-    showPromptDetail(direction>0?nextRows[0]:nextRows[nextRows.length-1]);
-  }catch(err){
-    currentPage=oldPage;all=oldRows;totalPrompts=oldTotal;totalPages=oldPages;
-    render();updateDetailNavState();
-    showToast('Belum bisa membuka gambar berikutnya. Coba lagi.');
-  }finally{detailNavigating=false}
+    const loaded=await loadNextBatch();
+    const next=loaded?filteredRows()[index+1]:null;
+    if(next)showPromptDetail(next);
+    else showToast('Belum bisa membuka gambar berikutnya. Coba lagi.');
+  }finally{detailNavigating=false;updateDetailNavState()}
 }
 function openAccount(){
   $('accStatus').textContent=currentProfile?.status==='active'?'AKTIF':'-';
@@ -575,7 +565,7 @@ function openAccount(){
   accountOverlay.classList.add('show');
 }
 async function enterLibrary(){
-  await loadFavorites();fillFilters();await refreshPrompts();
+  await loadFavorites();fillFilters();await refreshPrompts();initInfiniteScroll();
 }
 function refreshGreeting(){
   const name=String(currentProfile?.name||currentUser?.name||'Kak').trim().split(/\s+/)[0].slice(0,20)||'Kak';
@@ -595,7 +585,7 @@ async function boot(){
     await loadProfile();
     gate.classList.add('hide');
     $('switchMemberAccount').hidden=true;
-    $('accountBtn').textContent=(currentUser.name||currentUser.email||'V').trim().charAt(0).toUpperCase();
+
     refreshGreeting();
     if(currentProfile.must_change_password===true){$('passwordReminder').hidden=false;$('passwordReminder').style.display='flex'}
     await enterLibrary();
@@ -715,14 +705,6 @@ $('loginForm').addEventListener('submit',async e=>{
     }
   }finally{btn.disabled=false;btn.textContent='MASUK MEMBER AREA'}
 });
-let searchTimer=null;
-if(search){
-  search.oninput=()=>{
-    clearTimeout(searchTimer);
-    const length=search.value.trim().length;$('searchHelp').hidden=length===0||length>=3;
-    searchTimer=setTimeout(()=>{currentPage=1;openLatestPage=false;refreshPrompts(false)},350);
-  };
-}
 // Navigate to the next/previous prompt by vertical swipe (not by scrolling prompt text).
 $('detailPrev').onclick=()=>navigateDetail(-1);
 $('detailNext').onclick=()=>navigateDetail(1);
@@ -767,14 +749,13 @@ $('accountForm').addEventListener('submit',async e=>{
     currentProfile={...(currentProfile||{}),...(d.profile||{})};
     try{currentUser=await account.get()}catch{}
     await loadProfile();refreshGreeting();
-    $('accountBtn').textContent=(currentUser.name||currentUser.email||'V').trim().charAt(0).toUpperCase();
+
     $('accPasswordInput').value='';$('accPasswordConfirm').value='';
     m.textContent='Data akun berhasil diperbarui ✓';m.className='msg good';
     showToast('Data akun tersimpan ✓');
   }catch(err){m.textContent=err?.message||'Data akun belum bisa disimpan.';m.className='msg bad'}
   finally{btn.disabled=false;btn.textContent='SIMPAN PERUBAHAN'}
 });
-$('accountBtn').onclick=openAccount;
 $('logoutBtn').onclick=async()=>{try{await account.deleteSession({sessionId:'current'})}catch(e){}location.reload()};
 function clearDetailCarousel(){if(detailCarouselTimer){detailCarouselTimer.stop();detailCarouselTimer=null}}
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>{detailOverlay.classList.remove('show');affiliateOverlay.classList.remove('show');accountOverlay.classList.remove('show');clearDetailCarousel()});
@@ -795,18 +776,7 @@ $('allCategoriesBtn').addEventListener('click',()=>{
   $('allCategoriesBtn').setAttribute('aria-expanded',String(open));
   if(open)categorySelect.focus({preventScroll:true});
 });
-$('igSearchToggle').addEventListener('click',()=>{
-  const area=$('searchArea'),open=area.hidden;
-  area.hidden=!open;
-  $('igSearchToggle').setAttribute('aria-expanded',String(open));
-  if(open)search.focus({preventScroll:true});
-  else if(search.value){
-    search.value='';$('searchHelp').hidden=true;
-    clearTimeout(searchTimer);
-    currentPage=1;openLatestPage=false;
-    void refreshPrompts(false);
-  }
-});
+$('feedRetry').onclick=()=>{feedError=false;syncFeedSentinel();void loadNextBatch()};
 $('nav').querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{
   if(b.dataset.mode==='account'){openAccount();return}
   if(b.dataset.mode==='affiliate'){affiliateOverlay.classList.add('show');return}
