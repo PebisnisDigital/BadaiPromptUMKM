@@ -29,7 +29,7 @@ test('Telegram four-tab hub and bot manager remain independent of QRIS sales',()
  assert.match(admin,/id="tgTabAutoreply"/);
  assert.match(admin,/id="v-telegram"/);
  assert.match(admin,/id="v-marketing"/);
- assert.match(admin,/src="\/assets\/telegram-manager\.js"/);
+ assert.match(admin,/src="\/assets\/telegram-manager\.js\?v=2"/);
  assert.match(admin,/src="\/assets\/admin-marketing\.js/);
  const js=[...admin.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m=>m[1]);
  assert.ok(js.length>0);
