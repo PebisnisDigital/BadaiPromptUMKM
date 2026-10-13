@@ -32,9 +32,10 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
 <link rel="stylesheet" href="/assets/telegram-manager.css">
 <style>/* PROMPTIONAL identity */ .brand{letter-spacing:-.055em}.brand b{color:#ff6b35}.brand small{letter-spacing:.09em}</style>
 <link rel="stylesheet" href="/assets/member-app-home.css?v=mobile1">
+<link rel="stylesheet" href="/assets/member-instagram.css?v=1">
 <style>.switch-account{width:100%;min-height:44px;margin-top:8px;padding:10px 12px;border:1px solid #ffb26e;border-radius:11px;background:#fff2e7;color:#af500f;font:900 12px/1.4 Nunito,Arial,sans-serif}.switch-account:focus-visible{outline:2px solid #da6c1a;outline-offset:2px}</style>
 </head>
-<body class="member-app">
+<body class="member-app insta-member">
 <div class="gate" id="gate">
   <div class="login">
     <div class="brand">PROMPTIONAL<b>.</b><small>MEMBER AREA</small></div>
@@ -124,18 +125,22 @@ main{padding:14px}.hero{padding:20px 16px;border:1px solid #29292d;border-radius
   </main>
 </div>
 
-<nav class="bottomnav" id="nav">
-  <button class="on" data-mode="all" type="button"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg></b>Beranda</button>
-  <button data-mode="favorites" type="button"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.9a5.5 5.5 0 0 0-7.8 0L12 6l-1-1.1a5.5 5.5 0 1 0-7.8 7.8L12 21l8.8-8.3a5.5 5.5 0 0 0 0-7.8Z"/></svg></b>Tersimpan</button>
-  <button data-mode="affiliate" type="button"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></b>Affiliate</button>
-  <button data-mode="account" type="button"><b><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></svg></b>Akun</button>
+<nav class="bottomnav" id="nav" aria-label="Menu Member Area">
+  <button class="on" data-mode="all" type="button"><b><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></b>PROMPT</button>
+  <button data-mode="affiliate" type="button"><b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></b>AFFILIATE</button>
+  <button data-mode="account" type="button"><b><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></svg></b>AKUN</button>
 </nav>
 
 <div class="overlay" id="detailOverlay">
   <div class="sheet">
-    <div class="sheethead"><div><div class="eyebrow" id="detailCategory">PROMPT</div><h2 id="detailTitle">Detail gambar</h2></div><button class="close" data-close="detail">×</button></div>
+    <div class="sheethead">
+      <button class="close" data-close="detail" aria-label="Tutup detail">×</button>
+      <div><div class="eyebrow" id="detailCategory">PROMPT</div><h2 id="detailTitle">Detail gambar</h2></div>
+      <div class="detail-top-actions"><button class="detail-arrow" id="detailPrev" type="button" aria-label="Prompt sebelumnya">↑</button><span class="detail-position" id="detailPosition" role="status">1/1</span><button class="detail-arrow" id="detailNext" type="button" aria-label="Prompt berikutnya">↓</button></div>
+    </div>
+    <div class="detail-swipe-tip" aria-hidden="true">↑ ↓ Geser untuk ganti gambar</div>
     <div class="detailimage" id="detailImage"></div>
-    <details class="prompt-disclosure"><summary>Lihat teks prompt</summary><div class="promptbox" id="detailPrompt"></div></details>
+    <details class="prompt-disclosure" open><summary>Teks prompt · ketuk untuk sembunyikan</summary><div class="promptbox" id="detailPrompt"></div></details>
     <div class="sheetactions"><button class="btn btn-pink" id="detailCopy">Salin prompt</button><button class="btn btn-dark" id="detailFav" aria-label="Simpan gambar">Simpan</button></div>
     <div class="use-guide"><b>Setelah disalin, lanjut ke ChatGPT atau Gemini.</b><p>Unggah foto kamu, tempel prompt, lalu kirim. Hasil gambar bisa berbeda di setiap AI.</p></div>
   </div>
@@ -266,7 +271,7 @@ async function loadPrompts(requestId=++libraryRequest){
   all=(r.rows||r.documents||[]).map(rowData);
   totalPrompts=Number(r.total||0);
   totalPages=Math.max(1,Math.ceil(totalPrompts/PAGE_SIZE));
-  if(openLatestPage){openLatestPage=false;if(currentPage!==totalPages){currentPage=totalPages;return loadPrompts(requestId)}}
+  // Newest prompt stays first in descending order.
   if(currentPage>totalPages){currentPage=totalPages;return loadPrompts(requestId)}
   return true;
 }
@@ -293,8 +298,8 @@ function syncLibraryChoices(){
     button.classList.toggle('on',active);
     button.setAttribute('aria-pressed',String(active));
   });
-  $('nav').querySelectorAll('[data-mode="all"],[data-mode="favorites"]').forEach(button=>{
-    button.classList.toggle('on',button.dataset.mode===mode);
+  $('nav').querySelectorAll('[data-mode="all"]').forEach(button=>{
+    button.classList.toggle('on',mode==='all'||mode==='favorites');
   });
 }
 async function applyCategory(value,scroll=true){
