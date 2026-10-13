@@ -42,7 +42,8 @@ export class Engagement{
   async listRules(){return (await this.s.store.state(KEY))?.data.rules||[]}
   async rules(){return {ok:true,rules:await this.listRules(),reserved:[...RESERVED]}}
   async saveRule(body,actor){
-    const keyword=normalKeyword(body.keyword),reply=telegramHtml(body.reply,{max:3000});
+    const keyword=normalKeyword(body.keyword),reply=String(body.reply??'').trim();
+    telegramHtml(reply,{max:3000});
     const prev=await this.listRules(),other=prev.filter(x=>x.keyword!==keyword);
     if(other.length>=MAX_RULES)throw fail('Maksimal 50 autoreply per bot.');
     const rules=[...other,{keyword,reply,enabled:body.enabled!==false}].sort((a,b)=>a.keyword.localeCompare(b.keyword));
@@ -58,7 +59,7 @@ export class Engagement{
     const keyword=String(original||'').trim().toLocaleLowerCase('id-ID').replace(/\s+/g,' ');
     const rule=(await this.listRules()).find(x=>x.enabled&&x.keyword===keyword);
     if(!rule)return null;
-    return this.s.delivery.text(member,bot,rule.reply,key,'autoreply',{html:true});
+    return this.s.delivery.text(member,bot,telegramHtml(rule.reply,{max:3000}),key,'autoreply',{html:true});
   }
   async current(){
     const key=(await this.s.store.state('telegram-broadcast-current'))?.data.campaign_key;
@@ -66,7 +67,8 @@ export class Engagement{
     return {ok:true,campaign:item?.data||null,server_enabled:this.s.sendEnabled};
   }
   async draft(body,actor){
-    const message=telegramHtml(body.message,{max:3500});
+    const message=String(body.message??'').trim();
+    telegramHtml(message,{max:3500});
     const bot=await this.s.main();
     if(!bot||!bot.is_active)throw fail('Pilih dan aktifkan bot utama sebelum membuat broadcast.',409);
     const code=random().slice(0,24),key=id('broadcast',code),now=new Date(this.s.now()).toISOString();
@@ -98,7 +100,7 @@ export class Engagement{
       if(!member||!member.is_active){skipped++;continue}
       const consent=await this.s.consent(bot.$id,recipient.telegram_id);
       if(!consent||consent.status!=='allowed'){skipped++;continue}
-      const delivery=await this.s.delivery.text(member,bot,campaign.message,id('broadcast',code,recipient.telegram_id),'broadcast',{html:true,noReplyButtons:true});
+      const delivery=await this.s.delivery.text(member,bot,telegramHtml(campaign.message,{max:3500}),id('broadcast',code,recipient.telegram_id),'broadcast',{html:true,noReplyButtons:true});
       if(delivery.ok)sent++;else if(delivery.duplicate)skipped++;else failed++;
     }
     const now=new Date(this.s.now()).toISOString();
