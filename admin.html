@@ -52,6 +52,7 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
 <link rel="stylesheet" href="/assets/admin-ui.css?v=promptional-1">
 <link rel="stylesheet" href="/assets/telegram-manager.css">
 <link rel="stylesheet" href="/assets/admin-marketing.css?v=promptional-1">
+<link rel="stylesheet" href="/assets/admin-curation.css?v=1">
 <style>/* PROMPTIONAL identity */ .brand{letter-spacing:-.05em}.brand b{color:#ff6b35}</style>
 </head>
 <body class="admin-app">
@@ -93,6 +94,12 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
 <main>
   <section class="view on" id="v-prompts">
     <div class="title"><div><div class="eyebrow">PERPUSTAKAAN KONTEN</div><h1>Prompt</h1><p>Kelola gambar dan prompt yang dilihat member.</p></div><button class="btn pink" id="addPromptBtn">+ Tambah prompt</button></div>
+    <div class="cur-tabs" id="curTabs" role="tablist" aria-label="Pengelolaan koleksi dan kurasi">
+      <button type="button" class="cur-tab on" data-cur-tab="published" aria-selected="true">Koleksi Member</button>
+      <button type="button" class="cur-tab" data-cur-tab="reference" aria-selected="false">Bank Referensi</button>
+      <button type="button" class="cur-tab" data-cur-tab="curation" aria-selected="false">Ruang Kurasi</button>
+    </div>
+    <div id="promptLibraryPanel" data-cur-panel="published">
     <div class="toolbar">
       <input id="promptSearch" type="search" aria-label="Cari prompt" placeholder="Cari judul prompt…">
       <select id="categoryFilter" aria-label="Kategori prompt"><option value="">Semua kategori</option></select>
@@ -107,6 +114,76 @@ main{padding:16px}.view{display:none}.view.on{display:block}.title{display:flex;
     </details>
     <div class="adminpager" id="promptPagination" aria-label="Navigasi halaman prompt admin"></div>
     <div class="promptlist" id="promptList" style="margin-top:10px"></div>
+    </div>
+    <section class="cur-panel" id="curReferencePanel" data-cur-panel="reference" hidden>
+      <div class="cur-banner"><div><b>Bank Referensi Prompt</b><p>Simpan ide dari website, konten media sosial, atau Excel. Data ini privat dan tidak otomatis tampil di Member Area.</p></div><span class="cur-tag">ADMIN ONLY</span></div>
+      <form id="curAddForm" class="cur-form">
+        <h2>+ Tambah referensi</h2>
+        <div class="cur-fields">
+          <label>Judul ide *<input id="curTitle" maxlength="255" required placeholder="Misal: Foto produk skincare natural"></label>
+          <label>Kategori *<input id="curCategory" maxlength="64" list="promptCategories" required placeholder="Misal: Bisnis"></label>
+          <label>URL sumber (opsional)<input id="curSourceUrl" type="url" placeholder="https://..."></label>
+          <label>Nama kreator / sumber<input id="curCreator" maxlength="128" placeholder="@kreator atau nama situs"></label>
+          <label>Status penggunaan *<select id="curLicense" required>
+            <option value="unknown">Belum diketahui — untuk riset saja</option>
+            <option value="inspiration">Inspirasi konsep — buat karya baru</option>
+            <option value="authorized">Punya izin/lisensi penggunaan</option>
+            <option value="original">Karya sendiri</option>
+          </select></label>
+          <label class="cur-wide">Prompt/contoh referensi (jika boleh disimpan)<textarea id="curOriginal" rows="4" maxlength="25000" placeholder="Tempel ide atau teks yang memang boleh dicatat. Jika hanya inspirasi, tulis ringkasan konsep dengan kata sendiri."></textarea></label>
+        </div>
+        <div class="cur-actions"><button class="btn pink" type="submit" id="curAddBtn">SIMPAN REFERENSI</button><span id="curAddStatus" class="cur-status" role="status"></span></div>
+      </form>
+      <div class="cur-import">
+        <h2>Impor Excel / CSV</h2>
+        <p>Impor maksimal 100 referensi per batch, masuk sebagai referensi privat. Prompt tidak langsung diterbitkan.</p>
+        <div class="cur-actions"><button type="button" class="btn dark" id="curTemplate">UNDUH TEMPLATE</button><label class="cur-file-label" for="curImportFile">PILIH FILE EXCEL / CSV</label><input id="curImportFile" type="file" accept=".xlsx,.xls,.csv,.tsv,text/csv" aria-label="Pilih file Excel atau CSV"><button type="button" class="btn pink" id="curImportBtn">IMPOR</button></div>
+        <p id="curImportStatus" role="status" class="cur-status">Kolom: judul, kategori, url_sumber, kreator, izin, prompt_referensi.</p>
+      </div>
+      <div class="cur-list-header"><h2>Daftar Referensi</h2><button type="button" class="btn dark sm" id="curReload">PERBARUI</button></div>
+      <div class="cur-controls"><select id="curStageFilter" aria-label="Filter status kurasi"><option value="">Semua status</option><option value="reference">Referensi Baru</option><option value="curation">Sedang Dikurasi</option><option value="review">Siap Review</option><option value="published">Sudah Terbit</option><option value="rejected">Diarsipkan</option></select><input type="search" id="curSearch" placeholder="Cari pada 50 data yang dimuat" aria-label="Cari bank referensi"></div>
+      <div id="curStats" class="cur-stats" role="status"></div>
+      <div id="curList" class="cur-list"></div>
+      <div class="cur-actions"><button type="button" class="btn dark" id="curMore">MUAT 50 BERIKUTNYA</button><span class="cur-status" id="curListStatus" role="status"></span></div>
+    </section>
+    <section class="cur-panel" id="curCurationPanel" data-cur-panel="curation" hidden>
+      <div class="cur-banner"><div><b>Ruang Kurasi PROMPTIONAL</b><p>Olah ide, periksa kualitas dan izin, pasang preview baru, lalu terbitkan setelah review manual.</p></div><span class="cur-tag">REVIEW MANUAL</span></div>
+      <div class="cur-workspace">
+        <aside class="cur-worklist">
+          <h2>Pilih referensi</h2><div id="curQueue" class="cur-list">Memuat daftar...</div>
+          <button type="button" class="btn dark" id="curQueueRefresh">PERBARUI ANTRIAN</button>
+        </aside>
+        <form class="cur-editor" id="curEditForm">
+          <input id="curEditId" type="hidden">
+          <h2 id="curEditHeading">Pilih referensi untuk mulai</h2>
+          <p class="cur-muted" id="curEditInfo">Referensi harus ditinjau sebelum dapat masuk Member Area.</p>
+          <div class="cur-fields">
+            <label>Judul prompt *<input id="curEditTitle" maxlength="255" required></label>
+            <label>Kategori *<input id="curEditCategory" maxlength="64" required list="promptCategories"></label>
+            <label>URL sumber<input id="curEditSource" type="url"></label>
+            <label>Kreator<input id="curEditCreator" maxlength="128"></label>
+            <label>Status hak penggunaan<select id="curEditLicense"><option value="unknown">Belum jelas (dilarang terbit)</option><option value="inspiration">Inspirasi — karya baru sendiri</option><option value="authorized">Berizin / berlisensi</option><option value="original">Karya sendiri</option></select></label>
+            <label class="cur-wide">Ringkasan sumber / referensi<textarea id="curEditOriginal" rows="3" maxlength="25000"></textarea></label>
+            <label class="cur-wide">Prompt PROMPTIONAL hasil adaptasi *<textarea id="curAdapted" rows="8" maxlength="25000" placeholder="Buat prompt baru yang spesifik: subjek, komposisi, cahaya, tekstur, kamera, realisme; jangan menyalin hak cipta pihak lain."></textarea></label>
+            <label class="cur-wide">URL gambar preview hasil sendiri *<input id="curPreview" type="url" placeholder="https://.../preview.webp"><small>Masukkan URL gambar publik HTTPS yang sudah diuji. Generate/upload otomatis belum diaktifkan.</small></label>
+            <label class="cur-wide">Catatan review<textarea id="curNotes" rows="2" maxlength="4000" placeholder="Risiko AI slop, masalah teks/logo, izin, catatan kurator"></textarea></label>
+          </div>
+          <div class="cur-score">
+            <h3>Skor kualitas (maksimal 100)</h3>
+            <div class="cur-score-grid">
+              <label>Realisme visual (0–35)<input id="curScoreVisual" type="number" min="0" max="35" value="0"></label>
+              <label>Potensi perhatian (0–30)<input id="curScoreHook" type="number" min="0" max="30" value="0"></label>
+              <label>Manfaat pengguna (0–25)<input id="curScoreValue" type="number" min="0" max="25" value="0"></label>
+              <label>Mudah dipakai (0–10)<input id="curScoreEasy" type="number" min="0" max="10" value="0"></label>
+            </div>
+            <strong id="curTotalScore">0 / 100</strong>
+          </div>
+          <label class="cur-confirm"><input id="curRightsConfirm" type="checkbox"> Saya sudah memeriksa izin/keaslian prompt dan preview, serta memastikan hasil layak tayang.</label>
+          <div class="cur-actions"><button type="button" id="curCopyBrief" class="btn dark">SALIN BRIEF UNTUK AI</button><button type="submit" id="curSaveDraft" class="btn dark">SIMPAN KURASI</button><button type="button" id="curMarkReview" class="btn dark">SIAP REVIEW</button><button type="button" id="curPublish" class="btn pink">TERBITKAN KE MEMBER</button></div>
+          <p id="curEditStatus" role="status" class="cur-status"></p>
+        </form>
+      </div>
+    </section>
   </section>
 
   <section class="view" id="v-sales">
@@ -1107,6 +1184,7 @@ boot();
 </div>
 <script src="/assets/telegram-orders.js"></script>
 <script src="/assets/admin-marketing.js?v=1"></script>
+<script src="/assets/admin-curation.js?v=1"></script>
 <script src="/assets/workspace-ui.js?v=2"></script>
 </body>
 </html>
