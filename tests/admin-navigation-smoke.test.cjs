@@ -18,26 +18,26 @@ test('bottom navigation has five focused menus, no Telegram shortcut',()=>{
  assert.match(marketCss,/nav\.telegram-nav\{grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
 });
 
-test('Telegram Manager is entirely inside Settings > Telegram and its original controls survive',()=>{
- const settings=html.match(/<section class="view" id="v-settings">([\s\S]*?)<section class="view marketing-view"/)?.[1]||'';
- assert.match(settings,/data-settings-tab="telegram"/);
- assert.match(settings,/data-settings-panel="telegram"/);
- const panel=settings.indexOf('data-settings-panel="telegram"'),manager=settings.indexOf('id="v-telegram"');
- assert.ok(panel>=0&&manager>panel);
- for(const id of ['tgStatus','tgStats','tgBotForm','tgBotSelect','tgToken','tgSettingsForm','tgEnabled','tgTime','tgFreeDays','tgPremiumDays','tgPause','tgResume','tgDryTest','tgTester','tgAuthorizeTester','tgTestResult']){
-  assert.equal([...html.matchAll(new RegExp('id="'+id+'"','g'))].length,1,id+' remains unique');
-  assert.ok(settings.includes('id="'+id+'"'),id+' is inside Settings');
+test('Telegram uses four dedicated tabs, with bot controls moved out of Settings',()=>{
+ const telegram=html.match(/<section class="view marketing-view telegram-hub" id="v-marketing"([\s\S]*?)(?=<\/main>)/)?.[0]||'';
+ assert.ok(telegram,'Telegram main view is present');
+ const buttons=[...telegram.matchAll(/data-tg-tab="([^"]+)"/g)].map(x=>x[1]);
+ assert.deepEqual(buttons,['bot','content','broadcast','autoreply']);
+ for(const id of ['v-telegram','tgBotForm','tgBotSelect','tgToken','tgSettingsForm','tgEnabled','tgTime','tgFreeDays','tgDeleteHours','tgTester','mktCalendar','mktEditOffer','mktLoop','tgBroadcastForm','tgReplyForm']){
+  assert.equal([...html.matchAll(new RegExp('id="'+id+'"','g'))].length,1,id+' stays unique');
+  assert.ok(telegram.includes('id="'+id+'"'),id+' moved under main Telegram view');
  }
- assert.doesNotMatch(html,/<section class="view telegram-view"/);
- assert.match(html,/\.settings-tabs\{display:grid;grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
- assert.match(tgCss,/html:has\(\[data-settings-panel="telegram"\]\.on\)/);
+ const settings=html.match(/<section class="view" id="v-settings">([\s\S]*?)<section class="view marketing-view telegram-hub"/)?.[1]||'';
+ assert.doesNotMatch(settings,/data-settings-tab="telegram"|data-settings-panel="telegram"/);
+ assert.match(html,/\.settings-tabs\{display:grid;grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
+ assert.match(tgCss,/nav\.telegram-nav\{grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
 });
 
 test('marketing is dedicated to Telegram content, with scheduling, preview and test send',()=>{
- const marketing=html.match(/<section class="view marketing-view" id="v-marketing"[\s\S]*?(?=<\/main>)/)?.[0]||'';
- assert.match(marketing,/MARKETING • KONTEN BOT TELEGRAM/);
- assert.match(marketing,/Konten Telegram 365 Hari/);
- assert.match(marketing,/Atur isi pesan yang dikirim oleh bot/);
+ const marketing=html.match(/<section class="view marketing-view telegram-hub" id="v-marketing"[\s\S]*?(?=<\/main>)/)?.[0]||'';
+ assert.match(marketing,/TELEGRAM • KONTEN BOT/);
+ assert.match(marketing,/Konten & Kalender 365 Hari/);
+ assert.match(marketing,/Pilih prompt, atur jadwal/);
  const contentOrder=['id="mktCalendar"','id="mktEditForm"','id="mktSettingsForm"','id="mktTestForm"'].map(id=>marketing.indexOf(id));
  assert.ok(contentOrder.every(n=>n>=0),'all content tools are visible');
  assert.deepEqual(contentOrder.slice().sort((a,b)=>a-b),contentOrder,'content editor is shown before schedule and test');
@@ -50,9 +50,9 @@ test('marketing is dedicated to Telegram content, with scheduling, preview and t
  assert.match(marketJs,/marketing-test-send/);
 });
 
-test('Telegram Manager loads lazily from the settings tab without calling a removed nav item',()=>{
+test('Telegram Manager now loads lazily from Telegram nav and Bot tab',()=>{
  assert.match(tgJs,/querySelector\('\[data-settings-tab="telegram"\]'\)/);
- assert.match(tgJs,/settingsTelegramTab\.addEventListener\('click'/);
+ assert.match(tgJs,/telegramMenu\?\.addEventListener\('click',init\)/);
  assert.doesNotMatch(tgJs,/\[data-view=telegram\]/);
  assert.doesNotThrow(()=>new vm.Script(tgJs));
  assert.doesNotThrow(()=>new vm.Script(marketJs));
