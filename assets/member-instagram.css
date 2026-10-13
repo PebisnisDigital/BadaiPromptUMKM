@@ -1,0 +1,77 @@
+/* PROMPTIONAL Member Area — Instagram-inspired browsing (original UI).
+   Scope exclusively to Member Area; admin and checkout remain untouched. */
+body.member-app.insta-member{background:#f3f4f6}
+.insta-member .shell{width:min(100%,560px);background:#fff}
+.insta-member .shell>.topbar{min-height:61px;padding:10px 17px}
+.insta-member .app-logo-mark{width:33px;height:33px;border-radius:11px;font-size:21px}
+.insta-member .app-wordmark strong{font-size:17px}
+.insta-member .shell>main{padding:11px 0 30px}
+.insta-member .member-welcome{margin:6px 16px 12px}
+.insta-member .member-welcome h1{font-size:23px}
+.insta-member .member-search{margin:0 16px 13px}
+.insta-member .search-help{margin:0 17px 12px}
+.insta-member .member-feature{display:none}
+.insta-member .shortcut-panel{margin:0 0 11px;padding:0 0 12px;border-bottom:1px solid #ededee}
+.insta-member .shortcut-panel .app-section-title{padding:0 16px;margin:0 0 8px}
+.insta-member .shortcut-panel .app-section-title h2{font-size:14px}
+.insta-member .quick-categories{display:flex;justify-content:flex-start;gap:13px;overflow-x:auto;padding:3px 16px 5px;scroll-snap-type:x proximity;scrollbar-width:none}
+.insta-member .quick-categories::-webkit-scrollbar{display:none}
+.insta-member .quick-category{flex:0 0 65px;min-width:65px;scroll-snap-align:start;gap:5px;font-size:10px}
+.insta-member .quick-icon{width:59px;height:59px;border-radius:50%;border:3px solid #fff;outline:2px solid #e9a078;box-shadow:0 0 0 1px #ffd6ba;background:var(--cat-bg)}
+.insta-member .quick-category.on .quick-icon{outline-color:#f47733;border-color:#fff;transform:none;box-shadow:0 0 0 1px #f47733}
+.insta-member .browsebar{padding:0 16px;margin:0 0 14px}
+.insta-member .library-heading{margin:0 16px 10px}
+.insta-member .library-heading h2{font-size:15px}
+.insta-member .library-heading>span{font-size:11px}
+.insta-member .grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:stretch}
+.insta-member .grid>.empty{margin:0 16px}
+.insta-member .card{border:0;border-bottom:1px solid #e9e9eb;border-radius:0;background:#fff;box-shadow:none;transition:none}
+.insta-member .card:active{transform:none}
+.insta-member .post-head{display:flex;align-items:center;gap:10px;padding:10px 16px}
+.insta-member .post-avatar{width:37px;height:37px;display:grid;place-items:center;flex:none;border:2px solid #f3a071;border-radius:50%;background:#191919;color:#fff;font:900 17px/1 Roboto,Arial,sans-serif}
+.insta-member .post-avatar em{font-style:normal;color:#ff9f58}
+.insta-member .post-author{display:grid;gap:2px;min-width:0;flex:1}
+.insta-member .post-author strong{font:900 12px/1.1 Nunito,Arial,sans-serif;letter-spacing:.015em}
+.insta-member .post-author small{font:700 11px/1.2 Nunito,Arial,sans-serif;color:#8c8d92;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.insta-member .post-badge{display:inline-block;padding:5px 8px;border:1px solid #eeeeef;border-radius:999px;font:900 10px/1 Nunito,Arial,sans-serif;color:#666;white-space:nowrap}
+.insta-member button.visual{aspect-ratio:4/4.25;border:0;background:#f1f0f2}
+.insta-member button.visual img{width:100%;height:100%;object-fit:cover}
+.insta-member .promptcode{left:14px;top:13px;border-radius:8px;padding:5px 8px;background:#ffffffef}
+.insta-member .post-actions{display:flex;align-items:center;gap:4px;padding:9px 12px 0}
+.insta-member .post-icon-button{display:grid;place-items:center;width:42px;height:42px;border:0;border-radius:50%;background:#fff;color:#27272a;cursor:pointer}
+.insta-member .post-icon-button svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.insta-member .post-icon-button.saved{color:#ec6546}
+.insta-member .post-icon-button.saved svg{fill:#ec6546}
+.insta-member .post-actions .post-open{min-height:36px;margin-left:auto;padding:4px 8px;border:0;background:none;color:#da702f;font:900 12px/1.1 Nunito,Arial,sans-serif}
+.insta-member .card .body{padding:4px 17px 14px}
+.insta-member .card .body h3{font:900 13px/1.4 Nunito,Arial,sans-serif;-webkit-line-clamp:2}
+.insta-member .card .body>p{font:700 11px/1.5 Nunito,Arial,sans-serif;margin:3px 0 0;color:#919096}
+.insta-member .bottomnav{grid-template-columns:repeat(3,minmax(0,1fr));border-radius:0;bottom:0}
+.insta-member .bottomnav button{min-height:58px;font-size:11px;font-weight:900}
+.insta-member .bottomnav button b{width:38px;height:29px}
+.insta-member .bottomnav svg{width:24px;height:24px}
+.insta-member .bottomnav button.on{background:transparent;color:#d96922}
+.insta-member .bottomnav button.on b{background:#fff0e4;border-radius:11px}
+.insta-member #detailOverlay{z-index:90;align-items:center;justify-content:center;padding:0;background:rgba(11,11,13,.94);backdrop-filter:none}
+.insta-member #detailOverlay .sheet{display:flex;flex-direction:column;gap:0;position:relative;width:min(100%,560px);height:100dvh;max-height:100dvh;overflow:hidden;background:#fff;border:0;border-radius:0;padding:0;color:#202024}
+.insta-member #detailOverlay .sheethead{flex:none;align-items:center;gap:8px;margin:0;padding:11px 13px;border-bottom:1px solid #ededee;background:#fff}
+.insta-member #detailOverlay .sheethead h2{font:900 14px/1.25 Nunito,Arial,sans-serif;max-width:48vw;margin:3px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.insta-member #detailOverlay .sheethead .eyebrow{font-size:9px;color:#c96f37}
+.insta-member #detailOverlay .close{width:40px;height:40px;order:-1;border:0;border-radius:12px;background:#f3f3f5;color:#26262a}
+.insta-member .detail-top-actions{display:flex;align-items:center;gap:5px;margin-left:auto}
+.insta-member .detail-position{font:900 11px/1 Nunito,Arial,sans-serif;color:#777;min-width:43px;text-align:center}
+.insta-member .detail-arrow{width:34px;height:36px;display:grid;place-items:center;padding:0;border:1px solid #ededed;border-radius:10px;background:#fff;color:#303038;font-size:21px;font-weight:700}
+.insta-member .detail-arrow:disabled{opacity:.25;cursor:default}
+.insta-member #detailOverlay .detailimage{flex:1 1 auto;min-height:150px;max-height:none;margin:0;border-radius:0;background:#121212;overflow:hidden;touch-action:pan-x}
+.insta-member #detailOverlay .detailimage>.singlepreview,.insta-member #detailOverlay .detailimage .carouselslide img{object-fit:contain;background:#121212}
+.insta-member #detailOverlay .visual-placeholder{height:100%;background:#252528;color:#ccc}
+.insta-member #detailOverlay .prompt-disclosure{flex:0 0 auto;margin:0;padding:10px 14px;border:0;border-top:1px solid #eee;background:#fff}
+.insta-member #detailOverlay .prompt-disclosure summary{font:900 12px/1.4 Nunito,Arial,sans-serif;color:#25252b;min-height:24px}
+.insta-member #detailOverlay .promptbox{margin:7px 0 0;padding:9px 11px;max-height:min(22dvh,175px);min-height:0;overflow:auto;overscroll-behavior:contain;white-space:pre-wrap;line-height:1.55;font-size:12px;border:1px solid #ededf0;border-radius:10px;background:#fafafa;color:#45454b}
+.insta-member #detailOverlay .sheetactions{flex:none;position:static;display:grid;grid-template-columns:1fr auto;gap:9px;padding:10px 14px calc(12px + env(safe-area-inset-bottom));margin:0;border-top:1px solid #ededed;background:#fff}
+.insta-member #detailOverlay .sheetactions .btn{min-height:44px;font:900 12px/1.3 Nunito,Arial,sans-serif;border-radius:12px}
+.insta-member #detailOverlay .use-guide{display:none}
+.insta-member .detail-swipe-tip{position:absolute;z-index:2;left:50%;top:81px;transform:translateX(-50%);pointer-events:none;border:1px solid #ffffff42;border-radius:999px;background:#17171b99;color:#fff;padding:5px 9px;font:800 10px/1.3 Nunito,Arial,sans-serif;white-space:nowrap}
+@media(min-width:760px){.insta-member #detailOverlay{padding:18px}.insta-member #detailOverlay .sheet{height:min(92dvh,850px);max-height:min(92dvh,850px);border-radius:18px}}
+@media(max-width:370px){.insta-member .quick-categories{gap:9px;padding-left:12px}.insta-member .quick-category{flex-basis:61px;min-width:61px}.insta-member .quick-icon{width:55px;height:55px}.insta-member #detailOverlay .detailimage{min-height:130px}.insta-member .detail-swipe-tip{top:76px}}
+@media(prefers-reduced-motion:reduce){.insta-member .card{transition:none}}
