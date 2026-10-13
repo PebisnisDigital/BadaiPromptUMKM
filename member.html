@@ -479,6 +479,7 @@ function render(){
   $('igCategoryCount').textContent=String(CATEGORIES.length);
   $('igPromptCount').textContent=profilePromptTotal===null?'—':String(profilePromptTotal);
   $('libraryCount').textContent=totalPrompts+' gambar';
+  renderPagination();
   $('featureCount').textContent=String(totalPrompts);
   syncLibraryChoices();
   $('libraryTitle').textContent=mode==='favorites'?'Tersimpan':category||'Galeri Prompt';
@@ -501,9 +502,10 @@ function render(){
 }
 function updateDetailNavState(){
   const rows=filteredRows(),index=rows.findIndex(x=>x.$id===current?.$id);
-  $('detailPosition').textContent=(index>=0?index+1:'—')+' / '+totalPrompts;
-  $('detailPrev').disabled=index<=0;
-  $('detailNext').disabled=index>=rows.length-1&&!feedHasMore;
+  const position=(currentPage-1)*PAGE_SIZE+index+1;
+  $('detailPosition').textContent=(index>=0?position:'—')+' / '+totalPrompts;
+  $('detailPrev').disabled=index<=0&&currentPage<=1;
+  $('detailNext').disabled=index>=rows.length-1&&currentPage>=totalPages;
 }
 function showPromptDetail(x){
   current=x;
@@ -514,14 +516,11 @@ function showPromptDetail(x){
   $('detailPrompt').textContent=current.prompt_text||'';
   $('detailPrompt').scrollTop=0;
   $('detailImage').innerHTML=carouselMarkup(current,true);
-  updateDetailNavState();
-  startDetailCarousel();
+  updateDetailNavState();startDetailCarousel();
 }
 function openDetail(id){
-  const selected=all.find(x=>x.$id===id);
-  if(!selected)return;
-  showPromptDetail(selected);
-  detailOverlay.classList.add('show');
+  const selected=all.find(x=>x.$id===id);if(!selected)return;
+  showPromptDetail(selected);detailOverlay.classList.add('show');
 }
 let detailNavigating=false;
 async function navigateDetail(direction){
@@ -530,15 +529,24 @@ async function navigateDetail(direction){
   if(index<0)return;
   const adjacent=rows[index+direction];
   if(adjacent){showPromptDetail(adjacent);return}
-  if(direction!==1||!feedHasMore)return;
+  const nextPage=currentPage+direction;
+  if(nextPage<1||nextPage>totalPages)return;
   detailNavigating=true;
-  $('detailNext').disabled=true;
+  const previousPage=currentPage,previousRows=all,previousTotal=totalPrompts,previousPages=totalPages;
+  $('detailPrev').disabled=true;$('detailNext').disabled=true;
   try{
-    const loaded=await loadNextBatch();
-    const next=loaded?filteredRows()[index+1]:null;
-    if(next)showPromptDetail(next);
-    else showToast('Belum bisa membuka gambar berikutnya. Coba lagi.');
-  }finally{detailNavigating=false;updateDetailNavState()}
+    currentPage=nextPage;
+    const requestId=++libraryRequest;
+    if(await loadPrompts(requestId)===false)throw new Error('Halaman sudah berubah.');
+    const nextRows=filteredRows();
+    if(!nextRows.length)throw new Error('Tidak ada gambar pada halaman itu.');
+    render();
+    showPromptDetail(direction>0?nextRows[0]:nextRows[nextRows.length-1]);
+  }catch(e){
+    currentPage=previousPage;all=previousRows;totalPrompts=previousTotal;totalPages=previousPages;
+    render();updateDetailNavState();
+    showToast('Gagal membuka gambar berikutnya. Coba lagi.');
+  }finally{detailNavigating=false}
 }
 function openAccount(){
   $('accStatus').textContent=currentProfile?.status==='active'?'AKTIF':'-';
@@ -551,7 +559,7 @@ function openAccount(){
   accountOverlay.classList.add('show');
 }
 async function enterLibrary(){
-  await loadFavorites();fillFilters();await refreshPrompts();initInfiniteScroll();
+  await loadFavorites();fillFilters();await refreshPrompts();
 }
 function refreshGreeting(){
   const name=String(currentProfile?.name||currentUser?.name||'Kak').trim().split(/\s+/)[0].slice(0,20)||'Kak';
@@ -762,7 +770,11 @@ $('allCategoriesBtn').addEventListener('click',()=>{
   $('allCategoriesBtn').setAttribute('aria-expanded',String(open));
   if(open)categorySelect.focus({preventScroll:true});
 });
-$('feedRetry').onclick=()=>{feedError=false;syncFeedSentinel();void loadNextBatch()};
+$('pagePrev').onclick=()=>{void goToPage(currentPage-1,true)};
+$('pageNext').onclick=()=>{void goToPage(currentPage+1,true)};
+$('pageSelect').onchange=()=>{void goToPage($('pageSelect').value,true)};
+$('pageJump').onsubmit=e=>{e.preventDefault();void goToPage($('pageJumpInput').value,true)};
+
 $('nav').querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{
   if(b.dataset.mode==='account'){openAccount();return}
   if(b.dataset.mode==='affiliate'){affiliateOverlay.classList.add('show');return}
