@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow,noarchive"><meta name="theme-color" content="#111113">
+<meta name="referrer" content="no-referrer">
+<title>Prompt AI Gratis | PROMPTIONAL</title>
+<style>
+:root{--accent:#e94b91;--ink:#131315;--muted:#6d7077;--border:#e9e9ec;--soft:#f6f6f7;font-family:Inter,"Segoe UI",Arial,sans-serif;color-scheme:light}
+*{box-sizing:border-box}html{background:#f4f4f5;scroll-behavior:smooth}body{margin:0;color:var(--ink)}
+.wrap{max-width:660px;min-height:100vh;margin:0 auto;background:#fff;padding:0 23px;box-shadow:0 6px 32px #00000009}
+header{padding:19px 0;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border)}
+.logo{height:43px;width:43px;border-radius:13px;display:grid;place-items:center;background:#121213;color:white;font-size:25px;font-weight:900}
+.brand{flex:1;min-width:0}.brand strong{font-size:15px;letter-spacing:.03em}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.mode{border:1px solid var(--border);padding:6px 8px;font-weight:800;font-size:10px;border-radius:20px}
+main{padding:31px 0 42px}.eyebrow{color:var(--accent);font-size:11px;letter-spacing:.1em;font-weight:850;text-transform:uppercase}
+h1{font-size:clamp(30px,7.6vw,45px);letter-spacing:-.055em;line-height:1.1;margin:13px 0 12px}
+.intro{color:var(--muted);line-height:1.7;font-size:14px;margin:0 0 24px}
+figure{padding:0;margin:0 0 20px}.cover{width:100%;max-height:600px;min-height:180px;border-radius:17px;object-fit:contain;background:var(--soft);border:1px solid var(--border);display:block}
+figcaption{font-size:11px;color:var(--muted);margin-top:8px}
+.gallery{display:flex;gap:8px;overflow-x:auto;margin:0 0 25px}.gallery img{width:90px;height:90px;object-fit:cover;border-radius:10px;border:1px solid var(--border)}
+.panel{border:1px solid var(--border);border-radius:18px;padding:21px 17px}.topline{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:15px}
+h2{font-size:21px;margin:0;letter-spacing:-.035em}.tag{color:var(--accent);font-size:10px;font-weight:900;letter-spacing:.08em}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;color:#34343a;background:#f8f8f9;border:1px solid #ededf0;border-radius:12px;padding:17px;margin:0 0 12px;font:13px/1.75 "Segoe UI",sans-serif}
+button,.sales{font:inherit;font-weight:900;letter-spacing:.045em;display:flex;justify-content:center;align-items:center;min-height:53px;padding:13px 17px;width:100%;cursor:pointer;border-radius:12px;text-decoration:none;font-size:13px}
+button{border:0;color:white;background:#141415}button:hover{background:#303033}.sales{background:var(--accent);color:white}
+#copy-status{color:#178551;font-size:12px;margin-top:9px;min-height:16px}
+.note{font-size:12px;color:#595963;line-height:1.7;margin:13px 0 0}
+.offer{border-radius:18px;background:#f7f7f8;margin-top:23px;padding:23px 20px}.offer h2{margin:11px 0}.offer p{color:var(--muted);font-size:13px;line-height:1.7}
+.disabled-cta{display:block;border-radius:12px;border:1px solid #dddde1;text-align:center;font-weight:800;padding:15px;color:#96969c;font-size:12px}
+footer{border-top:1px solid var(--border);padding:25px 0 36px;text-align:center;color:var(--muted);font-size:11px}
+.error{padding:46px 7px;line-height:1.65;color:#555}.error h1{font-size:27px}.error a{color:var(--ink);font-weight:bold}
+[hidden]{display:none!important}@media(max-width:480px){.wrap{padding:0 17px}main{padding-top:25px}.panel{padding:17px 13px}pre{padding:13px}header{padding:14px 0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><span class="logo" aria-hidden="true">P</span><span class="brand"><strong id="brand-name">PROMPTIONAL</strong><small>Prompt AI Siap Salin</small></span><span class="mode">PROMPT GRATIS</span></header>
+<main>
+ <div id="not-found" class="error" hidden role="alert"><h1>Halaman prompt belum tersedia</h1><p>Kode atau brand belum dibuka untuk publik.</p></div>
+ <article id="page" hidden>
+  <div class="eyebrow"><span id="code"></span> / <span id="category"></span></div>
+  <h1 id="title"></h1>
+  <p class="intro">Gunakan gambar sebagai inspirasi, lalu salin prompt aslinya secara lengkap.</p>
+  <figure><img id="cover" class="cover" alt="Contoh hasil karya prompt AI" loading="eager"><figcaption>Contoh visual dari katalog PROMPTIONAL.</figcaption></figure>
+  <div class="gallery" id="gallery" hidden aria-label="Variasi gambar"></div>
+  <section class="panel" aria-label="Prompt AI lengkap">
+   <div class="topline"><h2>Prompt Lengkap</h2><span class="tag">SIAP SALIN</span></div>
+   <pre id="prompt" tabindex="0"></pre>
+   <button id="copy" type="button">SALIN PROMPT ↗</button>
+   <div id="copy-status" role="status" aria-live="polite"></div>
+   <p id="ref-note" class="note" hidden>Tip: Prompt ini membutuhkan foto referensi. Gunakan foto yang memang berhak kamu pakai.</p>
+  </section>
+  <section class="offer"><div class="eyebrow">IDE SELANJUTNYA</div><h2 id="offer-title"></h2><p id="offer-text"></p><a class="sales" id="sales" hidden target="_blank" rel="noopener noreferrer">LIHAT PAKET ↗</a><span class="disabled-cta" id="sales-pending">Paket premium belum diaktifkan untuk brand demo ini.</span></section>
+ </article>
+</main>
+<footer>Powered by <strong>PROMPTIONAL</strong> · Materi yang memang dibagikan gratis.</footer>
+</div>
+<script type="application/json" id="dataset">{"prompts":{"BP003":{"code":"BP003","title":"BP003","category":"Prompt Viral","prompt":"Gunakan [FOTO KARAKTER REFERENSI] sebagai model utama. Pertahankan wajah, rambut, warna kulit, bentuk mata, hidung, bibir, dan identitas visualnya. Buat ilustrasi poster 3D semi-realistis gaya Pixar x semi realistis, menampilkan sebuah tangan memegang kartu profil media sosial 3D ala TikTok, dengan lubang kotak di tengah, lalu karakter duduk santai di tepi lubang kartu itu. Background bernuansa beige hangat dan pastel lembut, dengan lighting sinematik halus, bayangan realistis, tekstur glossy, dan suasana estetik ala kreator TikTok premium. Tambahkan UI gaya TikTok full bahasa Indonesia seperti “Suka”, “Komentar”, “Bagikan”, “Mengikuti”, “Untuk Anda”, “Lihat Profil”, dan “Video Viral”, lengkap dengan ikon interaksi melayang, efek glow, sparkle, dan halo. Tambahkan dekorasi cozy seperti buku, vas bunga, dan kamera vintage. Komposisi center, rapi, manis, modern, high-end, ultra-detail, kualitas tinggi 4K.","image":"https://www.dropbox.com/scl/fi/o9sklni19j84i4vjv3oti/Character_holding_social_media_card_2K_20261013092504.jpg?rlkey=jwzecexnorfhu1j128y0q831p\u0026st=d5f0fty5\u0026raw=1","extra":["https://www.dropbox.com/scl/fi/5kklqcgxnbchfcx47dz53/Character_holding_social_media_card_2K_20261013092739.jpg?rlkey=i5b3ncbvpy948y26ff3apgtbw\u0026st=h0np2xm2\u0026raw=1","https://www.dropbox.com/scl/fi/b8338vnh0137xmgby7uev/Character_sitting_on_TikTok_card_2K_20261013092457.jpg?rlkey=9gh3qnb4scndtu6psqx9e28cx\u0026st=9j5k7sys\u0026raw=1","https://www.dropbox.com/scl/fi/7swec2bpi17f3ytyh4iar/Creating_3D_character_poster_ill-_2K_20261013092547.jpg?rlkey=dqk87sqwzhhxznwun3i367275\u0026st=xqon8698\u0026raw=1"],"needsReference":true},"BP033":{"code":"BP033","title":"Hero Burger UMKM — Foto Menu Premium","category":"E-Commerce","prompt":"PROMPTIONAL — Hero Burger UMKM — Foto Menu Premium\n\n[FOTO REFERENSI YANG HARUS DIUNGGAH]\nFoto referensi burger asli dari usaha; jika ingin tangan penyaji terlihat, tambah foto referensi orangnya.\n\n[TUJUAN \u0026 ADEGAN]\nBuat satu visual promosi e-commerce yang layak digunakan oleh UMKM Indonesia. Jadikan burger asli sebagai hero di atas piring keramik gelap pada meja kayu kafe Indonesia. Ambil sudut 35 derajat, roti dan lapisan isi tetap sama dengan foto, saus berkilau wajar dan sayur segar. Tambahkan uap sangat tipis hanya jika burger memang hangat, latar kedai lokal redup halus. Ruang kosong kecil untuk desain harga terpisah, tanpa menulis harga atau diskon.\n\n[KAMERA \u0026 CAHAYA]\nSony A7 IV, 50mm f/2.8, arah cahaya jendela samping hangat, latar bokeh.\n\n[RASIO OUTPUT]\n1:1. Komposisi aman untuk thumbnail persegi, pusat produk tidak terpotong.\n\n[SOP WAJIB — FOTO REFERENSI \u0026 FIDELITAS]\nGunakan foto referensi yang diunggah sebagai sumber kebenaran utama, bukan sekadar inspirasi. Semua foto produk adalah produk asli milik pengguna; pertahankan siluet, proporsi, ukuran, warna, material, pola, kemasan, logo, cetakan, dan detail label yang memang terlihat. Jangan mengganti merek atau menciptakan varian dan fitur yang tidak tercantum. Bila ada satu, dua, atau lebih manusia, pakai foto masing-masing orang, pertahankan wajah, usia dewasa, warna kulit, rambut/hijab, dan ciri khas tiap individu. Jangan menyatukan wajah, menambah orang atau menduplikasi tangan. Jika informasi harga, komposisi, izin edar, diskon, atau klaim tidak diberikan, jangan mengarang; lebih baik sisakan ruang kosong tanpa teks.\n[HASIL \u0026 ANTI AI-SLOP]\nPencahayaan konsisten dengan satu arah sumber cahaya; refleksi dan bayangan kontak fisik masuk akal. Detail tajam di subjek utama tetapi tidak oversharpened, tekstur kulit tidak plastis, anatomi tangan dan jari normal, proporsi produk tidak melar, label tidak berubah jadi huruf acak, objek tidak melayang tanpa sebab, tidak ada duplikasi produk, bentuk kemasan cacat, noise AI, watermark, atau logo pihak ketiga. Hasil harus seperti pemotretan iklan e-commerce profesional Indonesia, bukan terlihat CGI atau stock-photo generik.","image":"https://www.dropbox.com/scl/fi/ez5w919iwr6wg9me01ysa/Burger_promotional_photo_shoot_20261013150236.jpg?rlkey=jxlgjrgv0gtwwsglt3166zvgs\u0026st=gqd7sxn2\u0026raw=1","extra":[],"needsReference":true},"BP051":{"code":"BP051","title":"Iklan Smoothie Bowl di Kafe Lokal","category":"Ad Creative","prompt":"IDENTITY / REFERENCE LOCK — Gunakan FOTO REFERENSI 1 sebagai identitas tunggal perempuan dewasa Indonesia: wajah, bentuk mata, hidung, struktur rahang, warna kulit, usia, dan ciri khas harus tetap sama. FOTO REFERENSI 2 adalah smoothie bowl atau produk makanan asli; tiru bentuk porsi, topping, wadah, warna makanan, serta merek pada kemasan bila ada.\n\nSCENE — Foto iklan kuliner premium di kafe tropis Bandung yang benar-benar masuk akal: meja kayu, tanaman hijau, cahaya jendela, pengunjung latar belakang samar. Smoothie bowl berisi buah tropis khas Indonesia, misalnya mangga, pisang, buah naga dan granola hanya jika cocok dengan referensi.\n\nACTION — Model sedang mengambil satu sendok makanan sambil tertawa kecil secara spontan, tatapan pada mangkuk bukan menatap kamera. Makanan tetap menjadi subjek visual utama.\n\nWARDROBE / OBJECT — Pakaian kasual rapi berwarna koral atau sesuai warna identitas brand; jaga bentuk mangkuk dan label produk. Sisakan ruang kosong terbatas untuk teks pendek “[NAMA BRAND]”.\n\nCAMERA — Foto editorial makanan dengan kamera full-frame, lensa 50 mm, sudut meja tiga-perempat, fokus tajam pada mangkuk dan tangan; kedalaman ruang alami.\n\nLIGHTING — Cahaya matahari pagi dari samping jendela dengan pantulan lembut; warna kulit alami dan makanan tampak segar tanpa kilau artifisial.\n\nREALISM — Rasa foto kampanye nyata untuk Instagram kuliner lokal; proporsi tangan, sendok, buah, dan bayangan konsisten. Tekstur buah utuh, cairan dan topping tampak bisa dimakan.\n\nANTI-AI-SLOP / NEGATIVE — Hindari AI slop: wajah berubah atau tampak generik, orang tambahan, tangan atau jari berlebih, anatomi cacat, benda ganda, bayangan dan refleksi bertentangan, tekstur plastik, kulit licin seperti lilin, warna neon tidak terkontrol, detail meleleh, teks acak atau salah eja, logo berubah, watermark, serta klaim promosi yang tidak diberikan. Jika tulisan merek dari referensi tidak bisa dirender akurat, sediakan ruang desain kosong alih-alih mengarang tulisan.\n\nOUTPUT — Satu gambar iklan jadi berasio 4:5, resolusi tinggi, tanpa kolase tambahan kecuali bila konsep secara khusus memintanya. Gunakan hanya aset referensi yang diberikan.","image":"https://www.dropbox.com/scl/fi/9lmjs5eqrszw427qprony/51_20261013165220.jpg?rlkey=t9pbtndb1s9q596u9x60uvidu\u0026st=oicnvpdb\u0026raw=1","extra":[],"needsReference":true}},"brands":{"demo-rose":{"name":"ROSE CREATIVE","accent":"#e94b91","offerTitle":"Mau Koleksi Prompt Lainnya?","offerText":"Lihat pilihan prompt AI siap pakai untuk ide konten berikutnya.","checkoutUrl":null},"demo-noir":{"name":"NOIR STUDIO","accent":"#c3984c","offerTitle":"Butuh Konten Baru Setiap Hari?","offerText":"Temukan inspirasi visual AI lainnya dari brand ini.","checkoutUrl":null}}}</script>
+<script>
+(function(){
+"use strict";
+var dataset=JSON.parse(document.getElementById("dataset").textContent);
+var $=function(id){return document.getElementById(id)};
+var m=location.pathname.match(/^\/c\/([a-z0-9-]+)\/p\/(BP\d{3})(?:\.html|\/)?$/);
+var q=new URLSearchParams(location.search);
+var slug=m?m[1]:q.get("client"),code=m?m[2]:q.get("bp");
+var brand=Object.prototype.hasOwnProperty.call(dataset.brands,slug||"")?dataset.brands[slug]:null;
+var p=Object.prototype.hasOwnProperty.call(dataset.prompts,code||"")?dataset.prompts[code]:null;
+if(!brand||!p){$("not-found").hidden=false;return;}
+document.documentElement.style.setProperty("--accent",brand.accent);
+$("brand-name").textContent=brand.name;
+$("code").textContent=p.code;$("category").textContent=p.category;
+$("title").textContent=p.title;$("prompt").textContent=p.prompt;
+$("offer-title").textContent=brand.offerTitle;$("offer-text").textContent=brand.offerText;
+$("cover").src=p.image;
+$("cover").alt="Contoh gambar "+p.code;
+$("cover").onerror=function(){this.hidden=true;this.nextElementSibling.textContent="Gambar belum bisa dimuat, tetapi prompt lengkap tersedia di bawah."};
+if(p.extra&&p.extra.length){$("gallery").hidden=false;p.extra.forEach(function(src){
+var img=document.createElement("img");img.src=src;img.alt="Variasi visual "+p.code;img.loading="lazy";$("gallery").appendChild(img);
+});}
+$("ref-note").hidden=!p.needsReference;
+if(brand.checkoutUrl&&/^https:\/\//.test(brand.checkoutUrl)){$("sales").href=brand.checkoutUrl;$("sales").hidden=false;$("sales-pending").hidden=true;}
+$("page").hidden=false;
+document.title=p.title+" | "+brand.name+" - Prompt AI";
+$("copy").addEventListener("click",async function(){
+ try{
+ if(navigator.clipboard&&navigator.clipboard.writeText)await navigator.clipboard.writeText(p.prompt);
+ else{var ta=document.createElement("textarea");ta.value=p.prompt;ta.style.position="fixed";ta.style.left="-9999px";document.body.appendChild(ta);ta.select();if(!document.execCommand("copy"))throw Error("Clipboard unavailable");ta.remove();}
+ $("copy-status").textContent="Prompt lengkap berhasil disalin!";
+ }catch(e){$("copy-status").textContent="Gagal menyalin otomatis. Tekan lama teks prompt untuk salin manual.";}
+});
+})();
+</script>
+</body>
+</html>
