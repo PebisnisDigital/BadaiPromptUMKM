@@ -11,7 +11,7 @@
 const crypto=require('node:crypto');
 const master=require('../data/repliz-master-30.json');
 const {normalizeCode,getDemoTenant,STAGING_ALLOWED_BPS}=require('../lib/marketing-public');
-const DEFAULT_ORIGIN='https://promptional-e5yqyctkb-cuanify25-2175s-projects.vercel.app';
+const DEFAULT_ORIGIN='https://promptional-gratis.vercel.app';
 const DEMO_ACCOUNT='DEMO_ACCOUNT_NOT_CONNECTED';
 const cleanDate=d=>/^\d{4}-\d{2}-\d{2}$/.test(d||'')&&
   !Number.isNaN(Date.parse(d+'T00:00:00Z'))&&
