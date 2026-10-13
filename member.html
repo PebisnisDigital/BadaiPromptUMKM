@@ -425,32 +425,36 @@ function renderPagination(){
   p.innerHTML='<button class="pageback" data-page="'+(currentPage+1)+'" '+(currentPage===totalPages?'disabled':'')+'>Lebih lama</button><span>Halaman '+currentPage+' / '+totalPages+'</span><button class="pagenext" data-page="'+(currentPage-1)+'" '+(currentPage===1?'disabled':'')+'>Lebih baru</button>';
   p.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>{const n=Number(b.dataset.page);if(!b.disabled&&n>=1&&n<=totalPages){currentPage=n;refreshPrompts(true)}});
 }
+let profilePromptTotal=null;
 function render(){
   const rows=filteredRows();
+  const searching=String(search?.value||'').trim().length>=3;
+  if(mode==='all'&&!category&&!searching)profilePromptTotal=totalPrompts;
   $('accFav').textContent=favorites.size+' prompt';
+  $('igSavedCount').textContent=String(favorites.size);
+  $('igCategoryCount').textContent=String(CATEGORIES.length);
+  $('igPromptCount').textContent=profilePromptTotal===null?'—':String(profilePromptTotal);
   renderPagination();
   $('libraryCount').textContent=totalPrompts+' gambar';
   $('featureCount').textContent=String(totalPrompts);
   syncLibraryChoices();
-  $('libraryTitle').textContent=mode==='favorites'?'Gambar tersimpan':category||'Feed Prompt';
+  $('libraryTitle').textContent=mode==='favorites'?'Tersimpan':category||'Galeri Prompt';
+  stopCardCarousels();
   if(!rows.length){
-    stopCardCarousels();
-    grid.innerHTML='<div class="empty"><b>'+(mode==='favorites'?'Belum ada prompt tersimpan.':'Gambar belum ditemukan.')+'</b><p>'+(mode==='favorites'?'Ketuk ikon hati di bawah foto untuk menyimpan.':'Coba kata lain atau pilih Semua kategori.')+'</p></div>';
+    grid.innerHTML='<div class="empty"><b>'+(mode==='favorites'?'Belum ada prompt tersimpan.':'Gambar belum ditemukan.')+'</b><p>'+(mode==='favorites'?'Buka salah satu gambar lalu tekan Simpan.':'Coba kategori lain atau kosongkan pencarian.')+'</p></div>';
     return;
   }
-  const heart='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.9a5.5 5.5 0 0 0-7.8 0L12 6l-1-1.1a5.5 5.5 0 1 0-7.8 7.8L12 21l8.8-8.3a5.5 5.5 0 0 0 0-7.8Z"/></svg>';
-  const speech='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-8.5 8.5c-1.4 0-2.6-.2-3.7-.8L3 21l1.7-4.9C4.2 15 4 13.8 4 12.5A8 8 0 0 1 12.5 4 7.6 7.6 0 0 1 20 11.5Z"/></svg>';
-  grid.innerHTML=rows.map(x=>
-    '<article class="card insta-post">'+
-      '<div class="post-head"><span class="post-avatar" aria-hidden="true">P<em>.</em></span><span class="post-author"><strong>PROMPTIONAL</strong><small>'+esc(promptCode(x))+' · '+esc(x.category||'Prompt')+'</small></span>'+(x.is_featured===true?'<span class="post-badge">Pilihan</span>':'')+'</div>'+
-      '<button class="visual" type="button" data-open="'+esc(x.$id)+'" aria-label="Buka detail '+esc(x.title||promptCode(x))+'"><span class="promptcode">'+esc(promptCode(x))+'</span>'+cardVisual(x)+'</button>'+
-      '<div class="post-actions"><button type="button" class="post-icon-button '+(favorites.has(x.$id)?'saved':'')+'" data-save="'+esc(x.$id)+'" aria-label="'+(favorites.has(x.$id)?'Hapus dari tersimpan':'Simpan prompt')+'" aria-pressed="'+favorites.has(x.$id)+'">'+heart+'</button><button type="button" class="post-icon-button" data-open="'+esc(x.$id)+'" aria-label="Buka teks prompt">'+speech+'</button><button type="button" class="post-open" data-open="'+esc(x.$id)+'">Lihat prompt →</button></div>'+
-      '<div class="body"><h3>'+esc(x.title||promptCode(x))+'</h3><p>'+esc(x.category||'Prompt')+' · Ketuk foto untuk melihat detail &amp; menyalin prompt</p></div>'+
-    '</article>'
-  ).join('');
+  grid.innerHTML=rows.map(x=>{
+    const images=previewSources(x);
+    const photo=images.length
+      ?'<img src="'+esc(images[0])+'" alt="'+esc(x.title||promptCode(x))+'" loading="lazy" decoding="async">'
+      :'<span class="ig-tile-placeholder" aria-hidden="true">'+esc(iconFor(x.category))+'</span>';
+    const multi=images.length>1
+      ?'<span class="ig-tile-stack" aria-label="'+images.length+' gambar"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="13" height="13" rx="2"/><path d="M4 16V5a1 1 0 0 1 1-1h11"/></svg></span>'
+      :'';
+    return '<button class="ig-tile" type="button" data-open="'+esc(x.$id)+'" aria-label="Buka '+esc(x.title||promptCode(x))+' dan salin prompt">'+photo+'<span class="ig-tile-code">'+esc(promptCode(x))+'</span>'+multi+'</button>';
+  }).join('');
   grid.querySelectorAll('[data-open]').forEach(el=>el.onclick=()=>openDetail(el.dataset.open));
-  grid.querySelectorAll('[data-save]').forEach(el=>el.onclick=()=>toggleFavorite(el.dataset.save));
-  startCardCarousels();
 }
 function updateDetailNavState(){
   const rows=filteredRows(),index=rows.findIndex(x=>x.$id===current?.$id);
