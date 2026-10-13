@@ -19,7 +19,9 @@
   url.searchParams.set('mode', 'marketing');
   url.searchParams.set('client', client);
   url.searchParams.set('bp', bp);
-  fetch(url, {credentials:'omit', cache:'no-store'})
+  // The preview deployment is protected by Vercel Authentication.
+  // Forward its same-origin session cookie to the API so a shared preview can load.
+  fetch(url, {credentials:'same-origin', cache:'no-store'})
     .then(async response => {
       const data = await response.json();
       if (!response.ok || !data.ok) throw new Error(data.error || 'Prompt belum tersedia');
