@@ -140,3 +140,31 @@ test('catalog renders 185 brand-specific links without inline prompt texts',()=>
  assert.match(html,/\/c\/new-client\/p\/BP185/);
  assert.doesNotMatch(html,/APPWRITE_RO_KEY/);
 });
+
+
+test('homepage defaults to PROMPTIONAL with its own branded catalog',async()=>{
+ setup();
+ const catalogRows=Array.from({length:185},(_,i)=>({data:{
+  title:'BP'+String(i+1).padStart(3,'0'),subcategory:'Prompt '+(i+1),category:'AI',is_published:true
+ }}));
+ global.fetch=async(url)=>{
+  if(String(url).includes('/tables/marketing_clients/rows/promptional'))return {ok:true,json:async()=>demo('promptional',{
+   brand_name:'PROMPTIONAL',accent_color:'#ff852a',
+   logo_url:'https://promptional.vercel.app/assets/promptional-icon.svg',
+   offer_title:'Upgrade ke PROMPTIONAL Premium',
+   checkout_url:'https://promptional.vercel.app/beli-premium.html',cta_enabled:true})};
+  const queries=new URL(url).searchParams.getAll('queries[]').map(JSON.parse);
+  const offset=queries.find(x=>x.method==='offset')?.values?.[0]||0;
+  return {ok:true,json:async()=>({rows:catalogRows.slice(offset,offset+100)})};
+ };
+ try {
+  const resp=response();
+  await page({method:'GET',query:{catalog:'1'}},resp);
+  assert.equal(resp.statusCode,200);
+  assert.match(resp.body,/PROMPTIONAL/);
+  assert.match(resp.body,/185 Prompt AI Gratis/);
+  assert.match(resp.body,/\/c\/promptional\/p\/BP185/);
+  assert.match(resp.body,/promptional-icon.svg/);
+  assert.doesNotMatch(resp.body,/ROSE CREATIVE|NOIR STUDIO/);
+ }finally{teardown();}
+});
