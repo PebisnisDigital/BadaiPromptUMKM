@@ -1,7 +1,7 @@
 'use strict';
 const test=require('node:test');
 const assert=require('node:assert/strict');
-const handler=require('../api/admin-brands.js');
+const handler=require('../lib/admin-brands-handler.js');
 const {checkedUrl,normalize,slugValid}=handler._test;
 const originalFetch=global.fetch, originalKey=process.env.BRAND_ADMIN_APPWRITE_KEY;
 const token='a'.repeat(40);
