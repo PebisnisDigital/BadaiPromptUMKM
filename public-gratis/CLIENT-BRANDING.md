@@ -38,3 +38,11 @@ Pengaturan logo dan checkout berlaku bagi semua BP001 sampai BP185 pada satu bra
 - Perubahan biasanya terlihat setelah ~1–2 menit karena CDN cache, tanpa deploy.
 - Pengelolaan melalui Appwrite Console dahulu. Belum ada UI pengaturan klien di Admin utama PROMPTIONAL; membangunnya merupakan pekerjaan terpisah dan memerlukan autentikasi admin yang benar.
 - Website utama `promptional.vercel.app`, akun Repliz, dan IG belum diubah.
+
+## Brand pertama: PROMPTIONAL
+- Appwrite Row ID: `promptional`, `is_active=true`, `cta_enabled=true`
+- Logo: `https://promptional.vercel.app/assets/promptional-icon.svg`
+- Aksen: `#ff852a` (oranye, sesuai website utama)
+- `checkout_url`: `https://promptional.vercel.app/beli-premium.html`
+- Default root `https://promptional-gratis.vercel.app/` now displays PROMPTIONAL branding and upgrade CTA, as do its 185 individual pages.
+- The checkout was checked live (QRIS configured/active, real mode, registration open); modifying payments is outside this integration.
