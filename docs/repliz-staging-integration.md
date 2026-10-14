@@ -4,11 +4,11 @@ STATUS: Ini simulasi. Repliz belum terhubung, Instagram belum diubah, PR #25 mas
 
 ## Yang sudah dibuat
 - Route dinamis /c/:client/p/BPxxx untuk semua nomor BP001–BP185.
-- Preview endpoint hanya mengizinkan BP003, BP033, BP051 pada VERCEL_ENV=preview; production menolak.
+- The old Appwrite preview API remains limited to BP003, BP033, BP051 on VERCEL_ENV=preview; main production API remains fail-closed. Separate public microsite promptional-gratis.vercel.app now serves BP001-BP185 as static, explicitly public content.
 - Konten prompt asli diambil dari Appwrite scene_prompts secara read-only.
 - 30 konten media/caption non-rahasia tersimpan di data/repliz-master-30.json.
 - Simulator scripts/repliz-dry-run.cjs tidak memiliki aksi jaringan, tidak membuat template/jadwal Repliz dan tidak menyimpan credential.
-- Semua output simulator canPublish=false dan draft=true. Sisa 27 halaman dari batch 30 masih diblokir saat preview.
+- Semua output simulator canPublish=false dan draft=true. Kini 30 dari 30 halaman sudah tersedia pada microsite publik, tetapi akun Instagram dan checkout belum diotorisasi.
 
 ## Jalankan simulasi
 node scripts/repliz-dry-run.cjs --brand=demo-rose --days=3 --start=2026-10-15 --time=07:00
@@ -39,7 +39,7 @@ Dokumentasi Create Schedule (Premium+): https://docs.repliz.com/api/schedule/cre
 7. Uji tiga konten pada akun Instagram TEST sebelum meminta persetujuan untuk produksi.
 
 ## Pengaman
-- Vercel Preview dapat terlindungi SSO; URL preview tidak untuk calon pelanggan Instagram.
+- Gunakan URL publik permanen https://promptional-gratis.vercel.app/c/<brand>/p/<BP>. URL Vercel Preview lama dilindungi SSO dan tidak boleh dibagikan kepada lead Instagram.
 - Kunci Repliz dan token IG harus berada di penyimpanan aman milik operator.
 - Prompt yang publik bisa disalin/dibagikan ulang; wajib ada izin khusus gratis per kode.
 - Jangan kirim DM, menjadwalkan posting, mengubah produksi, atau merge PR tanpa persetujuan baru.
