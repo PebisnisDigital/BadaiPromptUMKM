@@ -4,7 +4,11 @@
   "rewrites": [
     {
       "source": "/c/:client/p/:bp",
-      "destination": "/index.html"
+      "destination": "/api/page?client=:client&bp=:bp"
+    },
+    {
+      "source": "/",
+      "destination": "/api/page?catalog=1"
     }
   ],
   "headers": [
