@@ -1,0 +1,23 @@
+name: Admin brands management checks
+on:
+  pull_request:
+    paths:
+      - 'admin.html'
+      - 'assets/admin-brands.*'
+      - 'api/admin-brands.js'
+      - 'tests/admin-brands-*.test.cjs'
+      - '.github/workflows/admin-brands-checks.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  safety:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check api/admin-brands.js
+      - run: node --check assets/admin-brands.js
+      - run: node --test tests/admin-brands-api.test.cjs tests/admin-brands-ui.test.cjs tests/admin-navigation-smoke.test.cjs
