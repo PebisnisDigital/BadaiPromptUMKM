@@ -19,7 +19,7 @@ test('Kelola Brand navigation and responsive layout render inside secure existin
 test('no direct client Appwrite table writes and every call uses admin JWT',()=>{
  assert.match(js,/account\.createJWT\(\)/);
  assert.match(js,/Bearer '\+jwt\.jwt/);
- assert.match(js,/fetch\('\/api\/admin-brands'/);
+ assert.match(js,/fetch\('\/api\/public-previews\?admin_brands=1'/);
  assert.doesNotMatch(js,/tables\.createRow|tables\.updateRow|APPWRITE_API_KEY|BRAND_ADMIN_APPWRITE_KEY/);
  assert.match(js,/urlOk\(F\.checkout/);
 });
