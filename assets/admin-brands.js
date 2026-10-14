@@ -19,7 +19,7 @@
   if(!window.Appwrite||typeof account?.createJWT!=='function')throw Error('Login admin tidak tersedia.');
   const jwt=await account.createJWT();
   if(!jwt?.jwt)throw Error('Sesi admin kedaluwarsa. Silakan login ulang.');
-  const resp=await fetch('/api/admin-brands',{method:'POST',credentials:'same-origin',
+  const resp=await fetch('/api/public-previews?admin_brands=1',{method:'POST',credentials:'same-origin',
    headers:{'content-type':'application/json','authorization':'Bearer '+jwt.jwt},
    body:JSON.stringify({action,...params}),cache:'no-store'});
   const body=await resp.json().catch(()=>({}));
