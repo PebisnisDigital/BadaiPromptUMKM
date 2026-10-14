@@ -15,6 +15,9 @@ function safeUrl(url){
  }catch{return false}
 }
 module.exports=async function handler(req,res){
+  if(req.query?.admin_brands==='1'){
+    return require('../lib/admin-brands-handler')(req,res);
+  }
   if(req.query?.mode==='marketing'){
     return require('../lib/marketing-public-handler')(req,res);
   }
