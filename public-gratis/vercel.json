@@ -7,6 +7,10 @@
       "destination": "/api/page?client=:client&bp=:bp"
     },
     {
+      "source": "/c/:client",
+      "destination": "/api/page?catalog=1&client=:client"
+    },
+    {
       "source": "/",
       "destination": "/api/page?catalog=1"
     }
