@@ -4,7 +4,8 @@ on:
     paths:
       - 'admin.html'
       - 'assets/admin-brands.*'
-      - 'api/admin-brands.js'
+      - 'api/public-previews.js'
+      - 'lib/admin-brands-handler.js'
       - 'tests/admin-brands-*.test.cjs'
       - '.github/workflows/admin-brands-checks.yml'
   workflow_dispatch:
@@ -18,6 +19,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node --check api/admin-brands.js
+      - run: node --check lib/admin-brands-handler.js
       - run: node --check assets/admin-brands.js
       - run: node --test tests/admin-brands-api.test.cjs tests/admin-brands-ui.test.cjs tests/admin-navigation-smoke.test.cjs
