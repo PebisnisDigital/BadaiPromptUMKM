@@ -41,3 +41,12 @@ Live routes: `/c/<client-slug>` (client's 185-prompt catalog) and `/c/<client-sl
 Checkout CTA requires `cta_enabled=true` plus a valid, public HTTPS checkout URL, and is otherwise hidden. Existing demo brands have CTA **off**.
 There is no public write endpoint and no custom brand admin UI yet: manage records through authenticated Appwrite Console or a connected admin integration.
 Full field descriptions and client onboarding in `public-gratis/CLIENT-BRANDING.md`.
+
+## PROMPTIONAL primary brand (2026-10-14)
+- Primary public catalog: https://promptional-gratis.vercel.app/ (uses `promptional` brand by default).
+- Public brand catalog: https://promptional-gratis.vercel.app/c/promptional
+- Individual BP: https://promptional-gratis.vercel.app/c/promptional/p/BP033
+- Live checkout target: https://promptional.vercel.app/beli-premium.html (QRIS; config verified `registration_open=true`, `payment_active=true`, `payment_configured=true`, `test_mode=false`, minimum Rp199.000, 365-day membership per checkout page).
+- Brand row `marketing_clients/promptional` has CTA enabled, uses official logo, orange accent #ff852a, and upgrade copy; homepage catalog and BP pages both show the checkout CTA.
+- Demo brands remain present for test and do NOT have checkout enabled.
+- Checkout/payment implementation is NOT modified by this change.
