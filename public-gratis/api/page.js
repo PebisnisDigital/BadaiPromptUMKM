@@ -6,20 +6,54 @@ const APPWRITE_ENDPOINT='https://sgp.cloud.appwrite.io/v1';
 const APPWRITE_PROJECT='badai-prompt-umkm';
 const APPWRITE_DATABASE='badai_prompt_umkm';
 const APPWRITE_TABLE='scene_prompts';
+const CLIENT_TABLE='marketing_clients';
 const BPS=185;
-const TENANTS=Object.freeze({
-  'demo-rose':Object.freeze({name:'ROSE CREATIVE',accent:'#e94b91',offer:'Mau Koleksi Prompt Lainnya?',offerText:'Lihat pilihan prompt AI siap pakai untuk ide konten berikutnya.'}),
-  'demo-noir':Object.freeze({name:'NOIR STUDIO',accent:'#c3984c',offer:'Butuh Konten Baru Setiap Hari?',offerText:'Temukan inspirasi visual AI lainnya dari brand ini.'})
-});
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const cleanBP=s=>/^BP\d{3}$/.test(String(s||''))&&Number(s.slice(2))>=1&&Number(s.slice(2))<=BPS?s:null;
-const cleanTenant=s=>typeof s==='string'&&Object.prototype.hasOwnProperty.call(TENANTS,s)?s:null;
+const cleanTenant=s=>typeof s==='string'&&/^[a-z][a-z0-9-]{1,34}$/.test(s)?s:null;
 function imageUrl(s){
  if(typeof s!=='string'||!/^https:\/\//i.test(s))return '';
  try{
    const u=new URL(s);
    return ['dropbox.com','www.dropbox.com','sgp.cloud.appwrite.io','i.ibb.co'].includes(u.hostname)&&!u.username&&!u.password?u.href:'';
  }catch{return '';}
+}
+function securePublicUrl(s){
+ if(typeof s!=='string'||s.length>2048||!s)return '';
+ try {
+  const u=new URL(s);
+  const host=u.hostname.toLowerCase();
+  if(u.protocol!=='https:'||u.username||u.password||!host.includes('.')||host==='localhost'||
+     host.endsWith('.localhost')||host.endsWith('.local')||host==='127.0.0.1'||
+     host==='0.0.0.0'||host==='169.254.169.254'||host==='[::1]'||
+     /^10\\.|^192\\.168\\.|^172\\.(1[6-9]|2\\d|3[01])\\.|^127\\./.test(host))return '';
+  return u.href;
+ }catch{return '';}
+}
+function appwriteHeaders(){
+ if(!process.env.APPWRITE_RO_KEY)throw new Error('Appwrite read-only credential missing');
+ return {'X-Appwrite-Project':APPWRITE_PROJECT,'X-Appwrite-Key':process.env.APPWRITE_RO_KEY,'Accept':'application/json'};
+}
+async function getTenant(slug) {
+ if(!cleanTenant(slug))return null;
+ const endpoint=APPWRITE_ENDPOINT+'/tablesdb/'+encodeURIComponent(APPWRITE_DATABASE)+'/tables/'+
+  encodeURIComponent(CLIENT_TABLE)+'/rows/'+encodeURIComponent(slug);
+ const res=await fetch(endpoint,{method:'GET',headers:appwriteHeaders(),signal:AbortSignal.timeout(8000)});
+ if(res.status===404)return null;
+ if(!res.ok){const e=new Error('Client configuration read failed');e.status=res.status;throw e;}
+ const data=await res.json(),r={...data,...(data.data||{})};
+ if((r.$id&&r.$id!==slug)||r.slug!==slug||r.is_active!==true)return null;
+ const name=String(r.brand_name||'').trim().slice(0,128);
+ if(!name)return null;
+ const accent=/^#[0-9a-fA-F]{6}$/.test(String(r.accent_color))?r.accent_color:'#141415';
+ const checkoutUrl=securePublicUrl(r.checkout_url);
+ const logoUrl=securePublicUrl(r.logo_url);
+ return {slug,name,accent,logoUrl,
+  offer:String(r.offer_title||'Lihat Pilihan Prompt Lainnya').slice(0,200),
+  offerText:String(r.offer_text||'').slice(0,1000),
+  ctaLabel:String(r.cta_label||'LIHAT PAKET').slice(0,80),
+  checkoutUrl:r.cta_enabled===true?checkoutUrl:''
+ };
 }
 function query(method,params){
  return JSON.stringify({method,...params});
@@ -29,11 +63,7 @@ async function getRows(queries){
  const base=APPWRITE_ENDPOINT+'/tablesdb/'+encodeURIComponent(APPWRITE_DATABASE)+'/tables/'+encodeURIComponent(APPWRITE_TABLE)+'/rows';
  const u=new URL(base);
  queries.forEach(q=>u.searchParams.append('queries[]',q));
- const response=await fetch(u,{method:'GET',headers:{
-  'X-Appwrite-Project':APPWRITE_PROJECT,
-  'X-Appwrite-Key':process.env.APPWRITE_RO_KEY,
-  'Accept':'application/json'
- },signal:AbortSignal.timeout(8000)});
+ const response=await fetch(u,{method:'GET',headers:appwriteHeaders(),signal:AbortSignal.timeout(8000)});
  if(!response.ok){
   const error=new Error('Appwrite query failed');
   error.status=response.status;
@@ -83,7 +113,7 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere;color:#34343a;background:#f8f8f9
 button,.sales{font:inherit;font-weight:900;letter-spacing:.045em;display:flex;justify-content:center;align-items:center;min-height:53px;padding:13px 17px;width:100%;cursor:pointer;border-radius:12px;text-decoration:none;font-size:13px}
 button{border:0;color:white;background:#141415}.sales{background:var(--accent);color:white}.note{font-size:12px;color:#595963;line-height:1.7;margin:13px 0 0}
 #copy-status{color:#178551;font-size:12px;margin-top:9px;min-height:16px}
-.offer{border-radius:18px;background:#f7f7f8;margin-top:23px;padding:23px 20px}.offer h2{margin:11px 0}.offer p{color:var(--muted);font-size:13px;line-height:1.7}
+.offer{border-radius:18px;background:#f7f7f8;margin-top:23px;padding:23px 20px}.offer h2{margin:11px 0}.offer p{color:var(--muted);font-size:13px;line-height:1.7}.logo-img{object-fit:contain;background:white;border:1px solid var(--line)}
 .disabled-cta{display:block;border-radius:12px;border:1px solid #dddde1;text-align:center;font-weight:800;padding:15px;color:#96969c;font-size:12px}
 .search-label{font-size:12px;color:var(--muted);font-weight:700;display:block;margin:0 0 7px}
 #catalog-search{width:100%;border:1px solid #dbdbe0;border-radius:12px;padding:13px 15px;font-size:15px;outline-offset:3px}
@@ -99,7 +129,7 @@ function shell({tenant,title,content}){
  '<meta name="robots" content="noindex,nofollow,noarchive"><meta name="theme-color" content="#111113">'+
  '<meta name="referrer" content="no-referrer"><title>'+escape(title)+' | PROMPTIONAL GRATIS</title>'+
  '<style>'+css+'</style></head><body><div class="wrap"><header>'+
- '<span class="logo" aria-hidden="true">P</span><span class="brand"><strong>'+
+ ''+(tenant?.logoUrl?'<img class="logo logo-img" src="'+escape(tenant.logoUrl)+'" alt="Logo '+escape(tenant.name)+'" referrerpolicy="no-referrer">':'<span class="logo" aria-hidden="true">P</span>')+'<span class="brand"><strong>'+
  escape(tenant?.name||'PROMPTIONAL')+'</strong><small>Prompt AI Siap Salin</small></span>'+
  '<span class="mode">PROMPT GRATIS</span></header><main>'+content+'</main>'+
  '<footer>Powered by <strong>PROMPTIONAL</strong> · Materi yang dibagikan gratis.</footer></div></body></html>';
@@ -114,7 +144,7 @@ function renderPrompt({tenant,row}){
  '<button id="copy" type="button">SALIN PROMPT ↗</button><div id="copy-status" role="status" aria-live="polite"></div>'+
  (row.needsReference?'<p class="note">Tip: Prompt ini membutuhkan foto referensi. Gunakan foto yang memang berhak kamu pakai.</p>':'')+
  '</section><section class="offer"><div class="eyebrow">IDE SELANJUTNYA</div><h2>'+escape(tenant.offer)+'</h2><p>'+escape(tenant.offerText)+'</p>'+
- '<span class="disabled-cta">Paket premium belum diaktifkan untuk brand demo ini.</span></section>'+
+ (tenant.checkoutUrl?'<a class="sales" href="'+escape(tenant.checkoutUrl)+'" target="_blank" rel="noopener noreferrer">'+escape(tenant.ctaLabel)+' ↗</a>':'<span class="disabled-cta">Paket premium belum diaktifkan untuk brand ini.</span>')+'</section>'+
  '<script>(function(){var b=document.getElementById("copy");b.addEventListener("click",async function(){'+
  'var t=document.getElementById("prompt").textContent;var s=document.getElementById("copy-status");'+
  'try{if(navigator.clipboard&&navigator.clipboard.writeText)await navigator.clipboard.writeText(t);'+
@@ -153,17 +183,19 @@ module.exports=async function handler(req,res){
  res.setHeader('Referrer-Policy','no-referrer');
  if(req.method!=='GET'&&req.method!=='HEAD')return res.status(405).end('Metode tidak diizinkan');
  const catalog=req.query?.catalog==='1'||(!req.query?.bp&&!req.query?.client);
- const slug=cleanTenant(req.query?.client)||(!req.query?.client?'demo-rose':null);
+ const slug=cleanTenant(req.query?.client||'demo-rose');
  const code=catalog?null:cleanBP(req.query?.bp);
  if(!slug||(!catalog&&!code)){
    res.setHeader('Cache-Control','public, s-maxage=60');
    return res.status(404).end(renderMessage(404,'Halaman belum tersedia','Kode prompt atau brand tidak tersedia.'));
  }
  try{
+  const tenant=await getTenant(slug);
+  if(!tenant){res.setHeader('Cache-Control','public, s-maxage=30');return res.status(404).end(renderMessage(404,'Brand tidak tersedia','Brand tidak ditemukan atau belum aktif.'));}
   if(catalog){
    const entries=await getCatalog();
    res.setHeader('Cache-Control','public, s-maxage=60, stale-while-revalidate=60');
-   return res.status(200).end(renderCatalog({entries,tenant:{...TENANTS[slug],slug}}));
+   return res.status(200).end(renderCatalog({entries,tenant}));
   }
   const row=await getPrompt(code);
   if(!row){
@@ -171,11 +203,11 @@ module.exports=async function handler(req,res){
     return res.status(404).end(renderMessage(404,'Prompt belum tersedia','Prompt belum diterbitkan atau sudah dinonaktifkan.'));
   }
   res.setHeader('Cache-Control','public, s-maxage=60, stale-while-revalidate=60');
-  return res.status(200).end(renderPrompt({tenant:TENANTS[slug],row}));
+  return res.status(200).end(renderPrompt({tenant,row}));
  }catch(e){
   console.error('PROMPTIONAL public sync read unavailable',String(e?.status||e?.name||'unknown'));
   res.setHeader('Cache-Control','no-store');
   return res.status(503).end(renderMessage(503,'Konten sedang diperbarui','Silakan coba lagi beberapa saat. Tidak ada login yang diperlukan.'));
  }
 };
-module.exports._internal={cleanBP,cleanTenant,imageUrl,getPrompt,getCatalog,renderPrompt,renderCatalog,renderMessage,escape};
+module.exports._internal={cleanBP,cleanTenant,imageUrl,securePublicUrl,getTenant,getPrompt,getCatalog,renderPrompt,renderCatalog,renderMessage,escape};
