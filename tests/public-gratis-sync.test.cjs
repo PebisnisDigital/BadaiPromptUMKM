@@ -165,6 +165,8 @@ test('homepage defaults to PROMPTIONAL with its own branded catalog',async()=>{
   assert.match(resp.body,/185 Prompt AI Gratis/);
   assert.match(resp.body,/\/c\/promptional\/p\/BP185/);
   assert.match(resp.body,/promptional-icon.svg/);
+  assert.match(resp.body,/href="https:\/\/promptional\.vercel\.app\/beli-premium\.html"/);
+  assert.match(resp.body,/Upgrade ke PROMPTIONAL Premium/);
   assert.doesNotMatch(resp.body,/ROSE CREATIVE|NOIR STUDIO/);
  }finally{teardown();}
 });
