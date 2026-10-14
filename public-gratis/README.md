@@ -33,3 +33,11 @@ Main PROMPTIONAL site (separate, UNTOUCHED): https://promptional.vercel.app
 - GitHub Actions: Public prompt sync checks
 - `node --test tests/public-gratis-sync.test.cjs` for mocked update propagation, XSS, 404 fail-closed and 185 catalog links.
 - Preview deployment and production smoke tests: /, /c/demo-rose/p/BP001, /c/demo-rose/p/BP033, /c/demo-noir/p/BP185, invalid BP186.
+
+## Client branding (14 Oct 2026)
+Client-brand settings are now stored in Appwrite table `marketing_clients` (private table, server key read-only).
+Live Vercel endpoint reads one active client by exact row ID == slug, then renders its name, accent, optional HTTPS logo, offer headline/copy, and opt-in checkout button.
+Live routes: `/c/<client-slug>` (client's 185-prompt catalog) and `/c/<client-slug>/p/BP033` (specific prompt).
+Checkout CTA requires `cta_enabled=true` plus a valid, public HTTPS checkout URL, and is otherwise hidden. Existing demo brands have CTA **off**.
+There is no public write endpoint and no custom brand admin UI yet: manage records through authenticated Appwrite Console or a connected admin integration.
+Full field descriptions and client onboarding in `public-gratis/CLIENT-BRANDING.md`.
