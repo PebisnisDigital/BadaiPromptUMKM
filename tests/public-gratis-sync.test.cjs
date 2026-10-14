@@ -2,85 +2,141 @@
 const test=require('node:test');
 const assert=require('node:assert/strict');
 const page=require('../public-gratis/api/page.js');
-const {cleanBP,cleanTenant,renderPrompt,renderCatalog,escape}=page._internal;
+const {cleanBP,cleanTenant,securePublicUrl,renderPrompt,renderCatalog,escape}=page._internal;
 const originalFetch=global.fetch;
 const originalKey=process.env.APPWRITE_RO_KEY;
-
-function res(){
- const hdr={};return {
-  statusCode:200,body:'',headers:hdr,
-  setHeader(k,v){hdr[k.toLowerCase()]=v;return this},
-  status(n){this.statusCode=n;return this},
-  end(content){this.body=String(content||'');return this}
+const demo=(slug='demo-rose',override={})=>({
+ $id:slug,data:{
+  slug,brand_name:slug==='demo-rose'?'ROSE CREATIVE':'NOIR STUDIO',
+  accent_color:slug==='demo-rose'?'#e94b91':'#c3984c',
+  offer_title:'Mau Koleksi Prompt Lainnya?',offer_text:'Contoh promo',
+  cta_label:'LIHAT PAKET',checkout_url:'',logo_url:'',
+  cta_enabled:false,is_active:true,...override
+ }
+});
+const prompt=(text,visible=true)=>({data:{
+ title:'BP033',subcategory:'Burger Premium',category:'E-Commerce',
+ prompt_text:text,preview_url:'https://www.dropbox.com/pic.jpg?raw=1',
+ is_published:visible,sort_order:33
+}});
+function response(){const hdr={};return{
+ statusCode:200,body:'',headers:hdr,
+ setHeader(k,v){hdr[k.toLowerCase()]=v;return this},
+ status(n){this.statusCode=n;return this},
+ end(content){this.body=String(content||'');return this}
+};}
+async function request(bp,client='demo-rose'){const r=response();await page({method:'GET',query:{bp,client}},r);return r;}
+function mock({text='VERSION ONE',publicRow=true,clientRow,checkoutUrl='',ctaEnabled=false}={}){
+ const stats={prompts:0,clients:0};
+ global.fetch=async (url,options)=>{
+  assert.equal(options.headers['X-Appwrite-Key'],'FAKE_READONLY_KEY');
+  if(String(url).includes('/tables/marketing_clients/rows/')){
+   stats.clients++;
+   return clientRow===null?{ok:false,status:404}:{ok:true,json:async()=>clientRow||demo('demo-rose',{checkout_url:checkoutUrl,cta_enabled:ctaEnabled})};
+  }
+  stats.prompts++;
+  assert.ok(String(url).includes('/tables/scene_prompts/rows'));
+  const qs=new URL(url).searchParams.getAll('queries[]').map(JSON.parse);
+  assert.ok(qs.some(q=>q.method==='equal'&&q.attribute==='title'&&q.values[0]==='BP033'));
+  return {ok:true,json:async()=>({rows:[prompt(text,publicRow)]})};
  };
+ return stats;
 }
-function sample(text,visible=true){return {data:{
-  title:'BP033',subcategory:'Burger Premium',category:'E-Commerce',
-  prompt_text:text,preview_url:'https://www.dropbox.com/pic.jpg?raw=1',
-  is_published:visible,sort_order:33
- }};}
-async function request(bp,client='demo-rose'){
- const response=res();
- await page({method:'GET',query:{bp,client}},response);
- return response;
-}
-test('strict allowlist 185 BPs, known tenant and XSS escaping',()=>{
- for(const b of ['BP001','BP003','BP033','BP100','BP185'])assert.equal(cleanBP(b),b);
- for(const b of ['BP000','BP186','BP2','bp033','BP033<script>'])assert.equal(cleanBP(b),null);
+function setup(){process.env.APPWRITE_RO_KEY='FAKE_READONLY_KEY';}
+function teardown(){global.fetch=originalFetch;if(originalKey===undefined)delete process.env.APPWRITE_RO_KEY;else process.env.APPWRITE_RO_KEY=originalKey;}
+
+test('BP and client slugs are validated; checkout URLs must be HTTPS public hosts',()=>{
+ for(const code of ['BP001','BP003','BP033','BP100','BP185'])assert.equal(cleanBP(code),code);
+ for(const code of ['BP000','BP186','BP2','bp033'])assert.equal(cleanBP(code),null);
  assert.equal(cleanTenant('__proto__'),null);
+ assert.equal(cleanTenant('client-abc'),'client-abc');
+ for(const url of ['javascript:alert(1)','http://example.com','https://localhost/path','https://127.0.0.1','https://192.168.1.1','https://user:pass@example.com'])assert.equal(securePublicUrl(url),'');
+ assert.equal(securePublicUrl('https://example.com/checkout'),'https://example.com/checkout');
  assert.match(escape('<script>alert(1)</script>'),/&lt;script&gt;/);
 });
-test('server HTML changes when Appwrite prompt changes; client makes no fetch',async()=>{
- process.env.APPWRITE_RO_KEY='TEST_KEY_NOT_REAL';
- let live='VERSION ONE';
- global.fetch=async u=>{
-  const qs=new URL(u).searchParams.getAll('queries[]').map(JSON.parse);
-  assert.ok(qs.some(q=>q.method==='equal'&&q.attribute==='title'&&q.values[0]==='BP033'));
-  return {ok:true,json:async()=>({rows:[sample(live)]})};
+test('Appwrite edits change server HTML, with no public API call or secret exposure',async()=>{
+ setup();let live='VERSION ONE';const stats=mock();
+ global.fetch=async(url,options)=>{
+  if(String(url).includes('marketing_clients'))return {ok:true,json:async()=>demo()};
+  return {ok:true,json:async()=>({rows:[prompt(live)]})};
  };
  try{
-  const first=await request('BP033');
-  assert.equal(first.statusCode,200);
-  assert.match(first.body,/VERSION ONE/);
-  assert.doesNotMatch(first.body,/APPWRITE_RO_KEY|TEST_KEY_NOT_REAL|fetch\(/);
+  const first=await request('BP033');assert.equal(first.statusCode,200);
+  assert.match(first.body,/ROSE CREATIVE/);assert.match(first.body,/VERSION ONE/);
+  assert.doesNotMatch(first.body,/APPWRITE_RO_KEY|FAKE_READONLY_KEY|fetch\(/);
   assert.match(first.headers['cache-control'],/s-maxage=60/);
   live='VERSION TWO <script>';
-  const next=await request('BP033');
-  assert.equal(next.statusCode,200);
-  assert.doesNotMatch(next.body,/VERSION ONE/);
-  assert.match(next.body,/VERSION TWO &lt;script&gt;/);
-  assert.doesNotMatch(next.body,/VERSION TWO <script>/);
-  assert.match(next.body,/id="copy"/);
- }finally{global.fetch=originalFetch;process.env.APPWRITE_RO_KEY=originalKey;}
+  const second=await request('BP033');assert.equal(second.statusCode,200);
+  assert.doesNotMatch(second.body,/VERSION ONE/);
+  assert.match(second.body,/VERSION TWO &lt;script&gt;/);
+  assert.doesNotMatch(second.body,/VERSION TWO <script>/);
+  assert.match(second.body,/id="copy"/);
+ }finally{teardown();}
 });
-test('unpublished data is not exposed, unknown code fails closed',async()=>{
- process.env.APPWRITE_RO_KEY='TEST_KEY_NOT_REAL';
- let calls=0;
- global.fetch=async()=>{calls++;return {ok:true,json:async()=>({rows:[sample('HIDDEN PREMIUM',false)]})}};
+test('checkout stays OFF until cta_enabled true and valid URL is set',async()=>{
+ setup();try{
+  mock({checkoutUrl:'https://checkout.example.com/pay',ctaEnabled:false});
+  const off=await request('BP033');
+  assert.equal(off.statusCode,200);
+  assert.doesNotMatch(off.body,/href="https:\/\/checkout\.example\.com\/pay"/);
+  mock({checkoutUrl:'https://checkout.example.com/pay',ctaEnabled:true});
+  const on=await request('BP033');
+  assert.equal(on.statusCode,200);
+  assert.match(on.body,/href="https:\/\/checkout\.example\.com\/pay"/);
+  assert.match(on.body,/rel="noopener noreferrer"/);
+  mock({checkoutUrl:'javascript:alert(1)',ctaEnabled:true});
+  const bad=await request('BP033');
+  assert.doesNotMatch(bad.body,/href="javascript:/);
+ }finally{teardown();}
+});
+test('brand content and logo change per tenant, sanitized and isolated',async()=>{
+ setup();let slug='demo-rose';
+ global.fetch=async(url)=>{
+  if(String(url).includes('marketing_clients'))return{ok:true,json:async()=>demo(slug,{
+   logo_url:'https://i.ibb.co/logo.png',offer_title:'Brand special '+slug,
+   brand_name:slug==='demo-rose'?'ROSE CREATIVE':'NOIR STUDIO'})};
+  return {ok:true,json:async()=>({rows:[prompt('Same prompt text')]})};
+ };
  try{
-  const r=await request('BP033');
-  assert.equal(r.statusCode,404);
-  assert.doesNotMatch(r.body,/HIDDEN PREMIUM/);
-  const n=await request('BP999');
-  assert.equal(n.statusCode,404);
-  assert.equal(calls,1);
- }finally{global.fetch=originalFetch;process.env.APPWRITE_RO_KEY=originalKey;}
+  const rose=await request('BP033');slug='demo-noir';const noir=await request('BP033','demo-noir');
+  assert.match(rose.body,/ROSE CREATIVE/);
+  assert.match(noir.body,/NOIR STUDIO/);
+  assert.match(rose.body,/Brand special demo-rose/);
+  assert.match(noir.body,/Brand special demo-noir/);
+  assert.doesNotMatch(noir.body,/Brand special demo-rose/);
+  assert.match(noir.body,/class="logo logo-img"/);
+  assert.match(rose.body,/Same prompt text/);
+  assert.match(noir.body,/Same prompt text/);
+ }finally{teardown();}
 });
-test('read-only API error renders friendly HTML, never leaks credential',async()=>{
- process.env.APPWRITE_RO_KEY='TEST_KEY_NOT_REAL';
- global.fetch=async()=>({ok:false,status:503});
+test('inactive client, missing client and unpublished prompt fail closed',async()=>{
+ setup();try{
+  let stats=mock({clientRow:demo('demo-rose',{is_active:false})});
+  const inactive=await request('BP033');assert.equal(inactive.statusCode,404);
+  assert.equal(stats.prompts,0);
+  stats=mock({clientRow:null});
+  const absent=await request('BP033');assert.equal(absent.statusCode,404);
+  assert.equal(stats.prompts,0);
+  stats=mock({publicRow:false});
+  const privatePrompt=await request('BP033');assert.equal(privatePrompt.statusCode,404);
+  assert.doesNotMatch(privatePrompt.body,/VERSION ONE/);
+  const invalid=await request('BP999');assert.equal(invalid.statusCode,404);
+  assert.equal(stats.prompts,1);
+ }finally{teardown();}
+});
+test('Appwrite outage displays friendly HTML and never leaks credential',async()=>{
+ setup();global.fetch=async()=>({ok:false,status:503});
  try{
-  const r=await request('BP033');
-  assert.equal(r.statusCode,503);
-  assert.match(r.body,/Konten sedang diperbarui/);
-  assert.doesNotMatch(r.body,/TEST_KEY_NOT_REAL/);
-  assert.equal(r.headers['cache-control'],'no-store');
- }finally{global.fetch=originalFetch;process.env.APPWRITE_RO_KEY=originalKey;}
+  const failed=await request('BP033');assert.equal(failed.statusCode,503);
+  assert.match(failed.body,/Konten sedang diperbarui/);
+  assert.doesNotMatch(failed.body,/FAKE_READONLY_KEY/);
+  assert.equal(failed.headers['cache-control'],'no-store');
+ }finally{teardown();}
 });
-test('catalog renders 185 cards with no inline prompt texts',()=>{
+test('catalog renders 185 brand-specific links without inline prompt texts',()=>{
  const rows=Array.from({length:185},(_,i)=>({code:'BP'+String(i+1).padStart(3,'0'),title:'Demo '+i,category:'Demo'}));
- const html=renderCatalog({entries:rows,tenant:{slug:'demo-rose',name:'ROSE',accent:'#e94b91'}});
+ const html=renderCatalog({entries:rows,tenant:{slug:'new-client',name:'TEST CLIENT',accent:'#123456',logoUrl:''}});
  assert.equal((html.match(/class="catalog-item"/g)||[]).length,185);
- assert.match(html,/BP185/);
+ assert.match(html,/\/c\/new-client\/p\/BP185/);
  assert.doesNotMatch(html,/APPWRITE_RO_KEY/);
 });
