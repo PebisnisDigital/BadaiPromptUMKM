@@ -161,6 +161,7 @@ function renderCatalog({entries,tenant}){
  '<div class="catalog-category">'+escape(x.category)+'</div></a>').join('');
  const body='<div class="eyebrow">KATALOG PROMPT GRATIS</div><h1>'+entries.length+' Prompt AI Gratis</h1>'+
  '<p class="intro">Pilih prompt yang ingin kamu coba. Semuanya bisa langsung disalin tanpa login.</p>'+
+ (tenant.checkoutUrl?'<section class="offer" aria-label="Upgrade premium"><div class="eyebrow">PROMPTIONAL PREMIUM</div><h2>'+escape(tenant.offer)+'</h2><p>'+escape(tenant.offerText)+'</p><a class="sales" href="'+escape(tenant.checkoutUrl)+'" target="_blank" rel="noopener noreferrer">'+escape(tenant.ctaLabel)+' ↗</a></section>':'')+
  '<label for="catalog-search" class="search-label">Cari kode, judul, atau kategori</label>'+
  '<input id="catalog-search" type="search" placeholder="Contoh: BP033 atau Burger" autocomplete="off">'+
  '<div class="catalog-count" id="catalog-count">'+entries.length+' prompt ditemukan</div>'+
