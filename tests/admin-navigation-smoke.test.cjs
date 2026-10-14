@@ -10,12 +10,13 @@ const tgCss=fs.readFileSync(path.join(root,'assets/telegram-manager.css'),'utf8'
 const marketJs=fs.readFileSync(path.join(root,'assets/admin-marketing.js'),'utf8');
 const marketCss=fs.readFileSync(path.join(root,'assets/admin-marketing.css'),'utf8');
 
-test('bottom navigation has five focused menus, no Telegram shortcut',()=>{
+test('bottom navigation includes Brand management and no legacy Telegram shortcut',()=>{
  const navbar=html.match(/<nav class="bottomnav telegram-nav" id="nav">([\s\S]*?)<\/nav>/)?.[1]||'';
  const tabs=[...navbar.matchAll(/data-view="([^"]+)"/g)].map(x=>x[1]);
- assert.deepEqual(tabs,['prompts','sales','affiliate','marketing','settings']);
+ assert.deepEqual(tabs,['prompts','sales','affiliate','marketing','brands','settings']);
  assert.doesNotMatch(navbar,/data-view="telegram"/);
- assert.match(marketCss,/nav\.telegram-nav\{grid-template-columns:repeat\(5,minmax\(0,1fr\)\)/);
+ const brandCss=fs.readFileSync(path.join(root,'assets/admin-brands.css'),'utf8');
+ assert.match(brandCss,/nav\.telegram-nav\{grid-template-columns:repeat\(6,minmax\(0,1fr\)\)/);
 });
 
 test('Telegram uses four dedicated tabs, with bot controls moved out of Settings',()=>{

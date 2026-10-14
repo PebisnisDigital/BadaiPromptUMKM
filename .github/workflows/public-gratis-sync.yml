@@ -1,0 +1,22 @@
+name: Public prompt sync checks
+on:
+  pull_request:
+    paths:
+      - 'public-gratis/api/page.js'
+      - 'public-gratis/vercel.json'
+      - 'tests/public-gratis-sync.test.cjs'
+      - '.github/workflows/public-gratis-sync.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check public-gratis/api/page.js
+      - run: node --test tests/public-gratis-sync.test.cjs
+      - run: node -e "const x=require('./public-gratis/vercel.json'); if(!x.rewrites.some(r=>r.source==='/c/:client/p/:bp'&&r.destination.includes('/api/page'))) process.exit(1);"

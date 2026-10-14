@@ -2,6 +2,14 @@
   "cleanUrls": true,
   "rewrites": [
     {
+      "source": "/c/:client/p/:bp",
+      "destination": "/prompt-free"
+    },
+    {
+      "source": "/c/:client/p/:bp/",
+      "destination": "/prompt-free"
+    },
+    {
       "source": "/member",
       "destination": "/member.html"
     },
