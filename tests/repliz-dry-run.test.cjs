@@ -19,7 +19,7 @@ test('WIB schedule converts to correct UTC and advances by day',()=>{
 test('three dry-run posts map MAU to different URLs + automation templates',()=>{
   const p=buildPlan({days:3,client:'demo-rose',startDate:'2026-10-15'});
   assert.equal(p.matched,true);
-  assert.equal(p.previewEnabled,3);
+  assert.equal(p.publicEnabled,3);
   assert.equal(p.count,3);
   assert.deepEqual(p.entries.map(x=>x.code),['BP033','BP003','BP051']);
   assert.equal(new Set(p.entries.map(x=>x.landingUrl)).size,3);
@@ -35,11 +35,11 @@ test('three dry-run posts map MAU to different URLs + automation templates',()=>
     assert.equal(x.canPublish,false);
   }
 });
-test('full 30-day dry run blocks codes without preview release (no accidental publishing)',()=>{
+test('full 30-day dry run sees 30 public codes but never schedules them without approval',()=>{
   const plan=buildPlan({days:30,client:'demo-rose'});
   assert.equal(plan.count,30);
-  assert.equal(plan.previewEnabled,3);
-  assert.ok(plan.entries.slice(3).every(x=>!x.previewWhitelisted));
+  assert.equal(plan.publicEnabled,30);
+  assert.ok(plan.entries.every(x=>x.publicPageEnabled));
   assert.equal(plan.blocked,30);
   assert.equal(new Set(plan.entries.map(x=>x.idempotencyKey)).size,30);
   assert.deepEqual(plan.entries.map(x=>x.idempotencyKey),buildPlan({days:30,client:'demo-rose'}).entries.map(x=>x.idempotencyKey));
