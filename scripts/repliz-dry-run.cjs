@@ -10,7 +10,7 @@
  */
 const crypto=require('node:crypto');
 const master=require('../data/repliz-master-30.json');
-const {normalizeCode,getDemoTenant,STAGING_ALLOWED_BPS}=require('../lib/marketing-public');
+const {normalizeCode,getDemoTenant}=require('../lib/marketing-public');
 const DEFAULT_ORIGIN='https://promptional-gratis.vercel.app';
 const DEMO_ACCOUNT='DEMO_ACCOUNT_NOT_CONNECTED';
 const cleanDate=d=>/^\d{4}-\d{2}-\d{2}$/.test(d||'')&&
@@ -114,15 +114,15 @@ function buildPlan({startDate='2026-10-15',startTime='07:00',client='demo-rose',
     const landing=pageUrl(origin,client,item.bpCode);
     const date=scheduledAt(startDate,startTime,item.day);
     const fingerprint=crypto.createHash('sha256').update([client,DEMO_ACCOUNT,item.bpCode,date].join('|')).digest('hex').slice(0,20);
-    const safe=STAGING_ALLOWED_BPS.has(item.bpCode);
+    const safe=!!normalizeCode(item.bpCode); // 185 codes are public on promptional-gratis
     const templateRef='DRY_RUN_TEMPLATE_'+item.bpCode;
     return {
       day:item.day,code:item.bpCode,dateWib:startDate+' + '+(item.day-1)+'d at '+startTime,
       scheduleAtUtc:date,commentKeyword:'MAU',
-      landingUrl:landing,previewWhitelisted:safe,
+      landingUrl:landing,publicPageEnabled:safe,
       canPublish:false,blockedReasons:[
         'DRY_RUN_ONLY: no credentials and no live Repliz calls',
-        ...(safe?[]:['PAGE_NOT_ENABLED_IN_PREVIEW: '+item.bpCode]),
+        ...(safe?[]:['PAGE_NOT_PUBLICLY_ENABLED: '+item.bpCode]),
         'CLIENT_NOT_AUTHORIZED_AND_NO_ACTIVE_CHECKOUT'
       ],
       idempotencyKey:fingerprint,template:createTemplatePayload(item.bpCode,landing,item.title),
@@ -134,7 +134,7 @@ function buildPlan({startDate='2026-10-15',startTime='07:00',client='demo-rose',
     source:'PROMPTIONAL 30-day approved Instagram content manifest',
     client:brand.name,clientSlug:client,accountId:DEMO_ACCOUNT,
     count:entries.length,matched:entries.every(x=>x.template.name.includes(x.code) && x.schedule.title.startsWith(x.code) && x.landingUrl.endsWith(x.code)),
-    previewEnabled:entries.filter(x=>x.previewWhitelisted).length,
+    publicEnabled:entries.filter(x=>x.publicPageEnabled).length,
     blocked:entries.filter(x=>x.blockedReasons.length).length,
     entries
   };
