@@ -1,0 +1,48 @@
+  <section class="view brands-view" id="v-brands" aria-labelledby="brandsHeading">
+    <div class="title"><div><div class="eyebrow">PROMPTIONAL • MULTI-BRAND</div>
+      <h1 id="brandsHeading">Kelola Brand</h1>
+      <p>Satu katalog 185 prompt, dengan logo, warna, dan link upselling masing-masing brand.</p>
+    </div><button type="button" class="btn pink" id="brandAdd">+ Brand Baru</button></div>
+    <div class="brand-overview">
+      <div class="brand-stat"><small>BRAND TERDAFTAR</small><strong id="brandTotal">—</strong></div>
+      <div class="brand-stat"><small>BRAND AKTIF</small><strong id="brandActive">—</strong></div>
+      <div class="brand-stat"><small>CTA UPSELLING</small><strong id="brandUpsell">—</strong></div>
+    </div>
+    <div class="brand-layout">
+      <section class="panel brand-list-panel" aria-label="Daftar brand">
+        <div class="brand-panel-header"><h2>Daftar Brand</h2><button type="button" class="btn dark sm" id="brandRefresh">↻ Perbarui</button></div>
+        <input type="search" id="brandSearch" placeholder="Cari nama atau kode brand…" aria-label="Cari brand" autocomplete="off">
+        <div id="brandList" class="brand-list"><p class="brand-hint">Buka menu ini untuk memuat data brand.</p></div>
+      </section>
+      <section class="panel brand-form-panel" aria-labelledby="brandFormTitle">
+        <h2 id="brandFormTitle">Tambah Brand Baru</h2>
+        <p class="brand-hint">Semua perubahan akan tersimpan di Appwrite dan berlaku otomatis di halaman prompt gratis.</p>
+        <form id="brandForm" novalidate>
+          <div class="brand-form-grid">
+            <div class="field"><label for="brandName">NAMA BRAND *</label><input id="brandName" required maxlength="128" placeholder="Contoh: Toko Cantik"></div>
+            <div class="field"><label for="brandSlug">KODE BRAND (SLUG) *</label><input id="brandSlug" required maxlength="35" pattern="[a-z][a-z0-9-]{1,34}" placeholder="toko-cantik" autocapitalize="off" spellcheck="false"><small>Tidak dapat diganti setelah disimpan.</small></div>
+            <div class="field"><label for="brandAccent">WARNA AKSEN *</label><div class="brand-color"><input id="brandAccentPicker" type="color" value="#ff852a" aria-label="Pilih warna aksen"><input id="brandAccent" required pattern="#[0-9a-fA-F]{6}" maxlength="7" value="#ff852a"></div></div>
+            <div class="field"><label for="brandLogo">URL LOGO HTTPS</label><input id="brandLogo" type="url" placeholder="https://..." inputmode="url"></div>
+            <div class="field full"><label for="brandOfferTitle">JUDUL UPSELLING *</label><input id="brandOfferTitle" required maxlength="200" placeholder="Suka prompt ini? Lihat koleksi premium!"></div>
+            <div class="field full"><label for="brandOfferText">DESKRIPSI UPSELLING *</label><textarea id="brandOfferText" rows="3" required maxlength="1000" placeholder="Beritahu pengunjung manfaat produk yang ditawarkan…"></textarea></div>
+            <div class="field full"><label for="brandCheckout">LINK CHECKOUT HTTPS</label><input id="brandCheckout" type="url" placeholder="https://domain-penjualan.com/checkout" inputmode="url"><small>Harus link resmi milik brand; jangan gunakan link contoh.</small></div>
+            <div class="field full"><label for="brandCtaLabel">TULISAN TOMBOL *</label><input id="brandCtaLabel" required maxlength="80" value="BELI SEKARANG"></div>
+            <label class="brand-check full"><input id="brandCtaEnabled" type="checkbox"><span><strong>Aktifkan tombol upselling</strong><small>Hanya boleh aktif jika link checkout sudah benar.</small></span></label>
+            <label class="brand-check full"><input id="brandIsActive" type="checkbox" checked><span><strong>Brand aktif</strong><small>Jika dimatikan, semua halaman brand ini menjadi tidak tersedia.</small></span></label>
+          </div>
+          <div id="brandPreview" class="brand-preview" aria-label="Pratinjau penawaran">
+            <div class="brand-preview-symbol" id="brandPreviewSymbol">P</div>
+            <div class="brand-preview-details"><strong id="brandPreviewName">NAMA BRAND</strong><small id="brandPreviewOffer">Penawaran produkmu muncul di sini</small></div>
+            <div class="brand-preview-cta" id="brandPreviewCta">BELI SEKARANG ↗</div>
+          </div>
+          <div id="brandMessage" class="brand-message" role="status" aria-live="polite"></div>
+          <div class="brand-actions">
+            <button class="btn pink" type="submit" id="brandSave">SIMPAN BRAND</button>
+            <button class="btn dark" type="button" id="brandCancel">BATAL</button>
+            <a id="brandOpen" class="brand-open" href="#" target="_blank" rel="noopener noreferrer" hidden>Buka Halaman Brand ↗</a>
+          </div>
+        </form>
+      </section>
+    </div>
+    <p class="brand-footer-hint">Konten prompt otomatis mengikuti Appwrite. Perubahan branding biasanya terlihat setelah sekitar 1–2 menit. Tidak ada prompt duplikat per klien.</p>
+  </section>
