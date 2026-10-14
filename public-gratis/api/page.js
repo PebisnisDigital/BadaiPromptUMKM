@@ -183,7 +183,7 @@ module.exports=async function handler(req,res){
  res.setHeader('Referrer-Policy','no-referrer');
  if(req.method!=='GET'&&req.method!=='HEAD')return res.status(405).end('Metode tidak diizinkan');
  const catalog=req.query?.catalog==='1'||(!req.query?.bp&&!req.query?.client);
- const slug=cleanTenant(req.query?.client||'demo-rose');
+ const slug=cleanTenant(req.query?.client||'promptional');
  const code=catalog?null:cleanBP(req.query?.bp);
  if(!slug||(!catalog&&!code)){
    res.setHeader('Cache-Control','public, s-maxage=60');
