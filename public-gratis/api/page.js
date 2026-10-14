@@ -26,7 +26,7 @@ function securePublicUrl(s){
   if(u.protocol!=='https:'||u.username||u.password||!host.includes('.')||host==='localhost'||
      host.endsWith('.localhost')||host.endsWith('.local')||host==='127.0.0.1'||
      host==='0.0.0.0'||host==='169.254.169.254'||host==='[::1]'||
-     /^10\\.|^192\\.168\\.|^172\\.(1[6-9]|2\\d|3[01])\\.|^127\\./.test(host))return '';
+     /^10\.|^192\.168\.|^172\.(1[6-9]|2\d|3[01])\.|^127\./.test(host))return '';
   return u.href;
  }catch{return '';}
 }
