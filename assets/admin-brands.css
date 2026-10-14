@@ -1,0 +1,54 @@
+/* PROMPTIONAL Admin – safe brand management */
+nav.telegram-nav{grid-template-columns:repeat(6,minmax(0,1fr));}
+nav.telegram-nav button{min-width:0;font-size:8px}
+.brands-view{--brand-accent:#ff852a}
+.brands-view .title h1{font-size:clamp(23px,4vw,29px)}
+.brand-overview{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-bottom:12px}
+.brand-stat{padding:14px;border:1px solid var(--line);background:#fff;border-radius:16px;display:flex;flex-direction:column;gap:5px}
+.brand-stat small{font-size:9px;letter-spacing:.05em;font-weight:850;color:#818189}
+.brand-stat strong{font-size:28px;font-family:Raleway,sans-serif;font-weight:900}
+.brand-layout{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:12px;align-items:start}
+.brand-layout .panel{margin-top:0}
+.brand-list{display:grid;gap:8px;margin-top:12px}
+.brand-panel-header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}
+.brand-panel-header h2{margin:0}
+#brandSearch{width:100%;border:1px solid #e1e1e5;border-radius:12px;padding:12px;font-size:12px;background:#fff;color:#111}
+.brand-hint{font-size:11px;color:#85858d;line-height:1.6;margin:4px 0 12px}
+.brand-card{border:1px solid #e5e5e8;background:#fafafa;border-radius:14px;padding:12px;display:grid;gap:7px}
+.brand-cardhead{display:flex;align-items:center;gap:8px}
+.brand-avatar{width:39px;height:39px;border-radius:12px;border:1px solid #eee;background:#fff;object-fit:contain}
+.brand-avatar-default{width:39px;height:39px;display:grid;place-items:center;border-radius:12px;color:#fff;background:#151518;font-size:20px;font-weight:950}
+.brand-cardtext{flex:1;min-width:0;display:grid;gap:4px}
+.brand-cardtext strong{font-size:12px;overflow-wrap:anywhere}
+.brand-cardtext small{font-size:10px;color:#87878e}
+.brand-pills{display:flex;gap:5px;flex-wrap:wrap}
+.brand-pill{border-radius:100px;padding:4px 8px;font-size:9px;font-weight:800;background:#f0f0f2;color:#50505a}
+.brand-pill.good{background:#e6f8ed;color:#1c7845}
+.brand-pill.warn{background:#fff2e4;color:#a95711}
+.brand-cardactions{display:flex;gap:6px}
+.brand-cardactions button,.brand-cardactions a{display:grid;place-items:center;text-align:center;text-decoration:none;flex:1;padding:10px;min-height:36px;border:1px solid #e0e0e3;border-radius:10px;background:#fff;font-size:10px;font-weight:900;color:#26262d;cursor:pointer}
+.brand-cardactions button{background:#151518;color:#fff}
+.brand-form-panel .field{min-width:0}
+.brand-form-panel .field label{font-size:10px}
+.brand-form-panel .field input,.brand-form-panel .field textarea{font-size:12px;min-height:44px}
+.brand-form-panel .field small{display:block;font-size:9px;color:#898992;line-height:1.5;margin-top:5px}
+.brand-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.brand-form-grid .full{grid-column:1/-1}
+.brand-color{display:grid;grid-template-columns:47px minmax(0,1fr);gap:7px}
+.brand-color input[type=color]{width:47px;padding:3px;border:1px solid #ddd;border-radius:10px;cursor:pointer}
+.brand-check{display:flex;gap:10px;align-items:start;border:1px solid #e7e7eb;border-radius:12px;padding:12px;background:#fafafa}
+.brand-check input{accent-color:#ff852a;width:17px;height:17px;margin:0}
+.brand-check span{display:grid;gap:3px}.brand-check strong{font-size:11px}.brand-check small{font-size:9px;color:#82828a;line-height:1.5}
+.brand-preview{margin-top:14px;border:1px solid #e1e1e5;border-radius:17px;padding:15px;background:#fff;display:flex;flex-wrap:wrap;align-items:center;gap:9px}
+.brand-preview-symbol{display:grid;place-items:center;width:40px;height:40px;color:#fff;background:#161619;border-radius:11px;font-size:18px;font-weight:900}
+.brand-preview-details{display:grid;gap:4px;flex:1;min-width:120px}.brand-preview-details strong{font-size:12px}.brand-preview-details small{font-size:10px;color:#75757b}
+.brand-preview-cta{background:var(--brand-accent);padding:11px;border-radius:10px;color:#fff;font-size:10px;font-weight:900;max-width:100%;overflow-wrap:anywhere}
+.brand-preview-cta.off{background:#ebebee;color:#85858a}
+.brand-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.brand-actions .btn{font-size:11px;min-height:43px}
+.brand-open{font-size:10px;color:#e66d20;font-weight:900;text-decoration:none}
+.brand-message{font-size:11px;line-height:1.5;margin:10px 0;color:#6c6c75}
+.brand-message.bad{color:#b63c3c}.brand-message.good{color:#267e49}
+.brand-footer-hint{color:#8a8a92;font-size:10px;line-height:1.5;padding:10px 0}
+@media(max-width:680px){.brand-layout{grid-template-columns:1fr}.brand-overview{gap:6px}.brand-stat{padding:10px}.brand-stat strong{font-size:24px}.brand-form-grid{gap:9px}.brands-view .title{align-items:center}nav.telegram-nav{gap:2px;padding:5px}nav.telegram-nav button{font-size:7px;min-height:51px}nav.telegram-nav button b{font-size:15px}}
+@media(max-width:390px){.brand-form-grid{grid-template-columns:1fr}.brand-form-grid .full{grid-column:auto}}
